@@ -95,9 +95,14 @@ export default function Methods() {
           Normalization
         </h2>
         <p>
-          Every overlaid series is rescaled to the interval [-1, 1] using its
-          own minimum and maximum over the visible window. That is convenient
-          for eyeballing shape against a normalized sinusoid, and it is lossy:
+          Every overlaid data series is rescaled to the interval [-1, 1]
+          using its own minimum and maximum over the visible window. The
+          seven cycle curves are sinusoids of unit amplitude (the
+          <code className="font-mono text-[13px]">amplitude_normalized</code>{" "}
+          field on every cycle is 1.0). The vertical axis is therefore
+          dimensionless: visual peak heights do not represent real-world
+          magnitudes, only relative shape over time. That is convenient for
+          eyeballing shape against a normalized sinusoid, and it is lossy:
           it hides absolute magnitude and makes level differences invisible.
           Two points stand out:
         </p>
@@ -127,15 +132,18 @@ export default function Methods() {
         <ul className="list-disc pl-6 space-y-1.5">
           <li>
             <strong className="text-ink">Linearity.</strong> Sinusoids are not
-            linear in year. Pearson will say a perfect cosine has zero
-            correlation with the same cosine shifted by a quarter period,
-            which is correct numerically but misses that one is just the
-            derivative of the other.
+            linear in year. Pearson will say a perfect cosine, evaluated over
+            a full period, has zero correlation with the same cosine shifted
+            by a quarter period — which is correct numerically but misses
+            that one is just the derivative of the other.
           </li>
           <li>
             <strong className="text-ink">Independence of observations.</strong>{" "}
-            Time series are autocorrelated. Classical Pearson significance
-            tests don&apos;t apply; the number has no legitimate p-value.
+            Time series are autocorrelated, so classical Pearson significance
+            tests are anti-conservative on data like ours: the effective
+            sample size is smaller than the row count, and naive p-values
+            overstate significance. The calibration drawer therefore reports
+            the r value but not a p-value.
           </li>
         </ul>
         <p>
@@ -147,8 +155,10 @@ export default function Methods() {
         </p>
         <p>
           Better tools for cyclic data include cross-correlation at varying
-          lags, Lomb-Scargle or Fourier spectra, and wavelet decomposition.
-          These are flagged for future work.
+          lags, the Fourier periodogram (or Lomb-Scargle for unevenly sampled
+          records, which the present series are not), and wavelet
+          decomposition for non-stationary signals. These are flagged for
+          future work.
         </p>
       </section>
 

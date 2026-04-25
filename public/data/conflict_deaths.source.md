@@ -4,7 +4,7 @@
 **Source URL:** https://ourworldindata.org/grapher/deaths-in-wars-by-region-project-mars.csv?v=1&csvType=full&useColumnShortNames=true
 **Primary citation:** Lyall, Jason (2020). *Divided Armies: Inequality and Battlefield Performance in Modern War.* Princeton University Press. Project Mars dataset.
 **Coverage:** 1800–2011, world-aggregate.
-**License:** Open (Our World in Data, CC BY).
+**License:** OWID chart layer CC BY 4.0; underlying Project Mars data Public Domain (per OWID indicator metadata for this series, dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DUO7IE).
 
 ## Columns in our CSV
 
@@ -28,6 +28,8 @@ Khaldun's dynastic cycle describes periodic breakdown of political order — rou
 
 ## Caveats (important)
 
+- **OWID smooths multi-year wars by even-distribution.** OWID's processing note for this series: *"If a war lasted more than one year, we distributed its deaths evenly across years."* So the WWII bar is not "deaths in 1942" but "WWII total ÷ 7," repeated across 1939–1945. Anyone who plots annual WWII deaths from this series and compares them to historical fact will see what looks like a smoothing — that is the methodology, not a bug. Project Mars itself is conflict-level, not year-level.
+- **We use the "low estimate" column.** Project Mars publishes low / best / high deaths-per-conflict estimates; we use `number_deaths_ongoing_conflicts_low__conflict_type_all`, the conservative low. Other estimates would shift levels but not the shape of the curve.
 - **This is global, not regional.** Khaldun's cycle is about a single polity's dynasty. Aggregating globally averages across many polities in different phases.
 - **Project Mars covers organised interstate and civil war;** it undercounts lower-intensity violence, pogroms, and state-led repression (e.g. Holocaust deaths are captured; Stalinist deaths are not).
 - **Population normalisation is approximate** — world-population estimates pre-1900 are reconstructions, not measurements.
