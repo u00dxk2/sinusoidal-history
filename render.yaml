@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: sinusoidal-history
+    runtime: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+    autoDeploy: true
+    healthCheckPath: /
+    # Custom domain: sinusoidal-history.skylarkcreations.com
+    # See DEPLOY.md for the Render-side wiring + Squarespace CNAME steps.
+    # Render handles the cert; nothing to configure here.

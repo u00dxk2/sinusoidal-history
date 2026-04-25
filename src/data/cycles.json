@@ -1,0 +1,87 @@
+[
+  {
+    "id": "khaldun",
+    "name": "Ibn Khaldun — dynastic cycle",
+    "short_description": "~120-year asabiyyah cycle: founding → prosperity → luxury → decline → collapse",
+    "period_years": 120,
+    "reference_peak_year": 1789,
+    "reference_peak_rationale": "French Revolution as proxy for old-order asabiyyah crumbling — a late-stage collapse point anchored at the start of a new cycle",
+    "amplitude_normalized": 1.0,
+    "source": "Ibn Khaldun, Muqaddimah (1377)",
+    "confidence_level": "narrative",
+    "color": "#8B5A3C"
+  },
+  {
+    "id": "kondratiev",
+    "name": "Kondratiev wave",
+    "short_description": "~50–60 year long economic wave: technological expansion → plateau → stagnation → trough",
+    "period_years": 54,
+    "reference_peak_year": 1973,
+    "reference_peak_rationale": "Top of the post-WWII K-wave, marked by the oil shock and end of the Bretton Woods system",
+    "amplitude_normalized": 1.0,
+    "source": "Nikolai Kondratiev, The Major Economic Cycles (1925); reinterpreted by Schumpeter and later scholars",
+    "confidence_level": "empirical-contested",
+    "color": "#2E5C8A"
+  },
+  {
+    "id": "huntington",
+    "name": "Huntington — creedal passion",
+    "short_description": "~60-year cycle of American political moralism: reform surges followed by cynical intervals",
+    "period_years": 60,
+    "reference_peak_year": 1965,
+    "reference_peak_rationale": "Civil-rights-era creedal-passion peak per Huntington, American Politics: The Promise of Disharmony (1981)",
+    "amplitude_normalized": 1.0,
+    "source": "Samuel P. Huntington, American Politics: The Promise of Disharmony (1981)",
+    "confidence_level": "narrative",
+    "color": "#5C7A2E"
+  },
+  {
+    "id": "perez",
+    "name": "Carlota Perez — techno-economic paradigm",
+    "short_description": "~50-60 year wave: installation phase (frenzy + bubble) → turning point → deployment phase (synergy + maturity)",
+    "period_years": 55,
+    "reference_peak_year": 2000,
+    "reference_peak_rationale": "Dot-com bubble peak, end of installation phase of the ICT paradigm per Perez (2002)",
+    "amplitude_normalized": 1.0,
+    "source": "Carlota Perez, Technological Revolutions and Financial Capital (2002)",
+    "confidence_level": "quantitative",
+    "color": "#7c3aed"
+  },
+  {
+    "id": "turchin",
+    "name": "Peter Turchin — secular cycles",
+    "short_description": "~150-year cycles of elite overproduction → immiseration → state breakdown → reconsolidation",
+    "period_years": 150,
+    "reference_peak_year": 2020,
+    "reference_peak_rationale": "Turchin's published 'Ages of Discord' prediction of US instability peaking in the 2020s, anchored to forecasts in End Times (2023)",
+    "amplitude_normalized": 1.0,
+    "source": "Peter Turchin, Secular Cycles (2009), Ages of Discord (2016), End Times (2023)",
+    "confidence_level": "quantitative",
+    "color": "#dc2626"
+  },
+  {
+    "id": "dalio",
+    "name": "Ray Dalio — Big Cycle",
+    "short_description": "~75-100 year cycle of imperial rise/fall: rising → top → declining → reset, tracking debt, currency reserve status, and internal order",
+    "period_years": 85,
+    "reference_peak_year": 1945,
+    "reference_peak_rationale": "Peak of US empire by Dalio's composite index, end of WWII consolidating reserve-currency dominance, per Principles for Dealing with the Changing World Order (2021)",
+    "amplitude_normalized": 1.0,
+    "source": "Ray Dalio, Principles for Dealing with the Changing World Order (2021)",
+    "confidence_level": "narrative",
+    "color": "#0e7490"
+  },
+  {
+    "id": "strauss_howe",
+    "name": "Strauss-Howe — saeculum",
+    "short_description": "~80-90 year saeculum: high → awakening → unraveling → crisis (4th turning), driven by generational replacement",
+    "period_years": 84,
+    "reference_peak_year": 2008,
+    "reference_peak_rationale": "Onset of Strauss-Howe's predicted Fourth Turning, anchored to the 2008 financial crisis per The Fourth Turning (1997)",
+    "amplitude_normalized": 1.0,
+    "source": "William Strauss & Neil Howe, The Fourth Turning (1997)",
+    "confidence_level": "narrative",
+    "color": "#a16207",
+    "caveat": "Generational theory is contested in academic history. Included for completeness because it's enormously influential in popular discourse. Treat skeptically."
+  }
+]

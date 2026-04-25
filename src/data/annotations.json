@@ -1,0 +1,114 @@
+[
+  {
+    "id": "french_revolution",
+    "year": 1789,
+    "label": "French Rev.",
+    "type": "political",
+    "description": "Fall of the Bastille; collapse of the ancien régime. Khaldun anchors his cycle here; Strauss-Howe identifies the earlier saeculum crisis of 1773–1794.",
+    "cycles_referenced": ["khaldun", "strauss_howe"]
+  },
+  {
+    "id": "1815_vienna",
+    "year": 1815,
+    "label": "Vienna",
+    "type": "geopolitical",
+    "description": "End of the Napoleonic Wars. Congress of Vienna resets the European order; Dalio would identify the beginning of Britain's long imperial peak.",
+    "cycles_referenced": ["dalio", "khaldun"]
+  },
+  {
+    "id": "1848",
+    "year": 1848,
+    "label": "1848",
+    "type": "political",
+    "description": "European revolutions; Marx publishes the Manifesto. First Kondratiev trough by many counts; creedal-passion trough in Huntington's early-cycle framing.",
+    "cycles_referenced": ["kondratiev", "huntington"]
+  },
+  {
+    "id": "civil_war_end",
+    "year": 1865,
+    "label": "Civil War",
+    "type": "war",
+    "description": "End of US Civil War. US state-breakdown climax for Khaldun-style readings; Strauss-Howe's 1860–1865 crisis saeculum.",
+    "cycles_referenced": ["khaldun", "strauss_howe", "turchin"]
+  },
+  {
+    "id": "long_depression",
+    "year": 1873,
+    "label": "Long Dep.",
+    "type": "economic",
+    "description": "Start of the Long Depression. Classical Kondratiev-wave trough; Perez places this at the exhaustion of the steam-and-railways paradigm.",
+    "cycles_referenced": ["kondratiev", "perez"]
+  },
+  {
+    "id": "wwi",
+    "year": 1914,
+    "label": "WWI",
+    "type": "war",
+    "description": "Outbreak of World War I. Global conflict-death spike; Dalio's pre-reset for the British empire; Strauss-Howe's third-turning collapse.",
+    "cycles_referenced": ["dalio", "strauss_howe", "khaldun"]
+  },
+  {
+    "id": "1929_crash",
+    "year": 1929,
+    "label": "Crash",
+    "type": "economic",
+    "description": "Wall Street crash, onset of Great Depression. Kondratiev trough in many countings; Strauss-Howe's fourth-turning crisis onset (1929–1946).",
+    "cycles_referenced": ["kondratiev", "strauss_howe", "perez"]
+  },
+  {
+    "id": "wwii_end",
+    "year": 1945,
+    "label": "WWII end",
+    "type": "geopolitical",
+    "description": "End of WWII. Dalio's canonical US-empire peak; Kondratiev's post-war expansion begins; Strauss-Howe's high begins.",
+    "cycles_referenced": ["dalio", "kondratiev", "strauss_howe"]
+  },
+  {
+    "id": "1968",
+    "year": 1968,
+    "label": "1968",
+    "type": "cultural",
+    "description": "Global protest year; civil rights peak in the US. Huntington's creedal-passion peak; Strauss-Howe's 'awakening' phase.",
+    "cycles_referenced": ["huntington", "strauss_howe"]
+  },
+  {
+    "id": "nixon_shock",
+    "year": 1971,
+    "label": "Nixon shock",
+    "type": "economic",
+    "description": "End of Bretton Woods; gold standard abandoned. Classical Kondratiev-peak marker; Dalio's mid-cycle debt buildup begins.",
+    "cycles_referenced": ["kondratiev", "dalio"]
+  },
+  {
+    "id": "1989_wall",
+    "year": 1989,
+    "label": "Berlin Wall",
+    "type": "geopolitical",
+    "description": "Fall of Berlin Wall; Soviet bloc collapse. Khaldun-style state-breakdown climax for a rival empire; Dalio marks end of the bipolar order.",
+    "cycles_referenced": ["khaldun", "dalio"]
+  },
+  {
+    "id": "dot_com_peak",
+    "year": 2000,
+    "label": "Dot-com",
+    "type": "economic",
+    "description": "Dot-com bubble peak. Perez's canonical installation-phase top; Strauss-Howe third-turning 'unraveling' climax.",
+    "cycles_referenced": ["perez", "strauss_howe"]
+  },
+  {
+    "id": "gfc",
+    "year": 2008,
+    "label": "GFC",
+    "type": "economic",
+    "description": "Global Financial Crisis. Strauss-Howe's canonical fourth-turning onset; Dalio's late-cycle debt reset signal.",
+    "cycles_referenced": ["strauss_howe", "dalio", "kondratiev"]
+  },
+  {
+    "id": "covid",
+    "year": 2020,
+    "label": "COVID",
+    "type": "event",
+    "description": "COVID-19 pandemic onset. Turchin's published crisis-peak year; elite-overproduction and political-instability signals converge.",
+    "cycles_referenced": ["turchin", "strauss_howe"]
+  }
+]
