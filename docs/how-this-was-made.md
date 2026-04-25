@@ -1,8 +1,8 @@
 # how this was made
 
-Mark R and I went for a walk yesterday. Somewhere along the loop he mentioned that he'd been thinking about historical cycle theories - the recurring rise-and-fall frameworks that economists and historians keep proposing, and how oddly often they all seem to predict that *now* is the moment things turn.
+Mark R and I were on a phone call Friday - both of us walking, both on our own loops. He pitched what he called "the sinusoidal pattern of history": could you plot Khaldun's 5 stages, Huntington's 60-year cycles, and the rest as actual sine waves on one axis, and see where they net out? He also raised counterfactuals and alternate-history maps as related territory. I told him I'd take a swing.
 
-The image got stuck in my head. Seven theorists - Ibn Khaldun in the 14th century, Kondratiev in the 1920s, Huntington in the early '80s, Perez in the 2000s, Turchin and Dalio and Strauss-Howe in our present - all drawing different sine curves on the same canvas. None of them coordinating across six centuries. All of them landing roughly here.
+The image stuck. Seven theorists - Ibn Khaldun in the 14th century, Kondratiev in the 1920s, Huntington in the early '80s, Perez in the 2000s, Turchin and Dalio and Strauss-Howe in our present - all drawing different sine curves on the same canvas. None of them coordinating across six centuries.
 
 That's a chart I wanted to see.
 
@@ -12,9 +12,9 @@ So I built it. The site is at `sinusoidal-history.skylarkcreations.com`. This no
 
 ## the seed
 
-The walk lasted maybe an hour. Mark's framing was sharper than mine - he'd been reading Tomas Pueyo's *Uncharted Territories* and was thinking about how cycle theory keeps surfacing in serious writing despite a mixed empirical track record. The conversation moved through Kondratiev, through Strauss-Howe, through whether Dalio's "big cycle" framework is doing real intellectual work or just making vivid charts.
+The call ran maybe an hour. We moved through Kondratiev, through Strauss-Howe, through whether Dalio's "big cycle" framework is doing real intellectual work or just making vivid charts. Mark's pitch was the cleanest version: forget the prose arguments, plot the cycles literally, see what the chart says.
 
-By the time we'd looped back I had the spec. Seven cycles. One axis. A real data series paired with each, so the prettiest theory still has to face the messy actual numbers. A calibration panel so a reader can move the reference peak and watch their pet theory get less convincing.
+The spec emerged across the next few Claude Code sessions, not on the call. Seven cycles. One axis. A real data series paired with each, so the prettiest theory still has to face the messy actual numbers. A calibration panel so a reader can move the reference peak and watch their pet theory get less convincing.
 
 The editorial point of the project is small and specific: most cycle visualizations show you a clean curve and let you nod. I wanted one that would let you stress-test the curve against a real series and admit when the fit is bad.
 
@@ -43,7 +43,7 @@ Three places, in case you're curious.
 
 **The Khaldun pairing.** Conflict deaths over centuries are dominated by the two World Wars - they sit so far above everything else that the rest of the series flattens into a baseline and the visual story becomes "WWI happened." The fix was a log transform. Obvious in retrospect; took a beat to actually see.
 
-**The convergence problem.** Every cycle on the chart peaks near the present. That isn't evidence of convergence - it is publication bias. Each theorist wrote in a moment that felt consequential and anchored their cycle there. The site says this out loud, on the home page and on `/about`. It is the most important sentence in the project, and writing it in a way that doesn't sound either conspiratorial ("they're all in on it") or dismissive ("none of this is real") took several rewrites.
+**The convergence problem.** Every cycle on the chart peaks near the present. I noticed that staring at the Phase 0 prototype, and it became the project's actual editorial purpose. It isn't convergence - it is publication bias. Each theorist wrote in a moment that felt consequential and anchored their cycle there. Writing that out loud on the home page and on `/about`, in a way that didn't sound either conspiratorial ("they're all in on it") or dismissive ("none of this is real"), took several rewrites.
 
 **The poster.** It's intended to be screenshotted and shared. A screenshot is a test of nerve - whatever's on the page becomes the whole argument, with no defense. The first three versions of the poster looked like a competent dashboard. The current version - Fraunces, two-line italic headline, numbered byline rows - started looking like an artifact. That took deliberate iteration; it isn't what came back the first time.
 
@@ -63,10 +63,10 @@ And the cycles themselves are still contested. Kondratiev waves have never been 
 
 ## thanks
 
-Mark - thanks for the walk and the framing. Send the next idea. The build was three days of fairly enjoyable work; the conversation that started it was an hour.
+Mark - thanks for the call and the framing. Send the next idea. The build was a few days of fairly enjoyable work; the conversation that started it was an hour.
 
 If anyone else is reading: source is on GitHub at `u00dxk2/sinusoidal-history`. The data files live in `/src/data` with citations. The math lives in `/src/lib/cycleMath.ts` and the test suite (45 cases) is in `/src/lib/cycleMath.test.ts`. If you find a bug or a fit you can't defend, tell me.
 
 That's the honest version.
 
-— David Kooi · Skylark Creations · April 2026
+David Kooi · Skylark Creations · April 2026
