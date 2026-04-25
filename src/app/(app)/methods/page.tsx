@@ -158,22 +158,27 @@ export default function Methods() {
         </h2>
         <p>
           The curves cover 1600–2050. Every data series has shorter coverage.
-          DW-NOMINATE starts in 1879; Fernald TFP starts in 1948; Project Mars
-          conflict data starts in 1800; WID top-1% wealth starts in 1820;
-          Maddison US/world GDP share is trimmed to 1870+ (earlier years have
-          unstable country coverage); V-Dem starts in 1789. Gaps are simply
+          DW-NOMINATE: 46th Congress–present (1879–current); Fernald TFP
+          underlying series 1947Q2–present, displayed ~1950–present after
+          the 5-year centered window; Project Mars conflict data 1800–2011;
+          WID top-1% wealth modern coverage 1913–most-recent (with five
+          earlier decadal points spliced from secondary sources, see below);
+          Maddison US/world GDP share trimmed to 1870+ (earlier years have
+          unstable country coverage); V-Dem 1789–present. Gaps are simply
           absent from the chart - nothing is interpolated. If a series fails
           to load, its legend entry shows &quot;data unavailable&quot; and the
           rest of the viz keeps working.
         </p>
         <p>
-          Two finer caveats. WID&apos;s US top-1% wealth share <em>starts</em>
-          in 1820, but pre-1913 coverage is just five decadal points (1820,
-          1850, 1880, 1900, 1910); annual coverage begins in 1913. The TFP
-          5-year centered rolling average is this project&apos;s derivation
-          from Fernald&apos;s annual <code className="font-mono text-[13px]">dtfp</code>{" "}
-          column, not Fernald&apos;s own published series; the windows at the
-          extreme ends are clipped.
+          Two finer caveats. The modern WID/Saez–Zucman US top-1% wealth
+          series begins in 1913; the five pre-1913 points (1820, 1850, 1880,
+          1900, 1910) come from earlier historical sources spliced via OWID/
+          WID and have wider standard errors. The TFP 5-year centered rolling
+          average is this project&apos;s derivation from Fernald&apos;s annual{" "}
+          <code className="font-mono text-[13px]">dtfp</code> column, not
+          Fernald&apos;s own published series; the windows at the extreme
+          ends are clipped, which is why the displayed series effectively
+          starts ~1950 rather than 1948.
         </p>
       </section>
 

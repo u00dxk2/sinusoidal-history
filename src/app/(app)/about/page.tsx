@@ -54,13 +54,20 @@ export default function About() {
           is, consciously or not, a recent moment.
         </p>
         <p>
-          Huntington anchored on 1965 because he was writing in 1981 and the
-          civil-rights surge dominated his view. Kondratiev-wave popularisers
-          anchored on 1973 because the oil shock was vivid to them. Khaldun
-          anchored a European Enlightenment collapse because his later Western
-          readers needed the framework legible in their own history. Perez
-          anchors on 2000 because the dot-com bubble was the defining
-          technology-finance event of her career.
+          A few specifics, since the choices matter. Huntington dated his
+          fourth creedal-passion period as 1960–1975 (&quot;the S&amp;S
+          years&quot;); we anchor at the interval midpoint (~1968) — that is
+          the project&apos;s choice, not his. K-wave revivalists in the late
+          1970s and early 1980s variously dated the post-WWII wave&apos;s
+          turning point between 1968 and 1974; we use 1973 as the
+          conventional anchor. Khaldun (d. 1406) made no claim about European
+          history; we anchor at 1789 so the framework can be tested against
+          the modern European record our other data series cover, and that is
+          explicitly the project&apos;s editorial choice. Perez identifies
+          2000–2001 as the &quot;Turning Point&quot; between Installation and
+          Deployment phases of the ICT surge; we map her Turning Point to our
+          sinusoid&apos;s peak — that conflates her concept with our
+          mathematical convention.
         </p>
         <p>
           The implication is not that the theories are worthless - it is that
@@ -113,23 +120,34 @@ export default function About() {
           Intellectual-honesty disclaimer
         </h2>
         <p>
-          All seven theories are contested. Kondratiev waves have never been
-          cleanly confirmed in empirical long-run data; different scholars
-          will mark different decades as the peak. Khaldun wrote in the 14th
-          century about dynastic politics in a Maghrebi context. Huntington&apos;s
-          creedal-passion cycle is an interpretive lens over American
-          politics, not a measurement. Perez&apos;s techno-economic paradigm
-          is the most empirically anchored of these, but even there the
-          period length and phase boundaries are arguments, not observations.
+          All seven theories are contested in different ways. Kondratiev
+          waves have never been cleanly confirmed in empirical long-run data;
+          spectral analyses report some weak periodicity, but period, phase
+          dating, and existence are not agreed across studies. Khaldun wrote
+          in the 14th century about dynastic politics in a Maghrebi context;
+          applying his framework to a modern European-and-American axis is
+          this project&apos;s choice. Huntington&apos;s creedal-passion cycle
+          is an interpretive lens over American politics, not a measurement.
+          Perez&apos;s techno-economic paradigm framework is rich and
+          influential but methodologically qualitative — Schumpeterian
+          historical pattern recognition, not statistical fitting. (An
+          earlier draft of this site mistakenly labeled it
+          &quot;quantitative.&quot;)
         </p>
         <p>
-          The newer additions raise the stakes. Turchin&apos;s secular cycles
-          have a real quantitative literature behind them but the 150-year
-          period is still a fitted parameter. Dalio&apos;s Big Cycle is a
-          popularised composite, not a peer-reviewed measurement. Strauss-Howe
-          is generational theory - influential in popular discourse, contested
-          in academic history. Each comes with a caveat surfaced inline in the
-          focused-facet view; for Strauss-Howe in particular, treat skeptically.
+          Turchin&apos;s secular cycles have the most developed quantitative
+          literature of the seven, but the 150-year period for the modern
+          American cycle is a fitted parameter. Dalio&apos;s Big Cycle is a
+          popularised composite, not a peer-reviewed measurement, and his own
+          stated peak year for US power is the 1950s, not 1945 (we use 1950).
+          Strauss-Howe is generational theory - influential in popular
+          discourse, contested in academic history; reducing their four-
+          turnings saeculum to a single sinusoid forces the choice of which
+          peak to anchor (we use the post-WWII High at ~1955), and their
+          predicted Crisis climax around 2020 is a trough in this construction,
+          not a peak. Each cycle comes with a caveat surfaced inline in the
+          focused-facet view; for Strauss-Howe in particular, treat
+          skeptically.
         </p>
         <p>
           Treat this tool as a way of making those judgments visible and

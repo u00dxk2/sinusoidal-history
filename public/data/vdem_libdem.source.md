@@ -2,9 +2,9 @@
 
 **Retrieved:** 2026-04-24
 **Source URL:** https://ourworldindata.org/grapher/liberal-democracy-index.csv
-**Primary citation:** Coppedge, Michael, John Gerring, Carl Henrik Knutsen, et al. (2025). *V-Dem Dataset v15.* Varieties of Democracy Project, https://v-dem.net.
+**Primary citation:** Coppedge, Michael, John Gerring, Carl Henrik Knutsen, et al. (2026). *V-Dem Country-Year Dataset v16.* Varieties of Democracy Project, https://v-dem.net. (v16 was released March 2026 and was the current dataset at retrieval; an earlier version of this file labeled v15.)
 **Coverage:** 1789–2025 (US), 237 rows.
-**License:** CC BY 4.0.
+**License:** CC BY-SA 4.0 (Creative Commons Attribution-ShareAlike 4.0), per V-Dem's own R-package release notes (github.com/vdeminstitute/vdemdata/releases). An earlier version of this file mistakenly described it as CC BY 4.0.
 
 ## Columns in our CSV
 

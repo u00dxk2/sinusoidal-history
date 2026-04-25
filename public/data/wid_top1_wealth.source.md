@@ -2,9 +2,9 @@
 
 **Retrieved:** 2026-04-24
 **Source URL:** https://ourworldindata.org/grapher/wealth-share-richest-1-percent.csv
-**Primary citation:** World Inequality Database (WID), https://wid.world. Data assembled by Piketty, Saez, Zucman and the WID team.
-**Coverage:** 1820–2024 (US), 117 rows.
-**License:** CC BY (via Our World in Data).
+**Primary citation:** World Inequality Database (WID), https://wid.world. Data assembled by Piketty, Saez, Zucman and the WID team. The modern series rests on Saez & Zucman (2016), "Wealth Inequality in the United States since 1913: Evidence from Capitalized Income Tax Data," QJE 131(2):519–578.
+**Coverage:** 1820–2024 in our CSV (117 rows), but the modern Saez–Zucman series begins 1913. The five pre-1913 points (1820, 1850, 1880, 1900, 1910) come from earlier historical sources spliced via OWID/WID and have wider standard errors.
+**License:** CC BY-NC-SA 4.0 (Creative Commons Attribution-NonCommercial-ShareAlike 4.0). Per WID's own license badge — commercial reuse is prohibited; ShareAlike is required. An earlier version of this file mistakenly described it as CC BY.
 
 ## Columns in our CSV
 
