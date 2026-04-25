@@ -57,6 +57,12 @@ export default function AppLayout({
               Methods
             </Link>
             <Link
+              href="/colophon"
+              className="hover:text-ink transition-colors"
+            >
+              Colophon
+            </Link>
+            <Link
               href="/embed/docs"
               className="hover:text-ink transition-colors"
             >
