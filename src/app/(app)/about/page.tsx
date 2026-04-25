@@ -48,10 +48,11 @@ export default function About() {
         </h2>
         <p>
           Open the chart and notice that nearly every cycle peaks somewhere
-          near the present. That is not convergence evidence - it is
-          publication bias. Each theorist wrote in a period that felt
+          near the present. That is not convergence evidence - it is a
+          selection effect. Each theorist wrote in a period that felt
           consequential, and the &quot;reference peak&quot; they anchored to
-          is, consciously or not, a recent moment.
+          is, consciously or not, a recent moment. We read these theorists
+          today precisely because their forecasts land in our era.
         </p>
         <p>
           A few specifics, since the choices matter. Huntington dated his

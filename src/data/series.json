@@ -19,7 +19,7 @@
     "id": "us_tfp_growth",
     "name": "US TFP growth (5-yr rolling)",
     "legend_short": "TFP growth · 5-yr",
-    "short_description": "5-year centered rolling average of Fernald's utilization-adjusted US TFP growth, derived by this project from the annual `dtfp` column. Underlying quarterly series begins 1947Q2; the centered window pushes the earliest displayable point to ~1950 and edge-clips the latest year",
+    "short_description": "5-year centered rolling average of Fernald's utilization-adjusted US TFP growth, derived by this project from the annual `dtfp_util` column. Underlying quarterly series begins 1947Q2; the centered window pushes the earliest displayable point to ~1950 and edge-clips the latest year",
     "source": "Fernald (2014), FRBSF Working Paper 2012-19",
     "source_url": "https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/",
     "license": "freely available; © FRBSF, no explicit reuse license",

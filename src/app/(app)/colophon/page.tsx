@@ -90,9 +90,10 @@ export default function Colophon() {
         </h2>
         <p>
           Every cycle on this page peaks near the present. That isn&apos;t
-          convergence - it is publication bias. Each theorist wrote in a moment
-          that felt consequential and anchored their cycle there. The site says
-          it on the home page, on{" "}
+          convergence - it is a selection effect. Each theorist wrote in a
+          moment that felt consequential and anchored their cycle there; we
+          read them precisely because their climaxes land in our era. The
+          site says it on the home page, on{" "}
           <Link
             href="/about"
             className="underline underline-offset-[3px] decoration-ink/30 hover:decoration-ink transition-colors"

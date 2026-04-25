@@ -185,10 +185,10 @@ export default function Methods() {
           1900, 1910) come from earlier historical sources spliced via OWID/
           WID and have wider standard errors. The TFP 5-year centered rolling
           average is this project&apos;s derivation from Fernald&apos;s annual{" "}
-          <code className="font-mono text-[13px]">dtfp</code> column, not
-          Fernald&apos;s own published series; the windows at the extreme
-          ends are clipped, which is why the displayed series effectively
-          starts ~1950 rather than 1948.
+          <code className="font-mono text-[13px]">dtfp_util</code> column
+          (utilization-adjusted TFP growth), not Fernald&apos;s own published
+          series; the windows at the extreme ends are clipped, which is why
+          the displayed series effectively starts ~1950 rather than 1948.
         </p>
       </section>
 
