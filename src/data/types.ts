@@ -34,6 +34,11 @@ export type SeriesTransform = "none" | "log1p";
 export interface DataSeries {
   id: string;
   name: string;
+  /**
+   * Short label used in space-constrained inline legends (cycle facets,
+   * OG cards). Falls back to `name` if absent.
+   */
+  legend_short?: string;
   short_description: string;
   source: string;
   source_url: string;

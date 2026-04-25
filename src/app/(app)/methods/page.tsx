@@ -3,18 +3,33 @@ import { cycles } from "@/data/cycles";
 
 export const metadata = {
   title: "Methods · Sinusoidal History",
+  description:
+    "Data provenance, transformations, normalization, and methodological caveats.",
 };
 
 export default function Methods() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10">
-      <h1 className="text-2xl font-semibold tracking-tight">Methods</h1>
-      <p className="mt-2 text-foreground/60 text-sm">
-        Data provenance, transformations, and methodological caveats.
-      </p>
+    <article className="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+      <header className="mb-8">
+        <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+          Methods · Provenance &amp; caveats
+        </p>
+        <h1
+          className="font-display mt-3 text-ink leading-[0.98] tracking-[-0.015em]"
+          style={{ fontSize: "clamp(40px, 6vw, 56px)" }}
+        >
+          How the numbers were chosen
+        </h1>
+        <p className="mt-3 font-display-italic text-ink/75 text-[17px] leading-snug">
+          Where each data series comes from, what gets transformed, and why
+          the correlation number on the calibration panel is a diagnostic and
+          not a test statistic.
+        </p>
+        <div className="editorial-rule mt-6" />
+      </header>
 
-      <section className="mt-8 space-y-3 text-foreground/80">
-        <h2 className="text-lg font-semibold text-foreground">
+      <section className="mt-10 space-y-4">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Data sources
         </h2>
         <ul className="space-y-5">
@@ -22,40 +37,47 @@ export default function Methods() {
             const cycle = cycles.find((c) => c.id === s.associated_cycle_id);
             const slug = s.data_file.replace("/data/", "").replace(".csv", "");
             return (
-              <li key={s.id}>
-                <div className="flex items-baseline gap-2 flex-wrap">
+              <li
+                key={s.id}
+                className="border-t border-rule/30 pt-4 first:border-t-0 first:pt-0"
+              >
+                <div className="flex items-baseline gap-3 flex-wrap">
                   <span
                     aria-hidden
-                    className="inline-block w-2.5 h-2.5 rounded-sm"
+                    className="inline-block w-[3px] h-5 rounded-full self-stretch"
                     style={{ backgroundColor: s.color }}
                   />
-                  <span className="font-semibold">{s.name}</span>
+                  <span className="font-display text-[18px] tracking-tight text-ink font-medium">
+                    {s.name}
+                  </span>
                   {cycle && (
-                    <span className="text-xs text-foreground/60">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
                       paired with {cycle.name}
                     </span>
                   )}
                 </div>
-                <p className="mt-1 text-sm">{s.short_description}</p>
-                <p className="mt-1 text-sm text-foreground/70">
+                <p className="mt-2 text-[15px] leading-snug text-ink/85">
+                  {s.short_description}
+                </p>
+                <p className="mt-1.5 text-[14px] leading-relaxed text-ink-soft">
                   {s.association_note}
                 </p>
-                <p className="mt-1 text-xs text-foreground/50 font-mono">
+                <p className="mt-2 text-[11px] tracking-wide text-ink-soft/75 font-mono leading-relaxed">
                   Source:{" "}
                   <a
                     href={s.source_url}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="underline underline-offset-2"
+                    className="underline underline-offset-[3px] decoration-ink-soft/50 hover:decoration-ink hover:text-ink transition-colors"
                   >
                     {s.source}
                   </a>
                   {" · license: "}
                   {s.license}
-                  {" · full provenance: "}
+                  {" · provenance: "}
                   <a
                     href={`/data/${slug}.source.md`}
-                    className="underline underline-offset-2"
+                    className="underline underline-offset-[3px] decoration-ink-soft/50 hover:decoration-ink hover:text-ink transition-colors"
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -68,102 +90,112 @@ export default function Methods() {
         </ul>
       </section>
 
-      <section className="mt-8 space-y-3 text-foreground/80">
-        <h2 className="text-lg font-semibold text-foreground">
+      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Normalization
         </h2>
         <p>
           Every overlaid series is rescaled to the interval [-1, 1] using its
           own minimum and maximum over the visible window. That is convenient
-          for eyeballing shape against a normalized sinusoid, and it is
-          lossy: it hides absolute magnitude and makes level differences
-          invisible. Two points stand out:
+          for eyeballing shape against a normalized sinusoid, and it is lossy:
+          it hides absolute magnitude and makes level differences invisible.
+          Two points stand out:
         </p>
-        <ul className="list-disc pl-6 space-y-1">
+        <ul className="list-disc pl-6 space-y-1.5">
           <li>
             A series with one enormous spike (e.g. global conflict deaths in
             WWII) compresses every other variation toward a thin band. The
-            visible <em>shape</em> near the peaks is real; the visible
-            shape away from them is attenuated.
+            visible <em>shape</em> near the peaks is real; the visible shape
+            away from them is attenuated.
           </li>
           <li>
-            Because normalization is per-series, you cannot compare
-            amplitudes across series. Only across time within a single
-            series.
+            Because normalization is per-series, you cannot compare amplitudes
+            across series. Only across time within a single series.
           </li>
         </ul>
       </section>
 
-      <section className="mt-8 space-y-3 text-foreground/80">
-        <h2 className="text-lg font-semibold text-foreground">
+      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Why Pearson is the wrong tool
         </h2>
         <p>
           The calibration panel reports a Pearson correlation between the
-          data series and the cycle curve. Pearson assumes two things that
-          this context violates:
+          data series and the cycle curve. Pearson assumes two things this
+          context violates:
         </p>
-        <ul className="list-disc pl-6 space-y-1">
+        <ul className="list-disc pl-6 space-y-1.5">
           <li>
-            <strong>Linearity.</strong> Sinusoids are not linear in year.
-            Pearson will say a perfect cosine has zero correlation with the
-            same cosine shifted by a quarter period, which is correct
-            numerically but misses that one is just the derivative of the
-            other.
+            <strong className="text-ink">Linearity.</strong> Sinusoids are not
+            linear in year. Pearson will say a perfect cosine has zero
+            correlation with the same cosine shifted by a quarter period,
+            which is correct numerically but misses that one is just the
+            derivative of the other.
           </li>
           <li>
-            <strong>Independence of observations.</strong> Time series are
-            autocorrelated. Classical Pearson significance tests don&apos;t
-            apply; the number has no legitimate p-value.
+            <strong className="text-ink">Independence of observations.</strong>{" "}
+            Time series are autocorrelated. Classical Pearson significance
+            tests don&apos;t apply; the number has no legitimate p-value.
           </li>
         </ul>
         <p>
           The panel exposes Pearson anyway because the single most important
-          question — &quot;how much is the peak-year choice doing?&quot; — is
+          question - &quot;how much is the peak-year choice doing?&quot; - is
           visible just from watching the correlation change as you move the
-          slider. That diagnostic use is valid. Treating the number as a
-          test statistic is not.
+          slider. That diagnostic use is valid. Treating the number as a test
+          statistic is not.
         </p>
         <p>
           Better tools for cyclic data include cross-correlation at varying
           lags, Lomb-Scargle or Fourier spectra, and wavelet decomposition.
-          These are flagged for future work; they would be Phase 3 at
-          earliest.
+          These are flagged for future work.
         </p>
       </section>
 
-      <section className="mt-8 space-y-3 text-foreground/80">
-        <h2 className="text-lg font-semibold text-foreground">
+      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Missing and sparse data
         </h2>
         <p>
-          The curves cover 1600–2050. Every data series has shorter
-          coverage. DW-NOMINATE starts in 1879; Fernald TFP starts in 1948;
-          Project Mars conflict data starts in 1800; WID top-1% wealth
-          starts in 1820; Maddison US/world GDP share is trimmed to 1870+
-          (earlier years have unstable country coverage); V-Dem starts in
-          1789. Gaps are simply absent from the chart — nothing is
-          interpolated. If a series fails to load, its legend entry shows
-          &quot;data unavailable&quot; and the rest of the viz keeps working.
+          The curves cover 1600–2050. Every data series has shorter coverage.
+          DW-NOMINATE starts in 1879; Fernald TFP starts in 1948; Project Mars
+          conflict data starts in 1800; WID top-1% wealth starts in 1820;
+          Maddison US/world GDP share is trimmed to 1870+ (earlier years have
+          unstable country coverage); V-Dem starts in 1789. Gaps are simply
+          absent from the chart - nothing is interpolated. If a series fails
+          to load, its legend entry shows &quot;data unavailable&quot; and the
+          rest of the viz keeps working.
         </p>
       </section>
 
-      <section className="mt-8 space-y-3 text-foreground/80">
-        <h2 className="text-lg font-semibold text-foreground">
-          Phase 2 spec deviation: V-Dem pairing
+      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
+          Notes on individual pairings
         </h2>
         <p>
-          The Phase 2 spec named V-Dem as a secondary pairing for Huntington
-          (DW-NOMINATE remaining primary). Phase 2&apos;s small-multiples UX
-          works best when each cycle has exactly one paired data series, so
-          we paired V-Dem with Strauss-Howe instead. Both are arguments. The
-          Strauss-Howe pairing reads V-Dem&apos;s recent decline as a
-          &quot;Fourth Turning&quot; institutional-stress signal; the
+          <strong className="text-ink">V-Dem with Strauss-Howe, not
+          Huntington.</strong>{" "}
+          An earlier draft of this project paired V-Dem with Huntington as a
+          secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe
+          so each cycle would have exactly one paired series. Both are
+          arguments. The Strauss-Howe pairing reads V-Dem&apos;s recent
+          decline as a Fourth-Turning institutional-stress signal; the
           Huntington pairing would have read it as the trough side of a
           creedal-passion cycle. The data is the same; the framing differs.
-          See the per-series source.md for full provenance.
+        </p>
+        <p>
+          <strong className="text-ink">No paired series for Perez.</strong>{" "}
+          The techno-economic paradigm story is harder to reduce to a single
+          century-long series. TFP growth is paired with Kondratiev because
+          the Kondratiev framing is more directly about productivity surges;
+          Perez tells a richer story about installation and deployment phases
+          that no single time series captures cleanly.
+        </p>
+        <p>
+          See each series&apos; per-source provenance file for full retrieval
+          and processing notes.
         </p>
       </section>
-    </div>
+    </article>
   );
 }

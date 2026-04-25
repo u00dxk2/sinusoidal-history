@@ -2,6 +2,7 @@
   {
     "id": "dw_nominate_polarization",
     "name": "US House Polarization (DW-NOMINATE)",
+    "legend_short": "DW-NOMINATE polarization",
     "short_description": "Distance between Democratic and Republican House means on the first DW-NOMINATE dimension, 46th–118th Congress",
     "source": "Voteview / Lewis, Poole, Rosenthal et al.",
     "source_url": "https://voteview.com/articles/party_polarization",
@@ -17,6 +18,7 @@
   {
     "id": "us_tfp_growth",
     "name": "US TFP growth (5-yr rolling)",
+    "legend_short": "TFP growth · 5-yr",
     "short_description": "Utilization-adjusted US Total Factor Productivity growth, 5-year centered rolling average, 1948–2025",
     "source": "Fernald (FRBSF), Quarterly TFP series",
     "source_url": "https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/",
@@ -32,6 +34,7 @@
   {
     "id": "wid_top1_wealth",
     "name": "US Top 1% Wealth Share",
+    "legend_short": "Top 1% wealth share",
     "short_description": "Share of total household wealth held by the top 1% of US adults, 1820–2024",
     "source": "WID · World Inequality Database",
     "source_url": "https://wid.world/country/usa/",
@@ -47,6 +50,7 @@
   {
     "id": "us_world_gdp_share",
     "name": "US Share of World GDP",
+    "legend_short": "US share · world GDP",
     "short_description": "US GDP as share of all-countries GDP in the Maddison Project Database, 1870–2022",
     "source": "Maddison Project Database 2023",
     "source_url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
@@ -62,6 +66,7 @@
   {
     "id": "vdem_libdem",
     "name": "US Liberal Democracy Index (V-Dem)",
+    "legend_short": "V-Dem libdem index",
     "short_description": "V-Dem liberal-democracy index for the US, 1789–2025, scale 0–1",
     "source": "V-Dem Institute v15",
     "source_url": "https://v-dem.net/data/the-v-dem-dataset/",
@@ -77,6 +82,7 @@
   {
     "id": "conflict_deaths",
     "name": "Global conflict deaths (log) per 100k",
+    "legend_short": "Conflict deaths · log",
     "short_description": "Natural log of (1 + deaths per 100,000) — log-transformed to keep WWI/WWII from flattening the rest of the series",
     "source": "Our World in Data · Project Mars (Lyall 2020)",
     "source_url": "https://ourworldindata.org/grapher/deaths-in-wars-by-region-project-mars",

@@ -137,7 +137,22 @@ export async function GET(request: Request) {
               fontStyle: "italic",
             }}
           >
-            Seven long-wave theories of history, on one axis.
+            Seven long-wave theories of history, on one shared axis.
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 11,
+              color: INK_SOFT,
+              marginTop: 8,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              fontFamily: "system-ui, -apple-system, sans-serif",
+              fontWeight: 500,
+              opacity: 0.85,
+            }}
+          >
+            Bars · current position on the trough → peak → trough swing
           </div>
         </div>
 

@@ -237,7 +237,7 @@ function FacetLegend({
           className="block w-3.5 h-[2px] rounded-full"
           style={{ backgroundColor: series.color }}
         />
-        <span>{series.name}</span>
+        <span>{series.legend_short ?? series.name}</span>
       </span>
     </div>
   );
