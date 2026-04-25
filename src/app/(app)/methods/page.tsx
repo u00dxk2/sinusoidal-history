@@ -166,6 +166,15 @@ export default function Methods() {
           to load, its legend entry shows &quot;data unavailable&quot; and the
           rest of the viz keeps working.
         </p>
+        <p>
+          Two finer caveats. WID&apos;s US top-1% wealth share <em>starts</em>
+          in 1820, but pre-1913 coverage is just five decadal points (1820,
+          1850, 1880, 1900, 1910); annual coverage begins in 1913. The TFP
+          5-year centered rolling average is this project&apos;s derivation
+          from Fernald&apos;s annual <code className="font-mono text-[13px]">dtfp</code>{" "}
+          column, not Fernald&apos;s own published series; the windows at the
+          extreme ends are clipped.
+        </p>
       </section>
 
       <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
