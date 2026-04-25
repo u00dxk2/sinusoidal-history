@@ -61,7 +61,7 @@
     "value_units": "% of world GDP",
     "color": "#0e7490",
     "associated_cycle_id": "dalio",
-    "association_note": "Imperial-arc proxy. The data peaks at 1945 (~42%, war-production driven); Dalio's composite empire-score peaks ~1950 by his own statement, so the cycle and the data deliberately differ by ~5 years."
+    "association_note": "Imperial-arc proxy. The data peaks at 1945 at ~32% of world GDP (war-production driven); Dalio's composite empire-score peaks ~1950 by his own statement, so the cycle and the data deliberately differ by ~5 years."
   },
   {
     "id": "vdem_libdem",

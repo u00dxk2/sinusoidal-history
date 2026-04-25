@@ -13,17 +13,20 @@
 
 ## What was filtered and transformed
 
-Source CSV has GDP for ~169 countries plus aggregate region rows. We:
-1. Excluded aggregate entities (`World`, `Western Europe`, `Eastern Europe`, `Latin America`, `East Asia`, `South and Southeast Asia`, `Sub-Saharan Africa`, `Middle East and North Africa`, `Western Offshoots`) so the world sum reflects countries only.
-2. For each year, computed `world_sum = sum(country GDPs)`.
-3. Computed `us_share = US GDP / world_sum × 100`.
-4. **Trimmed to 1870 onward.** Pre-1870 country coverage in Maddison is patchy — many countries are added at later benchmarks — so early "world" totals are partial and the resulting US share is artificially inflated/deflated. 1870 onward is much more stable.
+The build pipeline lives in `scripts/build_us_world_gdp_share.py` (run from repo root). It:
+
+1. Downloads the OWID Maddison Project mirror.
+2. **Excludes regional aggregates and the World rollup.** OWID's export names them `Western Europe (Maddison)`, `Eastern Europe (Maddison)`, `Latin America (Maddison)`, `East Asia (Maddison)`, `South and South East Asia (Maddison)`, `Sub Saharan Africa (Maddison)`, `Middle East and North Africa (Maddison)`, `Western offshoots (Maddison)`, plus `World`. An earlier version of this filter used the names without the `(Maddison)` suffix and so silently included all of these in the world sum, doubling it on benchmark years.
+3. **Resolves historical-state vs successor-state overlap.** USSR and Russia/Ukraine/Kazakhstan/etc., Czechoslovakia and Czechia/Slovakia, Yugoslavia and its successors, Sudan-former and Sudan/South Sudan: where the historical entity and any successor coexist in a year, drop the historical entity (use successors only); otherwise keep the historical entity.
+4. **Forward-fills each entity's GDP.** Maddison adds many countries only at decade-benchmark years (China, USSR, much of Africa). Without forward-fill, those countries appear in the world sum at 1900 / 1950 / 1980 and disappear at 1901 / 1951 / 1981, creating spurious dips in US share. The pipeline carries each country's most-recent observed GDP forward to subsequent years until the next observation overrides it.
+5. Computes `us_share = US GDP / sum(filled country GDPs) × 100`.
+6. **Trims to 1870 onward.** Pre-1870 country coverage is too patchy even with forward-fill.
 
 ## Why this series pairs with Dalio
 
-Dalio's Big Cycle is centrally about imperial rise and fall, with the relative GDP share of the dominant power (Britain in the 1800s, US in the 1900s, China today) as the headline indicator. The series shows the US arc clearly: rising through the late 19th century, peak in 1945 at ~42% (when most other industrial economies were rubble), gradual decline to ~7% by 2022.
+Dalio's Big Cycle is centrally about imperial rise and fall, with the relative GDP share of the dominant power (Britain in the 1800s, US in the 1900s, China today) as the headline indicator. The series shows the US arc clearly: rising through the late 19th century (~11% at 1870 → ~19% at 1900), peak in 1945 at ~32% (when most other industrial economies were at war or rubble), then gradual decline through ~22% in 1973 to ~15% by 2022.
 
-The peak in 1945 is exactly Dalio's reference peak year for the US Big Cycle — a happy alignment that lets you see how well a pure sinusoid tracks the actual arc.
+Dalio's own composite empire-score peaks ~1950 by his statement, not 1945; the cycle and the data deliberately differ by ~5 years. The 1945 GDP-share peak is war-production driven; Dalio's empire score combines GDP share with military, currency-reserve, education, and other inputs.
 
 ## Caveats
 
