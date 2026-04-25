@@ -9,7 +9,7 @@
     "amplitude_normalized": 1.0,
     "source": "Ibn Khaldun, Muqaddimah (1377)",
     "confidence_level": "narrative",
-    "color": "#8B5A3C"
+    "color": "#7C2D2A"
   },
   {
     "id": "kondratiev",
@@ -21,7 +21,7 @@
     "amplitude_normalized": 1.0,
     "source": "Nikolai Kondratiev, The Major Economic Cycles (1925); reinterpreted by Schumpeter and later scholars",
     "confidence_level": "empirical-contested",
-    "color": "#2E5C8A"
+    "color": "#22366A"
   },
   {
     "id": "huntington",
@@ -33,7 +33,7 @@
     "amplitude_normalized": 1.0,
     "source": "Samuel P. Huntington, American Politics: The Promise of Disharmony (1981)",
     "confidence_level": "narrative",
-    "color": "#5C7A2E"
+    "color": "#3F5A33"
   },
   {
     "id": "perez",
@@ -45,7 +45,7 @@
     "amplitude_normalized": 1.0,
     "source": "Carlota Perez, Technological Revolutions and Financial Capital (2002)",
     "confidence_level": "quantitative",
-    "color": "#7c3aed"
+    "color": "#5C2D63"
   },
   {
     "id": "turchin",
@@ -57,7 +57,7 @@
     "amplitude_normalized": 1.0,
     "source": "Peter Turchin, Secular Cycles (2009), Ages of Discord (2016), End Times (2023)",
     "confidence_level": "quantitative",
-    "color": "#dc2626"
+    "color": "#B25535"
   },
   {
     "id": "dalio",
@@ -69,7 +69,7 @@
     "amplitude_normalized": 1.0,
     "source": "Ray Dalio, Principles for Dealing with the Changing World Order (2021)",
     "confidence_level": "narrative",
-    "color": "#0e7490"
+    "color": "#A07628"
   },
   {
     "id": "strauss_howe",
@@ -81,7 +81,7 @@
     "amplitude_normalized": 1.0,
     "source": "William Strauss & Neil Howe, The Fourth Turning (1997)",
     "confidence_level": "narrative",
-    "color": "#a16207",
+    "color": "#3F4A56",
     "caveat": "Generational theory is contested in academic history. Included for completeness because it's enormously influential in popular discourse. Treat skeptically."
   }
 ]

@@ -78,13 +78,13 @@ export default function CycleFacet({
     <div
       ref={containerRef}
       className={cn(
-        "relative w-full rounded-md border transition-[opacity,padding] duration-150",
+        "relative w-full rounded-sm border transition-[opacity,padding] duration-150",
         FACET_MIN_HEIGHT_CLASS[mode],
         mode === "expanded"
-          ? "border-foreground/30 bg-foreground/[0.04] p-3"
+          ? "border-rule/40 bg-paper-deep/30 p-3 sm:p-4"
           : mode === "collapsed"
-            ? "border-foreground/5 px-2 py-0.5 opacity-70"
-            : "border-foreground/10 bg-foreground/[0.015] p-2"
+            ? "border-transparent px-2 py-0.5 opacity-65"
+            : "border-rule/20 bg-paper p-2 sm:p-3 hover:border-rule/35 transition-colors"
       )}
     >
       <FacetHeader
@@ -150,39 +150,56 @@ function FacetHeader({
   onFocus: () => void;
   onBlur: () => void;
 }) {
+  // For mobile readability, take the bit before the em-dash if the name is
+  // long. Khaldun → "Ibn Khaldun"; Carlota Perez → "Carlota Perez"; etc.
+  const shortName =
+    cycle.name.length > 22 && cycle.name.includes("—")
+      ? cycle.name.split("—")[0].trim()
+      : cycle.name;
   return (
-    <div className="flex items-center justify-between gap-3 min-w-0">
+    <div className="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
       <button
         type="button"
         onClick={mode === "expanded" ? onBlur : onFocus}
         aria-expanded={mode === "expanded"}
-        className="flex items-center gap-2 min-w-0 flex-1 text-left rounded px-1 py-0.5 hover:bg-foreground/5 focus:bg-foreground/5 focus:outline-none focus:ring-2 focus:ring-foreground/20"
+        className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 hover:bg-ink/[0.04] focus:bg-ink/[0.04] focus:outline-none focus:ring-1 focus:ring-ink/30"
       >
         <span
           aria-hidden
-          className="inline-block w-3 h-3 rounded-sm flex-shrink-0"
-          style={{ backgroundColor: cycle.color }}
+          className="inline-block self-stretch w-[3px] flex-shrink-0 rounded-full"
+          style={{ backgroundColor: cycle.color, minHeight: 14 }}
         />
         <span
           className={cn(
-            "font-semibold truncate",
-            mode === "collapsed" ? "text-xs" : "text-sm"
+            "font-display tracking-tight truncate text-ink",
+            mode === "collapsed"
+              ? "text-[12px]"
+              : "text-[15px] sm:text-[17px] font-medium"
           )}
         >
-          {cycle.name}
+          <span className="hidden sm:inline">{cycle.name}</span>
+          <span className="sm:hidden">{shortName}</span>
         </span>
         {mode !== "collapsed" && (
-          <span className="hidden sm:inline text-xs text-foreground/50 font-mono whitespace-nowrap">
+          <span className="hidden md:inline text-[10px] text-ink-soft/80 font-mono tracking-wide whitespace-nowrap">
             {effective.period_years}y · peak {effective.reference_peak_year}
-            {overridden && " · cal"}
+            {overridden && (
+              <span
+                className="ml-1.5 inline-block px-1 py-px rounded-sm bg-ink/10 text-ink text-[9px] uppercase tracking-widest"
+                aria-label="calibrated"
+              >
+                cal
+              </span>
+            )}
           </span>
         )}
       </button>
       <span
         className={cn(
-          "text-xs font-mono uppercase tracking-wide whitespace-nowrap",
-          mode === "collapsed" ? "text-foreground/40" : "text-foreground/60"
+          "text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0",
+          mode === "collapsed" ? "opacity-60" : ""
         )}
+        style={{ color: cycle.color }}
         aria-label={`Phase position: ${phaseLabel}`}
       >
         {phaseLabel}
@@ -390,33 +407,41 @@ function ExpandedTail({
     effective.reference_peak_year !== cycle.reference_peak_year;
 
   return (
-    <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-      <div className="space-y-3">
-        <div>
-          <p className="text-foreground/70">{cycle.short_description}</p>
-          <p className="mt-2 text-foreground/55 italic text-xs">
-            Peak calibration: {cycle.reference_peak_rationale}
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-sm border-t border-rule/30 pt-4">
+      <div className="space-y-2.5">
+        <p className="font-display-italic text-[16px] leading-snug text-ink/85">
+          {cycle.short_description}
+        </p>
+        <p className="text-[12px] leading-relaxed text-ink-soft">
+          <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft/80 mr-1">
+            Peak calibration —
+          </span>
+          {cycle.reference_peak_rationale}
+        </p>
+        {cycle.caveat && (
+          <p className="text-[12px] leading-relaxed text-ink/85 border-l-2 border-ink/40 pl-2.5 mt-1.5">
+            <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft mr-1">
+              Caveat —
+            </span>
+            <span className="font-display-italic">{cycle.caveat}</span>
           </p>
-          {cycle.caveat && (
-            <p className="mt-2 text-amber-700 dark:text-amber-400 text-xs">
-              <strong>Caveat:</strong> {cycle.caveat}
-            </p>
-          )}
-          <p className="mt-2 text-foreground/45 text-xs">{cycle.source}</p>
-        </div>
+        )}
+        <p className="text-[10px] tracking-wide text-ink-soft/75 font-mono pt-1">
+          {cycle.source}
+        </p>
       </div>
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-xs uppercase tracking-wide text-foreground/55 font-medium">
+          <span className="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-medium">
             Calibrate
           </span>
           <button
             type="button"
             onClick={onReset}
             disabled={!overridden}
-            className="text-xs text-foreground/70 hover:text-foreground underline underline-offset-2 disabled:text-foreground/30 disabled:no-underline"
+            className="text-[11px] text-ink-soft hover:text-ink underline decoration-ink-soft/40 underline-offset-[3px] disabled:text-ink-soft/30 disabled:no-underline transition-colors"
           >
-            reset
+            reset to published
           </button>
         </div>
         <SliderRow
@@ -443,18 +468,35 @@ function ExpandedTail({
         />
         <div
           aria-live="polite"
-          className="flex items-baseline gap-2 text-xs text-foreground/65"
+          className="border-t border-rule/25 pt-2.5 mt-1"
         >
-          <span>Pearson r vs. {series.name}:</span>
-          <span className="font-mono text-foreground text-sm font-semibold">
-            {csv.loading
-              ? "…"
-              : csv.error
-                ? "n/a"
-                : correlation !== null
-                  ? correlation.toFixed(3)
-                  : "—"}
-          </span>
+          <div className="flex items-baseline justify-between gap-2 text-[11px]">
+            <span className="text-ink-soft uppercase tracking-[0.18em]">
+              Pearson r · vs. {series.name}
+            </span>
+            <span
+              className="font-display text-[20px] tabular-nums tracking-tight"
+              style={{ color: cycle.color }}
+            >
+              {csv.loading
+                ? "…"
+                : csv.error
+                  ? "n/a"
+                  : correlation !== null
+                    ? correlation.toFixed(3)
+                    : "—"}
+            </span>
+          </div>
+          <p className="mt-1 text-[10px] text-ink-soft/70 italic">
+            Diagnostic, not a test statistic. See{" "}
+            <a
+              href="/methods"
+              className="underline decoration-ink-soft/40 underline-offset-[2px] hover:decoration-ink-soft"
+            >
+              methods
+            </a>
+            .
+          </p>
         </div>
       </div>
     </div>
@@ -483,12 +525,14 @@ function SliderRow({
   return (
     <label className="flex flex-col gap-1.5 text-sm">
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-foreground/80">{label}</span>
-        <span className="font-mono text-foreground">
+        <span className="text-[11px] uppercase tracking-[0.18em] text-ink-soft font-medium">
+          {label}
+        </span>
+        <span className="font-display text-[20px] tabular-nums text-ink leading-none">
           {formatValue(value)}
           {value !== published && (
-            <span className="ml-1 text-foreground/45 text-xs">
-              (published: {formatValue(published)})
+            <span className="ml-1.5 text-ink-soft/65 text-[10px] font-mono">
+              published {formatValue(published)}
             </span>
           )}
         </span>
@@ -501,7 +545,7 @@ function SliderRow({
         onValueChange={(vals) => onChange(vals[0])}
         aria-label={label}
       />
-      <div className="flex justify-between text-xs text-foreground/40 font-mono">
+      <div className="flex justify-between text-[10px] text-ink-soft/55 font-mono">
         <span>{formatValue(min)}</span>
         <span>{formatValue(max)}</span>
       </div>

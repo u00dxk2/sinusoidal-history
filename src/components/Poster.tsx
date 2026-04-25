@@ -40,13 +40,13 @@ function labelWord(l: PhasePositionLabel): string {
 function confidenceTag(level: string): string {
   switch (level) {
     case "quantitative":
-      return "quantitative";
+      return "Quantitative";
     case "empirical":
-      return "empirical";
+      return "Empirical";
     case "empirical-contested":
-      return "empirical · contested";
+      return "Empirical · contested";
     case "narrative":
-      return "narrative";
+      return "Narrative";
     default:
       return level;
   }
@@ -84,7 +84,7 @@ export default function Poster({ cycles }: PosterProps) {
       const dataUrl = await toPng(posterRef.current, {
         cacheBust: true,
         pixelRatio: 2,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#fafaf6",
       });
       const link = document.createElement("a");
       link.download = `sinusoidal-history-${currentYear}.png`;
@@ -98,11 +98,11 @@ export default function Poster({ cycles }: PosterProps) {
   };
 
   return (
-    <div className="min-h-screen bg-foreground/[0.02] py-10 px-4 flex flex-col items-center">
-      <div className="w-full max-w-[1240px] mb-4 flex items-baseline justify-end gap-3 print:hidden">
+    <div className="min-h-screen bg-ink/[0.04] py-10 px-4 flex flex-col items-center">
+      <div className="w-full max-w-[1240px] mb-5 flex items-baseline justify-end gap-4 print:hidden">
         <Link
           href="/"
-          className="text-xs text-foreground/60 underline underline-offset-2"
+          className="text-[12px] text-ink-soft hover:text-ink transition-colors uppercase tracking-[0.18em]"
         >
           ← back to interactive
         </Link>
@@ -110,45 +110,82 @@ export default function Poster({ cycles }: PosterProps) {
           type="button"
           onClick={handleDownload}
           disabled={downloading}
-          className="rounded-md border border-foreground/30 bg-background px-3 py-1.5 text-sm font-medium hover:bg-foreground/5 disabled:opacity-50"
+          className="rounded-sm border border-ink/40 bg-paper px-4 py-1.5 text-[12px] uppercase tracking-[0.18em] font-medium text-ink hover:bg-ink hover:text-paper transition-colors disabled:opacity-50 disabled:hover:bg-paper disabled:hover:text-ink"
         >
-          {downloading ? "rendering…" : "download PNG"}
+          {downloading ? "Rendering…" : "Download PNG"}
         </button>
       </div>
 
       <div
         ref={posterRef}
         style={{ width: 1200, minHeight: 800 }}
-        className="bg-background text-foreground flex flex-col px-16 py-14 shadow-[0_10px_40px_rgba(0,0,0,0.08)] border border-foreground/15"
+        className="bg-paper text-ink flex flex-col px-16 py-14 shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-rule/40 relative"
       >
-        <header className="mb-8 flex items-baseline justify-between gap-6">
-          <div>
-            <p className="text-[13px] tracking-[0.22em] uppercase text-foreground/50 font-medium">
-              Sinusoidal History
+        {/* Top corner-band: dateline + masthead. Asymmetric. */}
+        <header className="grid grid-cols-12 gap-8 mb-2">
+          <div className="col-span-8">
+            <p className="text-[11px] tracking-[0.36em] uppercase text-ink-soft font-medium">
+              Sinusoidal History · No. 01 · A reckoning
             </p>
-            <h1 className="mt-2 text-[40px] leading-[1.05] font-semibold tracking-tight">
-              State of the cycles · {headline}
+            <h1
+              className="font-display mt-3 text-ink leading-[0.94] tracking-[-0.02em]"
+              style={{ fontSize: 92 }}
+            >
+              State of <br />
+              <span
+                className="font-display-italic text-ink-soft"
+                style={{ fontStyle: "italic" }}
+              >
+                the cycles
+              </span>
             </h1>
-            <p className="mt-3 text-[15px] text-foreground/60 max-w-xl">
-              Seven long-wave theories, each a pure sinusoid calibrated to a
-              single documented peak. Where they agree, where they diverge.
-            </p>
           </div>
-          <div className="text-right text-xs text-foreground/55 font-mono leading-relaxed flex-shrink-0">
-            sinusoidalhistory.skylarkcreations.com
-            <br />
-            by Skylark Creations
+          <div className="col-span-4 flex flex-col items-end justify-between text-right pt-1">
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-soft">
+                Dateline
+              </p>
+              <p
+                className="font-display text-ink mt-0.5"
+                style={{ fontSize: 26, lineHeight: 1.1 }}
+              >
+                {headline}
+              </p>
+            </div>
+            <div className="text-[10px] font-mono leading-[1.5] tracking-wide text-ink-soft">
+              sinusoidal-history.skylarkcreations.com
+              <br />
+              <span className="italic font-display-italic text-[12px] text-ink/70">
+                by Skylark Creations
+              </span>
+            </div>
           </div>
         </header>
 
-        <div className="flex-1 flex flex-col gap-4">
-          {effectiveCycles.map((cycle) => {
+        {/* Editorial standfirst */}
+        <div className="grid grid-cols-12 gap-8 mt-1 mb-7">
+          <div className="col-span-8 col-start-1 border-t border-ink/30 pt-3">
+            <p
+              className="font-display-italic text-ink/80 leading-snug"
+              style={{ fontSize: 19 }}
+            >
+              Seven long-wave theories of history, each calibrated to a single
+              documented peak. Drawn together to ask whose curve fits whose
+              century — and where every cycle&apos;s reach exceeds its grasp.
+            </p>
+          </div>
+        </div>
+
+        {/* Cycle rows */}
+        <div className="flex-1 flex flex-col gap-3.5">
+          {effectiveCycles.map((cycle, idx) => {
             const label = phasePositionLabel(cycle, currentYear);
             const progress = phaseProgressPercent(cycle, currentYear);
             return (
               <PosterRow
                 key={cycle.id}
                 cycle={cycle}
+                idx={idx}
                 label={label}
                 progressPercent={progress}
               />
@@ -156,13 +193,19 @@ export default function Poster({ cycles }: PosterProps) {
           })}
         </div>
 
-        <footer className="mt-10 pt-5 border-t border-foreground/15 flex items-baseline justify-between text-[11px] text-foreground/55 font-mono">
-          <div>
-            drawn from Khaldun · Kondratiev · Huntington · Perez · Turchin ·
-            Dalio · Strauss-Howe
+        {/* Footer with editorial colophon */}
+        <footer className="mt-10 pt-4 border-t border-ink/30 grid grid-cols-12 gap-8 items-baseline">
+          <div className="col-span-8 text-[11px] tracking-[0.18em] uppercase text-ink-soft">
+            <span className="font-display-italic normal-case tracking-normal text-[14px] text-ink/85">
+              Drawn from
+            </span>{" "}
+            Khaldun · Kondratiev · Huntington · Perez · Turchin · Dalio ·
+            Strauss-Howe
           </div>
-          <div>
-            cycles are contested · a comparison tool, not prophecy
+          <div className="col-span-4 text-right text-[11px] font-mono uppercase tracking-[0.2em] text-ink-soft">
+            cycles are contested ·
+            <br />
+            a comparison tool, not prophecy
           </div>
         </footer>
       </div>
@@ -172,42 +215,70 @@ export default function Poster({ cycles }: PosterProps) {
 
 function PosterRow({
   cycle,
+  idx,
   label,
   progressPercent,
 }: {
   cycle: Cycle;
+  idx: number;
   label: PhasePositionLabel;
   progressPercent: number;
 }) {
   return (
-    <div className="grid grid-cols-[1.5rem_1fr_280px_150px] items-center gap-5">
-      <div
-        aria-hidden
-        className="h-12 w-2 rounded"
-        style={{ backgroundColor: cycle.color }}
-      />
-      <div className="min-w-0">
-        <div className="flex items-baseline gap-3 flex-wrap">
-          <span className="text-[22px] font-semibold tracking-tight">
-            {cycle.name}
-          </span>
-          <span className="text-[11px] font-mono text-foreground/50">
-            period {cycle.period_years}y · peak {cycle.reference_peak_year}
-          </span>
-        </div>
-        <p className="mt-0.5 text-[13px] text-foreground/65 truncate max-w-[700px]">
+    <div className="grid grid-cols-12 gap-5 items-center border-t border-rule/40 pt-3.5">
+      {/* Numerical eyebrow column */}
+      <div className="col-span-1 flex items-start gap-2">
+        <span className="font-mono text-[11px] text-ink-soft/70 tabular-nums tracking-wider">
+          {String(idx + 1).padStart(2, "0")}
+        </span>
+        <span
+          aria-hidden
+          className="block w-[3px] self-stretch rounded-full"
+          style={{ backgroundColor: cycle.color, minHeight: 56 }}
+        />
+      </div>
+      {/* Title + standfirst column */}
+      <div className="col-span-6 min-w-0">
+        <h3
+          className="font-display tracking-tight text-ink"
+          style={{ fontSize: 24, lineHeight: 1.05 }}
+        >
+          {cycle.name}
+        </h3>
+        <p
+          className="text-ink-soft mt-1 leading-snug max-w-[640px] truncate"
+          style={{ fontSize: 13 }}
+        >
           {cycle.short_description}
         </p>
-        <p className="text-[10px] font-mono text-foreground/45 mt-0.5">
-          confidence · {confidenceTag(cycle.confidence_level)}
-        </p>
+        <div className="flex items-baseline gap-3 mt-1.5">
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+            Period {cycle.period_years}y
+          </span>
+          <span className="text-ink-soft/40">·</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+            Peak {cycle.reference_peak_year}
+          </span>
+          <span className="text-ink-soft/40">·</span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+            {confidenceTag(cycle.confidence_level)}
+          </span>
+        </div>
       </div>
-      <PhaseGauge percent={progressPercent} color={cycle.color} />
+      {/* Phase gauge */}
+      <div className="col-span-3">
+        <PhaseGauge percent={progressPercent} color={cycle.color} />
+      </div>
+      {/* Phase label */}
       <div
-        className="text-[30px] font-bold uppercase tracking-wide text-right"
-        style={{ color: cycle.color }}
+        className="col-span-2 text-right font-display"
+        style={{
+          fontSize: 30,
+          letterSpacing: "-0.02em",
+          color: cycle.color,
+        }}
       >
-        {labelWord(label)}
+        <span style={{ fontStyle: "italic" }}>{labelWord(label).toLowerCase()}</span>
       </div>
     </div>
   );
@@ -222,16 +293,18 @@ function PhaseGauge({
 }) {
   const clamped = Math.max(0, Math.min(100, percent));
   return (
-    <div className="relative h-4 rounded-full bg-foreground/10 overflow-hidden">
-      <div
-        className="absolute inset-y-0 left-0 rounded-full transition-[width]"
-        style={{ width: `${clamped}%`, backgroundColor: color }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-1/2 w-px bg-foreground/30"
-      />
-      <div className="absolute inset-0 flex items-center justify-between px-2 text-[9px] font-mono uppercase tracking-wide text-foreground/50">
+    <div className="space-y-1.5">
+      <div className="relative h-[3px] bg-ink/15 overflow-visible">
+        <div
+          className="absolute inset-y-0 left-0"
+          style={{ width: `${clamped}%`, backgroundColor: color }}
+        />
+        <div
+          aria-hidden
+          className="absolute -top-1 bottom-[-4px] left-1/2 w-px bg-ink/35"
+        />
+      </div>
+      <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-[0.18em] text-ink-soft/65">
         <span>trough</span>
         <span>peak</span>
         <span>trough</span>
@@ -239,4 +312,3 @@ function PhaseGauge({
     </div>
   );
 }
-

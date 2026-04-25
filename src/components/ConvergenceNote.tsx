@@ -1,17 +1,25 @@
 export default function ConvergenceNote() {
   return (
-    <div
+    <aside
       role="note"
-      className="rounded-md border border-foreground/15 bg-foreground/[0.02] p-3 sm:p-4 text-sm text-foreground/75"
+      aria-label="Editor's note on apparent convergence"
+      className="relative grid grid-cols-[auto_1fr] gap-x-5 sm:gap-x-7 px-1 py-1"
     >
-      <p className="font-medium text-foreground">
-        Notice how cycles tend to peak near the present.
-      </p>
-      <p className="mt-1">
-        That&apos;s not convergence — it&apos;s publication bias. Theorists
-        calibrate against moments that matter to them. Drag the time-range
-        below or click any cycle to see how much the peak-year choice is doing.
-      </p>
-    </div>
+      <div className="self-stretch w-[2px] bg-ink/25" aria-hidden />
+      <div className="py-1">
+        <p className="font-display-italic text-[20px] sm:text-[24px] leading-[1.25] text-ink">
+          Notice how the cycles tend to peak near the present.
+        </p>
+        <p className="mt-2.5 text-[13px] sm:text-[14px] leading-relaxed text-ink-soft max-w-2xl">
+          That is not convergence — it is publication bias. Theorists
+          calibrate against the moments that mattered to them. Drag the
+          time-range below or click any cycle to see how much the peak-year
+          choice is doing.
+        </p>
+        <p className="mt-1.5 text-[10px] uppercase tracking-[0.28em] text-ink-soft/70 font-medium">
+          — Editor&apos;s note
+        </p>
+      </div>
+    </aside>
   );
 }

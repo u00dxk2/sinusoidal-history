@@ -10,7 +10,7 @@
     "year_column": "year",
     "value_column": "house_party_distance",
     "value_units": "party-mean distance (d1)",
-    "color": "#1f2937",
+    "color": "#0F1419",
     "associated_cycle_id": "huntington",
     "association_note": "Huntington's creedal-passion cycle predicts ~60-year polarization peaks. DW-NOMINATE is the cleanest long-run roll-call proxy available."
   },
@@ -40,7 +40,7 @@
     "year_column": "year",
     "value_column": "top1_wealth_share_pct",
     "value_units": "% of household wealth",
-    "color": "#dc2626",
+    "color": "#5A1A1A",
     "associated_cycle_id": "turchin",
     "association_note": "Direct proxy for Turchin's elite-overproduction driver — when wealth concentrates, elite competition intensifies and instability follows."
   },
@@ -70,7 +70,7 @@
     "year_column": "year",
     "value_column": "liberal_democracy_index",
     "value_units": "index 0–1",
-    "color": "#a16207",
+    "color": "#4A4A4A",
     "associated_cycle_id": "strauss_howe",
     "association_note": "Generational-cycle theory predicts crisis lows that line up with stress on liberal-democratic institutions. V-Dem's recent US drop is the clearest empirical analogue to Strauss-Howe's 'Fourth Turning'."
   },
@@ -85,7 +85,7 @@
     "year_column": "year",
     "value_column": "deaths_per_100k",
     "value_units": "deaths per 100,000",
-    "color": "#b45309",
+    "color": "#3D4250",
     "associated_cycle_id": "khaldun",
     "association_note": "Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because WWI/WWII spikes otherwise dominate; the transform reveals secular trend and lets the cycle pairing breathe.",
     "transform": "log1p"

@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
+/*
+ * Sinusoidal History — design tokens.
+ *
+ * The palette is calibrated for a print-publication feel:
+ * - "paper" — a warm tinted off-white. Not a stark sheet.
+ * - "ink"   — a deep neutral that's not pure black.
+ * - "rule"  — the hairline color used for editorial rules between sections.
+ *
+ * Cycle colors are defined per-cycle in src/data/cycles.json. Don't override
+ * them here.
+ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #fafaf6;          /* warm cream, ~#fffaf0 dialed cooler */
+  --paper-deep: #f1ede1;     /* slightly deeper for cards */
+  --ink: #1a1a1a;            /* near-black with no blue tint */
+  --ink-soft: #4a4a48;       /* secondary text */
+  --rule: #2a2a2a;           /* hairline rules */
+  --rule-soft: #d8d4c5;      /* paper-toned hairline */
+  --highlight: #e9b942;      /* a single editorial accent (rare use) */
+
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-rule: var(--rule);
+  --color-rule-soft: var(--rule-soft);
+  --color-highlight: var(--highlight);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Dark mode is intentionally a "lights-down editorial" palette,
+       not a dashboard dark mode. */
+    --paper: #14130f;
+    --paper-deep: #1c1b16;
+    --ink: #ece8da;
+    --ink-soft: #b6b1a0;
+    --rule: #d8d4c5;
+    --rule-soft: #2e2d27;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  /* Subtle print-paper texture on bigger screens. Pure CSS — no asset. */
+  background-image:
+    radial-gradient(circle at 1% 1%, rgba(0, 0, 0, 0.012) 0, transparent 40%),
+    radial-gradient(circle at 99% 99%, rgba(0, 0, 0, 0.010) 0, transparent 40%);
+  background-attachment: fixed;
+}
+
+/* The editorial display utility. Fraunces with optical sizing dialled up
+   and a slight softening of terminals. */
+.font-display {
+  font-family: var(--font-serif), "Iowan Old Style", "Source Serif Pro",
+    "PT Serif", Georgia, serif;
+  font-feature-settings: "ss01" on, "ss02" on, "kern" on;
+  font-variation-settings: "opsz" 144, "SOFT" 30, "WONK" 0;
+  letter-spacing: -0.01em;
+}
+
+/* A wonky-italic variant for marginalia and pull-quotes. */
+.font-display-italic {
+  font-family: var(--font-serif), "Iowan Old Style", "Source Serif Pro",
+    "PT Serif", Georgia, serif;
+  font-style: italic;
+  font-feature-settings: "ss01" on, "kern" on;
+  font-variation-settings: "opsz" 96, "SOFT" 60, "WONK" 1;
+  letter-spacing: -0.005em;
+}
+
+/* Decorative editorial rule — a hairline with two end-caps. */
+.editorial-rule {
+  position: relative;
+  height: 1px;
+  background: var(--rule);
+  opacity: 0.35;
+}
+.editorial-rule::before,
+.editorial-rule::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 1px;
+  height: 5px;
+  background: var(--rule);
+  opacity: 0.6;
+}
+.editorial-rule::before { left: 0; }
+.editorial-rule::after  { right: 0; }
+
+/* Selection style matches the editorial palette. */
+::selection {
+  background: var(--highlight);
+  color: var(--ink);
 }

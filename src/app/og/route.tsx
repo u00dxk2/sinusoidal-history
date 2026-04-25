@@ -11,6 +11,11 @@ export const dynamic = "force-dynamic";
 const WIDTH = 1200;
 const HEIGHT = 630;
 
+const PAPER = "#fafaf6";
+const INK = "#1a1a1a";
+const INK_SOFT = "#4a4a48";
+const RULE = "#2a2a2a";
+
 const MONTH_NAMES = [
   "January",
   "February",
@@ -57,7 +62,6 @@ export async function GET(request: Request) {
   const now = new Date();
   const headline = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
   const currentYear = now.getFullYear();
-  const headlineText = `State of the cycles · ${headline}`;
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));
@@ -68,63 +72,84 @@ export async function GET(request: Request) {
         style={{
           width: WIDTH,
           height: HEIGHT,
-          background: "#fafafa",
-          color: "#0f172a",
-          padding: 56,
+          background: PAPER,
+          color: INK,
+          padding: "44px 56px 36px 56px",
           display: "flex",
           flexDirection: "column",
-          fontFamily: "system-ui, sans-serif",
+          fontFamily: "Georgia, 'Times New Roman', Times, serif",
         }}
       >
+        {/* Eyebrow */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            fontSize: 14,
+            letterSpacing: "0.36em",
+            textTransform: "uppercase",
+            color: INK_SOFT,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontWeight: 500,
+            marginBottom: 14,
+          }}
+        >
+          <div style={{ display: "flex" }}>Sinusoidal History · No. 01</div>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              height: 1,
+              background: RULE,
+              opacity: 0.35,
+            }}
+          />
+          <div style={{ display: "flex" }}>{headline}</div>
+        </div>
+
+        {/* Masthead */}
         <div
           style={{
             display: "flex",
             flexDirection: "column",
-            marginBottom: 28,
+            marginBottom: 18,
           }}
         >
           <div
             style={{
               display: "flex",
-              fontSize: 16,
-              letterSpacing: 4,
-              textTransform: "uppercase",
-              color: "#64748b",
+              fontSize: 84,
               fontWeight: 600,
+              letterSpacing: "-0.025em",
+              lineHeight: 0.96,
+              color: INK,
             }}
           >
-            Sinusoidal History
-          </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 48,
-              fontWeight: 700,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.05,
-              marginTop: 8,
-            }}
-          >
-            {headlineText}
+            State of the cycles
           </div>
           <div
             style={{
               display: "flex",
               fontSize: 18,
-              color: "#475569",
-              marginTop: 8,
+              color: INK_SOFT,
+              marginTop: 10,
+              fontStyle: "italic",
             }}
           >
-            Seven historical cycle theories on one axis
+            Seven long-wave theories of history, on one axis.
           </div>
         </div>
 
+        {/* Two-column phase rows */}
         <div
           style={{
             display: "flex",
-            gap: 36,
+            gap: 40,
             flex: 1,
             alignItems: "stretch",
+            borderTop: `1px solid ${RULE}`,
+            paddingTop: 14,
           }}
         >
           {[left, right].map((col, idx) => (
@@ -134,16 +159,18 @@ export async function GET(request: Request) {
                 display: "flex",
                 flex: 1,
                 flexDirection: "column",
-                gap: 14,
+                gap: 11,
                 justifyContent: "center",
               }}
             >
-              {col.map((cycle) => {
+              {col.map((cycle, rowIdx) => {
                 const progress = phaseProgressPercent(cycle, currentYear);
                 const label = phasePositionLabel(cycle, currentYear);
+                const overallIdx = idx === 0 ? rowIdx : left.length + rowIdx;
                 return (
                   <PhaseRow
                     key={cycle.id}
+                    idx={overallIdx + 1}
                     name={cycle.name}
                     color={cycle.color}
                     progress={progress}
@@ -155,21 +182,37 @@ export async function GET(request: Request) {
           ))}
         </div>
 
+        {/* Footer */}
         <div
           style={{
             display: "flex",
-            marginTop: 24,
-            paddingTop: 16,
-            borderTop: "1px solid #e5e7eb",
+            marginTop: 18,
+            paddingTop: 12,
+            borderTop: `1px solid ${RULE}`,
             justifyContent: "space-between",
-            fontSize: 13,
-            color: "#64748b",
+            fontSize: 12,
+            color: INK_SOFT,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
           }}
         >
           <div style={{ display: "flex" }}>
             sinusoidal-history.skylarkcreations.com
           </div>
-          <div style={{ display: "flex" }}>by Skylark Creations</div>
+          <div
+            style={{
+              display: "flex",
+              fontStyle: "italic",
+              textTransform: "none",
+              letterSpacing: 0,
+              fontSize: 14,
+              fontFamily: "Georgia, serif",
+              color: INK,
+            }}
+          >
+            by Skylark Creations
+          </div>
         </div>
       </div>
     ),
@@ -184,11 +227,13 @@ export async function GET(request: Request) {
 }
 
 function PhaseRow({
+  idx,
   name,
   color,
   progress,
   label,
 }: {
+  idx: number;
   name: string;
   color: string;
   progress: number;
@@ -196,13 +241,13 @@ function PhaseRow({
 }) {
   const clamped = Math.max(0, Math.min(100, progress));
   const displayName =
-    name.length > 28 ? (name.split("—")[0]?.trim() ?? name) : name;
+    name.length > 26 ? (name.split("—")[0]?.trim() ?? name) : name;
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 6,
+        gap: 5,
       }}
     >
       <div
@@ -213,24 +258,46 @@ function PhaseRow({
           gap: 12,
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 18,
-            fontWeight: 600,
-            letterSpacing: "-0.01em",
-            color: "#0f172a",
-          }}
-        >
-          {displayName}
+        <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 11,
+              fontFamily: "system-ui, sans-serif",
+              color: INK_SOFT,
+              opacity: 0.6,
+              letterSpacing: "0.18em",
+            }}
+          >
+            {String(idx).padStart(2, "0")}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              width: 3,
+              alignSelf: "stretch",
+              background: color,
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
+              fontSize: 22,
+              fontWeight: 600,
+              letterSpacing: "-0.015em",
+              color: INK,
+            }}
+          >
+            {displayName}
+          </div>
         </div>
         <div
           style={{
             display: "flex",
-            fontSize: 16,
-            fontWeight: 700,
-            textTransform: "uppercase",
-            letterSpacing: 1.5,
+            fontSize: 14,
+            fontWeight: 500,
+            fontStyle: "italic",
+            letterSpacing: "-0.01em",
             color,
           }}
         >
@@ -241,10 +308,10 @@ function PhaseRow({
         style={{
           display: "flex",
           position: "relative",
-          height: 10,
-          borderRadius: 5,
-          background: "#e2e8f0",
+          height: 3,
+          background: "#e0dcd0",
           overflow: "hidden",
+          marginLeft: 38,
         }}
       >
         <div

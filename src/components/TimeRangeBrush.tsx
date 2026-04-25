@@ -21,17 +21,18 @@ interface TimeRangeBrushProps {
 
 const PRESETS: ReadonlyArray<{
   label: string;
+  short: string;
   start: number;
   end: number;
 }> = [
-  { label: "All (1600–2050)", start: 1600, end: 2050 },
-  { label: "Industrial (1750+)", start: 1750, end: 2050 },
-  { label: "Modern (1900+)", start: 1900, end: 2050 },
-  { label: "Living memory (1950+)", start: 1950, end: 2050 },
-  { label: "Now (2000+)", start: 2000, end: 2050 },
+  { label: "All", short: "1600–", start: 1600, end: 2050 },
+  { label: "Industrial", short: "1750–", start: 1750, end: 2050 },
+  { label: "Modern", short: "1900–", start: 1900, end: 2050 },
+  { label: "Living memory", short: "1950–", start: 1950, end: 2050 },
+  { label: "Now", short: "2000–", start: 2000, end: 2050 },
 ];
 
-const HEIGHT = 64;
+const HEIGHT = 78;
 const HINT_STORAGE_KEY = "sh.brushHintSeen";
 
 export default function TimeRangeBrush({
@@ -46,8 +47,6 @@ export default function TimeRangeBrush({
   const width = useContainerWidth(containerRef, 800);
   const brushGroupRef = useRef<SVGGElement | null>(null);
 
-  // Hint visibility starts off; after hydration, check localStorage in a
-  // microtask so the setState isn't synchronous inside the effect body.
   const [hintVisible, setHintVisible] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -78,7 +77,7 @@ export default function TimeRangeBrush({
     }
     const yScale = scaleLinear()
       .domain([-1.05, 1.05])
-      .range([HEIGHT - 10, 8]);
+      .range([HEIGHT - 14, 14]);
     const lineGen = d3Line<{ year: number; value: number }>()
       .x((d) => xScale(d.year))
       .y((d) => yScale(d.value))
@@ -86,15 +85,23 @@ export default function TimeRangeBrush({
     return lineGen(points) ?? "";
   }, [cycles, xScale, innerWidth, fullStartYear, fullEndYear]);
 
-  // Imperative d3-brush wiring.
+  // Decade tick marks for the brush track. Editorial measure.
+  const trackTicks = useMemo(() => {
+    const out: number[] = [];
+    for (let y = Math.ceil(fullStartYear / 50) * 50; y <= fullEndYear; y += 50) {
+      out.push(y);
+    }
+    return out;
+  }, [fullStartYear, fullEndYear]);
+
   useEffect(() => {
     const node = brushGroupRef.current;
     if (!node || innerWidth <= 0) return;
     const sel = select(node as SVGGElement);
     const brush = brushX<unknown>()
       .extent([
-        [0, 4],
-        [innerWidth, HEIGHT - 4],
+        [0, 6],
+        [innerWidth, HEIGHT - 6],
       ])
       .on("start", () => {
         if (hintVisible) dismissHint();
@@ -126,27 +133,31 @@ export default function TimeRangeBrush({
       visibleStartYear === fullStartYear &&
       visibleEndYear === fullEndYear
     ) {
+      // Even at "all-range", show a subtle indicator the whole strip is the
+      // current selection — not a blank slate.
       sel.call(brush.move, null);
     } else {
       sel.call(brush.move, [x0, x1]);
     }
 
-    // Style the brush elements for visibility.
+    // Editorial brush styling.
     sel
       .selectAll(".selection")
-      .attr("fill", "currentColor")
-      .attr("fill-opacity", 0.08)
-      .attr("stroke", "currentColor")
-      .attr("stroke-opacity", 0.6)
-      .attr("stroke-width", 1);
+      .attr("fill", "var(--ink)")
+      .attr("fill-opacity", 0.06)
+      .attr("stroke", "var(--ink)")
+      .attr("stroke-opacity", 0.7)
+      .attr("stroke-width", 1)
+      .attr("shape-rendering", "crispEdges");
     sel
       .selectAll<SVGRectElement, unknown>(".handle")
-      .attr("fill", "currentColor")
-      .attr("fill-opacity", 0.6)
-      .attr("width", 6)
-      .attr("stroke", "currentColor")
-      .attr("stroke-opacity", 0.9)
-      .attr("rx", 2);
+      .attr("fill", "var(--paper)")
+      .attr("stroke", "var(--ink)")
+      .attr("stroke-opacity", 0.85)
+      .attr("stroke-width", 1)
+      .attr("width", 8)
+      .attr("rx", 1);
+    sel.selectAll(".overlay").attr("cursor", "crosshair");
 
     return () => {
       sel.on(".brush", null);
@@ -167,86 +178,114 @@ export default function TimeRangeBrush({
     visibleStartYear === fullStartYear && visibleEndYear === fullEndYear;
 
   return (
-    <div className="space-y-2" ref={containerRef}>
-      <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-xs uppercase tracking-wide text-foreground/55 font-medium mr-1">
+    <div className="space-y-3" ref={containerRef}>
+      <div className="flex flex-wrap gap-x-1 gap-y-2 items-baseline">
+        <span className="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-medium mr-3 self-center">
           Range
         </span>
-        {PRESETS.map((preset) => {
-          const active =
-            preset.start === visibleStartYear &&
-            preset.end === visibleEndYear;
-          return (
-            <button
-              key={preset.label}
-              type="button"
-              onClick={() => onChange(preset.start, preset.end)}
-              aria-pressed={active}
-              className={cn(
-                "rounded-md border px-2.5 py-1 text-xs transition",
-                active
-                  ? "border-foreground/40 bg-foreground/10 font-medium"
-                  : "border-foreground/15 hover:bg-foreground/5"
-              )}
-            >
-              {preset.label}
-            </button>
-          );
-        })}
-        <span className="text-xs text-foreground/60 ml-auto font-mono">
-          showing {range}
+        <div className="flex flex-wrap gap-1">
+          {PRESETS.map((preset) => {
+            const active =
+              preset.start === visibleStartYear &&
+              preset.end === visibleEndYear;
+            return (
+              <button
+                key={preset.label}
+                type="button"
+                onClick={() => onChange(preset.start, preset.end)}
+                aria-pressed={active}
+                className={cn(
+                  "rounded-sm px-2.5 py-1 text-[12px] transition border",
+                  active
+                    ? "border-ink/60 bg-ink text-paper font-medium"
+                    : "border-rule/35 text-ink-soft hover:bg-ink/5 hover:text-ink hover:border-ink/30",
+                )}
+              >
+                {preset.label}
+                <span className="ml-1.5 font-mono text-[10px] opacity-60">
+                  {preset.short}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        <span className="text-[11px] text-ink-soft ml-auto font-mono tabular-nums">
+          showing <span className="text-ink">{range}</span>
         </span>
       </div>
       <div className="relative">
-        <svg
-          width={width}
-          height={HEIGHT}
-          role="img"
-          aria-label="Time range selector — drag to zoom to a subrange, or click outside the selection to reset to the full range"
-          className="block cursor-crosshair"
-        >
-          <g transform="translate(4,0)">
-            <rect
-              x={0}
-              y={0}
-              width={innerWidth}
-              height={HEIGHT}
-              fill="currentColor"
-              fillOpacity={0.025}
-              stroke="currentColor"
-              strokeOpacity={0.15}
-              strokeWidth={1}
-              rx={3}
-            />
-            <line
-              x1={0}
-              x2={innerWidth}
-              y1={HEIGHT / 2}
-              y2={HEIGHT / 2}
-              stroke="currentColor"
-              strokeOpacity={0.1}
-              strokeDasharray="2 4"
-            />
-            <path
-              d={overviewPath}
-              fill="none"
-              stroke="currentColor"
-              strokeOpacity={0.55}
-              strokeWidth={1}
-            />
-            <g ref={brushGroupRef} />
-          </g>
-        </svg>
-        {hintVisible && isFullRange && innerWidth > 100 && (
-          <div
-            className="pointer-events-none absolute inset-0 flex items-center justify-center"
-            aria-hidden="true"
+        <div className="relative rounded-sm border border-rule/35 bg-paper-deep/50 overflow-hidden">
+          <svg
+            width={width}
+            height={HEIGHT}
+            role="img"
+            aria-label="Time range selector — drag to zoom to a subrange, or click outside the selection to reset to the full range"
+            className="block cursor-crosshair"
           >
-            <span className="rounded-full bg-foreground/70 text-background px-3 py-1 text-[11px] font-medium tracking-wide shadow-sm">
-              ← drag to zoom →
-            </span>
-          </div>
-        )}
+            <g transform="translate(4,0)">
+              {/* Decade ticks running through the strip */}
+              {trackTicks.map((y) => (
+                <line
+                  key={y}
+                  x1={xScale(y)}
+                  x2={xScale(y)}
+                  y1={6}
+                  y2={HEIGHT - 6}
+                  stroke="var(--ink)"
+                  strokeOpacity={0.05}
+                />
+              ))}
+              {/* Mid-line zero reference */}
+              <line
+                x1={0}
+                x2={innerWidth}
+                y1={HEIGHT / 2}
+                y2={HEIGHT / 2}
+                stroke="var(--ink)"
+                strokeOpacity={0.08}
+                strokeDasharray="1 4"
+              />
+              {/* Cycle convergence overview */}
+              <path
+                d={overviewPath}
+                fill="none"
+                stroke="var(--ink)"
+                strokeOpacity={0.65}
+                strokeWidth={1.25}
+                strokeLinejoin="round"
+              />
+              {/* Decade labels at endpoints */}
+              <text
+                x={2}
+                y={HEIGHT - 3}
+                className="fill-ink-soft font-mono text-[9px]"
+                style={{ opacity: 0.55 }}
+              >
+                {fullStartYear}
+              </text>
+              <text
+                x={innerWidth - 2}
+                y={HEIGHT - 3}
+                textAnchor="end"
+                className="fill-ink-soft font-mono text-[9px]"
+                style={{ opacity: 0.55 }}
+              >
+                {fullEndYear}
+              </text>
+              <g ref={brushGroupRef} />
+            </g>
+          </svg>
+          {hintVisible && isFullRange && innerWidth > 100 && (
+            <div
+              className="pointer-events-none absolute inset-0 flex items-center justify-center"
+              aria-hidden="true"
+            >
+              <span className="rounded-sm bg-ink text-paper px-3 py-1 text-[11px] tracking-[0.18em] uppercase shadow-[0_1px_2px_rgba(0,0,0,0.15)]">
+                ← drag to zoom →
+              </span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
