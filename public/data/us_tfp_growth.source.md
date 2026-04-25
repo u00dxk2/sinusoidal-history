@@ -9,11 +9,13 @@
 ## Columns in our CSV
 
 - `year` — calendar year
-- `tfp_growth_5yr_avg_pct` — 5-year centered rolling average of the `dtfp` column (TFP growth, utilization-adjusted, annualised, percent)
+- `tfp_growth_5yr_avg_pct` — 5-year centered rolling average of the `dtfp_util` column (utilization-adjusted TFP growth, annualised, percent)
 
 ## What was filtered and transformed
 
-Source file is `quarterly_tfp.xlsx`, sheet `annual`. We took the `dtfp` column (annual TFP growth in percent), then computed a centered 5-year rolling average (window of 5, clipping at the edges). Coverage: 1948–2025.
+Source file is `quarterly_tfp.xlsx`, sheet `annual`. We took the `dtfp_util` column (annual utilization-adjusted TFP growth in percent), then computed a centered 5-year rolling average (window of 5, clipping at the edges so the boundary years average a smaller window rather than dropping out). Coverage: 1948–2025. Reproducible: `scripts/build_us_tfp_growth.py`. Verification: `scripts/verify_tfp.py` confirms the local CSV is a perfect match (78/78 rows within 0.0001) against `dtfp_util` centered-5.
+
+An earlier version of this CSV was silently derived from the `dtfp` column (raw TFP growth, no utilization adjustment), which contradicted the documentation calling the series "utilization-adjusted." The current CSV is rebuilt from `dtfp_util` to match the documented intent.
 
 ## Why this series pairs with Kondratiev
 
