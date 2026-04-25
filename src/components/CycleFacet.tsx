@@ -97,6 +97,10 @@ export default function CycleFacet({
         onBlur={onBlur}
       />
 
+      {mode !== "collapsed" && series && (
+        <FacetLegend cycle={cycle} series={series} />
+      )}
+
       {mode !== "collapsed" && (
         <FacetChart
           cycle={effective}
@@ -203,6 +207,37 @@ function FacetHeader({
         aria-label={`Phase position: ${phaseLabel}`}
       >
         {phaseLabel}
+      </span>
+    </div>
+  );
+}
+
+function FacetLegend({
+  cycle,
+  series,
+}: {
+  cycle: Cycle;
+  series: DataSeries;
+}) {
+  return (
+    <div
+      aria-hidden
+      className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[9px] sm:text-[10px] tracking-[0.18em] uppercase text-ink-soft/85 font-mono"
+    >
+      <span className="inline-flex items-center gap-1.5">
+        <span
+          className="block w-3.5 h-[2px] rounded-full"
+          style={{ backgroundColor: cycle.color }}
+        />
+        <span>theory</span>
+      </span>
+      <span className="text-ink-soft/35">·</span>
+      <span className="inline-flex items-center gap-1.5">
+        <span
+          className="block w-3.5 h-[2px] rounded-full"
+          style={{ backgroundColor: series.color }}
+        />
+        <span>{series.name}</span>
       </span>
     </div>
   );

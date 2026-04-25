@@ -71,7 +71,7 @@ export default function Colophon() {
         </h2>
         <p>
           Six of the seven cycles are paired with a real long-run series:
-          DW-NOMINATE polarization, WID top-1% income share, conflict deaths
+          DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths
           (log-transformed so the World Wars don&apos;t flatten everything
           else), total factor productivity, the V-Dem liberal-democracy index,
           U.S. share of world GDP. The pairings are defensible but not the only
