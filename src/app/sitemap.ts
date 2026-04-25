@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://sinusoidalhistory.skylarkcreations.com";
+const SITE_URL = "https://sinusoidal-history.skylarkcreations.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -12,10 +12,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/about`,
+      url: `${SITE_URL}/poster`,
       lastModified,
-      changeFrequency: "yearly",
-      priority: 0.6,
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: `${SITE_URL}/methods`,
@@ -24,13 +24,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/poster`,
+      url: `${SITE_URL}/about`,
       lastModified,
-      changeFrequency: "monthly",
-      priority: 0.8,
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/colophon`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.6,
     },
     {
       url: `${SITE_URL}/embed/docs`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
+    // Plain-markdown content mirrors for LLM/agent consumption.
+    {
+      url: `${SITE_URL}/llms.txt`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/about.md`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/methods.md`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.5,
+    },
+    {
+      url: `${SITE_URL}/colophon.md`,
       lastModified,
       changeFrequency: "yearly",
       priority: 0.5,

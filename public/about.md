@@ -1,0 +1,108 @@
+# About · The argument
+
+> Plain-markdown mirror of https://sinusoidal-history.skylarkcreations.com/about. The canonical rendered version is the React page at `/about`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
+
+# What this is
+
+## Intent
+
+Sinusoidal History overlays seven named long-wave theories on a shared time axis so a reader can see *where their predictions line up and where they disagree*. Each cycle is paired with a real long-run data series, and a calibration panel lets you stress-test the fit instead of just admiring the curves side by side.
+
+Each cycle curve is a pure sinusoid built from the theory's own period and a single explicitly documented reference peak. That is a naïve choice on purpose: it strips the viz down to exactly one knob per cycle (calibration), so disagreement between theories - not parameter fiddling - is what you see.
+
+## Why every cycle peaks near now
+
+Open the chart and notice that nearly every cycle peaks somewhere near the present. That is not convergence evidence - it is a selection effect. Each theorist wrote in a period that felt consequential, and the "reference peak" they anchored to is, consciously or not, a recent moment. We read these theorists today precisely because their forecasts land in our era.
+
+A few specifics, since the choices matter. Huntington dated his fourth creedal-passion period as 1960–1975 ("the S&S years"); we anchor at the interval midpoint (~1968) — that is the project's choice, not his. K-wave revivalists in the late 1970s and early 1980s variously dated the post-WWII wave's turning point between 1968 and 1974; we use 1973 as the conventional anchor. Khaldun (d. 1406) made no claim about European history; we anchor at 1789 so the framework can be tested against the modern European record our other data series cover, and that is explicitly the project's editorial choice. Perez identifies 2000–2001 as the "Turning Point" between Installation and Deployment phases of the ICT surge; we map her Turning Point to our sinusoid's peak — that conflates her concept with our mathematical convention.
+
+The implication is not that the theories are worthless - it is that the calibration is the single most consequential parameter, and it is doing a lot of the work of "predicting" the present. The calibration panel on the main page lets you move the peak and watch the correlation with real data change.
+
+## Cycles in this version
+
+### Ibn Khaldun — dynastic cycle
+
+- **Period:** 120 years
+- **Reference peak:** 1789
+
+~120-year asabiyyah cycle of dynastic rise and fall (Khaldun's five stages, paraphrased from Rosenthal: consolidation → concentration of power → leisure → contentment → waste).
+
+*Peak calibration:* Project's editorial choice. Anchoring at the French Revolution places the curve at a documented Western inflection point so it can be visually compared against data series that cover the modern European record. Khaldun (d. 1406) made no claim about European history; this is the framework being applied here, not extended by him.
+
+*Source:* Ibn Khaldun, *Muqaddimah* (1377).
+
+### Kondratiev wave
+
+- **Period:** 54 years
+- **Reference peak:** 1973
+
+~50–60 year long economic wave: technological expansion → plateau → stagnation → trough.
+
+*Peak calibration:* Conventional anchor inside the post-WWII K-wave's 1968–1974 turning-point window (oil shock + Bretton Woods end). Other revivalists prefer 1968 (Mandel) or 1971; we use 1973 as the most cited single year.
+
+*Source:* Kondratiev, "Bol'shie tsikly kon'yunktury" (1925); abridged English: "The Long Waves in Economic Life," *Review of Economic Statistics* 17(6) (1935).
+
+### Huntington — creedal passion
+
+- **Period:** 60 years
+- **Reference peak:** 1968
+
+~60–70 year cycle of American political moralism: reform surges followed by cynical intervals.
+
+*Peak calibration:* Midpoint of Huntington's "S&S Years, 1960–1975" (*American Politics*, Ch. 7), the period he identified as the fourth American creedal-passion era. Huntington didn't designate a single peak year; 1968 is the interval midpoint.
+
+*Source:* Samuel P. Huntington, *American Politics: The Promise of Disharmony* (Belknap/Harvard, 1981).
+
+### Carlota Perez — techno-economic paradigm
+
+- **Period:** 55 years
+- **Reference peak:** 2000
+
+~50–60 year wave: installation phase (frenzy + bubble) → turning point → deployment phase (synergy + maturity).
+
+*Peak calibration:* Anchored to Perez's "Turning Point" (2000–2001), the dot-com crash she identifies as the inflection between Installation and Deployment phases of the ICT surge. Her own term is "turning point," not peak; we map it to the sinusoid's peak as a mathematical convenience.
+
+*Source:* Carlota Perez, *Technological Revolutions and Financial Capital* (Edward Elgar, 2002).
+
+### Peter Turchin — secular cycles
+
+- **Period:** 150 years
+- **Reference peak:** 2020
+
+~150-year compressed US-specific secular cycle (*Ages of Discord*, 2016) of elite overproduction → immiseration → state breakdown → reconsolidation. Turchin's pre-industrial agrarian secular cycles in *Secular Cycles* run ~200–300 years; a separate ~50-year bigenerational cycle stacks on top.
+
+*Peak calibration:* Center of Turchin's published forecast window for US instability peaking in the 2020s (*Nature* 2010, *Ages of Discord* 2016). The 150-year period is specific to his US-compressed grand cycle in *Ages of Discord* (≈1780 → 1930 → 2080); his pre-industrial secular cycles run 200–300 years and his bigenerational cycle is ~50 years.
+
+*Source:* Peter Turchin, *Secular Cycles* (Princeton, 2009, with Nefedov); *Ages of Discord* (Beresta, 2016); *End Times* (Penguin, 2023).
+
+### Ray Dalio — Big Cycle
+
+- **Period:** 75 years
+- **Reference peak:** 1950
+
+~75-year long-term debt / Big Cycle of imperial rise/fall: rising → top → declining → reset, tracking debt, currency reserve status, and internal order. Dalio also describes a longer ~250-year empire arc; this curve uses the 75-year figure.
+
+*Peak calibration:* Per Dalio Ch. 5: *"these measures of the United States' powers relative to its own history reached their peaks in the 1950s immediately after the Allies won World War II."* Bridgewater's empire-score chart visually peaks ~1950. Note: our paired data (US share of world GDP) peaks at 1945 because of war-production effects; the cycle and the data deliberately differ by ~5 years, reflecting the difference between Dalio's composite empire score and a single GDP-share series.
+
+*Source:* Ray Dalio, *Principles for Dealing with the Changing World Order* (Avid Reader Press, 2021).
+
+### Strauss-Howe — saeculum
+
+- **Period:** 84 years
+- **Reference peak:** 1955
+
+~80–90 year saeculum, four ~21-year turnings: high → awakening → unraveling → crisis (4th turning), driven by generational replacement.
+
+*Peak calibration:* Anchored to the post-WWII American High (~1955), the most recent completed First Turning peak in Strauss-Howe's saeculum. The framework actually has two cultural highs per saeculum (the 1T High and the 2T Awakening), so reducing it to a single sinusoid is a forced choice; we use the structural High. Their predicted Fourth-Turning Crisis climax (~2020) is a trough in this construction, not a peak — anchoring at 2008 (Crisis onset) as a peak would invert the model.
+
+*Source:* William Strauss & Neil Howe, *The Fourth Turning* (Broadway Books, 1997).
+
+*Caveat:* Generational theory is contested in academic history. The single-sinusoid representation is a forced reduction of a four-turnings model. Treat skeptically.
+
+## Intellectual-honesty disclaimer
+
+All seven theories are contested in different ways. Kondratiev waves have never been cleanly confirmed in empirical long-run data; spectral analyses report some weak periodicity, but period, phase dating, and existence are not agreed across studies. Khaldun wrote in the 14th century about dynastic politics in a Maghrebi context; applying his framework to a modern European-and-American axis is this project's choice. Huntington's creedal-passion cycle is an interpretive lens over American politics, not a measurement. Perez's techno-economic paradigm framework is rich and influential but methodologically qualitative — Schumpeterian historical pattern recognition, not statistical fitting. (An earlier draft of this site mistakenly labeled it "quantitative.")
+
+Turchin's secular cycles have the most developed quantitative literature of the seven, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955), and their predicted Crisis climax around 2020 is a trough in this construction, not a peak. Each cycle comes with a caveat surfaced inline in the focused-facet view; for Strauss-Howe in particular, treat skeptically.
+
+Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for the data-side caveats and [colophon](https://sinusoidal-history.skylarkcreations.com/colophon) for how the site was built.

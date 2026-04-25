@@ -5,7 +5,7 @@ export const metadata = {
   title: "Embed · Sinusoidal History",
 };
 
-const BASE_URL = "https://sinusoidalhistory.skylarkcreations.com";
+const BASE_URL = "https://sinusoidal-history.skylarkcreations.com";
 
 const SNIPPETS: ReadonlyArray<{
   title: string;

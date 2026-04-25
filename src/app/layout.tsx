@@ -22,7 +22,7 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-const SITE_URL = "https://sinusoidalhistory.skylarkcreations.com";
+const SITE_URL = "https://sinusoidal-history.skylarkcreations.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
