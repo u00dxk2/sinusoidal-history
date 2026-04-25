@@ -1,5 +1,150 @@
 # Changelog
 
+## Phase 9 — public-release prep (April 2026)
+
+- Added `LICENSE` (MIT for code; data files retain their upstream licenses
+  per `src/data/series.json`).
+- Added `CITATION.cff` for clean academic citation via GitHub's "Cite this
+  repository" widget.
+- Rewrote `README.md` to reflect the post-fact-check state and the audit
+  trail.
+- Added per-page "Last updated" footers to `/about`, `/methods`, and
+  `/colophon`.
+
+## Phase 8 — machine-readability (April 2026)
+
+- **Caught and fixed a domain-name typo** in `metadataBase`, `robots.ts`,
+  `sitemap.ts`, and `embed/docs`: `sinusoidalhistory.skylarkcreations.com`
+  (no hyphen) → `sinusoidal-history.skylarkcreations.com` (with hyphen).
+  Without this fix, `sitemap.xml` and the OG canonical URL pointed at a
+  domain that didn't resolve, breaking SEO and embed-snippet samples.
+- `/llms.txt` index of all content for LLM crawlers (emerging convention).
+- `/about.md`, `/methods.md`, `/colophon.md` plain-markdown mirrors of the
+  prose pages, served with `text/markdown` content type and CORS open.
+- Sitemap extended to include `/colophon` (was missing) plus the four new
+  markdown surfaces.
+- CORS headers on `/data/*` (CSVs and `.source.md` provenance) for
+  cross-origin fetches by external agents and notebooks.
+
+## Phase 7.2 — residual cleanup + self-contained round-3 prompt (April 2026)
+
+- Round-3 fact-check agent stopped per the prompt's hard-halt instruction:
+  its fetcher refused our subdomain and the GitHub repo as un-indexed.
+- Caught three residual prose inconsistencies while building a paste-anywhere
+  round-3 prompt:
+  - `/about` and `/colophon` still said "publication bias" — the round-2
+    fix had only landed in `ConvergenceNote`. Both now say "selection
+    effect."
+  - `/methods` and `series.json` still cited the `dtfp` column for the TFP
+    series; the actual rebuild used `dtfp_util`. Both now correct.
+- `docs/fact-check-prompt-round-3-self-contained.md` inlines all prose,
+  JSON, CSV samples, and key code so a deep-research agent can run round 3
+  without fetching our domain or repo.
+
+## Phase 7.1 — TFP rebuild (April 2026)
+
+- The local `us_tfp_growth.csv` was a 5-year centered rolling mean of the
+  *raw* `dtfp` column; both `source.md` and `series.json` described it as
+  "utilization-adjusted," which corresponds to a different column,
+  `dtfp_util`. Rebuilt from `dtfp_util` to match documented intent.
+- `scripts/build_us_tfp_growth.py` (reproducible Maddison-pattern build).
+- `scripts/verify_tfp.py` (diagnostic that compares the local CSV against
+  four candidate derivations and reports which one matches).
+
+## Phase 7 — round-2 fact-check verdicts (April 2026)
+
+Folded the round-2 deep-research report into the data and prose:
+
+- WID license CC BY-NC-SA 4.0 → CC BY 4.0. Round 1 misread a stale badge;
+  round 2 caught it. Verified against OWID's authoritative indicator
+  metadata. Matters legally — CC BY-NC-SA forbids commercial reuse.
+- Convergence note "publication bias" → "selection effect." Single most
+  quotable error on the site; "publication bias" is a meta-analysis term
+  of art. The phenomenon is presentism / survivorship.
+- Dalio period 85y → 75y (Dalio's actual stated number). Reference peak
+  rationale now includes the verbatim Ch. 5 quote.
+- Turchin period 150y now explicitly qualified as the US-compressed cycle
+  from *Ages of Discord*; pre-industrial agrarian cycles run 200–300y.
+- Khaldun stage 2 "tyranny" → "concentration of power" (Rosenthal's actual
+  translation; "tyranny" is a popular-summary label).
+- Voteview citation 2025 → 2026. Maddison citation expanded to the JoES
+  2024 published form with DOI.
+- Methods page: "Pearson tests don't apply" → "are anti-conservative";
+  Pearson-cosine identity now qualified "over a full period";
+  Lomb-Scargle scoped to unevenly sampled records; `amplitude_normalized
+  = 1.0` disclosure added.
+- conflict_deaths.source.md now discloses OWID's even-distribution
+  methodology for multi-year wars.
+
+## Phase 6 — round-1 fact-check verdicts + Maddison rebuild (April 2026)
+
+- Strauss-Howe re-anchor from 2008 (Crisis onset) to 1955 (post-WWII High
+  peak). The Fourth Turning is a crisis trough, not a peak; treating 2008
+  as a peak inverted the model.
+- Dalio peak 1945 → 1950 to match Dalio's own statement in Ch. 5 that US
+  power peaked "in the 1950s." Note added that the paired GDP-share data
+  peaks at 1945 (war-production driven), so cycle and data deliberately
+  differ by ~5 years.
+- Perez confidence "quantitative" → "empirical-contested" — her work is
+  qualitative Schumpeterian periodization.
+- Huntington peak 1965 → 1968 (interval midpoint of his "S&S Years
+  1960–1975"). Period range "60 years" softened to "~60–70 years."
+- Khaldun anchor rationale rewritten to make the project's editorial
+  choice explicit: he died in 1406; he didn't anchor European events.
+- Kondratiev citation expanded to include the Russian original (1925) and
+  the 1935 English abridgment in *Review of Economic Statistics*.
+- **Maddison data-pipeline rebuild.** Two compounding bugs fixed:
+  - Regional-aggregate filter mismatch: filter list used names like
+    "Western Europe" but OWID's export uses "Western Europe (Maddison)"
+    with the suffix. The aggregates were never excluded; on benchmark
+    years where Maddison publishes the rollups, world sum was roughly
+    doubled, halving US share. (Cause of the obvious decade-boundary
+    holes at 1900, 1950, 1980, etc.)
+  - Sparse-coverage benchmark years: many countries (China, USSR, much of
+    Africa) appear in Maddison only at decade boundaries. Forward-fill
+    added so each entity's most-recent observed GDP carries forward
+    through subsequent years.
+  - Net effect: 1945 peak revised from buggy 41.959% to 31.577% (closer
+    to literature-cited PPP shares); 2022 share revised from 7.297% to
+    14.937%. No remaining year-over-year deltas above 3pp.
+  - Reproducible: `scripts/build_us_world_gdp_share.py`.
+- WID and V-Dem source attributions updated to reflect retrieval-via-OWID;
+  TFP citation tightened to Fernald (2014) WP 2012-19.
+- About-page motivation clauses rewritten to remove unsourced
+  psychologizing and attribute anchor choices to the project rather than
+  the theorists. The Khaldun "anchored a European Enlightenment collapse"
+  sentence in particular was logically impossible (he died in 1406).
+- Archived round-1 fact-check report at
+  `docs/fact-check-2026-04-25.md`.
+
+## Phase 5 — editorial design pass (April 2026)
+
+- Added Fraunces variable serif (opsz / SOFT / WONK axes) alongside
+  Geist; introduced `.font-display`, `.font-display-italic`, and
+  paper/ink/rule editorial tokens.
+- Redrew the cycle palette to manuscript-illumination jewel tones
+  (oxblood, ink-blue, moss, aubergine, terracotta, antique gold,
+  graphite); shifted data-series colors to avoid clashes.
+- Site chrome: editorial nameplate with Skylark eyebrow + Fraunces
+  wordmark.
+- Hero: 12-col magazine layout, sine-wave glyph, "Seven cycles, one
+  axis."
+- State panel: broadsheet masthead, numbered byline rows, color rail,
+  byline name truncation at em-dash.
+- Brush: visible default selection rectangle, bracket handles, decade
+  ticks, endpoint year labels.
+- Poster: editorial broadside with two-line title, italic standfirst,
+  numbered rows, italic colophon.
+- OG card: matching masthead + standfirst structure (Georgia fallback;
+  Fraunces bundling deferred).
+- Convergence note: pull-quote with ink rule (`"publication bias"`
+  call-out — later renamed to "selection effect" in Phase 7).
+- Calibration drawer: tracked uppercase labels, Fraunces tabular slider
+  values, Pearson r as colored display numeral, italic methodology
+  footnote.
+- Added `/colophon` page — a note from the maker, with the build-journal
+  link and the AI-collaboration framing.
+
 ## Phase 4 — ship (April 2026)
 
 Polish-and-deploy pass: turning the working artifact into a public site.

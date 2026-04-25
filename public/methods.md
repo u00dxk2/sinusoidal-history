@@ -111,3 +111,7 @@ Two finer caveats. The modern WID/Saez–Zucman US top-1% wealth series begins i
 **No paired series for Perez.** The techno-economic paradigm story is harder to reduce to a single century-long series. TFP growth is paired with Kondratiev because the Kondratiev framing is more directly about productivity surges; Perez tells a richer story about installation and deployment phases that no single time series captures cleanly.
 
 See each series' per-source provenance file for full retrieval and processing notes.
+
+---
+
+*Last updated: 2026-04-25*

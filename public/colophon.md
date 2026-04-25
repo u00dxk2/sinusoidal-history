@@ -33,3 +33,5 @@ Every cycle on this page peaks near the present. That isn't convergence - it is 
 Source: [u00dxk2/sinusoidal-history](https://github.com/u00dxk2/sinusoidal-history). The build journal lives in [docs/how-this-was-made.md](https://github.com/u00dxk2/sinusoidal-history/blob/main/docs/how-this-was-made.md). Bug or a fit you can't defend? Tell me.
 
 David Kooi · Skylark Creations · April 2026
+
+*Last updated: 2026-04-25*

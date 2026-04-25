@@ -220,6 +220,10 @@ export default function Methods() {
           and processing notes.
         </p>
       </section>
+
+      <footer className="mt-12 pt-4 border-t border-rule/30 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
+        Last updated: 2026-04-25
+      </footer>
     </article>
   );
 }

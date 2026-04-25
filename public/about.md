@@ -106,3 +106,7 @@ All seven theories are contested in different ways. Kondratiev waves have never 
 Turchin's secular cycles have the most developed quantitative literature of the seven, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955), and their predicted Crisis climax around 2020 is a trough in this construction, not a peak. Each cycle comes with a caveat surfaced inline in the focused-facet view; for Strauss-Howe in particular, treat skeptically.
 
 Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for the data-side caveats and [colophon](https://sinusoidal-history.skylarkcreations.com/colophon) for how the site was built.
+
+---
+
+*Last updated: 2026-04-25*

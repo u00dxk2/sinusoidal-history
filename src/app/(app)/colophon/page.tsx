@@ -132,6 +132,9 @@ export default function Colophon() {
           <p className="mt-6 text-[12px] tracking-[0.2em] uppercase text-ink-soft font-mono">
             David Kooi · Skylark Creations · April 2026
           </p>
+          <p className="mt-2 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
+            Last updated: 2026-04-25
+          </p>
         </div>
       </div>
     </article>
