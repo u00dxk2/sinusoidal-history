@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import { useMemo, useRef, useState, useCallback } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import type { Cycle, DataSeries, PhasePosition } from "@/data/types";
@@ -8,6 +8,7 @@ import { sineAtYear, phasePosition } from "@/lib/cycleMath";
 import { normalizeSeries, type SeriesPoint } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
+import { useContainerWidth } from "@/lib/hooks";
 
 export interface CycleOverride {
   period_years?: number;
@@ -26,24 +27,6 @@ interface CycleOverlayProps {
 const DEFAULT_HEIGHT = 500;
 const MARGIN = { top: 24, right: 24, bottom: 44, left: 24 };
 const SAMPLE_STEP = 0.5;
-
-function useContainerWidth(ref: React.RefObject<HTMLDivElement | null>): number {
-  const [width, setWidth] = useState(960);
-  useEffect(() => {
-    if (!ref.current) return;
-    const el = ref.current;
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const w = entry.contentRect.width;
-        if (w > 0) setWidth(w);
-      }
-    });
-    ro.observe(el);
-    setWidth(el.getBoundingClientRect().width || 960);
-    return () => ro.disconnect();
-  }, [ref]);
-  return width;
-}
 
 function phaseLabel(p: PhasePosition): string {
   return p;
