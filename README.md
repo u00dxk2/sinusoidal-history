@@ -133,7 +133,16 @@ python scripts/build_us_world_gdp_share.py     # Maddison rebuild
 python scripts/build_us_tfp_growth.py          # Fernald TFP rebuild
 python scripts/build_stimson_policy_mood.py    # Stimson Policy Mood rebuild
 python scripts/verify_tfp.py                   # diagnostic — verify TFP CSV
+python scripts/audit_cycle_rationales.py       # cos-math audit on every cycle's rationale
 ```
+
+`audit_cycle_rationales.py` is the cosine-math sanity check that should be
+re-run after any change to a cycle's `reference_peak_rationale` or before
+adding a new cycle. It prints, for every year mentioned in any rationale,
+whether the sinusoid is at a peak, trough, or in between — so you can read
+the prose alongside the numbers and catch the kind of contradiction Round 4
+caught for Strauss-Howe (prose said 2020 was a trough; cos says +0.15
+rising arm).
 
 These are reproducible and self-documenting; each downloads from the upstream
 source, applies the documented transforms, and writes to `public/data/`. They
