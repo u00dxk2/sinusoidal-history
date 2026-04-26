@@ -11,21 +11,11 @@ import {
 } from "nuqs";
 import type { Cycle } from "@/data/types";
 import type { CycleOverride } from "@/components/CycleOverlay";
+import { PRESET_RANGES, type RangePresetName } from "@/lib/siteConfig";
 
 export type TabName = "facets" | "overlay" | "calibrate";
 
 const TAB_VALUES = ["facets", "overlay", "calibrate"] as const;
-
-export const PRESET_RANGES: Record<
-  string,
-  { start: number; end: number }
-> = {
-  all: { start: 1600, end: 2050 },
-  industrial: { start: 1750, end: 2050 },
-  modern: { start: 1900, end: 2050 },
-  living: { start: 1950, end: 2050 },
-  now: { start: 2000, end: 2050 },
-};
 
 export function parseRange(
   value: string | null,
@@ -33,7 +23,8 @@ export function parseRange(
 ): { start: number; end: number; preset: string | null } {
   if (!value) return { ...fallback, preset: null };
   if (value in PRESET_RANGES) {
-    return { ...PRESET_RANGES[value], preset: value };
+    const preset = PRESET_RANGES[value as RangePresetName];
+    return { start: preset.start, end: preset.end, preset: value };
   }
   const match = value.match(/^(\d{3,4})-(\d{3,4})$/);
   if (match) {

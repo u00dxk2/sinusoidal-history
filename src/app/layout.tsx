@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -22,25 +23,21 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
-const SITE_URL = "https://sinusoidal-history.skylarkcreations.com";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Sinusoidal History",
-    template: "%s · Sinusoidal History",
+    default: SITE_NAME,
+    template: `%s · ${SITE_NAME}`,
   },
-  description:
-    "Seven historical cycle theories on one shared time axis. A comparison tool — not prophecy.",
+  description: SITE_DESCRIPTION,
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Sinusoidal History",
-    description:
-      "Seven historical cycle theories on one shared time axis. A comparison tool — not prophecy.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     url: SITE_URL,
-    siteName: "Sinusoidal History",
+    siteName: SITE_NAME,
     type: "website",
     images: [
       {
@@ -53,9 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sinusoidal History",
-    description:
-      "Seven historical cycle theories on one shared time axis. A comparison tool — not prophecy.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     images: ["/og"],
   },
 };

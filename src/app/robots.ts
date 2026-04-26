@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const SITE_URL = "https://sinusoidal-history.skylarkcreations.com";
+import { SITE_URL } from "@/lib/siteConfig";
 
 /**
  * Open to everyone, including LLM crawlers (GPTBot, ClaudeBot,

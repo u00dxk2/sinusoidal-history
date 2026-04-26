@@ -8,6 +8,7 @@ import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
+import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 
 interface TimeRangeBrushProps {
@@ -18,19 +19,6 @@ interface TimeRangeBrushProps {
   visibleEndYear: number;
   onChange: (start: number, end: number) => void;
 }
-
-const PRESETS: ReadonlyArray<{
-  label: string;
-  short: string;
-  start: number;
-  end: number;
-}> = [
-  { label: "All", short: "1600–", start: 1600, end: 2050 },
-  { label: "Industrial", short: "1750–", start: 1750, end: 2050 },
-  { label: "Modern", short: "1900–", start: 1900, end: 2050 },
-  { label: "Living memory", short: "1950–", start: 1950, end: 2050 },
-  { label: "Now", short: "2000–", start: 2000, end: 2050 },
-];
 
 const HEIGHT = 78;
 const HINT_STORAGE_KEY = "sh.brushHintSeen";
@@ -184,7 +172,7 @@ export default function TimeRangeBrush({
           Range
         </span>
         <div className="flex flex-wrap gap-1">
-          {PRESETS.map((preset) => {
+          {RANGE_PRESET_OPTIONS.map((preset) => {
             const active =
               preset.start === visibleStartYear &&
               preset.end === visibleEndYear;

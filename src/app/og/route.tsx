@@ -4,6 +4,7 @@ import {
   phasePositionLabel,
   phaseProgressPercent,
 } from "@/lib/cycleMath";
+import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -95,7 +96,7 @@ export async function GET(request: Request) {
             marginBottom: 14,
           }}
         >
-          <div style={{ display: "flex" }}>Sinusoidal History · No. 01</div>
+          <div style={{ display: "flex" }}>{SITE_NAME} · No. 01</div>
           <div
             style={{
               display: "flex",
@@ -213,7 +214,7 @@ export async function GET(request: Request) {
           }}
         >
           <div style={{ display: "flex" }}>
-            sinusoidal-history.skylarkcreations.com
+            {SITE_DOMAIN}
           </div>
           <div
             style={{
@@ -226,7 +227,7 @@ export async function GET(request: Request) {
               color: INK,
             }}
           >
-            by Skylark Creations
+            by {SITE_MAKER}
           </div>
         </div>
       </div>

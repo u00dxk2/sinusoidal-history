@@ -6,6 +6,7 @@ import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import NowSummaryPanel from "./NowSummaryPanel";
 import FacetView from "./FacetView";
 import CycleOverlay from "./CycleOverlay";
+import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { useOverridesState, useRangeState, parseRange } from "@/lib/urlState";
 
 type EmbedViewName = "facets" | "overlay" | "state-only";
@@ -24,8 +25,8 @@ export default function EmbedView({
   cycles,
   dataSeries,
   annotations,
-  fullStartYear = 1600,
-  fullEndYear = 2050,
+  fullStartYear = DEFAULT_YEAR_RANGE.start,
+  fullEndYear = DEFAULT_YEAR_RANGE.end,
 }: EmbedViewProps) {
   const [view] = useQueryState(
     "view",

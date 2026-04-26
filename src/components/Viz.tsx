@@ -18,6 +18,7 @@ import {
   parseRange,
   formatRange,
 } from "@/lib/urlState";
+import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 
 interface VizProps {
   cycles: Cycle[];
@@ -31,8 +32,8 @@ export default function Viz({
   cycles,
   dataSeries,
   annotations = [],
-  fullStartYear = 1600,
-  fullEndYear = 2050,
+  fullStartYear = DEFAULT_YEAR_RANGE.start,
+  fullEndYear = DEFAULT_YEAR_RANGE.end,
 }: VizProps) {
   const [annotationsVisible, setAnnotationsVisible] = useState(true);
   const [tab, setTab] = useTabState();

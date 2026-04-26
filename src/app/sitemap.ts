@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-
-const SITE_URL = "https://sinusoidal-history.skylarkcreations.com";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

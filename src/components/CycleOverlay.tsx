@@ -7,6 +7,7 @@ import type { Cycle, DataSeries, PhasePosition } from "@/data/types";
 import { sineAtYear, phasePosition } from "@/lib/cycleMath";
 import { normalizeSeries, type SeriesPoint } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
+import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 
 export interface CycleOverride {
   period_years?: number;
@@ -62,8 +63,8 @@ export default function CycleOverlay({
   dataSeries = [],
   cycleOverrides = {},
   currentYear = new Date().getFullYear(),
-  startYear = 1600,
-  endYear = 2050,
+  startYear = DEFAULT_YEAR_RANGE.start,
+  endYear = DEFAULT_YEAR_RANGE.end,
 }: CycleOverlayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(containerRef);

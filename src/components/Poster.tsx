@@ -8,6 +8,7 @@ import {
   phaseProgressPercent,
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
+import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
 import { useOverridesState } from "@/lib/urlState";
 
 interface PosterProps {
@@ -125,7 +126,7 @@ export default function Poster({ cycles }: PosterProps) {
         <header className="grid grid-cols-12 gap-8 mb-2">
           <div className="col-span-8">
             <p className="text-[11px] tracking-[0.36em] uppercase text-ink-soft font-medium">
-              Sinusoidal History · No. 01 · A reckoning
+              {SITE_NAME} · No. 01 · A reckoning
             </p>
             <h1
               className="font-display mt-3 text-ink leading-[0.94] tracking-[-0.02em]"
@@ -153,10 +154,10 @@ export default function Poster({ cycles }: PosterProps) {
               </p>
             </div>
             <div className="text-[10px] font-mono leading-[1.5] tracking-wide text-ink-soft">
-              sinusoidal-history.skylarkcreations.com
+              {SITE_DOMAIN}
               <br />
               <span className="italic font-display-italic text-[12px] text-ink/70">
-                by Skylark Creations
+                by {SITE_MAKER}
               </span>
             </div>
           </div>

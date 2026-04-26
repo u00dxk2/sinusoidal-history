@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { cycles } from "@/data/cycles";
+import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata = {
   title: "Embed · Sinusoidal History",
 };
-
-const BASE_URL = "https://sinusoidal-history.skylarkcreations.com";
 
 const SNIPPETS: ReadonlyArray<{
   title: string;
@@ -100,7 +99,7 @@ export default function EmbedDocs() {
       <section className="mt-10 space-y-8">
         <h2 className="text-lg font-semibold">Copy-paste snippets</h2>
         {SNIPPETS.map((snippet) => {
-          const src = `${BASE_URL}${snippet.src}`;
+          const src = `${SITE_URL}${snippet.src}`;
           const code = `<iframe\n  src="${src}"\n  width="100%"\n  height="${snippet.height}"\n  style="border:1px solid #e5e7eb;border-radius:8px"\n  loading="lazy"\n></iframe>`;
           return (
             <div key={snippet.src} className="space-y-2">
