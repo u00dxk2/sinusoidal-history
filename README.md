@@ -1,11 +1,11 @@
 # Sinusoidal History
 
-An interactive editorial chart-room overlaying seven named long-wave theories
-of history — Khaldun, Kondratiev, Huntington, Perez, Turchin, Dalio,
-Strauss-Howe — on a shared 1600–2050 time axis. Each cycle is a unit-amplitude
-sinusoid pinned to a single explicitly documented reference peak, and six of
-the seven are paired with a real long-run empirical data series for
-stress-testing.
+An interactive editorial chart-room overlaying eight named long-wave theories
+of history — Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin,
+Dalio, Strauss-Howe — on a shared 1600–2050 time axis. Each cycle is a
+unit-amplitude sinusoid pinned to a single explicitly documented reference
+peak, and seven of the eight are paired with a real long-run empirical data
+series for stress-testing.
 
 **Live:** https://sinusoidal-history.skylarkcreations.com
 
@@ -20,7 +20,8 @@ human, where it got hard — lives at
 
 It **is** a side-by-side comparison tool for seeing where different long-wave
 theorists agree or disagree, and for stress-testing each theory against a
-single empirical proxy.
+single empirical proxy. Currently shows eight cycles; the eighth (Schlesinger
+Jr.'s ~30-year liberal/conservative cycle) was added after initial release.
 
 It **is not** a forecasting tool. Every cycle here is contested in different
 ways. The "reference peak" for each cycle is itself a judgment call; pick a
@@ -36,9 +37,20 @@ on `/about`, and on `/colophon`.
 
 ## Status
 
-Phase 8 shipped (April 2026). The project went through three rounds of
-external fact-checking after the initial release and the data and prose were
-materially revised — see the audit archive in [`docs/`](docs/) for the
+Phase 11 shipped (April 2026): round-4 fact-check verdicts folded in.
+Highest-risk fix was the Strauss-Howe rationale prose, which incorrectly
+stated 2020 was a trough — at period 84 and peak 1955, the trough is at 1997
+and 2020 sits on the rising arm of the sinusoid at cos ≈ +0.15. Five other
+items also corrected; see [`docs/fact-check-2026-04-26-round-4.md`](docs/fact-check-2026-04-26-round-4.md).
+
+Phase 10 shipped earlier (April 2026): Schlesinger Jr.'s ~30-year
+liberal/conservative cycle was added as an eighth cycle, paired with Stimson's
+Policy Mood index (1952–2024). Mark suggested it after seeing the original
+seven.
+
+Phase 8 shipped earlier in April 2026. The project went through four rounds
+of external fact-checking after the initial release and the data and prose
+were materially revised — see the audit archive in [`docs/`](docs/) for the
 prompts and reports. Notable corrections during the audit:
 
 - Strauss-Howe peak re-anchored from 2008 (Crisis onset) to 1955 (post-WWII
@@ -57,9 +69,29 @@ prompts and reports. Notable corrections during the audit:
 - WID license corrected from CC BY-NC-SA 4.0 (round-1 misread) back to CC BY
   4.0 (verified against OWID's authoritative indicator metadata).
 - Convergence note: "publication bias" → "selection effect."
+- Strauss-Howe rationale rewrite (round 4): the chart-vs-prose contradiction
+  about 2020 being a "trough" was caught and rewritten — 2020 sits on the
+  rising arm at cos ≈ +0.15 (trough at 1997, next peak at 2039).
+- Pearson "linearity" → "phase sensitivity" (round 4): the methods-page
+  bullet now correctly explains that for two same-period sinusoids,
+  Pearson r = cos(Δφ).
+- TFP display range corrected to 1948–present (round 4); the 1948 and 1949
+  endpoints are clipped-window edge artifacts and methods now says so.
+- Maddison forward-fill bias surfaced (round 4): the rebuild forward-fills
+  but does not back-fill, which biases US share upward pre-1950.
+- Dalio anchor-and-period mismatch acknowledged (round 4): the 1950 anchor
+  is from the 250-year empire-score chart while the 75-year period is the
+  long-term debt cycle.
+- WID source field disentangled (round 4): pre-1913 decadal points are WID
+  interpolations, not Saez–Zucman 2016.
+- Project Mars 2010 = 0 explained (round 4) as a definitional artifact.
+- Turchin parenthetical "(≈1780 → 1930 → 2080)" replaced (internal sweep)
+  — those years all evaluate to cos ≈ −0.81 (near trough) in the actual
+  sinusoid, not peaks; rationale rewritten to show the real alignment
+  (sinusoid prior peak 1870 ≈ Civil War, but ~90y off from the Revolution).
 
-The site is now post-fact-check and treats Phase 8 as the reference state.
-Older snapshots are superseded.
+The site is post-fact-check and treats Phase 11 as the reference state. Older
+snapshots are superseded.
 
 ## Stack
 
@@ -97,9 +129,10 @@ npm start           # run the built app
 ### Data-rebuild scripts
 
 ```bash
-python scripts/build_us_world_gdp_share.py  # Maddison rebuild
-python scripts/build_us_tfp_growth.py       # Fernald TFP rebuild
-python scripts/verify_tfp.py                # diagnostic — verify TFP CSV
+python scripts/build_us_world_gdp_share.py     # Maddison rebuild
+python scripts/build_us_tfp_growth.py          # Fernald TFP rebuild
+python scripts/build_stimson_policy_mood.py    # Stimson Policy Mood rebuild
+python scripts/verify_tfp.py                   # diagnostic — verify TFP CSV
 ```
 
 These are reproducible and self-documenting; each downloads from the upstream
@@ -216,9 +249,9 @@ src/
     Poster.tsx                Print broadside
     ui/                       shadcn primitives
   data/
-    cycles.json               7 cycle definitions
+    cycles.json               8 cycle definitions
     cycles.ts                 (cross-ref validation)
-    series.json               6 data-series definitions
+    series.json               7 data-series definitions
     series.ts                 (cross-ref validation)
     series.test.ts
     types.ts
@@ -294,7 +327,6 @@ in `src/data/cycles.json`.
 
 - No spectral analysis (FFT, wavelets, Lomb-Scargle) — flagged on `/methods`
   as future work; the simple sinusoid is part of the editorial honesty.
-- No additional cycles — seven is the cap.
 - No backend or saved server-side configurations — URL state is the share
   mechanism.
 - No real-time data updates — annual snapshots are fine; the rebuild

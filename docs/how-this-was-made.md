@@ -70,3 +70,11 @@ If anyone else is reading: source is on GitHub at `u00dxk2/sinusoidal-history`. 
 That's the honest version.
 
 David Kooi · Skylark Creations · April 2026
+
+---
+
+## addendum: the eighth cycle (2026-04-26)
+
+After Mark looked at the live site he came back with one more: Schlesinger Jr.'s ~30-year liberal/conservative cycle from *The Cycles of American History* (1986). Added as an eighth cycle, period 30y, reference peak 1970 (midpoint of his most recently completed liberal era, 1962–1978). Paired with Stimson's Policy Mood index from UNC (1952–2024, annual) — a published academic series that, by construction, measures US public preference for liberal vs. conservative domestic policy. The pairing is closer to a direct measurement than most others on this site; the catch is the 1952 start, which means only Schlesinger's two most recent completed swings sit inside the empirical window.
+
+The honest part: Schlesinger himself predicted the next liberal era around 1990, but a strict 30-year-from-1970 sinusoid puts the next peak at 2000, not 1990. We surface that mismatch in the cycle's caveat and in the "Why every cycle peaks near now" prose on /about. Selection effect is the whole editorial point of the project; better to admit it loudly than hide it.

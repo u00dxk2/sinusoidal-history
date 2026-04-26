@@ -9,15 +9,16 @@ authors:
 url: "https://sinusoidal-history.skylarkcreations.com"
 repository-code: "https://github.com/u00dxk2/sinusoidal-history"
 abstract: >-
-  Sinusoidal History overlays seven named long-wave theories of history
-  (Khaldun, Kondratiev, Huntington, Perez, Turchin, Dalio, Strauss-Howe) on
-  a shared 1600–2050 time axis as unit-amplitude sinusoids, each pinned to
-  one explicitly documented reference peak. Six of the seven cycles are
-  paired with a real long-run empirical data series for stress-testing.
-  The site is an editorial comparison tool, not a forecasting instrument:
-  it makes the role of calibration, theorist motivation, and selection
-  effect visible by construction. Data sources are documented on the site's
-  /methods page; per-source provenance is committed alongside each CSV.
+  Sinusoidal History overlays eight named long-wave theories of history
+  (Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin, Dalio,
+  Strauss-Howe) on a shared 1600–2050 time axis as unit-amplitude sinusoids,
+  each pinned to one explicitly documented reference peak. Seven of the
+  eight cycles are paired with a real long-run empirical data series for
+  stress-testing. The site is an editorial comparison tool, not a forecasting
+  instrument: it makes the role of calibration, theorist motivation, and
+  selection effect visible by construction. Data sources are documented on
+  the site's /methods page; per-source provenance is committed alongside
+  each CSV.
 keywords:
   - long-wave theory
   - cliodynamics
@@ -28,5 +29,5 @@ keywords:
   - calibration
   - selection effect
 license: MIT
-date-released: 2026-04-25
-version: "1.0.0"
+date-released: 2026-04-26
+version: "1.1.1"

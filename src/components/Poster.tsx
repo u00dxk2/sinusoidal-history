@@ -170,7 +170,7 @@ export default function Poster({ cycles }: PosterProps) {
               className="font-display-italic text-ink/80 leading-snug"
               style={{ fontSize: 19 }}
             >
-              Seven long-wave theories of history, each calibrated to a single
+              Eight long-wave theories of history, each calibrated to a single
               documented peak. Drawn together to ask whose curve fits whose
               century — and where every cycle&apos;s reach exceeds its grasp.
             </p>
@@ -200,8 +200,8 @@ export default function Poster({ cycles }: PosterProps) {
             <span className="font-display-italic normal-case tracking-normal text-[14px] text-ink/85">
               Drawn from
             </span>{" "}
-            Khaldun · Kondratiev · Huntington · Perez · Turchin · Dalio ·
-            Strauss-Howe
+            Khaldun · Kondratiev · Huntington · Schlesinger Jr. · Perez ·
+            Turchin · Dalio · Strauss-Howe
           </div>
           <div className="col-span-4 text-right text-[11px] font-mono uppercase tracking-[0.2em] text-ink-soft">
             cycles are contested ·

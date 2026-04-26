@@ -97,7 +97,7 @@ export default function Methods() {
         <p>
           Every overlaid data series is rescaled to the interval [-1, 1]
           using its own minimum and maximum over the visible window. The
-          seven cycle curves are sinusoids of unit amplitude (the
+          eight cycle curves are sinusoids of unit amplitude (the
           <code className="font-mono text-[13px]">amplitude_normalized</code>{" "}
           field on every cycle is 1.0). The vertical axis is therefore
           dimensionless: visual peak heights do not represent real-world
@@ -131,11 +131,15 @@ export default function Methods() {
         </p>
         <ul className="list-disc pl-6 space-y-1.5">
           <li>
-            <strong className="text-ink">Linearity.</strong> Sinusoids are not
-            linear in year. Pearson will say a perfect cosine, evaluated over
-            a full period, has zero correlation with the same cosine shifted
-            by a quarter period — which is correct numerically but misses
-            that one is just the derivative of the other.
+            <strong className="text-ink">Phase sensitivity.</strong> For two
+            sinusoids of the same period, Pearson r reduces to{" "}
+            <code className="font-mono text-[13px]">cos(Δφ)</code>, where Δφ is
+            the phase offset between them. A perfect cosine evaluated over one
+            full period has r = 1 with itself, r = 0 with a quarter-period
+            shift, and r = −1 with a half-period shift — even though all three
+            are the same cycle in any structural sense. Pearson therefore
+            measures phase alignment, not cyclic similarity, and the
+            calibration slider primarily moves r by changing Δφ.
           </li>
           <li>
             <strong className="text-ink">Independence of observations.</strong>{" "}
@@ -169,15 +173,18 @@ export default function Methods() {
         <p>
           The curves cover 1600–2050. Every data series has shorter coverage.
           DW-NOMINATE: 46th Congress–present (1879–current); Fernald TFP
-          underlying series 1947Q2–present, displayed ~1950–present after
-          the 5-year centered window; Project Mars conflict data 1800–2011;
+          annual series 1948–present, displayed 1948–present (the 1948 and
+          1949 values use a clipped, asymmetric window because a true 5-year
+          centered window only becomes available at 1950 — treat the first
+          two displayed points as edge artifacts); Project Mars conflict
+          data 1800–2011;
           WID top-1% wealth modern coverage 1913–most-recent (with five
           earlier decadal points spliced from secondary sources, see below);
           Maddison US/world GDP share trimmed to 1870+ (earlier years have
-          unstable country coverage); V-Dem 1789–present. Gaps are simply
-          absent from the chart - nothing is interpolated. If a series fails
-          to load, its legend entry shows &quot;data unavailable&quot; and the
-          rest of the viz keeps working.
+          unstable country coverage); V-Dem 1789–present; Stimson Policy
+          Mood 1952–2024. Gaps are simply absent from the chart - nothing
+          is interpolated. If a series fails to load, its legend entry shows
+          &quot;data unavailable&quot; and the rest of the viz keeps working.
         </p>
         <p>
           Two finer caveats. The modern WID/Saez–Zucman US top-1% wealth
@@ -187,8 +194,21 @@ export default function Methods() {
           average is this project&apos;s derivation from Fernald&apos;s annual{" "}
           <code className="font-mono text-[13px]">dtfp_util</code> column
           (utilization-adjusted TFP growth), not Fernald&apos;s own published
-          series; the windows at the extreme ends are clipped, which is why
-          the displayed series effectively starts ~1950 rather than 1948.
+          series; the build script keeps clipped (asymmetric) windows at the
+          boundaries rather than dropping rows, so 1948 = mean of {"{"}1948,
+          1949, 1950{"}"} and 1949 = mean of {"{"}1948, 1949, 1950, 1951{"}"} —
+          read those endpoints with appropriate skepticism.
+        </p>
+        <p>
+          A third caveat. The Maddison rebuild forward-fills each
+          country&apos;s GDP between sparse benchmark observations but does
+          not back-fill before each country&apos;s first observation. Many
+          non-Western countries enter Maddison only at 1950, so the world
+          denominator is systematically smaller pre-1950 than post-1950 —
+          biasing US share of world GDP upward for early years. The 1870
+          value (~10.6%) and the magnitude of the 1870→1945 climb should
+          both be read as &quot;US share of countries Maddison covers in
+          that year,&quot; not &quot;US share of world GDP&quot; literally.
         </p>
       </section>
 
@@ -208,6 +228,18 @@ export default function Methods() {
           creedal-passion cycle. The data is the same; the framing differs.
         </p>
         <p>
+          <strong className="text-ink">Project Mars covers conventional
+          wars only.</strong>{" "}
+          The conflict-deaths series registers years like 2010 as zero
+          because no qualifying conventional war (interstate or civil war
+          between states with differentiated militaries causing ≥500 deaths)
+          was active that year — even though other conflict datasets (UCDP,
+          COW, PRIO) record substantial casualties in 2010 (Afghanistan,
+          Iraq, Mexican drug war). The series therefore measures
+          conventional-war intensity, not all conflict deaths; read drops
+          to zero accordingly.
+        </p>
+        <p>
           <strong className="text-ink">No paired series for Perez.</strong>{" "}
           The techno-economic paradigm story is harder to reduce to a single
           century-long series. TFP growth is paired with Kondratiev because
@@ -216,13 +248,27 @@ export default function Methods() {
           that no single time series captures cleanly.
         </p>
         <p>
+          <strong className="text-ink">Stimson Policy Mood with Schlesinger
+          Jr.</strong>{" "}
+          Of the eight cycles, Schlesinger&apos;s pairing is the closest the
+          site gets to a direct measurement: Stimson&apos;s index is, by
+          construction, an estimate of US public preference for liberal vs.
+          conservative domestic policy — exactly what Schlesinger&apos;s cycle
+          claims to track. The catch is coverage: the series only starts in
+          1952, so only Schlesinger&apos;s most recent two completed swings
+          (mid-50s trough → late-60s peak → late-70s trough) sit inside the
+          empirical window. The pre-1952 shape of the Schlesinger curve
+          cannot be stress-tested against the paired data; treat the
+          calibration drawer&apos;s Pearson r accordingly.
+        </p>
+        <p>
           See each series&apos; per-source provenance file for full retrieval
           and processing notes.
         </p>
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-04-25
+        Last updated: 2026-04-26
       </footer>
     </article>
   );

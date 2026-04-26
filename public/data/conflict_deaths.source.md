@@ -32,6 +32,7 @@ Khaldun's dynastic cycle describes periodic breakdown of political order — rou
 - **We use the "low estimate" column.** Project Mars publishes low / best / high deaths-per-conflict estimates; we use `number_deaths_ongoing_conflicts_low__conflict_type_all`, the conservative low. Other estimates would shift levels but not the shape of the curve.
 - **This is global, not regional.** Khaldun's cycle is about a single polity's dynasty. Aggregating globally averages across many polities in different phases.
 - **Project Mars covers organised interstate and civil war;** it undercounts lower-intensity violence, pogroms, and state-led repression (e.g. Holocaust deaths are captured; Stalinist deaths are not).
+- **Zero-death years are a definitional artifact, not absence of war.** Years like 2010 register as zero because no qualifying conventional war (interstate or civil war between states with differentiated militaries causing ≥500 deaths) was active. Other conflict datasets (UCDP, COW, PRIO) record substantial casualties in 2010 (Afghanistan, Iraq, Mexican drug war, etc.). The series measures conventional-war intensity, not all conflict deaths.
 - **Population normalisation is approximate** — world-population estimates pre-1900 are reconstructions, not measurements.
 - **The cycle-matching exercise is illustrative, not evidence of cyclicity.**
 - For a longer time horizon (back to ~1400), Peter Brecke's Conflict Catalog would be the definitive source but isn't available as a direct download.

@@ -93,7 +93,7 @@ curl -sI https://sinusoidal-history.skylarkcreations.com/og | grep -E "Content-T
 # Expected: image/png, public, max-age=3600
 ```
 
-Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview renders the "State of the cycles · {month}" headline and the seven phase bars.
+Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview renders the "State of the cycles · {month}" headline and the eight phase bars.
 
 ## 7. Smoke checklist (production)
 

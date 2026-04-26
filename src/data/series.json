@@ -19,7 +19,7 @@
     "id": "us_tfp_growth",
     "name": "US TFP growth (5-yr rolling)",
     "legend_short": "TFP growth · 5-yr",
-    "short_description": "5-year centered rolling average of Fernald's utilization-adjusted US TFP growth, derived by this project from the annual `dtfp_util` column. Underlying quarterly series begins 1947Q2; the centered window pushes the earliest displayable point to ~1950 and edge-clips the latest year",
+    "short_description": "5-year centered rolling average of Fernald's utilization-adjusted US TFP growth, derived by this project from the annual `dtfp_util` column. Annual data begins 1948; the build script keeps clipped (asymmetric) windows at the boundaries rather than dropping rows, so the 1948 and 1949 endpoints are edge artifacts",
     "source": "Fernald (2014), FRBSF Working Paper 2012-19",
     "source_url": "https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/",
     "license": "freely available; © FRBSF, no explicit reuse license",
@@ -36,7 +36,7 @@
     "name": "US Top 1% Wealth Share",
     "legend_short": "Top 1% wealth share",
     "short_description": "Share of total household wealth held by the top 1% of US adults. The modern Saez–Zucman series begins 1913; pre-1913 points (1820, 1850, 1880, 1900, 1910) are spliced from earlier historical sources via OWID/WID and have wider standard errors",
-    "source": "WID · World Inequality Database (Saez–Zucman 2016 / DINA, retrieved via Our World in Data)",
+    "source": "WID · World Inequality Database, retrieved via Our World in Data. 1913–present from Saez & Zucman (2016) / DINA; pre-1913 decadal points (1820, 1850, 1880, 1900, 1910) are WID interpolations sourced from earlier US wealth-distribution literature, not from Saez–Zucman directly",
     "source_url": "https://wid.world/country/usa/",
     "license": "CC BY 4.0",
     "data_file": "/data/wid_top1_wealth.csv",
@@ -95,5 +95,21 @@
     "associated_cycle_id": "khaldun",
     "association_note": "Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because WWI/WWII spikes otherwise dominate; the transform reveals secular trend and lets the cycle pairing breathe.",
     "transform": "log1p"
+  },
+  {
+    "id": "stimson_policy_mood",
+    "name": "US Policy Mood (Stimson)",
+    "legend_short": "Policy Mood",
+    "short_description": "Stimson's Policy Mood index — composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyadic-ratios algorithm; annual, 1952–2024",
+    "source": "James A. Stimson, Policy Mood data series (UNC), via Public Opinion in America (Westview, 2nd ed., 1999) and ongoing updates",
+    "source_url": "https://stimson.web.unc.edu/data/",
+    "license": "freely shared by author; no explicit reuse license",
+    "data_file": "/data/stimson_policy_mood.csv",
+    "year_column": "year",
+    "value_column": "mood",
+    "value_units": "index (higher = more liberal)",
+    "color": "#9C6B3D",
+    "associated_cycle_id": "schlesinger_jr",
+    "association_note": "Direct empirical analogue to Schlesinger Jr.'s public-purpose vs. private-interest alternation. Stimson constructed the index in part to test exactly this kind of long-wave claim about American political mood; coverage starts 1952."
   }
 ]

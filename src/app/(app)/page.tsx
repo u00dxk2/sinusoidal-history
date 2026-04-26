@@ -28,7 +28,7 @@ export default function Home() {
             Vol. I · An editorial chart-room
           </p>
           <h1 className="font-display text-[44px] sm:text-[68px] lg:text-[84px] leading-[0.95] tracking-tight text-ink">
-            Seven cycles,
+            Eight cycles,
             <span className="block italic font-display-italic text-ink-soft">
               one axis.
             </span>
@@ -37,13 +37,13 @@ export default function Home() {
         <div className="sm:col-span-5 sm:pt-3 sm:border-l sm:border-rule/30 sm:pl-6 flex flex-col justify-end">
           <p className="text-[15px] sm:text-base leading-relaxed text-ink/85 sm:max-w-sm">
             <span className="hidden sm:inline">
-              Khaldun, Kondratiev, Huntington, Perez, Turchin, Dalio,
-              Strauss-Howe — drawn over 1600–2050. Each a pure sinusoid pinned
-              to one documented peak, with a paired empirical series for
+              Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin,
+              Dalio, Strauss-Howe — drawn over 1600–2050. Each a pure sinusoid
+              pinned to one documented peak, with a paired empirical series for
               stress-testing.
             </span>
             <span className="sm:hidden">
-              Seven theories of long-wave history on one axis. Tap a row to
+              Eight theories of long-wave history on one axis. Tap a row to
               focus and calibrate.
             </span>
           </p>

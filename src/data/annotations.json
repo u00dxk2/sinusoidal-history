@@ -52,32 +52,32 @@
     "year": 1929,
     "label": "Crash",
     "type": "economic",
-    "description": "Wall Street crash, onset of Great Depression. Kondratiev trough in many countings; Strauss-Howe's fourth-turning crisis onset (1929–1946).",
-    "cycles_referenced": ["kondratiev", "strauss_howe", "perez"]
+    "description": "Wall Street crash, onset of Great Depression. Kondratiev trough in many countings; Strauss-Howe's fourth-turning crisis onset (1929–1946); Schlesinger Jr. dates the conservative→liberal turn here (Hoover→FDR, 1931).",
+    "cycles_referenced": ["kondratiev", "strauss_howe", "perez", "schlesinger_jr"]
   },
   {
     "id": "wwii_end",
     "year": 1945,
     "label": "WWII end",
     "type": "geopolitical",
-    "description": "End of WWII. Dalio's canonical US-empire peak; Kondratiev's post-war expansion begins; Strauss-Howe's high begins.",
-    "cycles_referenced": ["dalio", "kondratiev", "strauss_howe"]
+    "description": "End of WWII. Dalio's canonical US-empire peak; Kondratiev's post-war expansion begins; Strauss-Howe's high begins; Schlesinger Jr. dates the liberal→conservative turn here (New Deal era exhausting into Eisenhower era, ~1947).",
+    "cycles_referenced": ["dalio", "kondratiev", "strauss_howe", "schlesinger_jr"]
   },
   {
     "id": "1968",
     "year": 1968,
     "label": "1968",
     "type": "cultural",
-    "description": "Global protest year; civil rights peak in the US. Huntington's creedal-passion peak; Strauss-Howe's 'awakening' phase.",
-    "cycles_referenced": ["huntington", "strauss_howe"]
+    "description": "Global protest year; civil rights peak in the US. Huntington's creedal-passion peak; Strauss-Howe's 'awakening' phase; near the midpoint of Schlesinger Jr.'s 1962–1978 liberal era.",
+    "cycles_referenced": ["huntington", "strauss_howe", "schlesinger_jr"]
   },
   {
     "id": "nixon_shock",
     "year": 1971,
     "label": "Nixon shock",
     "type": "economic",
-    "description": "End of Bretton Woods; gold standard abandoned. Classical Kondratiev-peak marker; Dalio's mid-cycle debt buildup begins.",
-    "cycles_referenced": ["kondratiev", "dalio"]
+    "description": "End of Bretton Woods; gold standard abandoned. Classical Kondratiev-peak marker; Dalio's mid-cycle debt buildup begins; inside Schlesinger Jr.'s late-liberal-era window (1962–1978).",
+    "cycles_referenced": ["kondratiev", "dalio", "schlesinger_jr"]
   },
   {
     "id": "1989_wall",

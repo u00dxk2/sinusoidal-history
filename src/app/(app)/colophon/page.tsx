@@ -35,9 +35,12 @@ export default function Colophon() {
 
         <p>
           The spec emerged across the next few Claude Code sessions. What I
-          wanted: seven theorists drawing seven curves on one shared canvas,
-          each paired with a real long-run data series, with a calibration
-          panel that lets you stress-test the fit instead of nodding politely.
+          wanted: theorists drawing curves on one shared canvas, each paired
+          with a real long-run data series, with a calibration panel that
+          lets you stress-test the fit instead of nodding politely. Initial
+          release shipped with seven; an eighth (Schlesinger Jr.&apos;s
+          ~30-year liberal/conservative cycle) was added after Mark suggested
+          it on a walk.
         </p>
 
         <p>A few notes, since people ask.</p>
@@ -70,11 +73,12 @@ export default function Colophon() {
           On the data
         </h2>
         <p>
-          Six of the seven cycles are paired with a real long-run series:
+          Seven of the eight cycles are paired with a real long-run series:
           DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths
           (log-transformed so the World Wars don&apos;t flatten everything
           else), total factor productivity, the V-Dem liberal-democracy index,
-          U.S. share of world GDP. The pairings are defensible but not the only
+          U.S. share of world GDP, and Stimson Policy Mood (paired with
+          Schlesinger Jr.). The pairings are defensible but not the only
           choices. I read each series myself before wiring it in. See{" "}
           <Link
             href="/methods"
@@ -133,7 +137,7 @@ export default function Colophon() {
             David Kooi · Skylark Creations · April 2026
           </p>
           <p className="mt-2 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-            Last updated: 2026-04-25
+            Last updated: 2026-04-26
           </p>
         </div>
       </div>

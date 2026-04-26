@@ -34,10 +34,12 @@ in src/data/series.json and on the live site at /methods. In summary:
 - V-Dem Liberal Democracy Index v16: CC BY-SA 4.0.
 - Project Mars (via Our World in Data): OWID chart layer CC BY 4.0;
   underlying Project Mars data Public Domain (Harvard Dataverse).
+- Stimson Policy Mood: freely shared by the author at
+  https://stimson.web.unc.edu/data/; no explicit reuse license.
 
-The seven cycle theories themselves are works of named authors (Khaldun,
-Kondratiev, Huntington, Perez, Turchin, Dalio, Strauss & Howe) cited in
-src/data/cycles.json. Their texts are not redistributed here; only short
+The eight cycle theories themselves are works of named authors (Khaldun,
+Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin, Dalio, Strauss &
+Howe) cited in src/data/cycles.json. Their texts are not redistributed here; only short
 descriptive quotations and editorial summaries appear in the prose pages.
 
 The prose on the live site (the home page, /about, /methods, /colophon, the

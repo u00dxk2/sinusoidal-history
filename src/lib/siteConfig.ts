@@ -3,7 +3,7 @@ export const SITE_MAKER = "Skylark Creations";
 export const SITE_DOMAIN = "sinusoidal-history.skylarkcreations.com";
 export const SITE_URL = `https://${SITE_DOMAIN}`;
 export const SITE_DESCRIPTION =
-  "Seven historical cycle theories on one shared time axis. A comparison tool — not prophecy.";
+  "Eight historical cycle theories on one shared time axis. A comparison tool — not prophecy.";
 
 export const DEFAULT_YEAR_RANGE = {
   start: 1600,

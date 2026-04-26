@@ -40,7 +40,7 @@ Share of total household wealth held by the top 1% of US adults. The modern Saez
 
 Direct proxy for Turchin's elite-overproduction driver — when wealth concentrates, elite competition intensifies and instability follows.
 
-- Source: WID · World Inequality Database (Saez–Zucman 2016 / DINA, retrieved via Our World in Data), https://wid.world/country/usa/
+- Source: WID · World Inequality Database, retrieved via Our World in Data. 1913–present from Saez & Zucman (2016) / DINA; pre-1913 decadal points (1820, 1850, 1880, 1900, 1910) are WID interpolations from earlier US wealth-distribution literature, not from Saez–Zucman directly. https://wid.world/country/usa/
 - License: CC BY 4.0.
 - Provenance: [/data/wid_top1_wealth.source.md](https://sinusoidal-history.skylarkcreations.com/data/wid_top1_wealth.source.md)
 
@@ -80,9 +80,21 @@ Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because
 - License: OWID chart CC BY 4.0; underlying Project Mars data Public Domain (Harvard Dataverse).
 - Provenance: [/data/conflict_deaths.source.md](https://sinusoidal-history.skylarkcreations.com/data/conflict_deaths.source.md)
 
+### US Policy Mood (Stimson)
+
+**Paired with:** Schlesinger Jr. — liberal/conservative cycle.
+
+Stimson's Policy Mood index — composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyadic-ratios algorithm; annual, 1952–2024.
+
+Direct empirical analogue to Schlesinger Jr.'s public-purpose vs. private-interest alternation. Stimson constructed the index in part to test exactly this kind of long-wave claim about American political mood; coverage starts 1952.
+
+- Source: James A. Stimson, Policy Mood data series (UNC), via *Public Opinion in America* (Westview, 2nd ed., 1999) and ongoing updates, https://stimson.web.unc.edu/data/
+- License: freely shared by author; no explicit reuse license.
+- Provenance: [/data/stimson_policy_mood.source.md](https://sinusoidal-history.skylarkcreations.com/data/stimson_policy_mood.source.md)
+
 ## Normalization
 
-Every overlaid data series is rescaled to the interval [-1, 1] using its own minimum and maximum over the visible window. The seven cycle curves are sinusoids of unit amplitude (the `amplitude_normalized` field on every cycle is 1.0). The vertical axis is therefore dimensionless: visual peak heights do not represent real-world magnitudes, only relative shape over time. That is convenient for eyeballing shape against a normalized sinusoid, and it is lossy: it hides absolute magnitude and makes level differences invisible. Two points stand out:
+Every overlaid data series is rescaled to the interval [-1, 1] using its own minimum and maximum over the visible window. The eight cycle curves are sinusoids of unit amplitude (the `amplitude_normalized` field on every cycle is 1.0). The vertical axis is therefore dimensionless: visual peak heights do not represent real-world magnitudes, only relative shape over time. That is convenient for eyeballing shape against a normalized sinusoid, and it is lossy: it hides absolute magnitude and makes level differences invisible. Two points stand out:
 
 - A series with one enormous spike (e.g. global conflict deaths in WWII) compresses every other variation toward a thin band. The visible *shape* near the peaks is real; the visible shape away from them is attenuated.
 - Because normalization is per-series, you cannot compare amplitudes across series. Only across time within a single series.
@@ -91,7 +103,7 @@ Every overlaid data series is rescaled to the interval [-1, 1] using its own min
 
 The calibration panel reports a Pearson correlation between the data series and the cycle curve. Pearson assumes two things this context violates:
 
-- **Linearity.** Sinusoids are not linear in year. Pearson will say a perfect cosine, evaluated over a full period, has zero correlation with the same cosine shifted by a quarter period — which is correct numerically but misses that one is just the derivative of the other.
+- **Phase sensitivity.** For two sinusoids of the same period, Pearson r reduces to `cos(Δφ)`, where Δφ is the phase offset between them. A perfect cosine evaluated over one full period has r = 1 with itself, r = 0 with a quarter-period shift, and r = −1 with a half-period shift — even though all three are the same cycle in any structural sense. Pearson therefore measures phase alignment, not cyclic similarity, and the calibration slider primarily moves r by changing Δφ.
 - **Independence of observations.** Time series are autocorrelated, so classical Pearson significance tests are anti-conservative on data like ours: the effective sample size is smaller than the row count, and naive p-values overstate significance. The calibration drawer therefore reports the r value but not a p-value.
 
 The panel exposes Pearson anyway because the single most important question - "how much is the peak-year choice doing?" - is visible just from watching the correlation change as you move the slider. That diagnostic use is valid. Treating the number as a test statistic is not.
@@ -100,18 +112,22 @@ Better tools for cyclic data include cross-correlation at varying lags, the Four
 
 ## Missing and sparse data
 
-The curves cover 1600–2050. Every data series has shorter coverage. DW-NOMINATE: 46th Congress–present (1879–current); Fernald TFP underlying series 1947Q2–present, displayed ~1950–present after the 5-year centered window; Project Mars conflict data 1800–2011; WID top-1% wealth modern coverage 1913–most-recent (with five earlier decadal points spliced from secondary sources, see below); Maddison US/world GDP share trimmed to 1870+ (earlier years have unstable country coverage); V-Dem 1789–present. Gaps are simply absent from the chart - nothing is interpolated. If a series fails to load, its legend entry shows "data unavailable" and the rest of the viz keeps working.
+The curves cover 1600–2050. Every data series has shorter coverage. DW-NOMINATE: 46th Congress–present (1879–current); Fernald TFP annual series 1948–present, displayed 1948–present (the 1948 and 1949 values use a clipped, asymmetric window because a true 5-year centered window only becomes available at 1950 — treat the first two displayed points as edge artifacts); Project Mars conflict data 1800–2011; WID top-1% wealth modern coverage 1913–most-recent (with five earlier decadal points spliced from secondary sources, see below); Maddison US/world GDP share trimmed to 1870+ (earlier years have unstable country coverage); V-Dem 1789–present; Stimson Policy Mood 1952–2024. Gaps are simply absent from the chart - nothing is interpolated. If a series fails to load, its legend entry shows "data unavailable" and the rest of the viz keeps working.
 
-Two finer caveats. The modern WID/Saez–Zucman US top-1% wealth series begins in 1913; the five pre-1913 points (1820, 1850, 1880, 1900, 1910) come from earlier historical sources spliced via OWID/WID and have wider standard errors. The TFP 5-year centered rolling average is this project's derivation from Fernald's annual `dtfp_util` column (utilization-adjusted TFP growth), not Fernald's own published series; the windows at the extreme ends are clipped, which is why the displayed series effectively starts ~1950 rather than 1948.
+Three finer caveats. The modern WID/Saez–Zucman US top-1% wealth series begins in 1913; the five pre-1913 points (1820, 1850, 1880, 1900, 1910) come from earlier historical sources spliced via OWID/WID and have wider standard errors. The TFP 5-year centered rolling average is this project's derivation from Fernald's annual `dtfp_util` column (utilization-adjusted TFP growth), not Fernald's own published series; the build script keeps clipped (asymmetric) windows at the boundaries rather than dropping rows, so 1948 = mean of {1948, 1949, 1950} and 1949 = mean of {1948, 1949, 1950, 1951} — read those endpoints with appropriate skepticism. The Maddison rebuild forward-fills each country's GDP between sparse benchmark observations but does not back-fill before each country's first observation. Many non-Western countries enter Maddison only at 1950, so the world denominator is systematically smaller pre-1950 than post-1950 — biasing US share of world GDP upward for early years. The 1870 value (~10.6%) and the magnitude of the 1870→1945 climb should both be read as "US share of countries Maddison covers in that year," not "US share of world GDP" literally.
 
 ## Notes on individual pairings
 
 **V-Dem with Strauss-Howe, not Huntington.** An earlier draft of this project paired V-Dem with Huntington as a secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe so each cycle would have exactly one paired series. Both are arguments. The Strauss-Howe pairing reads V-Dem's recent decline as a Fourth-Turning institutional-stress signal; the Huntington pairing would have read it as the trough side of a creedal-passion cycle. The data is the same; the framing differs.
 
+**Project Mars covers conventional wars only.** The conflict-deaths series registers years like 2010 as zero because no qualifying conventional war (interstate or civil war between states with differentiated militaries causing ≥500 deaths) was active that year — even though other conflict datasets (UCDP, COW, PRIO) record substantial casualties in 2010 (Afghanistan, Iraq, Mexican drug war). The series therefore measures conventional-war intensity, not all conflict deaths; read drops to zero accordingly.
+
 **No paired series for Perez.** The techno-economic paradigm story is harder to reduce to a single century-long series. TFP growth is paired with Kondratiev because the Kondratiev framing is more directly about productivity surges; Perez tells a richer story about installation and deployment phases that no single time series captures cleanly.
+
+**Stimson Policy Mood with Schlesinger Jr.** Of the eight cycles, Schlesinger's pairing is the closest the site gets to a direct measurement: Stimson's index is, by construction, an estimate of US public preference for liberal vs. conservative domestic policy — exactly what Schlesinger's cycle claims to track. The catch is coverage: the series only starts in 1952, so only Schlesinger's most recent two completed swings (mid-50s trough → late-60s peak → late-70s trough) sit inside the empirical window. The pre-1952 shape of the Schlesinger curve cannot be stress-tested against the paired data; treat the calibration drawer's Pearson r accordingly.
 
 See each series' per-source provenance file for full retrieval and processing notes.
 
 ---
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-04-26*

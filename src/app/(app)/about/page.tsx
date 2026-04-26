@@ -3,7 +3,7 @@ import { cycles } from "@/data/cycles";
 export const metadata = {
   title: "About · Sinusoidal History",
   description:
-    "What this site is, why it exists, what it doesn't claim, and the seven cycles in this version.",
+    "What this site is, why it exists, what it doesn't claim, and the eight cycles in this version.",
 };
 
 export default function About() {
@@ -27,7 +27,7 @@ export default function About() {
           Intent
         </h2>
         <p>
-          Sinusoidal History overlays seven named long-wave theories on a
+          Sinusoidal History overlays eight named long-wave theories on a
           shared time axis so a reader can see <em>where their predictions
           line up and where they disagree</em>. Each cycle is paired with a
           real long-run data series, and a calibration panel lets you stress-
@@ -68,7 +68,12 @@ export default function About() {
           2000–2001 as the &quot;Turning Point&quot; between Installation and
           Deployment phases of the ICT surge; we map her Turning Point to our
           sinusoid&apos;s peak — that conflates her concept with our
-          mathematical convention.
+          mathematical convention. Schlesinger Jr. dated his most recently
+          completed liberal era as 1962–1978; we anchor at the midpoint
+          (~1970), but Schlesinger himself predicted the next liberal turn
+          around 1990, which a strict 30-year-from-1970 sinusoid does not
+          reproduce — read his curve as a stylization of his stated period,
+          not as his own forecast.
         </p>
         <p>
           The implication is not that the theories are worthless - it is that
@@ -121,7 +126,7 @@ export default function About() {
           Intellectual-honesty disclaimer
         </h2>
         <p>
-          All seven theories are contested in different ways. Kondratiev
+          All eight theories are contested in different ways. Kondratiev
           waves have never been cleanly confirmed in empirical long-run data;
           spectral analyses report some weak periodicity, but period, phase
           dating, and existence are not agreed across studies. Khaldun wrote
@@ -137,18 +142,25 @@ export default function About() {
         </p>
         <p>
           Turchin&apos;s secular cycles have the most developed quantitative
-          literature of the seven, but the 150-year period for the modern
+          literature of the eight, but the 150-year period for the modern
           American cycle is a fitted parameter. Dalio&apos;s Big Cycle is a
           popularised composite, not a peer-reviewed measurement, and his own
           stated peak year for US power is the 1950s, not 1945 (we use 1950).
           Strauss-Howe is generational theory - influential in popular
           discourse, contested in academic history; reducing their four-
           turnings saeculum to a single sinusoid forces the choice of which
-          peak to anchor (we use the post-WWII High at ~1955), and their
-          predicted Crisis climax around 2020 is a trough in this construction,
-          not a peak. Each cycle comes with a caveat surfaced inline in the
-          focused-facet view; for Strauss-Howe in particular, treat
-          skeptically.
+          peak to anchor (we use the post-WWII High at ~1955). With period
+          84, the trough of this construction lands at 1997 and the next
+          peak at 2039; their predicted Fourth-Turning Crisis climax around
+          2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither
+          at a trough nor a peak — there is no peak-year anchor that lines
+          their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
+          interpretive periodization extending his father&apos;s ~16-year
+          cycle to ~30 years; the empirical pairing (Stimson Policy Mood)
+          only covers 1952 onward, so the Schlesinger curve&apos;s pre-1952
+          shape cannot be stress-tested against the data. Each cycle comes
+          with a caveat surfaced inline in the focused-facet view; for
+          Strauss-Howe and Schlesinger Jr. in particular, treat skeptically.
         </p>
         <p>
           Treat this tool as a way of making those judgments visible and
@@ -171,7 +183,7 @@ export default function About() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-04-25
+        Last updated: 2026-04-26
       </footer>
     </article>
   );

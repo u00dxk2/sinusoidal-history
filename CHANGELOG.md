@@ -1,5 +1,115 @@
 # Changelog
 
+## Phase 11 — round-4 fact-check verdicts (April 2026)
+
+External round-4 fact-check (`docs/fact-check-2026-04-26-round-4.md`) found
+seven items. All folded in:
+
+- **Strauss-Howe "2020 = trough" was mathematically false.** With period 84
+  and peak 1955 the trough is at 1997 (1955 + 42), not 2020; at year 2020
+  the cosine evaluates to ≈ +0.15 (rising arm). The /about prose, the
+  about.md mirror, and `cycles.json[strauss_howe].reference_peak_rationale`
+  all stated 2020 was a trough — a claim the chart itself contradicted.
+  Rewritten to say 2020 sits on the rising arm, neither at a trough nor a
+  peak; trough at 1997, next peak at 2039. This was the highest-risk
+  embarrassment: any reader doing arithmetic catches it in under a minute.
+- **Pearson "linearity" reasoning was wrong.** The /methods Linearity bullet
+  conflated linearity-of-variable-in-time with Pearson's actual assumption
+  (linearity of the relationship between paired variables). Replaced with a
+  Phase-sensitivity bullet: for two sinusoids of the same period, Pearson
+  r reduces to cos(Δφ) — r = 1 with itself, r = 0 at a quarter-period shift,
+  r = −1 at a half-period shift. The calibration slider primarily moves r
+  by changing Δφ.
+- **TFP display range disagreed between methods prose and CSV.** `/methods`
+  said the displayed series starts ~1950, but `us_tfp_growth.csv` actually
+  starts at 1948. The build script keeps clipped (asymmetric) windows at
+  the boundaries: 1948 = mean of {1948, 1949, 1950}, 1949 = mean of
+  {1948, 1949, 1950, 1951}. Methods now admits this and labels the first
+  two displayed points as edge artifacts; series.json `short_description`
+  also corrected.
+- **Maddison forward-fill bias surfaced explicitly.** The build script
+  forward-fills each country's GDP between sparse benchmark observations
+  but does not back-fill; many non-Western countries enter Maddison only at
+  1950, biasing US share of world GDP upward for 1870–1949. New caveat in
+  /methods, in methods.md, and in `us_world_gdp_share.source.md`.
+- **Dalio cycle-and-anchor mismatch acknowledged.** The 1950 anchor comes
+  from Bridgewater's ~250-year empire-score chart while the 75-year period
+  is Dalio's long-term debt cycle — different constructs. Forces a second
+  peak at ~2025 that Dalio does not assert. Sharpened in
+  `cycles.json[dalio]` and the about.md mirror.
+- **WID source field stopped conflating Saez–Zucman with pre-1913 splice.**
+  `series.json[wid_top1_wealth].source` now distinguishes "1913–present
+  from Saez & Zucman (2016) / DINA" from the pre-1913 decadal points,
+  which are WID interpolations sourced from earlier US wealth-distribution
+  literature. Methods page mirrored.
+- **Project Mars 2010 = 0 explained.** Year 2010 registers zero because no
+  qualifying conventional war was active; UCDP/COW/PRIO show substantial
+  conflict deaths that year. New one-paragraph note in /methods, methods.md,
+  and `conflict_deaths.source.md`.
+- **Turchin parenthetical "(≈1780 → 1930 → 2080)" was misleading.** Caught
+  by an internal cos-math sweep run on every cycle's rationale after Finding
+  1, before commit. With peak 2020 + period 150, our sinusoid's prior peak
+  is at 1870, not 1930; the years 1780/1930/2080 all evaluate to cos ≈
+  −0.81 (near trough), not peaks. The Civil War (1860) is the climax our
+  sinusoid roughly matches at cos ≈ +0.91. Replaced the parenthetical with
+  the actual sinusoid-vs-Turchin alignment, including the explicit note
+  that Turchin's stated climaxes (1780s, 1860s, 2020s) have non-uniform
+  gaps (~80y and ~160y) — so a strict 150-year sinusoid is a forced
+  reduction. Same kind of error as Finding 1 (prose claiming a chart
+  position the chart doesn't actually plot), one tier lower in stakes.
+- Last-updated footers on /about, /methods, /colophon and their markdown
+  mirrors all current at 2026-04-26 (no bump needed; same day as Phase 10).
+- Audit archive: `docs/fact-check-2026-04-26-round-4.md` added.
+
+The round-4 agent verified the bibliographic, license, and upstream-citation
+layers as clean against upstream sources; no new findings there.
+
+## Phase 10 — Schlesinger Jr. cycle added (April 2026)
+
+After the original release, Mark suggested adding Arthur Schlesinger Jr.'s
+~30-year liberal/conservative cycle. Added as an eighth cycle, with paired
+data series.
+
+- `src/data/cycles.json` — new `schlesinger_jr` entry. Period 30y, reference
+  peak 1970 (midpoint of Schlesinger's most recently completed liberal era,
+  1962–1978). Source: *The Cycles of American History* (1986). Color
+  `#6B4423` (warm sienna). Confidence tier `narrative`. Caveat surfaces the
+  selection-effect problem inline: Schlesinger's own 1990 forecast does not
+  match a strict 30-year-from-1970 sinusoid.
+- Pairing: Stimson Policy Mood index (1952–2024, annual). Direct empirical
+  analogue to Schlesinger's public-purpose vs. private-interest claim;
+  Stimson built the series in part to test exactly this kind of long-wave
+  mood claim. New: `public/data/stimson_policy_mood.csv`,
+  `public/data/stimson_policy_mood.source.md`,
+  `scripts/build_stimson_policy_mood.py` (reproducible Stimson rebuild,
+  pulls `Mood5224.xlsx` from his UNC site and extracts the annual columns).
+  License caveat: freely shared by the author, no explicit reuse license.
+- `src/data/series.json` — new `stimson_policy_mood` entry, color `#9C6B3D`.
+- `src/data/annotations.json` — `schlesinger_jr` added to four events:
+  `1929_crash` (conservative→liberal turn at Hoover→FDR), `wwii_end`
+  (liberal→conservative turn into Eisenhower era), `1968` (midpoint of his
+  most recent liberal era), `nixon_shock` (inside the late-liberal window).
+- Prose sweep: every "seven" → "eight" reference across home, /about,
+  /methods, /colophon, the markdown mirrors, llms.txt, OG card standfirst,
+  poster standfirst and footer roll-call, README, CITATION.cff, LICENSE,
+  DEPLOY.md OG-card smoke check. Author roll-call lists insert Schlesinger
+  Jr. between Huntington and Perez (chronological by publication).
+- Dropped the "No additional cycles — seven is the cap" non-goal in README.
+- New methods.md note explaining the Stimson pairing's 1952 coverage limit
+  and why the Schlesinger curve's pre-1952 shape cannot be stress-tested.
+- New about.md sentence in "Why every cycle peaks near now" explicitly
+  flagging that Schlesinger's own 1990 forecast does not match the
+  30-year-from-1970 sinusoid — calling this out as a textbook selection
+  effect rather than hiding it.
+- Cycle order in `cycles.json`: inserted between `huntington` and `perez`,
+  i.e. roughly chronological-by-publication (Khaldun 1377, Kondratiev 1925,
+  Huntington 1981, Schlesinger Jr. 1986, Perez 2002, Turchin 2009/2016,
+  Dalio 2021, Strauss-Howe 1997).
+- Cleanup: `llms.txt` "post-fact-check Phase 7" → reflects current state.
+- Citation: `CITATION.cff` version bumped to 1.1.0, date 2026-04-26.
+- "Last updated" footers on /about, /methods, /colophon and their markdown
+  mirrors all bumped to 2026-04-26.
+
 ## Phase 9 — public-release prep (April 2026)
 
 - Added `LICENSE` (MIT for code; data files retain their upstream licenses

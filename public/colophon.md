@@ -6,7 +6,7 @@
 
 *Mark R and I were on a phone call Friday - both of us walking, both on our own loops. He pitched what he called "the sinusoidal pattern of history": could you plot Khaldun's 5 stages, Huntington's 60-year cycles, and the rest as actual sine waves on one axis, and see where they net out? (He also raised counterfactuals and alternate-history maps as related territory.) I told him I'd take a swing.*
 
-The spec emerged across the next few Claude Code sessions. What I wanted: seven theorists drawing seven curves on one shared canvas, each paired with a real long-run data series, with a calibration panel that lets you stress-test the fit instead of nodding politely.
+The spec emerged across the next few Claude Code sessions. What I wanted: theorists drawing curves on one shared canvas, each paired with a real long-run data series, with a calibration panel that lets you stress-test the fit instead of nodding politely. Initial release shipped with seven; an eighth (Schlesinger Jr.'s ~30-year liberal/conservative cycle) was added after Mark suggested it on a walk.
 
 A few notes, since people ask.
 
@@ -20,7 +20,7 @@ Each cycle is a single sinusoid built from the theory's own period and one expli
 
 ## On the data
 
-Six of the seven cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP. The pairings are defensible but not the only choices. I read each series myself before wiring it in. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for provenance.
+Seven of the eight cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP, and Stimson Policy Mood (paired with Schlesinger Jr.). The pairings are defensible but not the only choices. I read each series myself before wiring it in. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for provenance.
 
 ## On the convergence problem
 
@@ -34,4 +34,4 @@ Source: [u00dxk2/sinusoidal-history](https://github.com/u00dxk2/sinusoidal-histo
 
 David Kooi · Skylark Creations · April 2026
 
-*Last updated: 2026-04-25*
+*Last updated: 2026-04-26*

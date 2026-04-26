@@ -138,7 +138,7 @@ export async function GET(request: Request) {
               fontStyle: "italic",
             }}
           >
-            Seven long-wave theories of history, on one shared axis.
+            Eight long-wave theories of history, on one shared axis.
           </div>
           <div
             style={{
