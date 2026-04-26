@@ -71,7 +71,7 @@ Older snapshots are superseded.
 - `papaparse` for CSV ingestion
 - `nuqs` for URL-state
 - `html-to-image` for poster PNG export
-- Vitest for unit tests (45 cases passing)
+- Vitest for unit tests
 - No database, no auth, no user input — read-only public site
 
 ## Local run
