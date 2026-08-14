@@ -1,5 +1,22 @@
 # Changelog
 
+## Crawl read (2026-08-14)
+
+`scripts/crawl-read.mjs` — the site's entire analytics stack, and it adds
+nothing to the site. Render's HTTP request logs already record path and
+user-agent for every hit, so "who is crawling us, and what are they
+fetching?" was answerable server-side all along: no client script, no cookie,
+no consent surface, no third party. Run it with `RENDER_API_KEY` set;
+`--selfcheck` exercises the UA-classification and log-parsing logic offline.
+
+First read (7 days, 2026-08-07 → 08-14): **zero Google hits of any kind**,
+while GPTBot and OAI-SearchBot poll `/robots.txt` and `/sitemap.xml` daily
+and GPTBot content-crawled the prose pages on 08-12 — the day before the
+Phase 12 routes shipped, so it has not yet seen them. This is the first
+evidence the project has had about who actually wants it, and it says the
+working discovery channel is LLM crawlers, not search. It does not replace
+Search Console: impressions, queries, and ranking remain unmeasurable.
+
 ## Phase 12 — static per-cycle routes (August 2026)
 
 The eight cycles existed only as query-param states of `/` (`?focus=<id>`).
