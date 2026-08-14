@@ -8,6 +8,7 @@ import {
   phaseProgressPercent,
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
+import { confidenceLabel } from "@/lib/cycleRoutes";
 import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
 import { useOverridesState } from "@/lib/urlState";
 
@@ -36,21 +37,6 @@ function formatHeadline(date: Date): string {
 
 function labelWord(l: PhasePositionLabel): string {
   return l.toUpperCase();
-}
-
-function confidenceTag(level: string): string {
-  switch (level) {
-    case "quantitative":
-      return "Quantitative";
-    case "empirical":
-      return "Empirical";
-    case "empirical-contested":
-      return "Empirical · contested";
-    case "narrative":
-      return "Narrative";
-    default:
-      return level;
-  }
 }
 
 export default function Poster({ cycles }: PosterProps) {
@@ -262,7 +248,7 @@ function PosterRow({
           </span>
           <span className="text-ink-soft/40">·</span>
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
-            {confidenceTag(cycle.confidence_level)}
+            {confidenceLabel(cycle.confidence_level)}
           </span>
         </div>
       </div>

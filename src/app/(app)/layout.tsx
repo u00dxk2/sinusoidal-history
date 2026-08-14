@@ -24,6 +24,9 @@ export default function AppLayout({
             <Link href="/" className="hover:text-ink transition-colors">
               Overlay
             </Link>
+            <Link href="/cycles" className="hover:text-ink transition-colors">
+              Cycles
+            </Link>
             <Link href="/poster" className="hover:text-ink transition-colors">
               Poster
             </Link>

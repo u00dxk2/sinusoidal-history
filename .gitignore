@@ -43,3 +43,6 @@ next-env.d.ts
 # local capture artifacts
 /screenshots/
 
+# agent-bus listener state + local scratch
+/tmp/
+

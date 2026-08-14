@@ -11,11 +11,25 @@ Headline editorial point: most of the cycles peak near the present, but that is 
 ## Pages
 
 - [Home](https://sinusoidal-history.skylarkcreations.com/): The interactive overlay chart with eight cycle facets, a calibration drawer, and a time-range brush. Hero: "Eight cycles, one axis."
+- [Cycles index](https://sinusoidal-history.skylarkcreations.com/cycles): All eight cycles by ascending period, each linking to its own page.
 - [Methods](https://sinusoidal-history.skylarkcreations.com/methods): Data provenance, transformations, normalization choices, and why Pearson r is a diagnostic and not a test statistic. Per-series source citations and license terms.
 - [About](https://sinusoidal-history.skylarkcreations.com/about): The argument. Why this exists, why every cycle peaks near now, the eight cycles in this version, the intellectual-honesty disclaimer.
 - [Colophon](https://sinusoidal-history.skylarkcreations.com/colophon): A note from the maker. How the site was built, what was AI, what was human, the AI-collaboration framing, the convergence problem.
 - [Poster](https://sinusoidal-history.skylarkcreations.com/poster): A dedicated print-style broadside meant for screenshotting and sharing. Includes a PNG download.
 - [Embed docs](https://sinusoidal-history.skylarkcreations.com/embed/docs): How to iframe specific cycle facets in a Substack or other host page.
+
+## Per-cycle pages
+
+One static page per cycle. Each carries the theory's period, reference peak year, the full `reference_peak_rationale` (why that peak year was chosen and what it concedes), the confidence classification, the caveat where one exists, the peak/trough years the sinusoid actually plots across 1600–2050, the paired data series with source/license/provenance links, and the source citation. These are the canonical per-theory pages; the same prose is in `cycles.json`.
+
+- [/cycles/schlesinger-jr](https://sinusoidal-history.skylarkcreations.com/cycles/schlesinger-jr) — Schlesinger Jr., liberal/conservative cycle. Period 30y, reference peak 1970. Narrative. Paired data: Stimson Policy Mood.
+- [/cycles/kondratiev](https://sinusoidal-history.skylarkcreations.com/cycles/kondratiev) — Kondratiev wave. Period 54y, reference peak 1973. Empirical · contested. Paired data: US TFP growth (5-yr rolling).
+- [/cycles/perez](https://sinusoidal-history.skylarkcreations.com/cycles/perez) — Carlota Perez, techno-economic paradigm. Period 55y, reference peak 2000. Empirical · contested. No paired data series this round.
+- [/cycles/huntington](https://sinusoidal-history.skylarkcreations.com/cycles/huntington) — Huntington, creedal passion. Period 60y, reference peak 1968. Narrative. Paired data: DW-NOMINATE House polarization.
+- [/cycles/dalio](https://sinusoidal-history.skylarkcreations.com/cycles/dalio) — Ray Dalio, Big Cycle. Period 75y, reference peak 1950. Narrative. Paired data: US share of world GDP.
+- [/cycles/strauss-howe](https://sinusoidal-history.skylarkcreations.com/cycles/strauss-howe) — Strauss-Howe, saeculum. Period 84y, reference peak 1955. Narrative, carries a caveat. Paired data: V-Dem liberal-democracy index.
+- [/cycles/khaldun](https://sinusoidal-history.skylarkcreations.com/cycles/khaldun) — Ibn Khaldun, dynastic cycle. Period 120y, reference peak 1789. Narrative. Paired data: deaths in conventional wars (Project Mars, log).
+- [/cycles/turchin](https://sinusoidal-history.skylarkcreations.com/cycles/turchin) — Peter Turchin, secular cycles. Period 150y, reference peak 2020. Quantitative. Paired data: US top-1% wealth share.
 
 ## Plain-markdown content (LLM-friendly)
 

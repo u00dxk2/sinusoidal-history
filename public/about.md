@@ -20,10 +20,13 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 ## Cycles in this version
 
+Each has its own page with the full calibration rationale, sourcing, and paired-data provenance — see [all eight cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
+
 ### Ibn Khaldun — dynastic cycle
 
 - **Period:** 120 years
 - **Reference peak:** 1789
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/khaldun
 
 ~120-year asabiyyah cycle of dynastic rise and fall (Khaldun's five stages, paraphrased from Rosenthal: consolidation → concentration of power → leisure → contentment → waste).
 
@@ -35,6 +38,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 54 years
 - **Reference peak:** 1973
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/kondratiev
 
 ~50–60 year long economic wave: technological expansion → plateau → stagnation → trough.
 
@@ -46,6 +50,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 60 years
 - **Reference peak:** 1968
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/huntington
 
 ~60–70 year cycle of American political moralism: reform surges followed by cynical intervals.
 
@@ -57,6 +62,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 30 years
 - **Reference peak:** 1970
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/schlesinger-jr
 
 ~30-year alternation of American politics between "public purpose" (liberal/reform) and "private interest" (conservative/consolidation) eras, ~15 years each.
 
@@ -70,6 +76,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 55 years
 - **Reference peak:** 2000
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/perez
 
 ~50–60 year wave: installation phase (frenzy + bubble) → turning point → deployment phase (synergy + maturity).
 
@@ -81,6 +88,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 150 years
 - **Reference peak:** 2020
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin
 
 ~150-year compressed US-specific secular cycle (*Ages of Discord*, 2016) of elite overproduction → immiseration → state breakdown → reconsolidation. Turchin's pre-industrial agrarian secular cycles in *Secular Cycles* run ~200–300 years; a separate ~50-year bigenerational cycle stacks on top.
 
@@ -92,6 +100,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 75 years
 - **Reference peak:** 1950
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/dalio
 
 ~75-year long-term debt / Big Cycle of imperial rise/fall: rising → top → declining → reset, tracking debt, currency reserve status, and internal order. Dalio also describes a longer ~250-year empire arc; this curve uses the 75-year figure.
 
@@ -103,6 +112,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 - **Period:** 84 years
 - **Reference peak:** 1955
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/strauss-howe
 
 ~80–90 year saeculum, four ~21-year turnings: high → awakening → unraveling → crisis (4th turning), driven by generational replacement.
 

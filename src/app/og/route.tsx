@@ -1,10 +1,23 @@
 import { ImageResponse } from "next/og";
 import { cycles } from "@/data/cycles";
+import type { Cycle } from "@/data/types";
 import {
   phasePositionLabel,
   phaseProgressPercent,
+  sineAtYear,
 } from "@/lib/cycleMath";
-import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
+import {
+  confidenceLabel,
+  cycleTheorist,
+  findCycleBySlug,
+  seriesForCycle,
+} from "@/lib/cycleRoutes";
+import {
+  DEFAULT_YEAR_RANGE,
+  SITE_DOMAIN,
+  SITE_MAKER,
+  SITE_NAME,
+} from "@/lib/siteConfig";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,6 +47,16 @@ const MONTH_NAMES = [
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
+
+  // `?cycle=<id>` renders the single-cycle card used by /cycles/<slug>, so
+  // each per-cycle route gets its own share image rather than the shared
+  // eight-row snapshot.
+  const cycleParam = url.searchParams.get("cycle");
+  if (cycleParam) {
+    const cycle = findCycleBySlug(cycleParam);
+    if (cycle) return cycleCard(cycle);
+  }
+
   const overrides: Record<
     string,
     { period_years?: number; reference_peak_year?: number }
@@ -240,6 +263,251 @@ export async function GET(request: Request) {
       },
     }
   );
+}
+
+/**
+ * Share card for a single cycle route. The curve is embedded as a data-URI
+ * SVG rather than inline SVG elements, which Satori renders reliably.
+ */
+function cycleCard(cycle: Cycle) {
+  const series = seriesForCycle(cycle);
+  const theorist = cycleTheorist(cycle);
+  const subtitle = cycle.name.includes("—")
+    ? (cycle.name.split("—")[1]?.trim() ?? "")
+    : "";
+  const idx = cycles.findIndex((c) => c.id === cycle.id) + 1;
+
+  const stats: [string, string][] = [
+    ["Period", `${cycle.period_years} years`],
+    ["Reference peak", String(cycle.reference_peak_year)],
+    [
+      "Paired data",
+      series ? (series.legend_short ?? series.name) : "None this round",
+    ],
+  ];
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: WIDTH,
+          height: HEIGHT,
+          background: PAPER,
+          color: INK,
+          padding: "44px 56px 36px 56px",
+          display: "flex",
+          flexDirection: "column",
+          fontFamily: "Georgia, 'Times New Roman', Times, serif",
+        }}
+      >
+        {/* Eyebrow */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            fontSize: 14,
+            letterSpacing: "0.36em",
+            textTransform: "uppercase",
+            color: INK_SOFT,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontWeight: 500,
+            marginBottom: 18,
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            {SITE_NAME} · No. {String(idx).padStart(2, "0")}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              height: 1,
+              background: RULE,
+              opacity: 0.35,
+            }}
+          />
+          <div style={{ display: "flex" }}>
+            {confidenceLabel(cycle.confidence_level)}
+          </div>
+        </div>
+
+        {/* Masthead */}
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div
+            style={{
+              display: "flex",
+              fontSize: theorist.length > 18 ? 68 : 82,
+              fontWeight: 600,
+              letterSpacing: "-0.025em",
+              lineHeight: 0.98,
+              color: INK,
+            }}
+          >
+            {theorist}
+          </div>
+          {subtitle ? (
+            <div
+              style={{
+                display: "flex",
+                fontSize: 26,
+                color: INK_SOFT,
+                marginTop: 10,
+                fontStyle: "italic",
+              }}
+            >
+              {subtitle}
+            </div>
+          ) : null}
+        </div>
+
+        {/* Curve */}
+        <div
+          style={{
+            display: "flex",
+            marginTop: 22,
+            borderTop: `1px solid ${RULE}`,
+            borderBottom: `1px solid ${RULE}`,
+            paddingTop: 8,
+            paddingBottom: 8,
+          }}
+        >
+          {/* Satori renders a plain <img>; next/image has no meaning here. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={curveDataUri(cycle)} width={1088} height={148} alt="" />
+        </div>
+
+        {/* Stats */}
+        <div
+          style={{
+            display: "flex",
+            gap: 44,
+            marginTop: 18,
+            alignItems: "flex-start",
+          }}
+        >
+          {stats.map(([label, value]) => (
+            <div
+              key={label}
+              style={{ display: "flex", flexDirection: "column", gap: 6 }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: 12,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: INK_SOFT,
+                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  fontWeight: 500,
+                }}
+              >
+                {label}
+              </div>
+              <div style={{ display: "flex", fontSize: 25, color: INK }}>
+                {value}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Lede */}
+        <div
+          style={{
+            display: "flex",
+            flex: 1,
+            alignItems: "flex-start",
+            marginTop: 16,
+            fontSize: 19,
+            lineHeight: 1.4,
+            color: INK_SOFT,
+            fontStyle: "italic",
+          }}
+        >
+          {truncate(cycle.short_description, 150)}
+        </div>
+
+        {/* Footer */}
+        <div
+          style={{
+            display: "flex",
+            marginTop: 8,
+            paddingTop: 12,
+            borderTop: `1px solid ${RULE}`,
+            justifyContent: "space-between",
+            fontSize: 12,
+            color: INK_SOFT,
+            fontFamily: "system-ui, -apple-system, sans-serif",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+          }}
+        >
+          <div style={{ display: "flex" }}>
+            {SITE_DOMAIN}/cycles/{cycle.id.replace(/_/g, "-")}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontStyle: "italic",
+              textTransform: "none",
+              letterSpacing: 0,
+              fontSize: 14,
+              fontFamily: "Georgia, serif",
+              color: INK,
+            }}
+          >
+            by {SITE_MAKER}
+          </div>
+        </div>
+      </div>
+    ),
+    {
+      width: WIDTH,
+      height: HEIGHT,
+      headers: {
+        "Cache-Control": "public, max-age=3600, s-maxage=86400",
+      },
+    }
+  );
+}
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[,;:·\s]+$/, "")}…`;
+}
+
+/** The cycle's sinusoid over 1600–2050 as an inline data-URI SVG. */
+function curveDataUri(cycle: Cycle): string {
+  const start = DEFAULT_YEAR_RANGE.start;
+  const end = DEFAULT_YEAR_RANGE.end;
+  const w = 1088;
+  const h = 148;
+  const pad = 12;
+
+  const points: string[] = [];
+  for (let year = start; year <= end; year += 1) {
+    const x = ((year - start) / (end - start)) * w;
+    const y = h / 2 - sineAtYear(cycle, year) * (h / 2 - pad);
+    points.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  }
+
+  const peakX = ((cycle.reference_peak_year - start) / (end - start)) * w;
+  const inRange =
+    cycle.reference_peak_year >= start && cycle.reference_peak_year <= end;
+
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">` +
+    `<line x1="0" y1="${h / 2}" x2="${w}" y2="${h / 2}" stroke="${RULE}" stroke-width="1" opacity="0.2"/>` +
+    (inRange
+      ? `<line x1="${peakX.toFixed(1)}" y1="0" x2="${peakX.toFixed(1)}" y2="${h}" stroke="${cycle.color}" stroke-width="1" stroke-dasharray="4 4" opacity="0.6"/>` +
+        `<circle cx="${peakX.toFixed(1)}" cy="${pad}" r="4" fill="${cycle.color}"/>`
+      : "") +
+    `<polyline points="${points.join(" ")}" fill="none" stroke="${cycle.color}" stroke-width="2.5" stroke-linejoin="round"/>` +
+    `</svg>`;
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
 function PhaseRow({

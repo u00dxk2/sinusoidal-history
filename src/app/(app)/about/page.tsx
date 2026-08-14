@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { cycles } from "@/data/cycles";
+import { cycleRoutePath } from "@/lib/cycleRoutes";
 
 export const metadata = {
   title: "About · Sinusoidal History",
@@ -88,6 +90,17 @@ export default function About() {
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Cycles in this version
         </h2>
+        <p className="text-[15px] leading-[1.65] text-ink/85">
+          Each has its own page with the full calibration rationale, sourcing,
+          and paired-data provenance — see{" "}
+          <Link
+            href="/cycles"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            all eight cycles
+          </Link>
+          .
+        </p>
         <ul className="space-y-5">
           {cycles.map((c) => (
             <li
@@ -100,9 +113,12 @@ export default function About() {
                   className="inline-block w-[3px] h-5 rounded-full self-stretch"
                   style={{ backgroundColor: c.color }}
                 />
-                <span className="font-display text-[18px] tracking-tight text-ink font-medium">
+                <Link
+                  href={cycleRoutePath(c)}
+                  className="font-display text-[18px] tracking-tight text-ink font-medium underline decoration-ink/25 underline-offset-[3px] hover:decoration-ink transition-colors"
+                >
                   {c.name}
-                </span>
+                </Link>
                 <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
                   period {c.period_years}y · peak {c.reference_peak_year}
                 </span>
