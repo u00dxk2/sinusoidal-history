@@ -1,5 +1,32 @@
 # Changelog
 
+## Accessibility & mobile mechanics (2026-08-14)
+
+A `/design-detectors` + `/usability-audit` pass over `/`, `/cycles`,
+`/cycles/kondratiev` and `/methods` at 1440 and 390. The editorial design was
+left alone; what it was sitting on was not.
+
+- **The page scrolled sideways on a phone.** The nav forced `scrollWidth` 399
+  against a 375 viewport, pushing "About" off the right edge. Header and nav
+  now wrap.
+- **`/methods` had been unreachable from the nav at every width.** The link
+  carried `hidden xs:inline`, but `xs` is not a configured breakpoint in this
+  project, so the variant never applied and only the `hidden` took effect.
+- **Tap targets**: 32 controls under the 44px floor → 1 (an inline prose link).
+- **Type floor**: 43 uses of `text-[10px]` and 6 of `text-[9px]` raised to
+  11px, closing all 75 `undersized-ui-text` findings.
+- **Focus was invisible** — no `:focus-visible` rules at all, and two
+  components replaced the outline with a 30%-opacity ring. One global rule now.
+- **Chart annotations** measured 4.48:1 against paper, under AA by a rounding
+  margin; now 5.84:1 at 11px without competing with the curves.
+- **Reading measure** on cycle/methods prose was ~94 chars (~128 for the mono
+  citations); paragraphs are constrained, article widths untouched.
+
+Detector findings 161 → 64. The 19 surviving `low-contrast` hits are a
+confirmed false positive — the pixel sampler reads the chart curves behind the
+SVG text. Full write-up, including the note for the detector's allowlist owner:
+[`docs/design-canon-review-2026-08-14.md`](docs/design-canon-review-2026-08-14.md).
+
 ## Crawl read (2026-08-14)
 
 `scripts/crawl-read.mjs` — the site's entire analytics stack, and it adds
