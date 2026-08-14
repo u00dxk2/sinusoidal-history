@@ -62,7 +62,7 @@ export default function NowSummaryPanel({
       <div className="px-5 sm:px-8 pt-6 sm:pt-7 pb-4">
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+            <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
               No. {String(cycles.length).padStart(2, "0")} · A reckoning
             </p>
             <h2 className="font-display text-[30px] sm:text-[42px] leading-[1.0] tracking-tight mt-1.5 text-ink">
@@ -70,7 +70,7 @@ export default function NowSummaryPanel({
             </h2>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-ink-soft">
+            <p className="font-mono text-[11px] sm:text-[11px] tracking-widest uppercase text-ink-soft">
               {monthYear(currentYear)}
             </p>
             <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
@@ -92,11 +92,16 @@ export default function NowSummaryPanel({
                 type="button"
                 onClick={() => onSelectCycle(cycle.id)}
                 aria-label={`${cycle.name} — currently ${labelDescription(label)}, click to focus and calibrate`}
-                className="group w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 rounded-sm hover:bg-ink/[0.04] focus:bg-ink/[0.04] focus:outline-none focus:ring-1 focus:ring-ink/30 text-left transition-colors"
+                // min-h-11: py-2.5 landed these rows at 43px, one under the
+                // 44px floor. outline-none + a 30%-opacity ring is dropped in
+                // favour of the global :focus-visible rule in globals.css —
+                // it was the one place focus was effectively invisible.
+                // Canon R28, R30.
+                className="group w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 min-h-11 rounded-sm hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04] text-left transition-colors"
               >
                 <span
                   aria-hidden
-                  className="font-mono text-[10px] text-ink-soft/70 tabular-nums w-4 text-right flex-shrink-0"
+                  className="font-mono text-[11px] text-ink-soft/70 tabular-nums w-4 text-right flex-shrink-0"
                 >
                   {String(idx + 1).padStart(2, "0")}
                 </span>
@@ -113,7 +118,7 @@ export default function NowSummaryPanel({
                   color={cycle.color}
                 />
                 <span
-                  className="text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right transition-colors"
+                  className="text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right transition-colors"
                   style={{ color: cycle.color }}
                 >
                   {labelDescription(label)}

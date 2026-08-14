@@ -9,7 +9,7 @@ export default function Home() {
     <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 pb-12 sm:pt-12">
       <section className="mb-8 sm:mb-12 grid grid-cols-1 sm:grid-cols-12 gap-x-8 gap-y-4">
         <div className="sm:col-span-7">
-          <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.32em] text-ink-soft font-medium mb-3 sm:mb-4">
+          <p className="text-[11px] sm:text-[11px] uppercase tracking-[0.32em] text-ink-soft font-medium mb-3 sm:mb-4">
             <span aria-hidden className="inline-block mr-2 align-middle">
               <svg
                 viewBox="0 0 24 8"

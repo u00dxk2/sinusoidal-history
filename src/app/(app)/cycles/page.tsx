@@ -59,7 +59,7 @@ export default function CyclesIndex() {
       />
 
       <header className="mb-8">
-        <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Index · By ascending period
         </p>
         <h1
@@ -102,7 +102,7 @@ export default function CyclesIndex() {
                   <h2 className="font-display text-[20px] tracking-tight text-ink font-medium group-hover:text-ink-soft transition-colors">
                     {cycle.name}
                   </h2>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                     {cycle.period_years}y · peak {cycle.reference_peak_year} ·{" "}
                     {confidenceLabel(cycle.confidence_level)}
                   </span>

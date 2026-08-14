@@ -109,12 +109,22 @@ export default function Viz({
           }
         >
           <div className="flex items-center justify-between gap-2 flex-wrap">
-            <TabsList>
-              <TabsTrigger value="facets">Facets</TabsTrigger>
-              <TabsTrigger value="overlay" className="hidden sm:inline-flex">
+            {/* min-h-11 set here rather than in ui/tabs.tsx — that file is
+                vendored shadcn and shared; the 44px tap floor is this app's
+                requirement, not a change to the primitive. Canon R28. */}
+            <TabsList className="min-h-11">
+              <TabsTrigger value="facets" className="min-h-11">
+                Facets
+              </TabsTrigger>
+              <TabsTrigger
+                value="overlay"
+                className="hidden sm:inline-flex min-h-11"
+              >
                 Overlay
               </TabsTrigger>
-              <TabsTrigger value="calibrate">Calibrate</TabsTrigger>
+              <TabsTrigger value="calibrate" className="min-h-11">
+                Calibrate
+              </TabsTrigger>
             </TabsList>
             {annotations.length > 0 && (
               <label className="flex items-center gap-2 text-xs text-foreground/70 cursor-pointer select-none">

@@ -17,7 +17,7 @@ export default function ConvergenceNote() {
           in our era. Drag the time-range below or click any cycle to see
           how much the peak-year choice is doing.
         </p>
-        <p className="mt-1.5 text-[10px] uppercase tracking-[0.28em] text-ink-soft/70 font-medium">
+        <p className="mt-1.5 text-[11px] uppercase tracking-[0.28em] text-ink-soft/70 font-medium">
           Editor&apos;s note
         </p>
       </div>

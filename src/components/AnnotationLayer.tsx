@@ -122,8 +122,11 @@ export default function AnnotationLayer({
               y={labelY + 1}
               textAnchor="middle"
               className={cn(
-                "text-[9px] font-mono fill-current",
-                isHovered ? "opacity-90" : "opacity-60"
+                // 0.6 composited ink-on-paper measured 4.48:1 — under AA by a
+                // rounding margin. 0.68 clears it (~5.2:1) without making the
+                // annotations compete with the curves. Canon R30.
+                "text-[11px] font-mono fill-current",
+                isHovered ? "opacity-90" : "opacity-[0.68]"
               )}
             >
               {ann.label}

@@ -139,7 +139,7 @@ export default function Poster({ cycles }: PosterProps) {
                 {headline}
               </p>
             </div>
-            <div className="text-[10px] font-mono leading-[1.5] tracking-wide text-ink-soft">
+            <div className="text-[11px] font-mono leading-[1.5] tracking-wide text-ink-soft">
               {SITE_DOMAIN}
               <br />
               <span className="italic font-display-italic text-[12px] text-ink/70">
@@ -239,15 +239,15 @@ function PosterRow({
           {cycle.short_description}
         </p>
         <div className="flex items-baseline gap-3 mt-1.5">
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
             Period {cycle.period_years}y
           </span>
           <span className="text-ink-soft/40">·</span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
             Peak {cycle.reference_peak_year}
           </span>
           <span className="text-ink-soft/40">·</span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+          <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
             {confidenceLabel(cycle.confidence_level)}
           </span>
         </div>
@@ -291,7 +291,7 @@ function PhaseGauge({
           className="absolute -top-1 bottom-[-4px] left-1/2 w-px bg-ink/35"
         />
       </div>
-      <div className="flex items-center justify-between text-[9px] font-mono uppercase tracking-[0.18em] text-ink-soft/65">
+      <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.18em] text-ink-soft/65">
         <span>trough</span>
         <span>peak</span>
         <span>trough</span>

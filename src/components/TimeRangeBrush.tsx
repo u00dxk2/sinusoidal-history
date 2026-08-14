@@ -168,7 +168,7 @@ export default function TimeRangeBrush({
   return (
     <div className="space-y-3" ref={containerRef}>
       <div className="flex flex-wrap gap-x-1 gap-y-2 items-baseline">
-        <span className="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-medium mr-3 self-center">
+        <span className="text-[11px] uppercase tracking-[0.28em] text-ink-soft font-medium mr-3 self-center">
           Range
         </span>
         <div className="flex flex-wrap gap-1">
@@ -183,14 +183,17 @@ export default function TimeRangeBrush({
                 onClick={() => onChange(preset.start, preset.end)}
                 aria-pressed={active}
                 className={cn(
-                  "rounded-sm px-2.5 py-1 text-[12px] transition border",
+                  // min-h-11: these sat at 28px on a phone, well under the
+                  // 44px tap floor, and they are the primary way to reframe
+                  // the chart on mobile. Canon R28.
+                  "inline-flex items-center rounded-sm px-2.5 py-1 min-h-11 text-[12px] transition border",
                   active
                     ? "border-ink/60 bg-ink text-paper font-medium"
                     : "border-rule/35 text-ink-soft hover:bg-ink/5 hover:text-ink hover:border-ink/30",
                 )}
               >
                 {preset.label}
-                <span className="ml-1.5 font-mono text-[10px] opacity-60">
+                <span className="ml-1.5 font-mono text-[11px] opacity-60">
                   {preset.short}
                 </span>
               </button>
@@ -246,7 +249,7 @@ export default function TimeRangeBrush({
               <text
                 x={2}
                 y={HEIGHT - 3}
-                className="fill-ink-soft font-mono text-[9px]"
+                className="fill-ink-soft font-mono text-[11px]"
                 style={{ opacity: 0.55 }}
               >
                 {fullStartYear}
@@ -255,7 +258,7 @@ export default function TimeRangeBrush({
                 x={innerWidth - 2}
                 y={HEIGHT - 3}
                 textAnchor="end"
-                className="fill-ink-soft font-mono text-[9px]"
+                className="fill-ink-soft font-mono text-[11px]"
                 style={{ opacity: 0.55 }}
               >
                 {fullEndYear}

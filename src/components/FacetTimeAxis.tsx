@@ -79,7 +79,7 @@ export default function FacetTimeAxis({
               <text
                 y={20}
                 textAnchor="middle"
-                className="fill-current text-[10px] opacity-60 font-mono"
+                className="fill-current text-[11px] opacity-[0.68] font-mono"
               >
                 {y}
               </text>
@@ -97,7 +97,7 @@ export default function FacetTimeAxis({
               <text
                 y={20}
                 textAnchor="middle"
-                className="fill-current text-[10px] font-medium font-mono"
+                className="fill-current text-[11px] font-medium font-mono"
                 style={{ opacity: 0.85 }}
               >
                 now · {currentYear}

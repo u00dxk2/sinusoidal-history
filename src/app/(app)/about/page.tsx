@@ -12,7 +12,7 @@ export default function About() {
   return (
     <article className="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
       <header className="mb-8">
-        <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           About · The argument
         </p>
         <h1
@@ -119,7 +119,7 @@ export default function About() {
                 >
                   {c.name}
                 </Link>
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                   period {c.period_years}y · peak {c.reference_peak_year}
                 </span>
               </div>
@@ -198,7 +198,7 @@ export default function About() {
         </p>
       </section>
 
-      <footer className="mt-12 pt-4 border-t border-rule/30 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
+      <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
         Last updated: 2026-04-26
       </footer>
     </article>

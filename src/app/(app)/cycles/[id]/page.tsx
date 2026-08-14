@@ -80,7 +80,11 @@ export default async function CyclePage({ params }: Params) {
     : null;
 
   return (
-    <article className="max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14">
+    // [&_p]: the article stays 3xl because the curve, the extrema table, and
+    // the series card all want that width — but running prose at 15px hit ~94
+    // chars per line there, and the mono citation ~128. Constraining only the
+    // paragraphs keeps the layout and fixes the measure. Canon R5.
+    <article className="max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14 [&_p]:max-w-[68ch]">
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
@@ -89,7 +93,7 @@ export default async function CyclePage({ params }: Params) {
 
       <nav
         aria-label="Breadcrumb"
-        className="text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-ink-soft/80 font-mono"
+        className="text-[11px] sm:text-[11px] tracking-[0.2em] uppercase text-ink-soft/80 font-mono"
       >
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <li>
@@ -116,7 +120,7 @@ export default async function CyclePage({ params }: Params) {
       </nav>
 
       <header className="mt-6">
-        <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Cycle No. {String(index + 1).padStart(2, "0")} ·{" "}
           {confidenceLabel(cycle.confidence_level)}
         </p>
@@ -161,7 +165,7 @@ export default async function CyclePage({ params }: Params) {
         <p>{cycle.reference_peak_rationale}</p>
         {cycle.caveat && (
           <p className="border-l-2 border-ink/40 pl-3.5 text-[15px] leading-relaxed">
-            <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft mr-1.5 font-mono">
+            <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1.5 font-mono">
               Caveat
             </span>
             <span className="font-display-italic">{cycle.caveat}</span>
@@ -199,7 +203,7 @@ export default async function CyclePage({ params }: Params) {
         </p>
         <dl className="space-y-3 border-t border-rule/30 pt-4">
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft/80 w-20">
+            <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft/80 w-20">
               Peaks
             </dt>
             <dd className="font-mono text-[13px] text-ink/85">
@@ -207,7 +211,7 @@ export default async function CyclePage({ params }: Params) {
             </dd>
           </div>
           <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft/80 w-20">
+            <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft/80 w-20">
               Troughs
             </dt>
             <dd className="font-mono text-[13px] text-ink/85">
@@ -232,7 +236,7 @@ export default async function CyclePage({ params }: Params) {
               <h3 className="font-display text-[19px] tracking-tight text-ink font-medium">
                 {series.name}
               </h3>
-              <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-soft/85">
+              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                 {series.value_units}
               </span>
             </div>
@@ -240,7 +244,7 @@ export default async function CyclePage({ params }: Params) {
               {series.short_description}
             </p>
             <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
-              <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft/80 mr-1.5 font-mono">
+              <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1.5 font-mono">
                 Why this pairing
               </span>
               {series.association_note}
@@ -448,7 +452,7 @@ function CurveFigure({ cycle }: { cycle: Cycle }) {
           vectorEffect="non-scaling-stroke"
         />
       </svg>
-      <figcaption className="mt-2 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-soft/75">
+      <figcaption className="mt-2 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft/75">
         <span>{start}</span>
         <span className="normal-case tracking-normal text-[11px] font-sans italic">
           Reference peak {cycle.reference_peak_year} · period{" "}

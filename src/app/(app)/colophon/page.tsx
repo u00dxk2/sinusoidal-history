@@ -10,7 +10,7 @@ export default function Colophon() {
   return (
     <article className="max-w-2xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
       <header className="mb-8">
-        <p className="text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Colophon · A note from the maker
         </p>
         <h1
@@ -136,7 +136,7 @@ export default function Colophon() {
           <p className="mt-6 text-[12px] tracking-[0.2em] uppercase text-ink-soft font-mono">
             David Kooi · Skylark Creations · April 2026
           </p>
-          <p className="mt-2 text-[10px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
+          <p className="mt-2 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
             Last updated: 2026-04-26
           </p>
         </div>

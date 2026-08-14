@@ -54,6 +54,16 @@
   }
 }
 
+/* Keyboard focus. The UA default is a 1px hairline that all but vanishes on
+   warm cream, and at least one link had it suppressed outright. One rule,
+   applied globally, so no component has to remember. :focus-visible (not
+   :focus) keeps it off mouse clicks. Canon R30. */
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

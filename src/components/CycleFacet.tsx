@@ -166,7 +166,7 @@ function FacetHeader({
         type="button"
         onClick={mode === "expanded" ? onBlur : onFocus}
         aria-expanded={mode === "expanded"}
-        className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 hover:bg-ink/[0.04] focus:bg-ink/[0.04] focus:outline-none focus:ring-1 focus:ring-ink/30"
+        className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 min-h-11 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
       >
         <span
           aria-hidden
@@ -185,11 +185,11 @@ function FacetHeader({
           <span className="sm:hidden">{shortName}</span>
         </span>
         {mode !== "collapsed" && (
-          <span className="hidden md:inline text-[10px] text-ink-soft/80 font-mono tracking-wide whitespace-nowrap">
+          <span className="hidden md:inline text-[11px] text-ink-soft/80 font-mono tracking-wide whitespace-nowrap">
             {effective.period_years}y · peak {effective.reference_peak_year}
             {overridden && (
               <span
-                className="ml-1.5 inline-block px-1 py-px rounded-sm bg-ink/10 text-ink text-[9px] uppercase tracking-widest"
+                className="ml-1.5 inline-block px-1 py-px rounded-sm bg-ink/10 text-ink text-[11px] uppercase tracking-widest"
                 aria-label="calibrated"
               >
                 cal
@@ -200,7 +200,7 @@ function FacetHeader({
       </button>
       <span
         className={cn(
-          "text-[10px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0",
+          "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0",
           mode === "collapsed" ? "opacity-60" : ""
         )}
         style={{ color: cycle.color }}
@@ -222,7 +222,7 @@ function FacetLegend({
   return (
     <div
       aria-hidden
-      className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[9px] sm:text-[10px] tracking-[0.18em] uppercase text-ink-soft/85 font-mono"
+      className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px] sm:text-[11px] tracking-[0.18em] uppercase text-ink-soft/85 font-mono"
     >
       <span className="inline-flex items-center gap-1.5">
         <span
@@ -448,26 +448,26 @@ function ExpandedTail({
           {cycle.short_description}
         </p>
         <p className="text-[12px] leading-relaxed text-ink-soft">
-          <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft/80 mr-1">
+          <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1">
             Peak calibration —
           </span>
           {cycle.reference_peak_rationale}
         </p>
         {cycle.caveat && (
           <p className="text-[12px] leading-relaxed text-ink/85 border-l-2 border-ink/40 pl-2.5 mt-1.5">
-            <span className="uppercase tracking-[0.18em] text-[10px] font-medium text-ink-soft mr-1">
+            <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1">
               Caveat —
             </span>
             <span className="font-display-italic">{cycle.caveat}</span>
           </p>
         )}
-        <p className="text-[10px] tracking-wide text-ink-soft/75 font-mono pt-1">
+        <p className="text-[11px] tracking-wide text-ink-soft/75 font-mono pt-1">
           {cycle.source}
         </p>
       </div>
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] uppercase tracking-[0.28em] text-ink-soft font-medium">
+          <span className="text-[11px] uppercase tracking-[0.28em] text-ink-soft font-medium">
             Calibrate
           </span>
           <button
@@ -522,7 +522,7 @@ function ExpandedTail({
                     : "—"}
             </span>
           </div>
-          <p className="mt-1 text-[10px] text-ink-soft/70 italic">
+          <p className="mt-1 text-[11px] text-ink-soft/70 italic">
             Diagnostic, not a test statistic. See{" "}
             <a
               href="/methods"
@@ -566,7 +566,7 @@ function SliderRow({
         <span className="font-display text-[20px] tabular-nums text-ink leading-none">
           {formatValue(value)}
           {value !== published && (
-            <span className="ml-1.5 text-ink-soft/65 text-[10px] font-mono">
+            <span className="ml-1.5 text-ink-soft/65 text-[11px] font-mono">
               published {formatValue(published)}
             </span>
           )}
@@ -580,7 +580,7 @@ function SliderRow({
         onValueChange={(vals) => onChange(vals[0])}
         aria-label={label}
       />
-      <div className="flex justify-between text-[10px] text-ink-soft/55 font-mono">
+      <div className="flex justify-between text-[11px] text-ink-soft/55 font-mono">
         <span>{formatValue(min)}</span>
         <span>{formatValue(max)}</span>
       </div>
