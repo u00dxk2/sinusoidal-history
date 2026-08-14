@@ -1,5 +1,48 @@
 # Changelog
 
+## Phase 12 — static per-cycle routes (August 2026)
+
+The eight cycles existed only as query-param states of `/` (`?focus=<id>`).
+That meant the `reference_peak_rationale` prose — the most substantive
+per-cycle text in the project, and the part that survived four fact-check
+rounds — had no indexable home, and high-intent queries ("Kondratiev wave
+chart," "Turchin secular cycle data") had nothing to rank.
+
+- **`/cycles/<slug>` — eight prerendered routes.** Generated from
+  `cycles.json` + `series.json` via `generateStaticParams`, with
+  `dynamicParams = false` so unknown slugs 404 rather than render. Each page
+  carries the cycle's period, reference peak, full calibration rationale,
+  caveat where one exists, confidence classification, source citation, a
+  static SVG of the curve, and the paired data series with source, license,
+  CSV, and provenance links — plus a deep link back into the chart.
+- **`/cycles` index.** All eight by ascending period; also the parent for the
+  per-page breadcrumbs and the `DefinedTermSet` in the structured data.
+- **Hyphenated slugs.** Cycle ids use underscores (`strauss_howe`) but search
+  engines don't treat underscores as word separators, so URLs are hyphenated
+  (`/cycles/strauss-howe`). `findCycleBySlug` resolves either form.
+- **Per-cycle OG cards** via `/og?cycle=<id>`, reusing the existing route. The
+  sinusoid is embedded as a data-URI SVG, which Satori renders reliably;
+  inline SVG children are not dependable there.
+- **JSON-LD per page:** WebPage + BreadcrumbList + DefinedTerm, plus a Dataset
+  node (license, creator, CSV `DataDownload`, `variableMeasured`) for the
+  paired series, so the underlying data is discoverable as data.
+- **Crawl surfaces swept:** sitemap covers the index + all eight; `llms.txt`
+  gains a per-cycle section; `Cycles` added to the primary nav and the cycle
+  names on `/about` now link through (with `public/about.md` updated in the
+  same commit, per the mirror rule in AGENTS.md).
+
+No new historical claims were authored. All prose is reused verbatim from
+`cycles.json`. The peak/trough years each page lists are *derived* from
+`reference_peak_year` + `period_years` by the same cosine the chart draws —
+`peakYearsInRange` / `troughYearsInRange` are unit-tested against
+`sineAtYear`, and spot-agree with `scripts/audit_cycle_rationales.py`
+(Strauss-Howe: peaks 1955 and 2039, trough 1997). This is deliberate: the
+round-4 finding was that hand-written year-phase claims drift from the math,
+so these pages compute rather than assert.
+
+Also deduped `confidenceTag` out of `Poster.tsx` into a shared
+`confidenceLabel`.
+
 ## Phase 11 — round-4 fact-check verdicts (April 2026)
 
 External round-4 fact-check (`docs/fact-check-2026-04-26-round-4.md`) found

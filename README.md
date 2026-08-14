@@ -37,6 +37,17 @@ on `/about`, and on `/colophon`.
 
 ## Status
 
+Phase 12 shipped (August 2026): eight static per-cycle routes at
+`/cycles/<slug>` plus a `/cycles` index. Until then the cycles existed only as
+query-param states of `/`, so the `reference_peak_rationale` prose — the most
+substantive per-cycle text in the project — was invisible to search and answer
+engines. Each page carries period, reference peak, the full calibration
+rationale, caveat, sourcing, and the paired series with provenance; plus a
+per-cycle OG card, JSON-LD (WebPage / BreadcrumbList / DefinedTerm / Dataset),
+and sitemap + `llms.txt` coverage. No new prose was authored — all text is
+reused from `cycles.json`, and the peak/trough years shown are derived from
+period + reference peak rather than asserted.
+
 Phase 11 shipped (April 2026): round-4 fact-check verdicts folded in.
 Highest-risk fix was the Strauss-Howe rationale prose, which incorrectly
 stated 2020 was a trough — at period 84 and peak 1955, the trough is at 1997
@@ -238,6 +249,8 @@ src/
     (app)/                    Chromed routes (header + footer):
       layout.tsx              Site shell, nav, footer
       page.tsx                Home (interactive overlay)
+      cycles/page.tsx         Index of the eight cycles, by ascending period
+      cycles/[id]/page.tsx    One static page per cycle (8 prerendered)
       about/page.tsx          The argument and disclaimer
       methods/page.tsx        Data provenance and methodology
       colophon/page.tsx       Note from the maker
@@ -309,6 +322,12 @@ For agents and notebooks: `/llms.txt` indexes everything. Prose pages are
 mirrored as plain markdown at `/about.md`, `/methods.md`, `/colophon.md`
 with permissive CORS. Data CSVs and provenance markdown are served from
 `/data/` with CORS open for cross-origin fetches.
+
+For a single theory: `/cycles/<slug>` is the static, indexable page for one
+cycle — period, reference peak, calibration rationale, caveat, sourcing, the
+paired series with provenance links, and a deep link back into the chart at
+`/?focus=<id>`. Slugs are hyphenated (`/cycles/strauss-howe`) even though
+cycle ids use underscores.
 
 ## Deploying
 

@@ -18,6 +18,22 @@ When you edit one, edit the other in the same commit. Do not assume one is canon
 `public/llms.txt` is a third surface that summarises both prose and data; if cycle/series counts or stability state change, sweep it too.
 <!-- END:prose-mirror-invariant -->
 
+<!-- BEGIN:new-cycle-checklist -->
+# Adding or renaming a cycle: what is automatic, and what isn't
+
+Since Phase 12, most per-cycle surfaces derive from `src/data/cycles.json` and need no edit when a cycle is added:
+
+- `/cycles/<slug>` and its metadata, OG card, and JSON-LD (`generateStaticParams` over `cycles`)
+- the `/cycles` index, the `/about` list, the sitemap entry, the poster and chart rows
+
+Two surfaces are **hand-written** and will silently go stale:
+
+- `public/llms.txt` — the "Per-cycle pages" bullet list, plus the ascending-period ordering in the intro
+- `public/about.md` — the mirror needs a new `### <name>` block *and* its `- **Page:**` line (see the prose-mirror rule above)
+
+Renaming a cycle's `id` changes its URL. Slugs are the id with underscores swapped for hyphens (`strauss_howe` → `/cycles/strauss-howe`), so an id change is a redirect-worthy URL change, not a cosmetic edit.
+<!-- END:new-cycle-checklist -->
+
 <!-- BEGIN:cycle-rationale-math-rule -->
 # Run the cos-math audit before shipping cycle-rationale prose
 
