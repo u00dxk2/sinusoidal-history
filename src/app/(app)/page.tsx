@@ -4,6 +4,13 @@ import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import { annotations } from "@/data/annotations";
 
+// The overlay is the canonical home. `?focus=<id>` variants are the same page
+// with one curve highlighted, so they resolve here rather than competing with
+// the per-cycle routes — GPTBot crawled all eight of them on 2026-08-15.
+export const metadata = {
+  alternates: { canonical: "/" },
+};
+
 export default function Home() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 pb-12 sm:pt-12">

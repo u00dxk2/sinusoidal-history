@@ -30,9 +30,12 @@ export const metadata: Metadata = {
     template: `%s · ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
-  alternates: {
-    canonical: "/",
-  },
+  // No `alternates` here on purpose. Next inherits metadata down the tree, so a
+  // root-level `canonical: "/"` silently became the canonical of every page that
+  // didn't override it — /about, /methods, /colophon and /poster all shipped
+  // declaring themselves duplicates of the home page (verified live 2026-08-15).
+  // Each route now states its own canonical; a page that forgets emits none and
+  // self-canonicalizes, which is harmless. Wrong-by-default was the bug.
   openGraph: {
     title: SITE_NAME,
     description: SITE_DESCRIPTION,

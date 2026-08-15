@@ -6,6 +6,7 @@ export const metadata = {
   title: "About · Sinusoidal History",
   description:
     "What this site is, why it exists, what it doesn't claim, and the eight cycles in this version.",
+  alternates: { canonical: "/about" },
 };
 
 export default function About() {

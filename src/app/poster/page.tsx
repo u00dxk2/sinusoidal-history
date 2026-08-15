@@ -5,6 +5,7 @@ import { cycles } from "@/data/cycles";
 export const metadata = {
   title: "Poster · Sinusoidal History",
   description: "Shareable poster snapshot of where every cycle sits right now.",
+  alternates: { canonical: "/poster" },
 };
 
 export default function PosterPage() {

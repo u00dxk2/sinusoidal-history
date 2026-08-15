@@ -4,6 +4,7 @@ import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata = {
   title: "Embed · Sinusoidal History",
+  alternates: { canonical: "/embed/docs" },
 };
 
 const SNIPPETS: ReadonlyArray<{

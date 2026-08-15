@@ -5,6 +5,7 @@ export const metadata = {
   title: "Methods · Sinusoidal History",
   description:
     "Data provenance, transformations, normalization, and methodological caveats.",
+  alternates: { canonical: "/methods" },
 };
 
 export default function Methods() {

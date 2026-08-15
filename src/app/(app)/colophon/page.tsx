@@ -4,6 +4,7 @@ export const metadata = {
   title: "Colophon · Sinusoidal History",
   description:
     "A note from the maker on how this site was built, what was AI, and what was me.",
+  alternates: { canonical: "/colophon" },
 };
 
 export default function Colophon() {
