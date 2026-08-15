@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo } from "react";
 import type { Cycle, DataSeries } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
+import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { pearsonCorrelation } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import type { CycleOverride } from "./CycleOverlay";
@@ -68,6 +70,19 @@ export default function CalibrationPanel({
             vs. {series.name}
             {overlapRange &&
               ` · overlap ${overlapRange.start}–${overlapRange.end}`}
+          </p>
+          {/* The chart had no link into the per-cycle pages at all — the only
+              route was nav → /cycles → find it again. Someone dragging the peak
+              slider is exactly the reader asking "why is it set there?", and the
+              answer is a page we already wrote. Also gives the overlay its first
+              crawl edge to /cycles/<slug>. */}
+          <p className="mt-1.5">
+            <Link
+              href={cycleRoutePath(cycle)}
+              className="text-xs text-foreground/60 hover:text-foreground underline underline-offset-2"
+            >
+              why this peak? read the rationale →
+            </Link>
           </p>
         </div>
         <button
