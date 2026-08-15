@@ -13,7 +13,11 @@
  * Console. This script narrows the gap; it does not close it.
  *
  * Usage (from repo root):
- *   RENDER_API_KEY=... node scripts/crawl-read.mjs [--days 7]
+ *   RENDER_API_KEY=... node scripts/crawl-read.mjs [--days 7] [--snapshot]
+ *
+ * --snapshot appends one aggregate JSON line to docs/crawl-reads.jsonl. Use it
+ * on every real read: Render only serves a trailing log window, so an
+ * un-snapshotted finding stops being checkable once that window rolls past it.
  *
  * On Windows, the key lives in a user-scope env var, so:
  *   $env:RENDER_API_KEY = [System.Environment]::GetEnvironmentVariable('RENDER_API_KEY','User')
@@ -22,6 +26,9 @@
  * Self-check (no network, no key needed):
  *   node scripts/crawl-read.mjs --selfcheck
  */
+
+import { appendFile } from "node:fs/promises";
+import path from "node:path";
 
 const SERVICE_ID = "srv-d7mcat7lk1mc73bidim0";
 const OWNER_ID = "tea-ctl08nrv2p9s738cgcug";
@@ -131,6 +138,47 @@ function report(rows, days) {
       ? `Phase 12 routes: ${cycleHits.length} crawler hit(s) on /cycles*.`
       : `Phase 12 routes: no crawler has fetched a /cycles* page yet.`
   );
+
+  return { rows, crawlers, google, cycleHits, byWho };
+}
+
+/**
+ * One JSON line per run, appended to docs/crawl-reads.jsonl.
+ *
+ * Why this exists: Render's request-log API only serves a trailing retention
+ * window, so the evidence behind every finding this script has produced expires.
+ * W-001's read dates ask us to COMPARE ("has anything changed since ...?"), and a
+ * comparison against a paragraph in a primer is not a comparison. The committed
+ * JSONL is the series; the log is just today's page of it.
+ *
+ * Deliberately NOT stored: the per-request rows. Path + UA + timestamp for
+ * browser-shaped traffic is visitor data, and this site keeps none by design.
+ * Aggregates only.
+ */
+export function buildSnapshot({ days, rows, crawlers, google, cycleHits, byWho }, nowIso) {
+  // Build-hashed asset paths are excluded: their filenames change on EVERY
+  // deploy, so keeping them would make each future diff show dozens of path
+  // changes that mean nothing. They still count in crawlerHits — we just don't
+  // diff on them. Content routes are the question.
+  const paths = [
+    ...new Set(crawlers.map((r) => r.path).filter((p) => !p.startsWith("/_next/"))),
+  ].sort();
+  // Sort here rather than trusting report()'s in-place sort — this function has
+  // to be correct when called on its own (selfcheck does exactly that).
+  const byTs = [...crawlers].sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
+  return {
+    readAt: nowIso,
+    windowDays: days,
+    totalLines: rows.length,
+    crawlerHits: crawlers.length,
+    // Named exactly as classify() labels them, so a future diff is key-stable.
+    byWho: Object.fromEntries([...byWho].sort((a, b) => b[1] - a[1])),
+    googleHits: google.length,
+    cyclesHits: cycleHits.length,
+    crawlerPaths: paths,
+    firstCrawlerTs: byTs.length ? byTs[0].ts : null,
+    lastCrawlerTs: byTs.length ? byTs[byTs.length - 1].ts : null,
+  };
 }
 
 function selfcheck() {
@@ -161,6 +209,33 @@ function selfcheck() {
   assert(parsed.status === "200", "status from labels");
   assert(parsed.who === "GPTBot", "UA extracted from message string");
 
+  // The snapshot is the thing a future read DIFFS against, so a silent shape
+  // change here would break the comparison months from now, not today.
+  const rows = [
+    { ts: "2026-08-15T10:27:30Z", path: "/cycles/kondratiev", status: "200", who: "GPTBot" },
+    { ts: "2026-08-15T10:27:04Z", path: "/", status: "200", who: "GPTBot" },
+    { ts: "2026-08-15T09:00:00Z", path: "/", status: "200", who: "browser-ish" },
+    { ts: "2026-08-15T10:27:05Z", path: "/_next/static/chunks/abc123.js", status: "200", who: "GPTBot" },
+  ];
+  const crawlers = rows.filter((r) => r.who === "GPTBot");
+  const byWho = new Map([["GPTBot", 3], ["browser-ish", 1]]);
+  const snap = buildSnapshot(
+    { days: 7, rows, crawlers, google: [], cycleHits: crawlers.filter((r) => r.path.startsWith("/cycles")), byWho },
+    "2026-08-15T15:30:00.000Z"
+  );
+  assert(snap.totalLines === 4 && snap.crawlerHits === 3, "snapshot counts");
+  assert(
+    !snap.crawlerPaths.some((p) => p.startsWith("/_next/")),
+    "build-hashed assets stay OUT of crawlerPaths — they churn every deploy and would poison the diff"
+  );
+  assert(snap.crawlerPaths.length === 2, "crawlerPaths keeps content routes only");
+  assert(snap.googleHits === 0 && snap.cyclesHits === 1, "snapshot headline fields");
+  // Unsorted input on purpose: the caller must not have to pre-sort.
+  assert(snap.firstCrawlerTs === "2026-08-15T10:27:04Z", "firstCrawlerTs sorts by ts, not input order");
+  assert(snap.lastCrawlerTs === "2026-08-15T10:27:30Z", "lastCrawlerTs sorts by ts");
+  assert(snap.byWho["browser-ish"] === 1, "byWho keys survive verbatim for diffing");
+  assert(JSON.stringify(snap).length < 20000, "snapshot stays one reasonable JSONL line");
+
   console.log("selfcheck ok");
 }
 
@@ -178,7 +253,15 @@ async function main() {
   const end = new Date();
   const start = new Date(end.getTime() - days * 24 * 60 * 60 * 1000);
   const rows = await fetchRequestLogs(apiKey, start.toISOString(), end.toISOString());
-  report(rows, days);
+  const totals = report(rows, days);
+
+  if (argv.includes("--snapshot")) {
+    const snap = buildSnapshot({ days, ...totals }, end.toISOString());
+    const file = path.join(import.meta.dirname, "..", "docs", "crawl-reads.jsonl");
+    await appendFile(file, JSON.stringify(snap) + "\n");
+    console.log(`\nSnapshot appended to docs/crawl-reads.jsonl (${snap.crawlerHits} crawler hits).`);
+    console.log("Commit it — the Render log window this came from expires.");
+  }
 }
 
 main().catch((err) => {
