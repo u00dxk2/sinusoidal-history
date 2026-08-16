@@ -39,6 +39,17 @@ npm run build; npm run typecheck; npm run lint; npm test
 Any task-complete citing a SHA from this repo states the conclusion of **that local
 run** — there is no CI verdict to cite.
 
+The other half of the CI-truth pair (R-2, 2026-08-15) still applies, because a
+local-gates lane can still post a SHA it never pushed:
+
+```powershell
+node ../skylark-site/scripts/check-posted-unpushed.mjs --project sinusoidal-cycles
+```
+
+Flags task-completes citing commits absent from origin >3h; exit 3 = findings.
+Its sibling `check-ci-status.mjs` is a no-op here and stays unrun — with no
+workflow file there is nothing for `--workflow` to name.
+
 ## The one instrument
 
 `scripts/crawl-read.mjs` is this site's entire analytics stack. It reads Render's
