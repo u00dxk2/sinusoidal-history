@@ -366,6 +366,10 @@ If you reference this project in writing, please cite:
 
 > Kooi, D. (2026). *Sinusoidal History*. Skylark Creations.
 > https://sinusoidal-history.skylarkcreations.com
+> DOI: [10.5281/zenodo.21998618](https://doi.org/10.5281/zenodo.21998618)
+
+Tagged releases are archived on Zenodo; the DOI above resolves to the
+latest archived version (v1.1.0 is the first archived release).
 
 A `CITATION.cff` is included for tools that read it (Zenodo, GitHub's "Cite
 this repository" widget, etc.).

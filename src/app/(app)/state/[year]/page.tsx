@@ -266,6 +266,18 @@ export default async function StatePage({ params }: Params) {
           {SITE_NAME}, {SITE_MAKER}. {SITE_URL}
           {statePath(year)}
         </p>
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-soft">
+          Archived releases of the whole project carry a DOI:{" "}
+          <a
+            href="https://doi.org/10.5281/zenodo.21998618"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="font-mono underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            10.5281/zenodo.21998618
+          </a>{" "}
+          (resolves to the latest archived version).
+        </p>
         <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
           Machine-readable:{" "}
           <a

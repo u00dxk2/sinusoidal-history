@@ -8,6 +8,7 @@ authors:
     affiliation: Skylark Creations
 url: "https://sinusoidal-history.skylarkcreations.com"
 repository-code: "https://github.com/u00dxk2/sinusoidal-history"
+doi: 10.5281/zenodo.21998618
 abstract: >-
   Sinusoidal History overlays eight named long-wave theories of history
   (Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin, Dalio,
@@ -29,5 +30,5 @@ keywords:
   - calibration
   - selection effect
 license: MIT
-date-released: 2026-04-26
-version: "1.1.1"
+date-released: 2026-08-18
+version: "1.1.0"
