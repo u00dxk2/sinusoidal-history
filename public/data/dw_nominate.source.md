@@ -2,9 +2,9 @@
 
 **Retrieved:** 2026-04-24
 **Source URL:** https://voteview.com/static/articles/party_polarization/voteview_polarization_data.csv
-**Primary citation:** Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2025). *Voteview: Congressional Roll-Call Votes Database.* https://voteview.com
+**Primary citation:** Lewis, Jeffrey B., Keith Poole, Howard Rosenthal, Adam Boche, Aaron Rudkin, and Luke Sonnet (2026). *Voteview: Congressional Roll-Call Votes Database.* https://voteview.com
 **Associated page:** https://voteview.com/articles/party_polarization
-**License:** Public
+**License:** Freely available; Voteview requests citation; project code MIT-licensed; no explicit data license. (An earlier version of this file said "Public.")
 
 ## Columns in our CSV
 
@@ -17,7 +17,7 @@ Source file has House and Senate rows for each Congress (46 through 118, years 1
 
 ## Why this series pairs with Huntington
 
-Huntington's creedal-passion cycle predicts surges of political moralism and reform agitation approximately every 60 years, which historically correlate with polarization peaks. DW-NOMINATE is the cleanest long-run proxy for American political polarization that exists.
+Huntington's creedal-passion cycle predicts surges of political moralism and reform agitation approximately every 60 years. His construct is not roll-call polarization — this pairing is the project's proxy choice, not a measure Huntington proposed. DW-NOMINATE is the cleanest long-run measure of American political division that exists, which is why we use it anyway.
 
 ## Caveats
 

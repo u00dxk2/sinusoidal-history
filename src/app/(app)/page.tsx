@@ -46,8 +46,8 @@ export default function Home() {
             <span className="hidden sm:inline">
               Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin,
               Dalio, Strauss-Howe — drawn over 1600–2050. Each a pure sinusoid
-              pinned to one documented peak, with a paired empirical series for
-              stress-testing.
+              pinned to one documented peak; seven of the eight carry a paired
+              empirical series for stress-testing.
             </span>
             <span className="sm:hidden">
               Eight theories of long-wave history on one axis. Tap a row to

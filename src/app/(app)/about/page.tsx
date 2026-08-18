@@ -32,8 +32,9 @@ export default function About() {
         <p>
           Sinusoidal History overlays eight named long-wave theories on a
           shared time axis so a reader can see <em>where their predictions
-          line up and where they disagree</em>. Each cycle is paired with a
-          real long-run data series, and a calibration panel lets you stress-
+          line up and where they disagree</em>. Seven of the eight cycles are
+          paired with a real long-run data series (Perez has none this round),
+          and a calibration panel lets you stress-
           test the fit instead of just admiring the curves side by side.
         </p>
         <p>
@@ -66,12 +67,14 @@ export default function About() {
           turning point between 1968 and 1974; we use 1973 as the
           conventional anchor. Khaldun (d. 1406) made no claim about European
           history; we anchor at 1789 so the framework can be tested against
-          the modern European record our other data series cover, and that is
+          the modern US and global record our data series cover, and that is
           explicitly the project&apos;s editorial choice. Perez identifies
           2000–2001 as the &quot;Turning Point&quot; between Installation and
           Deployment phases of the ICT surge; we map her Turning Point to our
           sinusoid&apos;s peak — that conflates her concept with our
-          mathematical convention. Schlesinger Jr. dated his most recently
+          mathematical convention, and 2000 is best read as her
+          financial-frenzy peak (her later work extends the Turning Point
+          through 2008). Schlesinger Jr. dated his most recently
           completed liberal era as 1962–1978; we anchor at the midpoint
           (~1970), but Schlesinger himself predicted the next liberal turn
           around 1990, which a strict 30-year-from-1970 sinusoid does not
@@ -172,12 +175,13 @@ export default function About() {
           2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither
           at a trough nor a peak — there is no peak-year anchor that lines
           their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
-          interpretive periodization extending his father&apos;s ~16-year
-          cycle to ~30 years; the empirical pairing (Stimson Policy Mood)
+          interpretive periodization formalizing his father&apos;s ~15–16-year
+          alternating phases into a ~30-year full cycle; the empirical pairing
+          (Stimson Policy Mood)
           only covers 1952 onward, so the Schlesinger curve&apos;s pre-1952
-          shape cannot be stress-tested against the data. Each cycle comes
-          with a caveat surfaced inline in the focused-facet view; for
-          Strauss-Howe and Schlesinger Jr. in particular, treat skeptically.
+          shape cannot be stress-tested against the data. Two cycles
+          (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced
+          in the focused-facet view; treat both especially skeptically.
         </p>
         <p>
           Treat this tool as a way of making those judgments visible and

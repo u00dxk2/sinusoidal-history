@@ -1,6 +1,6 @@
 # Sinusoidal History
 
-> Eight historical cycle theories overlaid on one shared time axis (1600–2050), each paired with a real long-run empirical data series. A comparison tool — not prophecy.
+> Eight historical cycle theories overlaid on one shared time axis (1600–2050), seven of them paired with a real long-run empirical data series. A comparison tool — not prophecy.
 
 The site is at https://sinusoidal-history.skylarkcreations.com. Source code is at https://github.com/u00dxk2/sinusoidal-history. Built by David Kooi at Skylark Creations, April 2026, after a phone-call conversation with Mark R about whether you could plot Khaldun, Kondratiev, Huntington, Perez, Turchin, Dalio, and Strauss-Howe as actual sine waves on one axis and see where they net out. Schlesinger Jr.'s ~30-year liberal/conservative cycle was added in a second pass, also at Mark's suggestion.
 

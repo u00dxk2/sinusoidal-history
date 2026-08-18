@@ -3,7 +3,7 @@
     "id": "dw_nominate_polarization",
     "name": "US House Polarization (DW-NOMINATE)",
     "legend_short": "DW-NOMINATE polarization",
-    "short_description": "Distance between Democratic and Republican House means on the first DW-NOMINATE dimension; 46th Congress–present (1879–current)",
+    "short_description": "Distance between Democratic and Republican House means on the first DW-NOMINATE dimension; 46th–118th Congress (1879–2023)",
     "source": "Voteview / Lewis, Poole, Rosenthal, Boche, Rudkin, Sonnet (2026)",
     "source_url": "https://voteview.com/articles/party_polarization",
     "license": "freely available; project code MIT-licensed; no explicit data license",
@@ -13,7 +13,7 @@
     "value_units": "party-mean distance (d1)",
     "color": "#0F1419",
     "associated_cycle_id": "huntington",
-    "association_note": "Huntington's creedal-passion cycle predicts ~60–70 year polarization peaks. DW-NOMINATE is the cleanest long-run roll-call proxy available."
+    "association_note": "Huntington's construct is recurring surges of creedal moralism — not interparty roll-call distance. This project pairs it with DW-NOMINATE polarization as an imperfect proxy chosen by us, not a measure Huntington proposed; it is the cleanest century-scale roll-call series available."
   },
   {
     "id": "us_tfp_growth",
@@ -51,7 +51,7 @@
     "id": "us_world_gdp_share",
     "name": "US Share of World GDP",
     "legend_short": "US share · world GDP",
-    "short_description": "US GDP as share of all-countries GDP in the Maddison Project Database (2011 PPP \\$); trimmed to 1870+ for stable country coverage. Full source 1820–2022",
+    "short_description": "US GDP as share of all-countries GDP in the Maddison Project Database (2011 PPP \\$); trimmed to 1870+ (earlier years have too-sparse country coverage, and the covered-country denominator keeps growing after 1870 — see methods). Upstream country estimates reach back to year 1; this project uses 1870–2022",
     "source": "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618)",
     "source_url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
     "license": "CC BY 4.0",
@@ -100,7 +100,7 @@
     "id": "stimson_policy_mood",
     "name": "US Policy Mood (Stimson)",
     "legend_short": "Policy Mood",
-    "short_description": "Stimson's Policy Mood index — composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyadic-ratios algorithm; annual, 1952–2024",
+    "short_description": "Stimson's Policy Mood index — composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyad-ratios algorithm; annual, 1952–2024",
     "source": "James A. Stimson, Policy Mood data series (UNC), via Public Opinion in America (Westview, 2nd ed., 1999) and ongoing updates",
     "source_url": "https://stimson.web.unc.edu/data/",
     "license": "freely shared by author; no explicit reuse license",

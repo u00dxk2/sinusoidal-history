@@ -4,7 +4,7 @@
 **Source URL:** https://www.frbsf.org/wp-content/uploads/quarterly_tfp.xlsx
 **Primary citation:** Fernald, John G. (2014). *A Quarterly, Utilization-Adjusted Series on Total Factor Productivity.* FRBSF Working Paper 2012-19 (updated 2026-03-24).
 **Producer:** Federal Reserve Bank of San Francisco, John Fernald and Shane Boyle
-**License:** Public
+**License:** Freely available; © FRBSF, no explicit reuse license. (An earlier version of this file said "Public.")
 
 ## Columns in our CSV
 

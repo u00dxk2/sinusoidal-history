@@ -118,6 +118,13 @@ export default function Methods() {
             Because normalization is per-series, you cannot compare amplitudes
             across series. Only across time within a single series.
           </li>
+          <li>
+            Because the min/max is taken over the <em>visible window</em>,
+            brushing the time range re-normalizes the series: normalized
+            heights are comparable only within the current window, and a
+            narrow window forces even trivial local variation to span the
+            full −1 to +1 height.
+          </li>
         </ul>
       </section>
 
@@ -135,7 +142,10 @@ export default function Methods() {
             <strong className="text-ink">Phase sensitivity.</strong> For two
             sinusoids of the same period, Pearson r reduces to{" "}
             <code className="font-mono text-[13px]">cos(Δφ)</code>, where Δφ is
-            the phase offset between them. A perfect cosine evaluated over one
+            the phase offset between them (exactly so for continuous
+            integration or evenly spaced samples over whole periods;
+            approximately for the finite, partial-period records actually
+            correlated here). A perfect cosine evaluated over one
             full period has r = 1 with itself, r = 0 with a quarter-period
             shift, and r = −1 with a half-period shift — even though all three
             are the same cycle in any structural sense. Pearson therefore
@@ -156,14 +166,23 @@ export default function Methods() {
           question - &quot;how much is the peak-year choice doing?&quot; - is
           visible just from watching the correlation change as you move the
           slider. That diagnostic use is valid. Treating the number as a test
-          statistic is not.
+          statistic is not. Three further honesty notes: the readout is always
+          computed over the series&apos; <em>full</em> record, not the brushed
+          window shown in the chart (equal weight per row, so densely sampled
+          modern years dominate an irregular series); it is computed on the
+          transformed values where a transform applies (log1p for Project
+          Mars), so it is the correlation of the logged series; and because
+          the sliders let you tune both phase and period against the same
+          observations, a slider-maximized r is an in-sample search result,
+          not evidence — do not hunt for the peak.
         </p>
         <p>
           Better tools for cyclic data include cross-correlation at varying
-          lags, the Fourier periodogram (or Lomb-Scargle for unevenly sampled
-          records, which the present series are not), and wavelet
-          decomposition for non-stationary signals. These are flagged for
-          future work.
+          lags, the Fourier periodogram, Lomb-Scargle for unevenly sampled
+          records (which one of the present series is: the WID wealth
+          series&apos; pre-1913 points arrive at 30-, 20-, 10-, and 3-year
+          gaps before annual coverage begins), and wavelet decomposition for
+          non-stationary signals. These are flagged for future work.
         </p>
       </section>
 
@@ -173,7 +192,7 @@ export default function Methods() {
         </h2>
         <p>
           The curves cover 1600–2050. Every data series has shorter coverage.
-          DW-NOMINATE: 46th Congress–present (1879–current); Fernald TFP
+          DW-NOMINATE: 46th–118th Congress (1879–2023); Fernald TFP
           annual series 1948–present, displayed 1948–present (the 1948 and
           1949 values use a clipped, asymmetric window because a true 5-year
           centered window only becomes available at 1950 — treat the first
@@ -222,7 +241,8 @@ export default function Methods() {
           Huntington.</strong>{" "}
           An earlier draft of this project paired V-Dem with Huntington as a
           secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe
-          so each cycle would have exactly one paired series. Both are
+          so no cycle would carry two series — seven of the eight cycles have
+          exactly one paired series, and Perez has none. Both are
           arguments. The Strauss-Howe pairing reads V-Dem&apos;s recent
           decline as a Fourth-Turning institutional-stress signal; the
           Huntington pairing would have read it as the trough side of a
@@ -256,9 +276,9 @@ export default function Methods() {
           construction, an estimate of US public preference for liberal vs.
           conservative domestic policy — exactly what Schlesinger&apos;s cycle
           claims to track. The catch is coverage: the series only starts in
-          1952, so only Schlesinger&apos;s most recent two completed swings
-          (mid-50s trough → late-60s peak → late-70s trough) sit inside the
-          empirical window. The pre-1952 shape of the Schlesinger curve
+          1952. Inside the empirical window this construction (period 30,
+          peak 1970) plots troughs at 1955, 1985, and 2015 and peaks at 1970
+          and 2000 — two full swings. The pre-1952 shape of the Schlesinger curve
           cannot be stress-tested against the paired data; treat the
           calibration drawer&apos;s Pearson r accordingly.
         </p>
@@ -269,7 +289,7 @@ export default function Methods() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-04-26
+        Last updated: 2026-08-18
       </footer>
     </article>
   );

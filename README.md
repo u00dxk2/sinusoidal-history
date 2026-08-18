@@ -76,7 +76,9 @@ prompts and reports. Notable corrections during the audit:
 - Strauss-Howe peak re-anchored from 2008 (Crisis onset) to 1955 (post-WWII
   High peak), since the Crisis is a trough in this construction, not a peak.
 - Dalio peak moved from 1945 to 1950 to match his own stated peak year for
-  US power; period revised from 85y to 75y to match Dalio's stated number.
+  US power; period revised from 85y to 75y (Dalio states long-term debt
+  cycles run about 50–75 years; 75 is the upper end of his range, this
+  project's selection rather than a number he asserts).
 - Perez confidence tier downgraded from "quantitative" to "empirical-contested"
   (her work is qualitative Schumpeterian periodization, not statistical fit).
 - Maddison US/world GDP series rebuilt: regional-aggregate filter was missing
@@ -318,7 +320,10 @@ CITATION.cff                  Citation metadata
 
 ## Sharing
 
-Every meaningful UI state is in the URL.
+The load-bearing UI state is in the URL — tab, focused cycle, time range,
+and per-cycle calibration overrides. (A few ephemeral toggles — overlay
+series visibility, the pinned year, event-marker visibility — are local
+state and reset on reload.)
 `?tab=facets&focus=huntington&range=1900-2050&peak.huntington=1968` opens
 the app with Huntington focused at peak 1968, zoomed to 1900+. Send that
 link and the recipient sees what you see.

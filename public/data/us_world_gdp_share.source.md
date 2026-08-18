@@ -3,7 +3,7 @@
 **Retrieved:** 2026-04-24
 **Source URL:** https://ourworldindata.org/grapher/gdp-maddison-project-database.csv
 **Primary citation:** Bolt, Jutta and Jan Luiten van Zanden (2024). *Maddison-style estimates of the evolution of the world economy: A new 2023 update.* Journal of Economic Surveys, 1–41. DOI: 10.1111/joes.12618.
-**Coverage:** 1870–2022 (trimmed; full source 1820–2022).
+**Coverage:** 1870–2022 (trimmed; upstream country estimates reach back to year 1, with coverage thinning rapidly before the 19th century).
 **License:** CC BY 4.0.
 
 ## Columns in our CSV
