@@ -11,10 +11,13 @@ import {
 interface NowSummaryPanelProps {
   cycles: Cycle[];
   currentYear: number;
-  onSelectCycle: (id: string) => void;
+  onSelectCycle?: (id: string) => void;
   /** Dated /state/<year> permalink. Omitted in embeds, where an in-iframe
       navigation would strand the reader. */
   permalinkHref?: string;
+  /** False in embeds: rows render as plain rows (no buttons, no "tap a row"
+      hint) because the embed discards selection events. */
+  interactive?: boolean;
 }
 
 const MONTH_NAMES = [
@@ -58,6 +61,7 @@ export default function NowSummaryPanel({
   currentYear,
   onSelectCycle,
   permalinkHref,
+  interactive = true,
 }: NowSummaryPanelProps) {
   return (
     <section
@@ -88,9 +92,11 @@ export default function NowSummaryPanel({
                 </Link>
               </p>
             )}
-            <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
-              tap a row to focus + calibrate
-            </p>
+            {interactive && (
+              <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
+                tap a row to focus + calibrate
+              </p>
+            )}
           </div>
         </header>
       </div>
@@ -101,11 +107,40 @@ export default function NowSummaryPanel({
         {cycles.map((cycle, idx) => {
           const label = phasePositionLabel(cycle, currentYear);
           const progress = phaseProgressPercent(cycle, currentYear);
+          if (!interactive) {
+            return (
+              <li key={cycle.id}>
+                <div className="w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 min-h-11 rounded-sm">
+                  <span
+                    aria-hidden
+                    className="font-mono text-[11px] text-ink-soft/70 tabular-nums w-4 text-right flex-shrink-0"
+                  >
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="self-stretch w-[3px] flex-shrink-0 rounded-full"
+                    style={{ backgroundColor: cycle.color }}
+                  />
+                  <span className="font-display text-[15px] sm:text-[18px] tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
+                    {bylineName(cycle.name)}
+                  </span>
+                  <PhaseGaugeBar percent={progress} color={cycle.color} />
+                  <span
+                    className="text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right"
+                    style={{ color: cycle.color }}
+                  >
+                    {labelDescription(label)}
+                  </span>
+                </div>
+              </li>
+            );
+          }
           return (
             <li key={cycle.id}>
               <button
                 type="button"
-                onClick={() => onSelectCycle(cycle.id)}
+                onClick={() => onSelectCycle?.(cycle.id)}
                 aria-label={`${cycle.name} — currently ${labelDescription(label)}, click to focus and calibrate`}
                 // min-h-11: py-2.5 landed these rows at 43px, one under the
                 // 44px floor. outline-none + a 30%-opacity ring is dropped in

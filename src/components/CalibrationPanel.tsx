@@ -69,7 +69,9 @@ export default function CalibrationPanel({
           <p className="text-xs text-foreground/60 mt-0.5">
             vs. {series.name}
             {overlapRange &&
-              ` · overlap ${overlapRange.start}–${overlapRange.end}`}
+              // "full record": r always uses every row of the series, not
+              // the brushed window shown in the charts — see /methods.
+              ` · full record ${overlapRange.start}–${overlapRange.end} · n=${points.length}`}
           </p>
           {/* The chart had no link into the per-cycle pages at all — the only
               route was nav → /cycles → find it again. Someone dragging the peak

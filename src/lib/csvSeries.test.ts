@@ -23,9 +23,9 @@ describe("parseCsvSeries", () => {
     ].join("\n");
 
     expect(parseCsvSeries(csv, "year", "value")).toEqual([
-      { year: 2000, value: 1 },
-      { year: 2001, value: 2 },
-      { year: 2002, value: 3 },
+      { year: 2000, value: 1, sourceValue: 1 },
+      { year: 2001, value: 2, sourceValue: 2 },
+      { year: 2002, value: 3, sourceValue: 3 },
     ]);
   });
 
@@ -39,17 +39,17 @@ describe("parseCsvSeries", () => {
     ].join("\n");
 
     expect(parseCsvSeries(csv, "year", "value")).toEqual([
-      { year: 2000, value: 1 },
-      { year: 2003, value: 4 },
+      { year: 2000, value: 1, sourceValue: 1 },
+      { year: 2003, value: 4, sourceValue: 4 },
     ]);
   });
 
-  it("applies transforms after parsing", () => {
+  it("applies transforms to value while keeping the raw sourceValue", () => {
     const csv = ["year,deaths", "2000,0", "2001,99"].join("\n");
 
     expect(parseCsvSeries(csv, "year", "deaths", "log1p")).toEqual([
-      { year: 2000, value: 0 },
-      { year: 2001, value: Math.log1p(99) },
+      { year: 2000, value: 0, sourceValue: 0 },
+      { year: 2001, value: Math.log1p(99), sourceValue: 99 },
     ]);
   });
 });

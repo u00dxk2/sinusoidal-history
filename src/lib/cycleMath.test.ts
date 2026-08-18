@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import {
   sineAtYear,
-  phasePosition,
   normalizedPhase,
   phasePositionLabel,
   phaseFraction,
@@ -68,37 +67,6 @@ describe("normalizedPhase", () => {
 
   it("is periodic with period_years", () => {
     expect(normalizedPhase(cycle, 2030)).toBeCloseTo(normalizedPhase(cycle, 1970), 10);
-  });
-});
-
-describe("phasePosition", () => {
-  it("peaking at reference peak year", () => {
-    expect(phasePosition(cycle, 2000)).toBe("peaking");
-  });
-
-  it("peaking at period multiples", () => {
-    expect(phasePosition(cycle, 2060)).toBe("peaking");
-    expect(phasePosition(cycle, 1940)).toBe("peaking");
-  });
-
-  it("troughing at half period", () => {
-    expect(phasePosition(cycle, 2030)).toBe("troughing");
-  });
-
-  it("falling between peak and trough", () => {
-    expect(phasePosition(cycle, 2010)).toBe("falling");
-    expect(phasePosition(cycle, 2020)).toBe("falling");
-  });
-
-  it("rising between trough and next peak", () => {
-    expect(phasePosition(cycle, 2040)).toBe("rising");
-    expect(phasePosition(cycle, 2055)).toBe("rising");
-  });
-
-  it("handles years before reference peak", () => {
-    expect(phasePosition(cycle, 1970)).toBe("troughing");
-    expect(phasePosition(cycle, 1980)).toBe("rising");
-    expect(phasePosition(cycle, 1950)).toBe("falling");
   });
 });
 

@@ -5,7 +5,6 @@ import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
 import {
-  phasePosition,
   phasePositionLabel,
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
@@ -587,6 +586,3 @@ function SliderRow({
     </label>
   );
 }
-
-// Re-export for tests / external use
-export { phasePosition };

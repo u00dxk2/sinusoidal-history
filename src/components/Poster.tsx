@@ -57,7 +57,7 @@ export default function Poster({ cycles }: PosterProps) {
   );
 
   const now = new Date();
-  const currentYear = now.getFullYear();
+  const currentYear = now.getUTCFullYear();
   const headline = formatHeadline(now);
 
   const posterRef = useRef<HTMLDivElement>(null);

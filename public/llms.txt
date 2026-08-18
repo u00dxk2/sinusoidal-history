@@ -53,7 +53,7 @@ Three GET endpoints, no auth, `Access-Control-Allow-Origin: *`:
 
 - [/api/v1/cycles](https://sinusoidal-history.skylarkcreations.com/api/v1/cycles) — the canonical cycle definitions (same content as cycles.json).
 - [/api/v1/series](https://sinusoidal-history.skylarkcreations.com/api/v1/series) — the canonical data-series definitions (same content as series.json); CSVs they reference are under /data/.
-- [/api/v1/state?year=2026](https://sinusoidal-history.skylarkcreations.com/api/v1/state?year=2026) — the computed reading: for every cycle at the given year (default: current year), the cos value, phase label (peaking / rising / falling / troughing / crossing), and next implied peak and trough years, from cos(2π · (year − reference_peak_year) / period_years). This is the machine-readable form of the /state/<year> pages.
+- [/api/v1/state?year=2026](https://sinusoidal-history.skylarkcreations.com/api/v1/state?year=2026) — the computed reading: for every cycle at the given year (default: current year), the cos value, phase label (peaking / rising / falling / troughing / crossing), and next implied peak and trough years, from cos(2π · (year − reference_peak_year) / period_years). This is the machine-readable form of the /state/<year> pages. (The API computes any year 1–9999; the human /state pages exist from 2026 through the current year.)
 
 CSV data files (CORS-enabled, served from the live site):
 

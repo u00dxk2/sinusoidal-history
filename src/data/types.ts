@@ -18,8 +18,6 @@ export interface Cycle {
   caveat?: string;
 }
 
-export type PhasePosition = "rising" | "peaking" | "falling" | "troughing";
-
 export interface Annotation {
   id: string;
   year: number;

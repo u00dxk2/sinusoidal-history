@@ -33,7 +33,13 @@ export function parseCsvSeries(
     const y = Number(row[yearColumn]);
     const v = Number(row[valueColumn]);
     if (Number.isFinite(y) && Number.isFinite(v)) {
-      points.push({ year: y, value: transformSeriesValue(v, transform) });
+      // value carries the transform (plot/normalize/correlate on it);
+      // sourceValue keeps the real-unit number for tooltips.
+      points.push({
+        year: y,
+        value: transformSeriesValue(v, transform),
+        sourceValue: v,
+      });
     }
   }
   points.sort((a, b) => a.year - b.year);

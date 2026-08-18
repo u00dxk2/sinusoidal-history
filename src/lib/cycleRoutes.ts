@@ -40,9 +40,10 @@ export function cycleChartPath(cycle: Cycle): string {
 }
 
 /**
- * Resolves a route segment to a cycle. Accepts the canonical hyphenated slug
- * and the raw underscored id, so `/cycles/strauss_howe` resolves too (its
- * canonical tag points at the hyphenated form).
+ * Resolves a route segment to a cycle. Normalizes hyphens to underscores so
+ * internal callers can pass either form — but note the route itself sets
+ * `dynamicParams = false`, so only the hyphenated slugs are live URLs;
+ * `/cycles/strauss_howe` 404s rather than aliasing.
  */
 export function findCycleBySlug(slug: string): Cycle | undefined {
   const normalized = slug.toLowerCase().replace(/-/g, "_");

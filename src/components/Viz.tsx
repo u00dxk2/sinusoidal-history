@@ -49,7 +49,10 @@ export default function Viz({
   const visibleStartYear = range.start;
   const visibleEndYear = range.end;
 
-  const currentYear = new Date().getFullYear();
+  // UTC, matching the /state route's request-time year bound — a local-time
+  // year here would 404 the "annual permalink" link near New Year in
+  // timezones ahead of UTC.
+  const currentYear = new Date().getUTCFullYear();
 
   const seriesByCycle = useMemo(() => {
     const map = new Map<string, DataSeries>();

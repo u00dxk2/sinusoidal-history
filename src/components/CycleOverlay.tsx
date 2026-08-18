@@ -3,8 +3,12 @@
 import { useMemo, useRef, useState, useCallback } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
-import type { Cycle, DataSeries, PhasePosition } from "@/data/types";
-import { sineAtYear, phasePosition } from "@/lib/cycleMath";
+import type { Cycle, DataSeries } from "@/data/types";
+import {
+  sineAtYear,
+  phasePositionLabel,
+  type PhasePositionLabel,
+} from "@/lib/cycleMath";
 import { normalizeSeries, type SeriesPoint } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
@@ -28,7 +32,7 @@ const DEFAULT_HEIGHT = 500;
 const MARGIN = { top: 24, right: 24, bottom: 44, left: 24 };
 const SAMPLE_STEP = 0.5;
 
-function phaseLabel(p: PhasePosition): string {
+function phaseLabel(p: PhasePositionLabel): string {
   return p;
 }
 
@@ -45,7 +49,7 @@ export default function CycleOverlay({
   cycles,
   dataSeries = [],
   cycleOverrides = {},
-  currentYear = new Date().getFullYear(),
+  currentYear = new Date().getUTCFullYear(),
   startYear = DEFAULT_YEAR_RANGE.start,
   endYear = DEFAULT_YEAR_RANGE.end,
 }: CycleOverlayProps) {
@@ -567,7 +571,7 @@ function HoverInfo({
   originalCycle: Cycle;
   currentYear: number;
 }) {
-  const pos = phasePosition(cycle, currentYear);
+  const pos = phasePositionLabel(cycle, currentYear);
   const overridden =
     cycle.period_years !== originalCycle.period_years ||
     cycle.reference_peak_year !== originalCycle.reference_peak_year;
@@ -654,7 +658,7 @@ function PinnedYearPanel({
       ) : (
         <ul className="mt-3 space-y-2">
           {cycles.map((cycle) => {
-            const pos = phasePosition(cycle, year);
+            const pos = phasePositionLabel(cycle, year);
             const value = sineAtYear(cycle, year);
             return (
               <li key={cycle.id} className="text-sm">

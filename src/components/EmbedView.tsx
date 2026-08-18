@@ -67,7 +67,7 @@ export default function EmbedView({
     [filteredCycles, overrides]
   );
 
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getUTCFullYear();
 
   return (
     <div className="p-4 bg-background min-h-screen flex flex-col gap-4">
@@ -75,7 +75,7 @@ export default function EmbedView({
         <NowSummaryPanel
           cycles={effectiveCycles}
           currentYear={currentYear}
-          onSelectCycle={() => {}}
+          interactive={false}
         />
       )}
       {view === "facets" && (
@@ -83,7 +83,7 @@ export default function EmbedView({
           <NowSummaryPanel
             cycles={effectiveCycles}
             currentYear={currentYear}
-            onSelectCycle={() => {}}
+            interactive={false}
           />
           <FacetView
             cycles={filteredCycles}

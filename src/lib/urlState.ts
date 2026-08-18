@@ -28,8 +28,10 @@ export function parseRange(
   }
   const match = value.match(/^(\d{3,4})-(\d{3,4})$/);
   if (match) {
-    const start = Number(match[1]);
-    const end = Number(match[2]);
+    // Clamp to the chart's real extent: an unclamped range like 100-9999
+    // renders axes the brush (fixed to 1600-2050) cannot describe.
+    const start = Math.max(fallback.start, Number(match[1]));
+    const end = Math.min(fallback.end, Number(match[2]));
     if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
       return { start, end, preset: null };
     }
@@ -68,6 +70,15 @@ export function useRangeState() {
   return useQueryState("range", parseAsString);
 }
 
+function clampOverrideValue(
+  value: number | null,
+  min: number,
+  max: number
+): number | null {
+  if (value == null || !Number.isFinite(value)) return null;
+  return Math.min(max, Math.max(min, value));
+}
+
 /**
  * Returns [overrides, setOverride] where overrides is a plain JS dict keyed
  * by cycle id, and setOverride(id, partial) merges into the URL.
@@ -94,8 +105,19 @@ export function useOverridesState(cycles: Cycle[]): [
   const overrides = useMemo(() => {
     const out: Record<string, CycleOverride> = {};
     for (const c of cycles) {
-      const peak = params[`peak.${c.id}`];
-      const period = params[`period.${c.id}`];
+      // URL params are a trust boundary: clamp to the same bounds the
+      // calibration sliders enforce. Unclamped, ?period.<id>=0 divides by
+      // zero and NaNs the curve, correlation, and phase label.
+      const peak = clampOverrideValue(
+        params[`peak.${c.id}`],
+        c.reference_peak_year - 30,
+        c.reference_peak_year + 30
+      );
+      const period = clampOverrideValue(
+        params[`period.${c.id}`],
+        Math.round(c.period_years * 0.75),
+        Math.round(c.period_years * 1.25)
+      );
       if (peak != null || period != null) {
         out[c.id] = {
           reference_peak_year: peak ?? undefined,

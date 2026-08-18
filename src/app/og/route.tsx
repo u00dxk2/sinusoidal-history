@@ -85,7 +85,7 @@ export async function GET(request: Request) {
 
   const now = new Date();
   const headline = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
-  const currentYear = now.getFullYear();
+  const currentYear = now.getUTCFullYear();
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));

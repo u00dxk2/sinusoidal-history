@@ -14,15 +14,16 @@ type Params = { params: Promise<{ year: string }> };
 /**
  * The annual reading, one page per year since 2026. Every number on this
  * page is derived from period + reference peak via the chart's own cosine —
- * no year-phase claim is authored by hand (KP-001). Years render on demand
- * as the clock advances, so there is no annual editorial chore; years
- * before STATE_FIRST_YEAR or after the current year 404.
+ * no year-phase number is authored by hand (KP-001); the phase labels
+ * bucket those numbers using the stated editorial cutoffs in cycleMath.
+ * Years render as the clock advances, so there is no annual editorial
+ * chore; years before STATE_FIRST_YEAR or after the current year 404.
+ *
+ * force-dynamic: the year bound reads the request-time clock. A statically
+ * rendered miss for a future year (a crawler probing /state/2027 in 2026)
+ * would otherwise cache a 404 that survives into 2027 until a redeploy.
  */
-export const dynamicParams = true;
-
-export function generateStaticParams() {
-  return stateYears().map((year) => ({ year: String(year) }));
-}
+export const dynamic = "force-dynamic";
 
 function parseYear(param: string): number | null {
   if (!/^\d{4}$/.test(param)) return null;
@@ -132,7 +133,7 @@ export default async function StatePage({ params }: Params) {
 
       <header className="mt-6">
         <p className="text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
-          Annual reading · frozen for citation
+          Annual reading · dated permalink
         </p>
         <h1
           className="font-display mt-3 text-ink leading-[0.98] tracking-[-0.015em]"
@@ -143,9 +144,11 @@ export default async function StatePage({ params }: Params) {
         <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
           For each of the eight constructions — a theory&apos;s stated period,
           pinned to one documented reference peak — this page records where the
-          curve sits in {year} and the next turning points it implies.
-          Everything here is computed from the same cosine the chart draws;
-          nothing is asserted by hand.
+          curve sits in {year} and the next turning points it implies. Every
+          number is computed from the same cosine the chart draws; the phase
+          labels bucket those numbers using stated editorial cutoffs (within
+          ±3% of a period counts as peaking or troughing, within ±1.5% of a
+          zero crossing as crossing).
         </p>
         <p className="mt-4 text-[15px] leading-[1.65] text-ink/85">
           This is not a forecast. Each &ldquo;next peak&rdquo; is what a fixed
@@ -178,6 +181,9 @@ export default async function StatePage({ params }: Params) {
                   Period
                 </th>
                 <th scope="col" className="py-3 pr-3 font-medium text-right">
+                  Ref. peak
+                </th>
+                <th scope="col" className="py-3 pr-3 font-medium text-right">
                   cos in {year}
                 </th>
                 <th scope="col" className="py-3 pr-3 font-medium">
@@ -206,6 +212,9 @@ export default async function StatePage({ params }: Params) {
                     {entry.period_years}y
                   </td>
                   <td className="py-3 pr-3 text-right font-mono text-[13px] text-ink/85 tabular-nums">
+                    {entry.reference_peak_year}
+                  </td>
+                  <td className="py-3 pr-3 text-right font-mono text-[13px] text-ink/85 tabular-nums">
                     {formatCos(entry.cos)}
                   </td>
                   <td className="py-3 pr-3 font-mono text-[12px] uppercase tracking-[0.14em] text-ink/80">
@@ -225,9 +234,12 @@ export default async function StatePage({ params }: Params) {
         <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
           cos values run from +1.00 (at a peak of the construction) to −1.00
           (at a trough), from cos(2π · (year − reference peak) / period).
-          Phase labels use the same narrow bands as the chart, so
+          Phase labels use the same narrow bands as the chart — ±3% of a
+          period around an extremum, which is ±0.9 years for the 30-year
+          cycle but ±4.5 years for the 150-year one — so
           &ldquo;peaking&rdquo; means near the peak, not somewhere in the top
-          third. Next peak and trough are rounded to whole years. See{" "}
+          third. Next peak and trough are model extrema of the fixed
+          construction, rounded to whole years. See{" "}
           <Link
             href="/methods"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
@@ -244,7 +256,10 @@ export default async function StatePage({ params }: Params) {
         </h2>
         <p className="border-t border-rule/30 pt-4 text-[14px] leading-[1.65] text-ink/85">
           This page is a dated permalink: the {year} reading stays at this URL
-          as later years are added. Suggested citation:
+          as later years are added. Values are recomputed from the current
+          cycle definitions — if a period or anchor is ever corrected, past
+          readings update too, and the correction is recorded in the
+          project&apos;s changelog. Suggested citation:
         </p>
         <p className="mt-3 font-mono text-[12px] leading-relaxed text-ink/80 border-l-2 border-ink/40 pl-3.5">
           Kooi, D. ({year}). &ldquo;State of the Cycles {year}.&rdquo;{" "}

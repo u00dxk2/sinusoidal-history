@@ -87,6 +87,33 @@ describe("pearsonCorrelation", () => {
     expect(r).not.toBeNull();
     expect(Math.abs(r!)).toBeLessThan(0.001);
   });
+
+  it("returns null (not NaN) when any input is non-finite", () => {
+    expect(pearsonCorrelation([1, NaN, 3], [1, 2, 3])).toBeNull();
+    expect(pearsonCorrelation([1, 2, 3], [1, Infinity, 3])).toBeNull();
+    expect(pearsonCorrelation([-Infinity, 2, 3], [1, 2, 3])).toBeNull();
+  });
+});
+
+describe("normalizeSeries raw values", () => {
+  it("carries sourceValue (untransformed) into raw for tooltips", () => {
+    const points: SeriesPoint[] = [
+      { year: 2000, value: Math.log1p(10), sourceValue: 10 },
+      { year: 2001, value: Math.log1p(100), sourceValue: 100 },
+    ];
+    const normalized = normalizeSeries(points);
+    expect(normalized[0].raw).toBe(10);
+    expect(normalized[1].raw).toBe(100);
+  });
+
+  it("falls back to value when no sourceValue is present", () => {
+    const normalized = normalizeSeries([
+      { year: 2000, value: 5 },
+      { year: 2001, value: 7 },
+    ]);
+    expect(normalized[0].raw).toBe(5);
+    expect(normalized[1].raw).toBe(7);
+  });
 });
 
 describe("pairedValuesForCorrelation", () => {
