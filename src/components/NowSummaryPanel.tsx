@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { Cycle } from "@/data/types";
 import {
   phasePositionLabel,
@@ -11,6 +12,9 @@ interface NowSummaryPanelProps {
   cycles: Cycle[];
   currentYear: number;
   onSelectCycle: (id: string) => void;
+  /** Dated /state/<year> permalink. Omitted in embeds, where an in-iframe
+      navigation would strand the reader. */
+  permalinkHref?: string;
 }
 
 const MONTH_NAMES = [
@@ -53,6 +57,7 @@ export default function NowSummaryPanel({
   cycles,
   currentYear,
   onSelectCycle,
+  permalinkHref,
 }: NowSummaryPanelProps) {
   return (
     <section
@@ -73,6 +78,16 @@ export default function NowSummaryPanel({
             <p className="font-mono text-[11px] sm:text-[11px] tracking-widest uppercase text-ink-soft">
               {monthYear(currentYear)}
             </p>
+            {permalinkHref && (
+              <p className="mt-1 text-[11px]">
+                <Link
+                  href={permalinkHref}
+                  className="inline-flex items-center min-h-11 -my-3 text-ink-soft underline decoration-ink/30 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
+                >
+                  annual permalink →
+                </Link>
+              </p>
+            )}
             <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
               tap a row to focus + calibrate
             </p>

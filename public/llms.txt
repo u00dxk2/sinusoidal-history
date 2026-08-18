@@ -15,6 +15,7 @@ Headline editorial point: most of the cycles peak near the present, but that is 
 - [Methods](https://sinusoidal-history.skylarkcreations.com/methods): Data provenance, transformations, normalization choices, and why Pearson r is a diagnostic and not a test statistic. Per-series source citations and license terms.
 - [About](https://sinusoidal-history.skylarkcreations.com/about): The argument. Why this exists, why every cycle peaks near now, the eight cycles in this version, the intellectual-honesty disclaimer.
 - [Colophon](https://sinusoidal-history.skylarkcreations.com/colophon): A note from the maker. How the site was built, what was AI, what was human, the AI-collaboration framing, the convergence problem.
+- [State of the Cycles 2026](https://sinusoidal-history.skylarkcreations.com/state/2026): The annual reading — where each construction sits in 2026 (cos value + phase label) and the next peak/trough each one implies, all derived from period + reference peak. A dated permalink, frozen for citation; later years appear at /state/<year> as the clock advances.
 - [Poster](https://sinusoidal-history.skylarkcreations.com/poster): A dedicated print-style broadside meant for screenshotting and sharing. Includes a PNG download.
 - [Embed docs](https://sinusoidal-history.skylarkcreations.com/embed/docs): How to iframe specific cycle facets in a Substack or other host page.
 
@@ -43,8 +44,16 @@ These are the prose pages above, served as raw markdown with permissive CORS so 
 
 Each cycle and data series is fully described in the canonical JSON files. CSV data is fetchable cross-origin (CORS `*`). Per-file provenance is in companion `.source.md` files.
 
-- [cycles.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/cycles.json) (in repo): All eight cycles with period, peak year, source citation, peak rationale, and confidence-level classification.
-- [series.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/series.json) (in repo): All seven data series with source, URL, license, coverage, and association notes.
+- [cycles.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/cycles.json) (in repo): All eight cycles with period, peak year, source citation, peak rationale, and confidence-level classification. Also served live at [/api/v1/cycles](https://sinusoidal-history.skylarkcreations.com/api/v1/cycles).
+- [series.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/series.json) (in repo): All seven data series with source, URL, license, coverage, and association notes. Also served live at [/api/v1/series](https://sinusoidal-history.skylarkcreations.com/api/v1/series).
+
+## API (JSON, CORS-open)
+
+Three GET endpoints, no auth, `Access-Control-Allow-Origin: *`:
+
+- [/api/v1/cycles](https://sinusoidal-history.skylarkcreations.com/api/v1/cycles) — the canonical cycle definitions (same content as cycles.json).
+- [/api/v1/series](https://sinusoidal-history.skylarkcreations.com/api/v1/series) — the canonical data-series definitions (same content as series.json); CSVs they reference are under /data/.
+- [/api/v1/state?year=2026](https://sinusoidal-history.skylarkcreations.com/api/v1/state?year=2026) — the computed reading: for every cycle at the given year (default: current year), the cos value, phase label (peaking / rising / falling / troughing / crossing), and next implied peak and trough years, from cos(2π · (year − reference_peak_year) / period_years). This is the machine-readable form of the /state/<year> pages.
 
 CSV data files (CORS-enabled, served from the live site):
 

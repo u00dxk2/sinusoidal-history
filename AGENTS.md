@@ -25,6 +25,7 @@ Since Phase 12, most per-cycle surfaces derive from `src/data/cycles.json` and n
 
 - `/cycles/<slug>` and its metadata, OG card, and JSON-LD (`generateStaticParams` over `cycles`)
 - the `/cycles` index, the `/about` list, the sitemap entry, the poster and chart rows
+- the `/state/<year>` annual-reading rows and all three `/api/v1/*` endpoints (Phase 13 — they map over `cycles.json`/`series.json` at request/build time)
 
 Two surfaces are **hand-written** and will silently go stale:
 

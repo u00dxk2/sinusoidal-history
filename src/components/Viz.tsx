@@ -98,6 +98,7 @@ export default function Viz({
           cycles={effectiveCycles}
           currentYear={currentYear}
           onSelectCycle={handleSelectCycleFromSummary}
+          permalinkHref={`/state/${currentYear}`}
         />
 
         <ConvergenceNote />

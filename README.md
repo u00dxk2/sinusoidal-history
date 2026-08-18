@@ -37,6 +37,15 @@ on `/about`, and on `/colophon`.
 
 ## Status
 
+Phase 13 shipped (August 2026): the annual reading at `/state/<year>`
+(starting with `/state/2026`) — a dated, citable permalink recording where
+each cycle sits that year and the next peak/trough each construction implies
+— plus a v1 JSON API: `/api/v1/cycles` and `/api/v1/series` serve the
+canonical definition files live, and `/api/v1/state?year=` returns the
+computed reading for any year. All CORS-open. Everything on these surfaces
+is derived from `period_years` + `reference_peak_year` via the chart's own
+cosine; no year-phase prose is authored by hand.
+
 Phase 12 shipped (August 2026): eight static per-cycle routes at
 `/cycles/<slug>` plus a `/cycles` index. Until then the cycles existed only as
 query-param states of `/`, so the `reference_peak_rationale` prose — the most
@@ -251,11 +260,13 @@ src/
       page.tsx                Home (interactive overlay)
       cycles/page.tsx         Index of the eight cycles, by ascending period
       cycles/[id]/page.tsx    One static page per cycle (8 prerendered)
+      state/[year]/page.tsx   The annual reading (2026+), a citable permalink
       about/page.tsx          The argument and disclaimer
       methods/page.tsx        Data provenance and methodology
       colophon/page.tsx       Note from the maker
     embed/                    Chromeless iframe-safe routes
     poster/                   Print broadside with PNG download
+    api/v1/                   JSON API: cycles, series, state?year= (CORS *)
     og/                       Dynamic 1200×630 OpenGraph card
     sitemap.ts, robots.ts     SEO/crawler endpoints
   components/
@@ -279,6 +290,7 @@ src/
     types.ts
   lib/
     cycleMath.ts              sineAtYear, phasePosition, phasePositionLabel
+    stateOfCycles.ts          The annual reading + next-extrema derivation
     cycleMath.test.ts
     seriesMath.ts             normalizeSeries, pearsonCorrelation
     seriesMath.test.ts
@@ -321,7 +333,14 @@ frame-ancestors *` (configured in `next.config.ts`).
 For agents and notebooks: `/llms.txt` indexes everything. Prose pages are
 mirrored as plain markdown at `/about.md`, `/methods.md`, `/colophon.md`
 with permissive CORS. Data CSVs and provenance markdown are served from
-`/data/` with CORS open for cross-origin fetches.
+`/data/` with CORS open for cross-origin fetches. Three JSON endpoints
+(no auth, CORS `*`): `/api/v1/cycles` and `/api/v1/series` are the canonical
+definition files served live; `/api/v1/state?year=2026` returns every
+cycle's cos value, phase label, and next implied peak/trough at that year.
+
+For citing a moment in time: `/state/<year>` (from 2026) is the dated annual
+reading — where each construction sits that year and the turning points it
+implies next, frozen at a permalink with a suggested citation.
 
 For a single theory: `/cycles/<slug>` is the static, indexable page for one
 cycle — period, reference peak, calibration rationale, caveat, sourcing, the

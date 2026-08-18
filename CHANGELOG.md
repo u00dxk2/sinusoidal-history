@@ -1,5 +1,34 @@
 # Changelog
 
+## Phase 13 — the annual reading + the v1 API (2026-08-18)
+
+Two citability surfaces, both pure derivation — no new historical claims, no
+new prose that could drift from the math.
+
+- **`/state/<year>`** — the annual reading, starting at `/state/2026`: for
+  each cycle, where the cosine sits that year (signed cos value + the chart's
+  own phase label) and the next peak and trough the construction implies,
+  with a suggested-citation block. A dated permalink meant for journalists
+  and bloggers; the falsifiability angle is that each "next peak" is on the
+  record and checkable when the year arrives. Years derive themselves as the
+  clock advances (`dynamicParams` + a request-time year bound), so there is
+  no annual editorial chore; the home masthead links to it as "annual
+  permalink," the footer as "State 2026."
+- **`/api/v1/cycles`, `/api/v1/series`, `/api/v1/state?year=`** — the
+  canonical JSONs served live (previously repo-only; llms.txt pointed at
+  GitHub) plus the one computed endpoint: every cycle's cos value, phase
+  label, and next implied extrema at any year. All CORS-open, cached an
+  hour. `src/lib/stateOfCycles.ts` holds the derivation, unit-tested against
+  `sineAtYear` and the extrema the cycle pages already derive.
+- Swept the hand-written surfaces per AGENTS.md: `llms.txt` gained the state
+  page, an API section, and live-endpoint pointers on the two JSON bullets;
+  sitemap gained `/state/2026`.
+
+Context: this ships the no-research-dependency half of the 2026-08-18
+next-level plan while three deep-research prompts (spectral methods, cycle
+census, citability playbook) run externally. The spectral verdict, new
+cycles, and any MCP server wait on those reports.
+
 ## Accessibility & mobile mechanics (2026-08-14)
 
 A `/design-detectors` + `/usability-audit` pass over `/`, `/cycles`,
