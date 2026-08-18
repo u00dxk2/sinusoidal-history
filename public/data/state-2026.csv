@@ -1,0 +1,11 @@
+year,id,name,period_years,reference_peak_year,cos,phase,next_peak_year,next_trough_year
+2026,schlesinger_jr,Schlesinger Jr. — liberal/conservative cycle,30,1970,0.67,rising,2030,2045
+2026,turchin_fathers_sons,Turchin — fathers-and-sons cycle,50,1970,0.73,falling,2070,2045
+2026,kondratiev,Kondratiev wave,54,1973,0.99,peaking,2027,2054
+2026,perez,Carlota Perez — techno-economic paradigm,55,2000,-0.99,troughing,2055,2028
+2026,huntington,Huntington — creedal passion,60,1968,0.98,rising,2028,2058
+2026,dalio,Ray Dalio — Big Cycle,75,1950,1,peaking,2100,2063
+2026,strauss_howe,Strauss-Howe — saeculum,84,1955,0.56,rising,2039,2081
+2026,modelski,Modelski — long cycle of world leadership,110,1945,-0.09,crossing,2055,2110
+2026,khaldun,Ibn Khaldun — dynastic cycle,120,1789,0.99,peaking,2029,2089
+2026,turchin,Peter Turchin — secular cycles,150,2020,0.97,falling,2170,2095

@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -54,6 +56,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
+/** An edition CSV is committed once per year at publication and never
+    recomputed; the link renders only when the file exists. */
+function hasFrozenEdition(year: number): boolean {
+  return existsSync(join(process.cwd(), "public", "data", `state-${year}.csv`));
+}
+
 function formatCos(v: number): string {
   if (v > 0) return `+${v.toFixed(2)}`;
   if (v < 0) return `−${Math.abs(v).toFixed(2)}`;
@@ -104,6 +112,12 @@ export default async function StatePage({ params }: Params) {
   const state = stateOfCycles(year);
   const years = stateYears();
 
+  // The deterministic headline numbers — computed from the same table the
+  // reader sees, never authored. "At peak" = the phase label's ±3% band;
+  // "above midline" = cos > 0.
+  const atPeak = state.filter((e) => e.phase === "peaking").length;
+  const aboveMidline = state.filter((e) => e.cos > 0).length;
+
   return (
     <article className="max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14 [&_p]:max-w-[68ch]">
       <script
@@ -141,6 +155,10 @@ export default async function StatePage({ params }: Params) {
         >
           State of the Cycles {year}
         </h1>
+        <p className="mt-5 border-l-2 pl-3.5 text-[19px] leading-[1.5] text-ink font-display-italic border-ink/40">
+          In {year}, {atPeak} of the {state.length} constructions read at
+          peak, and {aboveMidline} of {state.length} sit above their midline.
+        </p>
         <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
           For each of the ten constructions — a theory&apos;s stated period,
           pinned to one documented reference peak — this page records where the
@@ -151,11 +169,16 @@ export default async function StatePage({ params }: Params) {
           zero crossing as crossing).
         </p>
         <p className="mt-4 text-[15px] leading-[1.65] text-ink/85">
-          This is not a forecast. Each &ldquo;next peak&rdquo; is what a fixed
+          <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1.5 font-mono">
+            What this does not mean
+          </span>
+          This is not a forecast, and the headline count is not evidence that
+          history is cyclical. Each &ldquo;next peak&rdquo; is what a fixed
           sinusoid implies, written down so it can be checked when the year
           arrives. The theories are contested in different ways, and most of
           them peak near the present for reasons that say more about theorists
-          than about history — see{" "}
+          than about history — anchors chosen by writers living now cluster
+          near now. See{" "}
           <Link
             href="/about"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
@@ -256,10 +279,11 @@ export default async function StatePage({ params }: Params) {
         </h2>
         <p className="border-t border-rule/30 pt-4 text-[14px] leading-[1.65] text-ink/85">
           This page is a dated permalink: the {year} reading stays at this URL
-          as later years are added. Values are recomputed from the current
-          cycle definitions — if a period or anchor is ever corrected, past
-          readings update too, and the correction is recorded in the
-          project&apos;s changelog. Suggested citation:
+          as later years are added. The live table recomputes from the current
+          cycle definitions — if a period or anchor is ever corrected, it
+          updates too, and the correction is recorded in the project&apos;s
+          changelog. The edition CSV below is frozen as published and never
+          recomputed. Suggested citation:
         </p>
         <p className="mt-3 font-mono text-[12px] leading-relaxed text-ink/80 border-l-2 border-ink/40 pl-3.5">
           Kooi, D. ({year}). &ldquo;State of the Cycles {year}.&rdquo;{" "}
@@ -278,6 +302,18 @@ export default async function StatePage({ params }: Params) {
           </a>{" "}
           (resolves to the latest archived version).
         </p>
+        {hasFrozenEdition(year) && (
+          <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+            Frozen edition:{" "}
+            <a
+              href={`/data/state-${year}.csv`}
+              className="font-mono underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              /data/state-{year}.csv
+            </a>{" "}
+            — this table as published, CC-BY-attributable, never recomputed.
+          </p>
+        )}
         <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
           Machine-readable:{" "}
           <a
