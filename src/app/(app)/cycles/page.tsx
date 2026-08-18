@@ -8,9 +8,9 @@ import {
 } from "@/lib/cycleRoutes";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 
-const TITLE = "The eight cycles";
+const TITLE = "The ten cycles";
 const DESCRIPTION =
-  "Eight long-wave theories of history — Schlesinger Jr., Kondratiev, Perez, Huntington, Dalio, Strauss-Howe, Khaldun, Turchin — each with its period, reference peak, sourcing, and paired data series.";
+  "Ten long-wave cycles of history — Schlesinger Jr., Turchin's fathers-and-sons, Kondratiev, Perez, Huntington, Dalio, Strauss-Howe, Modelski, Khaldun, Turchin's secular cycle — each with its period, reference peak, sourcing, and paired data series.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -33,6 +33,47 @@ export const metadata: Metadata = {
 };
 
 const byPeriod = [...cycles].sort((a, b) => a.period_years - b.period_years);
+
+// The published "excluded and why" list. Hand-written by design: exclusion
+// reasons are editorial judgments with citations, not derivable data. Every
+// quote below was verified against the primary text 2026-08-18.
+const EXCLUDED: { name: string; reason: string }[] = [
+  {
+    name: "Goldstein — war/hegemony waves (~50y)",
+    reason:
+      "Goldstein himself forecloses the sinusoid: \"The efforts to identify war cycles based on fixed periodicities are a self-proclaimed dead-end\" (Long Cycles: Prosperity and War in the Modern Age, 1988, p. 111; similarly p. 99), and he calls fixed-periodicity methodology \"inappropriate for social cycles\" (p. 244). He affirms non-periodic long waves in war — which is exactly what a fixed cosine cannot represent. His own data files also carry no explicit reuse license.",
+  },
+  {
+    name: "Arrighi — systemic cycles of accumulation",
+    reason:
+      "No fixed period by design: his cycles overlap and shorten over time (Genoese → Dutch → British → American), so no single period_years exists to plot.",
+  },
+  {
+    name: "Sornette — log-periodic power laws",
+    reason:
+      "Log-periodic means the oscillation interval shrinks toward a critical time; there is no constant year-period, so a fixed sinusoid misstates the mathematics.",
+  },
+  {
+    name: "Toynbee, Spengler, Vico, Sorokin, Quigley, Tainter",
+    reason:
+      "Civilizational rise-and-fall narratives without a theorist-stated period in years. The bar requires their number, not one imposed on them.",
+  },
+  {
+    name: "Namenwirth/Weber — cultural value cycles",
+    reason:
+      "The claimed ~152-year cycle was fitted on roughly 120 years of data — it never once repeated inside its own evidence — and the shorter cycle is a median of fits ranging widely. Replication failed on German data (Mohler 1987, Eur. J. Political Research 15) and the extraction method was shown to manufacture cycles from the filtering itself (Thome & Rahlf, \"Dubious cycles,\" Quality & Quantity 30(4), 1996). No machine-readable series exists.",
+  },
+  {
+    name: "Forrester — System Dynamics long wave",
+    reason:
+      "A simulation model reproducing Kondratieff-like waves, not an independent historical periodization with its own anchor; cross-referenced under Kondratiev instead.",
+  },
+  {
+    name: "Berry — long-wave rhythms (~56y)",
+    reason:
+      "A US-dated restatement of the Kondratieff rather than an independent construct; folded into the Kondratiev entry's literature rather than plotted twice.",
+  },
+];
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -71,9 +112,9 @@ export default function CyclesIndex() {
         <div className="editorial-rule mt-6" />
         <p className="mt-6 text-[16px] leading-[1.65] text-ink/85">
           Each theory is drawn as a pure sinusoid from its own stated period and
-          a single documented reference peak. Seven of the eight are paired with
+          a single documented reference peak. Nine of the ten are paired with
           a real long-run data series. Follow a cycle for its calibration
-          rationale, sourcing, and provenance — or see all eight together on{" "}
+          rationale, sourcing, and provenance — or see all ten together on{" "}
           <Link
             href="/"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
@@ -120,6 +161,39 @@ export default function CyclesIndex() {
           );
         })}
       </ul>
+
+      <section className="mt-14">
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
+          Considered and excluded
+        </h2>
+        <p className="text-[14px] leading-relaxed text-ink-soft mb-5">
+          A theory enters the roster only with an explicit period in years
+          from the theorist&apos;s primary text, a defensible anchor peak, and
+          a citable source. These famous candidates fail that bar — the
+          reasons are as instructive as the roster itself.
+        </p>
+        <ul className="space-y-4 border-t border-rule/30 pt-5">
+          {EXCLUDED.map((e) => (
+            <li key={e.name} className="text-[14px] leading-[1.6]">
+              <span className="font-display text-[16px] tracking-tight font-medium text-ink">
+                {e.name}
+              </span>{" "}
+              <span className="text-ink/80">— {e.reason}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-6 text-[14px] leading-relaxed text-ink-soft border-l-2 border-ink/40 pl-3.5">
+          <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1.5 font-mono">
+            Queued
+          </span>
+          Klingberg&apos;s foreign-policy mood cycle (~48y: phases later
+          scholarship reports as averaging ~21 introvert + ~27 extrovert
+          years; Klingberg 1952, <em>World Politics</em> 4(2)) passes the
+          theory bar, but no candidate paired series clears this site&apos;s
+          redistribution-license requirement yet. It ships when its data
+          does.
+        </p>
+      </section>
 
       <footer className="mt-10 pt-4 border-t border-rule/30 text-[13px] text-ink-soft">
         <Link

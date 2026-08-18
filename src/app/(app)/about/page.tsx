@@ -5,7 +5,7 @@ import { cycleRoutePath } from "@/lib/cycleRoutes";
 export const metadata = {
   title: "About · Sinusoidal History",
   description:
-    "What this site is, why it exists, what it doesn't claim, and the eight cycles in this version.",
+    "What this site is, why it exists, what it doesn't claim, and the ten cycles in this version.",
   alternates: { canonical: "/about" },
 };
 
@@ -30,10 +30,11 @@ export default function About() {
           Intent
         </h2>
         <p>
-          Sinusoidal History overlays eight named long-wave theories on a
+          Sinusoidal History overlays ten named long-wave cycles on a
           shared time axis so a reader can see <em>where their predictions
-          line up and where they disagree</em>. Seven of the eight cycles are
-          paired with a real long-run data series (Perez has none this round),
+          line up and where they disagree</em>. Nine of the ten cycles are
+          paired with a real long-run data series (Turchin&apos;s
+          fathers-and-sons cycle has none this round),
           and a calibration panel lets you stress-
           test the fit instead of just admiring the curves side by side.
         </p>
@@ -101,7 +102,7 @@ export default function About() {
             href="/cycles"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
-            all eight cycles
+            all ten cycles
           </Link>
           .
         </p>
@@ -146,7 +147,7 @@ export default function About() {
           Intellectual-honesty disclaimer
         </h2>
         <p>
-          All eight theories are contested in different ways. Kondratiev
+          All ten cycles are contested in different ways. Kondratiev
           waves have never been cleanly confirmed in empirical long-run data;
           spectral analyses report some weak periodicity, but period, phase
           dating, and existence are not agreed across studies. Khaldun wrote
@@ -162,7 +163,7 @@ export default function About() {
         </p>
         <p>
           Turchin&apos;s secular cycles have the most developed quantitative
-          literature of the eight, but the 150-year period for the modern
+          literature of the ten, but the 150-year period for the modern
           American cycle is a fitted parameter. Dalio&apos;s Big Cycle is a
           popularised composite, not a peer-reviewed measurement, and his own
           stated peak year for US power is the 1950s, not 1945 (we use 1950).

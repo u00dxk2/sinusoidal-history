@@ -20,7 +20,7 @@ Each cycle is a single sinusoid built from the theory's own period and one expli
 
 ## On the data
 
-Seven of the eight cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP, and Stimson Policy Mood (paired with Schlesinger Jr.). The pairings are defensible but not the only choices. I read each series myself before wiring it in. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for provenance.
+Nine of the ten cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP, Stimson Policy Mood (paired with Schlesinger Jr.), the leading economy's share of world GDP (Modelski), and a HATCH technology-diffusion composite (Perez). The pairings are defensible but not the only choices. The first seven I read myself before wiring in; the two August 2026 additions were built by the AI pipeline against written specs, with provenance files documenting every transform — read those before trusting them. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for provenance.
 
 ## On the convergence problem
 

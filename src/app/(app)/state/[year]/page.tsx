@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (year === null) return { title: "Not found" };
 
   const title = `State of the Cycles ${year}`;
-  const description = `Where each of the eight long-wave constructions sits in ${year}, with the next peak and trough each one implies — computed, dated, and frozen for citation.`;
+  const description = `Where each of the ten long-wave constructions sits in ${year}, with the next peak and trough each one implies — computed, dated, and frozen for citation.`;
   return {
     title,
     description,
@@ -70,7 +70,7 @@ function stateJsonLd(year: number): Record<string, unknown> {
         "@id": `${url}#webpage`,
         url,
         name: `State of the Cycles ${year}`,
-        description: `The ${year} annual reading of the eight long-wave constructions on ${SITE_NAME}.`,
+        description: `The ${year} annual reading of the ten long-wave constructions on ${SITE_NAME}.`,
         isPartOf: {
           "@type": "WebSite",
           "@id": `${SITE_URL}#website`,
@@ -142,7 +142,7 @@ export default async function StatePage({ params }: Params) {
           State of the Cycles {year}
         </h1>
         <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
-          For each of the eight constructions — a theory&apos;s stated period,
+          For each of the ten constructions — a theory&apos;s stated period,
           pinned to one documented reference peak — this page records where the
           curve sits in {year} and the next turning points it implies. Every
           number is computed from the same cosine the chart draws; the phase
@@ -341,7 +341,7 @@ export default async function StatePage({ params }: Params) {
             href="/cycles"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
-            All eight cycles
+            All ten cycles
           </Link>
         </p>
       </footer>

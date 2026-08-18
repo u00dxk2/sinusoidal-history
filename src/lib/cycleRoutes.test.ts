@@ -91,9 +91,16 @@ describe("cycle route metadata", () => {
     const turchin = cycles.find((c) => c.id === "turchin")!;
     expect(cycleMetaDescription(turchin)).toContain("Top 1% wealth share");
 
+    // Perez gained the HATCH pairing in Phase 14; the unpaired example is
+    // now Turchin's fathers-and-sons cycle.
     const perez = cycles.find((c) => c.id === "perez")!;
-    expect(seriesForCycle(perez)).toBeUndefined();
-    expect(cycleMetaDescription(perez)).toContain("No paired data series");
+    expect(seriesForCycle(perez)).toBeDefined();
+
+    const fathersSons = cycles.find((c) => c.id === "turchin_fathers_sons")!;
+    expect(seriesForCycle(fathersSons)).toBeUndefined();
+    expect(cycleMetaDescription(fathersSons)).toContain(
+      "No paired data series"
+    );
   });
 
   it("resolves the paired series for the seven cycles that have one", () => {

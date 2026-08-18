@@ -1,5 +1,44 @@
 # Changelog
 
+## Phase 14 — ten cycles, the excluded list, and the DOI (2026-08-18)
+
+The roster's first expansion since Schlesinger (Phase 10), driven by a
+two-engine research census (docs in skylark-site's research library) with
+every printable claim re-verified against primary texts before shipping.
+
+- **Modelski — long cycle of world leadership** (plotted 110y = midpoint of
+  his stated 100–120 range; anchor 1945, his Table 2.1 US world-power phase
+  start; Table 2.2 dates US oceanic supremacy from 1944). Paired with a new
+  series: the **leading economy's share of world GDP** (Maddison 2023,
+  CC BY), built by a deliberately mechanical largest-economy rule whose
+  divergences are printed (Qing China leads 1870–1881, not Britain).
+- **Turchin — fathers-and-sons cycle** (50y; "peaks around 1870, 1920, and
+  1970" in his own JPR 2012 words; next model peak 2020, deliberately
+  coinciding with his secular cycle's). Unpaired: the natural series has no
+  redistributable file, and we don't pair construct-mismatched proxies.
+- **Perez finally has a paired series**: a HATCH 2.0 technology-diffusion
+  composite (Zenodo, CC BY 4.0; median z-scored 5-yr log-changes across
+  ~105 US technologies, 1865–2023, per-year N published). Transform fixed
+  a priori; the honest result — no local peak at 2000 — is stated on the
+  methods page and in the association note. Her 2000 anchor is relabeled
+  the financial-frenzy peak / end of Installation everywhere.
+- **"Considered and excluded" published on /cycles**: Goldstein (his own
+  "self-proclaimed dead-end" verdict on fixed periodicity, pp. 99/111),
+  Arrighi, Sornette, Toynbee/Spengler et al., Namenwirth/Weber (Mohler 1987
+  failed replication + Thome & Rahlf 1996 filtering critique), Forrester,
+  Berry — plus a queued note for Klingberg (theory passes, data licensing
+  doesn't yet).
+- **Kondratiev gains a periodicity caveat** (Metz's withdrawal, Solomou,
+  contested spectral detections).
+- v1.1.0 released and archived on Zenodo: concept DOI 10.5281/zenodo.21998618,
+  folded into CITATION.cff, README, and /state.
+- OWID now 403s the default Python user-agent; both Maddison build scripts
+  send an explicit UA.
+
+Counts everywhere: ten cycles, nine paired series (fathers-and-sons is the
+one unpaired). Cos-math audit re-run over the new rationales; both new
+data series have committed build scripts and provenance files.
+
 ## Phase 13 — the annual reading + the v1 API (2026-08-18)
 
 Two citability surfaces, both pure derivation — no new historical claims, no

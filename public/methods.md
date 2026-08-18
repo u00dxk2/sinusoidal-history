@@ -92,9 +92,33 @@ Direct empirical analogue to Schlesinger Jr.'s public-purpose vs. private-intere
 - License: freely shared by author; no explicit reuse license.
 - Provenance: [/data/stimson_policy_mood.source.md](https://sinusoidal-history.skylarkcreations.com/data/stimson_policy_mood.source.md)
 
+### Leading Economy's Share of World GDP
+
+**Paired with:** Modelski — long cycle of world leadership.
+
+The largest single economy's share of world GDP each year, with the leader named per year (Maddison Project Database 2023, 2011 PPP $); trimmed to 1870+. The rule — largest economy — is mechanical, fixed without reference to Modelski's leadership succession.
+
+Relative economic preponderance of the leading state as a proxy for world leadership. Deliberately mechanical — the largest economy per year, never hand-picking Modelski's hegemons — so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, coincides with the reference peak.
+
+- Source: Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618), https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023
+- License: CC BY 4.0.
+- Provenance: [/data/leading_power_gdp_share.source.md](https://sinusoidal-history.skylarkcreations.com/data/leading_power_gdp_share.source.md)
+
+### US Technology-Diffusion Intensity (HATCH)
+
+**Paired with:** Carlota Perez — techno-economic paradigm.
+
+Median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption (HATCH 2.0); annual 1865–2023, with the contributing-technology count published per year.
+
+Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm — not asset prices — so a diffusion-intensity composite is the closest measurable analogue. The transform was fixed without reference to her dates, and the honest result is visible on the chart: the composite shows no local peak at 2000 (it is strongest in the railroad/telegraph decades and persistently negative after the 1970s, partly a panel-composition artifact — see provenance).
+
+- Source: HATCH — Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison), Zenodo, DOI 10.5281/zenodo.19579793, https://zenodo.org/records/19579793
+- License: CC BY 4.0.
+- Provenance: [/data/perez_tech_diffusion.source.md](https://sinusoidal-history.skylarkcreations.com/data/perez_tech_diffusion.source.md)
+
 ## Normalization
 
-Every overlaid data series is rescaled to the interval [-1, 1] using its own minimum and maximum over the visible window. The eight cycle curves are sinusoids of unit amplitude (the `amplitude_normalized` field on every cycle is 1.0). The vertical axis is therefore dimensionless: visual peak heights do not represent real-world magnitudes, only relative shape over time. That is convenient for eyeballing shape against a normalized sinusoid, and it is lossy: it hides absolute magnitude and makes level differences invisible. Two points stand out:
+Every overlaid data series is rescaled to the interval [-1, 1] using its own minimum and maximum over the visible window. The cycle curves are sinusoids of unit amplitude (the `amplitude_normalized` field on every cycle is 1.0). The vertical axis is therefore dimensionless: visual peak heights do not represent real-world magnitudes, only relative shape over time. That is convenient for eyeballing shape against a normalized sinusoid, and it is lossy: it hides absolute magnitude and makes level differences invisible. Two points stand out:
 
 - A series with one enormous spike (e.g. global conflict deaths in WWII) compresses every other variation toward a thin band. The visible *shape* near the peaks is real; the visible shape away from them is attenuated.
 - Because normalization is per-series, you cannot compare amplitudes across series. Only across time within a single series.
@@ -119,13 +143,15 @@ Three finer caveats. The modern WID/Saez–Zucman US top-1% wealth series begins
 
 ## Notes on individual pairings
 
-**V-Dem with Strauss-Howe, not Huntington.** An earlier draft of this project paired V-Dem with Huntington as a secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe so no cycle would carry two series — seven of the eight cycles have exactly one paired series, and Perez has none. Both are arguments. The Strauss-Howe pairing reads V-Dem's recent decline as a Fourth-Turning institutional-stress signal; the Huntington pairing would have read it as the trough side of a creedal-passion cycle. The data is the same; the framing differs.
+**V-Dem with Strauss-Howe, not Huntington.** An earlier draft of this project paired V-Dem with Huntington as a secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe so no cycle would carry two series — nine of the ten cycles have exactly one paired series; Turchin's fathers-and-sons cycle has none. Both are arguments. The Strauss-Howe pairing reads V-Dem's recent decline as a Fourth-Turning institutional-stress signal; the Huntington pairing would have read it as the trough side of a creedal-passion cycle. The data is the same; the framing differs.
 
 **Project Mars covers conventional wars only.** The conflict-deaths series registers years like 2010 as zero because no qualifying conventional war (interstate or civil war between states with differentiated militaries causing ≥500 deaths) was active that year — even though other conflict datasets (UCDP, COW, PRIO) record substantial casualties in 2010 (Afghanistan, Iraq, Mexican drug war). The series therefore measures conventional-war intensity, not all conflict deaths; read drops to zero accordingly.
 
-**No paired series for Perez.** The techno-economic paradigm story is harder to reduce to a single century-long series. TFP growth is paired with Kondratiev because the Kondratiev framing is more directly about productivity surges; Perez tells a richer story about installation and deployment phases that no single time series captures cleanly.
+**Perez pairs with technology diffusion, not asset prices.** Through Phase 13 Perez had no paired series; the HATCH diffusion-intensity composite closed that gap in Phase 14. Shiller's CAPE was the runner-up candidate — Perez's frenzy/turning-point mechanism is financial, and the 2000 anchor is exactly a valuation peak — but CAPE carries no explicit reuse license and measures paper values, not the economy-wide diffusion that is Perez's actual object. We cite CAPE here as anchor validation without redistributing it.
 
-**Stimson Policy Mood with Schlesinger Jr.** Of the eight cycles, Schlesinger's pairing is the closest the site gets to a direct measurement: Stimson's index is, by construction, an estimate of US public preference for liberal vs. conservative domestic policy — exactly what Schlesinger's cycle claims to track. The catch is coverage: the series only starts in 1952. Inside the empirical window this construction (period 30, peak 1970) plots troughs at 1955, 1985, and 2015 and peaks at 1970 and 2000 — two full swings. The pre-1952 shape of the Schlesinger curve cannot be stress-tested against the paired data; treat the calibration drawer's Pearson r accordingly.
+**No paired series for Turchin's fathers-and-sons cycle.** The natural series — Turchin's US political-violence event data — has no cleanly redistributable file. The cycle ships unpaired rather than paired to a construct-mismatched proxy.
+
+**Stimson Policy Mood with Schlesinger Jr.** Of the ten cycles, Schlesinger's pairing is the closest the site gets to a direct measurement: Stimson's index is, by construction, an estimate of US public preference for liberal vs. conservative domestic policy — exactly what Schlesinger's cycle claims to track. The catch is coverage: the series only starts in 1952. Inside the empirical window this construction (period 30, peak 1970) plots troughs at 1955, 1985, and 2015 and peaks at 1970 and 2000 — two full swings. The pre-1952 shape of the Schlesinger curve cannot be stress-tested against the paired data; treat the calibration drawer's Pearson r accordingly.
 
 See each series' per-source provenance file for full retrieval and processing notes.
 

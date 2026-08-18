@@ -103,7 +103,7 @@ describe("phasePositionLabel (narrow bands)", () => {
     expect(phasePositionLabel(cycle, 2055)).toBe("rising");
   });
 
-  it("no more than 3 of the 7 canonical cycles report peaking in 2026", () => {
+  it("no more than a handful of the canonical cycles report peaking in 2026", () => {
     // Sanity guard against the bands being widened back out.
     const peaking = allCycles.filter(
       (c) => phasePositionLabel(c, 2026) === "peaking"

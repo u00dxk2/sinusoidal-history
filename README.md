@@ -1,10 +1,11 @@
 # Sinusoidal History
 
-An interactive editorial chart-room overlaying eight named long-wave theories
-of history — Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin,
-Dalio, Strauss-Howe — on a shared 1600–2050 time axis. Each cycle is a
+An interactive editorial chart-room overlaying ten named long-wave cycles
+of history — Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin
+(secular and fathers-and-sons), Dalio, Strauss-Howe, Modelski — on a shared
+1600–2050 time axis. Each cycle is a
 unit-amplitude sinusoid pinned to a single explicitly documented reference
-peak, and seven of the eight are paired with a real long-run empirical data
+peak, and nine of the ten are paired with a real long-run empirical data
 series for stress-testing.
 
 **Live:** https://sinusoidal-history.skylarkcreations.com
@@ -20,7 +21,7 @@ human, where it got hard — lives at
 
 It **is** a side-by-side comparison tool for seeing where different long-wave
 theorists agree or disagree, and for stress-testing each theory against a
-single empirical proxy. Currently shows eight cycles; the eighth (Schlesinger
+single empirical proxy. Currently shows ten cycles; the eighth (Schlesinger
 Jr.'s ~30-year liberal/conservative cycle) was added after initial release.
 
 It **is not** a forecasting tool. Every cycle here is contested in different
@@ -36,6 +37,19 @@ because their climaxes land in our era. The site says this on the home page,
 on `/about`, and on `/colophon`.
 
 ## Status
+
+Phase 14 shipped (August 2026): the roster grew from eight to ten cycles.
+Modelski's long cycle of world leadership (plotted at 110y, the midpoint of
+his stated 100–120 range, anchor 1945) paired with a new leading-economy
+share-of-world-GDP series (Maddison, CC BY); Turchin's fathers-and-sons
+~50-year cycle (peaks 1870/1920/1970 in his own words, unpaired this round);
+and Perez finally gained a paired series — a HATCH technology-diffusion
+composite (Zenodo, CC BY 4.0) whose honest result is that it shows no local
+peak at 2000. `/cycles` now also publishes a "considered and excluded" list
+(Goldstein, Arrighi, Sornette, Namenwirth/Weber, and others, with verified
+citations for why each fails the inclusion bar) and a queued note for
+Klingberg. Same phase: a four-lens adversarial review fix wave (see
+CHANGELOG), Zenodo archival with a DOI, and a Kondratiev periodicity caveat.
 
 Phase 13 shipped (August 2026): the annual reading at `/state/<year>`
 (starting with `/state/2026`) — a dated, citable permalink recording where
@@ -152,6 +166,8 @@ npm start           # run the built app
 
 ```bash
 python scripts/build_us_world_gdp_share.py     # Maddison rebuild
+python scripts/build_leading_power_gdp_share.py # Maddison leading-economy rebuild
+python scripts/build_perez_tech_diffusion.py   # HATCH tech-diffusion rebuild
 python scripts/build_us_tfp_growth.py          # Fernald TFP rebuild
 python scripts/build_stimson_policy_mood.py    # Stimson Policy Mood rebuild
 python scripts/verify_tfp.py                   # diagnostic — verify TFP CSV
@@ -260,8 +276,8 @@ src/
     (app)/                    Chromed routes (header + footer):
       layout.tsx              Site shell, nav, footer
       page.tsx                Home (interactive overlay)
-      cycles/page.tsx         Index of the eight cycles, by ascending period
-      cycles/[id]/page.tsx    One static page per cycle (8 prerendered)
+      cycles/page.tsx         Index of the ten cycles, by ascending period
+      cycles/[id]/page.tsx    One static page per cycle (10 prerendered)
       state/[year]/page.tsx   The annual reading (2026+), a citable permalink
       about/page.tsx          The argument and disclaimer
       methods/page.tsx        Data provenance and methodology
@@ -284,9 +300,9 @@ src/
     Poster.tsx                Print broadside
     ui/                       shadcn primitives
   data/
-    cycles.json               8 cycle definitions
+    cycles.json               10 cycle definitions
     cycles.ts                 (cross-ref validation)
-    series.json               7 data-series definitions
+    series.json               9 data-series definitions
     series.ts                 (cross-ref validation)
     series.test.ts
     types.ts

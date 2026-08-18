@@ -98,7 +98,7 @@ export default function Methods() {
         <p>
           Every overlaid data series is rescaled to the interval [-1, 1]
           using its own minimum and maximum over the visible window. The
-          eight cycle curves are sinusoids of unit amplitude (the
+          cycle curves are sinusoids of unit amplitude (the
           <code className="font-mono text-[13px]">amplitude_normalized</code>{" "}
           field on every cycle is 1.0). The vertical axis is therefore
           dimensionless: visual peak heights do not represent real-world
@@ -241,8 +241,9 @@ export default function Methods() {
           Huntington.</strong>{" "}
           An earlier draft of this project paired V-Dem with Huntington as a
           secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe
-          so no cycle would carry two series — seven of the eight cycles have
-          exactly one paired series, and Perez has none. Both are
+          so no cycle would carry two series — nine of the ten cycles have
+          exactly one paired series; Turchin&apos;s fathers-and-sons cycle has
+          none. Both are
           arguments. The Strauss-Howe pairing reads V-Dem&apos;s recent
           decline as a Fourth-Turning institutional-stress signal; the
           Huntington pairing would have read it as the trough side of a
@@ -261,17 +262,28 @@ export default function Methods() {
           to zero accordingly.
         </p>
         <p>
-          <strong className="text-ink">No paired series for Perez.</strong>{" "}
-          The techno-economic paradigm story is harder to reduce to a single
-          century-long series. TFP growth is paired with Kondratiev because
-          the Kondratiev framing is more directly about productivity surges;
-          Perez tells a richer story about installation and deployment phases
-          that no single time series captures cleanly.
+          <strong className="text-ink">Perez pairs with technology
+          diffusion, not asset prices.</strong>{" "}
+          Through Phase 13 Perez had no paired series; the HATCH
+          diffusion-intensity composite closed that gap in Phase 14.
+          Shiller&apos;s CAPE was the runner-up candidate — Perez&apos;s
+          frenzy/turning-point mechanism is financial, and the 2000 anchor is
+          exactly a valuation peak — but CAPE carries no explicit reuse
+          license and measures paper values, not the economy-wide diffusion
+          that is Perez&apos;s actual object. We cite CAPE here as anchor
+          validation without redistributing it.
+        </p>
+        <p>
+          <strong className="text-ink">No paired series for Turchin&apos;s
+          fathers-and-sons cycle.</strong>{" "}
+          The natural series — Turchin&apos;s US political-violence event
+          data — has no cleanly redistributable file. The cycle ships
+          unpaired rather than paired to a construct-mismatched proxy.
         </p>
         <p>
           <strong className="text-ink">Stimson Policy Mood with Schlesinger
           Jr.</strong>{" "}
-          Of the eight cycles, Schlesinger&apos;s pairing is the closest the
+          Of the ten cycles, Schlesinger&apos;s pairing is the closest the
           site gets to a direct measurement: Stimson&apos;s index is, by
           construction, an estimate of US public preference for liberal vs.
           conservative domestic policy — exactly what Schlesinger&apos;s cycle

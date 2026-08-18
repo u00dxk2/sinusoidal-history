@@ -21,7 +21,7 @@ import { DEFAULT_YEAR_RANGE, SITE_NAME } from "@/lib/siteConfig";
 
 type Params = { params: Promise<{ id: string }> };
 
-/** Exactly eight prerendered routes; anything else is a 404, not a render. */
+/** One prerendered route per cycle; anything else is a 404, not a render. */
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -342,7 +342,7 @@ export default async function CyclePage({ params }: Params) {
             href="/cycles"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
-            All eight cycles
+            All ten cycles
           </Link>
           {" · "}
           <Link

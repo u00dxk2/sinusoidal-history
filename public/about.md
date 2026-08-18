@@ -6,7 +6,7 @@
 
 ## Intent
 
-Sinusoidal History overlays eight named long-wave theories on a shared time axis so a reader can see *where their predictions line up and where they disagree*. Seven of the eight cycles are paired with a real long-run data series (Perez has none this round), and a calibration panel lets you stress-test the fit instead of just admiring the curves side by side.
+Sinusoidal History overlays ten named long-wave cycles on a shared time axis so a reader can see *where their predictions line up and where they disagree*. Nine of the ten cycles are paired with a real long-run data series (Turchin's fathers-and-sons cycle has none this round), and a calibration panel lets you stress-test the fit instead of just admiring the curves side by side.
 
 Each cycle curve is a pure sinusoid built from the theory's own period and a single explicitly documented reference peak. That is a naïve choice on purpose: it strips the viz down to exactly one knob per cycle (calibration), so disagreement between theories - not parameter fiddling - is what you see.
 
@@ -20,7 +20,7 @@ The implication is not that the theories are worthless - it is that the calibrat
 
 ## Cycles in this version
 
-Each has its own page with the full calibration rationale, sourcing, and paired-data provenance — see [all eight cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
+Each has its own page with the full calibration rationale, sourcing, and paired-data provenance — see [all ten cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
 
 ### Ibn Khaldun — dynastic cycle
 
@@ -45,6 +45,8 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 *Peak calibration:* Conventional anchor inside the post-WWII K-wave's 1968–1974 turning-point window (oil shock + Bretton Woods end). Other revivalists prefer 1968 (Mandel) or 1971; we use 1973 as the most cited single year.
 
 *Source:* Kondratiev, "Bol'shie tsikly kon'yunktury" (1925); abridged English: "The Long Waves in Economic Life," *Review of Economic Statistics* 17(6) (1935).
+
+*Caveat:* The periodicity claim has published renunciations — Metz, who once reported K-wave evidence, later withdrew it, and Solomou's long-run studies find no regular wave. Spectral detections (e.g. Korotayev & Tsirel 2010) remain contested. The wave is kept here as the most-cited long-wave theory, not as settled empirics.
 
 ### Huntington — creedal passion
 
@@ -122,11 +124,39 @@ Long-term debt / Big Cycle of imperial rise/fall: rising → top → declining �
 
 *Caveat:* Generational theory is contested in academic history. The single-sinusoid representation is a forced reduction of a four-turnings model. Treat skeptically.
 
+### Modelski — long cycle of world leadership
+
+- **Period:** 110 years (plotted midpoint of his stated 100–120)
+- **Reference peak:** 1945
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/modelski
+
+~100–120 year long cycle of world leadership — global war → world power → delegitimation → deconcentration — tracked through naval and global-reach preponderance; plotted here at 110 years, the midpoint of the stated range.
+
+*Peak calibration:* Start of the US world-power phase in Modelski's own dating: Table 2.1 of *Long Cycles in World Politics* (1987, p. 40) dates the American cycle's phases 1914–1945 (global war) and 1945–1973 (world power), and Table 2.2 (p. 42) dates US oceanic supremacy from 1944, when the US crossed his threshold of one-half of the world's capital-ship assets. The 110-year period is this project's midpoint of the "100 to 120 years" range Modelski states in his later encyclopedia treatment ("Long Cycles in Global Politics," UNESCO-EOLSS); the 1987 book itself says "about one century" and separately reports a 120-year average interval between successive naval-preponderance attainments. Modelski himself warns that the long cycle "does not connote strict cycles" — treat the fixed sinusoid as a stylization he explicitly disclaims.
+
+*Source:* George Modelski, *Long Cycles in World Politics* (Macmillan, 1987); period range and non-strict-cycles disclaimer from Modelski, "Long Cycles in Global Politics," UNESCO-EOLSS.
+
+*Caveat:* The 110-year period is this project's midpoint of Modelski's 100–120-year range, and he states the concept "does not connote strict cycles." The paired series measures the largest economy — not his naval/global-reach construct — and under that mechanical rule the 1870s–1881 leader is Qing China, not Britain.
+
+### Turchin — fathers-and-sons cycle
+
+- **Period:** 50 years
+- **Reference peak:** 1970
+- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin-fathers-sons
+
+~50-year "bi-generation" oscillation in US political violence, superimposed on the longer secular cycle — spikes of unrest roughly every two generations.
+
+*Peak calibration:* Most recent stated peak, in Turchin's own words: "a 50-year oscillation superimposed on the secular cycle, with peaks around 1870, 1920, and 1970" (*Journal of Peace Research* 49(4), 2012). With period 50 and peak 1970, this sinusoid's prior peaks land exactly on his other two stated peaks (1870 and 1920) and the next lands at 2020 — coinciding with the instability forecast of his separate 150-year secular cycle, so the two Turchin curves on this site deliberately peak together at 2020. The paper attributes the mechanism to the "fathers-and-sons" dynamic and prefers the term "bi-generation cycles," with recurrence "roughly two generations (40–60 years)"; 50 is the headline number and the one used here.
+
+*Source:* Peter Turchin, "Dynamics of political instability in the United States, 1780–2010," *Journal of Peace Research* 49(4) (2012): 577–591.
+
+*Caveat:* Same author as the 150-year secular cycle — a distinct construct from a distinct paper, not independent corroboration. No paired data series this round: the natural series (Turchin's US political-violence event data) has no cleanly redistributable file.
+
 ## Intellectual-honesty disclaimer
 
-All eight theories are contested in different ways. Kondratiev waves have never been cleanly confirmed in empirical long-run data; spectral analyses report some weak periodicity, but period, phase dating, and existence are not agreed across studies. Khaldun wrote in the 14th century about dynastic politics in a Maghrebi context; applying his framework to a modern European-and-American axis is this project's choice. Huntington's creedal-passion cycle is an interpretive lens over American politics, not a measurement. Perez's techno-economic paradigm framework is rich and influential but methodologically qualitative — Schumpeterian historical pattern recognition, not statistical fitting. (An earlier draft of this site mistakenly labeled it "quantitative.")
+All ten cycles are contested in different ways. Kondratiev waves have never been cleanly confirmed in empirical long-run data; spectral analyses report some weak periodicity, but period, phase dating, and existence are not agreed across studies. Khaldun wrote in the 14th century about dynastic politics in a Maghrebi context; applying his framework to a modern European-and-American axis is this project's choice. Huntington's creedal-passion cycle is an interpretive lens over American politics, not a measurement. Perez's techno-economic paradigm framework is rich and influential but methodologically qualitative — Schumpeterian historical pattern recognition, not statistical fitting. (An earlier draft of this site mistakenly labeled it "quantitative.")
 
-Turchin's secular cycles have the most developed quantitative literature of the eight, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955). With period 84, the trough of this construction lands at 1997 and the next peak at 2039; their predicted Crisis climax around 2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak — there is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough. Schlesinger Jr.'s liberal/conservative cycle is interpretive periodization formalizing his father's ~15–16-year alternating phases into a ~30-year full cycle; the empirical pairing (Stimson Policy Mood) only covers 1952 onward, so the Schlesinger curve's pre-1952 shape cannot be stress-tested against the data. Two cycles (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced in the focused-facet view; treat both especially skeptically.
+Turchin's secular cycles have the most developed quantitative literature of the ten, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955). With period 84, the trough of this construction lands at 1997 and the next peak at 2039; their predicted Crisis climax around 2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak — there is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough. Schlesinger Jr.'s liberal/conservative cycle is interpretive periodization formalizing his father's ~15–16-year alternating phases into a ~30-year full cycle; the empirical pairing (Stimson Policy Mood) only covers 1952 onward, so the Schlesinger curve's pre-1952 shape cannot be stress-tested against the data. Two cycles (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced in the focused-facet view; treat both especially skeptically.
 
 Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for the data-side caveats and [colophon](https://sinusoidal-history.skylarkcreations.com/colophon) for how the site was built.
 

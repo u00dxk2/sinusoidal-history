@@ -1,21 +1,21 @@
 # Sinusoidal History
 
-> Eight historical cycle theories overlaid on one shared time axis (1600–2050), seven of them paired with a real long-run empirical data series. A comparison tool — not prophecy.
+> Ten historical cycle theories overlaid on one shared time axis (1600–2050), nine of them paired with a real long-run empirical data series. A comparison tool — not prophecy.
 
 The site is at https://sinusoidal-history.skylarkcreations.com. Source code is at https://github.com/u00dxk2/sinusoidal-history. Built by David Kooi at Skylark Creations, April 2026, after a phone-call conversation with Mark R about whether you could plot Khaldun, Kondratiev, Huntington, Perez, Turchin, Dalio, and Strauss-Howe as actual sine waves on one axis and see where they net out. Schlesinger Jr.'s ~30-year liberal/conservative cycle was added in a second pass, also at Mark's suggestion.
 
-The eight cycles, by ascending period: Schlesinger Jr. (30y), Kondratiev (54y), Perez (55y), Huntington (60y), Dalio (75y), Strauss-Howe (84y), Khaldun (120y), Turchin (150y). Seven of eight are paired with a real long-run data series; Perez has no paired data this round.
+The ten cycles, by ascending period: Schlesinger Jr. (30y), Turchin fathers-and-sons (50y), Kondratiev (54y), Perez (55y), Huntington (60y), Dalio (75y), Strauss-Howe (84y), Modelski (110y), Khaldun (120y), Turchin secular (150y). Nine of ten are paired with a real long-run data series; Turchin's fathers-and-sons cycle has no paired data this round. Modelski and Turchin fathers-and-sons were added August 2026 after a two-engine research census; /cycles also carries a published "considered and excluded" list (Goldstein, Arrighi, Sornette, Toynbee/Spengler, Namenwirth/Weber, Forrester, Berry) with the reasons.
 
 Headline editorial point: most of the cycles peak near the present, but that is a *selection effect*, not convergence — theorists writing today anchor their forecasts to the world they live in, and we read them precisely because their climaxes land in our era. The site says this on the home page, on /about, and on /colophon.
 
 ## Pages
 
-- [Home](https://sinusoidal-history.skylarkcreations.com/): The interactive overlay chart with eight cycle facets, a calibration drawer, and a time-range brush. Hero: "Eight cycles, one axis."
-- [Cycles index](https://sinusoidal-history.skylarkcreations.com/cycles): All eight cycles by ascending period, each linking to its own page.
+- [Home](https://sinusoidal-history.skylarkcreations.com/): The interactive overlay chart with ten cycle facets, a calibration drawer, and a time-range brush. Hero: "Ten cycles, one axis."
+- [Cycles index](https://sinusoidal-history.skylarkcreations.com/cycles): All ten cycles by ascending period, each linking to its own page, plus the published "considered and excluded" list with reasons and citations.
 - [Methods](https://sinusoidal-history.skylarkcreations.com/methods): Data provenance, transformations, normalization choices, and why Pearson r is a diagnostic and not a test statistic. Per-series source citations and license terms.
-- [About](https://sinusoidal-history.skylarkcreations.com/about): The argument. Why this exists, why every cycle peaks near now, the eight cycles in this version, the intellectual-honesty disclaimer.
+- [About](https://sinusoidal-history.skylarkcreations.com/about): The argument. Why this exists, why every cycle peaks near now, the ten cycles in this version, the intellectual-honesty disclaimer.
 - [Colophon](https://sinusoidal-history.skylarkcreations.com/colophon): A note from the maker. How the site was built, what was AI, what was human, the AI-collaboration framing, the convergence problem.
-- [State of the Cycles 2026](https://sinusoidal-history.skylarkcreations.com/state/2026): The annual reading — where each construction sits in 2026 (cos value + phase label) and the next peak/trough each one implies, all derived from period + reference peak. A dated permalink, frozen for citation; later years appear at /state/<year> as the clock advances.
+- [State of the Cycles 2026](https://sinusoidal-history.skylarkcreations.com/state/2026): The annual reading — where each construction sits in 2026 (cos value + phase label) and the next peak/trough each one implies, all derived from period + reference peak. A dated permalink with a suggested-citation block; later years appear at /state/<year> as the clock advances.
 - [Poster](https://sinusoidal-history.skylarkcreations.com/poster): A dedicated print-style broadside meant for screenshotting and sharing. Includes a PNG download.
 - [Embed docs](https://sinusoidal-history.skylarkcreations.com/embed/docs): How to iframe specific cycle facets in a Substack or other host page.
 
@@ -25,12 +25,14 @@ One static page per cycle. Each carries the theory's period, reference peak year
 
 - [/cycles/schlesinger-jr](https://sinusoidal-history.skylarkcreations.com/cycles/schlesinger-jr) — Schlesinger Jr., liberal/conservative cycle. Period 30y, reference peak 1970. Narrative. Paired data: Stimson Policy Mood.
 - [/cycles/kondratiev](https://sinusoidal-history.skylarkcreations.com/cycles/kondratiev) — Kondratiev wave. Period 54y, reference peak 1973. Empirical · contested. Paired data: US TFP growth (5-yr rolling).
-- [/cycles/perez](https://sinusoidal-history.skylarkcreations.com/cycles/perez) — Carlota Perez, techno-economic paradigm. Period 55y, reference peak 2000. Empirical · contested. No paired data series this round.
+- [/cycles/perez](https://sinusoidal-history.skylarkcreations.com/cycles/perez) — Carlota Perez, techno-economic paradigm. Period 55y, reference peak 2000 (her financial-frenzy peak / end of Installation). Empirical · contested. Paired data: US technology-diffusion intensity (HATCH).
 - [/cycles/huntington](https://sinusoidal-history.skylarkcreations.com/cycles/huntington) — Huntington, creedal passion. Period 60y, reference peak 1968. Narrative. Paired data: DW-NOMINATE House polarization.
 - [/cycles/dalio](https://sinusoidal-history.skylarkcreations.com/cycles/dalio) — Ray Dalio, Big Cycle. Period 75y, reference peak 1950. Narrative. Paired data: US share of world GDP.
 - [/cycles/strauss-howe](https://sinusoidal-history.skylarkcreations.com/cycles/strauss-howe) — Strauss-Howe, saeculum. Period 84y, reference peak 1955. Narrative, carries a caveat. Paired data: V-Dem liberal-democracy index.
 - [/cycles/khaldun](https://sinusoidal-history.skylarkcreations.com/cycles/khaldun) — Ibn Khaldun, dynastic cycle. Period 120y, reference peak 1789. Narrative. Paired data: deaths in conventional wars (Project Mars, log).
 - [/cycles/turchin](https://sinusoidal-history.skylarkcreations.com/cycles/turchin) — Peter Turchin, secular cycles. Period 150y, reference peak 2020. Quantitative. Paired data: US top-1% wealth share.
+- [/cycles/modelski](https://sinusoidal-history.skylarkcreations.com/cycles/modelski) — George Modelski, long cycle of world leadership. Period 110y (plotted midpoint of his stated 100–120), reference peak 1945. Empirical · contested, carries a caveat. Paired data: leading economy's share of world GDP.
+- [/cycles/turchin-fathers-sons](https://sinusoidal-history.skylarkcreations.com/cycles/turchin-fathers-sons) — Peter Turchin, fathers-and-sons (bi-generation) cycle. Period 50y, reference peak 1970. Quantitative, carries a caveat. No paired data series this round.
 
 ## Plain-markdown content (LLM-friendly)
 
@@ -44,8 +46,8 @@ These are the prose pages above, served as raw markdown with permissive CORS so 
 
 Each cycle and data series is fully described in the canonical JSON files. CSV data is fetchable cross-origin (CORS `*`). Per-file provenance is in companion `.source.md` files.
 
-- [cycles.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/cycles.json) (in repo): All eight cycles with period, peak year, source citation, peak rationale, and confidence-level classification. Also served live at [/api/v1/cycles](https://sinusoidal-history.skylarkcreations.com/api/v1/cycles).
-- [series.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/series.json) (in repo): All seven data series with source, URL, license, coverage, and association notes. Also served live at [/api/v1/series](https://sinusoidal-history.skylarkcreations.com/api/v1/series).
+- [cycles.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/cycles.json) (in repo): All ten cycles with period, peak year, source citation, peak rationale, and confidence-level classification. Also served live at [/api/v1/cycles](https://sinusoidal-history.skylarkcreations.com/api/v1/cycles).
+- [series.json](https://github.com/u00dxk2/sinusoidal-history/blob/main/src/data/series.json) (in repo): All nine data series with source, URL, license, coverage, and association notes. Also served live at [/api/v1/series](https://sinusoidal-history.skylarkcreations.com/api/v1/series).
 
 ## API (JSON, CORS-open)
 
@@ -64,6 +66,8 @@ CSV data files (CORS-enabled, served from the live site):
 - [/data/vdem_libdem.csv](https://sinusoidal-history.skylarkcreations.com/data/vdem_libdem.csv) — V-Dem liberal-democracy index for the US (V-Dem Institute v16, 1789–2025). Provenance: [/data/vdem_libdem.source.md](https://sinusoidal-history.skylarkcreations.com/data/vdem_libdem.source.md).
 - [/data/conflict_deaths.csv](https://sinusoidal-history.skylarkcreations.com/data/conflict_deaths.csv) — Deaths in conventional wars per 100k (OWID/Project Mars Lyall 2020, 1800–2011; log1p transform applied at load time). Provenance: [/data/conflict_deaths.source.md](https://sinusoidal-history.skylarkcreations.com/data/conflict_deaths.source.md).
 - [/data/stimson_policy_mood.csv](https://sinusoidal-history.skylarkcreations.com/data/stimson_policy_mood.csv) — US Policy Mood (Stimson, UNC, 1952–2024 annual; higher = more liberal public preference for domestic policy). Provenance: [/data/stimson_policy_mood.source.md](https://sinusoidal-history.skylarkcreations.com/data/stimson_policy_mood.source.md).
+- [/data/leading_power_gdp_share.csv](https://sinusoidal-history.skylarkcreations.com/data/leading_power_gdp_share.csv) — the largest single economy's share of world GDP, with the leader named per year (Maddison 2023, 1870–2022; CC BY 4.0). Provenance: [/data/leading_power_gdp_share.source.md](https://sinusoidal-history.skylarkcreations.com/data/leading_power_gdp_share.source.md).
+- [/data/perez_tech_diffusion.csv](https://sinusoidal-history.skylarkcreations.com/data/perez_tech_diffusion.csv) — US technology-diffusion intensity composite from HATCH 2.0 (median z-scored 5-yr log-changes across ~105 technologies, 1865–2023, with per-year technology counts; CC BY 4.0). Provenance: [/data/perez_tech_diffusion.source.md](https://sinusoidal-history.skylarkcreations.com/data/perez_tech_diffusion.source.md).
 
 ## Build and audit history
 

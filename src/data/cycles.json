@@ -21,7 +21,8 @@
     "amplitude_normalized": 1.0,
     "source": "Kondratiev, 'Bol'shie tsikly kon'yunktury' (1925); abridged English: 'The Long Waves in Economic Life,' Review of Economic Statistics 17(6) (1935)",
     "confidence_level": "empirical-contested",
-    "color": "#22366A"
+    "color": "#22366A",
+    "caveat": "The periodicity claim has published renunciations — Metz, who once reported K-wave evidence, later withdrew it, and Solomou's long-run studies find no regular wave. Spectral detections (e.g. Korotayev & Tsirel 2010) remain contested. The wave is kept here as the most-cited long-wave theory, not as settled empirics."
   },
   {
     "id": "huntington",
@@ -96,5 +97,31 @@
     "confidence_level": "narrative",
     "color": "#3F4A56",
     "caveat": "Generational theory is contested in academic history. The single-sinusoid representation is a forced reduction of a four-turnings model. Treat skeptically."
+  },
+  {
+    "id": "modelski",
+    "name": "Modelski — long cycle of world leadership",
+    "short_description": "~100–120 year long cycle of world leadership — global war → world power → delegitimation → deconcentration — tracked through naval and global-reach preponderance; plotted here at 110 years, the midpoint of the stated range",
+    "period_years": 110,
+    "reference_peak_year": 1945,
+    "reference_peak_rationale": "Start of the US world-power phase in Modelski's own dating: Table 2.1 of Long Cycles in World Politics (1987, p. 40) dates the American cycle's phases 1914–1945 (global war) and 1945–1973 (world power), and Table 2.2 (p. 42) dates US oceanic supremacy from 1944, when the US crossed his threshold of one-half of the world's capital-ship assets. The 110-year period is this project's midpoint of the '100 to 120 years' range Modelski states in his later encyclopedia treatment ('Long Cycles in Global Politics,' UNESCO-EOLSS); the 1987 book itself says 'about one century' and separately reports a 120-year average interval between successive naval-preponderance attainments. Modelski himself warns that the long cycle 'does not connote strict cycles' — treat the fixed sinusoid as a stylization he explicitly disclaims.",
+    "amplitude_normalized": 1.0,
+    "source": "George Modelski, Long Cycles in World Politics (Macmillan, 1987); period range and non-strict-cycles disclaimer from Modelski, 'Long Cycles in Global Politics,' UNESCO-EOLSS",
+    "confidence_level": "empirical-contested",
+    "color": "#2F6B5E",
+    "caveat": "The 110-year period is this project's midpoint of Modelski's 100–120-year range, and he states the concept 'does not connote strict cycles.' The paired series measures the largest economy — not his naval/global-reach construct — and under that mechanical rule the 1870s–1881 leader is Qing China, not Britain."
+  },
+  {
+    "id": "turchin_fathers_sons",
+    "name": "Turchin — fathers-and-sons cycle",
+    "short_description": "~50-year 'bi-generation' oscillation in US political violence, superimposed on the longer secular cycle — spikes of unrest roughly every two generations",
+    "period_years": 50,
+    "reference_peak_year": 1970,
+    "reference_peak_rationale": "Most recent stated peak, in Turchin's own words: 'a 50-year oscillation superimposed on the secular cycle, with peaks around 1870, 1920, and 1970' (Journal of Peace Research 49(4), 2012). With period 50 and peak 1970, this sinusoid's prior peaks land exactly on his other two stated peaks (1870 and 1920) and the next lands at 2020 — coinciding with the instability forecast of his separate 150-year secular cycle, so the two Turchin curves on this site deliberately peak together at 2020. The paper attributes the mechanism to the 'fathers-and-sons' dynamic and prefers the term 'bi-generation cycles,' with recurrence 'roughly two generations (40–60 years)'; 50 is the headline number and the one used here.",
+    "amplitude_normalized": 1.0,
+    "source": "Peter Turchin, 'Dynamics of political instability in the United States, 1780–2010,' Journal of Peace Research 49(4) (2012): 577–591",
+    "confidence_level": "quantitative",
+    "color": "#8C4A5E",
+    "caveat": "Same author as the 150-year secular cycle — a distinct construct from a distinct paper, not independent corroboration. No paired data series this round: the natural series (Turchin's US political-violence event data) has no cleanly redistributable file."
   }
 ]
