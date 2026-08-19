@@ -23,7 +23,7 @@ holm_families: [primary, cross_grid]
 series:
   - id: stimson_policy_mood
     csv: public/data/stimson_policy_mood.csv
-    sha256: 4fcffd99ff633a47f5a892fb39c10587beea93856891b38396ad67311fcf1909
+    sha256: 65701c2f5a87a2c879334d915ec80b1c6e0840b256892c7374283ef069df9a47
     year_column: year
     value_column: mood
     transform: none
@@ -47,7 +47,7 @@ series:
     sampling_interval_years: 1
   - id: dw_nominate_polarization
     csv: public/data/dw_nominate.csv
-    sha256: 3ee56ba9b0c7b5a89616adb925354a14d14939e72e6c2d31bb58beb8718d28bf
+    sha256: 0f8ab7f91aba18f074a8b4722cd8495a33da0b4f1442b2699ddccaf864c50e50
     year_column: year
     value_column: house_party_distance
     transform: none
@@ -55,7 +55,7 @@ series:
     sampling_interval_years: 2
   - id: us_world_gdp_share
     csv: public/data/us_world_gdp_share.csv
-    sha256: 0b46c0b94e94503515c85b69461a5536962573266c208b72ed36affd3014820c
+    sha256: cec3037edba45e411d8a31cec9228cb7b1dea2b68075634a138151b7d7d1b1a5
     year_column: year
     value_column: us_share_world_gdp_pct
     transform: none
@@ -63,7 +63,7 @@ series:
     sampling_interval_years: 1
   - id: vdem_libdem
     csv: public/data/vdem_libdem.csv
-    sha256: ed7bda1eaffdeb3554ff06c3dbc8be8a0156a4169167d1dab50e72dcfc782d2b
+    sha256: 375745966a97c9c4174229eba6598ba16a75bf60724516460923dcdc5a483e6d
     year_column: year
     value_column: liberal_democracy_index
     transform: none
@@ -79,7 +79,7 @@ series:
     sampling_interval_years: 1
   - id: conflict_deaths
     csv: public/data/conflict_deaths.csv
-    sha256: 5356ad64efc51d69f89f3f71e0e212c131d1a96726af954650c16625279590ee
+    sha256: 5cae460eb49bf4b4c38242a31b4407696c54caa2b687760e8e72ee078cb76f41
     year_column: year
     value_column: deaths_per_100k
     transform: log1p
@@ -87,7 +87,7 @@ series:
     sampling_interval_years: 1
   - id: wid_top1_wealth_1913
     csv: public/data/wid_top1_wealth.csv
-    sha256: fa7fabc146619093daaf3335017c3840755474174397c0cdbb115f1dd710d118
+    sha256: fcb262d3ff7b396a482b78a0436de7ba490cf020de686f6af8d96b35def31de8
     year_column: year
     value_column: top1_wealth_share_pct
     transform: none

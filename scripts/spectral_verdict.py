@@ -236,7 +236,9 @@ MANIFEST_NOTES = [
 # ---------------------------------------------------------------------------
 
 def sha256_file(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # LF-normalized so the freeze check is independent of git's autocrlf
+    # checkout translation (this repo has mixed on-disk endings on Windows).
+    return hashlib.sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def load_series(series_id: str) -> tuple[np.ndarray, np.ndarray]:
