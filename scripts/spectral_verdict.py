@@ -600,8 +600,16 @@ def lay_text(row: dict, series_name: str, m: int, draws: int, cross: bool) -> st
     )
 
 
-def run_analysis(draws: int, verify: bool = True, progress: bool = True) -> dict:
-    """The whole pre-registered analysis. Returns the verdicts object."""
+def run_analysis(draws: int, verify: bool = True, progress: bool = True,
+                 checkpoint: Path | None = None) -> dict:
+    """The whole pre-registered analysis. Returns the verdicts object.
+
+    checkpoint: optional JSONL file recording each completed cell. Because
+    every cell seeds its own RNG from (SEED, family, cell_idx, order), a
+    resumed run is byte-identical to a straight-through run — checkpointing
+    changes no number, it only survives restarts. Records are reused only if
+    manifest sha AND draws match. Not used by the selftest (its determinism
+    check must recompute)."""
     # Input-CSV shas are embedded in manifest_text(), so the byte-identity
     # check below also pins every input file to its frozen checksum.
     manifest_sha = verify_manifest() if verify else hashlib.sha256(
@@ -648,7 +656,18 @@ def run_analysis(draws: int, verify: bool = True, progress: bool = True) -> dict
         )
 
     # --- run tests: only eligible cells ever reach bootstrap_p -------------
+    ckpt: dict[tuple[int, int], dict] = {}
+    if checkpoint is not None and checkpoint.exists():
+        for line in checkpoint.read_text(encoding="utf-8").splitlines():
+            rec = json.loads(line)
+            if rec["manifest_sha256"] == manifest_sha and rec["draws"] == draws:
+                ckpt[(rec["family"], rec["cell_idx"])] = rec["out"]
+        if ckpt and progress:
+            print(f"  resuming: {len(ckpt)} cells from {checkpoint.name}")
+
     def run_cell(cell_idx: int, family: int, period: int, sid: str) -> dict:
+        if (family, cell_idx) in ckpt:
+            return dict(ckpt[(family, cell_idx)])
         years, y = data[sid]
         out = {}
         for order in (1, 2):
@@ -658,6 +677,13 @@ def run_analysis(draws: int, verify: bool = True, progress: bool = True) -> dict
             out[f"p{key}"] = round(res["p"], 6)
             out[f"lrt{key}"] = round(res["lrt_obs"], 4)
             out[f"phi{key}"] = [round(v, 3) for v in res["phi"]]
+        if checkpoint is not None:
+            checkpoint.parent.mkdir(parents=True, exist_ok=True)
+            with checkpoint.open("a", encoding="utf-8", newline="\n") as f:
+                f.write(json.dumps({
+                    "manifest_sha256": manifest_sha, "draws": draws,
+                    "family": family, "cell_idx": cell_idx, "out": out,
+                }) + "\n")
         return out
 
     # primary: expected zero eligible cells; loop is the honest general form
@@ -1019,7 +1045,9 @@ def main() -> None:
 
     if args.run:
         print(f"Running pre-registered analysis (draws={args.draws}, seed={SEED})")
-        verdicts = run_analysis(draws=args.draws)
+        verdicts = run_analysis(
+            draws=args.draws,
+            checkpoint=ROOT / "tmp" / "spectral-checkpoint.jsonl")
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         (OUT_DIR / "verdicts.json").write_text(
             verdicts_json(verdicts), encoding="utf-8", newline="\n")
