@@ -12,6 +12,13 @@ silently derived from `dtfp` (raw); this script re-derives it from
 centered rolling mean with edge clipping (the window shrinks at boundaries
 rather than dropping rows).
 
+Also writes public/data/us_tfp_growth_annual.csv — the UNSMOOTHED annual
+`dtfp_util` values. The spectral-verdict pipeline must run inference on this
+file, never the rolled one: the 5-yr MA barely attenuates the 54–55y band
+(|H| ≈ 0.99) but reddens the spectrum and corrupts the AR(1) null fit
+(docs/specs/spectral-verdict-build-spec.md, data prerequisite #1). The
+rolled CSV remains the display series.
+
 Run from repo root:
     python scripts/build_us_tfp_growth.py
 """
@@ -28,13 +35,19 @@ import openpyxl
 
 FERNALD_URL = "https://www.frbsf.org/wp-content/uploads/quarterly_tfp.xlsx"
 OUTPUT = Path("public/data/us_tfp_growth.csv")
+OUTPUT_ANNUAL = Path("public/data/us_tfp_growth_annual.csv")
 COLUMN = "dtfp_util"  # utilization-adjusted TFP growth, percent
 WINDOW = 5  # years, centered
 
 
 def fetch_xlsx() -> bytes:
     print(f"Downloading {FERNALD_URL} ...")
-    return urllib.request.urlopen(FERNALD_URL).read()
+    # Explicit User-Agent, same precaution as the OWID build scripts
+    # (OWID began 403-ing the default urllib UA on 2026-08-18).
+    req = urllib.request.Request(
+        FERNALD_URL, headers={"User-Agent": "sinusoidal-history-build/1.0"}
+    )
+    return urllib.request.urlopen(req).read()
 
 
 def read_annual(xlsx_bytes: bytes, column: str) -> dict[int, float]:
@@ -75,7 +88,14 @@ def main() -> None:
         for year in sorted(rolled):
             writer.writerow([year, f"{rolled[year]:.4f}"])
 
+    with OUTPUT_ANNUAL.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, lineterminator="\n")
+        writer.writerow(["year", "dtfp_util_pct"])
+        for year in sorted(annual):
+            writer.writerow([year, f"{annual[year]:.4f}"])
+
     print(f"Wrote {len(rolled)} rows to {OUTPUT}")
+    print(f"Wrote {len(annual)} rows to {OUTPUT_ANNUAL} (unsmoothed)")
     print(f"Source column: {COLUMN} (utilization-adjusted TFP growth)")
     print("Sample values:")
     for y in (1948, 1965, 1973, 1980, 1995, 2008, 2025):

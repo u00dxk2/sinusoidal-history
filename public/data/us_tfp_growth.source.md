@@ -1,6 +1,6 @@
 # US Total Factor Productivity Growth (5-year rolling average)
 
-**Retrieved:** 2026-04-24
+**Retrieved:** 2026-08-19
 **Source URL:** https://www.frbsf.org/wp-content/uploads/quarterly_tfp.xlsx
 **Primary citation:** Fernald, John G. (2014). *A Quarterly, Utilization-Adjusted Series on Total Factor Productivity.* FRBSF Working Paper 2012-19 (updated 2026-03-24).
 **Producer:** Federal Reserve Bank of San Francisco, John Fernald and Shane Boyle
@@ -10,6 +10,20 @@
 
 - `year` — calendar year
 - `tfp_growth_5yr_avg_pct` — 5-year centered rolling average of the `dtfp_util` column (utilization-adjusted TFP growth, annualised, percent)
+
+## Companion file: `us_tfp_growth_annual.csv` (unsmoothed)
+
+The same build script also writes `us_tfp_growth_annual.csv` (`year`,
+`dtfp_util_pct`) — the raw annual `dtfp_util` values with no rolling
+average. This is the **inference series for the spectral-verdict pipeline**
+(`scripts/spectral_verdict.py`): the 5-year moving average barely attenuates
+the 54–55-year band (|H| ≈ 0.99 at that frequency) but reddens the spectrum
+and corrupts an AR(1) noise fit, so any statistical test must run on the
+unsmoothed series. The rolled CSV remains the display series on the chart.
+Both files are written from the same download in the same run, so they can
+never drift apart. The 2026-08-19 refresh also picked up upstream Fernald
+revisions confined to 2012–2025 (max |Δ| = 0.14 pp on the rolled values);
+coverage is unchanged at 1948–2025.
 
 ## What was filtered and transformed
 
