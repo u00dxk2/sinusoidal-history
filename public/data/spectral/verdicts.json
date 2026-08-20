@@ -1,0 +1,651 @@
+{
+  "$schema": "spectral-verdict/1",
+  "generated": "2026-08-19",
+  "manifest": "scripts/spectral/analysis-manifest.yaml",
+  "manifest_sha256": "1765eca3cacd12fbf44d8645a24bb9e57970aa70fb3a8dc33a477898e9df4572",
+  "seed": 20260819,
+  "draws": 99999,
+  "alpha": 0.05,
+  "gate_min_periods": 3.0,
+  "versions": {
+    "python": "3.14.6",
+    "numpy": "2.5.2",
+    "scipy": "1.18.0"
+  },
+  "headline": {
+    "eligible_primary": 0,
+    "total_primary": 9,
+    "text": "0 of the 9 paired constructions reach the 3.0-period eligibility gate for a spectral test."
+  },
+  "primary": [
+    {
+      "cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "stimson_policy_mood",
+      "span_years": 72,
+      "cycles_covered": 2.4,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US Policy Mood (Stimson) record spans 72 years — 2.4 of the 3.0 full periods this site requires before testing a 30-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "kondratiev",
+      "period_years": 54,
+      "series_id": "us_tfp_growth_annual",
+      "span_years": 77,
+      "cycles_covered": 1.43,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US TFP growth (annual, unsmoothed) record spans 77 years — 1.4 of the 3.0 full periods this site requires before testing a 54-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "perez",
+      "period_years": 55,
+      "series_id": "perez_tech_diffusion",
+      "span_years": 158,
+      "cycles_covered": 2.87,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US Technology-Diffusion Intensity (HATCH) record spans 158 years — 2.9 of the 3.0 full periods this site requires before testing a 55-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "huntington",
+      "period_years": 60,
+      "series_id": "dw_nominate_polarization",
+      "span_years": 144,
+      "cycles_covered": 2.4,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US House Polarization (DW-NOMINATE) record spans 144 years — 2.4 of the 3.0 full periods this site requires before testing a 60-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "dalio",
+      "period_years": 75,
+      "series_id": "us_world_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 2.03,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US Share of World GDP record spans 152 years — 2.0 of the 3.0 full periods this site requires before testing a 75-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "strauss_howe",
+      "period_years": 84,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 2.81,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US Liberal Democracy Index (V-Dem) record spans 236 years — 2.8 of the 3.0 full periods this site requires before testing a 84-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "modelski",
+      "period_years": 110,
+      "series_id": "leading_power_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 1.38,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The Leading Economy's Share of World GDP record spans 152 years — 1.4 of the 3.0 full periods this site requires before testing a 110-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "khaldun",
+      "period_years": 120,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 1.76,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The Deaths in conventional wars (Project Mars, log) record spans 211 years — 1.8 of the 3.0 full periods this site requires before testing a 120-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    },
+    {
+      "cycle_id": "turchin",
+      "period_years": 150,
+      "series_id": "wid_top1_wealth_1913",
+      "span_years": 111,
+      "cycles_covered": 0.74,
+      "eligible": false,
+      "state": "INSUFFICIENT_DATA",
+      "p": null,
+      "p_ar2": null,
+      "lrt": null,
+      "lrt_ar2": null,
+      "phi": null,
+      "phi_ar2": null,
+      "holm_family": "primary",
+      "holm_significant": null,
+      "holm_significant_ar2": null,
+      "lay_text": "The US top 1% wealth share (1913 onward) record spans 111 years — 0.7 of the 3.0 full periods this site requires before testing a 150-year claim. No test was run and no p-value exists: the honest verdict is that the record is too short to test the claim at all."
+    }
+  ],
+  "cross_grid": [
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "dw_nominate_polarization",
+      "span_years": 144,
+      "cycles_covered": 4.8,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.58515,
+      "p_ar2": 0.502,
+      "lrt": 1.2266,
+      "lrt_ar2": 1.5681,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.0,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against US House Polarization (DW-NOMINATE). Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.5851, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.5020)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 7.87,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.09377,
+      "p_ar2": 0.18473,
+      "lrt": 5.0822,
+      "lrt_ar2": 3.8277,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.0938, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.1847)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 7.03,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.23921,
+      "p_ar2": 0.19252,
+      "lrt": 3.3805,
+      "lrt_ar2": 3.9496,
+      "phi": [
+        0.87
+      ],
+      "phi_ar2": [
+        0.9,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against Deaths in conventional wars (Project Mars, log). Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.2392, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.1925)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "us_world_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 5.07,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.1828,
+      "p_ar2": 0.49806,
+      "lrt": 3.9181,
+      "lrt_ar2": 1.6786,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.1,
+        -0.15
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against US Share of World GDP. Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.1828, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.4981)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "leading_power_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 5.07,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.9169,
+      "p_ar2": 0.97683,
+      "lrt": 0.2009,
+      "lrt_ar2": 0.0573,
+      "phi": [
+        0.975
+      ],
+      "phi_ar2": [
+        1.15,
+        -0.2
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against Leading Economy's Share of World GDP. Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.9169, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.9768)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "wid_top1_wealth_1913",
+      "span_years": 111,
+      "cycles_covered": 3.7,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.10329,
+      "p_ar2": 0.11949,
+      "lrt": 5.882,
+      "lrt_ar2": 5.7788,
+      "phi": [
+        0.97
+      ],
+      "phi_ar2": [
+        1.0,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against US top 1% wealth share (1913 onward). Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.1033, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.1195)."
+    },
+    {
+      "period_source_cycle_id": "schlesinger_jr",
+      "period_years": 30,
+      "series_id": "perez_tech_diffusion",
+      "span_years": 158,
+      "cycles_covered": 5.27,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.45268,
+      "p_ar2": 0.29145,
+      "lrt": 1.8953,
+      "lrt_ar2": 2.9967,
+      "phi": [
+        0.615
+      ],
+      "phi_ar2": [
+        0.7,
+        -0.1
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 30-year period against US Technology-Diffusion Intensity (HATCH). Harmonic regression at the exact 30-year period finds no significant power above an AR(1) red-noise null (p = 0.4527, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.2914)."
+    },
+    {
+      "period_source_cycle_id": "turchin_fathers_sons",
+      "period_years": 50,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 4.72,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.97408,
+      "p_ar2": 0.72739,
+      "lrt": 0.0626,
+      "lrt_ar2": 0.8297,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 50-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 50-year period finds no significant power above an AR(1) red-noise null (p = 0.9741, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.7274)."
+    },
+    {
+      "period_source_cycle_id": "turchin_fathers_sons",
+      "period_years": 50,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 4.22,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.95785,
+      "p_ar2": 0.9405,
+      "lrt": 0.1135,
+      "lrt_ar2": 0.1619,
+      "phi": [
+        0.87
+      ],
+      "phi_ar2": [
+        0.9,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 50-year period against Deaths in conventional wars (Project Mars, log). Harmonic regression at the exact 50-year period finds no significant power above an AR(1) red-noise null (p = 0.9578, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.9405)."
+    },
+    {
+      "period_source_cycle_id": "turchin_fathers_sons",
+      "period_years": 50,
+      "series_id": "perez_tech_diffusion",
+      "span_years": 158,
+      "cycles_covered": 3.16,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.34084,
+      "p_ar2": 0.31835,
+      "lrt": 2.6011,
+      "lrt_ar2": 2.8437,
+      "phi": [
+        0.615
+      ],
+      "phi_ar2": [
+        0.7,
+        -0.1
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 50-year period against US Technology-Diffusion Intensity (HATCH). Harmonic regression at the exact 50-year period finds no significant power above an AR(1) red-noise null (p = 0.3408, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.3184)."
+    },
+    {
+      "period_source_cycle_id": "turchin_fathers_sons",
+      "period_years": 50,
+      "series_id": "us_world_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 3.04,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.13662,
+      "p_ar2": 0.3038,
+      "lrt": 5.6595,
+      "lrt_ar2": 3.7726,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.1,
+        -0.15
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 50-year period against US Share of World GDP. Harmonic regression at the exact 50-year period finds no significant power above an AR(1) red-noise null (p = 0.1366, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.3038)."
+    },
+    {
+      "period_source_cycle_id": "turchin_fathers_sons",
+      "period_years": 50,
+      "series_id": "leading_power_gdp_share",
+      "span_years": 152,
+      "cycles_covered": 3.04,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.39828,
+      "p_ar2": 0.53287,
+      "lrt": 2.6222,
+      "lrt_ar2": 1.9795,
+      "phi": [
+        0.975
+      ],
+      "phi_ar2": [
+        1.15,
+        -0.2
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 50-year period against Leading Economy's Share of World GDP. Harmonic regression at the exact 50-year period finds no significant power above an AR(1) red-noise null (p = 0.3983, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.5329)."
+    },
+    {
+      "period_source_cycle_id": "kondratiev",
+      "period_years": 54,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 4.37,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.79618,
+      "p_ar2": 0.78614,
+      "lrt": 0.5637,
+      "lrt_ar2": 0.6366,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 54-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 54-year period finds no significant power above an AR(1) red-noise null (p = 0.7962, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.7861). At this record length a 54-year and a 55-year period are indistinguishable (they differ by 0.000337 cycles per year), so read this as one result for the ~54–55-year band, not as separating Kondratiev from Perez."
+    },
+    {
+      "period_source_cycle_id": "kondratiev",
+      "period_years": 54,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 3.91,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.81398,
+      "p_ar2": 0.83313,
+      "lrt": 0.5559,
+      "lrt_ar2": 0.496,
+      "phi": [
+        0.87
+      ],
+      "phi_ar2": [
+        0.9,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 54-year period against Deaths in conventional wars (Project Mars, log). Harmonic regression at the exact 54-year period finds no significant power above an AR(1) red-noise null (p = 0.8140, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.8331). At this record length a 54-year and a 55-year period are indistinguishable (they differ by 0.000337 cycles per year), so read this as one result for the ~54–55-year band, not as separating Kondratiev from Perez."
+    },
+    {
+      "period_source_cycle_id": "perez",
+      "period_years": 55,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 4.29,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.7431,
+      "p_ar2": 0.75473,
+      "lrt": 0.7251,
+      "lrt_ar2": 0.7439,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 55-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 55-year period finds no significant power above an AR(1) red-noise null (p = 0.7431, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.7547). At this record length a 54-year and a 55-year period are indistinguishable (they differ by 0.000337 cycles per year), so read this as one result for the ~54–55-year band, not as separating Kondratiev from Perez."
+    },
+    {
+      "period_source_cycle_id": "perez",
+      "period_years": 55,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 3.84,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.7798,
+      "p_ar2": 0.78867,
+      "lrt": 0.6726,
+      "lrt_ar2": 0.6559,
+      "phi": [
+        0.87
+      ],
+      "phi_ar2": [
+        0.9,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 55-year period against Deaths in conventional wars (Project Mars, log). Harmonic regression at the exact 55-year period finds no significant power above an AR(1) red-noise null (p = 0.7798, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.7887). At this record length a 54-year and a 55-year period are indistinguishable (they differ by 0.000337 cycles per year), so read this as one result for the ~54–55-year band, not as separating Kondratiev from Perez."
+    },
+    {
+      "period_source_cycle_id": "huntington",
+      "period_years": 60,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 3.93,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.60032,
+      "p_ar2": 0.35467,
+      "lrt": 1.2973,
+      "lrt_ar2": 2.8976,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 60-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 60-year period finds no significant power above an AR(1) red-noise null (p = 0.6003, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.3547)."
+    },
+    {
+      "period_source_cycle_id": "huntington",
+      "period_years": 60,
+      "series_id": "conflict_deaths",
+      "span_years": 211,
+      "cycles_covered": 3.52,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.74994,
+      "p_ar2": 0.65525,
+      "lrt": 0.8097,
+      "lrt_ar2": 1.1648,
+      "phi": [
+        0.87
+      ],
+      "phi_ar2": [
+        0.9,
+        -0.05
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 60-year period against Deaths in conventional wars (Project Mars, log). Harmonic regression at the exact 60-year period finds no significant power above an AR(1) red-noise null (p = 0.7499, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.6552)."
+    },
+    {
+      "period_source_cycle_id": "dalio",
+      "period_years": 75,
+      "series_id": "vdem_libdem",
+      "span_years": 236,
+      "cycles_covered": 3.15,
+      "eligible": true,
+      "state": "NO_SIGNIFICANT_TARGET_POWER",
+      "p": 0.14929,
+      "p_ar2": 0.2659,
+      "lrt": 5.4814,
+      "lrt_ar2": 3.9642,
+      "phi": [
+        0.98
+      ],
+      "phi_ar2": [
+        1.45,
+        -0.5
+      ],
+      "holm_family": "cross_grid",
+      "holm_significant": false,
+      "holm_significant_ar2": false,
+      "lay_text": "Re-pairing, not the site's claim: this cell tests the 75-year period against US Liberal Democracy Index (V-Dem). Harmonic regression at the exact 75-year period finds no significant power above an AR(1) red-noise null (p = 0.1493, 99,999 bootstrap draws, Holm-corrected within a family of 19 tests); an AR(2) null agrees (p = 0.2659)."
+    }
+  ]
+}
