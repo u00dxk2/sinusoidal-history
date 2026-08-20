@@ -20,7 +20,9 @@ abstract: >-
   instrument: it makes the role of calibration, theorist motivation, and
   selection effect visible by construction. Data sources are documented on
   the site's /methods page; per-source provenance is committed alongside
-  each CSV.
+  each CSV. Live at https://sinusoidalhistory.com — Zenodo does not import
+  the `url:` field below, so the site address is stated here to reach the
+  archived record's description.
 keywords:
   - long-wave theory
   - cliodynamics
@@ -31,5 +33,5 @@ keywords:
   - calibration
   - selection effect
 license: MIT
-date-released: 2026-08-18
-version: "1.1.0"
+date-released: 2026-08-20
+version: "1.2.0"
