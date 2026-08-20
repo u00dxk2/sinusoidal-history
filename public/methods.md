@@ -1,6 +1,6 @@
 # Methods · Provenance & caveats
 
-> Plain-markdown mirror of https://sinusoidal-history.skylarkcreations.com/methods. The canonical rendered version is the React page at `/methods`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
+> Plain-markdown mirror of https://sinusoidalhistory.com/methods. The canonical rendered version is the React page at `/methods`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
 
 # How the numbers were chosen
 
@@ -18,7 +18,7 @@ Huntington's construct is recurring surges of creedal moralism - not interparty 
 
 - Source: Voteview / Lewis, Poole, Rosenthal, Boche, Rudkin, Sonnet (2026), https://voteview.com/articles/party_polarization
 - License: freely available; project code MIT-licensed; no explicit data license.
-- Provenance: [/data/dw_nominate.source.md](https://sinusoidal-history.skylarkcreations.com/data/dw_nominate.source.md)
+- Provenance: [/data/dw_nominate.source.md](https://sinusoidalhistory.com/data/dw_nominate.source.md)
 
 ### US TFP growth (5-yr rolling)
 
@@ -30,7 +30,7 @@ Kondratiev waves predict 50–60 year cycles of technological paradigm expansion
 
 - Source: Fernald (2014), FRBSF Working Paper 2012-19, https://www.frbsf.org/research-and-insights/data-and-indicators/total-factor-productivity-tfp/
 - License: freely available; © FRBSF, no explicit reuse license.
-- Provenance: [/data/us_tfp_growth.source.md](https://sinusoidal-history.skylarkcreations.com/data/us_tfp_growth.source.md)
+- Provenance: [/data/us_tfp_growth.source.md](https://sinusoidalhistory.com/data/us_tfp_growth.source.md)
 
 ### US Top 1% Wealth Share
 
@@ -42,7 +42,7 @@ Direct proxy for Turchin's elite-overproduction driver - when wealth concentrate
 
 - Source: WID · World Inequality Database, retrieved via Our World in Data. 1913–present from Saez & Zucman (2016) / DINA; pre-1913 decadal points (1820, 1850, 1880, 1900, 1910) are WID interpolations from earlier US wealth-distribution literature, not from Saez–Zucman directly. https://wid.world/country/usa/
 - License: CC BY 4.0.
-- Provenance: [/data/wid_top1_wealth.source.md](https://sinusoidal-history.skylarkcreations.com/data/wid_top1_wealth.source.md)
+- Provenance: [/data/wid_top1_wealth.source.md](https://sinusoidalhistory.com/data/wid_top1_wealth.source.md)
 
 ### US Share of World GDP
 
@@ -54,7 +54,7 @@ Imperial-arc proxy. The data peaks at 1945 at ~32% of world GDP (war-production 
 
 - Source: Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618), https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023
 - License: CC BY 4.0.
-- Provenance: [/data/us_world_gdp_share.source.md](https://sinusoidal-history.skylarkcreations.com/data/us_world_gdp_share.source.md)
+- Provenance: [/data/us_world_gdp_share.source.md](https://sinusoidalhistory.com/data/us_world_gdp_share.source.md)
 
 ### US Liberal Democracy Index (V-Dem)
 
@@ -66,7 +66,7 @@ Generational-cycle theory predicts crisis lows that line up with stress on liber
 
 - Source: V-Dem Institute, Country-Year Dataset v16, March 2026 (retrieved via Our World in Data), https://v-dem.net/data/the-v-dem-dataset/
 - License: CC BY-SA 4.0.
-- Provenance: [/data/vdem_libdem.source.md](https://sinusoidal-history.skylarkcreations.com/data/vdem_libdem.source.md)
+- Provenance: [/data/vdem_libdem.source.md](https://sinusoidalhistory.com/data/vdem_libdem.source.md)
 
 ### Deaths in conventional wars (Project Mars, log)
 
@@ -78,7 +78,7 @@ Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because
 
 - Source: Our World in Data · Project Mars v1.1 (Lyall 2020), https://ourworldindata.org/grapher/deaths-in-wars-by-region-project-mars
 - License: OWID chart CC BY 4.0; underlying Project Mars data Public Domain (Harvard Dataverse).
-- Provenance: [/data/conflict_deaths.source.md](https://sinusoidal-history.skylarkcreations.com/data/conflict_deaths.source.md)
+- Provenance: [/data/conflict_deaths.source.md](https://sinusoidalhistory.com/data/conflict_deaths.source.md)
 
 ### US Policy Mood (Stimson)
 
@@ -90,7 +90,7 @@ Direct empirical analogue to Schlesinger Jr.'s public-purpose vs. private-intere
 
 - Source: James A. Stimson, Policy Mood data series (UNC), via *Public Opinion in America* (Westview, 2nd ed., 1999) and ongoing updates, https://stimson.web.unc.edu/data/
 - License: freely shared by author; no explicit reuse license.
-- Provenance: [/data/stimson_policy_mood.source.md](https://sinusoidal-history.skylarkcreations.com/data/stimson_policy_mood.source.md)
+- Provenance: [/data/stimson_policy_mood.source.md](https://sinusoidalhistory.com/data/stimson_policy_mood.source.md)
 
 ### Leading Economy's Share of World GDP
 
@@ -102,7 +102,7 @@ Relative economic preponderance of the leading state as a proxy for world leader
 
 - Source: Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618), https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023
 - License: CC BY 4.0.
-- Provenance: [/data/leading_power_gdp_share.source.md](https://sinusoidal-history.skylarkcreations.com/data/leading_power_gdp_share.source.md)
+- Provenance: [/data/leading_power_gdp_share.source.md](https://sinusoidalhistory.com/data/leading_power_gdp_share.source.md)
 
 ### US Technology-Diffusion Intensity (HATCH)
 
@@ -114,7 +114,7 @@ Perez's construct is economy-wide diffusion and deployment of a techno-economic 
 
 - Source: HATCH - Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison), Zenodo, DOI 10.5281/zenodo.19579793, https://zenodo.org/records/19579793
 - License: CC BY 4.0.
-- Provenance: [/data/perez_tech_diffusion.source.md](https://sinusoidal-history.skylarkcreations.com/data/perez_tech_diffusion.source.md)
+- Provenance: [/data/perez_tech_diffusion.source.md](https://sinusoidalhistory.com/data/perez_tech_diffusion.source.md)
 
 ## Normalization
 
@@ -137,7 +137,7 @@ Better tools for cyclic data include cross-correlation at varying lags, the Four
 
 ## Spectral testing
 
-Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidal-history.skylarkcreations.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at the theory's exact stated period, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at the rhythm the theory names, more strongly than slow-drifting noise would produce by chance? Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
+Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidalhistory.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at the theory's exact stated period, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at the rhythm the theory names, more strongly than slow-drifting noise would produce by chance? Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
 
 Before any spectrum, an eligibility gate: a pairing is testable only if its record spans at least 3.0 full target periods - a deliberately conservative site rule, not a theorem (period *estimation* conventionally wants ~5). Below the gate the verdict is INSUFFICIENT_DATA and no code path emits a p-value; the test suite enforces that, not just convention. There are exactly four verdict states: INSUFFICIENT_DATA, NO_SIGNIFICANT_TARGET_POWER, MODEL_SENSITIVE (the AR(1) and AR(2) nulls disagree at the Holm-adjusted threshold, so no verdict is claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run's headline: **0 of the 9 paired constructions reach the gate** - none of these records is long enough to test its claim at all, which is itself the finding. A secondary cross-grid panel re-pairs each period with every series long enough to clear the gate (19 cells, labelled as re-pairings, not the site's claims). A 54- and a 55-year period differ by 0.000337 cycles per year - separating them would take a ~3,000-year record - so no verdict text distinguishes Kondratiev from Perez; every result in that band is one ~54–55-year statement.
 

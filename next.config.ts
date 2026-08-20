@@ -5,6 +5,26 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  async redirects() {
+    return [
+      {
+        // Permanent 301s onto the canonical domain: the legacy subdomain
+        // (the proven GPTBot channel — redirects stay forever), the .org
+        // twin, and www variants. Render terminates TLS for all these
+        // hosts on this service; the app picks the canonical one.
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value:
+              "(sinusoidal-history\\.skylarkcreations\\.com|www\\.sinusoidalhistory\\.com|sinusoidalhistory\\.org|www\\.sinusoidalhistory\\.org)",
+          },
+        ],
+        destination: "https://sinusoidalhistory.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

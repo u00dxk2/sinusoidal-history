@@ -8,7 +8,7 @@ unit-amplitude sinusoid pinned to a single explicitly documented reference
 peak, and nine of the ten are paired with a real long-run empirical data
 series for stress-testing.
 
-**Live:** https://sinusoidal-history.skylarkcreations.com
+**Live:** https://sinusoidalhistory.com
 
 **Built by** David Kooi at Skylark Creations, April 2026, after a phone-call
 conversation with Mark R about whether you could plot Khaldun's five stages,
@@ -392,7 +392,7 @@ hostname, done. Cert is automatic.
 If you reference this project in writing, please cite:
 
 > Kooi, D. (2026). *Sinusoidal History*. Skylark Creations.
-> https://sinusoidal-history.skylarkcreations.com
+> https://sinusoidalhistory.com
 > DOI: [10.5281/zenodo.21998618](https://doi.org/10.5281/zenodo.21998618)
 
 Tagged releases are archived on Zenodo; the DOI above resolves to the

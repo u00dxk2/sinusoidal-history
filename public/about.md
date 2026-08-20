@@ -1,6 +1,6 @@
 # About · The argument
 
-> Plain-markdown mirror of https://sinusoidal-history.skylarkcreations.com/about. The canonical rendered version is the React page at `/about`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
+> Plain-markdown mirror of https://sinusoidalhistory.com/about. The canonical rendered version is the React page at `/about`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
 
 # What this is
 
@@ -20,13 +20,13 @@ None of this makes the theories worthless. It does mean the peak-year choice is 
 
 ## Cycles in this version
 
-Each has its own page with the full calibration rationale, sourcing, and paired-data provenance - see [all ten cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
+Each has its own page with the full calibration rationale, sourcing, and paired-data provenance - see [all ten cycles](https://sinusoidalhistory.com/cycles).
 
 ### Ibn Khaldun — dynastic cycle
 
 - **Period:** 120 years
 - **Reference peak:** 1789
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/khaldun
+- **Page:** https://sinusoidalhistory.com/cycles/khaldun
 
 ~120-year cycle of dynastic rise and fall, driven by asabiyyah - the group cohesion that hardship builds and luxury dissolves. Khaldun's five stages, paraphrased from Rosenthal: consolidation → concentration of power → leisure → contentment → waste.
 
@@ -38,7 +38,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 54 years
 - **Reference peak:** 1973
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/kondratiev
+- **Page:** https://sinusoidalhistory.com/cycles/kondratiev
 
 ~50–60 year economic long wave: technological expansion → plateau → stagnation → trough. Kondratiev traced it in price, interest-rate, and production series reaching back to the 1780s.
 
@@ -52,7 +52,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 60 years
 - **Reference peak:** 1968
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/huntington
+- **Page:** https://sinusoidalhistory.com/cycles/huntington
 
 ~60–70 year cycle of American political moralism: surges of 'creedal passion' - when the gap between American ideals and American institutions becomes intolerable - followed by long cynical intervals.
 
@@ -64,7 +64,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 30 years
 - **Reference peak:** 1970
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/schlesinger-jr
+- **Page:** https://sinusoidalhistory.com/cycles/schlesinger-jr
 
 ~30-year alternation of American politics between "public purpose" (liberal/reform) and "private interest" (conservative/consolidation) eras, ~15 years each.
 
@@ -78,7 +78,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 55 years
 - **Reference peak:** 2000
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/perez
+- **Page:** https://sinusoidalhistory.com/cycles/perez
 
 ~50–60 year wave in how each technological revolution is absorbed: installation (finance chases the new technology into a bubble) → turning point (the crash) → deployment (the technology actually spreads - the golden age).
 
@@ -90,7 +90,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 150 years
 - **Reference peak:** 2020
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin
+- **Page:** https://sinusoidalhistory.com/cycles/turchin
 
 ~150-year US-specific secular cycle (*Ages of Discord*, 2016): elite overproduction → immiseration (stagnating mass living standards) → state breakdown → reconsolidation. His pre-industrial agrarian cycles in *Secular Cycles* run ~200–300 years; a separate ~50-year bigenerational cycle stacks on top.
 
@@ -102,7 +102,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 - **Period:** 75 years
 - **Reference peak:** 1950
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/dalio
+- **Page:** https://sinusoidalhistory.com/cycles/dalio
 
 Big Cycle of imperial rise and fall: rising → top → declining → reset, tracked through debt, reserve-currency status, and internal order. Dalio puts long-term debt cycles at about 50–75 years; this curve uses 75, the top of his range. He also describes a longer ~250-year empire arc.
 
@@ -114,7 +114,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 
 - **Period:** 84 years
 - **Reference peak:** 1955
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/strauss-howe
+- **Page:** https://sinusoidalhistory.com/cycles/strauss-howe
 
 ~80–90 year saeculum - about one long human life - in four ~21-year turnings driven by generational replacement: high → awakening → unraveling → crisis (the 4th turning).
 
@@ -128,7 +128,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 
 - **Period:** 110 years (plotted midpoint of his stated 100–120)
 - **Reference peak:** 1945
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/modelski
+- **Page:** https://sinusoidalhistory.com/cycles/modelski
 
 ~100–120 year long cycle of world leadership - global war → world power → delegitimation → deconcentration - tracked through naval and global-reach preponderance. Plotted here at 110 years, the midpoint of his stated range.
 
@@ -142,7 +142,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 
 - **Period:** 50 years
 - **Reference peak:** 1970
-- **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin-fathers-sons
+- **Page:** https://sinusoidalhistory.com/cycles/turchin-fathers-sons
 
 ~50-year "bi-generation" oscillation in US political violence, superimposed on the longer secular cycle - spikes of unrest roughly every two generations, once living memory of the last convulsion fades.
 
@@ -158,7 +158,7 @@ All ten cycles are contested in different ways. Kondratiev waves have never been
 
 Turchin's secular cycles have the most developed quantitative literature of the ten, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955). With period 84, the trough of this construction lands at 1997 and the next peak at 2039; their predicted Crisis climax around 2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak - there is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough. Schlesinger Jr.'s liberal/conservative cycle is interpretive periodization formalizing his father's ~15–16-year alternating phases into a ~30-year full cycle; the empirical pairing (Stimson Policy Mood) only covers 1952 onward, so the Schlesinger curve's pre-1952 shape cannot be stress-tested against the data. Two cycles (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced in the focused-facet view; treat both especially skeptically.
 
-Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for the data-side caveats and [colophon](https://sinusoidal-history.skylarkcreations.com/colophon) for how the site was built.
+Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidalhistory.com/methods) for the data-side caveats and [colophon](https://sinusoidalhistory.com/colophon) for how the site was built.
 
 ---
 

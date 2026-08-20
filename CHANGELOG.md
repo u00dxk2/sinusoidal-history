@@ -1,5 +1,17 @@
 # Changelog
 
+## Domain cutover — sinusoidalhistory.com (2026-08-20)
+
+The site moved to its own domain: **sinusoidalhistory.com** (canonical;
+`.org` and the legacy `sinusoidal-history.skylarkcreations.com` 301 to it
+permanently — the crawler channel follows redirects, so old citations keep
+resolving). Swept every hand-written absolute URL: `siteConfig.ts`,
+`llms.txt`, the three markdown mirrors, README, `CITATION.cff`,
+`scripts/inspect.mjs`. Deliberately untouched: `state-2026.source.md`
+(frozen edition — frozen means frozen; its old URL redirects) and
+historical changelog entries. Zenodo metadata picks up the new URL on the
+next release, not retroactively.
+
 ## Prose pass — voice, clarity, and the longer stories (2026-08-19)
 
 A once-over on /about, /methods, and /cycles in the project's own voice

@@ -1,6 +1,6 @@
 # Colophon · A note from the maker
 
-> Plain-markdown mirror of https://sinusoidal-history.skylarkcreations.com/colophon. The canonical rendered version is the React page at `/colophon`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
+> Plain-markdown mirror of https://sinusoidalhistory.com/colophon. The canonical rendered version is the React page at `/colophon`; this file shadows the prose for LLM and agent consumption. CORS-enabled.
 
 # From the maker
 
@@ -20,11 +20,11 @@ Each cycle is a single sinusoid built from the theory's own period and one expli
 
 ## On the data
 
-Nine of the ten cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP, Stimson Policy Mood (paired with Schlesinger Jr.), the leading economy's share of world GDP (Modelski), and a HATCH technology-diffusion composite (Perez). The pairings are defensible but not the only choices. The first seven I read myself before wiring in; the two August 2026 additions were built by the AI pipeline against written specs, with provenance files documenting every transform — read those before trusting them. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for provenance.
+Nine of the ten cycles are paired with a real long-run series: DW-NOMINATE polarization, WID top-1% wealth share, conflict deaths (log-transformed so the World Wars don't flatten everything else), total factor productivity, the V-Dem liberal-democracy index, U.S. share of world GDP, Stimson Policy Mood (paired with Schlesinger Jr.), the leading economy's share of world GDP (Modelski), and a HATCH technology-diffusion composite (Perez). The pairings are defensible but not the only choices. The first seven I read myself before wiring in; the two August 2026 additions were built by the AI pipeline against written specs, with provenance files documenting every transform — read those before trusting them. See [methods](https://sinusoidalhistory.com/methods) for provenance.
 
 ## On the convergence problem
 
-Every cycle on this page peaks near the present. That isn't convergence - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored their cycle there; we read them precisely because their climaxes land in our era. The site says it on the home page, on [/about](https://sinusoidal-history.skylarkcreations.com/about), and here. Carry the caveat with you or the rest of the project doesn't work.
+Every cycle on this page peaks near the present. That isn't convergence - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored their cycle there; we read them precisely because their climaxes land in our era. The site says it on the home page, on [/about](https://sinusoidalhistory.com/about), and here. Carry the caveat with you or the rest of the project doesn't work.
 
 ---
 

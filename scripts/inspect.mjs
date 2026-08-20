@@ -1,6 +1,6 @@
 import { chromium } from "playwright";
 
-const BASE = process.env.BASE_URL ?? "https://sinusoidal-history.skylarkcreations.com";
+const BASE = process.env.BASE_URL ?? "https://sinusoidalhistory.com";
 const OUT_DIR = "screenshots";
 
 async function snap(page, path, file) {

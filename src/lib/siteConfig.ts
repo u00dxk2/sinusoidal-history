@@ -1,6 +1,6 @@
 export const SITE_NAME = "Sinusoidal History";
 export const SITE_MAKER = "Skylark Creations";
-export const SITE_DOMAIN = "sinusoidal-history.skylarkcreations.com";
+export const SITE_DOMAIN = "sinusoidalhistory.com";
 export const SITE_URL = `https://${SITE_DOMAIN}`;
 export const SITE_DESCRIPTION =
   "Eight historical cycle theories on one shared time axis. A comparison tool — not prophecy.";
