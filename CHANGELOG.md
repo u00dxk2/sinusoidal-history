@@ -1,5 +1,17 @@
 # Changelog
 
+## Reuse packets on cycle pages (2026-08-20)
+
+Each `/cycles/<slug>` page now hands a reader everything needed to reuse
+what it shows, without leaving the page: the paired CSV downloads instead
+of rendering in-tab, the spectral figure downloads as **SVG or PNG** (the
+PNG is rasterised client-side from the committed SVG at 2x), and a
+**Copy attribution** block emits one credit line carrying the concept DOI,
+the page URL, and the upstream series with its own license. Licensing is
+stated plainly: figures and code MIT, data series under their upstream
+terms. Verified end-to-end in a real browser — both downloads fire, no
+page errors.
+
 ## Domain cutover — sinusoidalhistory.com (2026-08-20)
 
 The site moved to its own domain: **sinusoidalhistory.com** (canonical;

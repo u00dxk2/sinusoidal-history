@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cycles } from "@/data/cycles";
-import type { Cycle } from "@/data/types";
+import type { Cycle, DataSeries } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
 import {
   confidenceLabel,
@@ -17,7 +17,8 @@ import {
   seriesForCycle,
   troughYearsInRange,
 } from "@/lib/cycleRoutes";
-import { DEFAULT_YEAR_RANGE, SITE_NAME } from "@/lib/siteConfig";
+import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
+import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import {
   SPECTRAL_STATE_LABELS,
   spectralDraws,
@@ -289,9 +290,10 @@ export default async function CyclePage({ params }: Params) {
               <li>
                 <a
                   href={series.data_file}
+                  download
                   className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
                 >
-                  CSV
+                  CSV ↓
                 </a>
               </li>
               {provenanceHref && (
@@ -346,6 +348,10 @@ export default async function CyclePage({ params }: Params) {
               className="w-full h-auto"
             />
           </figure>
+          <FigureDownloads
+            svgHref={`/data/spectral/${cycle.id}.svg`}
+            slug={cycleSlug(cycle)}
+          />
           <p className="mt-4 text-[15px] leading-[1.6] text-ink/85">
             {verdict.lay_text}
           </p>
@@ -371,6 +377,10 @@ export default async function CyclePage({ params }: Params) {
           </p>
         </section>
       )}
+
+      <section className="mt-10">
+        <CopyAttribution citation={attributionFor(cycle, series)} />
+      </section>
 
       <section className="mt-10 border-t border-rule/30 pt-5">
         <p className="text-[15px] leading-[1.6] text-ink/85">
@@ -416,6 +426,25 @@ export default async function CyclePage({ params }: Params) {
         </p>
       </footer>
     </article>
+  );
+}
+
+/**
+ * One copy-pasteable credit line: the project (with its concept DOI), the
+ * specific page reused, and the upstream series when the cycle has a pairing.
+ */
+function attributionFor(cycle: Cycle, series: DataSeries | undefined): string {
+  const page = `${SITE_URL}${cycleRoutePath(cycle)}`;
+  const base =
+    `Kooi, D. (2026). ${SITE_NAME}: ${cycle.name}. ` +
+    `${page} · DOI 10.5281/zenodo.21998618`;
+  if (!series) return `${base}.`;
+  // series.source runs to a paragraph of provenance on some series; a credit
+  // line wants the publisher clause only. Full text stays on the page above.
+  const publisher = series.source.split(". ")[0]!.trim();
+  return (
+    `${base}. Paired data series: ${series.name} ` +
+    `(${publisher}), ${series.license}.`
   );
 }
 
