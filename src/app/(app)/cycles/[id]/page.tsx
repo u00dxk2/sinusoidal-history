@@ -18,6 +18,11 @@ import {
   troughYearsInRange,
 } from "@/lib/cycleRoutes";
 import { DEFAULT_YEAR_RANGE, SITE_NAME } from "@/lib/siteConfig";
+import {
+  SPECTRAL_STATE_LABELS,
+  spectralDraws,
+  spectralVerdictForCycle,
+} from "@/lib/spectral";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -72,6 +77,7 @@ export default async function CyclePage({ params }: Params) {
   if (!cycle) notFound();
 
   const series = seriesForCycle(cycle);
+  const verdict = spectralVerdictForCycle(cycle.id);
   const index = cycles.findIndex((c) => c.id === cycle.id);
   const peaks = peakYearsInRange(cycle);
   const troughs = troughYearsInRange(cycle);
@@ -313,6 +319,55 @@ export default async function CyclePage({ params }: Params) {
             still be overlaid against any of the other series in the
             interactive chart, but it has no dedicated empirical pairing to be
             stress-tested against.
+          </p>
+        </section>
+      )}
+
+      {verdict && (
+        <section className="mt-10">
+          <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
+            Spectral verdict
+          </h2>
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft mb-4">
+            {SPECTRAL_STATE_LABELS[verdict.state]}
+            {!verdict.eligible &&
+              ` · ${verdict.cycles_covered.toFixed(1)} of 3.0 required periods`}
+          </p>
+          <figure className="border-t border-rule/30 pt-4">
+            {/* Static committed output of scripts/spectral_verdict.py; next/image
+                adds nothing to a same-origin SVG. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/data/spectral/${cycle.id}.svg`}
+              alt={`Spectral-verdict figure for ${cycle.name}: the paired series with the reference cosine, and its multitaper spectrum with a marker at the ${cycle.period_years}-year target period. Verdict: ${SPECTRAL_STATE_LABELS[verdict.state]}.`}
+              width={900}
+              height={500}
+              loading="lazy"
+              className="w-full h-auto"
+            />
+          </figure>
+          <p className="mt-4 text-[15px] leading-[1.6] text-ink/85">
+            {verdict.lay_text}
+          </p>
+          <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+            Pre-registered harmonic-regression test at the exact stated period
+            against an AR(1) red-noise null ({spectralDraws.toLocaleString("en-US")}{" "}
+            bootstrap draws), gated on the record covering at least 3.0 full
+            periods. Read the protocol under{" "}
+            <Link
+              href="/methods#spectral-testing"
+              className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              spectral testing on the methods page
+            </Link>
+            , or fetch the machine-readable{" "}
+            <a
+              href="/data/spectral/verdicts.json"
+              className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              verdicts.json
+            </a>
+            .
           </p>
         </section>
       )}

@@ -204,6 +204,34 @@ Wavelets. Lomb–Scargle (all inference series are evenly sampled post-truncatio
 Any UI beyond the per-cycle section + methods. Bayesian model comparison. Testing
 calibration-drawer override values (published parameters only).
 
+## Build notes (2026-08-19, recorded at build time per the deviation rule)
+
+1. **Estimator (the "pick one, record it" choice):** profile Gaussian
+   likelihood maximized on a fixed grid — exact/Prais-Winsten for AR(1)
+   (φ ∈ [−0.98, 0.98] step 0.005), conditional-on-first-two for AR(2)
+   (stationary triangle, step 0.05, margin 0.02). The identical grid-maximum
+   estimator is applied to the observed series and to every bootstrap draw,
+   which keeps the Monte-Carlo p-value exact for the statistic as defined.
+   AR(1) draws use the exact stationary initial state; AR(2) draws use a
+   500-step burn-in.
+2. **Manifest mechanics:** the YAML is generated from a single frozen plan
+   inside `spectral_verdict.py` (`--write-manifest`) and the run refuses to
+   proceed unless the committed file is byte-identical to that plan — so the
+   committed manifest is provably what ran, and stdlib needs no YAML parser.
+   Committed before results (commit `cfda495` precedes the outputs commit).
+3. **Figures:** 9 (one per primary pairing). The unpaired
+   turchin_fathers_sons has no figure and no verdicts.json row; its 50-year
+   period still enters the cross-grid panel.
+4. **Deliverable 8 (/state second-edition headline) deferred** — a 2027
+   edition candidate; the frozen 2026 CSV is untouched.
+5. **Tests** ship as `--selftest` inside the script (spec allowed pytest or
+   a selftest mode; no new dependency taken).
+6. **Data note:** the 2026-08-19 Fernald refresh revised 2012–2025 rolled
+   values by ≤ 0.14 pp; coverage unchanged (1948–2025), so the gate table
+   matched the spec exactly. DW-NOMINATE is biennial — evenly sampled at
+   Δt = 2y; the AR null is fitted on the observation grid (recorded in the
+   manifest notes).
+
 ## Session-start checklist for the builder
 
 1. Read this file top to bottom, then the research synthesis in skylark-site.

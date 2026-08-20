@@ -38,6 +38,17 @@ on `/about`, and on `/colophon`.
 
 ## Status
 
+Phase 15 shipped (August 2026): the spectral verdict. Every cycle–series
+pairing now carries a pre-registered statistical answer to "does this series
+contain significant power at the theory's exact stated period?" — harmonic
+regression at exactly 1/P against an AR(1)/AR(2) red-noise null, parametric
+bootstrap, Holm correction, all frozen in a committed manifest before any
+results. The headline is the finding: **0 of the 9 paired constructions
+reach the 3.0-full-periods eligibility gate** — every record is too short to
+test its claim, so no pairing gets a p-value at all. Per-cycle figures and a
+machine-readable `/data/spectral/verdicts.json` ship with the site;
+protocol on `/methods`, reproducer at `scripts/spectral_verdict.py`.
+
 Phase 14 shipped (August 2026): the roster grew from eight to ten cycles.
 Modelski's long cycle of world leadership (plotted at 110y, the midpoint of
 his stated 100–120 range, anchor 1945) paired with a new leading-economy

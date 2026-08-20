@@ -147,7 +147,7 @@ export default function Methods() {
             approximately for the finite, partial-period records actually
             correlated here). A perfect cosine evaluated over one
             full period has r = 1 with itself, r = 0 with a quarter-period
-            shift, and r = −1 with a half-period shift — even though all three
+            shift, and r = −1 with a half-period shift - even though all three
             are the same cycle in any structural sense. Pearson therefore
             measures phase alignment, not cyclic similarity, and the
             calibration slider primarily moves r by changing Δφ.
@@ -174,7 +174,7 @@ export default function Methods() {
           Mars), so it is the correlation of the logged series; and because
           the sliders let you tune both phase and period against the same
           observations, a slider-maximized r is an in-sample search result,
-          not evidence — do not hunt for the peak.
+          not evidence - do not hunt for the peak.
         </p>
         <p>
           Better tools for cyclic data include cross-correlation at varying
@@ -182,7 +182,84 @@ export default function Methods() {
           records (which one of the present series is: the WID wealth
           series&apos; pre-1913 points arrive at 30-, 20-, 10-, and 3-year
           gaps before annual coverage begins), and wavelet decomposition for
-          non-stationary signals. These are flagged for future work.
+          non-stationary signals. The periodogram leg is now implemented -
+          see the spectral-testing section below. Cross-correlation remains
+          future work, and wavelets are deliberately excluded (pointwise
+          wavelet significance is a known false-positive trap).
+        </p>
+      </section>
+
+      <section
+        id="spectral-testing"
+        className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85"
+      >
+        <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
+          Spectral testing
+        </h2>
+        <p>
+          Since August 2026 every cycle–series pairing carries a
+          pre-registered spectral verdict, computed by a committed script
+          (<code className="font-mono text-[13px]">scripts/spectral_verdict.py</code>)
+          from a frozen analysis manifest and published at{" "}
+          <a
+            href="/data/spectral/verdicts.json"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            /data/spectral/verdicts.json
+          </a>{" "}
+          with one figure per pairing. The question is narrow: does the paired
+          series contain significant power at the theory&apos;s exact stated
+          period, above an autocorrelated (red-noise) null? In plain terms:
+          does the data actually repeat at the rhythm the theory names, more
+          strongly than slow-drifting noise would produce by chance?
+          Frequencies are
+          never fitted or scanned - the test is a harmonic regression at
+          exactly 1/P (cosine + sine + linear trend) compared by likelihood
+          ratio against the same model without the sinusoid, with the p-value
+          calibrated by parametric bootstrap (99,999 draws) from a fitted
+          AR(1) null and re-checked against an AR(2) null. Multiple tests are
+          Holm-corrected within pre-registered families. The multitaper
+          spectrum on each figure (NW = 2, K = 3) is the descriptive picture
+          only; it is never the verdict. Inference always runs on unsmoothed,
+          uninterpolated records: TFP on Fernald&apos;s raw annual{" "}
+          <code className="font-mono text-[13px]">dtfp_util</code> (never the
+          5-year-averaged display series) and the wealth series only from its
+          annual 1913+ span.
+        </p>
+        <p>
+          Before any spectrum, an eligibility gate: a pairing is testable only
+          if its record spans at least 3.0 full target periods - a
+          deliberately conservative site rule, not a theorem (period{" "}
+          <em>estimation</em> conventionally wants ~5). Below the gate the
+          verdict is INSUFFICIENT_DATA and no code path emits a p-value; the
+          test suite enforces that, not just convention. There are exactly
+          four verdict states: INSUFFICIENT_DATA,
+          NO_SIGNIFICANT_TARGET_POWER, MODEL_SENSITIVE (the AR(1) and AR(2)
+          nulls disagree at the Holm-adjusted threshold, so no verdict is
+          claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run&apos;s
+          headline: <strong className="font-medium text-ink">0 of the 9
+          paired constructions reach the gate</strong> - none of these
+          records is long enough to test its claim at all, which is itself
+          the finding. A secondary cross-grid panel re-pairs each period with
+          every series long enough to clear the gate (19 cells, labelled as
+          re-pairings, not the site&apos;s claims). A 54- and a 55-year
+          period differ by 0.000337 cycles per year - separating them would
+          take a ~3,000-year record - so no verdict text distinguishes
+          Kondratiev from Perez; every result in that band is one
+          ~54–55-year statement.
+        </p>
+        <p>
+          The failed-detection precedents that shaped this design: Korotayev
+          &amp; Tsirel (2010) report a significant Kondratiev wave only after
+          replacing the World War years with geometric means, on a record of
+          at most three cycles - contested, never retracted. Kuznets&apos;s
+          ~20-year swings were killed as a moving-average artifact (Adelman
+          1965; Howrey 1968), the direct ancestor of this site&apos;s
+          unsmoothed-TFP rule. Turchin himself reports the ~150-year cycle as
+          one realized oscillation and offers no formal spectral test -
+          candor this page treats as the standard. Method references: Mann
+          &amp; Lees (1996); Torrence &amp; Compo (1998); Hamilton (2018);
+          Meyers (2012).
         </p>
       </section>
 
@@ -195,7 +272,7 @@ export default function Methods() {
           DW-NOMINATE: 46th–118th Congress (1879–2023); Fernald TFP
           annual series 1948–present, displayed 1948–present (the 1948 and
           1949 values use a clipped, asymmetric window because a true 5-year
-          centered window only becomes available at 1950 — treat the first
+          centered window only becomes available at 1950 - treat the first
           two displayed points as edge artifacts); Project Mars conflict
           data 1800–2011;
           WID top-1% wealth modern coverage 1913–most-recent (with five
@@ -216,7 +293,7 @@ export default function Methods() {
           (utilization-adjusted TFP growth), not Fernald&apos;s own published
           series; the build script keeps clipped (asymmetric) windows at the
           boundaries rather than dropping rows, so 1948 = mean of {"{"}1948,
-          1949, 1950{"}"} and 1949 = mean of {"{"}1948, 1949, 1950, 1951{"}"} —
+          1949, 1950{"}"} and 1949 = mean of {"{"}1948, 1949, 1950, 1951{"}"} -
           read those endpoints with appropriate skepticism.
         </p>
         <p>
@@ -224,7 +301,7 @@ export default function Methods() {
           country&apos;s GDP between sparse benchmark observations but does
           not back-fill before each country&apos;s first observation. Many
           non-Western countries enter Maddison only at 1950, so the world
-          denominator is systematically smaller pre-1950 than post-1950 —
+          denominator is systematically smaller pre-1950 than post-1950 -
           biasing US share of world GDP upward for early years. The 1870
           value (~10.6%) and the magnitude of the 1870→1945 climb should
           both be read as &quot;US share of countries Maddison covers in
@@ -241,7 +318,7 @@ export default function Methods() {
           Huntington.</strong>{" "}
           An earlier draft of this project paired V-Dem with Huntington as a
           secondary signal alongside DW-NOMINATE. We moved it to Strauss-Howe
-          so no cycle would carry two series — nine of the ten cycles have
+          so no cycle would carry two series - nine of the ten cycles have
           exactly one paired series; Turchin&apos;s fathers-and-sons cycle has
           none. Both are
           arguments. The Strauss-Howe pairing reads V-Dem&apos;s recent
@@ -255,7 +332,7 @@ export default function Methods() {
           The conflict-deaths series registers years like 2010 as zero
           because no qualifying conventional war (interstate or civil war
           between states with differentiated militaries causing ≥500 deaths)
-          was active that year — even though other conflict datasets (UCDP,
+          was active that year - even though other conflict datasets (UCDP,
           COW, PRIO) record substantial casualties in 2010 (Afghanistan,
           Iraq, Mexican drug war). The series therefore measures
           conventional-war intensity, not all conflict deaths; read drops
@@ -266,9 +343,9 @@ export default function Methods() {
           diffusion, not asset prices.</strong>{" "}
           Through Phase 13 Perez had no paired series; the HATCH
           diffusion-intensity composite closed that gap in Phase 14.
-          Shiller&apos;s CAPE was the runner-up candidate — Perez&apos;s
+          Shiller&apos;s CAPE was the runner-up candidate - Perez&apos;s
           frenzy/turning-point mechanism is financial, and the 2000 anchor is
-          exactly a valuation peak — but CAPE carries no explicit reuse
+          exactly a valuation peak - but CAPE carries no explicit reuse
           license and measures paper values, not the economy-wide diffusion
           that is Perez&apos;s actual object. We cite CAPE here as anchor
           validation without redistributing it.
@@ -276,8 +353,8 @@ export default function Methods() {
         <p>
           <strong className="text-ink">No paired series for Turchin&apos;s
           fathers-and-sons cycle.</strong>{" "}
-          The natural series — Turchin&apos;s US political-violence event
-          data — has no cleanly redistributable file. The cycle ships
+          The natural series - Turchin&apos;s US political-violence event
+          data - has no cleanly redistributable file. The cycle ships
           unpaired rather than paired to a construct-mismatched proxy.
         </p>
         <p>
@@ -286,11 +363,11 @@ export default function Methods() {
           Of the ten cycles, Schlesinger&apos;s pairing is the closest the
           site gets to a direct measurement: Stimson&apos;s index is, by
           construction, an estimate of US public preference for liberal vs.
-          conservative domestic policy — exactly what Schlesinger&apos;s cycle
+          conservative domestic policy - exactly what Schlesinger&apos;s cycle
           claims to track. The catch is coverage: the series only starts in
           1952. Inside the empirical window this construction (period 30,
           peak 1970) plots troughs at 1955, 1985, and 2015 and peaks at 1970
-          and 2000 — two full swings. The pre-1952 shape of the Schlesinger curve
+          and 2000 - two full swings. The pre-1952 shape of the Schlesinger curve
           cannot be stress-tested against the paired data; treat the
           calibration drawer&apos;s Pearson r accordingly.
         </p>
@@ -301,7 +378,7 @@ export default function Methods() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-08-18
+        Last updated: 2026-08-19
       </footer>
     </article>
   );

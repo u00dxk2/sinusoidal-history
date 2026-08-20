@@ -1,5 +1,63 @@
 # Changelog
 
+## Prose pass — voice, clarity, and the longer stories (2026-08-19)
+
+A once-over on /about, /methods, and /cycles in the project's own voice
+(per the uncaged-minds style guide and AI-tells catalog): spaced short
+dashes replace em dashes in prose, jargon glossed inline (asabiyyah,
+immiseration, saeculum), stiff constructions rewritten. No factual claim
+changed; cos-math audit re-run clean.
+
+- **/cycles grew a disclosure block per cycle** ("The longer story"): ~100
+  words on what each theory actually claims, who said it, and what our
+  treatment does to it — plus a "Defined in" link to the primary text,
+  every URL verified live 2026-08-19 (publisher pages, DOIs, archive.org
+  for the out-of-print Schlesinger).
+- `cycles.json` short descriptions sharpened (mechanisms named, jargon
+  glossed); mirrored into about.md. Cycle `name` fields untouched — the
+  em dash there is a load-bearing separator (six components split on it).
+- /methods spectral section gained a plain-terms gloss of the test
+  question for the glancing reader.
+
+## Phase 15 — the spectral verdict (2026-08-19)
+
+A pre-registered spectral test for every pairing, answering "does this
+series contain significant power at the theory's exact stated period?" —
+and, below the eligibility gate, refusing to answer. Built to the frozen
+spec in `docs/specs/spectral-verdict-build-spec.md` (committed 2026-08-18,
+before any results), from a two-engine research synthesis.
+
+- **The headline is the finding: 0 of the 9 paired constructions reach the
+  3.0-full-periods eligibility gate.** Best is Strauss-Howe/V-Dem at 2.81
+  periods; worst is Turchin-secular/WID at 0.74. No pairing gets a p-value,
+  by construction — the records are too short to test the claims at all.
+- Protocol: harmonic regression at exactly 1/P (cos + sin + linear trend)
+  vs the same model without the sinusoid, LRT, parametric-bootstrap p
+  (99,999 draws) from a fitted AR(1) red-noise null, AR(2) sensitivity,
+  Holm correction within pre-registered families, exact frequencies never
+  scanned. Multitaper spectra (NW=2, K=3) are descriptive only.
+- Everything frozen in `scripts/spectral/analysis-manifest.yaml` (alpha,
+  gate, seed, draws, input-CSV sha256s, the 9 pairings, the 19-cell
+  cross-grid family) and committed before results; the run aborts if the
+  manifest, the CSVs, or `cycles.json` periods drift.
+- A secondary cross-grid panel re-pairs each period with every series long
+  enough to clear the gate (19 cells, labelled re-pairings, not the site's
+  claims). Kondratiev-band results never distinguish 54y from 55y.
+- Data prerequisites: `us_tfp_growth_annual.csv` (unsmoothed `dtfp_util`)
+  is now the TFP inference series — the 5-yr rolled display CSV is banned
+  from inference (the Kuznets/Adelman–Howrey moving-average trap); WID
+  inference truncates to 1913+ (pre-1913 interpolations would fabricate
+  power exactly in the 120–150y band).
+- Selftest suite in the script: null-calibration KS at three phis, AR(2)
+  leg calibration, signal-injection power, off-target rejection,
+  smoothed-TFP ban, WID-1913 gate, no-p-below-gate enforcement, Holm hand
+  recompute, byte-identical determinism.
+- Surfaces: a "Spectral verdict" section (figure + lay verdict) on each
+  paired cycle page; a "Spectral testing" section on /methods (+ mirror);
+  `/data/spectral/verdicts.json` + per-cycle SVGs + provenance source.md;
+  llms.txt and AGENTS.md updated. `/state` second-edition integration
+  deliberately deferred — the frozen 2026 CSV is never retro-edited.
+
 ## Phase 14 — ten cycles, the excluded list, and the DOI (2026-08-18)
 
 The roster's first expansion since Schlesinger (Phase 10), driven by a
