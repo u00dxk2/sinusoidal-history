@@ -6,21 +6,21 @@
 
 ## Intent
 
-Sinusoidal History overlays ten named long-wave cycles on a shared time axis so a reader can see *where their predictions line up and where they disagree*. Nine of the ten cycles are paired with a real long-run data series (Turchin's fathers-and-sons cycle has none this round), and a calibration panel lets you stress-test the fit instead of just admiring the curves side by side.
+Sinusoidal History puts ten named long-wave theories of history on one shared time axis so you can see *where their predictions line up and where they disagree*. Nine of the ten are paired with a real long-run data series (Turchin's fathers-and-sons cycle has none this round), and a calibration panel lets you stress-test each fit instead of just admiring the curves side by side.
 
-Each cycle curve is a pure sinusoid built from the theory's own period and a single explicitly documented reference peak. That is a naïve choice on purpose: it strips the viz down to exactly one knob per cycle (calibration), so disagreement between theories - not parameter fiddling - is what you see.
+Each curve is a pure sinusoid built from the theory's own stated period and a single documented reference peak. That is a naïve choice on purpose. One knob per cycle means that when two theories disagree on this chart, the disagreement comes from the theories - not from us tuning parameters until something looked profound.
 
 ## Why every cycle peaks near now
 
-Open the chart and notice that nearly every cycle peaks somewhere near the present. That is not convergence evidence - it is a selection effect. Each theorist wrote in a period that felt consequential, and the "reference peak" they anchored to is, consciously or not, a recent moment. We read these theorists today precisely because their forecasts land in our era.
+Open the chart and nearly every cycle peaks somewhere near the present. That is not evidence the theories converge - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored the cycle, consciously or not, to a recent peak. And we read these particular theorists today precisely because their forecasts land in our era. The ones whose cycles peaked quietly in 1880 don't get republished.
 
-A few specifics, since the choices matter. Huntington dated his fourth creedal-passion period as 1960–1975 ("the S&S years"); we anchor at the interval midpoint (~1968) — that is the project's choice, not his. K-wave revivalists in the late 1970s and early 1980s variously dated the post-WWII wave's turning point between 1968 and 1974; we use 1973 as the conventional anchor. Khaldun (d. 1406) made no claim about European history; we anchor at 1789 so the framework can be tested against the modern US and global record our data series cover, and that is explicitly the project's editorial choice. Perez identifies 2000–2001 as the "Turning Point" between Installation and Deployment phases of the ICT surge; we map her Turning Point to our sinusoid's peak — that conflates her concept with our mathematical convention, and 2000 is best read as her financial-frenzy peak (her later work extends the Turning Point through 2008). Schlesinger Jr. dated his most recently completed liberal era as 1962–1978; we anchor at the midpoint (~1970), but Schlesinger himself predicted the next liberal turn around 1990, which a strict 30-year-from-1970 sinusoid does not reproduce — read his curve as a stylization of his stated period, not as his own forecast.
+A few specifics, since the choices matter. Huntington dated his fourth creedal-passion period as 1960–1975 ("the S&S years"); we anchor at the interval midpoint (~1968) - that is the project's choice, not his. K-wave revivalists in the late 1970s and early 1980s variously dated the post-WWII wave's turning point between 1968 and 1974; we use 1973 as the conventional anchor. Khaldun (d. 1406) made no claim about European history; we anchor at 1789 so the framework can be tested against the modern US and global record our data series cover, and that is explicitly the project's editorial choice. Perez identifies 2000–2001 as the "Turning Point" between Installation and Deployment phases of the ICT surge; we map her Turning Point to our sinusoid's peak - that conflates her concept with our mathematical convention, and 2000 is best read as her financial-frenzy peak (her later work extends the Turning Point through 2008). Schlesinger Jr. dated his most recently completed liberal era as 1962–1978; we anchor at the midpoint (~1970), but Schlesinger himself predicted the next liberal turn around 1990, which a strict 30-year-from-1970 sinusoid does not reproduce - read his curve as a stylization of his stated period, not as his own forecast.
 
-The implication is not that the theories are worthless - it is that the calibration is the single most consequential parameter, and it is doing a lot of the work of "predicting" the present. The calibration panel on the main page lets you move the peak and watch the correlation with real data change.
+None of this makes the theories worthless. It does mean the peak-year choice is the most consequential parameter on the site, and that it is doing a lot of the work of "predicting" the present. The calibration panel on the main page exists so you can check this yourself: move the peak and watch the correlation with real data change.
 
 ## Cycles in this version
 
-Each has its own page with the full calibration rationale, sourcing, and paired-data provenance — see [all ten cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
+Each has its own page with the full calibration rationale, sourcing, and paired-data provenance - see [all ten cycles](https://sinusoidal-history.skylarkcreations.com/cycles).
 
 ### Ibn Khaldun — dynastic cycle
 
@@ -28,7 +28,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 1789
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/khaldun
 
-~120-year asabiyyah cycle of dynastic rise and fall (Khaldun's five stages, paraphrased from Rosenthal: consolidation → concentration of power → leisure → contentment → waste).
+~120-year cycle of dynastic rise and fall, driven by asabiyyah - the group cohesion that hardship builds and luxury dissolves. Khaldun's five stages, paraphrased from Rosenthal: consolidation → concentration of power → leisure → contentment → waste.
 
 *Peak calibration:* Project's editorial choice. Anchoring at the French Revolution places the curve at a documented Western inflection point so it can be visually compared against the modern US and global data series this project carries. Khaldun (d. 1406) made no claim about European history; this is the framework being applied here, not extended by him.
 
@@ -40,13 +40,13 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 1973
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/kondratiev
 
-~50–60 year long economic wave: technological expansion → plateau → stagnation → trough.
+~50–60 year economic long wave: technological expansion → plateau → stagnation → trough. Kondratiev traced it in price, interest-rate, and production series reaching back to the 1780s.
 
 *Peak calibration:* Conventional anchor inside the post-WWII K-wave's 1968–1974 turning-point window (oil shock + Bretton Woods end). Other revivalists prefer 1968 (Mandel) or 1971; we use 1973 as the most cited single year.
 
 *Source:* Kondratiev, "Bol'shie tsikly kon'yunktury" (1925); abridged English: "The Long Waves in Economic Life," *Review of Economic Statistics* 17(6) (1935).
 
-*Caveat:* The periodicity claim has published renunciations — Metz, who once reported K-wave evidence, later withdrew it, and Solomou's long-run studies find no regular wave. Spectral detections (e.g. Korotayev & Tsirel 2010) remain contested. The wave is kept here as the most-cited long-wave theory, not as settled empirics.
+*Caveat:* The periodicity claim has published renunciations - Metz, who once reported K-wave evidence, later withdrew it, and Solomou's long-run studies find no regular wave. Spectral detections (e.g. Korotayev & Tsirel 2010) remain contested. The wave is kept here as the most-cited long-wave theory, not as settled empirics.
 
 ### Huntington — creedal passion
 
@@ -54,7 +54,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 1968
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/huntington
 
-~60–70 year cycle of American political moralism: reform surges followed by cynical intervals.
+~60–70 year cycle of American political moralism: surges of 'creedal passion' - when the gap between American ideals and American institutions becomes intolerable - followed by long cynical intervals.
 
 *Peak calibration:* Midpoint of Huntington's "S&S Years, 1960–1975" (*American Politics*, Ch. 7), the period he identified as the fourth American creedal-passion era. Huntington didn't designate a single peak year; 1968 is the interval midpoint.
 
@@ -68,11 +68,11 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 ~30-year alternation of American politics between "public purpose" (liberal/reform) and "private interest" (conservative/consolidation) eras, ~15 years each.
 
-*Peak calibration:* Midpoint of Schlesinger Jr.'s most recently completed liberal era (1962–1978 in his own dating). Schlesinger's ~30-year figure is the average of his recorded liberal-era midpoints (1910 Progressive, 1939 New Deal, 1970 60s/Great Society). The framework descends from Arthur Schlesinger Sr., whose *Paths to the Present* (1949) described alternating liberal and conservative phases averaging roughly 15–16 years each — implying a same-mood recurrence of about 30 years — which his son formalized as the ~30-year full cycle used here. Note: Schlesinger Jr. himself predicted a new liberal era around 1990; the strict 30-year-from-1970 model puts the next peak at 2000, which doesn't match his own forecast — a textbook selection effect.
+*Peak calibration:* Midpoint of Schlesinger Jr.'s most recently completed liberal era (1962–1978 in his own dating). Schlesinger's ~30-year figure is the average of his recorded liberal-era midpoints (1910 Progressive, 1939 New Deal, 1970 60s/Great Society). The framework descends from Arthur Schlesinger Sr., whose *Paths to the Present* (1949) described alternating liberal and conservative phases averaging roughly 15–16 years each - implying a same-mood recurrence of about 30 years - which his son formalized as the ~30-year full cycle used here. Note: Schlesinger Jr. himself predicted a new liberal era around 1990; the strict 30-year-from-1970 model puts the next peak at 2000, which doesn't match his own forecast - a textbook selection effect.
 
 *Source:* Arthur M. Schlesinger Jr., *The Cycles of American History* (Houghton Mifflin, 1986), Ch. 2 "The Cycles of American Politics"; building on Arthur M. Schlesinger Sr., *Paths to the Present* (Macmillan, 1949).
 
-*Caveat:* US-only periodization; like Huntington and Strauss-Howe, this is interpretive history, not measurement. Schlesinger's own 1990 forecast for the next liberal turn does not align with the 30-year-from-1970 sinusoid — read the curve as a stylization of his stated period, not as Schlesinger's own prediction.
+*Caveat:* US-only periodization; like Huntington and Strauss-Howe, this is interpretive history, not measurement. Schlesinger's own 1990 forecast for the next liberal turn does not align with the 30-year-from-1970 sinusoid - read the curve as a stylization of his stated period, not as Schlesinger's own prediction.
 
 ### Carlota Perez — techno-economic paradigm
 
@@ -80,9 +80,9 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 2000
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/perez
 
-~50–60 year wave: installation phase (frenzy + bubble) → turning point → deployment phase (synergy + maturity).
+~50–60 year wave in how each technological revolution is absorbed: installation (finance chases the new technology into a bubble) → turning point (the crash) → deployment (the technology actually spreads - the golden age).
 
-*Peak calibration:* Anchored to Perez's "Turning Point" (2000–2001), the dot-com crash she identifies as the inflection between Installation and Deployment phases of the ICT surge. Her own term is "turning point," not peak; we map it to the sinusoid's peak as a mathematical convenience. Read 2000 as the financial-frenzy peak that ends the Installation phase, not a claimed "paradigm peak" — Perez's later work treats the Turning Point as a potentially multi-year interval and discusses the 2000 and 2008 crises together.
+*Peak calibration:* Anchored to Perez's "Turning Point" (2000–2001), the dot-com crash she identifies as the inflection between Installation and Deployment phases of the ICT surge. Her own term is "turning point," not peak; we map it to the sinusoid's peak as a mathematical convenience. Read 2000 as the financial-frenzy peak that ends the Installation phase, not a claimed "paradigm peak" - Perez's later work treats the Turning Point as a potentially multi-year interval and discusses the 2000 and 2008 crises together.
 
 *Source:* Carlota Perez, *Technological Revolutions and Financial Capital* (Edward Elgar, 2002).
 
@@ -92,9 +92,9 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 2020
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin
 
-~150-year compressed US-specific secular cycle (*Ages of Discord*, 2016) of elite overproduction → immiseration → state breakdown → reconsolidation. Turchin's pre-industrial agrarian secular cycles in *Secular Cycles* run ~200–300 years; a separate ~50-year bigenerational cycle stacks on top.
+~150-year US-specific secular cycle (*Ages of Discord*, 2016): elite overproduction → immiseration (stagnating mass living standards) → state breakdown → reconsolidation. His pre-industrial agrarian cycles in *Secular Cycles* run ~200–300 years; a separate ~50-year bigenerational cycle stacks on top.
 
-*Peak calibration:* Center of Turchin's published forecast window for US instability peaking in the 2020s (*Nature* 2010, *Ages of Discord* 2016). The 150-year period is specific to his US-compressed grand cycle in *Ages of Discord*. With our 2020 anchor + period 150, the sinusoid's prior peak lands at 1870 — close to the Civil War instability climax of ~1860 (cos ≈ +0.91 at 1860) but ~90 years off from the Revolutionary War of ~1780, which our sinusoid plots near a trough (cos ≈ −0.81 at 1780). Turchin's actual stated US instability climaxes (1780s, 1860s, 2020s) are not uniformly 150 years apart — gaps of ~80 years (1780s → 1860s) and ~160 years (1860s → 2020s) — so a strict 150-year sinusoid is a forced reduction of a non-uniform cycle. His pre-industrial agrarian secular cycles in *Secular Cycles* run 200–300 years and his separate bigenerational cycle is ~50 years.
+*Peak calibration:* Center of Turchin's published forecast window for US instability peaking in the 2020s (*Nature* 2010, *Ages of Discord* 2016). The 150-year period is specific to his US-compressed grand cycle in *Ages of Discord*. With our 2020 anchor + period 150, the sinusoid's prior peak lands at 1870 - close to the Civil War instability climax of ~1860 (cos ≈ +0.91 at 1860) but ~90 years off from the Revolutionary War of ~1780, which our sinusoid plots near a trough (cos ≈ −0.81 at 1780). Turchin's actual stated US instability climaxes (1780s, 1860s, 2020s) are not uniformly 150 years apart - gaps of ~80 years (1780s → 1860s) and ~160 years (1860s → 2020s) - so a strict 150-year sinusoid is a forced reduction of a non-uniform cycle. His pre-industrial agrarian secular cycles in *Secular Cycles* run 200–300 years and his separate bigenerational cycle is ~50 years.
 
 *Source:* Peter Turchin, *Secular Cycles* (Princeton, 2009, with Nefedov); *Ages of Discord* (Beresta, 2016); *End Times* (Penguin, 2023).
 
@@ -104,9 +104,9 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 1950
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/dalio
 
-Long-term debt / Big Cycle of imperial rise/fall: rising → top → declining → reset, tracking debt, currency reserve status, and internal order. Dalio states long-term debt cycles run about 50–75 years; this curve uses 75, the upper end of his range. He also describes a longer ~250-year empire arc.
+Big Cycle of imperial rise and fall: rising → top → declining → reset, tracked through debt, reserve-currency status, and internal order. Dalio puts long-term debt cycles at about 50–75 years; this curve uses 75, the top of his range. He also describes a longer ~250-year empire arc.
 
-*Peak calibration:* Per Dalio Ch. 5: *"these measures of the United States' powers relative to its own history reached their peaks in the 1950s immediately after the Allies won World War II."* The 1950 anchor comes from Bridgewater's ~250-year empire-score chart, while the 75-year period is this project's selection from the "about 50 to 75 years" range Dalio states for long-term debt cycles — he does not assert 75 specifically. The two are different constructs in Dalio's framework; using one's peak to anchor the other forces our sinusoid to peak again at ~2025, which Dalio does not assert (the empire-score chart shows decline post-1950, not a second peak). Treat this curve as a forced single-cycle reduction of two stacked Dalio cycles. Separately, our paired data (US share of world GDP) peaks at 1945 because of war-production effects; the cycle and the data deliberately differ by ~5 years, reflecting the difference between Dalio's composite empire score and a single GDP-share series.
+*Peak calibration:* Per Dalio Ch. 5: *"these measures of the United States' powers relative to its own history reached their peaks in the 1950s immediately after the Allies won World War II."* The 1950 anchor comes from Bridgewater's ~250-year empire-score chart, while the 75-year period is this project's selection from the "about 50 to 75 years" range Dalio states for long-term debt cycles - he does not assert 75 specifically. The two are different constructs in Dalio's framework; using one's peak to anchor the other forces our sinusoid to peak again at ~2025, which Dalio does not assert (the empire-score chart shows decline post-1950, not a second peak). Treat this curve as a forced single-cycle reduction of two stacked Dalio cycles. Separately, our paired data (US share of world GDP) peaks at 1945 because of war-production effects; the cycle and the data deliberately differ by ~5 years, reflecting the difference between Dalio's composite empire score and a single GDP-share series.
 
 *Source:* Ray Dalio, *Principles for Dealing with the Changing World Order* (Avid Reader Press, 2021).
 
@@ -116,7 +116,7 @@ Long-term debt / Big Cycle of imperial rise/fall: rising → top → declining �
 - **Reference peak:** 1955
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/strauss-howe
 
-~80–90 year saeculum, four ~21-year turnings: high → awakening → unraveling → crisis (4th turning), driven by generational replacement.
+~80–90 year saeculum - about one long human life - in four ~21-year turnings driven by generational replacement: high → awakening → unraveling → crisis (the 4th turning).
 
 *Peak calibration:* Anchored to the post-WWII American High (~1955), the most recent completed First Turning peak in Strauss-Howe's saeculum. With period 84, the trough of this construction lands at 1997 (1955 + 42) and the next peak at 2039; the predicted Fourth-Turning Crisis climax (~2020) therefore sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak. The framework actually has two cultural highs per saeculum (the 1T High and the 2T Awakening), so reducing it to a single sinusoid is a forced choice; we use the structural High. There is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough.
 
@@ -130,13 +130,13 @@ Long-term debt / Big Cycle of imperial rise/fall: rising → top → declining �
 - **Reference peak:** 1945
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/modelski
 
-~100–120 year long cycle of world leadership — global war → world power → delegitimation → deconcentration — tracked through naval and global-reach preponderance; plotted here at 110 years, the midpoint of the stated range.
+~100–120 year long cycle of world leadership - global war → world power → delegitimation → deconcentration - tracked through naval and global-reach preponderance. Plotted here at 110 years, the midpoint of his stated range.
 
-*Peak calibration:* Start of the US world-power phase in Modelski's own dating: Table 2.1 of *Long Cycles in World Politics* (1987, p. 40) dates the American cycle's phases 1914–1945 (global war) and 1945–1973 (world power), and Table 2.2 (p. 42) dates US oceanic supremacy from 1944, when the US crossed his threshold of one-half of the world's capital-ship assets. The 110-year period is this project's midpoint of the "100 to 120 years" range Modelski states in his later encyclopedia treatment ("Long Cycles in Global Politics," UNESCO-EOLSS); the 1987 book itself says "about one century" and separately reports a 120-year average interval between successive naval-preponderance attainments. Modelski himself warns that the long cycle "does not connote strict cycles" — treat the fixed sinusoid as a stylization he explicitly disclaims.
+*Peak calibration:* Start of the US world-power phase in Modelski's own dating: Table 2.1 of *Long Cycles in World Politics* (1987, p. 40) dates the American cycle's phases 1914–1945 (global war) and 1945–1973 (world power), and Table 2.2 (p. 42) dates US oceanic supremacy from 1944, when the US crossed his threshold of one-half of the world's capital-ship assets. The 110-year period is this project's midpoint of the "100 to 120 years" range Modelski states in his later encyclopedia treatment ("Long Cycles in Global Politics," UNESCO-EOLSS); the 1987 book itself says "about one century" and separately reports a 120-year average interval between successive naval-preponderance attainments. Modelski himself warns that the long cycle "does not connote strict cycles" - treat the fixed sinusoid as a stylization he explicitly disclaims.
 
 *Source:* George Modelski, *Long Cycles in World Politics* (Macmillan, 1987); period range and non-strict-cycles disclaimer from Modelski, "Long Cycles in Global Politics," UNESCO-EOLSS.
 
-*Caveat:* The 110-year period is this project's midpoint of Modelski's 100–120-year range, and he states the concept "does not connote strict cycles." The paired series measures the largest economy — not his naval/global-reach construct — and under that mechanical rule the 1870s–1881 leader is Qing China, not Britain.
+*Caveat:* The 110-year period is this project's midpoint of Modelski's 100–120-year range, and he states the concept "does not connote strict cycles." The paired series measures the largest economy - not his naval/global-reach construct - and under that mechanical rule the 1870s–1881 leader is Qing China, not Britain.
 
 ### Turchin — fathers-and-sons cycle
 
@@ -144,22 +144,22 @@ Long-term debt / Big Cycle of imperial rise/fall: rising → top → declining �
 - **Reference peak:** 1970
 - **Page:** https://sinusoidal-history.skylarkcreations.com/cycles/turchin-fathers-sons
 
-~50-year "bi-generation" oscillation in US political violence, superimposed on the longer secular cycle — spikes of unrest roughly every two generations.
+~50-year "bi-generation" oscillation in US political violence, superimposed on the longer secular cycle - spikes of unrest roughly every two generations, once living memory of the last convulsion fades.
 
-*Peak calibration:* Most recent stated peak, in Turchin's own words: "a 50-year oscillation superimposed on the secular cycle, with peaks around 1870, 1920, and 1970" (*Journal of Peace Research* 49(4), 2012). With period 50 and peak 1970, this sinusoid's prior peaks land exactly on his other two stated peaks (1870 and 1920) and the next lands at 2020 — coinciding with the instability forecast of his separate 150-year secular cycle, so the two Turchin curves on this site deliberately peak together at 2020. The paper attributes the mechanism to the "fathers-and-sons" dynamic and prefers the term "bi-generation cycles," with recurrence "roughly two generations (40–60 years)"; 50 is the headline number and the one used here.
+*Peak calibration:* Most recent stated peak, in Turchin's own words: "a 50-year oscillation superimposed on the secular cycle, with peaks around 1870, 1920, and 1970" (*Journal of Peace Research* 49(4), 2012). With period 50 and peak 1970, this sinusoid's prior peaks land exactly on his other two stated peaks (1870 and 1920) and the next lands at 2020 - coinciding with the instability forecast of his separate 150-year secular cycle, so the two Turchin curves on this site deliberately peak together at 2020. The paper attributes the mechanism to the "fathers-and-sons" dynamic and prefers the term "bi-generation cycles," with recurrence "roughly two generations (40–60 years)"; 50 is the headline number and the one used here.
 
 *Source:* Peter Turchin, "Dynamics of political instability in the United States, 1780–2010," *Journal of Peace Research* 49(4) (2012): 577–591.
 
-*Caveat:* Same author as the 150-year secular cycle — a distinct construct from a distinct paper, not independent corroboration. No paired data series this round: the natural series (Turchin's US political-violence event data) has no cleanly redistributable file.
+*Caveat:* Same author as the 150-year secular cycle - a distinct construct from a distinct paper, not independent corroboration. No paired data series this round: the natural series (Turchin's US political-violence event data) has no cleanly redistributable file.
 
 ## Intellectual-honesty disclaimer
 
-All ten cycles are contested in different ways. Kondratiev waves have never been cleanly confirmed in empirical long-run data; spectral analyses report some weak periodicity, but period, phase dating, and existence are not agreed across studies. Khaldun wrote in the 14th century about dynastic politics in a Maghrebi context; applying his framework to a modern European-and-American axis is this project's choice. Huntington's creedal-passion cycle is an interpretive lens over American politics, not a measurement. Perez's techno-economic paradigm framework is rich and influential but methodologically qualitative — Schumpeterian historical pattern recognition, not statistical fitting. (An earlier draft of this site mistakenly labeled it "quantitative.")
+All ten cycles are contested in different ways. Kondratiev waves have never been cleanly confirmed in empirical long-run data; spectral analyses report some weak periodicity, but period, phase dating, and existence are not agreed across studies. Khaldun wrote in the 14th century about dynastic politics in a Maghrebi context; applying his framework to a modern European-and-American axis is this project's choice. Huntington's creedal-passion cycle is an interpretive lens over American politics, not a measurement. Perez's techno-economic paradigm framework is rich and influential but methodologically qualitative - Schumpeterian historical pattern recognition, not statistical fitting. (An earlier draft of this site mistakenly labeled it "quantitative.")
 
-Turchin's secular cycles have the most developed quantitative literature of the ten, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955). With period 84, the trough of this construction lands at 1997 and the next peak at 2039; their predicted Crisis climax around 2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak — there is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough. Schlesinger Jr.'s liberal/conservative cycle is interpretive periodization formalizing his father's ~15–16-year alternating phases into a ~30-year full cycle; the empirical pairing (Stimson Policy Mood) only covers 1952 onward, so the Schlesinger curve's pre-1952 shape cannot be stress-tested against the data. Two cycles (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced in the focused-facet view; treat both especially skeptically.
+Turchin's secular cycles have the most developed quantitative literature of the ten, but the 150-year period for the modern American cycle is a fitted parameter. Dalio's Big Cycle is a popularised composite, not a peer-reviewed measurement, and his own stated peak year for US power is the 1950s, not 1945 (we use 1950). Strauss-Howe is generational theory - influential in popular discourse, contested in academic history; reducing their four-turnings saeculum to a single sinusoid forces the choice of which peak to anchor (we use the post-WWII High at ~1955). With period 84, the trough of this construction lands at 1997 and the next peak at 2039; their predicted Crisis climax around 2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither at a trough nor a peak - there is no peak-year anchor that aligns the predicted Crisis climax with either a sinusoid peak or trough. Schlesinger Jr.'s liberal/conservative cycle is interpretive periodization formalizing his father's ~15–16-year alternating phases into a ~30-year full cycle; the empirical pairing (Stimson Policy Mood) only covers 1952 onward, so the Schlesinger curve's pre-1952 shape cannot be stress-tested against the data. Two cycles (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced in the focused-facet view; treat both especially skeptically.
 
 Treat this tool as a way of making those judgments visible and comparable, not as evidence that any one cycle is real. See [methods](https://sinusoidal-history.skylarkcreations.com/methods) for the data-side caveats and [colophon](https://sinusoidal-history.skylarkcreations.com/colophon) for how the site was built.
 
 ---
 
-*Last updated: 2026-04-26*
+*Last updated: 2026-08-19*

@@ -13,7 +13,7 @@
     "value_units": "party-mean distance (d1)",
     "color": "#0F1419",
     "associated_cycle_id": "huntington",
-    "association_note": "Huntington's construct is recurring surges of creedal moralism — not interparty roll-call distance. This project pairs it with DW-NOMINATE polarization as an imperfect proxy chosen by us, not a measure Huntington proposed; it is the cleanest century-scale roll-call series available."
+    "association_note": "Huntington's construct is recurring surges of creedal moralism - not interparty roll-call distance. This project pairs it with DW-NOMINATE polarization as an imperfect proxy chosen by us, not a measure Huntington proposed; it is the cleanest century-scale roll-call series available."
   },
   {
     "id": "us_tfp_growth",
@@ -45,13 +45,13 @@
     "value_units": "% of household wealth",
     "color": "#5A1A1A",
     "associated_cycle_id": "turchin",
-    "association_note": "Direct proxy for Turchin's elite-overproduction driver — when wealth concentrates, elite competition intensifies and instability follows."
+    "association_note": "Direct proxy for Turchin's elite-overproduction driver - when wealth concentrates, elite competition intensifies and instability follows."
   },
   {
     "id": "us_world_gdp_share",
     "name": "US Share of World GDP",
     "legend_short": "US share · world GDP",
-    "short_description": "US GDP as share of all-countries GDP in the Maddison Project Database (2011 PPP \\$); trimmed to 1870+ (earlier years have too-sparse country coverage, and the covered-country denominator keeps growing after 1870 — see methods). Upstream country estimates reach back to year 1; this project uses 1870–2022",
+    "short_description": "US GDP as share of all-countries GDP in the Maddison Project Database (2011 PPP \\$); trimmed to 1870+ (earlier years have too-sparse country coverage, and the covered-country denominator keeps growing after 1870 - see methods). Upstream country estimates reach back to year 1; this project uses 1870–2022",
     "source": "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618)",
     "source_url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
     "license": "CC BY 4.0",
@@ -83,7 +83,7 @@
     "id": "conflict_deaths",
     "name": "Deaths in conventional wars (Project Mars, log)",
     "legend_short": "Conflict deaths · log",
-    "short_description": "Natural log of (1 + deaths per 100,000) from Project Mars — log-transformed to keep WWI/WWII from flattening the rest of the series. Coverage 1800–2011; Project Mars covers conventional interstate and civil wars between states with differentiated militaries causing ≥500 deaths",
+    "short_description": "Natural log of (1 + deaths per 100,000) from Project Mars - log-transformed to keep WWI/WWII from flattening the rest of the series. Coverage 1800–2011; Project Mars covers conventional interstate and civil wars between states with differentiated militaries causing ≥500 deaths",
     "source": "Our World in Data · Project Mars v1.1 (Lyall 2020)",
     "source_url": "https://ourworldindata.org/grapher/deaths-in-wars-by-region-project-mars",
     "license": "OWID chart CC BY 4.0; underlying Project Mars data Public Domain (Harvard Dataverse)",
@@ -100,7 +100,7 @@
     "id": "stimson_policy_mood",
     "name": "US Policy Mood (Stimson)",
     "legend_short": "Policy Mood",
-    "short_description": "Stimson's Policy Mood index — composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyad-ratios algorithm; annual, 1952–2024",
+    "short_description": "Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyad-ratios algorithm; annual, 1952–2024",
     "source": "James A. Stimson, Policy Mood data series (UNC), via Public Opinion in America (Westview, 2nd ed., 1999) and ongoing updates",
     "source_url": "https://stimson.web.unc.edu/data/",
     "license": "freely shared by author; no explicit reuse license",
@@ -116,7 +116,7 @@
     "id": "leading_power_gdp_share",
     "name": "Leading Economy's Share of World GDP",
     "legend_short": "Leading economy · GDP share",
-    "short_description": "The largest single economy's share of world GDP each year, with the leader named per year (Maddison Project Database 2023, 2011 PPP \\$); trimmed to 1870+. The rule — largest economy — is mechanical, fixed without reference to Modelski's leadership succession",
+    "short_description": "The largest single economy's share of world GDP each year, with the leader named per year (Maddison Project Database 2023, 2011 PPP \\$); trimmed to 1870+. The rule - largest economy - is mechanical, fixed without reference to Modelski's leadership succession",
     "source": "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618)",
     "source_url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
     "license": "CC BY 4.0",
@@ -126,14 +126,14 @@
     "value_units": "% of world GDP",
     "color": "#1F6F63",
     "associated_cycle_id": "modelski",
-    "association_note": "Relative economic preponderance of the leading state as a proxy for world leadership. Deliberately mechanical — the largest economy per year, never hand-picking Modelski's hegemons — so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, coincides with the reference peak."
+    "association_note": "Relative economic preponderance of the leading state as a proxy for world leadership. Deliberately mechanical - the largest economy per year, never hand-picking Modelski's hegemons - so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, coincides with the reference peak."
   },
   {
     "id": "perez_tech_diffusion",
     "name": "US Technology-Diffusion Intensity (HATCH)",
     "legend_short": "Tech diffusion · HATCH",
     "short_description": "Median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption (HATCH 2.0); annual 1865–2023, with the contributing-technology count published per year",
-    "source": "HATCH — Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison), Zenodo, DOI 10.5281/zenodo.19579793",
+    "source": "HATCH - Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison), Zenodo, DOI 10.5281/zenodo.19579793",
     "source_url": "https://zenodo.org/records/19579793",
     "license": "CC BY 4.0",
     "data_file": "/data/perez_tech_diffusion.csv",
@@ -142,6 +142,6 @@
     "value_units": "z-score (median)",
     "color": "#7C4D85",
     "associated_cycle_id": "perez",
-    "association_note": "Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm — not asset prices — so a diffusion-intensity composite is the closest measurable analogue. The transform was fixed without reference to her dates, and the honest result is visible on the chart: the composite shows no local peak at 2000 (it is strongest in the railroad/telegraph decades and persistently negative after the 1970s, partly a panel-composition artifact — see provenance)."
+    "association_note": "Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm - not asset prices - so a diffusion-intensity composite is the closest measurable analogue. The transform was fixed without reference to her dates, and the honest result is visible on the chart: the composite shows no local peak at 2000 (it is strongest in the railroad/telegraph decades and persistently negative after the 1970s, partly a panel-composition artifact - see provenance)."
   }
 ]

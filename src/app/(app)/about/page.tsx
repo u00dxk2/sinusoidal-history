@@ -30,20 +30,21 @@ export default function About() {
           Intent
         </h2>
         <p>
-          Sinusoidal History overlays ten named long-wave cycles on a
-          shared time axis so a reader can see <em>where their predictions
-          line up and where they disagree</em>. Nine of the ten cycles are
-          paired with a real long-run data series (Turchin&apos;s
-          fathers-and-sons cycle has none this round),
-          and a calibration panel lets you stress-
-          test the fit instead of just admiring the curves side by side.
+          Sinusoidal History puts ten named long-wave theories of history on
+          one shared time axis so you can see <em>where their predictions
+          line up and where they disagree</em>. Nine of the ten are paired
+          with a real long-run data series (Turchin&apos;s fathers-and-sons
+          cycle has none this round), and a calibration panel lets you
+          stress-test each fit instead of just admiring the curves side by
+          side.
         </p>
         <p>
-          Each cycle curve is a pure sinusoid built from the theory&apos;s own
-          period and a single explicitly documented reference peak. That is a
-          naïve choice on purpose: it strips the viz down to exactly one knob
-          per cycle (calibration), so disagreement between theories - not
-          parameter fiddling - is what you see.
+          Each curve is a pure sinusoid built from the theory&apos;s own
+          stated period and a single documented reference peak. That is a
+          naïve choice on purpose. One knob per cycle means that when two
+          theories disagree on this chart, the disagreement comes from the
+          theories - not from us tuning parameters until something looked
+          profound.
         </p>
       </section>
 
@@ -52,17 +53,18 @@ export default function About() {
           Why every cycle peaks near now
         </h2>
         <p>
-          Open the chart and notice that nearly every cycle peaks somewhere
-          near the present. That is not convergence evidence - it is a
-          selection effect. Each theorist wrote in a period that felt
-          consequential, and the &quot;reference peak&quot; they anchored to
-          is, consciously or not, a recent moment. We read these theorists
-          today precisely because their forecasts land in our era.
+          Open the chart and nearly every cycle peaks somewhere near the
+          present. That is not evidence the theories converge - it is a
+          selection effect. Each theorist wrote in a moment that felt
+          consequential and anchored the cycle, consciously or not, to a
+          recent peak. And we read these particular theorists today precisely
+          because their forecasts land in our era. The ones whose cycles
+          peaked quietly in 1880 don&apos;t get republished.
         </p>
         <p>
           A few specifics, since the choices matter. Huntington dated his
           fourth creedal-passion period as 1960–1975 (&quot;the S&amp;S
-          years&quot;); we anchor at the interval midpoint (~1968) — that is
+          years&quot;); we anchor at the interval midpoint (~1968) - that is
           the project&apos;s choice, not his. K-wave revivalists in the late
           1970s and early 1980s variously dated the post-WWII wave&apos;s
           turning point between 1968 and 1974; we use 1973 as the
@@ -72,21 +74,22 @@ export default function About() {
           explicitly the project&apos;s editorial choice. Perez identifies
           2000–2001 as the &quot;Turning Point&quot; between Installation and
           Deployment phases of the ICT surge; we map her Turning Point to our
-          sinusoid&apos;s peak — that conflates her concept with our
+          sinusoid&apos;s peak - that conflates her concept with our
           mathematical convention, and 2000 is best read as her
           financial-frenzy peak (her later work extends the Turning Point
           through 2008). Schlesinger Jr. dated his most recently
           completed liberal era as 1962–1978; we anchor at the midpoint
           (~1970), but Schlesinger himself predicted the next liberal turn
           around 1990, which a strict 30-year-from-1970 sinusoid does not
-          reproduce — read his curve as a stylization of his stated period,
+          reproduce - read his curve as a stylization of his stated period,
           not as his own forecast.
         </p>
         <p>
-          The implication is not that the theories are worthless - it is that
-          the calibration is the single most consequential parameter, and it
-          is doing a lot of the work of &quot;predicting&quot; the present.
-          The calibration panel on the main page lets you move the peak and
+          None of this makes the theories worthless. It does mean the
+          peak-year choice is the most consequential parameter on the site,
+          and that it is doing a lot of the work of
+          &quot;predicting&quot; the present. The calibration panel on the
+          main page exists so you can check this yourself: move the peak and
           watch the correlation with real data change.
         </p>
       </section>
@@ -97,7 +100,7 @@ export default function About() {
         </h2>
         <p className="text-[15px] leading-[1.65] text-ink/85">
           Each has its own page with the full calibration rationale, sourcing,
-          and paired-data provenance — see{" "}
+          and paired-data provenance - see{" "}
           <Link
             href="/cycles"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
@@ -156,7 +159,7 @@ export default function About() {
           this project&apos;s choice. Huntington&apos;s creedal-passion cycle
           is an interpretive lens over American politics, not a measurement.
           Perez&apos;s techno-economic paradigm framework is rich and
-          influential but methodologically qualitative — Schumpeterian
+          influential but methodologically qualitative - Schumpeterian
           historical pattern recognition, not statistical fitting. (An
           earlier draft of this site mistakenly labeled it
           &quot;quantitative.&quot;)
@@ -174,7 +177,7 @@ export default function About() {
           84, the trough of this construction lands at 1997 and the next
           peak at 2039; their predicted Fourth-Turning Crisis climax around
           2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither
-          at a trough nor a peak — there is no peak-year anchor that lines
+          at a trough nor a peak - there is no peak-year anchor that lines
           their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
           interpretive periodization formalizing his father&apos;s ~15–16-year
           alternating phases into a ~30-year full cycle; the empirical pairing
@@ -205,7 +208,7 @@ export default function About() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-04-26
+        Last updated: 2026-08-19
       </footer>
     </article>
   );
