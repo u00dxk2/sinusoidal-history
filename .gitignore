@@ -46,3 +46,6 @@ next-env.d.ts
 # agent-bus listener state + local scratch
 /tmp/
 
+
+# playwright-mcp session artifacts (screenshots, console logs)
+/.playwright-mcp/
