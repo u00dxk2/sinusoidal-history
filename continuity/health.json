@@ -1,32 +1,24 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T20:43:40.965Z",
+  "generatedAt": "2026-08-21T21:19:49.070Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
   "itemCount": 1,
   "knownPatternCount": 2,
-  "commitCount": 12,
+  "commitCount": 10,
   "findings": [
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "W-001",
-      "title": "Zero analytics on sinusoidal-history — the Phase 12 SEO routes cannot be measured",
-      "message": "W-001 signal due in 2d (2026-08-21)",
-      "suggested": "Prepare to evaluate: \"A Google Search Console property is verified for the site's canonical domain (sinusoidalhistory.com after the cutover; the old subdomain only if the cutover is abandoned) AND /sitemap.xml has been submitted through it — at which point impressions/clicks become observable and this converts to a measurement watch. Alternatively closes as 'declined' if David decides the site should stay uninstrumented.\""
-    },
     {
       "check": "MODIFIED_ITEM_LAST_24H",
       "severity": "info",
       "id": "W-001",
       "title": "Zero analytics on sinusoidal-history — the Phase 12 SEO routes cannot be measured",
-      "message": "Item W-001 notes/closeWhen modified in last 24h (diff hash c50cac44); investigate before per-day judgment.",
+      "message": "Item W-001 notes modified in last 24h (diff hash 14ec2d0c); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     }
   ],
   "counts": {
     "critical": 0,
     "warn": 0,
-    "info": 2
+    "info": 1
   },
   "suppressedCount": 0,
   "actionsOnlyMode": false,
