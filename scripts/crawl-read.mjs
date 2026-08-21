@@ -121,6 +121,17 @@ async function fetchRequestLogs(apiKey, startTime, endTime) {
       `&type=request&limit=100&direction=backward` +
       `&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(cursorEnd)}`;
     const res = await fetch(url, { headers: { Authorization: `Bearer ${apiKey}` } });
+    if (res.status === 429) {
+      // Render's API allows 30 requests/min; a 14-day read paginates well past
+      // that, so mid-run 429s are expected, not fatal. Wait out the window
+      // (server-declared reset, else 60s) and retry the SAME page.
+      const reset = Number(res.headers.get("ratelimit-reset"));
+      const waitS = Number.isFinite(reset) && reset > 0 ? reset + 1 : 60;
+      console.error(`  rate-limited on page ${page + 1}; waiting ${waitS}s`);
+      await new Promise((r) => setTimeout(r, waitS * 1000));
+      page--;
+      continue;
+    }
     if (!res.ok) throw new Error(`Render logs API returned ${res.status}`);
 
     const body = await res.json();
