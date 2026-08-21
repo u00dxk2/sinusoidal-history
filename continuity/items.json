@@ -33,7 +33,9 @@
         "f35e4d1",
         "539ec7d",
         "b4e04a2",
-        "0d4d705"
+        "0d4d705",
+        "d36770b",
+        "2f766eb"
       ]
     }
   ],
@@ -73,7 +75,14 @@
       "769d833": "Phase 15 spectral-verdict build in flight 2026-08-19 — pre-registration chain committed before results per docs/specs/spectral-verdict-build-spec.md; CHANGELOG Phase 15 entry ships with the outputs commit wave (resume: docs/cold-starts/2026-08-19.md § Mid-build handoff).",
       "cfda495": "Phase 15 spectral-verdict build in flight 2026-08-19 — pre-registration chain committed before results per docs/specs/spectral-verdict-build-spec.md; CHANGELOG Phase 15 entry ships with the outputs commit wave (resume: docs/cold-starts/2026-08-19.md § Mid-build handoff).",
       "ad36cdb": "Phase 15 spectral-verdict build in flight 2026-08-19 — pre-registration chain committed before results per docs/specs/spectral-verdict-build-spec.md; CHANGELOG Phase 15 entry ships with the outputs commit wave (resume: docs/cold-starts/2026-08-19.md § Mid-build handoff).",
-      "5654566": "Phase 15 spectral-verdict build in flight 2026-08-19 — pre-registration chain committed before results per docs/specs/spectral-verdict-build-spec.md; CHANGELOG Phase 15 entry ships with the outputs commit wave (resume: docs/cold-starts/2026-08-19.md § Mid-build handoff)."
+      "5654566": "Phase 15 spectral-verdict build in flight 2026-08-19 — pre-registration chain committed before results per docs/specs/spectral-verdict-build-spec.md; CHANGELOG Phase 15 entry ships with the outputs commit wave (resume: docs/cold-starts/2026-08-19.md § Mid-build handoff).",
+      "84b2097": "Phase 15 outputs commit wave (2026-08-19) — verdicts.json + 9 figures at 99,999 draws; the results the pre-registration chain froze. CHANGELOG Phase 15; no item scope.",
+      "89524a4": "Phase 15 page integration + docs (per-cycle verdict sections, /methods spectral testing). Same wave as 84b2097; no item scope.",
+      "6162ef7": "Prose/voice pass on /cycles (2026-08-20). Quality work, no item scope.",
+      "6466dd8": "Reuse packets on cycle pages (CSV/SVG/PNG downloads + copy-paste attribution) — the approved, ungated citability follow-up from the 8/18 research. No item scope.",
+      "a8eab68": "CITATION.cff v1.2.0 — cite the new canonical URL post-cutover. Release bookkeeping; no item scope.",
+      "1cd4a66": "Cold-start primer back-fill + .playwright-mcp gitignore (2026-08-21). Session bookkeeping, not project scope.",
+      "_note2": "d36770b (domain cutover) and 2f766eb (the 8/21 crawl read + 429 backoff) are NOT listed here — they are the W-001 unblock and the W-001 instrument read respectively, linked via W-001.linkedCommits."
     }
   },
   "archived": []
