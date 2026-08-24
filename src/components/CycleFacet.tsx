@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef } from "react";
+import Link from "next/link";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
@@ -8,6 +9,7 @@ import {
   phasePositionLabel,
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
+import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import {
@@ -462,6 +464,19 @@ function ExpandedTail({
         )}
         <p className="text-[11px] tracking-wide text-ink-soft/75 font-mono pt-1">
           {cycle.source}
+        </p>
+        {/* The focused facet is where a reader actually reads the rationale
+            and caveat, and it had no way through to /cycles/<slug> — the
+            page with the extrema, paired-series provenance, spectral verdict
+            and reuse packet. The only other in-chart link was buried in the
+            calibration drawer. */}
+        <p className="pt-1">
+          <Link
+            href={cycleRoutePath(cycle)}
+            className="text-[12px] uppercase tracking-[0.16em] font-mono text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            Full page →
+          </Link>
         </p>
       </div>
       <div className="space-y-4">

@@ -1,5 +1,21 @@
 # Changelog
 
+## "Full page →" link in the focused facet (2026-08-24)
+
+Clicking a cycle row on the overlay expands its facet with the rationale
+and caveat — but that facet had no way through to `/cycles/<slug>`, the
+page with the extrema, paired-series provenance, spectral verdict, and
+reuse packet. The only in-chart route was a small link inside the
+calibration drawer; otherwise it was nav → Cycles → find the row again.
+One link, after the source line. Summary-panel rows stay as tap-to-focus
+buttons on purpose.
+
+Also: `docs/fact-check-prompt-round-5.md` — the self-contained external
+fact-check prompt for everything shipped since round 4 (Schlesinger Jr.,
+Modelski, Turchin fathers-and-sons, the Perez re-anchor + HATCH pairing,
+the Stimson and leading-economy series, the excluded list). Verdicts
+fold in on return.
+
 ## Reuse packets on cycle pages (2026-08-20)
 
 Each `/cycles/<slug>` page now hands a reader everything needed to reuse
