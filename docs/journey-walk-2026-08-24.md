@@ -60,7 +60,7 @@ cited where a mechanical floor applies.
 
 | # | Sev | Eff | Sources | Finding | Status |
 |---|---|---|---|---|---|
-| J1 | **HIGH** | S | D2, M1, M6 | **Focus click/tap reads as broken.** Result renders ~786 px (mobile) / ~1,200 px (desktop) below the fold; no scroll, no selected state; discovery took the desktop reader 4 attempts, and the mobile reader concluded "this list isn't interactive." | **fixed** — focused facet now scrolls into view (reduced-motion aware) |
+| J1 | **HIGH** | S | D2, M1, M6 | **Focus click/tap reads as broken.** Result renders ~786 px (mobile) / ~1,200 px (desktop) below the fold; no scroll, no selected state; discovery took the desktop reader 4 attempts, and the mobile reader concluded "this list isn't interactive." | **fixed** — instant scroll to the focused facet, asserted twice (layout keeps settling after the commit — a single scroll, smooth or instant, landed ~700 px short; live-verified at facetTop=12 on mobile tap, mobile deep-link, and desktop click) |
 | J2 | **HIGH** | S | M3 | **`/poster` unusable on phones**: 1200 px fixed-width poster centre-cropped in a 390 px body, scrolls in *neither* axis (flex-centering makes left overflow unreachable). Only DOWNLOAD PNG worked. | **fixed** — horizontal pan restored via scroll wrapper |
 | J3 | **HIGH** | S–M | D3, D10, M4 | **The one shared time axis is below all ten facets and misprints**: "1600" clips to "600" (centre-anchored at x=0), "2050" clips; on mobile "2000" and "now · 2026" collide into "2000·202". A focused cycle's expanded chart has no axis at all. | **fixed** — end-tick anchors clamped, now-label collision dropped, and the shared axis now renders directly beneath the focused facet |
 | J4 | **HIGH** | S | D1, M2 | **Nav's first item "OVERLAY" is a dead link** (`href="/"`, home defaults to Facets — clicking it from home does literally nothing), and it names a tab that is `display:none` on mobile. | **fixed** — renamed "Chart"; full mobile-overlay question deferred (below) |
@@ -139,10 +139,34 @@ secondary flows (cite/reuse, embed). Keep it honest when surfaces change.
 
 ## Verification
 
-`npx tsc --noEmit` + `npm run lint` + `npm test` green before push;
-`python scripts/audit_cycle_rationales.py` run (no prose year-claims were
-added, but new UI copy touches cycle surfaces); prose mirrors untouched
-(no `/about`, `/methods`, `/colophon` prose content changed — only whitespace
-rendering and non-mirrored UI copy). Render deploy verified live post-push;
-focus-scroll, poster pan, axis labels, and state-table links re-checked on
-production at both viewports.
+Shipped as `e0b8422` + `48d494f` + `75e5212`; every push gated on
+`npx tsc --noEmit` + `npm run lint` + 79/79 `npm test`, plus
+`python scripts/audit_cycle_rationales.py` (no year+position prose claims
+added — the home spectral sentence mirrors the /methods count claim
+verbatim) and a local `npm run build`. Prose mirrors untouched: no
+`/about`/`/methods`/`/colophon` prose *content* changed — only whitespace
+rendering and non-mirrored UI copy.
+
+Live post-deploy checks (production, Playwright + curl):
+
+- Focus scroll lands at facetTop=12 on mobile tap, mobile `?focus=` deep
+  link, and desktop click; the year axis renders directly under the
+  expanded facet. (The first attempt — `scrollIntoView`, then instant —
+  landed ~700 px short because layout above the facet settles after the
+  effect; instrumented live, fixed with a manual scroll asserted twice.)
+- `/poster` pans horizontally on a phone and shows "No. 10 · A reckoning".
+- `/embed/docs` scrollWidth = clientWidth = 390.
+- "the 2026 reading", "estimation conventionally", "gate - none",
+  "dtfp_util column" all render with their spaces.
+- Axis end labels anchored (`1600` start / `2050` end), zero overlapping
+  annotation-label pairs at 1280 px (was a 5-label pile-up).
+- Nav "Chart", home spectral sentence, `/cycles` taxonomy line, cycle-page
+  gloss + verdict reorder, state-table underlines + sticky column, gauge
+  key, brush caption: all present in production HTML/DOM.
+- Detector re-run on `/` + `/cycles/kondratiev`: no new true class. The
+  low-contrast FP class now also samples the mobile axis tick labels
+  (previously clipped, now rendered and pixel-sampled at the same ~5.8:1
+  real ratio) — same opacity-stack FP shape, noted for the allowlist
+  owner. The new gauge-key/brush-caption microcopy sits at the accepted
+  11 px floor and the two new home paragraphs join the accepted
+  line-length class.
