@@ -76,11 +76,13 @@ export default function About() {
           Deployment phases of the ICT surge; we map her Turning Point to our
           sinusoid&apos;s peak - that conflates her concept with our
           mathematical convention, and 2000 is best read as her
-          financial-frenzy peak (her later work extends the Turning Point
-          through 2008). Schlesinger Jr. dated his most recently
-          completed liberal era as 1962–1978; we anchor at the midpoint
-          (~1970), but Schlesinger himself predicted the next liberal turn
-          around 1990, which a strict 30-year-from-1970 sinusoid does not
+          financial-frenzy peak (her 2009 &quot;double bubble&quot; paper
+          treats the 2000 and 2008 crashes as two parts of one structural
+          episode). The conventional tabulation of Schlesinger Jr.&apos;s
+          scheme dates the most recently completed liberal era 1962–1978; we
+          anchor at the midpoint (~1970), a project construction, but
+          Schlesinger himself expected the next liberal turn shortly before
+          or after 1990, which a strict 30-year-from-1970 sinusoid does not
           reproduce - read his curve as a stylization of his stated period,
           not as his own forecast.
         </p>
@@ -155,7 +157,7 @@ export default function About() {
           spectral analyses report some weak periodicity, but period, phase
           dating, and existence are not agreed across studies. Khaldun wrote
           in the 14th century about dynastic politics in a Maghrebi context;
-          applying his framework to a modern European-and-American axis is
+          applying his framework to a modern US-and-global axis is
           this project&apos;s choice. Huntington&apos;s creedal-passion cycle
           is an interpretive lens over American politics, not a measurement.
           Perez&apos;s techno-economic paradigm framework is rich and
@@ -179,13 +181,22 @@ export default function About() {
           2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither
           at a trough nor a peak - there is no peak-year anchor that lines
           their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
-          interpretive periodization formalizing his father&apos;s ~15–16-year
-          alternating phases into a ~30-year full cycle; the empirical pairing
-          (Stimson Policy Mood)
-          only covers 1952 onward, so the Schlesinger curve&apos;s pre-1952
-          shape cannot be stress-tested against the data. Two cycles
-          (Schlesinger Jr. and Strauss-Howe) carry an inline caveat surfaced
-          in the focused-facet view; treat both especially skeptically.
+          interpretive periodization formalizing his father&apos;s alternating
+          phases (averaging 16.55 years in the elder Schlesinger&apos;s count)
+          into a ~30-year full cycle; the empirical pairing (Stimson Policy
+          Mood) only covers 1952 onward, so the Schlesinger curve&apos;s
+          pre-1952 shape cannot be stress-tested against the data.
+          Modelski&apos;s long cycle is a 100–120-year range that he says
+          &quot;does not connote strict cycles&quot;; we plot a fixed
+          110-year sinusoid he would disclaim, paired with a largest-economy
+          series that is a proxy for a correlate of his naval construct, not
+          the construct itself. Turchin&apos;s fathers-and-sons cycle is a
+          three-peak claim (1870, 1920, 1970) from a single 2012 paper by the
+          same author as the 150-year secular cycle - not independent
+          corroboration - and its observed pattern is sharply peaked, not
+          sinusoidal. Four cycles (Schlesinger Jr., Strauss-Howe, Modelski,
+          and Turchin fathers-and-sons) carry an inline caveat surfaced in
+          the focused-facet view; treat those caveats as part of the claim.
         </p>
         <p>
           Treat this tool as a way of making those judgments visible and

@@ -39,9 +39,9 @@ const byPeriod = [...cycles].sort((a, b) => a.period_years - b.period_years);
 // quote below was verified against the primary text 2026-08-18.
 const EXCLUDED: { name: string; reason: string }[] = [
   {
-    name: "Goldstein - war/hegemony waves (~50y)",
+    name: "Goldstein - war/price long wave (~50y)",
     reason:
-      "Goldstein himself forecloses the sinusoid: \"The efforts to identify war cycles based on fixed periodicities are a self-proclaimed dead-end\" (Long Cycles: Prosperity and War in the Modern Age, 1988, p. 111; similarly p. 99), and he calls fixed-periodicity methodology \"inappropriate for social cycles\" (p. 244). He affirms non-periodic long waves in war - which is exactly what a fixed cosine cannot represent. His own data files also carry no explicit reuse license.",
+      "Goldstein himself forecloses the sinusoid: \"The efforts to identify war cycles based on fixed periodicities are a self-proclaimed dead-end […]\" (Long Cycles: Prosperity and War in the Modern Age, 1988, p. 111; similarly p. 99), and he calls fixed-periodicity methodology \"inappropriate for social cycles\" (p. 244). He affirms non-periodic long waves in war - which is exactly what a fixed cosine cannot represent - and treats his ~150-year hegemony cycle as a separate construct, not tied to the 50-year wave. His own data files also carry no explicit reuse license.",
   },
   {
     name: "Arrighi - systemic cycles of accumulation",
@@ -61,7 +61,7 @@ const EXCLUDED: { name: string; reason: string }[] = [
   {
     name: "Namenwirth/Weber - cultural value cycles",
     reason:
-      "The claimed ~152-year cycle was fitted on roughly 120 years of data - it never once repeated inside its own evidence - and the shorter cycle is a median of fits ranging widely. Replication failed on German data (Mohler 1987, Eur. J. Political Research 15) and the extraction method was shown to manufacture cycles from the filtering itself (Thome & Rahlf, \"Dubious cycles,\" Quality & Quantity 30(4), 1996). No machine-readable series exists.",
+      "The claimed ~152-year cycle was fitted on roughly 120 years of data - it never once repeated inside its own evidence - and the shorter cycle is a median of fits ranging widely. Mohler's German comparison found no evidence of a general cyclical process of value change (Mohler 1987, Eur. J. Political Research 15) and the extraction method was shown to manufacture cycles from the filtering itself (Thome & Rahlf, \"Dubious cycles,\" Quality & Quantity 30(4), 1996). No machine-readable series exists.",
   },
   {
     name: "Forrester - System Dynamics long wave",
@@ -69,7 +69,7 @@ const EXCLUDED: { name: string; reason: string }[] = [
       "A simulation model reproducing Kondratieff-like waves, not an independent historical periodization with its own anchor; cross-referenced under Kondratiev instead.",
   },
   {
-    name: "Berry - long-wave rhythms (~56y)",
+    name: "Berry - long-wave rhythms (~55y)",
     reason:
       "A US-dated restatement of the Kondratieff rather than an independent construct; folded into the Kondratiev entry's literature rather than plotted twice.",
   },
@@ -102,7 +102,7 @@ const MORE: Record<
     sourceUrl: "https://www.hup.harvard.edu/books/9780674030213",
   },
   schlesinger_jr: {
-    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases of about fifteen years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. predicted a liberal turn around 1990, while a strict thirty-year clock started at his 1970 midpoint says 2000. His own forecast and his own period disagree - which tells you how much play these numbers have in them.",
+    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases averaging about sixteen and a half years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. expected a liberal turn shortly before or after 1990, while a strict thirty-year clock started at our 1970 midpoint says 2000. His own forecast and his own period disagree - which tells you how much play these numbers have in them.",
     sourceLabel: "The Cycles of American History (Houghton Mifflin, 1986)",
     sourceUrl: "https://archive.org/details/cyclesofamerican0000schl",
   },
@@ -136,7 +136,7 @@ const MORE: Record<
     sourceUrl: "https://doi.org/10.1007/978-1-349-09151-5",
   },
   turchin_fathers_sons: {
-    text: "Same author as the 150-year secular cycle, a different construct, and the plainest empirical claim on the roster: Turchin's 2012 Journal of Peace Research paper reports US political violence spiking about every fifty years, with peaks around 1870, 1920, and 1970. The proposed mechanism is generational memory - the people who lived through one convulsion won't start another, and their grandchildren, who didn't, will. The missing piece above is deliberate: no paired data series, because his violence-event data has no cleanly redistributable file. And when this curve and his secular cycle both peak at 2020 on our chart, that's construction, not corroboration.",
+    text: "Same author as the 150-year secular cycle, a different construct, and the plainest empirical claim on the roster: Turchin's 2012 Journal of Peace Research paper reports US political violence spiking about every fifty years, with peaks around 1870, 1920, and 1970. The proposed mechanism is generational memory - the people who lived through one convulsion won't start another, and their grandchildren, who didn't, will. Two honesty notes: he describes the observed pattern as sharply peaked, not a smooth wave, so the cosine keeps only his interval; and the missing piece above is deliberate - no paired data series, because the violence database he posts carries no reuse license, so we don't redistribute it. And when this curve and his secular cycle both peak at 2020 on our chart, that's construction, not corroboration - though the 2012 paper does extend its own sequence to 'around 2020,' calling that a projection rather than a prediction.",
     sourceLabel:
       "'Dynamics of political instability in the United States, 1780–2010,' Journal of Peace Research 49(4), 2012",
     sourceUrl: "https://doi.org/10.1177/0022343312442078",
@@ -268,10 +268,13 @@ export default function CyclesIndex() {
           Considered and excluded
         </h2>
         <p className="text-[14px] leading-relaxed text-ink-soft mb-5">
-          A theory enters the roster only with an explicit period in years
-          from the theorist&apos;s primary text, a defensible anchor peak, and
-          a citable source. These famous candidates fail that bar - and the
-          reasons are as instructive as the roster itself.
+          A theory enters the roster only with an identifiable period - a
+          single figure or a stated range - grounded in the theorist&apos;s
+          primary text, a defensible anchor peak, and a citable source. Where
+          the theorist gives a range or a phase structure rather than one
+          number, we plot a stated midpoint and say so on the cycle&apos;s
+          page. These famous candidates fail that bar - and the reasons are
+          as instructive as the roster itself.
         </p>
         <ul className="space-y-4 border-t border-rule/30 pt-5">
           {EXCLUDED.map((e) => (
@@ -287,8 +290,8 @@ export default function CyclesIndex() {
           <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1.5 font-mono">
             Queued
           </span>
-          Klingberg&apos;s foreign-policy mood cycle (~48y: phases later
-          scholarship reports as averaging ~21 introvert + ~27 extrovert
+          Klingberg&apos;s foreign-policy mood cycle (~48y: phases Klingberg
+          himself reported as averaging ~21 introvert + ~27 extrovert
           years; Klingberg 1952, <em>World Politics</em> 4(2)) passes the
           theory bar, but no candidate paired series clears this site&apos;s
           redistribution-license requirement yet. It ships when its data

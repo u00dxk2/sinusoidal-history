@@ -1,5 +1,39 @@
 # Changelog
 
+## Round-5 fact-check folded (2026-08-24)
+
+Two external deep-research passes (Claude + OpenAI, same prompt) over
+everything shipped since round 4. Verdict record:
+`docs/fact-check-2026-08-24-round-5.md`. Copy-only fold; no period, CSV,
+or spectral output changed, so the frozen manifest stands.
+
+What was wrong: the Stimson provenance said the observed trough was
+"shallower and later" than the model's 1985 trough — the CSV minimum is
+1980, earlier and deeper; "Stimson built the index to test this kind of
+long-wave claim" had no support and inverts his thermostatic reading;
+"50 is the neutral reference point" was unsupported; Turchin's violence
+database **is** posted (USPVD2010.xlsx) — the barrier is a missing
+license, not a missing file; the 2012 paper itself projects the 50-year
+sequence to ~2020 (as "a simple projection"); `/about` said two cycles
+carry caveats when four do; the Goldstein label welded his 50-year
+war/price wave onto his separate 150-year hegemony cycle; the excluded
+list's own entry bar was one the roster doesn't pass; Berry is ~55y;
+Schlesinger's midpoints and the 1962–1978 dating are project
+constructions, not his statements, and his father's figure is 16.55
+years; the reuse-packet "MIT … reuse freely" line implied data
+relicensing. HATCH is now labelled an experimental, site-derived
+composite with an ex-post (look-ahead) caveat and a blunter statement
+that its post-1970 negativity is substantially construction; the
+leading-economy series says "summed covered-country GDP" and no longer
+implies its 1945 maximum validates Modelski. Modelski's rationale drops
+two clauses neither engine could verify in the 1987 book and gains the
+back-cast mismatch figures (+20/+11/+6/−11 years). INSUFFICIENT_DATA is
+glossed as an eligibility outcome on cycle pages and /methods.
+
+Declined: renaming the two series (names live in the frozen spectral
+lay text). Deferred: a lifecycle-adjusted HATCH series and a World-
+aggregate denominator (both change CSVs → manifest re-freeze).
+
 ## "Full page →" link in the focused facet (2026-08-24)
 
 Clicking a cycle row on the overlay expands its facet with the rationale

@@ -239,14 +239,18 @@ export default function Methods() {
           claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run&apos;s
           headline: <strong className="font-medium text-ink">0 of the 9
           paired constructions reach the gate</strong> - none of these
-          records is long enough to test its claim at all, which is itself
-          the finding. A secondary cross-grid panel re-pairs each period with
-          every series long enough to clear the gate (19 cells, labelled as
-          re-pairings, not the site&apos;s claims). A 54- and a 55-year
-          period differ by 0.000337 cycles per year - separating them would
-          take a ~3,000-year record - so no verdict text distinguishes
-          Kondratiev from Perez; every result in that band is one
-          ~54–55-year statement.
+          records is long enough to clear it, which is itself the finding.
+          INSUFFICIENT_DATA is an eligibility outcome - the site declines to
+          run its test below three periods - not evidence that the data
+          contain no information about the cycle. A secondary cross-grid
+          panel re-pairs each period with every series long enough to clear
+          the gate (19 cells, labelled as re-pairings, not the site&apos;s
+          claims). A 54- and a 55-year period differ by 0.000337 cycles per
+          year - separating them would take a ~3,000-year record under the
+          Rayleigh resolution criterion, a spectral-resolution heuristic
+          rather than a bound on every parametric method - so no verdict text
+          distinguishes Kondratiev from Perez; every result in that band is
+          one ~54–55-year statement.
         </p>
         <p>
           The failed-detection precedents that shaped this design: Korotayev
@@ -344,8 +348,9 @@ export default function Methods() {
           Through Phase 13 Perez had no paired series; the HATCH
           diffusion-intensity composite closed that gap in Phase 14.
           Shiller&apos;s CAPE was the runner-up candidate - Perez&apos;s
-          frenzy/turning-point mechanism is financial, and the 2000 anchor is
-          exactly a valuation peak - but CAPE carries no explicit reuse
+          frenzy/turning-point mechanism is financial, and the CAPE valuation
+          extreme came at the turn of 1999–2000, right at the anchor - but
+          CAPE carries no explicit reuse
           license and measures paper values, not the economy-wide diffusion
           that is Perez&apos;s actual object. We cite CAPE here as anchor
           validation without redistributing it.
@@ -353,8 +358,9 @@ export default function Methods() {
         <p>
           <strong className="text-ink">No paired series for Turchin&apos;s
           fathers-and-sons cycle.</strong>{" "}
-          The natural series - Turchin&apos;s US political-violence event
-          data - has no cleanly redistributable file. The cycle ships
+          The natural series - Turchin&apos;s US Political Violence Database
+          - is posted on his site (USPVD2010.xlsx) but carries no explicit
+          reuse license, so we do not redistribute it. The cycle ships
           unpaired rather than paired to a construct-mismatched proxy.
         </p>
         <p>
@@ -363,11 +369,15 @@ export default function Methods() {
           Of the ten cycles, Schlesinger&apos;s pairing is the closest the
           site gets to a direct measurement: Stimson&apos;s index is, by
           construction, an estimate of US public preference for liberal vs.
-          conservative domestic policy - exactly what Schlesinger&apos;s cycle
-          claims to track. The catch is coverage: the series only starts in
-          1952. Inside the empirical window this construction (period 30,
-          peak 1970) plots troughs at 1955, 1985, and 2015 and peaks at 1970
-          and 2000 - two full swings. The pre-1952 shape of the Schlesinger curve
+          conservative domestic policy - one component of what
+          Schlesinger&apos;s cycle claims to track (mass preferences over the
+          scope of government, not the whole political-historical rhythm),
+          and Stimson&apos;s own reading stresses shorter, thermostatic swings
+          rather than a fixed 30-year cycle. The catch is coverage: the series
+          only starts in 1952. Inside the empirical window this construction
+          (period 30, peak 1970) plots troughs at 1955, 1985, and 2015 and
+          peaks at 1970 and 2000 - two complete trough-to-trough swings inside
+          a record spanning 2.4 periods. The pre-1952 shape of the Schlesinger curve
           cannot be stress-tested against the paired data; treat the
           calibration drawer&apos;s Pearson r accordingly.
         </p>

@@ -122,9 +122,12 @@ export function CopyAttribution({ citation }: { citation: string }) {
         {citation}
       </p>
       <p className="mt-3 text-[12px] leading-relaxed text-ink-soft/85">
-        Figures and code are MIT-licensed; the underlying data series carry
-        their own upstream licenses, listed above. Reuse freely with
-        attribution.
+        Our code and the original chart files are MIT-licensed as our own
+        work. The plotted data stay under their upstream terms, listed above:
+        CC BY series carry their attribution requirement with them, and a
+        series with no explicit license is shown here without any grant we
+        can pass on. Reuse our figures and code with attribution; honour the
+        data terms for the plotted series.
       </p>
     </div>
   );

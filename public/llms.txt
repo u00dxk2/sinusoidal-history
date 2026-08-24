@@ -25,7 +25,7 @@ One static page per cycle. Each carries the theory's period, reference peak year
 
 - [/cycles/schlesinger-jr](https://sinusoidalhistory.com/cycles/schlesinger-jr) — Schlesinger Jr., liberal/conservative cycle. Period 30y, reference peak 1970. Narrative. Paired data: Stimson Policy Mood.
 - [/cycles/kondratiev](https://sinusoidalhistory.com/cycles/kondratiev) — Kondratiev wave. Period 54y, reference peak 1973. Empirical · contested. Paired data: US TFP growth (5-yr rolling).
-- [/cycles/perez](https://sinusoidalhistory.com/cycles/perez) — Carlota Perez, techno-economic paradigm. Period 55y, reference peak 2000 (her financial-frenzy peak / end of Installation). Empirical · contested. Paired data: US technology-diffusion intensity (HATCH).
+- [/cycles/perez](https://sinusoidalhistory.com/cycles/perez) — Carlota Perez, techno-economic paradigm. Period 55y, reference peak 2000 (her financial-frenzy peak / end of Installation). Empirical · contested. Paired data: site-derived US technology-diffusion composite from HATCH (experimental).
 - [/cycles/huntington](https://sinusoidalhistory.com/cycles/huntington) — Huntington, creedal passion. Period 60y, reference peak 1968. Narrative. Paired data: DW-NOMINATE House polarization.
 - [/cycles/dalio](https://sinusoidalhistory.com/cycles/dalio) — Ray Dalio, Big Cycle. Period 75y, reference peak 1950. Narrative. Paired data: US share of world GDP.
 - [/cycles/strauss-howe](https://sinusoidalhistory.com/cycles/strauss-howe) — Strauss-Howe, saeculum. Period 84y, reference peak 1955. Narrative, carries a caveat. Paired data: V-Dem liberal-democracy index.

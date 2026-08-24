@@ -100,7 +100,7 @@
     "id": "stimson_policy_mood",
     "name": "US Policy Mood (Stimson)",
     "legend_short": "Policy Mood",
-    "short_description": "Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, derived from ~150 survey items via the dyad-ratios algorithm; annual, 1952–2024",
+    "short_description": "Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, estimated from ~150 repeated survey items via the dyad-ratios algorithm; annual, 1952–2024",
     "source": "James A. Stimson, Policy Mood data series (UNC), via Public Opinion in America (Westview, 2nd ed., 1999) and ongoing updates",
     "source_url": "https://stimson.web.unc.edu/data/",
     "license": "freely shared by author; no explicit reuse license",
@@ -110,13 +110,13 @@
     "value_units": "index (higher = more liberal)",
     "color": "#9C6B3D",
     "associated_cycle_id": "schlesinger_jr",
-    "association_note": "Direct empirical analogue to Schlesinger Jr.'s public-purpose vs. private-interest alternation. Stimson constructed the index in part to test exactly this kind of long-wave claim about American political mood; coverage starts 1952."
+    "association_note": "The closest thing on this site to a direct measurement: an independently constructed index of mass preferences over the scope of domestic government, which is one component of Schlesinger Jr.'s public-purpose vs. private-interest rhythm, not the whole of it. Stimson's own reading of the series stresses shorter, thermostatic swings rather than a fixed ~30-year cycle; the pairing tests his data against Schlesinger's period, it does not report his endorsement of it. Coverage starts 1952."
   },
   {
     "id": "leading_power_gdp_share",
     "name": "Leading Economy's Share of World GDP",
     "legend_short": "Leading economy · GDP share",
-    "short_description": "The largest single economy's share of world GDP each year, with the leader named per year (Maddison Project Database 2023, 2011 PPP \\$); trimmed to 1870+. The rule - largest economy - is mechanical, fixed without reference to Modelski's leadership succession",
+    "short_description": "The largest single economy's share of the summed GDP of the countries Maddison covers that year, with the leader named per year (Maddison Project Database 2023, 2011 PPP \\$); trimmed to 1870+, and the covered-country denominator grows over time - see provenance. The rule - largest economy - is mechanical, fixed without reference to Modelski's leadership succession",
     "source": "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys, DOI 10.1111/joes.12618)",
     "source_url": "https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2023",
     "license": "CC BY 4.0",
@@ -126,13 +126,13 @@
     "value_units": "% of world GDP",
     "color": "#1F6F63",
     "associated_cycle_id": "modelski",
-    "association_note": "Relative economic preponderance of the leading state as a proxy for world leadership. Deliberately mechanical - the largest economy per year, never hand-picking Modelski's hegemons - so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, coincides with the reference peak."
+    "association_note": "Economic size as a deliberately imperfect correlate of world leadership - a proxy for a correlate of Modelski's naval/global-reach construct, not the construct itself. Mechanical by design (the largest economy per year, never hand-picking his hegemons), so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, falls on the reference peak - a descriptive coincidence under a denominator whose coverage is thinnest early, not independent validation of the theory."
   },
   {
     "id": "perez_tech_diffusion",
     "name": "US Technology-Diffusion Intensity (HATCH)",
-    "legend_short": "Tech diffusion · HATCH",
-    "short_description": "Median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption (HATCH 2.0); annual 1865–2023, with the contributing-technology count published per year",
+    "legend_short": "Tech diffusion · site-derived",
+    "short_description": "Experimental, site-derived composite from HATCH 2.0 national adoption series - not a measure published by the HATCH authors: the median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption; annual 1865–2023, with the contributing-technology count published per year",
     "source": "HATCH - Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison), Zenodo, DOI 10.5281/zenodo.19579793",
     "source_url": "https://zenodo.org/records/19579793",
     "license": "CC BY 4.0",
@@ -142,6 +142,6 @@
     "value_units": "z-score (median)",
     "color": "#7C4D85",
     "associated_cycle_id": "perez",
-    "association_note": "Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm - not asset prices - so a diffusion-intensity composite is the closest measurable analogue. The transform was fixed without reference to her dates, and the honest result is visible on the chart: the composite shows no local peak at 2000 (it is strongest in the railroad/telegraph decades and persistently negative after the 1970s, partly a panel-composition artifact - see provenance)."
+    "association_note": "Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm - not asset prices - so a diffusion composite is the nearest measurable analogue public long-run data allows. Read it with its construction in view: each technology is standardized against its own full history, so S-curve maturity is built into the score, and the persistent negativity after the 1970s is substantially an artifact of that normalization and of an aging panel, not evidence that real diffusion slowed. The transform contains no Perez dates, period, or phase parameters (the build script is committed for audit), and the result is visible on the chart: no local peak at 2000."
   }
 ]

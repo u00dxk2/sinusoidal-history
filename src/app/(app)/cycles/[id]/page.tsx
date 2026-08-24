@@ -356,6 +356,8 @@ export default async function CyclePage({ params }: Params) {
             {verdict.lay_text}
           </p>
           <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+            {!verdict.eligible &&
+              "INSUFFICIENT_DATA is an eligibility outcome under the site's pre-registered 3.0-period rule - the test is declined, not failed - and is not evidence for or against the theory. "}
             Pre-registered harmonic-regression test at the exact stated period
             against an AR(1) red-noise null ({spectralDraws.toLocaleString("en-US")}{" "}
             bootstrap draws), gated on the record covering at least 3.0 full
@@ -385,7 +387,7 @@ export default async function CyclePage({ params }: Params) {
       <section className="mt-10 border-t border-rule/30 pt-5">
         <p className="text-[15px] leading-[1.6] text-ink/85">
           Open this cycle in the interactive chart to calibrate its peak and
-          period against the data, or compare it with the other seven on one
+          period against the data, or compare it with the other nine on one
           axis.
         </p>
         <p className="mt-3">
