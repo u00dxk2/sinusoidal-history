@@ -73,18 +73,34 @@ export default function FacetTimeAxis({
             stroke="currentColor"
             strokeOpacity={0.2}
           />
-          {tickYears.map((y) => (
-            <g key={y} transform={`translate(${xScale(y)},${axisBaseY})`}>
-              <line y1={0} y2={6} stroke="currentColor" strokeOpacity={0.3} />
-              <text
-                y={20}
-                textAnchor="middle"
-                className="fill-current text-[11px] opacity-[0.68] font-mono"
-              >
-                {y}
-              </text>
-            </g>
-          ))}
+          {tickYears.map((y) => {
+            const x = xScale(y);
+            // Centre-anchored labels clipped at both SVG edges ("1600"
+            // rendered as "600", "2050" vanished), and on mobile the "2000"
+            // label mashed into "now · 2026". Clamp the end anchors and drop
+            // any tick label that would collide with the now label.
+            // Journey-walk 2026-08-24, J3.
+            const anchor =
+              x < 16 ? "start" : x > innerWidth - 16 ? "end" : "middle";
+            const collidesWithNow =
+              currentYear >= startYear &&
+              currentYear <= endYear &&
+              Math.abs(x - xScale(currentYear)) < 50;
+            return (
+              <g key={y} transform={`translate(${x},${axisBaseY})`}>
+                <line y1={0} y2={6} stroke="currentColor" strokeOpacity={0.3} />
+                {!collidesWithNow && (
+                  <text
+                    y={20}
+                    textAnchor={anchor}
+                    className="fill-current text-[11px] opacity-[0.68] font-mono"
+                  >
+                    {y}
+                  </text>
+                )}
+              </g>
+            );
+          })}
           {currentYear >= startYear && currentYear <= endYear && (
             <g transform={`translate(${xScale(currentYear)},${axisBaseY})`}>
               <line
@@ -96,7 +112,9 @@ export default function FacetTimeAxis({
               />
               <text
                 y={20}
-                textAnchor="middle"
+                textAnchor={
+                  xScale(currentYear) > innerWidth - 40 ? "end" : "middle"
+                }
                 className="fill-current text-[11px] font-medium font-mono"
                 style={{ opacity: 0.85 }}
               >

@@ -79,6 +79,22 @@ export default function Home() {
           </a>{" "}
           for provenance and caveats.
         </p>
+        {/* The site's headline result was reachable only ~4,900px into
+            /methods — a cold reader never met it. One sentence here, linked
+            to the protocol. Journey-walk 2026-08-24, J7. */}
+        <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
+          Each pairing also faces a pre-registered spectral test: 0 of the 9
+          reach its 3.0-period evidence gate — none of these records is long
+          enough to test, which is itself the finding. The protocol lives
+          under{" "}
+          <a
+            href="/methods#spectral-testing"
+            className="text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            spectral testing
+          </a>
+          .
+        </p>
       </section>
     </div>
   );

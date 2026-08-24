@@ -29,8 +29,11 @@ export default function AppLayout({
                changing the header's visual rhythm. Canon R28. */
             className="flex flex-wrap gap-x-3 sm:gap-x-6 text-[12px] sm:text-[13px] uppercase tracking-[0.18em] text-ink-soft -my-3 [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-11"
           >
+            {/* Was "Overlay" — a label for a tab that is not the default view
+                (home opens on Facets) and is hidden entirely on mobile, so the
+                link read as dead. Journey-walk 2026-08-24, J4. */}
             <Link href="/" className="hover:text-ink transition-colors">
-              Overlay
+              Chart
             </Link>
             <Link href="/cycles" className="hover:text-ink transition-colors">
               Cycles

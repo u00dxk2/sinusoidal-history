@@ -98,7 +98,7 @@ export default function Methods() {
         <p>
           Every overlaid data series is rescaled to the interval [-1, 1]
           using its own minimum and maximum over the visible window. The
-          cycle curves are sinusoids of unit amplitude (the
+          cycle curves are sinusoids of unit amplitude (the{" "}
           <code className="font-mono text-[13px]">amplitude_normalized</code>{" "}
           field on every cycle is 1.0). The vertical axis is therefore
           dimensionless: visual peak heights do not represent real-world
@@ -111,7 +111,7 @@ export default function Methods() {
           <li>
             A series with one enormous spike (e.g. global conflict deaths in
             WWII) compresses every other variation toward a thin band. The
-            visible <em>shape</em> near the peaks is real; the visible shape
+            visible{" "}<em>shape</em>{" "}near the peaks is real; the visible shape
             away from them is attenuated.
           </li>
           <li>
@@ -139,7 +139,7 @@ export default function Methods() {
         </p>
         <ul className="list-disc pl-6 space-y-1.5">
           <li>
-            <strong className="text-ink">Phase sensitivity.</strong> For two
+            <strong className="text-ink">Phase sensitivity.</strong>{" "}For two
             sinusoids of the same period, Pearson r reduces to{" "}
             <code className="font-mono text-[13px]">cos(Δφ)</code>, where Δφ is
             the phase offset between them (exactly so for continuous
@@ -167,7 +167,7 @@ export default function Methods() {
           visible just from watching the correlation change as you move the
           slider. That diagnostic use is valid. Treating the number as a test
           statistic is not. Three further honesty notes: the readout is always
-          computed over the series&apos; <em>full</em> record, not the brushed
+          computed over the series&apos;{" "}<em>full</em>{" "}record, not the brushed
           window shown in the chart (equal weight per row, so densely sampled
           modern years dominate an irregular series); it is computed on the
           transformed values where a transform applies (log1p for Project
@@ -222,7 +222,7 @@ export default function Methods() {
           spectrum on each figure (NW = 2, K = 3) is the descriptive picture
           only; it is never the verdict. Inference always runs on unsmoothed,
           uninterpolated records: TFP on Fernald&apos;s raw annual{" "}
-          <code className="font-mono text-[13px]">dtfp_util</code> (never the
+          <code className="font-mono text-[13px]">dtfp_util</code>{" "}(never the
           5-year-averaged display series) and the wealth series only from its
           annual 1913+ span.
         </p>
@@ -230,15 +230,15 @@ export default function Methods() {
           Before any spectrum, an eligibility gate: a pairing is testable only
           if its record spans at least 3.0 full target periods - a
           deliberately conservative site rule, not a theorem (period{" "}
-          <em>estimation</em> conventionally wants ~5). Below the gate the
+          <em>estimation</em>{" "}conventionally wants ~5). Below the gate the
           verdict is INSUFFICIENT_DATA and no code path emits a p-value; the
           test suite enforces that, not just convention. There are exactly
           four verdict states: INSUFFICIENT_DATA,
           NO_SIGNIFICANT_TARGET_POWER, MODEL_SENSITIVE (the AR(1) and AR(2)
           nulls disagree at the Holm-adjusted threshold, so no verdict is
           claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run&apos;s
-          headline: <strong className="font-medium text-ink">0 of the 9
-          paired constructions reach the gate</strong> - none of these
+          headline:{" "}<strong className="font-medium text-ink">0 of the 9
+          paired constructions reach the gate</strong>{" "}- none of these
           records is long enough to clear it, which is itself the finding.
           INSUFFICIENT_DATA is an eligibility outcome - the site declines to
           run its test below three periods - not evidence that the data
@@ -293,11 +293,11 @@ export default function Methods() {
           1900, 1910) come from earlier historical sources spliced via OWID/
           WID and have wider standard errors. The TFP 5-year centered rolling
           average is this project&apos;s derivation from Fernald&apos;s annual{" "}
-          <code className="font-mono text-[13px]">dtfp_util</code> column
+          <code className="font-mono text-[13px]">dtfp_util</code>{" "}column
           (utilization-adjusted TFP growth), not Fernald&apos;s own published
           series; the build script keeps clipped (asymmetric) windows at the
-          boundaries rather than dropping rows, so 1948 = mean of {"{"}1948,
-          1949, 1950{"}"} and 1949 = mean of {"{"}1948, 1949, 1950, 1951{"}"} -
+          boundaries rather than dropping rows, so 1948 = mean of{" "}{"{"}1948,
+          1949, 1950{"}"} and 1949 = mean of {"{"}1948, 1949, 1950, 1951{"}"}{" "}-
           read those endpoints with appropriate skepticism.
         </p>
         <p>

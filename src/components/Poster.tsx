@@ -103,16 +103,26 @@ export default function Poster({ cycles }: PosterProps) {
         </button>
       </div>
 
-      <div
-        ref={posterRef}
-        style={{ width: 1200, minHeight: 800 }}
-        className="bg-paper text-ink flex flex-col px-16 py-14 shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-rule/40 relative"
-      >
+      {/* overflow-x-auto wrapper: flex-centering a fixed 1200px poster on a
+          390px phone put half of it in unreachable left overflow — the page
+          scrolled in NEITHER axis and showed a frozen centre crop. w-full +
+          pan restores mobile; mx-auto keeps desktop centred. Journey-walk
+          2026-08-24, J2. */}
+      <div className="w-full overflow-x-auto">
+        <div
+          ref={posterRef}
+          style={{ width: 1200, minHeight: 800 }}
+          className="mx-auto bg-paper text-ink flex flex-col px-16 py-14 shadow-[0_8px_40px_rgba(0,0,0,0.10)] border border-rule/40 relative"
+        >
         {/* Top corner-band: dateline + masthead. Asymmetric. */}
         <header className="grid grid-cols-12 gap-8 mb-2">
           <div className="col-span-8">
             <p className="text-[11px] tracking-[0.36em] uppercase text-ink-soft font-medium">
-              {SITE_NAME} · No. 01 · A reckoning
+              {/* Issue number = cycle count, matching the home masthead —
+                  this was hardcoded "No. 01" while home derived "No. 10".
+                  Journey-walk 2026-08-24, J19. */}
+              {SITE_NAME}
+              {` · No. ${String(cycles.length).padStart(2, "0")} · A reckoning`}
             </p>
             <h1
               className="font-display mt-3 text-ink leading-[0.94] tracking-[-0.02em]"
@@ -187,7 +197,7 @@ export default function Poster({ cycles }: PosterProps) {
               Drawn from
             </span>{" "}
             Khaldun · Kondratiev · Huntington · Schlesinger Jr. · Perez ·
-            Turchin · Dalio · Strauss-Howe · Modelski
+            Turchin (twice) · Dalio · Strauss-Howe · Modelski
           </div>
           <div className="col-span-4 text-right text-[11px] font-mono uppercase tracking-[0.2em] text-ink-soft">
             cycles are contested ·
@@ -195,6 +205,7 @@ export default function Poster({ cycles }: PosterProps) {
             a comparison tool, not prophecy
           </div>
         </footer>
+        </div>
       </div>
     </div>
   );

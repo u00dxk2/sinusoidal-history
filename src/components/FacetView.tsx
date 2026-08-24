@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { Fragment, useEffect, useMemo, useRef } from "react";
 import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import CycleFacet, { type FacetMode } from "./CycleFacet";
 import FacetTimeAxis from "./FacetTimeAxis";
@@ -38,6 +38,28 @@ export default function FacetView({
 
   useEscapeKey(() => onChangeFocus(null), focusedCycleId !== null);
 
+  // The site's one imperative instruction ("tap/click a row to focus") used to
+  // render its entire result ~800-1,200px below the fold with no viewport
+  // change — cold readers on both form factors concluded the control was
+  // broken. Scroll the focused facet into view unless it is already visible.
+  // Journey-walk 2026-08-24, J1.
+  useEffect(() => {
+    if (!focusedCycleId) return;
+    const el = containerRef.current?.querySelector<HTMLElement>(
+      `[data-facet-id="${CSS.escape(focusedCycleId)}"]`
+    );
+    if (!el) return;
+    const top = el.getBoundingClientRect().top;
+    if (top >= 0 && top < window.innerHeight * 0.6) return;
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    el.scrollIntoView({
+      behavior: reduced ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [focusedCycleId]);
+
   const seriesByCycle = useMemo(() => {
     const map = new Map<string, DataSeries>();
     for (const s of dataSeries) {
@@ -52,18 +74,22 @@ export default function FacetView({
   // cycle's header are the explicit dismiss paths. The previous click-outside
   // behaviour misfired on slider tracks and gap whitespace.
 
+  // A stale/garbage ?focus= id must not hide the shared axis entirely.
+  const focusIsValid =
+    focusedCycleId !== null && cycles.some((c) => c.id === focusedCycleId);
+
   return (
     <div ref={containerRef} className="flex flex-col gap-1.5">
       {cycles.map((cycle) => {
         const mode: FacetMode =
-          focusedCycleId === null
+          !focusIsValid
             ? "normal"
             : focusedCycleId === cycle.id
               ? "expanded"
               : "collapsed";
         return (
+          <Fragment key={cycle.id}>
           <CycleFacet
-            key={cycle.id}
             cycle={cycle}
             series={seriesByCycle.get(cycle.id)}
             mode={mode}
@@ -82,14 +108,29 @@ export default function FacetView({
             onFocus={() => onChangeFocus(cycle.id)}
             onBlur={() => onChangeFocus(null)}
           />
+          {/* When a facet is focused, the year axis moves up to sit directly
+              under the expanded chart — it used to exist only below all ten
+              panels, so a focused reading had no year scale in view.
+              Journey-walk 2026-08-24, J3. */}
+          {mode === "expanded" && (
+            <FacetTimeAxis
+              startYear={startYear}
+              endYear={endYear}
+              currentYear={currentYear}
+              annotations={annotations}
+            />
+          )}
+          </Fragment>
         );
       })}
-      <FacetTimeAxis
-        startYear={startYear}
-        endYear={endYear}
-        currentYear={currentYear}
-        annotations={annotations}
-      />
+      {!focusIsValid && (
+        <FacetTimeAxis
+          startYear={startYear}
+          endYear={endYear}
+          currentYear={currentYear}
+          annotations={annotations}
+        />
+      )}
     </div>
   );
 }

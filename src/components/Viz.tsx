@@ -131,7 +131,11 @@ export default function Viz({
               </TabsTrigger>
             </TabsList>
             {annotations.length > 0 && (
-              <label className="flex items-center gap-2 text-xs text-foreground/70 cursor-pointer select-none">
+              /* hidden sm:flex — annotation labels never render on mobile
+                 (FacetTimeAxis hides them under 640px), so this was an armed
+                 control that did nothing on a phone. Journey-walk 2026-08-24,
+                 J12. */
+              <label className="hidden sm:flex items-center gap-2 text-xs text-foreground/70 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={annotationsVisible}

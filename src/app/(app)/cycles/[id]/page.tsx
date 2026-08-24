@@ -5,6 +5,7 @@ import { cycles } from "@/data/cycles";
 import type { Cycle, DataSeries } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
 import {
+  confidenceGloss,
   confidenceLabel,
   cycleChartPath,
   cycleJsonLd,
@@ -103,16 +104,25 @@ export default async function CyclePage({ params }: Params) {
         className="text-[11px] sm:text-[11px] tracking-[0.2em] uppercase text-ink-soft/80 font-mono"
       >
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          {/* inline-flex min-h-11 -my-3: breadcrumb links measured 14px tall
+              on a phone — the same 44px tap floor applied in the header nav.
+              Canon R28; journey-walk 2026-08-24, J13. */}
           <li>
-            <Link href="/" className="hover:text-ink transition-colors">
-              Overlay
+            <Link
+              href="/"
+              className="inline-flex items-center min-h-11 -my-3 hover:text-ink transition-colors"
+            >
+              Chart
             </Link>
           </li>
           <li aria-hidden className="text-ink-soft/40">
             /
           </li>
           <li>
-            <Link href="/cycles" className="hover:text-ink transition-colors">
+            <Link
+              href="/cycles"
+              className="inline-flex items-center min-h-11 -my-3 hover:text-ink transition-colors"
+            >
               Cycles
             </Link>
           </li>
@@ -183,7 +193,9 @@ export default async function CyclePage({ params }: Params) {
           <strong className="font-medium text-ink/80">
             {confidenceLabel(cycle.confidence_level)}
           </strong>
-          . Every cycle on this site is a pure sinusoid built from the
+          {" — "}
+          {confidenceGloss(cycle.confidence_level)}. Every cycle on this site
+          is a pure sinusoid built from the
           theory&apos;s stated period and one documented reference peak — a
           deliberately naïve construction, so that disagreement between
           theories rather than parameter fitting is what you see. See{" "}
@@ -205,7 +217,7 @@ export default async function CyclePage({ params }: Params) {
           Computed from period {cycle.period_years} and reference peak{" "}
           {cycle.reference_peak_year}, across the site&apos;s default window
           ({DEFAULT_YEAR_RANGE.start}–{DEFAULT_YEAR_RANGE.end}). These are
-          positions of <em>this construction</em>, not dates claimed by the
+          positions of{" "}<em>this construction</em>, not dates claimed by the
           theorist.
         </p>
         <dl className="space-y-3 border-t border-rule/30 pt-4">
@@ -276,7 +288,10 @@ export default async function CyclePage({ params }: Params) {
                 </dd>
               </div>
             </dl>
-            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[12px] uppercase tracking-[0.16em] font-mono">
+            {/* [&_a]: the reuse row measured 46×16px tap targets on a phone —
+                the 44px floor via the same inline-flex pattern as the header
+                nav. Canon R28; journey-walk 2026-08-24, J13. */}
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-0 text-[12px] uppercase tracking-[0.16em] font-mono [&_a]:inline-flex [&_a]:items-center [&_a]:min-h-11">
               <li>
                 <a
                   href={series.source_url}
@@ -317,7 +332,7 @@ export default async function CyclePage({ params }: Params) {
             Paired data series
           </h2>
           <p className="border-t border-rule/30 pt-4 text-[15px] leading-[1.6] text-ink-soft">
-            None in this version. {cycleTheoristSentence(cycle)} The curve can
+            None in this version. {cycleTheoristSentence(cycle)}{" "}The curve can
             still be overlaid against any of the other series in the
             interactive chart, but it has no dedicated empirical pairing to be
             stress-tested against.
@@ -330,11 +345,26 @@ export default async function CyclePage({ params }: Params) {
           <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
             Spectral verdict
           </h2>
-          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft mb-4">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft mb-3">
             {SPECTRAL_STATE_LABELS[verdict.state]}
             {!verdict.eligible &&
               ` · ${verdict.cycles_covered.toFixed(1)} of 3.0 required periods`}
           </p>
+          {/* Plain English BEFORE the multitaper figure: cold readers on both
+              viewports hit the verdict string and the hardest figure on the
+              site ~500px before the paragraph that decodes them.
+              Journey-walk 2026-08-24, J6. */}
+          <p className="text-[15px] leading-[1.6] text-ink/85 mb-3">
+            {verdict.lay_text}
+          </p>
+          {!verdict.eligible && (
+            <p className="text-[13px] leading-relaxed text-ink-soft mb-4">
+              INSUFFICIENT_DATA is an eligibility outcome under the
+              site&apos;s pre-registered 3.0-period rule - the test is
+              declined, not failed - and is not evidence for or against the
+              theory.
+            </p>
+          )}
           <figure className="border-t border-rule/30 pt-4">
             {/* Static committed output of scripts/spectral_verdict.py; next/image
                 adds nothing to a same-origin SVG. */}
@@ -352,12 +382,7 @@ export default async function CyclePage({ params }: Params) {
             svgHref={`/data/spectral/${cycle.id}.svg`}
             slug={cycleSlug(cycle)}
           />
-          <p className="mt-4 text-[15px] leading-[1.6] text-ink/85">
-            {verdict.lay_text}
-          </p>
-          <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
-            {!verdict.eligible &&
-              "INSUFFICIENT_DATA is an eligibility outcome under the site's pre-registered 3.0-period rule - the test is declined, not failed - and is not evidence for or against the theory. "}
+          <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
             Pre-registered harmonic-regression test at the exact stated period
             against an AR(1) red-noise null ({spectralDraws.toLocaleString("en-US")}{" "}
             bootstrap draws), gated on the record covering at least 3.0 full
@@ -404,7 +429,9 @@ export default async function CyclePage({ params }: Params) {
         <p className="text-[11px] leading-relaxed tracking-wide text-ink-soft/80 font-mono">
           {cycle.source}
         </p>
-        <p className="text-[13px] text-ink-soft">
+        {/* [&_a] min-h-11: footer links measured 17px tall on a phone.
+            Canon R28; journey-walk 2026-08-24, J13. */}
+        <p className="text-[13px] text-ink-soft [&_a]:inline-flex [&_a]:items-center [&_a]:min-h-11 [&_a]:-my-3">
           <Link
             href="/cycles"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
@@ -542,7 +569,7 @@ function CurveFigure({ cycle }: { cycle: Cycle }) {
         <span>{start}</span>
         <span className="normal-case tracking-normal text-[11px] font-sans italic">
           Reference peak {cycle.reference_peak_year} · period{" "}
-          {cycle.period_years} years
+          {cycle.period_years}{" "}years
         </span>
         <span>{end}</span>
       </figcaption>

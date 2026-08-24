@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { cycles } from "@/data/cycles";
 import {
+  confidenceGloss,
   confidenceLabel,
   cycleRoutePath,
   seriesForCycle,
@@ -193,6 +194,22 @@ export default function CyclesIndex() {
           </Link>
           .
         </p>
+        {/* The three confidence tags appear on every entry and every cycle
+            page and were defined nowhere on the site. Journey-walk
+            2026-08-24, J8. */}
+        <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
+          The confidence tag on each entry is this site&apos;s rough grading
+          of the theory&apos;s evidence base:{" "}
+          <em>narrative</em>
+          {" — "}
+          {confidenceGloss("narrative")};{" "}
+          <em>quantitative</em>
+          {" — "}
+          {confidenceGloss("quantitative")};{" "}
+          <em>empirical · contested</em>
+          {" — "}
+          {confidenceGloss("empirical-contested")}.
+        </p>
       </header>
 
       <ul className="mt-10">
@@ -211,7 +228,11 @@ export default function CyclesIndex() {
                     className="inline-block w-[3px] h-5 self-stretch rounded-full"
                     style={{ backgroundColor: cycle.color }}
                   />
-                  <h2 className="font-display text-[20px] tracking-tight text-ink font-medium group-hover:text-ink-soft transition-colors">
+                  {/* Underline on hover/focus: these full-block links had no
+                      visible link affordance at rest or on hover — cold
+                      readers took the entries for headings. Journey-walk
+                      2026-08-24, J11. */}
+                  <h2 className="font-display text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
                     {cycle.name}
                   </h2>
                   <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
@@ -292,7 +313,7 @@ export default function CyclesIndex() {
           </span>
           Klingberg&apos;s foreign-policy mood cycle (~48y: phases Klingberg
           himself reported as averaging ~21 introvert + ~27 extrovert
-          years; Klingberg 1952, <em>World Politics</em> 4(2)) passes the
+          years; Klingberg 1952,{" "}<em>World Politics</em>{" "}4(2)) passes the
           theory bar, but no candidate paired series clears this site&apos;s
           redistribution-license requirement yet. It ships when its data
           does.

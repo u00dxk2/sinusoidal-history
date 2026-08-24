@@ -78,8 +78,11 @@ export default function CycleFacet({
   return (
     <div
       ref={containerRef}
+      data-facet-id={cycle.id}
       className={cn(
-        "relative w-full rounded-sm border transition-[opacity,padding] duration-150",
+        // scroll-mt-3: breathing room when FacetView scrolls a newly-focused
+        // facet into view (journey-walk 2026-08-24, J1).
+        "relative w-full rounded-sm border transition-[opacity,padding] duration-150 scroll-mt-3",
         FACET_MIN_HEIGHT_CLASS[mode],
         mode === "expanded"
           ? "border-rule/40 bg-paper-deep/30 p-3 sm:p-4"

@@ -72,7 +72,7 @@ export default function NowSummaryPanel({
         <header className="flex items-end justify-between gap-4 flex-wrap">
           <div>
             <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
-              No. {String(cycles.length).padStart(2, "0")} · A reckoning
+              No. {String(cycles.length).padStart(2, "0")}{" "}· A reckoning
             </p>
             <h2 className="font-display text-[30px] sm:text-[42px] leading-[1.0] tracking-tight mt-1.5 text-ink">
               State of the cycles
@@ -94,9 +94,15 @@ export default function NowSummaryPanel({
             )}
             {interactive && (
               <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
-                tap a row to focus + calibrate
+                select a row to focus + calibrate
               </p>
             )}
+            {/* The phase bar's key lived only on /poster; the same reading
+                order, stated where the bars are. Desktop-only because the
+                bars are. Journey-walk 2026-08-24, J16. */}
+            <p className="hidden sm:block mt-0.5 text-[11px] text-ink-soft/70 font-mono uppercase tracking-[0.14em]">
+              bar: trough · peak · trough
+            </p>
           </div>
         </header>
       </div>
@@ -125,6 +131,12 @@ export default function NowSummaryPanel({
                   <span className="font-display text-[15px] sm:text-[18px] tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
                     {bylineName(cycle.name)}
                   </span>
+                  <span
+                    aria-hidden
+                    className="sm:hidden font-mono text-[11px] text-ink-soft/70 tabular-nums flex-shrink-0"
+                  >
+                    {cycle.period_years}y
+                  </span>
                   <PhaseGaugeBar percent={progress} color={cycle.color} />
                   <span
                     className="text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right"
@@ -141,7 +153,7 @@ export default function NowSummaryPanel({
               <button
                 type="button"
                 onClick={() => onSelectCycle?.(cycle.id)}
-                aria-label={`${cycle.name} — currently ${labelDescription(label)}, click to focus and calibrate`}
+                aria-label={`${cycle.name} — currently ${labelDescription(label)}, select to focus and calibrate`}
                 // min-h-11: py-2.5 landed these rows at 43px, one under the
                 // 44px floor. outline-none + a 30%-opacity ring is dropped in
                 // favour of the global :focus-visible rule in globals.css —
@@ -162,6 +174,16 @@ export default function NowSummaryPanel({
                 />
                 <span className="font-display text-[15px] sm:text-[18px] tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
                   {bylineName(cycle.name)}
+                </span>
+                {/* Mobile hides the gauge bar and the facet subtitle, so no
+                    period number appeared anywhere on the phone home page —
+                    and "Peter Turchin" (150y) vs "Turchin" (50y) were
+                    indistinguishable. Journey-walk 2026-08-24, J15. */}
+                <span
+                  aria-hidden
+                  className="sm:hidden font-mono text-[11px] text-ink-soft/70 tabular-nums flex-shrink-0"
+                >
+                  {cycle.period_years}y
                 </span>
                 <PhaseGaugeBar
                   percent={progress}

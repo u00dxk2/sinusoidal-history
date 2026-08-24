@@ -44,12 +44,16 @@ const SNIPPETS: ReadonlyArray<{
 
 export default function EmbedDocs() {
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10">
+    /* w-full: this div is a DIRECT flex item of <body class="flex flex-col">
+       (no (app) <main> wrapper on /embed routes), and mx-auto suppresses the
+       flex cross-axis stretch — the page sized to fit-content (~750px) on a
+       390px phone, clipping prose mid-sentence. Journey-walk 2026-08-24, J9. */
+    <div className="w-full max-w-3xl mx-auto px-6 py-10">
       <h1 className="text-2xl font-semibold tracking-tight">
         Embed Sinusoidal History
       </h1>
       <p className="mt-2 text-foreground/70">
-        The <code>/embed</code> routes are iframe-safe and URL-driven. Set the
+        The <code>/embed</code>{" "}routes are iframe-safe and URL-driven. Set the
         view, range, cycle filter, and any calibration overrides via query
         string. All embeds link back to the main site and to{" "}
         <Link
@@ -70,18 +74,18 @@ export default function EmbedDocs() {
             <code>state-only</code>. State-only is the single summary panel.
           </li>
           <li>
-            <code className="font-mono">range</code> — preset name (
-            <code>all</code>, <code>industrial</code>, <code>modern</code>,
+            <code className="font-mono">range</code>{" "}— preset name (
+            <code>all</code>, <code>industrial</code>, <code>modern</code>,{" "}
             <code>living</code>, <code>now</code>) or explicit{" "}
             <code>1900-2050</code>.
           </li>
           <li>
-            <code className="font-mono">cycles</code> — comma-separated cycle
-            ids (e.g. <code>cycles=turchin,dalio</code>). Omit for all.
+            <code className="font-mono">cycles</code>{" "}— comma-separated cycle
+            ids (e.g.{" "}<code>cycles=turchin,dalio</code>). Omit for all.
           </li>
           <li>
             <code className="font-mono">peak.&lt;id&gt;</code> and{" "}
-            <code className="font-mono">period.&lt;id&gt;</code> — per-cycle
+            <code className="font-mono">period.&lt;id&gt;</code>{" "}— per-cycle
             calibration overrides. E.g.{" "}
             <code>peak.huntington=1968&amp;period.huntington=58</code>.
           </li>
@@ -135,7 +139,7 @@ export default function EmbedDocs() {
             Content-Security-Policy: frame-ancestors *
           </code>{" "}
           and omits <code className="font-mono">X-Frame-Options</code> on{" "}
-          <code>/embed/*</code> routes. You can embed from any origin.
+          <code>/embed/*</code>{" "}routes. You can embed from any origin.
         </p>
       </section>
     </div>

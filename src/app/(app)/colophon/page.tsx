@@ -54,8 +54,8 @@ export default function Colophon() {
           a few days. The model writes D3 plumbing fast and doesn&apos;t typo.
           It is reliably worse than me at noticing when a chart is dishonest.
           Every commit went through me. Every cycle&apos;s reference peak is a
-          choice I made and can defend. The footer line - <em>cycles are
-          contested, this is a comparison tool, not prophecy</em> - is what I
+          choice I made and can defend. The footer line -{" "}<em>cycles are
+          contested, this is a comparison tool, not prophecy</em>{" "}- is what I
           actually believe. The model is fast scaffolding, not authorship.
         </p>
 

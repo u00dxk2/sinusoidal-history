@@ -2,6 +2,8 @@
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
+**JSX whitespace hazard (live-verified 2026-08-24):** this Next's compiler strips the edge whitespace of any JSX text node that spans multiple source lines — including a space on the *same line* as an adjacent inline element or `{expression}`. `the {year} reading` rendered as "the 2026reading"; `<em>estimation</em> conventionally` as "estimationconventionally"; the symmetric case (`…anchored to the\n<code>…`) too. Single-line text nodes are safe. Rule when writing prose JSX: at every junction with an inline element or expression, write the space as an explicit `{" "}` (or keep the whole text node on one line). A site-wide sweep landed 2026-08-24; verify new prose against the rendered HTML, not the source.
 <!-- END:nextjs-agent-rules -->
 
 <!-- BEGIN:prose-mirror-invariant -->

@@ -132,8 +132,11 @@ export default async function StatePage({ params }: Params) {
       >
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <li>
-            <Link href="/" className="hover:text-ink transition-colors">
-              Overlay
+            <Link
+              href="/"
+              className="inline-flex items-center min-h-11 -my-3 hover:text-ink transition-colors"
+            >
+              Chart
             </Link>
           </li>
           <li aria-hidden className="text-ink-soft/40">
@@ -156,13 +159,13 @@ export default async function StatePage({ params }: Params) {
           State of the Cycles {year}
         </h1>
         <p className="mt-5 border-l-2 pl-3.5 text-[19px] leading-[1.5] text-ink font-display-italic border-ink/40">
-          In {year}, {atPeak} of the {state.length} constructions read at
-          peak, and {aboveMidline} of {state.length} sit above their midline.
+          In {year}, {atPeak} of the {state.length}{" "}constructions read at
+          peak, and{" "}{aboveMidline} of {state.length}{" "}sit above their midline.
         </p>
         <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
           For each of the ten constructions — a theory&apos;s stated period,
           pinned to one documented reference peak — this page records where the
-          curve sits in {year} and the next turning points it implies. Every
+          curve sits in{" "}{year}{" "}and the next turning points it implies. Every
           number is computed from the same cosine the chart draws; the phase
           labels bucket those numbers using stated editorial cutoffs (within
           ±3% of a period counts as peaking or troughing, within ±1.5% of a
@@ -197,7 +200,13 @@ export default async function StatePage({ params }: Params) {
           <table className="w-full text-left border-collapse min-w-[36rem]">
             <thead>
               <tr className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/80">
-                <th scope="col" className="py-3 pr-3 font-medium">
+                {/* sticky left: on a phone the scroller shows PHASE/NEXT PEAK
+                    only after the name column has scrolled away, leaving the
+                    numbers unattributable. Journey-walk 2026-08-24, J10. */}
+                <th
+                  scope="col"
+                  className="py-3 pr-3 font-medium sticky left-0 bg-paper"
+                >
                   Cycle
                 </th>
                 <th scope="col" className="py-3 pr-3 font-medium text-right">
@@ -223,10 +232,14 @@ export default async function StatePage({ params }: Params) {
             <tbody className="text-[14px]">
               {state.map((entry) => (
                 <tr key={entry.id} className="border-t border-rule/20">
-                  <td className="py-3 pr-3">
+                  <td className="py-3 pr-3 sticky left-0 bg-paper">
+                    {/* Underline: the row links existed but carried no link
+                        affordance — both cold walkers reported the citable
+                        table as "linking nowhere". Journey-walk 2026-08-24,
+                        J10. */}
                     <Link
                       href={`/cycles/${entry.id.replace(/_/g, "-")}`}
-                      className="font-display text-[16px] tracking-tight font-medium text-ink hover:text-ink-soft transition-colors"
+                      className="font-display text-[16px] tracking-tight font-medium text-ink underline decoration-ink/25 underline-offset-[3px] hover:decoration-ink transition-colors"
                     >
                       {entry.name.split("—")[0]?.trim() ?? entry.name}
                     </Link>
@@ -278,7 +291,7 @@ export default async function StatePage({ params }: Params) {
           Citing this page
         </h2>
         <p className="border-t border-rule/30 pt-4 text-[14px] leading-[1.65] text-ink/85">
-          This page is a dated permalink: the {year} reading stays at this URL
+          This page is a dated permalink: the {year}{" "}reading stays at this URL
           as later years are added. The live table recomputes from the current
           cycle definitions — if a period or anchor is ever corrected, it
           updates too, and the correction is recorded in the project&apos;s

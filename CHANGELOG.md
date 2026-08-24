@@ -1,5 +1,44 @@
 # Changelog
 
+## First journey-walk: 19 reader-experience fixes (2026-08-24)
+
+First cold walk of the whole reader journey since Phases 13–15 tripled
+the surface — two zero-context cold readers (desktop 1280×800 + mobile
+390×844 touch) over the primary flow, plus the 8 mechanical design
+detectors over six pages. Findings and severity ranking:
+`docs/journey-walk-2026-08-24.md`. Nineteen fixes shipped, all
+below-the-fold copy/UX — no titles, metas, H1s, URLs, data, or spectral
+outputs touched.
+
+The headline: the site's one imperative instruction ("tap/click a row to
+focus") rendered its entire result ~800–1,200px below the fold with no
+viewport change, so both cold readers concluded the control was broken.
+The focused facet now scrolls into view (reduced-motion aware) and the
+year axis moves up to sit under it. Also fixed: `/poster` was a frozen
+centre-crop on phones (scrolled in neither axis); `/embed/docs` laid out
+at ~750px on a 390px phone (flex-item fit-content trap); axis end labels
+clipped ("1600"→"600"); the "2000"/"now · 2026" label collision;
+event-label pile-ups at 1280px (width-aware collision); the dead
+"Overlay" nav label (now "Chart"); spectral verdicts now lead with the
+plain-English paragraph before the multitaper figure; the confidence
+tiers (narrative / quantitative / empirical · contested) are defined at
+last; `/state` reading rows show their links; sub-44px tap targets on
+cycle pages; the phase-bar key; mobile period chips; the brush caption;
+the poster issue number.
+
+Separately: this Next version's JSX compiler **eats the leading/trailing
+space of multi-line text nodes** even beside inline elements — live
+pages showed "the 2026reading", "estimationconventionally", "gate- none",
+"dtfp_utilcolumn", "theamplitude_normalized". Site-wide sweep (31
+junctions, 9 files) now renders every space explicitly; hazard
+documented in AGENTS.md.
+
+Deliberately not fixed (see the walk doc): duplicated `<title>` suffixes
+on five pages (titles frozen through the 9/03 GSC window), the mobile
+"one axis" promise (H1 frozen + design decision), the chartless
+Calibrate tab, the all-on Overlay default, and the spectral figures'
+micro-labels (frozen artifacts; ride the next re-freeze).
+
 ## Round-5 fact-check folded (2026-08-24)
 
 Two external deep-research passes (Claude + OpenAI, same prompt) over

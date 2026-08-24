@@ -54,8 +54,13 @@ export default function AnnotationLayer({
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const layout = useMemo(() => {
-    type LaidOut = { ann: Annotation; x: number; lane: number };
-    const MIN_GAP = 38;
+    type LaidOut = { ann: Annotation; x: number; lane: number; w: number };
+    // Half-width-aware gap: the old fixed 38px gap let ~60px labels overlap
+    // within a lane ("1848Civil War", "WWII endNixon…"). 6.6px/char is the
+    // 11px mono advance; +8 is breathing room. Crowded labels now drop, which
+    // is this component's documented intent (readability over completeness).
+    // Journey-walk 2026-08-24, J14.
+    const labelWidth = (label: string) => label.length * 6.6 + 8;
     // Sort by priority desc — higher priority claims lanes first.
     const sorted = [...visible].sort((a, b) => {
       const pa = TYPE_PRIORITY[a.type] ?? 0;
@@ -66,10 +71,11 @@ export default function AnnotationLayer({
     const placed: LaidOut[] = [];
     for (const a of sorted) {
       const x = xScale(a.year);
+      const w = labelWidth(a.label);
       let lane = -1;
       for (let i = 0; i < laneCount; i++) {
         const conflict = placed.some(
-          (p) => p.lane === i && Math.abs(p.x - x) < MIN_GAP
+          (p) => p.lane === i && Math.abs(p.x - x) < (p.w + w) / 2
         );
         if (!conflict) {
           lane = i;
@@ -77,7 +83,7 @@ export default function AnnotationLayer({
         }
       }
       if (lane === -1) continue; // dropped — too crowded
-      placed.push({ ann: a, x, lane });
+      placed.push({ ann: a, x, lane, w });
     }
     return placed;
   }, [visible, xScale, laneCount]);

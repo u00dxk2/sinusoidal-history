@@ -31,7 +31,7 @@ export default function About() {
         </h2>
         <p>
           Sinusoidal History puts ten named long-wave theories of history on
-          one shared time axis so you can see <em>where their predictions
+          one shared time axis so you can see{" "}<em>where their predictions
           line up and where they disagree</em>. Nine of the ten are paired
           with a real long-run data series (Turchin&apos;s fathers-and-sons
           cycle has none this round), and a calibration panel lets you

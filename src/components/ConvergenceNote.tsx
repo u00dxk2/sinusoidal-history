@@ -14,7 +14,7 @@ export default function ConvergenceNote() {
           That is not convergence - it is a selection effect. Theorists
           writing today anchor their forecasts to the world they live in,
           and we read them precisely because their climaxes happen to land
-          in our era. Drag the time-range below or click any cycle to see
+          in our era. Drag the time-range below or select any cycle to see
           how much the peak-year choice is doing.
         </p>
         <p className="mt-1.5 text-[11px] uppercase tracking-[0.28em] text-ink-soft/70 font-medium">

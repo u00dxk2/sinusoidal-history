@@ -277,6 +277,12 @@ export default function TimeRangeBrush({
             </div>
           )}
         </div>
+        {/* The grey composite curve carried no explanation anywhere.
+            Journey-walk 2026-08-24, J17. */}
+        <p className="mt-1.5 text-[11px] text-ink-soft/75 italic font-display-italic">
+          The grey curve is the mean of all ten cycle sinusoids — drag across
+          it to zoom the chart above.
+        </p>
       </div>
     </div>
   );

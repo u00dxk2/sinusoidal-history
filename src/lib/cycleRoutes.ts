@@ -81,6 +81,27 @@ export function confidenceLabel(level: ConfidenceLevel | string): string {
   }
 }
 
+/**
+ * One-line reader-facing definition of each confidence tier. The labels were
+ * used as mastheads on every cycle page without being defined anywhere on the
+ * site (journey-walk 2026-08-24, J8). These describe this site's own rough
+ * grading of each theory's evidence base — not a claim about the theories.
+ */
+export function confidenceGloss(level: ConfidenceLevel | string): string {
+  switch (level) {
+    case "quantitative":
+      return "the period comes from statistical work on historical data";
+    case "empirical":
+      return "an empirical literature supports the period";
+    case "empirical-contested":
+      return "an empirical literature exists on the claim, and it is disputed";
+    case "narrative":
+      return "an interpretive reading of history — no statistical fitting behind the period";
+    default:
+      return "";
+  }
+}
+
 export function cycleMetaTitle(cycle: Cycle): string {
   return `${cycle.name} · ${cycle.period_years}-year period`;
 }
