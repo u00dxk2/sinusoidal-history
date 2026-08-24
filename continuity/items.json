@@ -46,6 +46,11 @@
       "detail": "Round 4 of the external fact-check found the Strauss-Howe rationale claiming '2020 is a trough' when cos(2p*65/84) is approximately +0.15 (rising arm); an internal sweep found the same class of error in Turchin's parenthetical. Both survived three earlier fact-check rounds because nobody did the arithmetic. Phase 12 responded structurally: the per-cycle pages DERIVE their peak/trough years from reference_peak_year + period_years via the same cosine the chart draws (peakYearsInRange / troughYearsInRange in src/lib/cycleRoutes.ts, unit-tested against sineAtYear), so that class of claim can no longer be authored by hand. Any NEW year-phase prose still has to clear `python scripts/audit_cycle_rationales.py` per AGENTS.md."
     },
     {
+      "id": "KP-003",
+      "title": "This Next version's JSX compiler eats element-adjacent spaces in multi-line text nodes",
+      "detail": "Live-verified 2026-08-24: a JSX text node that spans multiple source lines loses its leading/trailing whitespace even when the space sits on the same line as an adjacent inline element or {expression} — 'the {year} reading' rendered as 'the 2026reading', '<em>estimation</em> conventionally' as 'estimationconventionally', symmetric case included ('theamplitude_normalized'). Single-line text nodes are unaffected, which is why the bug is invisible in source review and survives lint/tsc. A 31-junction sweep (9 files, commit e0b8422) converted every affected space to an explicit {\" \"}; the writing rule is recorded in AGENTS.md. Verify new prose against RENDERED HTML, not the TSX."
+    },
+    {
       "id": "KP-002",
       "title": "Adding a cycle updates most surfaces automatically, but two are hand-written",
       "detail": "Since Phase 12, a new entry in src/data/cycles.json automatically gets its route, metadata, OG card, JSON-LD, sitemap entry, /cycles index row, and /about list row. Two surfaces do NOT update and will silently go stale: the per-cycle bullet list in public/llms.txt, and the mirror block in public/about.md. Recorded as an invariant in AGENTS.md. Also: cycle ids map to URL slugs by swapping underscores for hyphens, so renaming an id is a URL change, not a cosmetic edit."
@@ -82,6 +87,14 @@
       "6466dd8": "Reuse packets on cycle pages (CSV/SVG/PNG downloads + copy-paste attribution) — the approved, ungated citability follow-up from the 8/18 research. No item scope.",
       "a8eab68": "CITATION.cff v1.2.0 — cite the new canonical URL post-cutover. Release bookkeeping; no item scope.",
       "1cd4a66": "Cold-start primer back-fill + .playwright-mcp gitignore (2026-08-21). Session bookkeeping, not project scope.",
+      "ea57a2b": "Round-5 fact-check prompt + focused-facet Full-page link (2026-08-24 midday). CHANGELOG-recorded; content-QA lane, no item scope.",
+      "4a778e4": "Round-5 fact-check verdicts folded (2026-08-24 afternoon) — copy-only, manifest untouched. CHANGELOG 'Round-5 fact-check folded'; no item scope.",
+      "53c85de": "Modelski 1987 clauses restored with page cites after IA full-text verification (2026-08-24 evening). Same lane as 4a778e4.",
+      "677e6fd": "Round-5 day-2 sweep — remaining unverifiables closed against primary sources (2026-08-24 evening). Same lane as 4a778e4; verdict record docs/fact-check-2026-08-24-round-5.md.",
+      "e0b8422": "Journey-walk round 1 fix wave (2026-08-24): 19 reader-experience fixes from the first cold walk of the whole journey (docs/journey-walk-2026-08-24.md) + the 31-junction JSX-whitespace sweep (KP-003). Quality work in the 3f285d5 tradition — opened no gate, closed none; deliberately inside the GSC-window guardrails (no titles/metas/H1s/URLs/data touched).",
+      "48d494f": "Journey-walk follow-ups (instant focus scroll, embed-docs overflow-wrap). Same wave as e0b8422.",
+      "75e5212": "Focus scroll landed for real: manual scrollTo asserted twice — instrumented live to find layout settling after the effect. Same wave as e0b8422.",
+      "cc0a5fb": "Final verification record in docs/journey-walk-2026-08-24.md. Documentation for the above.",
       "_note2": "d36770b (domain cutover) and 2f766eb (the 8/21 crawl read + 429 backoff) are NOT listed here — they are the W-001 unblock and the W-001 instrument read respectively, linked via W-001.linkedCommits."
     }
   },

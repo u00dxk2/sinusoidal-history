@@ -1,18 +1,39 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-21T21:19:49.070Z",
+  "generatedAt": "2026-08-24T21:16:25.279Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
   "itemCount": 1,
-  "knownPatternCount": 2,
-  "commitCount": 10,
+  "knownPatternCount": 3,
+  "commitCount": 9,
   "findings": [
     {
-      "check": "MODIFIED_ITEM_LAST_24H",
+      "check": "UNTRACKED_COMMITS",
       "severity": "info",
-      "id": "W-001",
-      "title": "Zero analytics on sinusoidal-history — the Phase 12 SEO routes cannot be measured",
-      "message": "Item W-001 notes modified in last 24h (diff hash 14ec2d0c); investigate before per-day judgment.",
-      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+      "count": 4,
+      "message": "4 commit(s) in last 48h not in any item's linkedCommits[] (mentions in prose fields like explanation/notes don't count by design); 3 additional commit(s) suppressed via items.json.meta.untrackedCommits",
+      "commits": [
+        {
+          "hash": "677e6fd",
+          "subject": "Round-5 day-2 sweep: every remaining unverifiable closed against primary sources",
+          "date": "2026-08-24"
+        },
+        {
+          "hash": "53c85de",
+          "subject": "Modelski 1987 verified against the text: restore the p.42 '120 years' and p.218 'about one century' clauses",
+          "date": "2026-08-24"
+        },
+        {
+          "hash": "4a778e4",
+          "subject": "Round-5 fact-check folded: Stimson trough/valence, Turchin USPV + 2020 projection, HATCH experimental, excluded-list bar, licences",
+          "date": "2026-08-24"
+        },
+        {
+          "hash": "ea57a2b",
+          "subject": "Focused facet links to its /cycles/<slug> page; round-5 fact-check prompt",
+          "date": "2026-08-24"
+        }
+      ],
+      "suggested": "Verify each is reflected in changelog/shipped log, or link via item.linkedCommits[], or add to items.json.meta.untrackedCommits with a rationale."
     }
   ],
   "counts": {
