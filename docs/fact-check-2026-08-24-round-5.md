@@ -40,9 +40,20 @@
 - **Use the upstream `World` aggregate as denominator** (OpenAI): deferred for the same manifest reason; and the sibling US-share series would need the same change. Caveat added instead.
 - **Perez "canals" label** (OpenAI: too narrow): kept — Claude verified it against Perez's own infrastructure list.
 
-## Human-verification queue (unchanged claims, unverifiable by either engine from public text)
+## Modelski 1987 — RESOLVED same day against the book's text
 
-- Modelski 1987 **Table 2.2, p. 42**: "oceanic supremacy from 1944", "one-half of the world's capital-ship assets". p. 40 / Table 2.1 is corroborated (EU-JRC cites Modelski 1987 p. 40 for the cycle table). Needs the book.
+Neither engine could reach the 1987 text. The Internet Archive holds an OCR'd copy (`george-modelski-long-cycles-in-world-politics-1987`, with a leaf→printed-page map), read 2026-08-24 evening:
+
+- **Table 2.1, p. 40** "Long cycles in global politics (systemic mode)": American cycle 1914–1945 (global war), 1945–1973 (world power), 1973–2000, 2000–2030. World-power phase starts for the earlier cycles are 1516 / 1609 / 1714 / 1815 — exactly the figures used in the back-cast comparison. **`correct`.**
+- **Table 2.2, p. 42** "World powers": "United States 1944–"; footnote defines the threshold as a naval concentration ratio ≥ 0.5, "one-half or more of the world's oceanic warships"; body text (p. 41–42): "one-half or more of the world's assets in capital ships." **`correct`.**
+- **"120-year average interval"**: p. 42 — "In four of the cases, the average interval of time between the attainment of naval preponderance by one power and by its successor is 120 years. This is one preliminary measurement of the period of the long cycle." **`correct`** — the clause dropped in the afternoon fold was true; restored with the page cite.
+- **"about one century"**: p. 218 — "the recurrence of global wars at intervals of about one century." **`correct`** — restored with the page cite.
+- "does not connote strict cycles" and "100 to 120 years" do **not** appear in the 1987 book; they are EOLSS phrasings, as the site attributes them. **`correct`.**
+
+Lesson for the next round: "unverifiable-from-public-sources" from a deep-research agent means the agent's fetcher could not reach it, not that it is unreachable. Check Internet Archive's full-text layer before deleting a claim.
+
+## Human-verification queue (remaining)
+
 - Namenwirth/Weber "~152 years" and "fit on roughly 120 years of data" (consistent with platforms 1844–1964, but unconfirmed from the primary text).
 - HATCH US=121 / China=70 raw-file counts (from our pinned CSV; the paper reports 120 US after filters).
 
