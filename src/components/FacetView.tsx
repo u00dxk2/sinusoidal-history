@@ -51,13 +51,11 @@ export default function FacetView({
     if (!el) return;
     const top = el.getBoundingClientRect().top;
     if (top >= 0 && top < window.innerHeight * 0.6) return;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    el.scrollIntoView({
-      behavior: reduced ? "auto" : "smooth",
-      block: "start",
-    });
+    // Instant, not smooth: the expanded facet loads its CSV async and the
+    // resulting reflow interrupts a smooth scroll mid-flight (verified live —
+    // the scroll stopped ~700px short on mobile). An instant jump also reads
+    // unambiguously as "the tap worked".
+    el.scrollIntoView({ block: "start" });
   }, [focusedCycleId]);
 
   const seriesByCycle = useMemo(() => {

@@ -67,7 +67,9 @@ export default function EmbedDocs() {
 
       <section className="mt-8 space-y-3 text-foreground/80">
         <h2 className="text-lg font-semibold text-foreground">Query params</h2>
-        <ul className="list-disc pl-6 space-y-1.5 text-sm">
+        {/* break-words: the unbreakable peak.<id>=… example code string
+            forced ~5px of horizontal overflow at 390px. */}
+        <ul className="list-disc pl-6 space-y-1.5 text-sm [overflow-wrap:anywhere]">
           <li>
             <code className="font-mono">view</code> —{" "}
             <code>facets</code> (default), <code>overlay</code>, or{" "}
