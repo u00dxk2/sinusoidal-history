@@ -52,10 +52,17 @@ Neither engine could reach the 1987 text. The Internet Archive holds an OCR'd co
 
 Lesson for the next round: "unverifiable-from-public-sources" from a deep-research agent means the agent's fetcher could not reach it, not that it is unreachable. Check Internet Archive's full-text layer before deleting a claim.
 
-## Human-verification queue (remaining)
+## Day-2 verification sweep (2026-08-24 evening) — remaining items closed against primary sources directly
 
-- Namenwirth/Weber "~152 years" and "fit on roughly 120 years of data" (consistent with platforms 1844–1964, but unconfirmed from the primary text).
-- HATCH US=121 / China=70 raw-file counts (from our pinned CSV; the paper reports 120 US after filters).
+- **HATCH raw counts `correct`:** re-downloaded `HATCH_national_1.5.csv` from Zenodo (MD5 matches the pinned `3f16f6cb…`); distinct technology series per country: **USA 121, CHN 70** (next: BRA/AUS 65, DEU 64). Closes B18.
+- **Turchin 2012 body strings `correct` (verbatim, author PDF):** p. 4 — "An additional process (which is not part of the structural-demographic theory) … is the 'fathers-and-sons' dynamic"; "periods of intense conflict tend to recur with a period of roughly two generations (40–60 years)"; "These swings … may be termed 'bi-generation cycles'". p. 12 — "the next instability peak should occur in the United States around 2020. This is a simple projection, rather than a scientific prediction". Closes A13; the folded rationale wording is exactly right. Bonus (p. 13): the USPV replication data is also posted at PRIO's JPR datasets page and cliodynamics.info — still no explicit reuse license anywhere.
+- **Stimson "154 items" `correct` (verbatim, BMS preprint p. 6, stimson.web.unc.edu/files/2017/12/BMSMood.pdf):** "The data consist of 154 separate survey questions for 1952 through 2016, 65 years."
+- **Goldstein pp. 99/111/244 `correct` (verbatim — now checked by this project directly against the author's chapter PDFs at joshuagoldstein.com/jgcycle.htm, not only by the round-5 agent):** p. 99 "This line is a self-proclaimed dead-end, currently inactive"; p. 111 "The efforts to identify war cycles based on fixed periodicities are a self-proclaimed dead-end and may be seen as a 'degenerate research program' in Imre Lakatos's terms (see chapter 7)" — the site's ellipsis is correct; p. 244 "a methodology based on fixed periodicities—even though I think it is inappropriate for social cycles." Also p. 99 fn. 2 directly supports the relabel: his longer war cycles are "about 150 years long and not closely tied to long waves."
+
+## Human-verification queue (remaining — David, optional)
+
+- **Namenwirth/Weber "~152 years" / "fit on roughly 120 years of data".** The IA copy (`dynamicsofcultur0000name`) is print-disabled and the search-inside API refuses unauthenticated queries. Claim is plausible (platforms 1844–1964 ≈ 120 years) but unconfirmed from the primary text.
+- **Schlesinger Jr. 1962–1978 dating and Sr.'s 16.55 in the original texts** — already phrased defensively ("conventional tabulation"; secondary-source 16.55), so this is belt-and-suspenders. Borrowable at archive.org: `cyclesofamerican0000schl` (search: "1962", "before or after"), `pathstopresent0000schl` (search: "16.55").
 
 ## Clean (both engines)
 
