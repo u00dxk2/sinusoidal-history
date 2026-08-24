@@ -45,17 +45,23 @@ export default function FacetView({
   // Journey-walk 2026-08-24, J1.
   useEffect(() => {
     if (!focusedCycleId) return;
-    const el = containerRef.current?.querySelector<HTMLElement>(
-      `[data-facet-id="${CSS.escape(focusedCycleId)}"]`
-    );
-    if (!el) return;
-    const top = el.getBoundingClientRect().top;
-    if (top >= 0 && top < window.innerHeight * 0.6) return;
-    // Instant, not smooth: the expanded facet loads its CSV async and the
-    // resulting reflow interrupts a smooth scroll mid-flight (verified live —
-    // the scroll stopped ~700px short on mobile). An instant jump also reads
-    // unambiguously as "the tap worked".
-    el.scrollIntoView({ block: "start" });
+    const scrollToFacet = () => {
+      const el = containerRef.current?.querySelector<HTMLElement>(
+        `[data-facet-id="${CSS.escape(focusedCycleId)}"]`
+      );
+      if (!el) return;
+      const top = el.getBoundingClientRect().top;
+      if (top >= 0 && top < window.innerHeight * 0.6) return;
+      window.scrollTo(0, top + window.scrollY - 12);
+    };
+    // Instant manual scrollTo, asserted twice: at effect time the layout
+    // above the facet is still settling (chart width measures, font swap,
+    // the expanded tail's CSV), so a single scroll — scrollIntoView or
+    // manual — lands ~700px short (verified live on mobile). The second
+    // pass at 350ms is a no-op when the first landed inside the viewport.
+    scrollToFacet();
+    const t = window.setTimeout(scrollToFacet, 350);
+    return () => window.clearTimeout(t);
   }, [focusedCycleId]);
 
   const seriesByCycle = useMemo(() => {
