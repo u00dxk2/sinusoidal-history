@@ -138,7 +138,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 
 *Caveat:* The 110-year period is this project's midpoint of Modelski's 100–120-year range, and he states the concept 'does not connote strict cycles.' The paired series measures the largest economy - not his naval/global-reach construct - and under that mechanical rule the 1870s–1881 leader is Qing China, not Britain.
 
-### Turchin — fathers-and-sons cycle
+### Turchin (50y) — fathers-and-sons cycle
 
 - **Period:** 50 years
 - **Reference peak:** 1970

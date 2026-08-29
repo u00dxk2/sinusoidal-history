@@ -1,5 +1,18 @@
 # Changelog
 
+## Turchin fathers-and-sons cycle renamed to carry its period (2026-08-29)
+
+`Turchin — fathers-and-sons cycle` is now `Turchin (50y) — fathers-and-sons
+cycle`. The text before the em dash is the byline that the State table,
+the home summary panel, the OG card, and the cycle-page fallback all render
+on its own, so the two Turchin cycles read as "Peter Turchin" and
+"Turchin" — distinct, but not telling a reader which was the 150-year
+secular cycle and which the 50-year one (journey-walk 2026-08-24 J15 had
+already patched this on mobile with a period chip). The byline now says so
+itself. `id` and URL (`/cycles/turchin-fathers-sons`) are unchanged; the
+frozen `state-2026.csv` keeps the name as published, per its freeze
+contract.
+
 ## First journey-walk: 19 reader-experience fixes (2026-08-24)
 
 First cold walk of the whole reader journey since Phases 13–15 tripled
