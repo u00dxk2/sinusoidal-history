@@ -95,6 +95,7 @@
       "48d494f": "Journey-walk follow-ups (instant focus scroll, embed-docs overflow-wrap). Same wave as e0b8422.",
       "75e5212": "Focus scroll landed for real: manual scrollTo asserted twice — instrumented live to find layout settling after the effect. Same wave as e0b8422.",
       "cc0a5fb": "Final verification record in docs/journey-walk-2026-08-24.md. Documentation for the above.",
+      "082ce4f": "Turchin fathers-and-sons cycle renamed to 'Turchin (50y) — …' so the pre-em-dash byline self-disambiguates from Peter Turchin's 150y secular cycle (2026-08-29). CHANGELOG-recorded; name-only (id/URL unchanged), inside the GSC-window guardrails (no titles/metas/H1s/URLs/data). Quality work, no item scope.",
       "_note2": "d36770b (domain cutover) and 2f766eb (the 8/21 crawl read + 429 backoff) are NOT listed here — they are the W-001 unblock and the W-001 instrument read respectively, linked via W-001.linkedCommits."
     }
   },
