@@ -1,39 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-24T21:16:25.279Z",
+  "generatedAt": "2026-09-09T03:22:40.588Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
   "itemCount": 1,
   "knownPatternCount": 3,
-  "commitCount": 9,
+  "commitCount": 0,
   "findings": [
     {
-      "check": "UNTRACKED_COMMITS",
+      "check": "STALE_HOLD_WAIVED",
       "severity": "info",
-      "count": 4,
-      "message": "4 commit(s) in last 48h not in any item's linkedCommits[] (mentions in prose fields like explanation/notes don't count by design); 3 additional commit(s) suppressed via items.json.meta.untrackedCommits",
-      "commits": [
-        {
-          "hash": "677e6fd",
-          "subject": "Round-5 day-2 sweep: every remaining unverifiable closed against primary sources",
-          "date": "2026-08-24"
-        },
-        {
-          "hash": "53c85de",
-          "subject": "Modelski 1987 verified against the text: restore the p.42 '120 years' and p.218 'about one century' clauses",
-          "date": "2026-08-24"
-        },
-        {
-          "hash": "4a778e4",
-          "subject": "Round-5 fact-check folded: Stimson trough/valence, Turchin USPV + 2020 projection, HATCH experimental, excluded-list bar, licences",
-          "date": "2026-08-24"
-        },
-        {
-          "hash": "ea57a2b",
-          "subject": "Focused facet links to its /cycles/<slug> page; round-5 fact-check prompt",
-          "date": "2026-08-24"
-        }
-      ],
-      "suggested": "Verify each is reflected in changelog/shipped log, or link via item.linkedCommits[], or add to items.json.meta.untrackedCommits with a rationale."
+      "count": 0,
+      "message": "population: 1 ledger rows, 3 hold-shaped fields scanned across 13 field names; 0 holds whose holder is dead. blindTo: David board card ids, bus msgIds and other lanes' row ids (this ledger holds no status for them); a dated freeze phrase with no row id behind it (a date passing is not a retraction); rulings carried only in prose; and any citation living in a doc unless that doc was passed with --hold-doc."
     }
   ],
   "counts": {
@@ -43,5 +20,22 @@
   },
   "suppressedCount": 0,
   "actionsOnlyMode": false,
+  "clockReconciliation": {
+    "multiClockItems": 0,
+    "scanned": 1,
+    "byType": {},
+    "lines": [],
+    "rows": [],
+    "summary": "CLOCK-RECONCILIATION: 0 item(s) with ≥2 clocks of 1 scanned — nothing to reconcile.",
+    "liveScanned": 1,
+    "noClockItems": 0,
+    "noClockExempt": 0,
+    "noClockUnexplained": 0,
+    "noClockRed": false,
+    "declaration": {
+      "population": "1 live (open/monitoring) row(s) of 1 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
+      "blindTo": "terminal rows (owed no due date); whether a PRESENT due date is correct or honest — PRESENCE only; the dated count here counts upcoming-triggers-only fields (dueDate/fireDate/onDate) that SIGNAL_DATE_MISSING's own floor does not, so the two floors can differ by a row."
+    }
+  },
   "status": "ok"
 }

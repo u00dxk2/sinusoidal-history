@@ -1,0 +1,943 @@
+# read-output sidecar for W-001 — written by check-due-gates-dispositioned --run
+# readCommand: node scripts/crawl-read.mjs --days 14 --snapshot
+# ran: 2026-09-09T03:17:00.460Z · exit: 0
+# lines: 937 · sha256: 0961c79a6a20c4aa (first 16 hex of the output below)
+# truncated: true (cut at the 65536-byte sidecar cap)
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+sinusoidal-history — crawl read, last 14d
+25215 request log lines, 3209 from known crawlers
+
+Who hit the site:
+  18572  browser-ish
+   3395  unknown (no UA)
+   1346  other bot
+    375  Googlebot
+    373  Bingbot
+    358  OAI-SearchBot
+    175  GPTBot
+    142  Amazonbot
+    113  Meta/Facebook
+     79  Applebot
+     70  PerplexityBot
+     69  ClaudeBot
+     48  Google other
+     39  self / tooling
+     37  Bytespider
+     24  Google-Extended
+
+Crawler hits by path:
+  2026-08-26T04:10:35Z  200  /embed?view=overlay&range=modern Bingbot
+  2026-08-26T04:24:48Z  200  /?focus=schlesinger_jr       Amazonbot
+  2026-08-26T04:24:52Z  200  /?focus=huntington           Amazonbot
+  2026-08-26T04:37:11Z  200  /                            other bot
+  2026-08-26T05:38:16Z  200  /data/wid_top1_wealth.csv    Amazonbot
+  2026-08-26T05:38:20Z  200  /data/spectral/huntington.svg Amazonbot
+  2026-08-26T05:38:24Z  200  /data/spectral/dalio.svg     Amazonbot
+  2026-08-26T06:35:56Z  200  /data/spectral/schlesinger_jr.svg Amazonbot
+  2026-08-26T06:39:29Z  308  /robots.txt                  other bot
+  2026-08-26T06:39:29Z  200  /robots.txt                  other bot
+  2026-08-26T06:39:45Z  200  /data/spectral/perez.svg     Amazonbot
+  2026-08-26T06:40:19Z  308  /                            other bot
+  2026-08-26T06:57:29Z  200  /robots.txt                  Googlebot
+  2026-08-26T06:57:29Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-08-26T07:22:52Z  200  /data/us_world_gdp_share.csv Amazonbot
+  2026-08-26T07:22:56Z  200  /?focus=khaldun              Amazonbot
+  2026-08-26T07:47:02Z  200  /about                       other bot
+  2026-08-26T07:48:37Z  200  /robots.txt                  other bot
+  2026-08-26T08:05:56Z  200  /?focus=modelski             Amazonbot
+  2026-08-26T08:14:32Z  200  /?focus=dalio                Amazonbot
+  2026-08-26T09:25:36Z  200  /robots.txt                  other bot
+  2026-08-26T09:25:36Z  404  /.well-known/agent-card.json other bot
+  2026-08-26T09:25:36Z  404  /.well-known/agent.json      other bot
+  2026-08-26T09:25:37Z  404  /.well-known/mcp/server-card.json other bot
+  2026-08-26T09:25:37Z  404  /.well-known/mcp             other bot
+  2026-08-26T09:25:37Z  404  /.well-known/agents.json     other bot
+  2026-08-26T09:27:35Z  301  /.well-known/agent-card.json other bot
+  2026-08-26T09:27:35Z  308  /robots.txt                  other bot
+  2026-08-26T09:27:35Z  301  /robots.txt                  other bot
+  2026-08-26T09:27:36Z  301  /.well-known/mcp/server-card.json other bot
+  2026-08-26T09:27:36Z  308  /.well-known/agent-card.json other bot
+  2026-08-26T09:27:36Z  308  /.well-known/agent.json      other bot
+  2026-08-26T09:27:36Z  301  /.well-known/agent.json      other bot
+  2026-08-26T09:27:36Z  301  /.well-known/mcp             other bot
+  2026-08-26T09:27:36Z  301  /.well-known/agents.json     other bot
+  2026-08-26T09:27:36Z  308  /.well-known/mcp/server-card.json other bot
+  2026-08-26T09:27:36Z  308  /.well-known/agents.json     other bot
+  2026-08-26T09:27:36Z  308  /.well-known/mcp             other bot
+  2026-08-26T09:31:03Z  308  /.well-known/agent.json      other bot
+  2026-08-26T09:31:03Z  308  /.well-known/mcp             other bot
+  2026-08-26T09:31:03Z  308  /.well-known/agents.json     other bot
+  2026-08-26T09:31:03Z  308  /.well-known/agent-card.json other bot
+  2026-08-26T09:31:03Z  308  /robots.txt                  other bot
+  2026-08-26T09:31:03Z  308  /.well-known/mcp/server-card.json other bot
+  2026-08-26T09:35:36Z  200  /data/stimson_policy_mood.csv Amazonbot
+  2026-08-26T09:35:40Z  200  /?focus=perez                Amazonbot
+  2026-08-26T10:24:16Z  200  /?focus=turchin              Amazonbot
+  2026-08-26T10:33:28Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-08-26T10:33:28Z  200  /robots.txt                  Googlebot
+  2026-08-26T11:19:36Z  200  /cycles/strauss-howe         Googlebot
+  2026-08-26T11:38:31Z  200  /robots.txt                  Googlebot
+  2026-08-26T12:01:11Z  200  /state/2026                  other bot
+  2026-08-26T12:05:00Z  200  /robots.txt                  other bot
+  2026-08-26T12:17:00Z  200  /data/dw_nominate.csv        Amazonbot
+  2026-08-26T12:18:48Z  200  /data/conflict_deaths.csv    Amazonbot
+  2026-08-26T13:02:08Z  200  /data/spectral/turchin.svg   Amazonbot
+  2026-08-26T13:02:13Z  200  /data/spectral/modelski.svg  Amazonbot
+  2026-08-26T15:51:23Z  200  /methods                     other bot
+  2026-08-26T16:09:59Z  308  /robots.txt                  OAI-SearchBot
+  2026-08-26T16:09:59Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-26T16:09:59Z  308  /sitemap.xml                 GPTBot
+  2026-08-26T16:10:00Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-26T16:10:00Z  200  /sitemap.xml                 GPTBot
+  2026-08-26T18:14:34Z  308  /robots.txt                  Googlebot
+  2026-08-26T18:14:34Z  301  /robots.txt                  Googlebot
+  2026-08-26T18:52:19Z  200  /methods                     Bingbot
+  2026-08-26T19:29:09Z  301  /robots.txt                  Googlebot
+  2026-08-26T19:29:09Z  200  /robots.txt                  Googlebot
+  2026-08-26T19:30:46Z  301  /robots.txt                  Googlebot
+  2026-08-26T19:42:11Z  200  /colophon                    other bot
+  2026-08-26T19:45:16Z  200  /                            GPTBot
+  2026-08-26T19:45:19Z  200  /_next/static/chunks/0v48gx6~~f0n1.js GPTBot
+  2026-08-26T19:45:21Z  200  /_next/static/chunks/0.qa~dgen_o3h.js GPTBot
+  2026-08-26T19:45:23Z  200  /_next/static/chunks/0qniz8mh22khe.js GPTBot
+  2026-08-26T19:45:24Z  200  /_next/static/chunks/13bju-fuvglox.css GPTBot
+  2026-08-26T19:46:27Z  200  /data/perez_tech_diffusion.csv Amazonbot
+  2026-08-26T20:56:57Z  200  /robots.txt                  other bot
+  2026-08-26T20:57:15Z  200  /?focus=strauss_howe         other bot
+  2026-08-26T20:57:29Z  200  /robots.txt                  Googlebot
+  2026-08-26T20:57:29Z  200  /about.md                    Googlebot
+  2026-08-26T21:33:55Z  200  /data/spectral/kondratiev.svg Amazonbot
+  2026-08-26T21:33:59Z  200  /?focus=turchin_fathers_sons Amazonbot
+  2026-08-26T21:34:42Z  200  /                            other bot
+  2026-08-26T21:50:45Z  200  /robots.txt                  Meta/Facebook
+  2026-08-26T22:20:21Z  200  /robots.txt                  other bot
+  2026-08-26T22:20:22Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-08-26T22:24:36Z  200  /?focus=kondratiev           other bot
+  2026-08-26T22:39:07Z  200  /data/us_tfp_growth.csv      Amazonbot
+  2026-08-26T22:54:56Z  308  /robots.txt                  Googlebot
+  2026-08-26T23:04:16Z  200  /?focus=dalio                other bot
+  2026-08-26T23:22:19Z  200  /robots.txt                  other bot
+  2026-08-26T23:22:20Z  200  /api/v1/cycles               other bot
+  2026-08-26T23:38:30Z  200  /robots.txt                  Googlebot
+  2026-08-26T23:38:30Z  200  /cycles/strauss-howe         Googlebot
+  2026-08-26T23:41:07Z  301  /robots.txt                  Googlebot
+  2026-08-26T23:45:55Z  200  /data/spectral/khaldun.svg   Amazonbot
+  2026-08-26T23:47:18Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-08-26T23:54:20Z  200  /?focus=perez                other bot
+  2026-08-27T00:00:18Z  200  /data/us_tfp_growth.source.md other bot
+  2026-08-27T00:29:43Z  200  /data/leading_power_gdp_share.csv Amazonbot
+  2026-08-27T00:29:47Z  200  /?focus=kondratiev           Amazonbot
+  2026-08-27T01:37:59Z  200  /robots.txt                  Bingbot
+  2026-08-27T01:37:59Z  200  /robots.txt                  Bingbot
+  2026-08-27T01:37:59Z  308  /robots.txt                  Bingbot
+  2026-08-27T01:37:59Z  308  /robots.txt                  Bingbot
+  2026-08-27T01:38:08Z  308  /methods                     Bingbot
+  2026-08-27T01:38:13Z  200  /robots.txt                  Bingbot
+  2026-08-27T01:38:19Z  200  /methods                     Bingbot
+  2026-08-27T01:40:46Z  200  /robots.txt                  other bot
+  2026-08-27T01:40:46Z  200  /?focus=schlesinger_jr       other bot
+  2026-08-27T01:54:10Z  200  /embed?range=modern&view=overlay other bot
+  2026-08-27T03:05:15Z  200  /?focus=modelski             Bingbot
+  2026-08-27T03:05:31Z  200  /robots.txt                  other bot
+  2026-08-27T03:05:31Z  200  /?focus=huntington           other bot
+  2026-08-27T03:31:06Z  200  /data/dw_nominate.source.md  other bot
+  2026-08-27T03:45:22Z  200  /data/stimson_policy_mood.source.md other bot
+  2026-08-27T03:46:16Z  200  /robots.txt                  Googlebot
+  2026-08-27T03:46:17Z  200  /                            Googlebot
+  2026-08-27T04:41:29Z  200  /embed?range=modern&view=facets other bot
+  2026-08-27T04:41:29Z  200  /robots.txt                  other bot
+  2026-08-27T05:02:09Z  200  /robots.txt                  Googlebot
+  2026-08-27T05:04:05Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-08-27T05:28:17Z  200  /cycles                      Bingbot
+  2026-08-27T05:29:44Z  200  /embed?view=state-only       other bot
+  2026-08-27T06:10:29Z  200  /robots.txt                  other bot
+  2026-08-27T06:10:29Z  200  /api/v1/state?year=2026      other bot
+  2026-08-27T06:15:37Z  200  /data/conflict_deaths.source.md other bot
+  2026-08-27T06:43:38Z  200  /?focus=khaldun              other bot
+  2026-08-27T06:53:14Z  200  /poster                      Bingbot
+  2026-08-27T07:26:13Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-08-27T07:26:13Z  200  /robots.txt                  other bot
+  2026-08-27T07:30:12Z  200  /data/perez_tech_diffusion.source.md other bot
+  2026-08-27T07:36:58Z  200  /?focus=turchin_fathers_sons other bot
+  2026-08-27T07:39:57Z  200  /?focus=turchin              other bot
+  2026-08-27T08:32:12Z  200  /robots.txt                  other bot
+  2026-08-27T08:32:13Z  200  /embed?cycles=huntington&peak.huntington=1968&view=facets other bot
+  2026-08-27T08:39:38Z  200  /robots.txt                  Googlebot
+  2026-08-27T08:39:55Z  200  /api/v1/series               other bot
+  2026-08-27T08:41:02Z  200  /cycles/huntington           Googlebot
+  2026-08-27T08:42:08Z  200  /data/spectral/verdicts.json other bot
+  2026-08-27T08:42:55Z  200  /?focus=turchin              Bingbot
+  2026-08-27T09:53:42Z  200  /robots.txt                  other bot
+  2026-08-27T09:53:43Z  200  /data/vdem_libdem.source.md  other bot
+  2026-08-27T10:56:55Z  200  /robots.txt                  other bot
+  2026-08-27T10:56:56Z  200  /?focus=modelski             other bot
+  2026-08-27T11:11:20Z  200  /about                       Bingbot
+  2026-08-27T11:20:01Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-27T11:44:53Z  200  /?focus=schlesinger_jr       Bingbot
+  2026-08-27T12:44:20Z  308  /about                       Bingbot
+  2026-08-27T12:44:30Z  200  /about                       Bingbot
+  2026-08-27T14:05:33Z  308  /robots.txt                  other bot
+  2026-08-27T14:05:35Z  308  /ai.txt                      other bot
+  2026-08-27T14:05:35Z  200  /robots.txt                  other bot
+  2026-08-27T14:05:35Z  308  /humans.txt                  other bot
+  2026-08-27T14:05:36Z  308  /llms.txt                    other bot
+  2026-08-27T14:05:36Z  404  /ai.txt                      other bot
+  2026-08-27T14:05:36Z  308  /                            other bot
+  2026-08-27T14:05:36Z  404  /humans.txt                  other bot
+  2026-08-27T14:05:37Z  206  /llms.txt                    other bot
+  2026-08-27T14:05:37Z  200  /                            other bot
+  2026-08-27T14:23:25Z  200  /                            other bot
+  2026-08-27T14:52:36Z  301  /robots.txt                  Googlebot
+  2026-08-27T14:52:37Z  200  /robots.txt                  Googlebot
+  2026-08-27T15:33:55Z  200  /                            other bot
+  2026-08-27T16:12:40Z  308  /robots.txt                  OAI-SearchBot
+  2026-08-27T16:12:40Z  308  /sitemap.xml                 GPTBot
+  2026-08-27T16:12:41Z  200  /sitemap.xml                 GPTBot
+  2026-08-27T16:12:41Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-27T16:12:41Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-27T16:24:52Z  301  /robots.txt                  Googlebot
+  2026-08-27T16:24:52Z  308  /robots.txt                  Googlebot
+  2026-08-27T17:01:08Z  308  /robots.txt                  Googlebot
+  2026-08-27T17:13:50Z  308  /state/2026                  Bingbot
+  2026-08-27T17:14:00Z  200  /state/2026                  Bingbot
+  2026-08-27T17:14:02Z  200  /robots.txt                  Googlebot
+  2026-08-27T17:14:02Z  200  /_next/static/chunks/0.~7ef0l7-sas.js Googlebot
+  2026-08-27T17:14:02Z  200  /_next/static/chunks/13bju-fuvglox.css Googlebot
+  2026-08-27T17:27:30Z  200  /cycles/perez                Googlebot
+  2026-08-27T17:36:46Z  200  /poster                      Bingbot
+  2026-08-27T17:40:58Z  200  /robots.txt                  Meta/Facebook
+  2026-08-27T17:45:28Z  301  /robots.txt                  Googlebot
+  2026-08-27T17:50:17Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-08-27T18:05:11Z  308  /robots.txt                  OAI-SearchBot
+  2026-08-27T18:05:14Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-27T18:44:19Z  200  /                            other bot
+  2026-08-27T18:52:24Z  200  /robots.txt                  Googlebot
+  2026-08-27T18:52:24Z  301  /robots.txt                  Googlebot
+  2026-08-27T19:16:58Z  200  /robots.txt                  Googlebot
+  2026-08-27T19:16:59Z  200  /sitemap.xml                 Googlebot
+  2026-08-27T19:37:54Z  308  /robots.txt                  Googlebot
+  2026-08-27T20:43:32Z  200  /                            other bot
+  2026-08-27T20:45:02Z  308  /methods                     Bingbot
+  2026-08-27T20:45:13Z  200  /methods                     Bingbot
+  2026-08-27T21:01:05Z  200  /?focus=dalio                Bingbot
+  2026-08-27T21:40:10Z  308  /poster                      Bingbot
+  2026-08-27T21:40:21Z  200  /poster                      Bingbot
+  2026-08-27T21:46:09Z  200  /embed/docs                  Bingbot
+  2026-08-27T22:43:02Z  200  /robots.txt                  Googlebot
+  2026-08-27T22:43:03Z  200  /data/spectral/schlesinger_jr.svg Googlebot
+  2026-08-27T22:49:07Z  308  /cycles                      Bingbot
+  2026-08-27T22:49:17Z  200  /cycles                      Bingbot
+  2026-08-27T23:01:27Z  308  /.well-known/bbf-not-found-5d083e72bd319659 Bingbot
+  2026-08-27T23:01:27Z  308  /                            Bingbot
+  2026-08-27T23:01:28Z  404  /_next/static/chunks/_buildManifest.js Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/0xfutrsa5ox3t.js Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/0v48gx6~~f0n1.js Bingbot
+  2026-08-27T23:01:28Z  308  /.env.local                  Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/0d3shmwh5_nmn.js Bingbot
+  2026-08-27T23:01:28Z  308  /service-account.json        Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/0nnfeh9ofqg-4.js Bingbot
+  2026-08-27T23:01:28Z  308  /.env.production             Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/0qniz8mh22khe.js Bingbot
+  2026-08-27T23:01:28Z  308  /.env                        Bingbot
+  2026-08-27T23:01:28Z  404  /_next/static/development/_buildManifest.js Bingbot
+  2026-08-27T23:01:28Z  200  /_next/static/chunks/turbopack-10n7c5ydlvwab.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/development/_ssgManifest.js Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/0pqt~8bl3ukh4.js Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/0dshaw4mipsix.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/framework.js Bingbot
+  2026-08-27T23:01:29Z  308  /bundle.js                   Bingbot
+  2026-08-27T23:01:29Z  404  /_next/required-server-files.json Bingbot
+  2026-08-27T23:01:29Z  308  /static/js/main.js           Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/0.qa~dgen_o3h.js Bingbot
+  2026-08-27T23:01:29Z  308  /.git/HEAD                   Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/0n~dq4kpx9xxx.js Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/0ka051yepewro.js Bingbot
+  2026-08-27T23:01:29Z  308  /credentials.json            Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/webpack.js Bingbot
+  2026-08-27T23:01:29Z  200  /_next/static/chunks/04d954afkz.es.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/static/chunks/04d954afkz.es.js Bingbot
+  2026-08-27T23:01:29Z  308  /app.js                      Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/pages/_app.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/static/chunks/0pqt~8bl3ukh4.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/main.js Bingbot
+  2026-08-27T23:01:29Z  404  /_next/static/chunks/pages/index.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/pages/_error.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/development/_buildManifest.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/static/chunks/0dshaw4mipsix.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/pages/dashboard.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/static/chunks/0n~dq4kpx9xxx.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/pages/login.js Bingbot
+  2026-08-27T23:01:30Z  404  /_next/static/chunks/pages/admin.js Bingbot
+  2026-08-27T23:08:59Z  200  /llms.txt                    Googlebot
+  2026-08-27T23:20:58Z  200  /cycles/huntington           Bingbot
+  2026-08-28T00:11:09Z  200  /cycles/turchin-fathers-sons other bot
+  2026-08-28T00:11:10Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-28T00:11:10Z  200  /cycles/turchin-fathers-sons OAI-SearchBot
+  2026-08-28T00:11:13Z  200  /_next/static/chunks/0.~7ef0l7-sas.js OAI-SearchBot
+  2026-08-28T00:11:16Z  200  /                            OAI-SearchBot
+  2026-08-28T00:11:17Z  200  /?focus=turchin_fathers_sons OAI-SearchBot
+  2026-08-28T00:21:54Z  200  /cycles                      Bingbot
+  2026-08-28T00:40:55Z  200  /colophon?_rsc=kbvwq         OAI-SearchBot
+  2026-08-28T00:40:57Z  200  /embed/docs?_rsc=kbvwq       OAI-SearchBot
+  2026-08-28T00:40:58Z  200  /?_rsc=kbvwq&focus=turchin_fathers_sons OAI-SearchBot
+  2026-08-28T00:40:58Z  200  /poster?_rsc=kbvwq           OAI-SearchBot
+  2026-08-28T00:40:59Z  200  /state/2026?_rsc=kbvwq       OAI-SearchBot
+  2026-08-28T00:40:59Z  200  /cycles?_rsc=kbvwq           OAI-SearchBot
+  2026-08-28T00:41:00Z  200  /methods?_rsc=kbvwq          OAI-SearchBot
+  2026-08-28T00:41:01Z  200  /?_rsc=kbvwq                 OAI-SearchBot
+  2026-08-28T00:41:01Z  200  /about?_rsc=kbvwq            OAI-SearchBot
+  2026-08-28T02:52:07Z  200  /                            Bingbot
+  2026-08-28T04:32:12Z  200  /robots.txt                  OAI-SearchBot
+  2026-08-28T05:18:45Z  308  /colophon                    Bingbot
+  2026-08-28T05:18:55Z  200  /colophon                    Bingbot
+  2026-08-28T05:28:33Z  301  /                            other bot
+  2026-08-28T05:28:36Z  308  /                            other bot
+  2026-08-28T05:28:39Z  200  /                            other bot
+  2026-08-28T05:44:42Z  308  /                            other bot
+  2026-08-28T05:44:49Z  200  /                            other bot
+  2026-08-28T05:47:05Z  301  /                            other bot
+  2026-08-28T05:47:07Z  200  /                            other bot
+  2026-08-28T06:25:08Z  200  /                            other bot
+  2026-08-28T08:28:14Z  404  /@fs/..%252f..%252f..%252f..%252f..%252fproc/self/environ?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/root/.aws/credentials.bak?raw?? OAI-SearchBot
+  2026-08-28T08:28:14Z  404  /@fs/.env.staging?raw??      other bot
+  2026-08-28T08:28:14Z  404  /@fs/app/.env?raw??          Meta/Facebook
+  2026-08-28T08:28:14Z  404  /@fs/home/debian/.aws/credentials?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/.env.development?raw??  Applebot
+  2026-08-28T08:28:14Z  404  /@fs/home/admin/.aws/credentials?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/../.env?raw??           Meta/Facebook
+  2026-08-28T08:28:14Z  404  /@fs/..%252f..%252f..%252f..%252f..%252froot/.env?raw?? ClaudeBot
+  2026-08-28T08:28:14Z  404  /@fs/home/www-data/.aws/credentials?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/proc/self/environ?raw?? GPTBot
+  2026-08-28T08:28:14Z  404  /@fs/var/www/.aws/credentials?raw?? Google-Extended
+  2026-08-28T08:28:14Z  404  /@fs/etc/passwd?raw??        other bot
+  2026-08-28T08:28:14Z  404  /@fs/home/node/.aws/config?raw?? GPTBot
+  2026-08-28T08:28:14Z  404  /@fs/root/rootkey.csv?raw??  other bot
+  2026-08-28T08:28:14Z  404  /@fs/.env.local?raw??        OAI-SearchBot
+  2026-08-28T08:28:14Z  404  /@fs/home/node/.aws/credentials?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/root/.aws/credentials.backup?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/app/.aws/credentials?raw?? Meta/Facebook
+  2026-08-28T08:28:14Z  404  /@fs/root/.aws/config?raw??  Applebot
+  2026-08-28T08:28:14Z  404  /@fs/home/ubuntu/.aws/config?raw?? Bytespider
+  2026-08-28T08:28:14Z  404  /@fs/.env.production?raw??   PerplexityBot
+  2026-08-28T08:28:14Z  404  /@fs/home/ubuntu/.aws/credentials?raw?? other bot
+  2026-08-28T08:28:14Z  404  /@fs/root/.env?raw??         other bot
+  2026-08-28T08:28:14Z  404  /@fs/.env?raw??              other bot
+  2026-08-28T08:28:14Z  404  /@fs/app/rootkey.csv?raw??   other bot
+  2026-08-28T08:28:14Z  404  /@fs/src/.env?raw??          OAI-SearchBot
+  2026-08-28T08:28:18Z  404  /@fs/app/.env.production?raw?? Bytespider
+  2026-08-28T08:28:18Z  404  /@fs/home/ubuntu/.env?raw??  ClaudeBot
+  2026-08-28T08:28:18Z  404  /@fs/var/www/.env?raw??      Google-Extended
+  2026-08-28T08:28:18Z  308  /@fs/root/.aws/sso/cache/?raw?? Bytespider
+  2026-08-28T08:28:18Z  404  /@fs/usr/src/app/.env?raw??  Amazonbot
+  2026-08-28T08:28:18Z  404  /@fs/app/terraform.tfvars?raw?? OAI-SearchBot
+  2026-08-28T08:28:18Z  404  /@fs/var/www/html/.env?raw?? GPTBot
+  2026-08-28T08:28:18Z  404  /@fs/app/.env.local?raw??    other bot
+  2026-08-28T08:28:19Z  404  /@fs/app/aws-exports.js?raw?? other bot
+  2026-08-28T08:28:19Z  404  /@fs/app/amplifyconfiguration.json?raw?? Bytespider
+  2026-08-28T08:28:19Z  404  /@fs/root/.aws/sso/cache?raw%3F%3F= Bytespider
+  2026-08-28T08:28:19Z  404  /@fs/root/terraform.tfstate?raw?? Meta/Facebook
+  2026-08-28T08:28:19Z  404  /@fs/app/.serverless/serverless-state.json?raw?? other bot
+  2026-08-28T08:28:19Z  404  /@fs/app/serverless.yml?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/app/service-account.json?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/var/www/html/wp-config.php?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/app/gcp-credentials.json?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/home/ubuntu/.ovh.conf?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.vultr-cli.yaml?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.azure/credentials?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/home/ec2-user/.aws/config?raw?? Google-Extended
+  2026-08-28T08:28:23Z  404  /@fs/root/.ssh/id_ed25519?raw?? Meta/Facebook
+  2026-08-28T08:28:23Z  404  /@fs/proc/self/cmdline?raw?? OAI-SearchBot
+  2026-08-28T08:28:23Z  404  /@fs/etc/nginx/nginx.conf?raw?? Bytespider
+  2026-08-28T08:28:23Z  404  /@fs/home/ubuntu/.azure/credentials?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/home/node/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.ssh/id_rsa?raw??  Amazonbot
+  2026-08-28T08:28:23Z  404  /@fs/etc/apache2/apache2.conf?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/home/ubuntu/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.config/hcloud/cli.toml?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.azure/accessTokens.json?raw?? Bytespider
+  2026-08-28T08:28:23Z  404  /@fs/home/ubuntu/.oci/config?raw?? other bot
+  2026-08-28T08:28:23Z  404  /@fs/root/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:28:29Z  404  /@fs/app/.openai/config.json?raw?? Applebot
+  2026-08-28T08:28:29Z  404  /@fs/home/ubuntu/.openai/config.json?raw?? OAI-SearchBot
+  2026-08-28T08:28:29Z  404  /@fs/proc/self/environ?import&raw?? Amazonbot
+  2026-08-28T08:28:29Z  404  /@fs/proc/self/cwd/.aws/credentials?raw?? Applebot
+  2026-08-28T08:28:29Z  404  /@fs/root/.claude/settings.json?raw?? GPTBot
+  2026-08-28T08:28:29Z  404  /@vite/env                   Bytespider
+  2026-08-28T08:28:29Z  404  /@fs/app/.anthropic/config.json?raw?? PerplexityBot
+  2026-08-28T08:28:29Z  404  /@fs/var/task/.env?raw??     GPTBot
+  2026-08-28T08:28:29Z  404  /@fs/proc/self/cwd/.env?raw?? other bot
+  2026-08-28T08:28:29Z  404  /@fs/home/ubuntu/.anthropic/config.json?raw?? Amazonbot
+  2026-08-28T08:28:29Z  404  /@fs/home/ubuntu/.config/anthropic/credentials/default.json?raw?? other bot
+  2026-08-28T08:28:29Z  404  /@fs/root/.anthropic/config.json?raw?? Meta/Facebook
+  2026-08-28T08:28:29Z  404  /@fs/root/.config/openai/config.json?raw?? other bot
+  2026-08-28T08:28:29Z  404  /@fs/proc/1/environ?raw??    other bot
+  2026-08-28T08:28:33Z  404  /assets../.env               PerplexityBot
+  2026-08-28T08:28:33Z  404  /.env.development            PerplexityBot
+  2026-08-28T08:28:33Z  404  /.env.backup                 other bot
+  2026-08-28T08:28:33Z  404  /.env.swp                    Amazonbot
+  2026-08-28T08:28:33Z  404  /.docker/.env                other bot
+  2026-08-28T08:28:33Z  404  /.env.example                other bot
+  2026-08-28T08:28:33Z  404  /config/.env                 OAI-SearchBot
+  2026-08-28T08:28:33Z  404  /.env                        other bot
+  2026-08-28T08:28:33Z  404  /backend/.env                other bot
+  2026-08-28T08:28:33Z  404  /img../.env                  other bot
+  2026-08-28T08:28:33Z  404  /env.json                    GPTBot
+  2026-08-28T08:28:33Z  404  /app/.env                    other bot
+  2026-08-28T08:28:33Z  404  /uploads../.env              GPTBot
+  2026-08-28T08:28:33Z  404  /admin/.env                  Meta/Facebook
+  2026-08-28T08:28:33Z  404  /_nuxt/../.env               other bot
+  2026-08-28T08:28:33Z  404  /api/.env                    Amazonbot
+  2026-08-28T08:28:33Z  404  /docker/.env                 ClaudeBot
+  2026-08-28T08:28:33Z  404  /.env.bak                    other bot
+  2026-08-28T08:28:33Z  404  /images../.env               OAI-SearchBot
+  2026-08-28T08:28:33Z  404  /v1/.env                     other bot
+  2026-08-28T08:28:33Z  404  /.env.local                  other bot
+  2026-08-28T08:28:33Z  404  /.env.production             GPTBot
+  2026-08-28T08:28:33Z  404  /.env.staging                other bot
+  2026-08-28T08:28:33Z  404  /src/.env                    PerplexityBot
+  2026-08-28T08:28:33Z  404  /server/.env                 OAI-SearchBot
+  2026-08-28T08:28:33Z  404  /.env.old                    other bot
+  2026-08-28T08:28:33Z  404  /env.js                      other bot
+  2026-08-28T08:28:37Z  404  /.aws/config                 other bot
+  2026-08-28T08:28:37Z  404  /.gcloud/credentials         Meta/Facebook
+  2026-08-28T08:28:37Z  404  /aws.json                    Meta/Facebook
+  2026-08-28T08:28:37Z  404  /.git-credentials            other bot
+  2026-08-28T08:28:37Z  404  /aws.env                     other bot
+  2026-08-28T08:28:37Z  404  /aws-credentials             other bot
+  2026-08-28T08:28:37Z  404  /root/.aws/config            ClaudeBot
+  2026-08-28T08:28:37Z  404  /root/.aws/credentials       other bot
+  2026-08-28T08:28:37Z  404  /aws_credentials             other bot
+  2026-08-28T08:28:37Z  404  /.aws/credentials            other bot
+  2026-08-28T08:28:37Z  404  /.git/HEAD                   other bot
+  2026-08-28T08:28:43Z  404  /firebase-config.json        Meta/Facebook
+  2026-08-28T08:28:43Z  404  /app-config.json             PerplexityBot
+  2026-08-28T08:28:43Z  404  /firebase-adminsdk.json      other bot
+  2026-08-28T08:28:43Z  404  /api/env                     other bot
+  2026-08-28T08:28:43Z  404  /__/firebase/init.json       other bot
+  2026-08-28T08:28:43Z  404  /.docker/config.json         PerplexityBot
+  2026-08-28T08:28:43Z  404  /runtime-config.js           other bot
+  2026-08-28T08:28:43Z  404  /.ssh/id_rsa                 other bot
+  2026-08-28T08:28:43Z  404  /keys/service-account.json   GPTBot
+  2026-08-28T08:28:43Z  404  /api/v1/env                  other bot
+  2026-08-28T08:28:43Z  404  /config.json                 other bot
+  2026-08-28T08:28:43Z  404  /secrets.json                other bot
+  2026-08-28T08:28:43Z  404  /config.js                   Applebot
+  2026-08-28T08:28:43Z  404  /service-account.json        GPTBot
+  2026-08-28T08:28:43Z  404  /.ssh/id_dsa                 other bot
+  2026-08-28T08:28:43Z  404  /firebase-credentials.json   Meta/Facebook
+  2026-08-28T08:28:43Z  404  /gcp-key.json                other bot
+  2026-08-28T08:28:43Z  404  /serviceAccountKey.json      other bot
+  2026-08-28T08:28:43Z  404  /key.json                    other bot
+  2026-08-28T08:28:43Z  404  /settings.json               PerplexityBot
+  2026-08-28T08:28:43Z  404  /.ssh/id_ed25519             Bytespider
+  2026-08-28T08:28:43Z  404  /api/config                  other bot
+  2026-08-28T08:28:43Z  404  /.kube/config                other bot
+  2026-08-28T08:28:44Z  404  /.ssh/config                 Meta/Facebook
+  2026-08-28T08:28:48Z  404  /config/secrets.yml          OAI-SearchBot
+  2026-08-28T08:28:48Z  404  /private-key                 GPTBot
+  2026-08-28T08:28:48Z  404  /wp-config.php.old           Meta/Facebook
+  2026-08-28T08:28:48Z  404  /id_rsa                      other bot
+  2026-08-28T08:28:48Z  404  /config.php.bak              other bot
+  2026-08-28T08:28:48Z  404  /application.yml             Applebot
+  2026-08-28T08:28:48Z  404  /server.key                  other bot
+  2026-08-28T08:28:48Z  404  /id_ecdsa                    OAI-SearchBot
+  2026-08-28T08:28:48Z  404  /privatekey.key              GPTBot
+  2026-08-28T08:28:48Z  404  /wp-config.php.bak           Google-Extended
+  2026-08-28T08:28:48Z  404  /config.php                  PerplexityBot
+  2026-08-28T08:28:48Z  404  /wp-config.php               PerplexityBot
+  2026-08-28T08:28:53Z  404  /sw.js                       Applebot
+  2026-08-28T08:28:53Z  404  /.vite/manifest.json         other bot
+  2026-08-28T08:28:53Z  404  /v1/graphql                  other bot
+  2026-08-28T08:28:53Z  404  /health                      other bot
+  2026-08-28T08:28:53Z  404  /.hermes/.env                other bot
+  2026-08-28T08:28:53Z  404  /graphql/console             Meta/Facebook
+  2026-08-28T08:28:53Z  404  /docker-compose.yaml         other bot
+  2026-08-28T08:28:53Z  404  /metrics                     Amazonbot
+  2026-08-28T08:28:53Z  404  /.mcp.json                   GPTBot
+  2026-08-28T08:28:53Z  404  /.config/anthropic/credentials/default.json Meta/Facebook
+  2026-08-28T08:28:53Z  404  /.env.js                     GPTBot
+  2026-08-28T08:28:53Z  404  /actuator/mappings           Google-Extended
+  2026-08-28T08:28:53Z  404  /assets/env.js               other bot
+  2026-08-28T08:28:53Z  404  /__env.js                    GPTBot
+  2026-08-28T08:28:53Z  404  /.anthropic/config.json      Applebot
+  2026-08-28T08:28:53Z  404  /api/graphql                 other bot
+  2026-08-28T08:28:53Z  404  /.claude/settings.json       other bot
+  2026-08-28T08:28:53Z  404  /admin                       OAI-SearchBot
+  2026-08-28T08:28:53Z  404  /.hermes/auth.json           other bot
+  2026-08-28T08:28:53Z  404  /login                       other bot
+  2026-08-28T08:28:53Z  404  /graphql                     ClaudeBot
+  2026-08-28T08:28:53Z  404  /actuator/configprops        ClaudeBot
+  2026-08-28T08:28:53Z  404  /actuator/env                OAI-SearchBot
+  2026-08-28T08:28:53Z  404  /docker-compose.yml          other bot
+  2026-08-28T08:28:53Z  404  /.hermes/config.yaml         other bot
+  2026-08-28T08:28:58Z  404  /.htpasswd                   other bot
+  2026-08-28T08:28:58Z  404  /_next/static/../.env        OAI-SearchBot
+  2026-08-28T08:28:58Z  404  /.well-known/jwks.json       other bot
+  2026-08-28T08:28:58Z  404  /gradle.properties           Meta/Facebook
+  2026-08-28T08:28:58Z  404  /.bash_history               Bytespider
+  2026-08-28T08:28:58Z  404  /.env.prod                   Bytespider
+  2026-08-28T08:28:58Z  404  /application.env             Amazonbot
+  2026-08-28T08:28:58Z  404  /gcp-service.json            OAI-SearchBot
+  2026-08-28T08:28:58Z  404  /.gradle/gradle.properties   GPTBot
+  2026-08-28T08:28:58Z  404  /_next/../.env               other bot
+  2026-08-28T08:28:58Z  404  /.zsh_history                other bot
+  2026-08-28T08:28:58Z  404  /.env~                       other bot
+  2026-08-28T08:28:58Z  404  /gc-service.json             GPTBot
+  2026-08-28T08:28:58Z  404  /Dockerfile                  GPTBot
+  2026-08-28T08:28:58Z  404  /pi.php                      PerplexityBot
+  2026-08-28T08:29:03Z  404  /.env.vault                  Meta/Facebook
+  2026-08-28T08:29:03Z  404  /gcp-service-account.json    OAI-SearchBot
+  2026-08-28T08:29:03Z  404  /config.env                  other bot
+  2026-08-28T08:29:03Z  404  /production/.env             PerplexityBot
+  2026-08-28T08:29:03Z  404  /openai.json                 OAI-SearchBot
+  2026-08-28T08:29:03Z  404  /.env.openai                 other bot
+  2026-08-28T08:29:03Z  404  /config/anthropic.json       other bot
+  2026-08-28T08:29:03Z  404  /.gcp/service-account.json   other bot
+  2026-08-28T08:29:03Z  404  /.azure/azureProfile.json    Applebot
+  2026-08-28T08:29:03Z  404  /sendgrid.env                Applebot
+  2026-08-28T08:29:03Z  404  /.env.docker                 Applebot
+  2026-08-28T08:29:03Z  404  /.flaskenv                   Amazonbot
+  2026-08-28T08:29:03Z  404  /.azure/accessTokens.json    other bot
+  2026-08-28T08:29:03Z  404  /backup/.env                 other bot
+  2026-08-28T08:29:03Z  404  /dev/.env                    Amazonbot
+  2026-08-28T08:29:03Z  404  /app/.env.local              other bot
+  2026-08-28T08:29:03Z  404  /.bash_profile               OAI-SearchBot
+  2026-08-28T08:29:03Z  404  /azure-credentials.json      Meta/Facebook
+  2026-08-28T08:29:03Z  404  /config/master.key           other bot
+  2026-08-28T08:29:03Z  404  /.gcp/credentials.json       GPTBot
+  2026-08-28T08:29:03Z  404  /google-cloud-key.json       GPTBot
+  2026-08-28T08:29:03Z  404  /secrets.env                 Meta/Facebook
+  2026-08-28T08:29:08Z  404  /google-service-account.json Applebot
+  2026-08-28T08:29:08Z  404  /api-keys.json               GPTBot
+  2026-08-28T08:29:08Z  404  /firebase-service-account.json ClaudeBot
+  2026-08-28T08:29:08Z  404  /aws-credentials.json        ClaudeBot
+  2026-08-28T08:29:08Z  404  /firebase.json               Bytespider
+  2026-08-28T08:29:08Z  404  /appsettings.Production.json other bot
+  2026-08-28T08:29:08Z  404  /client_secret.json          OAI-SearchBot
+  2026-08-28T08:29:08Z  404  /firebase-admin.json         Bytespider
+  2026-08-28T08:29:08Z  404  /appsettings.json            OAI-SearchBot
+  2026-08-28T08:29:08Z  404  /api/keys.json               GPTBot
+  2026-08-28T08:29:08Z  404  /keyfile.json                other bot
+  2026-08-28T08:29:13Z  404  /config/runtime.exs          Amazonbot
+  2026-08-28T08:29:13Z  404  /secrets/aws.json            other bot
+  2026-08-28T08:29:13Z  404  /deploy/service-account.json other bot
+  2026-08-28T08:29:13Z  404  /settings.py                 other bot
+  2026-08-28T08:29:13Z  404  /config/storage.yml          other bot
+  2026-08-28T08:29:13Z  404  /config.yaml                 Meta/Facebook
+  2026-08-28T08:29:13Z  404  /config/settings.py          GPTBot
+  2026-08-28T08:29:13Z  404  /bootstrap.yml               Amazonbot
+  2026-08-28T08:29:13Z  404  /config/service-account.json other bot
+  2026-08-28T08:29:13Z  404  /backend/config.json         other bot
+  2026-08-28T08:29:13Z  404  /config.py                   OAI-SearchBot
+  2026-08-28T08:29:13Z  404  /config/application.properties other bot
+  2026-08-28T08:29:13Z  404  /app/settings.py             other bot
+  2026-08-28T08:29:13Z  404  /instance/config.py          Meta/Facebook
+  2026-08-28T08:29:13Z  404  /config/firebase-admin.json  GPTBot
+  2026-08-28T08:29:13Z  404  /secrets.yml                 other bot
+  2026-08-28T08:29:13Z  404  /config/prod.exs             PerplexityBot
+  2026-08-28T08:29:13Z  404  /app/config.json             PerplexityBot
+  2026-08-28T08:29:13Z  404  /config/application.yml      OAI-SearchBot
+  2026-08-28T08:29:13Z  404  /backend/service-account.json Meta/Facebook
+  2026-08-28T08:29:13Z  404  /config.yml                  OAI-SearchBot
+  2026-08-28T08:29:13Z  404  /backend/settings.py         other bot
+  2026-08-28T08:29:13Z  404  /core/settings.py            other bot
+  2026-08-28T08:29:13Z  404  /api/openapi.json            Amazonbot
+  2026-08-28T08:29:13Z  404  /local.settings.json         other bot
+  2026-08-28T08:29:13Z  404  /secrets.yaml                other bot
+  2026-08-28T08:29:13Z  404  /api/config.json             Applebot
+  2026-08-28T08:29:17Z  404  /localhost.key               ClaudeBot
+  2026-08-28T08:29:17Z  404  /ssl/server.key              OAI-SearchBot
+  2026-08-28T08:29:17Z  404  /rclone.conf                 PerplexityBot
+  2026-08-28T08:29:17Z  404  /.streamlit/secrets.toml     other bot
+  2026-08-28T08:29:17Z  404  /configuration.php.bak       other bot
+  2026-08-28T08:29:17Z  404  /auth.json                   other bot
+  2026-08-28T08:29:18Z  404  /amplifyconfiguration.json   Amazonbot
+  2026-08-28T08:29:18Z  404  /aws-exports.js              other bot
+  2026-08-28T08:29:18Z  404  /runtime.js                  other bot
+  2026-08-28T08:29:20Z  200  /methods                     Bingbot
+  2026-08-28T08:29:22Z  404  /api/.aws/credentials        other bot
+  2026-08-28T08:29:22Z  404  /api/v2/settings             OAI-SearchBot
+  2026-08-28T08:29:22Z  404  /dist/manifest.json          Amazonbot
+  2026-08-28T08:29:22Z  404  /.aws/credentials.bak        Amazonbot
+  2026-08-28T08:29:22Z  404  /_ignition/health-check      other bot
+  2026-08-28T08:29:22Z  404  /config/aws.yml              Meta/Facebook
+  2026-08-28T08:29:22Z  404  /__debug__                   GPTBot
+  2026-08-28T08:29:22Z  404  /.vscode/launch.json         other bot
+  2026-08-28T08:29:22Z  404  /public/admin.json           other bot
+  2026-08-28T08:29:22Z  404  /config/aws.php              GPTBot
+  2026-08-28T08:29:22Z  404  /credentials.js              Meta/Facebook
+  2026-08-28T08:29:22Z  404  /_debugbar/open              Meta/Facebook
+  2026-08-28T08:29:22Z  404  /.svn/entries                other bot
+  2026-08-28T08:29:22Z  404  /build/manifest.json         Meta/Facebook
+  2026-08-28T08:29:22Z  404  /settings.js                 GPTBot
+  2026-08-28T08:29:22Z  404  /.aws/credentials.old        other bot
+  2026-08-28T08:29:22Z  404  /telescope/requests          Amazonbot
+  2026-08-28T08:29:22Z  404  /.aider.conf.yml             OAI-SearchBot
+  2026-08-28T08:29:22Z  404  /config/aws.json             GPTBot
+  2026-08-28T08:29:22Z  404  /aws/credentials             OAI-SearchBot
+  2026-08-28T08:29:22Z  404  /environment.js              OAI-SearchBot
+  2026-08-28T08:29:22Z  404  /app/.aws/credentials        other bot
+  2026-08-28T08:29:22Z  308  /__debug__/                  GPTBot
+  2026-08-28T08:29:22Z  404  /api/v2/config               other bot
+  2026-08-28T08:29:22Z  404  /openapi.json                OAI-SearchBot
+  2026-08-28T08:29:22Z  404  /push_config.json            other bot
+  2026-08-28T08:29:22Z  404  /config.json.js              Meta/Facebook
+  2026-08-28T08:29:22Z  404  /dist/.vite/manifest.json    other bot
+  2026-08-28T08:29:22Z  404  /aws/.env.production         OAI-SearchBot
+  2026-08-28T08:29:27Z  404  /stripe/.env                 Meta/Facebook
+  2026-08-28T08:29:27Z  404  /sendgrid/.env               other bot
+  2026-08-28T08:29:27Z  404  /var/www/.env                OAI-SearchBot
+  2026-08-28T08:29:27Z  404  /config/sendgrid.env         GPTBot
+  2026-08-28T08:29:27Z  404  /s3/.aws/config              Amazonbot
+  2026-08-28T08:29:27Z  404  /serverless.yaml             other bot
+  2026-08-28T08:29:27Z  404  /var/www/html/.env           other bot
+  2026-08-28T08:29:27Z  404  /mail/.env                   other bot
+  2026-08-28T08:29:27Z  404  /.sendgrid.env               other bot
+  2026-08-28T08:29:27Z  404  /email/.env                  other bot
+  2026-08-28T08:29:27Z  404  /stripe.env                  other bot
+  2026-08-28T08:29:27Z  404  /s3/credentials              other bot
+  2026-08-28T08:29:27Z  404  /stripe.json                 other bot
+  2026-08-28T08:29:32Z  404  /private/.env                other bot
+  2026-08-28T08:29:32Z  404  /admin/.env.production       other bot
+  2026-08-28T08:29:32Z  404  /services/.env               other bot
+  2026-08-28T08:29:32Z  404  /backend/.env.local          OAI-SearchBot
+  2026-08-28T08:29:32Z  404  /prod/.env                   Meta/Facebook
+  2026-08-28T08:29:32Z  404  /stage/.env                  OAI-SearchBot
+  2026-08-28T08:29:32Z  404  /server/.env.local           Google-Extended
+  2026-08-28T08:29:32Z  404  /app/backend/.env            OAI-SearchBot
+  2026-08-28T08:29:32Z  404  /credentials.ini             Amazonbot
+  2026-08-28T08:29:32Z  404  /apps/backend/.env           PerplexityBot
+  2026-08-28T08:29:32Z  404  /apps/api/.env               other bot
+  2026-08-28T08:29:32Z  404  /src/.env.production         other bot
+  2026-08-28T08:29:32Z  404  /database/.env               Meta/Facebook
+  2026-08-28T08:29:32Z  404  /src/api/.env                other bot
+  2026-08-28T08:29:32Z  404  /config/env.php              other bot
+  2026-08-28T08:29:32Z  404  /development/.env            Amazonbot
+  2026-08-28T08:29:32Z  404  /config/env.json             other bot
+  2026-08-28T08:29:32Z  404  /node/.env                   other bot
+  2026-08-28T08:29:32Z  404  /internal/.env               other bot
+  2026-08-28T08:29:32Z  404  /config/credentials.json     other bot
+  2026-08-28T08:29:32Z  404  /backend/.env.production     OAI-SearchBot
+  2026-08-28T08:29:32Z  404  /server/.env.production      other bot
+  2026-08-28T08:29:32Z  404  /frontend/.env.local         ClaudeBot
+  2026-08-28T08:29:32Z  404  /app/api/.env                other bot
+  2026-08-28T08:29:32Z  404  /src/.env.local              Applebot
+  2026-08-28T08:29:32Z  404  /admin/.env.local            other bot
+  2026-08-28T08:29:32Z  404  /config/stripe.json          Applebot
+  2026-08-28T08:29:32Z  404  /backend-api/.env            Amazonbot
+  2026-08-28T08:29:32Z  404  /backend/api/.env            GPTBot
+  2026-08-28T08:29:37Z  404  /.terraform/terraform.tfstate OAI-SearchBot
+  2026-08-28T08:29:37Z  404  /proc/self/environ           PerplexityBot
+  2026-08-28T08:29:37Z  404  /terraform.tfstate.backup    Meta/Facebook
+  2026-08-28T08:29:37Z  404  /.env.testing                Meta/Facebook
+  2026-08-28T08:29:37Z  404  /docker-compose.prod.yml     other bot
+  2026-08-28T08:29:37Z  404  /secure/..;/actuator/env     other bot
+  2026-08-28T08:29:37Z  404  /static../.aws/credentials   Amazonbot
+  2026-08-28T08:29:37Z  404  /files../.env                other bot
+  2026-08-28T08:29:37Z  404  /static../.env               ClaudeBot
+  2026-08-28T08:29:45Z  404  /@fs/home/admin/.aws/credentials?raw?? Amazonbot
+  2026-08-28T08:29:45Z  404  /@fs/home/debian/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/.env?raw??              other bot
+  2026-08-28T08:29:45Z  404  /@fs/..%252f..%252f..%252f..%252f..%252fapp/.env?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/..%252f..%252f..%252f..%252f..%252fproc/self/environ?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  301  /@fs/etc/passwd?raw??        Google-Extended
+  2026-08-28T08:29:45Z  404  /@fs/home/ubuntu/.aws/config?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  404  /@fs/proc/self/environ?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/.env.production?raw??   other bot
+  2026-08-28T08:29:45Z  404  /@fs/home/node/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/..%252f..%252f..%252f..%252f..%252froot/.env?raw?? ClaudeBot
+  2026-08-28T08:29:45Z  404  /@fs/.env?raw??              other bot
+  2026-08-28T08:29:45Z  404  /@fs/home/node/.aws/config?raw?? Bytespider
+  2026-08-28T08:29:45Z  404  /@fs/var/www/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/..%252f..%252f..%252f..%252f..%252fapp/.env?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/root/.env?raw??         GPTBot
+  2026-08-28T08:29:45Z  301  /@fs/home/debian/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/root/rootkey.csv?raw??  OAI-SearchBot
+  2026-08-28T08:29:45Z  301  /@fs/.env.local?raw??        Amazonbot
+  2026-08-28T08:29:45Z  301  /@fs/home/node/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/home/ubuntu/.aws/credentials?raw?? Applebot
+  2026-08-28T08:29:45Z  404  /@fs/.env.staging?raw??      other bot
+  2026-08-28T08:29:45Z  404  /@fs/.env.local?raw??        Amazonbot
+  2026-08-28T08:29:45Z  404  /@fs/.env.production?raw??   other bot
+  2026-08-28T08:29:45Z  301  /@fs/proc/self/environ?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/home/ec2-user/.aws/credentials?raw?? Amazonbot
+  2026-08-28T08:29:45Z  404  /@fs/etc/passwd?raw??        Google-Extended
+  2026-08-28T08:29:45Z  404  /@fs/root/.aws/credentials.bak?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/root/.aws/credentials.backup?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/../.env?raw??           OAI-SearchBot
+  2026-08-28T08:29:45Z  301  /@fs/home/admin/.aws/credentials?raw?? Amazonbot
+  2026-08-28T08:29:45Z  301  /@fs/.env.development?raw??  Amazonbot
+  2026-08-28T08:29:45Z  301  /@fs/var/www/html/.aws/credentials?raw?? Google-Extended
+  2026-08-28T08:29:45Z  301  /@fs/root/.aws/credentials.backup?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/.env.staging?raw??      other bot
+  2026-08-28T08:29:45Z  301  /@fs/home/ec2-user/.aws/credentials?raw?? Amazonbot
+  2026-08-28T08:29:45Z  404  /@fs/root/.env?raw??         GPTBot
+  2026-08-28T08:29:45Z  301  /@fs/var/www/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:45Z  301  /@fs/root/.aws/credentials.bak?raw?? other bot
+  2026-08-28T08:29:45Z  404  /@fs/.env.development?raw??  Amazonbot
+  2026-08-28T08:29:45Z  301  /@fs/..%252f..%252f..%252f..%252f..%252froot/.env?raw?? ClaudeBot
+  2026-08-28T08:29:45Z  301  /@fs/home/ubuntu/.aws/config?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  404  /@fs/root/rootkey.csv?raw??  OAI-SearchBot
+  2026-08-28T08:29:45Z  404  /.env?raw??                  OAI-SearchBot
+  2026-08-28T08:29:45Z  301  /@fs/..%252f..%252f..%252f..%252f..%252fproc/self/environ?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  301  /@fs/home/node/.aws/config?raw?? Bytespider
+  2026-08-28T08:29:45Z  404  /@fs/var/www/html/.aws/credentials?raw?? Google-Extended
+  2026-08-28T08:29:45Z  301  /@fs/root/.aws/credentials?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  404  /@fs/root/.aws/credentials?raw?? Meta/Facebook
+  2026-08-28T08:29:45Z  301  /@fs/home/ubuntu/.aws/credentials?raw?? Applebot
+  2026-08-28T08:29:49Z  301  /@fs/usr/src/app/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:49Z  308  /@fs/root/.aws/sso/cache/?raw?? OAI-SearchBot
+  2026-08-28T08:29:49Z  404  /@fs/var/www/.env?raw??      Amazonbot
+  2026-08-28T08:29:49Z  301  /@fs/app/terraform.tfvars?raw?? OAI-SearchBot
+  2026-08-28T08:29:49Z  404  /@fs/app/.env.production?raw?? OAI-SearchBot
+  2026-08-28T08:29:49Z  301  /@fs/app/.env.local?raw??    GPTBot
+  2026-08-28T08:29:49Z  301  /@fs/var/www/html/.env?raw?? Meta/Facebook
+  2026-08-28T08:29:49Z  404  /@fs/app/.env.local?raw??    GPTBot
+  2026-08-28T08:29:49Z  301  /@fs/app/.env.production?raw?? OAI-SearchBot
+  2026-08-28T08:29:49Z  404  /@fs/usr/src/app/.aws/credentials?raw?? other bot
+  2026-08-28T08:29:49Z  404  /@fs/var/www/html/.env?raw?? Meta/Facebook
+  2026-08-28T08:29:49Z  301  /@fs/var/www/.env?raw??      Amazonbot
+  2026-08-28T08:29:49Z  301  /@fs/root/.aws/sso/cache/?raw?? OAI-SearchBot
+  2026-08-28T08:29:49Z  301  /@fs/home/ubuntu/.env?raw??  GPTBot
+  2026-08-28T08:29:49Z  301  /@fs/root/terraform.tfstate?raw?? PerplexityBot
+  2026-08-28T08:29:49Z  404  /@fs/app/terraform.tfstate?raw?? other bot
+  2026-08-28T08:29:49Z  404  /@fs/home/ubuntu/.env?raw??  GPTBot
+  2026-08-28T08:29:49Z  404  /@fs/root/terraform.tfstate?raw?? PerplexityBot
+  2026-08-28T08:29:49Z  301  /@fs/app/terraform.tfstate?raw?? other bot
+  2026-08-28T08:29:50Z  301  /@fs/app/amplifyconfiguration.json?raw?? Amazonbot
+  2026-08-28T08:29:50Z  301  /@fs/app/serverless.yml?raw?? other bot
+  2026-08-28T08:29:50Z  404  /@fs/app/.serverless/serverless-state.json?raw?? OAI-SearchBot
+  2026-08-28T08:29:50Z  301  /@fs/app/.terraform/terraform.tfstate?raw?? other bot
+  2026-08-28T08:29:50Z  404  /@fs/app/.terraform/terraform.tfstate?raw?? other bot
+  2026-08-28T08:29:50Z  301  /@fs/app/.serverless/serverless-state.json?raw?? OAI-SearchBot
+  2026-08-28T08:29:50Z  404  /@fs/app/terraform.tfvars?raw?? OAI-SearchBot
+  2026-08-28T08:29:50Z  404  /@fs/app/amplifyconfiguration.json?raw?? Amazonbot
+  2026-08-28T08:29:50Z  404  /@fs/root/.aws/sso/cache?raw%3F%3F= OAI-SearchBot
+  2026-08-28T08:29:50Z  404  /@fs/app/serverless.yml?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/home/ubuntu/.ovh.conf?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/root/.ovh.conf?raw??    PerplexityBot
+  2026-08-28T08:29:56Z  301  /@fs/root/.config/linode-cli?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/app/service-account.json?raw?? Amazonbot
+  2026-08-28T08:29:56Z  404  /@fs/root/.vultr-cli.yaml?raw?? OAI-SearchBot
+  2026-08-28T08:29:56Z  301  /@fs/var/run/secrets/kubernetes.io/serviceaccount/token?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/home/node/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/home/ubuntu/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/proc/self/cmdline?raw?? GPTBot
+  2026-08-28T08:29:56Z  404  /@fs/root/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/proc/self/cmdline?raw?? GPTBot
+  2026-08-28T08:29:56Z  404  /@fs/var/run/secrets/kubernetes.io/serviceaccount/token?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/var/www/html/wp-config.php?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/root/.config/gcloud/credentials.db?raw?? Meta/Facebook
+  2026-08-28T08:29:56Z  404  /@fs/root/.azure/credentials?raw?? GPTBot
+  2026-08-28T08:29:56Z  404  /@fs/root/.ssh/id_rsa?raw??  other bot
+  2026-08-28T08:29:56Z  301  /@fs/home/node/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/root/.ssh/id_rsa?raw??  other bot
+  2026-08-28T08:29:56Z  301  /@fs/home/ubuntu/.ovh.conf?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/etc/apache2/apache2.conf?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/root/.azure/credentials?raw?? GPTBot
+  2026-08-28T08:29:56Z  301  /@fs/etc/apache2/apache2.conf?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/app/credentials.json?raw?? Bytespider
+  2026-08-28T08:29:56Z  404  /@fs/root/.ovh.conf?raw??    PerplexityBot
+  2026-08-28T08:29:56Z  301  /@fs/etc/nginx/nginx.conf?raw?? GPTBot
+  2026-08-28T08:29:56Z  404  /@fs/etc/nginx/nginx.conf?raw?? GPTBot
+  2026-08-28T08:29:56Z  301  /@fs/root/.config/gcloud/credentials.db?raw?? Meta/Facebook
+  2026-08-28T08:29:56Z  301  /@fs/var/www/html/wp-config.php?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/app/service-account.json?raw?? Amazonbot
+  2026-08-28T08:29:56Z  301  /@fs/app/credentials.json?raw?? Bytespider
+  2026-08-28T08:29:56Z  404  /@fs/root/.config/hcloud/cli.toml?raw?? Amazonbot
+  2026-08-28T08:29:56Z  404  /@fs/root/.oci/config?raw??  other bot
+  2026-08-28T08:29:56Z  404  /@fs/home/ubuntu/.azure/credentials?raw?? GPTBot
+  2026-08-28T08:29:56Z  404  /@fs/app/gcp-credentials.json?raw?? Meta/Facebook
+  2026-08-28T08:29:56Z  301  /@fs/root/.vultr-cli.yaml?raw?? OAI-SearchBot
+  2026-08-28T08:29:56Z  301  /@fs/root/.config/hcloud/cli.toml?raw?? Amazonbot
+  2026-08-28T08:29:56Z  301  /@fs/root/.oci/config?raw??  other bot
+  2026-08-28T08:29:56Z  301  /@fs/root/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  301  /@fs/home/ubuntu/.azure/credentials?raw?? GPTBot
+  2026-08-28T08:29:56Z  301  /@fs/app/gcp-credentials.json?raw?? Meta/Facebook
+  2026-08-28T08:29:56Z  301  /@fs/home/ubuntu/.config/gcloud/application_default_credentials.json?raw?? other bot
+  2026-08-28T08:29:56Z  404  /@fs/root/.config/linode-cli?raw?? other bot
+  2026-08-28T08:30:01Z  301  /@fs/app/.anthropic/config.json?raw?? ClaudeBot
+  2026-08-28T08:30:01Z  404  /@fs/proc/self/cwd/.env?raw?? Meta/Facebook
+  2026-08-28T08:30:01Z  301  /@fs/root/.openai/config.json?raw?? Amazonbot
+  2026-08-28T08:30:01Z  404  /@fs/home/ubuntu/.anthropic/config.json?raw?? Applebot
+  2026-08-28T08:30:01Z  404  /@fs/root/.claude/settings.json?raw?? other bot
+  2026-08-28T08:30:01Z  301  /@fs/proc/self/environ?import&raw?? other bot
+  2026-08-28T08:30:01Z  404  /@fs/proc/1/environ?raw??    other bot
+  2026-08-28T08:30:01Z  301  /@fs/home/ubuntu/.anthropic/config.json?raw?? Applebot
+  2026-08-28T08:30:01Z  404  /@fs/proc/self/environ?import&raw?? other bot
+  2026-08-28T08:30:01Z  301  /@fs/home/ubuntu/.openai/config.json?raw?? other bot
+  2026-08-28T08:30:01Z  404  /@fs/root/.openai/config.json?raw?? Amazonbot
+  2026-08-28T08:30:01Z  404  /@vite/env                   Meta/Facebook
+  2026-08-28T08:30:01Z  301  /@fs/root/.config/openai/config.json?raw?? GPTBot
+  2026-08-28T08:30:01Z  301  /@fs/proc/1/environ?raw??    other bot
+  2026-08-28T08:30:01Z  404  /@fs/app/.anthropic/config.json?raw?? ClaudeBot
+  2026-08-28T08:30:01Z  301  /@fs/proc/self/cwd/.env?raw?? Meta/Facebook
+  2026-08-28T08:30:01Z  301  /@vite/env                   Meta/Facebook
+  2026-08-28T08:30:01Z  404  /@fs/root/.config/openai/config.json?raw?? GPTBot
+  2026-08-28T08:30:01Z  404  /@fs/home/ubuntu/.openai/config.json?raw?? other bot
+  2026-08-28T08:30:01Z  301  /@fs/root/.claude/settings.json?raw?? other bot
+  2026-08-28T08:30:06Z  301  /.env.bak                    Applebot
+  2026-08-28T08:30:06Z  301  /.env.example                other bot
+  2026-08-28T08:30:06Z  301  /env.json                    other bot
+  2026-08-28T08:30:06Z  301  /v1/.env                     other bot
+  2026-08-28T08:30:06Z  301  /.env.old                    other bot
+  2026-08-28T08:30:06Z  301  /_nuxt/../.env               other bot
+  2026-08-28T08:30:06Z  301  /.env                        other bot
+  2026-08-28T08:30:06Z  301  /.env.production             other bot
+  2026-08-28T08:30:06Z  301  /.env.backup                 Meta/Facebook
+  2026-08-28T08:30:06Z  301  /server/.env                 other bot
+  2026-08-28T08:30:06Z  301  /.env.swp                    other bot
+  2026-08-28T08:30:06Z  301  /v2/.env                     other bot
+  2026-08-28T08:30:06Z  301  /backend/.env                other bot
+  2026-08-28T08:30:06Z  301  /api/.env                    other bot
+  2026-08-28T08:30:06Z  301  /config/.env                 GPTBot
+  2026-08-28T08:30:06Z  301  /.env.local                  other bot
+  2026-08-28T08:30:06Z  301  /core/.env                   Google-Extended
+  2026-08-28T08:30:06Z  301  /app/.env                    other bot
+  2026-08-28T08:30:06Z  301  /img../.env                  other bot
+  2026-08-28T08:30:06Z  301  /admin/.env                  other bot
+  2026-08-28T08:30:06Z  301  /web/.env                    Meta/Facebook
+  2026-08-28T08:30:06Z  301  /laravel/.env                other bot
+  2026-08-28T08:30:06Z  301  /uploads../.env              other bot
+  2026-08-28T08:30:06Z  301  /assets../.env               other bot
+  2026-08-28T08:30:06Z  301  /frontend/.env               other bot
+  2026-08-28T08:30:06Z  301  /env.js                      Meta/Facebook
+  2026-08-28T08:30:07Z  404  /img../.env                  other bot
+  2026-08-28T08:30:07Z  404  /env.json                    other bot
+  2026-08-28T08:30:07Z  404  /env.js                      Meta/Facebook
+  2026-08-28T08:30:07Z  404  /laravel/.env                other bot
+  2026-08-28T08:30:07Z  404  /frontend/.env               other bot
+  2026-08-28T08:30:07Z  404  /core/.env                   Google-Extended
+  2026-08-28T08:30:07Z  404  /.env.swp                    other bot
+  2026-08-28T08:30:07Z  404  /backend/.env                other bot
+  2026-08-28T08:30:07Z  404  /assets../.env               other bot
+  2026-08-28T08:30:07Z  404  /.env.backup                 Meta/Facebook
+  2026-08-28T08:30:07Z  404  /.env.local                  other bot
+  2026-08-28T08:30:07Z  404  /.env                        other bot
+  2026-08-28T08:30:07Z  404  /config/.env                 GPTBot
+  2026-08-28T08:30:07Z  301  /src/.env                    Bytespider
+  2026-08-28T08:30:07Z  404  /v1/.env                     other bot
+  2026-08-28T08:30:07Z  404  /web/.env                    Meta/Facebook
+  2026-08-28T08:30:07Z  404  /.env.production             other bot
+  2026-08-28T08:30:07Z  404  /.env.example                other bot
+  2026-08-28T08:30:07Z  404  /admin/.env                  other bot
+  2026-08-28T08:30:07Z  404  /api/.env                    other bot
+  2026-08-28T08:30:07Z  404  /src/.env                    Bytespider
+  2026-08-28T08:30:07Z  404  /app/.env                    other bot
+  2026-08-28T08:30:07Z  404  /.env.bak                    Applebot
+  2026-08-28T08:30:07Z  404  /uploads../.env              other bot
+  2026-08-28T08:30:07Z  404  /.env                        other bot
+  2026-08-28T08:30:07Z  404  /server/.env                 other bot
+  2026-08-28T08:30:07Z  404  /v2/.env                     other bot
+  2026-08-28T08:30:07Z  404  /.env.old                    other bot
+  2026-08-28T08:30:12Z  404  /aws_credentials             Applebot
+  2026-08-28T08:30:12Z  404  /.gcloud/credentials         Applebot
+  2026-08-28T08:30:12Z  301  /aws-credentials             other bot
+  2026-08-28T08:30:12Z  404  /.git/HEAD                   other bot
+  2026-08-28T08:30:12Z  301  /.git-credentials            other bot
+  2026-08-28T08:30:12Z  301  /.git/config                 OAI-SearchBot
+  2026-08-28T08:30:12Z  301  /public/.env                 Meta/Facebook
+  2026-08-28T08:30:12Z  301  /.gcloud/credentials         Applebot
+  2026-08-28T08:30:12Z  404  /public/.env                 Meta/Facebook
+  2026-08-28T08:30:12Z  404  /.github/.env                Meta/Facebook
+  2026-08-28T08:30:12Z  404  /.git/config                 OAI-SearchBot
+  2026-08-28T08:30:12Z  404  /root/.aws/config            other bot
+  2026-08-28T08:30:12Z  404  /.gcloud/credentials.json    Google-Extended
+  2026-08-28T08:30:12Z  404  /.git-credentials            other bot
+  2026-08-28T08:30:12Z  301  /.gcloud/credentials.json    Google-Extended
+  2026-08-28T08:30:12Z  301  /aws_credentials             Applebot
+  2026-08-28T08:30:12Z  404  /.aws/config                 GPTBot
+  2026-08-28T08:30:12Z  404  /aws-credentials             other bot
+  2026-08-28T08:30:12Z  301  /.git/HEAD                   other bot
+  2026-08-28T08:30:12Z  301  /.github/.env                Meta/Facebook
+  2026-08-28T08:30:12Z  301  /root/.aws/config            other bot
+  2026-08-28T08:30:12Z  301  /.aws/config                 GPTBot
+  2026-08-28T08:30:16Z  301  /secrets.json                Meta/Facebook
+  2026-08-28T08:30:16Z  301  /.ssh/id_dsa                 other bot
+  2026-08-28T08:30:16Z  301  /api/settings                OAI-SearchBot
+  2026-08-28T08:30:16Z  301  /keys/service-account.json   other bot
+  2026-08-28T08:30:16Z  301  /service-account.json        GPTBot
+  2026-08-28T08:30:16Z  301  /firebase-credentials.json   other bot
+  2026-08-28T08:30:16Z  301  /sa.json                     GPTBot
+  2026-08-28T08:30:16Z  301  /google-credentials.json     Google-Extended
+  2026-08-28T08:30:16Z  301  /.docker/config.json         ClaudeBot
+  2026-08-28T08:30:16Z  301  /.ssh/id_rsa                 Google-Extended
+  2026-08-28T08:30:16Z  301  /.ssh/id_ed25519             Amazonbot
+  2026-08-28T08:30:16Z  301  /api/env                     Amazonbot
+  2026-08-28T08:30:16Z  301  /runtime-config.js           ClaudeBot
+  2026-08-28T08:30:16Z  301  /settings.json               other bot
+  2026-08-28T08:30:16Z  301  /config.json                 Meta/Facebook
+  2026-08-28T08:30:16Z  301  /gcp-credentials.json        Bytespider
+  2026-08-28T08:30:16Z  301  /.ssh/config                 PerplexityBot
+  2026-08-28T08:30:16Z  301  /app-config.json             other bot
+  2026-08-28T08:30:16Z  301  /.ssh/id_ecdsa               Google-Extended
+  2026-08-28T08:30:16Z  301  /api/config                  other bot
+  2026-08-28T08:30:16Z  301  /__/firebase/init.json       Bytespider
+  2026-08-28T08:30:16Z  301  /credentials.json            other bot
+  2026-08-28T08:30:16Z  301  /config.js                   Applebot
+  2026-08-28T08:30:16Z  301  /serviceAccountKey.json      Amazonbot
+  2026-08-28T08:30:17Z  404  /.docker/config.json         ClaudeBot
+  2026-08-28T08:30:17Z  404  /settings.json               other bot
+  2026-08-28T08:30:17Z  404  /.ssh/id_ed25519             Amazonbot
+  2026-08-28T08:30:17Z  301  /api/v1/env                  other bot
+  2026-08-28T08:30:17Z  404  /gcp-credentials.json        Bytespider
+  2026-08-28T08:30:17Z  404  /config.json                 Meta/Facebook
+  2026-08-28T08:30:17Z  404  /__/firebase/init.json       Bytespider
+  2026-08-28T08:30:17Z  404  /firebase-credentials.json   other bot
+  2026-08-28T08:30:17Z  404  /api/v1/env                  other bot
+  2026-08-28T08:30:17Z  404  /credentials.json            other bot
+  2026-08-28T08:30:17Z  404  /sa.json                     GPTBot
+  2026-08-28T08:30:17Z  404  /api/env                     Amazonbot
+  2026-08-28T08:30:17Z  404  /.ssh/id_ecdsa               Google-Extended
+  2026-08-28T08:30:17Z  404  /.ssh/config                 PerplexityBot
+  2026-08-28T08:30:17Z  404  /keys/service-account.json   other bot
+  2026-08-28T08:30:17Z  404  /api/v1/config               Amazonbot
+  2026-08-28T08:30:17Z  404  /service-account.json        GPTBot
+  2026-08-28T08:30:17Z  404  /api/settings                OAI-SearchBot
+  2026-08-28T08:30:17Z  404  /.ssh/id_rsa                 Google-Extended
+  2026-08-28T08:30:17Z  404  /.ssh/id_dsa                 other bot
+  2026-08-28T08:30:17Z  404  /serviceAccountKey.json      Amazonbot
+  2026-08-28T08:30:17Z  404  /app-config.json             other bot
+  2026-08-28T08:30:17Z  404  /api/config                  other bot
+  2026-08-28T08:30:17Z  404  /config.js                   Applebot
+  2026-08-28T08:30:17Z  404  /google-credentials.json     Google-Extended
+  2026-08-28T08:30:17Z  404  /secrets.json                Meta/Facebook
+  2026-08-28T08:30:17Z  404  /runtime-config.js           ClaudeBot
+  2026-08-28T08:30:17Z  301  /api/v1/config               Amazonbot
+  2026-08-28T08:30:22Z  301  /privatekey.key              PerplexityBot
+  2026-08-28T08:30:22Z  404  /id_rsa                      Meta/Facebook
+  2026-08-28T08:30:22Z  404  /wp-config.php               other bot
+  2026-08-28T08:30:22Z  404  /private-key                 other bot
+  2026-08-28T08:30:22Z  301  /config.php                  other bot
+  2026-08-28T08:30:22Z  301  /wp-config.php.old           other bot
+  2026-08-28T08:30:22Z  301  /server.key                  Meta/Facebook
+  2026-08-28T08:30:22Z  301  /application.yml             other bot
+  2026-08-28T08:30:22Z  301  /private-key                 other bot
+  2026-08-28T08:30:22Z  404  /privatekey.key              PerplexityBot
+  2026-08-28T08:30:22Z  404  /key.pem                     Meta/Facebook
+  2026-08-28T08:30:22Z  404  /id_ecdsa                    other bot
+  2026-08-28T08:30:22Z  301  /wp-config.php               other bot
+  2026-08-28T08:30:22Z  301  /wp-config.php.bak           other bot
+  2026-08-28T08:30:22Z  301  /config.php.bak              other bot
+  2026-08-28T08:30:22Z  404  /wp-config.php.bak           other bot
+  2026-08-28T08:30:22Z  404  /wp-config.php.old           other bot
+  2026-08-28T08:30:22Z  404  /application.yml             other bot
+  2026-08-28T08:30:22Z  301  /id_ecdsa                    other bot
+  2026-08-28T08:30:22Z  404  /config.php.bak              other bot
+  2026-08-28T08:30:22Z  301  /id_ed25519                  OAI-SearchBot
+  2026-08-28T08:30:22Z  404  /config.php                  other bot
+  2026-08-28T08:30:22Z  301  /id_rsa                      Meta/Facebook
+  2026-08-28T08:30:22Z  404  /id_ed25519                  OAI-SearchBot
+  2026-08-28T08:30:22Z  404  /server.key                  Meta/Facebook
+  2026-08-28T08:30:22Z  301  /key.pem                     Meta/Facebook
+  2026-08-28T08:30:28Z  301  /graphql/console             other bot
+  2026-08-28T08:30:28Z  404  /login                       other bot
+  2026-08-28T08:30:28Z  404  /__env.js                    Amazonbot
+  2026-08-28T08:30:28Z  301  /actuator/mappings           Amazonbot
+  2026-08-28T08:30:28Z  301  /sw.js                       PerplexityBot
+  2026-08-28T08:30:28Z  404  /.hermes/auth.json           other bot
+  2026-08-28T08:30:28Z  301  /.config/anthropic/credentials/default.json other bot
+  2026-08-28T08:30:28Z  404  /actuator/mappings           Amazonbot
+  2026-08-28T08:30:28Z  404  /.config/anthropic/credentials/default.json other bot
+  2026-08-28T08:30:28Z  404  /api/graphql                
