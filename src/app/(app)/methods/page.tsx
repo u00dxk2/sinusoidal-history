@@ -2,9 +2,14 @@ import { dataSeries } from "@/data/series";
 import { cycles } from "@/data/cycles";
 
 export const metadata = {
-  title: "Methods · Sinusoidal History",
+  // Bare segment — the root layout's template appends "· Sinusoidal History".
+  title: "Methods",
+  // Highest-impression page in the first GSC window (13 of 59 impressions,
+  // 0 clicks — orchestrator read of David's screenshots, card ef5842ec).
+  // The old description was a bare noun list; this one names the thing a
+  // methods-shaped searcher is actually looking for — where it breaks.
   description:
-    "Data provenance, transformations, normalization, and methodological caveats.",
+    "How every curve and series is built: sources, transforms, normalization — and where the method breaks down, including why the correlation readout isn't a test.",
   alternates: { canonical: "/methods" },
 };
 

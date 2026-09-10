@@ -2,11 +2,12 @@ import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import type { ConfidenceLevel, Cycle, DataSeries } from "@/data/types";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
+import { spectralVerdictForCycle } from "@/lib/spectral";
 
 /**
  * Static per-cycle routes.
  *
- * The eight cycles previously existed only as query-param states of `/`
+ * The cycles previously existed only as query-param states of `/`
  * (`/?focus=<id>`), which gives search and answer engines nothing to index —
  * in particular the `reference_peak_rationale` prose, which is the most
  * substantive per-cycle text the project holds. `/cycles/<slug>` is the
@@ -106,12 +107,49 @@ export function cycleMetaTitle(cycle: Cycle): string {
   return `${cycle.name} · ${cycle.period_years}-year period`;
 }
 
+/**
+ * The SERP snippet body. Google shows ~155 characters, and in the first GSC
+ * window these pages took 32 of 59 impressions and 0 clicks (orchestrator read
+ * of David's screenshots, card ef5842ec) — so the budget is spent deliberately:
+ *
+ * - No leading `cycle.name`. It is already the first thing in the title tag;
+ *   repeating it cost the first ~45 characters of every description.
+ * - `series.name`, never `legend_short`. The short forms carry chart-legend
+ *   qualifiers that read as leaked internals in a sentence — Perez shipped
+ *   "Paired with Tech diffusion · site-derived" to the SERP.
+ * - The spectral state gets the tail, because "we could not test this" is the
+ *   one thing on the page no competing result for these queries will say.
+ *   Phrasing is derived from the frozen state, never authored per cycle;
+ *   `lay_text` is the body-copy form and is far too long for a snippet.
+ */
 export function cycleMetaDescription(cycle: Cycle): string {
   const series = seriesForCycle(cycle);
+  const article = indefiniteArticle(cycle.period_years);
+  const lead = `${article.charAt(0).toUpperCase()}${article.slice(1)} ${cycle.period_years}-year sinusoid anchored to a ${cycle.reference_peak_year} peak`;
   const paired = series
-    ? `Paired with ${series.legend_short ?? series.name}.`
-    : "No paired data series in this version.";
-  return `${cycle.name}: ${indefiniteArticle(cycle.period_years)} ${cycle.period_years}-year sinusoid anchored to a ${cycle.reference_peak_year} reference peak, with the source citation and peak-calibration rationale. ${paired}`;
+    ? `plotted against ${series.name}`
+    : "with no paired data series in this version";
+  const verdict = spectralMetaClause(cycle);
+  return `${lead}, ${paired}.${verdict}`;
+}
+
+/**
+ * A one-sentence rendering of the frozen spectral verdict, or "" when this
+ * cycle has no primary row (no paired series means nothing to test).
+ */
+function spectralMetaClause(cycle: Cycle): string {
+  const verdict = spectralVerdictForCycle(cycle.id);
+  if (!verdict) return "";
+  switch (verdict.state) {
+    case "INSUFFICIENT_DATA":
+      return " The paired record is too short to test the period.";
+    case "NO_SIGNIFICANT_TARGET_POWER":
+      return " The spectral test finds no significant power at that period.";
+    case "MODEL_SENSITIVE":
+      return " The spectral test is model-sensitive, so it returns no verdict.";
+    case "SIGNIFICANT_TARGET_POWER":
+      return " The spectral test finds significant power at that period.";
+  }
 }
 
 /** "an 84-year", "a 54-year" — spoken form, so 8/11/18-leading numbers take "an". */

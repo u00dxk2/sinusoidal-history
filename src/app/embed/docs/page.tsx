@@ -3,7 +3,8 @@ import { cycles } from "@/data/cycles";
 import { SITE_URL } from "@/lib/siteConfig";
 
 export const metadata = {
-  title: "Embed · Sinusoidal History",
+  // Bare segment — the root layout's template appends "· Sinusoidal History".
+  title: "Embed",
   alternates: { canonical: "/embed/docs" },
 };
 

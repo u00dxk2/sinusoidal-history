@@ -3,7 +3,8 @@ import Poster from "@/components/Poster";
 import { cycles } from "@/data/cycles";
 
 export const metadata = {
-  title: "Poster · Sinusoidal History",
+  // Bare segment — the root layout's template appends "· Sinusoidal History".
+  title: "Poster",
   description: "Shareable poster snapshot of where every cycle sits right now.",
   alternates: { canonical: "/poster" },
 };

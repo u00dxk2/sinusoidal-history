@@ -1,7 +1,8 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Colophon · Sinusoidal History",
+  // Bare segment — the root layout's template appends "· Sinusoidal History".
+  title: "Colophon",
   description:
     "A note from the maker on how this site was built, what was AI, and what was me.",
   alternates: { canonical: "/colophon" },

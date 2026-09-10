@@ -74,22 +74,41 @@ describe("cycle route metadata", () => {
     expect(new Set(descriptions).size).toBe(descriptions.length);
     for (const description of descriptions) {
       expect(description.length).toBeGreaterThan(80);
-      expect(description.length).toBeLessThanOrEqual(200);
+      // Google renders ~155 characters. The old ceiling of 200 let every
+      // paired description ship ~40 characters past the fold.
+      expect(description.length).toBeLessThanOrEqual(165);
+    }
+  });
+
+  it("does not open the description by repeating the title's cycle name", () => {
+    // The name is already the first thing in the title tag; it used to eat
+    // the first ~45 characters of the snippet as well.
+    for (const cycle of cycles) {
+      expect(cycleMetaDescription(cycle).startsWith(cycle.name)).toBe(false);
     }
   });
 
   it("agrees the indefinite article with the spoken period", () => {
     const strauss = cycles.find((c) => c.id === "strauss_howe")!;
-    expect(cycleMetaDescription(strauss)).toContain("an 84-year sinusoid");
+    expect(cycleMetaDescription(strauss)).toContain("An 84-year sinusoid");
     const kondratiev = cycles.find((c) => c.id === "kondratiev")!;
-    expect(cycleMetaDescription(kondratiev)).toContain("a 54-year sinusoid");
+    expect(cycleMetaDescription(kondratiev)).toContain("A 54-year sinusoid");
     const khaldun = cycles.find((c) => c.id === "khaldun")!;
-    expect(cycleMetaDescription(khaldun)).toContain("a 120-year sinusoid");
+    expect(cycleMetaDescription(khaldun)).toContain("A 120-year sinusoid");
   });
 
-  it("names the paired series when there is one", () => {
+  it("names the paired series in prose form, not its chart-legend label", () => {
     const turchin = cycles.find((c) => c.id === "turchin")!;
-    expect(cycleMetaDescription(turchin)).toContain("Top 1% wealth share");
+    expect(cycleMetaDescription(turchin)).toContain("US Top 1% Wealth Share");
+
+    // `legend_short` carries chart qualifiers ("· site-derived", "· log",
+    // "· 5-yr"). Perez shipped "Paired with Tech diffusion · site-derived"
+    // to the SERP for the whole first GSC window.
+    for (const cycle of cycles) {
+      const series = seriesForCycle(cycle);
+      if (!series?.legend_short?.includes("·")) continue;
+      expect(cycleMetaDescription(cycle)).not.toContain(series.legend_short);
+    }
 
     // Perez gained the HATCH pairing in Phase 14; the unpaired example is
     // now Turchin's fathers-and-sons cycle.
@@ -99,7 +118,7 @@ describe("cycle route metadata", () => {
     const fathersSons = cycles.find((c) => c.id === "turchin_fathers_sons")!;
     expect(seriesForCycle(fathersSons)).toBeUndefined();
     expect(cycleMetaDescription(fathersSons)).toContain(
-      "No paired data series"
+      "no paired data series"
     );
   });
 

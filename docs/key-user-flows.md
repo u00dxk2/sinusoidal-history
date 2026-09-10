@@ -7,6 +7,16 @@ journey-walk); update when a surface is added or a flow's steps change.
 
 ## 1. Primary — cold reader to cited/reused cycle (the flow this site exists for)
 
+0. **The search result.** The title tag and meta description, on a results
+   page, next to fifteen other answers. This is the only step of the flow that
+   happens off our own domain, and until 2026-09-09 it was missing from this
+   map — which is a finding by this document's own rule. It is also the step
+   with the best evidence behind it: the first GSC window recorded 59
+   impressions and 0 clicks at average position 16 (orchestrator read of
+   David's screenshots, card ef5842ec). Everything below step 1 is currently
+   downstream of a step that converts at zero. Owned by the root layout's
+   title template, each route's `metadata`, and `cycleMetaDescription()`;
+   guarded by `src/lib/siteConfig.test.ts`.
 1. Land on `/` cold (organic / LLM-crawler referral / skylarkcreations.com link).
 2. First viewport: masthead, H1, dek, "State of the cycles" summary panel.
 3. Scroll: editor's note → tabs (Facets default; Overlay desktop-only;

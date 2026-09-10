@@ -1,5 +1,40 @@
 # Changelog
 
+## The search snippet, rewritten against the first Search Console read (2026-09-09)
+
+The first GSC window on sinusoidalhistory.com came back **59 impressions,
+0 clicks, average position 16, Queries tab "No data"** (orchestrator read of
+David's screenshots, card ef5842ec). Indexing works; nobody clicks. At
+position ~16 the only user-visible surface is the SERP snippet — the title
+tag and the meta description — so that surface got the day.
+
+Three defects, none of them visible from inside the app, which is how they
+survived four fact-check rounds and a journey walk:
+
+- **Six pages emitted the site name twice in the title.** The root layout sets
+  `template: "%s · Sinusoidal History"`, and `/methods`, `/about`, `/colophon`,
+  `/poster`, `/embed/docs` and `/embed` each spelled the suffix themselves —
+  shipping `Methods · Sinusoidal History · Sinusoidal History`, live-verified.
+  Now bare segments (`/embed` uses `title: { absolute }`, being an iframe doc).
+- **The home page undercounted its own content.** `SITE_DESCRIPTION` opened
+  "Eight historical cycle theories" while `cycles.json` has held ten since
+  Phase 14 — and that string is the home snippet body *and* the OG description
+  on every card.
+- **Every per-cycle description wasted its first ~45 characters** repeating the
+  cycle name already in the title, leaked a chart-legend qualifier (`Paired
+  with Tech diffusion · site-derived`), and overran Google's ~155-character
+  fold at 195. Descriptions now lead with the period, the reference peak and
+  the paired series in prose form, and close on the frozen spectral state —
+  "The paired record is too short to test the period" — because an honest
+  negative is the one thing no competing result for these queries will say.
+
+Two regression guards in `src/lib/siteConfig.test.ts`: the description's
+leading number word must match `cycles.length`, and no `page.tsx` title may
+contain the site name. The second one is what found three of the six
+stuttering pages. Per-cycle *titles* were left alone deliberately — they
+truncate at ~60 characters, but they truncate from the brand suffix inward,
+which is the correct thing to lose.
+
 ## Turchin fathers-and-sons cycle renamed to carry its period (2026-08-29)
 
 `Turchin — fathers-and-sons cycle` is now `Turchin (50y) — fathers-and-sons

@@ -2,8 +2,13 @@ export const SITE_NAME = "Sinusoidal History";
 export const SITE_MAKER = "Skylark Creations";
 export const SITE_DOMAIN = "sinusoidalhistory.com";
 export const SITE_URL = `https://${SITE_DOMAIN}`;
+// The leading count MUST match `cycles.json`. It said "Eight" for the whole
+// first GSC window while the site shipped ten — the home page's own snippet
+// undercounted its content on every impression. `siteConfig` deliberately
+// imports no data (it is pulled in by the OG route and the root layout), so
+// the count cannot be derived here; `siteConfig.test.ts` pins it instead.
 export const SITE_DESCRIPTION =
-  "Eight historical cycle theories on one shared time axis. A comparison tool — not prophecy.";
+  "Ten historical cycle theories on one shared time axis. A comparison tool — not prophecy.";
 
 export const DEFAULT_YEAR_RANGE = {
   start: 1600,

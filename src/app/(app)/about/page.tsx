@@ -3,7 +3,11 @@ import { cycles } from "@/data/cycles";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
 
 export const metadata = {
-  title: "About · Sinusoidal History",
+  // Bare segment on purpose: the root layout's title template appends
+  // "· Sinusoidal History". Spelling the site name here too shipped
+  // "About · Sinusoidal History · Sinusoidal History" to the SERP
+  // (live-verified 2026-09-09, 4 impressions / 0 clicks).
+  title: "About",
   description:
     "What this site is, why it exists, what it doesn't claim, and the ten cycles in this version.",
   alternates: { canonical: "/about" },
