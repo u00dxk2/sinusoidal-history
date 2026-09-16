@@ -1,7 +1,8 @@
 ---
 project: sinusoidal-cycles
 repoPath: C:\dev\skylark\sinusoidal-cycles
-liveUrl: https://sinusoidal-history.skylarkcreations.com
+liveUrl: https://sinusoidalhistory.com
+reportPath: docs/daily/<MT-date>-prelaunch.md
 ---
 
 # Daily config — sinusoidal-cycles (Sinusoidal History)
@@ -17,14 +18,18 @@ There is **no `docs/daily-reports/`**. Do not go looking for one.
 
 | What | Where |
 |---|---|
-| Report of record / cold-start primer | `docs/cold-starts/<MT-date>.md` — multi-session, each close-out appends a section |
+| Daily report of record (rail days, since 2026-09-16) | `docs/daily/<MT-date>-prelaunch.md` — this repo is **public**: write it for a stranger (no personal emails, no board-card text) |
+| Cold-start primer | `docs/cold-starts/<MT-date>.md` — multi-session, each close-out appends a section |
 | Ship log | `CHANGELOG.md` |
 | Tracked items + known patterns | `continuity/items.json` |
 | Narrative record across sessions | agent memory (`MEMORY.md` index) |
-| Daily report to the orchestrator | the bus `task-complete` body — nothing on disk |
 
-For step 0.10 ("re-read yesterday's Recommendations"), the equivalent block is the
-**"Tomorrow's first action"** list in the most recent `docs/cold-starts/` section.
+For step 0.10 ("re-read yesterday's Recommendations"), read the `## Recommendation`
+block of yesterday's `docs/daily/` report. On a day with no report, use the
+**"Tomorrow's first action"** list in the newest `docs/cold-starts/` section instead.
+
+`C:\dev\skylark\sinusoidal-history` is a directory **junction** to this checkout, not a
+second lane. The fleet roster reads the lane through that alias.
 
 ## No CI — this is the part that bites
 
