@@ -23,6 +23,7 @@ import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import {
   SPECTRAL_STATE_LABELS,
   spectralDraws,
+  spectralHeadline,
   spectralVerdictForCycle,
 } from "@/lib/spectral";
 
@@ -172,6 +173,52 @@ export default async function CyclePage({ params }: Params) {
           {cycle.short_description}
         </p>
       </header>
+
+      {/* The question a stranger arrives with is "is this real, and how would I
+          know?" — and until 2026-09-16 the answer sat ~4 sections down, after the
+          curve, the calibration and the extrema table. This is that answer, up
+          front, every number derived from the frozen verdicts.json. Same shape as
+          the J6 fix on the section below: plain English before the figure. */}
+      {verdict && (
+        <section
+          aria-label="Does this cycle hold up"
+          className="mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
+        >
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
+            Does it hold up?
+          </h2>
+          <p className="mt-2.5 text-[17px] leading-[1.5] text-ink">
+            {verdict.eligible
+              ? `Tested — ${SPECTRAL_STATE_LABELS[verdict.state]}.`
+              : "Not testable on the record that exists — and that is the finding, not a dodge."}
+          </p>
+          <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
+            {/* Name the series ONLY when the tested record IS the displayed one:
+                inference runs on unsmoothed / span-limited cuts (Kondratiev's annual
+                TFP, Turchin's 1913+ wealth), and calling those by the chart's label
+                would contradict the verdict paragraph below. Shortfall is computed
+                from the exact span, never from the rounded cycles_covered — that
+                rounding overstates it by a year on four of the nine rows. */}
+            {series && series.id === verdict.series_id
+              ? `The paired record (${series.name}) runs ${verdict.span_years} years: `
+              : `The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
+            {`${verdict.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
+            {!verdict.eligible &&
+              ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
+          </p>
+          <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
+            {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}
+          </p>
+          <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+            <a
+              href="#spectral-verdict"
+              className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              The full verdict, the figure and the protocol →
+            </a>
+          </p>
+        </section>
+      )}
 
       <CurveFigure cycle={cycle} />
 
@@ -341,7 +388,7 @@ export default async function CyclePage({ params }: Params) {
       )}
 
       {verdict && (
-        <section className="mt-10">
+        <section id="spectral-verdict" className="mt-10">
           <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
             Spectral verdict
           </h2>
