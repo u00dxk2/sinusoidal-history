@@ -18,6 +18,13 @@ journey-walk); update when a surface is added or a flow's steps change.
    title template, each route's `metadata`, and `cycleMetaDescription()`;
    guarded by `src/lib/siteConfig.test.ts`.
 1. Land on `/` cold (organic / LLM-crawler referral / skylarkcreations.com link).
+   **Or land on `/methods` from search.** It was the highest-impression page in
+   the first Search Console window (14 of 73 impressions, 2026-08-19..09-09), so
+   for a searcher it is an ENTRY page, not only the exit in step 6. This map
+   listed it only as an exit until 2026-09-16. First viewport since then: H1 and
+   dek, then an "In brief" block (what the site is + See the chart →, and the
+   spectral headline count, derived from `verdicts.json`) and an "On this page"
+   jump list over the six sections.
 2. First viewport: masthead, H1, dek, "State of the cycles" summary panel.
 3. Scroll: editor's note → tabs (Facets default; Overlay desktop-only;
    Calibrate) → ten facet charts → shared time axis → range brush →

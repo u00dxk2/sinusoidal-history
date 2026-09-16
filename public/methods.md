@@ -6,6 +6,10 @@
 
 *Where each data series comes from, what gets transformed, and why the correlation number on the calibration panel is a diagnostic and not a test statistic.*
 
+**In brief.** This site draws 10 historical cycle theories as pure sinusoids on one shared time axis, with a real data series overlaid on 9 of them. [See the chart](https://sinusoidalhistory.com/).
+
+The result to read first: a pre-registered spectral test finds that 0 of the 9 pairings have a record long enough (three full periods) to be tested at the theory's own period. [How the test works](#spectral-testing).
+
 ## Data sources
 
 ### US House Polarization (DW-NOMINATE)

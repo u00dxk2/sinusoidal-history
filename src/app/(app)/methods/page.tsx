@@ -1,5 +1,22 @@
+import Link from "next/link";
 import { dataSeries } from "@/data/series";
 import { cycles } from "@/data/cycles";
+import { spectralHeadline } from "@/lib/spectral";
+
+// /methods is the site's highest-impression page in search, so for many readers it is
+// the FRONT door, not an exit from the chart. Section ids back the "On this page" list;
+// #spectral-testing is also linked from `/` and every /cycles/<slug> page — keep it.
+const SECTIONS = [
+  { id: "data-sources", label: "Data sources" },
+  { id: "normalization", label: "Normalization" },
+  { id: "pearson", label: "Why Pearson is the wrong tool" },
+  { id: "spectral-testing", label: "Spectral testing" },
+  { id: "missing-data", label: "Missing and sparse data" },
+  { id: "pairing-notes", label: "Notes on individual pairings" },
+] as const;
+
+const link =
+  "text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors";
 
 export const metadata = {
   // Bare segment — the root layout's template appends "· Sinusoidal History".
@@ -34,7 +51,39 @@ export default function Methods() {
         <div className="editorial-rule mt-6" />
       </header>
 
-      <section className="mt-10 space-y-4">
+      <section aria-label="In brief" className="space-y-2.5 text-[15px] leading-[1.6] text-ink/85">
+        <p>
+          {/* Template literals, not multi-line JSX text: this Next strips the edge space
+              of a multi-line text node beside an {expression} (AGENTS.md). */}
+          <strong className="font-medium text-ink">In brief.</strong>{" "}
+          {`This site draws ${cycles.length} historical cycle theories as pure sinusoids on one shared time axis, with a real data series overlaid on ${dataSeries.length} of them.`}{" "}
+          <Link href="/" className={link}>
+            See the chart →
+          </Link>
+        </p>
+        <p>
+          {`The result to read first: a pre-registered spectral test finds that ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the theory's own period.`}{" "}
+          <a href="#spectral-testing" className={link}>
+            How the test works →
+          </a>
+        </p>
+        <nav aria-label="On this page" className="pt-3">
+          <p className="text-[11px] tracking-[0.24em] uppercase text-ink-soft font-medium">
+            On this page
+          </p>
+          <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5 text-[14px]">
+            {SECTIONS.map((s) => (
+              <li key={s.id}>
+                <a href={`#${s.id}`} className={link}>
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </section>
+
+      <section id="data-sources" className="mt-10 space-y-4">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Data sources
         </h2>
@@ -96,7 +145,7 @@ export default function Methods() {
         </ul>
       </section>
 
-      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+      <section id="normalization" className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Normalization
         </h2>
@@ -133,7 +182,7 @@ export default function Methods() {
         </ul>
       </section>
 
-      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+      <section id="pearson" className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Why Pearson is the wrong tool
         </h2>
@@ -272,7 +321,7 @@ export default function Methods() {
         </p>
       </section>
 
-      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+      <section id="missing-data" className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Missing and sparse data
         </h2>
@@ -318,7 +367,7 @@ export default function Methods() {
         </p>
       </section>
 
-      <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
+      <section id="pairing-notes" className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Notes on individual pairings
         </h2>
