@@ -55,10 +55,28 @@ Flags task-completes citing commits absent from origin >3h; exit 3 = findings.
 Its sibling `check-ci-status.mjs` is a no-op here and stays unrun — with no
 workflow file there is nothing for `--workflow` to name.
 
-## The one instrument
+## The instruments
 
-`scripts/crawl-read.mjs` is this site's entire analytics stack. It reads Render's
-HTTP request logs; nothing is instrumented in the app (no client script, no cookie,
+**Tier-1 (since 2026-09-16, orchestrator-approved): organic clicks by page**, read
+through the portfolio's Search Console client. The lane was wired into
+`GSC_PROPERTIES` as `sc-domain:sinusoidalhistory.com` by skylark-site `ae4e4460f`,
+so this no longer needs David at the pane:
+
+```powershell
+Set-Location C:\dev\skylark\sinusoidal-cycles
+doppler run --project skylark-site --config dev_personal -- node ../skylark-site/scripts/gsc-demand-worklist.mjs --projects sinusoidal-cycles --days 28 --min-impressions 1 --position-gt 0
+```
+
+It prints the non-brand-clicks baseline (the ONE metric) and the demand-gap queries.
+Two caveats that decide how you read it: Search Console lags **~3 days**, so a read
+today cannot see the last 2-3 days; and GSC anonymizes low-volume queries, so the
+query rows are a *sample* of impressions (5 of 89 on the first read), never the set.
+`/api/cc/gsc-performance?project=sinusoidal-cycles` is the same data over HTTP once
+Render has deployed the wiring commit.
+
+**Tier-2, monthly coverage check: `scripts/crawl-read.mjs`.** It reads Render's HTTP
+request logs and answers who *crawls* the site; it can never see impressions, queries,
+position or clicks. Nothing is instrumented in the app (no client script, no cookie,
 no consent surface) and that is deliberate.
 
 ```powershell

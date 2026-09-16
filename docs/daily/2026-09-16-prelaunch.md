@@ -48,7 +48,18 @@ Get-Content 'C:\dev\skylark\sinusoidal-cycles\src\app\(app)\methods\page.tsx' -T
 
 ## What changed
 
-_(filled at P3)_
+**The Search Console read became agent-runnable, and W-001 got its first programmatic reading.** skylark-site `ae4e4460f` wired this lane's property into `GSC_PROPERTIES`; the orchestrator re-ran the smoke test before writing it. The numbers below are this lane's first search data that did not come from a screenshot.
+
+| Window | Impressions | Clicks | Avg position |
+|---|---|---|---|
+| Pre-`1136b87` (2026-08-19 … 09-09) | 73 | 0 | 16.4 |
+| Post-`1136b87` (2026-09-10 … 09-13, 4 days) | 16 | 0 | 21.4 |
+
+**Did the snippet rewrite move click-through off zero? Not answerable yet, and that is the honest answer.** 16 impressions at average position ~21 predicts well under one click even at a healthy click-through rate, so this zero carries no information either way. The first date the question can be answered is roughly 2026-10-07.
+
+**The first non-brand query set is in** — the payoff W-001 has carried since 2026-08-13. Five query rows surface (Search Console hides low-volume queries, so these are 5 of 89 impressions, not the whole set), and four of the five are Ray Dalio: "ray dalio big cycle" (pos 60), "ray dalio big cycle theory" (49), "ray dalio the big cycle" (55), "ray dalio big cycles" (52). The fifth is "cycle of ten" (pos 8). **The demand that exists is for a named theory, and the site sits on page 5-6 for it** — a position where no snippet edit can earn a click.
+
+**Instrument change, approved this morning:** organic clicks by page is the tier-1 read; `crawl-read.mjs` drops to a monthly coverage check. W-001's `readCommand` now points at the GSC demand worklist, and its 09-19 trigger action was rewritten from "ask David for the Performance view" to a sample-size check the lane runs itself.
 
 ## Recommendation
 
