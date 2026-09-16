@@ -31,29 +31,32 @@ block of yesterday's `docs/daily/` report. On a day with no report, use the
 `C:\dev\skylark\sinusoidal-history` is a directory **junction** to this checkout, not a
 second lane. The fleet roster reads the lane through that alias.
 
-## No CI — this is the part that bites
+## CI (since 2026-09-16) — and the part that still bites
 
-There is **no `.github/workflows/`**. Nothing runs on push. A ship here means
-running the gates yourself, then verifying production after Render auto-deploys:
+`.github/workflows/ci.yml` runs lint, typecheck, test and build on every push and PR
+to `main`. Read it for a commit with:
 
 ```powershell
-Set-Location C:\dev\skylark\sinusoidal-cycles
-npm run build; npm run typecheck; npm run lint; npm test
+node ../skylark-site/scripts/check-ci-status.mjs --workflow ci.yml
 ```
 
-Any task-complete citing a SHA from this repo states the conclusion of **that local
-run** — there is no CI verdict to cite.
+**Render deploys on every push and does NOT wait for CI** (`autoDeploy: true`, not
+checksPass). A red CI run therefore means a broken build may already be live — check
+CI *before* claiming a ship is safe, not after. Locally, run only the gate you touched
+and let CI be the full gate (fleet capacity rule: heavy jobs one at a time).
 
-The other half of the CI-truth pair (R-2, 2026-08-15) still applies, because a
-local-gates lane can still post a SHA it never pushed:
+A `pre-commit` hook (`.githooks/`, armed by `npm install`'s `prepare`) runs the
+vendored secret scanner on every commit. Refresh `scripts/check-staged-secrets.mjs` by
+copying skylark-site's file byte-exact, never by editing it here.
+
+The other half of the CI-truth pair (R-2, 2026-08-15) still applies, because any
+lane can post a SHA it never pushed:
 
 ```powershell
 node ../skylark-site/scripts/check-posted-unpushed.mjs --project sinusoidal-cycles
 ```
 
 Flags task-completes citing commits absent from origin >3h; exit 3 = findings.
-Its sibling `check-ci-status.mjs` is a no-op here and stays unrun — with no
-workflow file there is nothing for `--workflow` to name.
 
 ## The instruments
 

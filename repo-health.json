@@ -1,0 +1,62 @@
+{
+  "repo": "sinusoidal-cycles",
+  "product": "Sinusoidal History — ten historical cycle theories drawn as sinusoids against paired empirical series",
+  "url": "https://sinusoidalhistory.com",
+  "source": "https://github.com/u00dxk2/sinusoidal-history",
+  "class": "service-shipping",
+  "manifestCreated": "2026-09-16",
+  "_disclosureNote": "This repo is PUBLIC, so this manifest is written for a public reader: it states the controls that are in place and names what is absent as a plain fact, without enumerating how to exploit anything.",
+  "runtime": {
+    "language": "TypeScript",
+    "framework": "Next.js 16 App Router, React 19",
+    "nodeVersion": "22 (render.yaml NODE_VERSION and CI)",
+    "packageManager": "npm; package-lock.json committed, CI installs with npm ci"
+  },
+  "deploy": {
+    "target": "render",
+    "config": "render.yaml",
+    "trigger": "auto-deploy on every push to main. The deploy is NOT gated on CI, so a push is a release whether or not CI goes green.",
+    "rollback": "git revert + push"
+  },
+  "datastores": [
+    { "kind": "flat-files", "note": "public/data/*.csv series and src/data/*.json cycle definitions, committed and served statically. Every derived CSV has a scripts/build_<slug>.py that reproduces it from upstream. No database." }
+  ],
+  "authModel": "none. No accounts, no sessions, no cookies, no user data of any kind.",
+  "privilegedEndpoints": [],
+  "publicEndpoints": [
+    { "path": "/api/v1/cycles", "note": "read-only JSON derived from src/data/cycles.json" },
+    { "path": "/api/v1/series", "note": "read-only JSON derived from src/data/series.json" },
+    { "path": "/api/v1/state", "note": "read-only JSON: each cycle's computed phase for a year" }
+  ],
+  "secrets": {
+    "runtime": "none. Nothing under src/ reads process.env; the site needs no credential to build or serve.",
+    "envFiles": "none tracked",
+    "operatorCredentials": "read-only analytics reads (Render request logs, Search Console) run from the operator's machine with credentials held outside this repo, never in Actions secrets"
+  },
+  "requiredChecks": {
+    "enforcement": "GitHub Actions (.github/workflows/ci.yml) on push and pull request to main",
+    "ci": "npm ci, then lint, typecheck (tsc --noEmit), vitest, next build — the same four gates this repo previously ran only by hand",
+    "preCommit": ["node scripts/check-staged-secrets.mjs — refuses a commit whose staged added lines carry secret-shaped content"],
+    "additional": [
+      "python scripts/audit_cycle_rationales.py before shipping any prose that names a year and a cycle phase (a human-read table, not a CI gate)",
+      "scripts/spectral_verdict.py pins its input-CSV sha256s in a manifest and aborts on mismatch"
+    ]
+  },
+  "secretScanning": {
+    "preCommit": "present — core.hooksPath is .githooks (set by npm install's prepare script) and the hook runs scripts/check-staged-secrets.mjs, a byte-exact copy of the fleet scanner. A fresh clone that never runs npm install has no hook.",
+    "pushProtection": "disabled",
+    "githubSecretScanning": "disabled",
+    "verifiedHistorySweep": "never run"
+  },
+  "branchProtection": {
+    "main": "none — single-contributor repo, work lands directly on main"
+  },
+  "errorMonitoring": {
+    "provider": "none",
+    "note": "A static reference site with no client instrumentation by design: no analytics script, no cookie, no consent surface."
+  },
+  "observability": {
+    "tier1": "organic search clicks by page, read through the portfolio Search Console client",
+    "tier2": "scripts/crawl-read.mjs over Render request logs, monthly — answers who crawls the site, never who reads it"
+  }
+}
