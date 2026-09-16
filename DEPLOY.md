@@ -1,6 +1,12 @@
 # Deployment — Render + Squarespace DNS
 
-The production target is **`sinusoidal-history.skylarkcreations.com`**, served by a new Render Web Service. The parent domain `skylarkcreations.com` is already on Render with DNS at Squarespace, so this is a "new subdomain on an existing setup" not a new domain registration.
+> **Superseded in part, 2026-08-20 (noted 2026-09-16).** The canonical production
+> domain is now **`sinusoidalhistory.com`**; the subdomain below, the `.org` and the
+> `www` variants all 301 to it with paths preserved (`CHANGELOG.md`). The Render and
+> DNS mechanics in this doc still hold — read the hostname as historical, not as the
+> target to verify against.
+
+The original production target was **`sinusoidal-history.skylarkcreations.com`**, served by a new Render Web Service. The parent domain `skylarkcreations.com` is already on Render with DNS at Squarespace, so this was a "new subdomain on an existing setup" not a new domain registration.
 
 This doc walks the full path: push the repo, create the Render service, point Squarespace DNS at it, verify.
 

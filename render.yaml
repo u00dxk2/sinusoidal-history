@@ -10,6 +10,7 @@ services:
         value: "22"
     autoDeploy: true
     healthCheckPath: /
-    # Custom domain: sinusoidal-history.skylarkcreations.com
+    # Canonical domain: sinusoidalhistory.com (since 2026-08-20; the older
+    # sinusoidal-history.skylarkcreations.com subdomain 301s to it)
     # See DEPLOY.md for the Render-side wiring + Squarespace CNAME steps.
     # Render handles the cert; nothing to configure here.

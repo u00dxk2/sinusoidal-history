@@ -7,6 +7,25 @@ This version has breaking changes — APIs, conventions, and file structure may 
 <!-- END:nextjs-agent-rules -->
 
 <!-- BEGIN:prose-mirror-invariant -->
+# CI, the commit hook, and where the traffic numbers come from (all new 2026-09-16)
+
+`.github/workflows/ci.yml` runs lint, typecheck, test and build on every push and PR
+to `main`. **Render deploys on every push and does NOT wait for CI**, so a red run can
+sit behind a live build — read CI before claiming a ship is safe. Run only the gate you
+touched locally and let CI be the full battery.
+
+`.githooks/pre-commit` runs `scripts/check-staged-secrets.mjs`, a **byte-exact copy** of
+skylark-site's scanner — refresh it by re-copying that file, never by editing this one.
+`npm install` arms it via `prepare` (`core.hooksPath`). `.gitattributes` pins
+`.githooks/*` to LF, because a CRLF shebang silently disables the hook on a fresh clone.
+
+**Traffic questions have two instruments, and they answer different questions.**
+`scripts/gsc-read.mjs --start <YYYY-MM-DD>` (tier-1) reads Search Console per page:
+impressions, clicks, position — who was *shown* the site. `scripts/crawl-read.mjs`
+(tier-2, monthly) reads Render request logs: who *crawls* it. **Never take a click total
+from a query-grouped read** — Search Console anonymizes low-volume queries and their
+clicks vanish with the rows; page-only grouping is the one whose totals are whole.
+
 # Keep prose mirrors in sync
 
 Three React prose pages have plain-markdown mirrors that LLM crawlers and external agents fetch directly:

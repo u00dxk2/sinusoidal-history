@@ -3,7 +3,19 @@ project: sinusoidal-cycles
 repoPath: C:\dev\skylark\sinusoidal-cycles
 liveUrl: https://sinusoidalhistory.com
 reportPath: docs/daily/<MT-date>-prelaunch.md
+primerPath: docs/cold-starts/<MT-date>.md
+primerOffset: +1
 ---
+
+<!-- primer convention, declared 2026-09-16 because check-next-primer-exists.mjs read
+     this lane as UNRESOLVABLE (no PRIMER_CONVENTIONS row, no primary cold-starts entry
+     in REPORT_CONFIGS): the primer written at tonight's close is named for TOMORROW's
+     MT date, i.e. offset = filename date − write date = +1. Evidence: the section
+     inside docs/cold-starts/2026-09-09.md is headed "Session close-out — 03:30Z
+     (2026-09-08 ~21:30 MT)", so that file was written the evening before its own
+     filename date. The fleet registry row lives in skylark-site and is the
+     orchestrator's to add; this declaration is the lane-side half. -->
+
 
 # Daily config — sinusoidal-cycles (Sinusoidal History)
 

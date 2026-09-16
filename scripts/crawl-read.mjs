@@ -1,7 +1,9 @@
 /**
  * Who is actually crawling sinusoidal-history, and what are they fetching?
  *
- * This is the site's entire analytics stack. It reads Render's own HTTP
+ * Since 2026-09-16 this is the site's TIER-2 instrument, read monthly for crawl
+ * coverage — no longer the whole analytics stack. Tier-1 is scripts/gsc-read.mjs
+ * (Search Console: impressions, clicks, position, per page). It reads Render's own HTTP
  * request logs — which already record path + user-agent for every hit — and
  * aggregates them. Nothing is instrumented in the app: no client script, no
  * cookie, no consent surface, no third-party beacon. That is deliberate. The
