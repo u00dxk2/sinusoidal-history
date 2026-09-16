@@ -27,7 +27,7 @@ First rail day. Section 0 is complete and nothing was shipped at P1.
 Get-Content 'C:\dev\skylark\sinusoidal-cycles\src\app\(app)\methods\page.tsx' -TotalCount 90
 ```
 
-**THE NUMBER THAT WILL LIE TO YOU.** "59 impressions, 0 clicks." Every one of those impressions predates the snippet rewrite `1136b87` (2026-09-10). It is the baseline the rewrite was built against, not a verdict on the rewrite. No post-ship read exists yet, so reading it as "the snippet fix did not work" is wrong.
+**THE NUMBER THAT WILL LIE TO YOU.** "59 impressions, 0 clicks." Every one of those impressions predates the snippet rewrite `1136b87` (committed 2026-09-09 20:39 MT). It is the baseline the rewrite was built against, not a verdict on the rewrite. No post-ship read exists yet, so reading it as "the snippet fix did not work" is wrong.
 
 **DON'T-TOUCH.** The per-cycle page titles (76–82 characters). They truncate from the brand suffix inward, so a SERP loses "· Sinusoidal History", which is the right thing to lose. Re-cutting titles is the edit most likely to disturb indexing while that leg is still fresh.
 
@@ -59,7 +59,15 @@ Get-Content 'C:\dev\skylark\sinusoidal-cycles\src\app\(app)\methods\page.tsx' -T
 
 **The first non-brand query set is in** — the payoff W-001 has carried since 2026-08-13. Five query rows surface (Search Console hides low-volume queries, so these are 5 of 89 impressions, not the whole set), and four of the five are Ray Dalio: "ray dalio big cycle" (pos 60), "ray dalio big cycle theory" (49), "ray dalio the big cycle" (55), "ray dalio big cycles" (52). The fifth is "cycle of ten" (pos 8). **The demand that exists is for a named theory, and the site sits on page 5-6 for it** — a position where no snippet edit can earn a click.
 
-**Instrument change, approved this morning:** organic clicks by page is the tier-1 read; `crawl-read.mjs` drops to a monthly coverage check. W-001's `readCommand` now points at the GSC demand worklist, and its 09-19 trigger action was rewritten from "ask David for the Performance view" to a sample-size check the lane runs itself.
+**Instrument change** (approved in bus `2655180f`): organic clicks by page is the tier-1 read, and `crawl-read.mjs` drops to a monthly coverage check. W-001's `readCommand` is now `node scripts/gsc-read.mjs --start 2026-09-10`, a new lane script that reads the deployed route **grouped by page only**. That is the one grouping whose click totals are whole; a query grouping drops the rows Search Console anonymizes, and their clicks with them. The first version of the command used the query-grouped worklist and was corrected the same morning. Its 09-19 trigger action changed from "ask David for the Performance view" to a read the lane runs itself: clicks, impressions and position per page, together, so the result can say which lever moved.
+
+**Secret scanning on the public repo** (`f9f2d47`, `831d100`, `114fe20`). A byte-exact copy of the fleet scanner now runs behind a `pre-commit` hook, and `npm install` arms it through `prepare`. A staged AWS-key-shaped string was blocked before this shipped. The fleet coverage check reads 25 of 25 repos covered.
+
+**CI and a health manifest** (`49a7658`). `.github/workflows/ci.yml` runs lint, typecheck, test and build on every push; its first run on `49a7658` was GREEN (`check-ci-status --workflow ci.yml`). `repo-health.json` is written for a public reader. The lane-contract gate now reads this lane `COMPLIANT`. Two facts it records: Render deploys on every push **without waiting for CI**, and GitHub's own secret scanning and push protection are both disabled on this repo.
+
+## Section A — the user-visible change this day is heading for
+
+**The first screenful at `/methods`.** It pulls the **post-click** lever: it serves the searchers who arrive once rank moves, and it does not change the search result itself. Nothing here claims what a searcher sees until a frame read at phone and desktop width exists.
 
 ## Recommendation
 
