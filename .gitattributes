@@ -1,0 +1,2 @@
+# A CRLF shebang breaks the pre-commit hook on checkout, which silently disables the secret scan.
+.githooks/* text eol=lf
