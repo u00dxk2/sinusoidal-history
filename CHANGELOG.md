@@ -1,5 +1,45 @@
 # Changelog
 
+## Two front doors, and the site's first CI (2026-09-16)
+
+First day on the daily rail. Two user-visible ships, both aimed at the same
+gap: **the page a stranger lands on did not tell them what this is or whether
+it holds up.**
+
+- **`/methods` opens as a front door** (`6e41ff6`). It is the site's
+  highest-impression page in search — 14 of 73 impressions in the
+  2026-08-19→09-09 window — and its first screen went from the H1 straight
+  into data-source entries. It now carries an "In brief" block (ten theories
+  as sinusoids, a real series on nine of them, a link to the chart, and the
+  spectral headline) plus an "On this page" list. Every count is derived from
+  `cycles.json` / `series.json` / `verdicts.json`, so it cannot drift the way
+  `SITE_DESCRIPTION`'s "Eight" did against ten.
+- **Every cycle page answers "does it hold up?" above the curve** (`e7d8936`).
+  The verdict used to sit four sections down, after the calibration and the
+  extrema table. The new block states it in one line, gives the record against
+  the 3.0-period floor, says how many more years of that measurement would
+  reach it (73 for Dalio, 339 for Turchin), and — the line that keeps it
+  honest — that **0 of the 9 pairings clear the floor**, so no single theorist
+  is being marked down. Two defects caught by adversarial review before the
+  commit: the shortfall was computed from a rounded field and overstated four
+  pages by a year, and the chart's series name was attached to verdicts that
+  run on different cuts (Kondratiev's unsmoothed annual TFP, Turchin's 1913+
+  wealth).
+
+Supporting work, all new to this repo:
+
+- **CI** (`49a7658`) — `.github/workflows/ci.yml` runs lint, typecheck, test
+  and build on every push and PR. Note: Render still deploys on every push
+  **without waiting for CI**, so a red run can sit behind a live build.
+- **A pre-commit secret scanner** (`f9f2d47`, `831d100`, `114fe20`) — the
+  fleet scanner vendored byte-exact, armed by `npm install`, proven to block a
+  staged AWS-shaped key. GitHub secret scanning and push protection were
+  enabled on the repo the same day (`e3c97e7`).
+- **The Search Console read became an agent command** (`7f1267d`, `07273cf`) —
+  `scripts/gsc-read.mjs`, page-grouped so click totals are whole. It recorded
+  this project's first non-brand queries: four of the five Search Console will
+  disclose are Ray Dalio "big cycle" searches, all at positions 49–60.
+
 ## The search snippet, rewritten against the first Search Console read (2026-09-09)
 
 The first GSC window on sinusoidalhistory.com came back **59 impressions,
