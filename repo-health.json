@@ -44,8 +44,10 @@
   },
   "secretScanning": {
     "preCommit": "present — core.hooksPath is .githooks (set by npm install's prepare script) and the hook runs scripts/check-staged-secrets.mjs, a byte-exact copy of the fleet scanner. A fresh clone that never runs npm install has no hook.",
-    "pushProtection": "disabled",
-    "githubSecretScanning": "disabled",
+    "pushProtection": "enabled 2026-09-16 — GitHub refuses a push carrying a detected secret, covering what the local hook cannot see: a clone that never ran npm install, another machine, an edit made in the web UI",
+    "githubSecretScanning": "enabled 2026-09-16",
+    "dependabotAlerts": "disabled — so this repo cannot report a dependency-risk count at all; check-engineering-zero reads it as unreadable, never as zero. 27 direct dependencies, 638 resolved packages in the lockfile.",
+    "dependabotSecurityUpdates": "disabled (no automatic update PRs)",
     "verifiedHistorySweep": "never run"
   },
   "branchProtection": {
