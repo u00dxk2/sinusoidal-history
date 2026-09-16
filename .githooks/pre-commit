@@ -1,0 +1,6 @@
+#!/bin/sh
+# Blocks a commit whose STAGED, ADDED lines contain something shaped like a secret.
+# The scanner is vendored verbatim from skylark-site (scripts/check-staged-secrets.mjs);
+# refresh it by copying that file, never by editing this repo's copy.
+# False positive? Append `pragma: allowlist secret` to the offending line.
+exec node "$(git rev-parse --show-toplevel)/scripts/check-staged-secrets.mjs"
