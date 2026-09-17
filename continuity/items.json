@@ -26,7 +26,7 @@
       "nextTrigger": {
         "_dateNote": "The signal date lives at the top-level `nextEvaluation` field, NOT here. It was nested at `nextTrigger.date` from 2026-08-13 to 2026-08-15, which made this item invisible to the portfolio overdue-gate scanners: collectSignalDates() in skylark-site ../skylark-site/src/lib/cc-continuity-tracker-blindness.mjs does a FLAT key lookup (`item[declared]`), so a nested path resolves to undefined and the item reads as date-less while every dashboard shows green. Do not move the date back in here.",
         "action": "2026-09-19 (ten MT days after 1136b87, committed 2026-09-09 20:39 MT): a CTR read, and it no longer needs David. Run this row's readCommand (scripts/gsc-read.mjs — page-only grouping, whole totals) and read clicks, impressions and position PER PAGE together, so the read can say which lever moved (snippet vs rank). Compare against the 2026-09-16 baseline in notes: PRE 73 impressions / 0 clicks / pos 16.4, POST 17 / 0 / 20.4. For the query list use the worklist (skylark-site gsc-demand-worklist.mjs); never take a click total from a query-grouped read. Report the window and n every time — Search Console lags ~3 days, so a read on 09-19 sees data only through ~09-16, which is ~7 days post-ship at roughly 4 impressions/day. That is n≈28: still far too small for a CTR verdict, so 09-19 is a SAMPLE-SIZE CHECK, not the answer. The honest first answerable date is ~2026-10-07 (~30 days post-ship). What 09-19 CAN answer: did the query set grow beyond the 5 Dalio-dominated rows, and did average position move off ~21.",
-        "branching": "Clicks off zero -> the snippet was the binding constraint; record which pages converted and keep the watch on impressions growth. Impressions up but clicks still zero -> the snippet is not the constraint at position ~16; stop editing metadata and treat ranking position as the target. Queries tab populates -> record the first non-brand query set, the payoff this row has carried since 2026-08-13. Impressions flat or falling -> check that the title/description rewrite did not disturb indexing (re-crawl date per page in the URL Inspection tool) before attributing it to anything else."
+        "branching": "BRANCH 0, READ THIS FIRST (added 2026-09-17 per the N-insufficient meta-branch rule): if post-ship impressions are under N_min = 100 by the read date, every discriminator below is INAPPLICABLE and must not be applied — at 4 impressions/day a 09-19 read sees n≈28, and a 0/28 click count is consistent with any true CTR up to ~10% (rule of three), so each branch below would 'fire' on noise. The disposition when Branch 0 holds is (a) EXTEND the window to ~2026-10-07 (~30 days post-ship, the row's own stated first answerable date) and re-read then; NOT (b) escalate to an acquisition/instrumentation diagnostic, because the instrument is proven — the same read returns nonzero impressions and nonzero query rows through the same pipeline; and NOT (c) accept directionally-clear-but-thin, because a zero-click column has no direction to be clear about. Only when impressions since ship reach N_min do the branches below apply. · Clicks off zero -> the snippet was the binding constraint; record which pages converted and keep the watch on impressions growth. Impressions up but clicks still zero -> the snippet is not the constraint at position ~16; stop editing metadata and treat ranking position as the target. Queries tab populates -> record the first non-brand query set, the payoff this row has carried since 2026-08-13. Impressions flat or falling -> check that the title/description rewrite did not disturb indexing (re-crawl date per page in the URL Inspection tool) before attributing it to anything else."
       },
       "waitingFor": "Nothing blocking. The GSC coverage/impressions read that this row waited on from 2026-08-13 was delivered by David on 2026-09-09 (card ef5842ec) and is folded into notes. Two David-only options remain, neither gating: (1) the 2026-09-19 CTR re-read described in nextTrigger.action; (2) still optional, verify a Bing Webmaster Tools property — Bingbot arrived organically at Googlebot parity (373 hits/14d) and is exactly as unmeasured as Google was before 08-20, so a second search engine's impressions are currently invisible.",
       "expectedDuration": "P30D",
@@ -41,7 +41,9 @@
         "2f766eb",
         "7f1267d",
         "07273cf",
-        "6e41ff6"
+        "6e41ff6",
+        "44557c1",
+        "832f4d8"
       ],
       "readCommandLastRun": "2026-09-09T03:17:00.460Z",
       "readCommandLastExit": 0,
@@ -76,6 +78,11 @@
       "id": "KP-003",
       "title": "This Next version's JSX compiler eats element-adjacent spaces in multi-line text nodes",
       "detail": "Live-verified 2026-08-24: a JSX text node that spans multiple source lines loses its leading/trailing whitespace even when the space sits on the same line as an adjacent inline element or {expression} — 'the {year} reading' rendered as 'the 2026reading', '<em>estimation</em> conventionally' as 'estimationconventionally', symmetric case included ('theamplitude_normalized'). Single-line text nodes are unaffected, which is why the bug is invisible in source review and survives lint/tsc. A 31-junction sweep (9 files, commit e0b8422) converted every affected space to an explicit {\" \"}; the writing rule is recorded in AGENTS.md. Verify new prose against RENDERED HTML, not the TSX."
+    },
+    {
+      "id": "KP-004",
+      "title": "A Next.js bump changes the emitted CSS bytes without changing a single style",
+      "detail": "Measured on the 16.2.4 -> 16.3.5 bump (2026-09-17, commit 7dadae1). A rendered-output gate that hashes the emitted CSS file reads DIRTY across a Next version change even when nothing visual moves: the 14 @font-face rules carry `url(../media/<contenthash>-s[.p].<token>.woff2)`, and that trailing <token> is a per-BUILD identifier that the bundler regenerates. Everything that matters was identical — 743 rules both sides, 60,063 bytes both sides, and the <contenthash> prefix (the font's own bytes) unchanged. Normalize that token away before comparing, and mind the shape: three of the live tokens contained a dot (`0zgw-jeven.3w`), so a pattern using [^.)]+ for the token silently fails to match on one side and manufactures a difference. Independent confirmation that a normalized-clean read is a real clean read: the production frames re-captured after the deploy were BYTE-IDENTICAL to the ones committed before it. Do not read this class of diff as a reason to revert; do not skip the CSS leg either, because a real restyle looks nothing like this."
     },
     {
       "id": "KP-002",
@@ -123,6 +130,11 @@
       "75e5212": "Focus scroll landed for real: manual scrollTo asserted twice — instrumented live to find layout settling after the effect. Same wave as e0b8422.",
       "cc0a5fb": "Final verification record in docs/journey-walk-2026-08-24.md. Documentation for the above.",
       "082ce4f": "Turchin fathers-and-sons cycle renamed to 'Turchin (50y) — …' so the pre-em-dash byline self-disambiguates from Peter Turchin's 150y secular cycle (2026-08-29). CHANGELOG-recorded; name-only (id/URL unchanged), inside the GSC-window guardrails (no titles/metas/H1s/URLs/data). Quality work, no item scope.",
+      "0357e54": "Primer correction 2026-09-17 — the tier-1 instrument conflict was ruled (orchestrator 45285f05) and today's primer still printed the revert command for it. Session bookkeeping.",
+      "fa40f1e": "Today's report opener + Section 0, written at P1 (docs/daily/2026-09-17-prelaunch.md). Session bookkeeping.",
+      "61e9cf5": "P3 record: report filled to the canonical sections, plus the three production frames the /methods verdict-table claim rests on (docs/frames/). Documentation for 44557c1; the ship itself is linked from W-001.",
+      "e1254f4": "Closes D-001 and removes its engineeringZeroWaiver after the bump took the repo to 0 open alerts. Ledger bookkeeping for the row above, not a ship.",
+      "_note3": "a400821 and 7dadae1 are the dependency ships and are linked via D-001.linkedCommits, not listed here.",
       "_note2": "d36770b (domain cutover) and 2f766eb (the 8/21 crawl read + 429 backoff) are NOT listed here — they are the W-001 unblock and the W-001 instrument read respectively, linked via W-001.linkedCommits."
     }
   },

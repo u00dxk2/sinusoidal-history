@@ -1,5 +1,40 @@
 # Changelog
 
+## Nine verdicts on one table, and a dependency sweep to zero (2026-09-17)
+
+- **`/methods` now shows every spectral verdict in one table** (`44557c1`,
+  refined by `832f4d8`). The site's most arguable claim — that 0 of 9
+  cycle-and-data pairings have a record long enough to test — was one number,
+  with the nine verdicts behind it one per cycle page, so checking it meant
+  opening nine pages. The Spectral testing section now opens with a row per
+  pairing: cycle, stated period, the span of the record the verdict actually
+  tests, periods covered of the required 3.0, years short, and the verdict.
+  Seeing them together is the point — **Perez is 7 years short of testable,
+  Dalio 73, Turchin 339.** Each row links to that cycle page's "Does it hold
+  up?" block, which gained the `#does-it-hold-up` anchor it lands on; the
+  tenth cycle, which has no paired series, is listed and marked rather than
+  omitted. Every value is read from the frozen `verdicts.json`.
+  `public/methods.md` mirrors the table with its rows generated from the data
+  files, and `src/lib/spectral.test.ts` fails if the mirror drifts.
+  The 390px frame read is what caught the one defect: the unpaired row's long
+  italic sentence clipped at the table edge, shortened in `832f4d8`.
+- **Every known dependency vulnerability closed, 46 → 0** (`a400821`,
+  `7dadae1`). GitHub's alerts were switched on for this public repo the day
+  before — new coverage, not new breakage. The same-range sweep (`npm audit
+  fix` without `--force`, plus vitest to `^4.1.11`) took 46 to 30; the rest
+  were one bump, Next.js 16.2.4 → 16.3.5, ruled on an exposure read rather
+  than on severity labels. Both pins stay exact.
+  **The gate that made it safe:** the visible text of all 20 prerendered pages
+  plus the emitted CSS, diffed across builds on identical source, red-armed by
+  mutating a hash and watching it fail. It read dirty on the framework bump
+  until the per-build font-asset URL tokens were normalized away — 14
+  `@font-face` URLs, same 743 rules, same 60,063 bytes, font content hashes
+  unchanged. The production frames re-taken after the bump came out
+  byte-identical to the ones taken before it.
+  Also re-measured: the JSX whitespace hazard in `AGENTS.md` did not reproduce
+  on 16.3.5 in the two cases probed. The note is kept, version-scoped, and the
+  `{" "}` rule stands.
+
 ## Two front doors, and the site's first CI (2026-09-16)
 
 First day on the daily rail. Two user-visible ships, both aimed at the same

@@ -16,6 +16,17 @@ to `main`. **Render deploys on every push and does NOT wait for CI**, so a red r
 sit behind a live build — read CI before claiming a ship is safe. Run only the gate you
 touched locally and let CI be the full battery.
 
+**Test files are excluded from the BUILD tsconfig, and that is deliberate** (2026-09-17, with
+the 16.3.5 bump). This Next type-checks whatever is in scope during `next build`, and test files
+import vitest, a devDependency a production install can prune — so `tsconfig.json` excludes
+`**/*.test.ts(x)` and `vitest.config.ts`. They are still type-checked: `npm run typecheck` runs
+`tsconfig.test.json`, which puts them back, and CI runs that script. If you add a test and want
+tsc to see it, run `npm run typecheck`, not `npx tsc --noEmit`.
+
+Portfolio operating principles (product-first 80/20, the validation gate, founder-distribution)
+are canonical in `../skylark-site/docs/skylark-operating-principles.md` — this repo does not
+restate them.
+
 `.githooks/pre-commit` runs `scripts/check-staged-secrets.mjs`, a **byte-exact copy** of
 skylark-site's scanner — refresh it by re-copying that file, never by editing this one.
 `npm install` arms it via `prepare` (`core.hooksPath`). `.gitattributes` pins
