@@ -49,6 +49,26 @@
         "lines": 937,
         "sha256": "0961c79a6a20c4aa"
       }
+    },
+    {
+      "id": "D-001",
+      "type": "decision",
+      "priority": "P2",
+      "status": "blocked",
+      "identified": "2026-09-17",
+      "created": "2026-09-17",
+      "updated": "2026-09-17",
+      "title": "Next.js 16.2.4 -> 16.3.5: the only bump that closes the 30 remaining Dependabot alerts",
+      "notes": "Dependabot alerts were switched on for this public repo on 2026-09-16 after the close (bus 75b79c2e) and reported 46 open — new coverage, not new breakage. 2026-09-17: a400821 applied every same-range fix (npm audit fix without --force, plus vitest and @vitest/ui to ^4.1.11, both dev-only) and the alert list itself went 46 -> 30, read twice with `gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts?state=open --paginate` (16:05Z before, 17:05Z after). CI green on Linux for that commit; a before/after snapshot of the visible text of all 20 prerendered pages plus the emitted CSS showed 0 differences on identical source, red-armed by mutating a page hash and a CSS hash (the diff names both and exits 3).\n\nThe 30 that remain are one bump: 24 on `next` itself, 4 on the `postcss` copy nested inside `next`, 2 on `sharp` which `next` pulls in. npm only fixes them with `npm audit fix --force`, which installs next@16.3.5 — outside the exact 16.2.4 this repo pins. Two of the 24 are rated critical, and neither describes this deployment as verified today: one is remote code execution on Windows-hosted servers (this deploys to Render on Linux), the other is remote code execution in the Image Optimization API via AVIF. The site renders no next/image component, but /_next/image answers 200 in production; next.config.ts declares no images.remotePatterns, so that endpoint reads same-origin paths only and the site accepts no uploads. The twelve middleware/proxy-bypass advisories describe a middleware.ts this repo does not have (glob over `middleware.{ts,js}` and `src/middleware.{ts,js}`: no files).\n\nHeld rather than shipped because AGENTS.md's first line is that this Next differs from what a model remembers, and its JSX whitespace hazard is compiler behaviour — a framework bump can change rendered prose that is correct today. The gate that answers it already exists and is the one used above.",
+      "closeWhen": "David or the orchestrator rules on the bump. Yes -> apply it, gate on the rendered-text + CSS snapshot diff across all prerendered pages, revert on any difference rather than reviewing by eye, then re-read the alert list and record the count. No -> re-date this waiver with the new reason.",
+      "nextEvaluation": "2026-09-24",
+      "waitingFor": "David's board card 5b717731-eee1-4e1d-80f0-d3694fd3282d, from bus needs-decision fd34588d-467c-469e-aef5-eac685ad0cc7 (posted 2026-09-17).",
+      "engineeringZeroWaiver": {
+        "until": "2026-09-24",
+        "reason": "30 open Dependabot alerts, all rooted in next@16.2.4 and closable only by a bump outside the pinned range. Every same-range fix already shipped in a400821 (46 -> 30). The bump is carded for David (5b717731) rather than shipped quietly, because a framework bump can change rendered prose on a site whose indexing leg is fresh.",
+        "alertNumbers": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 39, 50, 51, 53, 1]
+      },
+      "linkedCommits": ["a400821"]
     }
   ],
   "knownPatterns": [
