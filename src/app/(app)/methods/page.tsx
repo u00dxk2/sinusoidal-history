@@ -334,7 +334,7 @@ export default function Methods() {
                     {`${cycle.period_years}y`}
                   </td>
                   <td colSpan={4} className="py-3 text-[13px] italic text-ink-soft">
-                    Not tested — no long-run series in this project maps cleanly onto this construct.
+                    Not tested — no paired series
                   </td>
                 </tr>
               ))}

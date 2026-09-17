@@ -154,7 +154,7 @@ Every verdict, one row per pairing. A pairing is testable only when its record s
 | [Modelski](https://sinusoidalhistory.com/cycles/modelski#does-it-hold-up) | 110y | 152y | 1.4 | +178 | INSUFFICIENT_DATA |
 | [Ibn Khaldun](https://sinusoidalhistory.com/cycles/khaldun#does-it-hold-up) | 120y | 211y | 1.8 | +149 | INSUFFICIENT_DATA |
 | [Peter Turchin](https://sinusoidalhistory.com/cycles/turchin#does-it-hold-up) | 150y | 111y | 0.7 | +339 | INSUFFICIENT_DATA |
-| [Turchin (50y)](https://sinusoidalhistory.com/cycles/turchin-fathers-sons) | 50y | — | — | — | Not tested — no long-run series in this project maps cleanly onto this construct |
+| [Turchin (50y)](https://sinusoidalhistory.com/cycles/turchin-fathers-sons) | 50y | — | — | — | Not tested — no paired series |
 
 *Record is the span of the series each verdict actually tests — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.*
 
