@@ -1,0 +1,15 @@
+{
+  // The build tsconfig with the test files put back — they are excluded there because Render
+  // prunes devDependencies before `next build` and Next 16.3.5 type-checks whatever is in scope
+  // (KP-120). `npm run typecheck` uses this file, so tests are still type-checked in CI.
+  "extends": "./tsconfig.json",
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

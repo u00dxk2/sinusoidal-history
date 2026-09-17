@@ -30,5 +30,14 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  // Tests and the vitest config import devDependencies, which Render prunes before `next build`.
+  // Next 16.3.5 type-checks everything in scope during the build, so leaving them here makes the
+  // production build fail with TS2307 while every local build passes (KP-120). They stay checked:
+  // `npm run typecheck` runs tsconfig.test.json, which puts them back in, and CI runs it.
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "vitest.config.ts"
+  ]
 }
