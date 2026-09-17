@@ -54,6 +54,7 @@ export function spectralVerdictForCycle(
   return verdicts.primary.find((r) => r.cycle_id === cycleId) ?? null;
 }
 
+export const spectralPrimary = verdicts.primary;
 export const spectralHeadline = verdicts.headline;
 export const spectralGenerated = verdicts.generated;
 export const spectralDraws = verdicts.draws;

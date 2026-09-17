@@ -141,6 +141,23 @@ Better tools for cyclic data include cross-correlation at varying lags, the Four
 
 ## Spectral testing
 
+Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the theory's stated cycle; 0 of the 9 do.
+
+| Cycle | Period | Record | Periods of 3.0 | Years short | Verdict |
+|---|---|---|---|---|---|
+| [Schlesinger Jr.](https://sinusoidalhistory.com/cycles/schlesinger-jr#does-it-hold-up) | 30y | 72y | 2.4 | +18 | INSUFFICIENT_DATA |
+| [Kondratiev wave](https://sinusoidalhistory.com/cycles/kondratiev#does-it-hold-up) | 54y | 77y | 1.4 | +85 | INSUFFICIENT_DATA |
+| [Carlota Perez](https://sinusoidalhistory.com/cycles/perez#does-it-hold-up) | 55y | 158y | 2.9 | +7 | INSUFFICIENT_DATA |
+| [Huntington](https://sinusoidalhistory.com/cycles/huntington#does-it-hold-up) | 60y | 144y | 2.4 | +36 | INSUFFICIENT_DATA |
+| [Ray Dalio](https://sinusoidalhistory.com/cycles/dalio#does-it-hold-up) | 75y | 152y | 2.0 | +73 | INSUFFICIENT_DATA |
+| [Strauss-Howe](https://sinusoidalhistory.com/cycles/strauss-howe#does-it-hold-up) | 84y | 236y | 2.8 | +16 | INSUFFICIENT_DATA |
+| [Modelski](https://sinusoidalhistory.com/cycles/modelski#does-it-hold-up) | 110y | 152y | 1.4 | +178 | INSUFFICIENT_DATA |
+| [Ibn Khaldun](https://sinusoidalhistory.com/cycles/khaldun#does-it-hold-up) | 120y | 211y | 1.8 | +149 | INSUFFICIENT_DATA |
+| [Peter Turchin](https://sinusoidalhistory.com/cycles/turchin#does-it-hold-up) | 150y | 111y | 0.7 | +339 | INSUFFICIENT_DATA |
+| [Turchin (50y)](https://sinusoidalhistory.com/cycles/turchin-fathers-sons) | 50y | — | — | — | Not tested — no long-run series in this project maps cleanly onto this construct |
+
+*Record is the span of the series each verdict actually tests — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.*
+
 Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidalhistory.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at the theory's exact stated period, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at the rhythm the theory names, more strongly than slow-drifting noise would produce by chance? Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
 
 Before any spectrum, an eligibility gate: a pairing is testable only if its record spans at least 3.0 full target periods - a deliberately conservative site rule, not a theorem (period *estimation* conventionally wants ~5). Below the gate the verdict is INSUFFICIENT_DATA and no code path emits a p-value; the test suite enforces that, not just convention. There are exactly four verdict states: INSUFFICIENT_DATA, NO_SIGNIFICANT_TARGET_POWER, MODEL_SENSITIVE (the AR(1) and AR(2) nulls disagree at the Holm-adjusted threshold, so no verdict is claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run's headline: **0 of the 9 paired constructions reach the gate** - none of these records is long enough to clear it, which is itself the finding. INSUFFICIENT_DATA is an eligibility outcome - the site declines to run its test below three periods - not evidence that the data contain no information about the cycle. A secondary cross-grid panel re-pairs each period with every series long enough to clear the gate (19 cells, labelled as re-pairings, not the site's claims). A 54- and a 55-year period differ by 0.000337 cycles per year - separating them would take a ~3,000-year record under the Rayleigh resolution criterion, a spectral-resolution heuristic rather than a bound on every parametric method - so no verdict text distinguishes Kondratiev from Perez; every result in that band is one ~54–55-year statement.
@@ -169,4 +186,4 @@ See each series' per-source provenance file for full retrieval and processing no
 
 ---
 
-*Last updated: 2026-08-24*
+*Last updated: 2026-09-17*

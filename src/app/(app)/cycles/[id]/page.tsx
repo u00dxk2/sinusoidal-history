@@ -181,6 +181,7 @@ export default async function CyclePage({ params }: Params) {
           the J6 fix on the section below: plain English before the figure. */}
       {verdict && (
         <section
+          id="does-it-hold-up"
           aria-label="Does this cycle hold up"
           className="mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
         >
