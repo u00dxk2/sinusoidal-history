@@ -8,6 +8,8 @@ import {
   seriesForCycle,
 } from "@/lib/cycleRoutes";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
+import { spectralHeadline } from "@/lib/spectral";
+import VerdictTable from "@/components/VerdictTable";
 
 const TITLE = "The ten cycles";
 const DESCRIPTION =
@@ -211,6 +213,32 @@ export default function CyclesIndex() {
           {confidenceGloss("empirical-contested")}.
         </p>
       </header>
+
+      {/* The verdict before the roster: a reader who lands here rather than on /methods
+          should see how every theory fares against the site's own test before choosing
+          one to read. Same component, same rows as /methods#spectral-testing. */}
+      <section
+        id="does-any-hold-up"
+        aria-labelledby="does-any-hold-up-heading"
+        className="mt-10 space-y-3.5"
+      >
+        <h2
+          id="does-any-hold-up-heading"
+          className="font-display text-[24px] tracking-tight text-ink mb-2"
+        >
+          Does any of them hold up?
+        </h2>
+        <p className="text-[15px] leading-[1.65] text-ink/85">
+          {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at their stated period — that takes at least three full cycles of data.`}{" "}
+          <Link
+            href="/methods#spectral-testing"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            How the test works →
+          </Link>
+        </p>
+        <VerdictTable />
+      </section>
 
       <ul className="mt-10">
         {byPeriod.map((cycle) => {
