@@ -39,9 +39,25 @@ Run 2026-09-18 15:31Z from the lane root: `2 passed`.
 
 **Frames** (production, committed under `docs/frames/2026-09-18-*`): `/cycles` and `/methods` at 390 and 1440, plus a 390 frame with the table scrolled to its verdict column. Each frame is cropped to the element whose rows the same script counted: 10 rows on every page and width, 0 px of horizontal page scroll, and every theory-name link pointing at `#does-it-hold-up`. I opened every PNG before citing it. At 390 the theory-name column stays pinned while the verdict columns scroll, on both pages.
 
+## Inputs (controllable)
+
+**The gate that proved the refactor is now committed** (`e5c53c4`), which is the day's second change and the answer to a loop that had run twice. `scripts/check-rendered-text.mjs` snapshots the visible text of a URL, an `.html` file, a directory of them, or a saved snapshot, and diffs two of them. Both prior sessions rebuilt this from scratch in a scratchpad and lost it at session end. Its success signal is its red arm, per the orchestrator's ruling: `--selftest` reads `6 passed`, and with the comparison broken in a scratch copy so it can never report a difference it reads `selftest: 2 FAILED`, exit 1. CI runs it through `src/lib/check-rendered-text.test.ts`, which spawns the script rather than importing it, because this lane has no shebang-stripping plugin for vitest.
+
+**What the day's checks actually read.** CI GREEN on `ae830b5` (`check-ci-status --workflow ci.yml`). Full suite through `verify-with-receipt -- npm test`: 85/85, exit 0. Adversarial review on the working tree: approve, no material findings, with mobile overflow named as untested and then covered by the frames. One gate did NOT run: agent-status's verify-receipt, which reads `UNREADABLE … no cc-workspace.json entry for slug "sinusoidal-cycles"`. That is a skylark-site registration gap (the workspace id for this path is `sinusoidal`), confirmed by the orchestrator and on their substrate list. Its silence is not a green.
+
+**Engineering zero, read after the last push of the day.** `gh api "repos/u00dxk2/sinusoidal-history/dependabot/alerts?state=open&per_page=100" --paginate --jq "length"` → **0**. `check-engineering-zero --project sinusoidal-cycles` → `lane sinusoidal-cycles: 0 finding(s), 0 unreadable, nothing to waive`. No waiver is in force.
+
 ## Outputs (lagging)
 
 **Clicks: not re-read today.** W-001's read is due 2026-09-19, and Search Console lags ~3 days, so nothing after today's 16:15Z deploy is readable before ~2026-09-21. **Reached: unknown.** The site carries no analytics by design, so no read can show whether a person has opened `/cycles` since the deploy.
+
+## Recommendation
+
+**Tomorrow's first action is W-001's Search Console read**, `node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-09-10`. Read Branch 0 in that row's `nextTrigger.branching` before applying any branch under it: below 100 post-ship impressions the discriminators are inapplicable and the disposition is to extend the window to ~2026-10-07. At the measured ~4 impressions a day, a 09-19 read sees about 28.
+
+**Next product build, scoped and not started:** walk `/cycles/dalio` at 390 px as a cold search arrival and remove whatever sits between landing and that page's "Does it hold up?" answer. It drew 9 of 19 impressions in the last window at position 35.7. Its title, meta description, H1 and URL stay frozen until W-001 reads.
+
+**Nothing is blocked on David**, and no board card is open for this lane (`answered-cards --project sinusoidal-cycles`: "NO waiting/answered/pending-verify cards").
 
 ## State Appendix
 

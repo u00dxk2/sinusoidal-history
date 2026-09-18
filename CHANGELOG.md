@@ -1,5 +1,62 @@
 # Changelog
 
+## The verdicts reach the index, and the gate that proved it is committed (2026-09-18)
+
+- **The `/cycles` index now shows every spectral verdict before the roster**
+  (`ae830b5`, CI green, live on Render 16:15:12Z). The index listed ten theories
+  with no sign that none of them clears the site's own evidence bar, so a reader
+  who landed there instead of `/methods` chose what to read before seeing the
+  verdict on any of it. It now opens with "Does any of them hold up?", carrying a
+  count derived from the frozen `verdicts.json` — 0 of the 9 paired theories have
+  a record long enough to check at their stated period — and the same nine-row
+  table `/methods` has carried since `44557c1`, each row landing on that cycle
+  page's `#does-it-hold-up` block. The table is now one component,
+  `src/components/VerdictTable.tsx`, lifted out of `methods/page.tsx`, so the two
+  pages cannot drift apart.
+  **`/methods` did not change, and that is measured rather than assumed:** its
+  production visible text, read before the change and again after the deploy, is
+  identical at 223 lines, and the comparison is red-armed — changing one verdict
+  cell in a copy (`+73` to `+74`) makes it name the differing line and exit 3.
+  Six production frames are committed under `docs/frames/2026-09-18-*`: `/cycles`
+  and `/methods` at 390 and 1440, plus a 390 frame scrolled to the verdict
+  column. Each is cropped to the element whose rows the capture script counted —
+  10 rows on every page at every width, 0 px of horizontal page scroll, every
+  theory-name link pointing at `#does-it-hold-up`. At 390 the theory-name column
+  stays pinned while the verdict columns scroll (`3e862db`).
+
+- **The rendered-text gate is in the repo** (`e5c53c4`, CI green). Twice in two
+  days a ship was proved safe by a visible-text diff that was rebuilt from
+  scratch in a session scratchpad and lost at session end. It is now
+  `scripts/check-rendered-text.mjs`:
+
+  ```bash
+  node scripts/check-rendered-text.mjs snap .next/server/app before.txt
+  node scripts/check-rendered-text.mjs diff before.txt .next/server/app
+  ```
+
+  Exit 0 identical, exit 3 changed. A source is a URL, an `.html` file, a
+  directory of them (`.next/server/app` after a build), or a snapshot written by
+  `snap`. Visible text only: whitespace runs collapse as HTML's do, and CSS is
+  out of scope because a framework bump rewrites the emitted bytes without
+  changing a style (the per-build `@font-face` `url()` tokens of KP-004); layout
+  belongs to frames. Its success signal is the red arm, per the orchestrator's
+  ruling — `--selftest` reads `6 passed`, and with the comparison broken in a
+  copy so it can never report a difference it reads `selftest: 2 FAILED`, exit 1.
+  `src/lib/check-rendered-text.test.ts` spawns the selftest in CI, and
+  `AGENTS.md` documents both commands.
+
+Supporting work:
+
+- `2205904` — today's report opener. FIRST ACTION names the day's build, with the
+  guard it had to keep green run before starting (`npx vitest run
+  src/lib/spectral.test.ts`, 2 passed at 15:31Z); W-001's Search Console read
+  moves to a "Due, not today" line.
+- `777ecef` — W-001's `waitingFor` corrected. The 2026-09-19 read has been an
+  agent read since 2026-09-16 (`scripts/gsc-read.mjs`), but the row still
+  labelled it as needing David. The optional Bing Webmaster Tools check is
+  recorded as not-a-wait, with the condition that would re-raise it: a crawl read
+  showing Bing sending referrals rather than only crawling.
+
 ## Nine verdicts on one table, and a dependency sweep to zero (2026-09-17)
 
 - **`/methods` now shows every spectral verdict in one table** (`44557c1`,
