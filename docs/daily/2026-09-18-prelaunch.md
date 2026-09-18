@@ -31,6 +31,18 @@ Run 2026-09-18 15:31Z from the lane root: `2 passed`.
 
 **DON'T-TOUCH.** The hand-authored primer banner (`<!-- hand:begin banner -->` in `docs/cold-starts/<date>.md`). It is rewritten in place at every close, not appended, so it always states the day's current rules: what is due, what is not, and what not to "fix". The kickoff quotes it verbatim, which is why today's arrival needed no reconciliation.
 
+## What changed
+
+**The `/cycles` index now shows every spectral verdict before the roster** (`ae830b5`, CI green, live on Render 16:15:12Z). A reader who lands on the index rather than `/methods` used to see ten theories with no sign that none clears the site's own evidence bar. The index now opens a section, "Does any of them hold up?", with a count derived from the frozen verdicts: 0 of the 9 paired theories have a record long enough to check at their stated period. Below the count sits the same table `/methods` carries, one row per pairing, and each row lands on that cycle page's "Does it hold up?" block. The table is now one shared component (`src/components/VerdictTable.tsx`), so the two pages cannot drift apart.
+
+**`/methods` did not change, and that is measured, not assumed.** Production `/methods` visible text read before the change and again after the deploy: identical, 223 lines. The same comparison between production and the local build also came back identical. The comparison is red-armed: changing one verdict cell in a copy (`+73` → `+74`) makes it report `RED: first difference at line 157` and exit 3.
+
+**Frames** (production, committed under `docs/frames/2026-09-18-*`): `/cycles` and `/methods` at 390 and 1440, plus a 390 frame with the table scrolled to its verdict column. Each frame is cropped to the element whose rows the same script counted: 10 rows on every page and width, 0 px of horizontal page scroll, and every theory-name link pointing at `#does-it-hold-up`. I opened every PNG before citing it. At 390 the theory-name column stays pinned while the verdict columns scroll, on both pages.
+
+## Outputs (lagging)
+
+**Clicks: not re-read today.** W-001's read is due 2026-09-19, and Search Console lags ~3 days, so nothing after today's 16:15Z deploy is readable before ~2026-09-21. **Reached: unknown.** The site carries no analytics by design, so no read can show whether a person has opened `/cycles` since the deploy.
+
 ## State Appendix
 
 ### Section 0 (pre-flight, run at P1)
