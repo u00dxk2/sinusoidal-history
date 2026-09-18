@@ -39,6 +39,22 @@ impressions, clicks, position — who was *shown* the site. `scripts/crawl-read.
 from a query-grouped read** — Search Console anonymizes low-volume queries and their
 clicks vanish with the rows; page-only grouping is the one whose totals are whole.
 
+# Prove the words did not move: the rendered-text gate
+
+Before a refactor or a dependency bump, snapshot what a reader sees; after it, diff:
+
+```bash
+node scripts/check-rendered-text.mjs snap .next/server/app before.txt   # or a URL
+node scripts/check-rendered-text.mjs diff before.txt .next/server/app   # exit 0 same, 3 changed
+```
+
+A source is a URL, an `.html` file, a directory of them (`.next/server/app` after a build), or a
+saved snapshot. It compares VISIBLE text only: whitespace runs collapse, as HTML's do, so a
+one-space change is invisible — and CSS is not compared at all, because a framework bump rewrites
+the emitted CSS bytes without changing a style (per-build `@font-face` `url()` tokens, KP-004).
+Layout belongs to frames, not to this. `--selftest` carries the red arms and CI runs it through
+`src/lib/check-rendered-text.test.ts`.
+
 # Keep prose mirrors in sync
 
 Three React prose pages have plain-markdown mirrors that LLM crawlers and external agents fetch directly:
