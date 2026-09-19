@@ -153,22 +153,6 @@ export default async function CyclePage({ params }: Params) {
           className="mt-5 h-[3px] w-16"
           style={{ backgroundColor: cycle.color }}
         />
-        <dl className="mt-5 flex flex-wrap gap-x-7 gap-y-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">
-          <div className="flex gap-2">
-            <dt className="text-ink-soft/70">Period</dt>
-            <dd className="text-ink">{cycle.period_years} years</dd>
-          </div>
-          <div className="flex gap-2">
-            <dt className="text-ink-soft/70">Reference peak</dt>
-            <dd className="text-ink">{cycle.reference_peak_year}</dd>
-          </div>
-          <div className="flex gap-2">
-            <dt className="text-ink-soft/70">Paired data</dt>
-            <dd className="text-ink">
-              {series ? (series.legend_short ?? series.name) : "None this round"}
-            </dd>
-          </div>
-        </dl>
         <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
           {cycle.short_description}
         </p>
@@ -220,6 +204,30 @@ export default async function CyclePage({ params }: Params) {
           </p>
         </section>
       )}
+
+      {/* Period / reference peak / paired series sat directly under the H1
+          until 2026-09-19, which pushed the verdict's answer sentence 17px
+          below a real phone's visible viewport (390x664 — an iPhone 14 in
+          Safari, not the 844px CSS viewport, which cleared it and hid the
+          problem). It is reference data a stranger reads AFTER deciding the
+          page is worth reading, and it belongs against the curve that plots
+          it. Measured: tmp/measure-fold.mjs, and the committed 390 frames. */}
+      <dl className="mt-8 flex flex-wrap gap-x-7 gap-y-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">
+        <div className="flex gap-2">
+          <dt className="text-ink-soft/70">Period</dt>
+          <dd className="text-ink">{cycle.period_years} years</dd>
+        </div>
+        <div className="flex gap-2">
+          <dt className="text-ink-soft/70">Reference peak</dt>
+          <dd className="text-ink">{cycle.reference_peak_year}</dd>
+        </div>
+        <div className="flex gap-2">
+          <dt className="text-ink-soft/70">Paired data</dt>
+          <dd className="text-ink">
+            {series ? (series.legend_short ?? series.name) : "None this round"}
+          </dd>
+        </div>
+      </dl>
 
       <CurveFigure cycle={cycle} />
 
@@ -559,7 +567,9 @@ function CurveFigure({ cycle }: { cycle: Cycle }) {
     cycle.reference_peak_year >= start && cycle.reference_peak_year <= end;
 
   return (
-    <figure className="mt-8">
+    // mt-4, not mt-8: the metadata list now sits directly above and reads as
+    // this figure's lead-in rather than as a free-floating block.
+    <figure className="mt-4">
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
