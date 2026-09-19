@@ -1,5 +1,46 @@
 # Changelog
 
+## The verdict reaches a phone reader (2026-09-19)
+
+- **On a phone, every cycle page now shows its "Does it hold up?" answer without
+  scrolling** (`b6d23b9`, CI green, live and verified serving). A cold search
+  arrival met the title, a three-item metadata list and a 280-character
+  description before reaching the one answer that separates this site from a blog
+  post about cycles. Measured at 390x664 — what an iPhone 14 in Safari actually
+  shows — the answer sentence ended **17px below the fold**; it now ends **44px
+  above** it. The 844px CSS viewport cleared it either way, which is exactly how
+  this stayed invisible: the page looked fine on every desktop and in every
+  full-page screenshot. The fix moves the Period / Reference peak / Paired data
+  list out of the header and down against the curve that plots those values, where
+  a reader wants it anyway. One component, so it applies to all ten cycle pages.
+  **No reader-facing words changed, and that is measured:**
+  `check-rendered-text.mjs` reports 86 lines before and 86 after, and a sorted
+  comparison finds no differences — the same line set in a different order.
+
+- **The check that found it is committed, with its red arm** (`d26a43f`).
+  `scripts/measure-fold.mjs <url> [width] [height]` answers one question and can
+  fail: exit 1 when the verdict is cut, 0 when it is whole. Red arm, against the
+  live page: `360 560` → `RED: the verdict is cut — 177px below the fold`, exit 1.
+  Green arm: `390 664` → `OK: the verdict is fully visible, 44px of room to
+  spare`. Two frames are committed beside it
+  (`docs/frames/2026-09-19-dalio-390-before.png` and `-after.png`), captured at
+  390x664 and **clipped to the viewport rather than full-page**, so the fold is
+  where a reader's screen ends — the before frame slices "— and that is the
+  finding, not a dodge" in half. The 360x560 case is left red on purpose: a 560px
+  visible viewport is shorter than this page's title plus description can clear,
+  and shrinking either is a different decision from moving a metadata list.
+
+- **W-001's clock moved to 2026-10-07, and its next disposition is pre-registered**
+  (`000e2f3`, `90b39fe`). The 09-19 Search Console read returned `clicks=0
+  impressions=19 position=21.0` — far under the row's own floor of 100, so Branch 0
+  holds and the read is a sample-size check rather than a verdict. The arithmetic
+  then contradicted the row's own assumption: 19 impressions over the seven days
+  Search Console actually holds is **~2.7/day, not the ~4/day** recorded on 09-16,
+  which projects the 10-07 read to ~68 impressions. Rather than discover that on
+  the day and be tempted into a third extension, the row now says what happens
+  instead: convert to the questions answerable at that sample size, and reopen
+  click-through only if average position moves under 20.
+
 ## The verdicts reach the index, and the gate that proved it is committed (2026-09-18)
 
 - **The `/cycles` index now shows every spectral verdict before the roster**
