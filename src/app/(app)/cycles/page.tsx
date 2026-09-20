@@ -235,6 +235,18 @@ export default function CyclesIndex() {
                   </h2>
                   <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                     {cycle.period_years}y · peak {cycle.reference_peak_year} ·{" "}
+                    {/* Deliberately NOT wrapped in a <span title={gloss}> —
+                        tried and reverted 2026-09-20 (P4). It buys a tooltip
+                        on hover only, so it does nothing for the phone reader
+                        this question is about, and the extra element SPLITS
+                        this line in check-rendered-text's extraction
+                        ("30y · peak 1970 ·" and "Narrative" become two lines),
+                        permanently perturbing the page's text baseline. The
+                        open question — does this tag read as findable on a
+                        touch screen now the glossary follows the roster — is
+                        W-002, dated 2026-09-27. Its named fix is to split the
+                        entry's click target so the tag can be a real anchor to
+                        #confidence-tags; do that if the read asks for it. */}
                     {confidenceLabel(cycle.confidence_level)}
                   </span>
                 </div>
