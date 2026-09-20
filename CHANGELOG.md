@@ -1,5 +1,39 @@
 # Changelog
 
+## The index shows the ten cycles on a phone's first screen (2026-09-20)
+
+- **`/cycles` now leads with the verdict sentence and then the entries themselves.**
+  A cold arrival at 390x664 — the index a reader reaches when they do not already
+  know which theory they want — showed the header, a nine-line paragraph on how the
+  curves are drawn, and six lines of confidence-tag glossary, and **not one of the
+  ten cycles**. An index whose index was entirely below the fold. The order under
+  the H1 is now: the spectral verdict sentence with "How the test works →", the ten
+  entries, then "Does any of them hold up?" with its table, then the how-they-are-drawn
+  paragraph and the tag glossary. A 390x664 frame now shows the verdict sentence,
+  the first entry's name and full description, and the second entry's name
+  (`docs/frames/2026-09-20-cycles-390.png` before, `-390-after.png` after, both
+  viewport-clipped so the fold is where a reader's screen ends; `-1440-after.png`
+  and `-360-after.png` are the desktop and small-phone extremes).
+  **No reader-facing words changed, and note how that was checked:**
+  `check-rendered-text.mjs` compares visible text line-index by line-index, so on a
+  re-order it reports RED and is right to — it is an order gate, not a content gate.
+  What was verified is the line MULTISET: 216 lines and 166 distinct on both sides,
+  identical, confirmed independently by the adversarial review.
+
+- **This supersedes one sentence in the 2026-09-18 entry below.** That entry says the
+  index "now opens with 'Does any of them hold up?'" — true when written, false now.
+  The table did not leave the page; it moved below the roster, because its Verdict
+  column sits off-screen at 390 (min-width 36rem), so leading with it would have
+  refilled the fold with a horizontally-clipped table rather than with cycles.
+
+- **Known cost, recorded rather than discovered later:** the confidence-tag glossary
+  now sits below the entries, so a reader meets a tag up to ten times before its
+  definition. That partially reverses journey-walk 2026-08-24 J8, whose finding was
+  that the tags were defined nowhere. The fold defect is the worse of the two and the
+  glossary section now carries `id="confidence-tags"` so an affordance can point at
+  it; if a cold walk reports the tags reading as unexplained, that is the fix, not
+  moving the glossary back above the roster.
+
 ## The verdict reaches a phone reader (2026-09-19)
 
 - **On a phone, every cycle page now shows its "Does it hold up?" answer without

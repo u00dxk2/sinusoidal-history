@@ -164,13 +164,31 @@ const jsonLd = {
 
 export default function CyclesIndex() {
   return (
-    <div className="max-w-3xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+    <div className="max-w-3xl mx-auto px-5 sm:px-8 py-6 sm:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <header className="mb-8">
+      {/* Order is load-bearing, 2026-09-20: a 390x664 production frame showed the
+          header, both preamble paragraphs and ZERO of the ten entries — an index
+          whose index was entirely below the fold. The verdict sentence leads
+          because it is the line a reader repeats to a friend; the entries follow
+          immediately. The table stays on the page but below the roster: its
+          Verdict column is off-screen at 390 (min-width 36rem), so promoting it
+          would refill the fold with a horizontally-clipped table.
+
+          Same words throughout, re-ordered — and note HOW that was checked,
+          because the obvious gate does not answer it. scripts/check-rendered-text.mjs
+          compares visible text line-index by line-index, so it reports a re-order
+          as RED (exit 3) and is CORRECT to: it is an order gate. Do not read a RED
+          here as expected-and-ignorable, or a real prose deletion inside a future
+          re-order rides through on that habit. What was actually verified on
+          2026-09-20 was the line MULTISET: `check-rendered-text.mjs snap` against
+          production and against .next/server/app/cycles.html, then the two
+          snapshots sorted and compared — 216 lines and 166 distinct both sides,
+          identical. Re-run it that way, not with `diff`. */}
+      <header className="mb-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Index · By ascending period
         </p>
@@ -180,55 +198,8 @@ export default function CyclesIndex() {
         >
           {TITLE}
         </h1>
-        <div className="editorial-rule mt-6" />
-        <p className="mt-6 text-[16px] leading-[1.65] text-ink/85">
-          Each theory is drawn as a pure sinusoid from its own stated period and
-          a single documented reference peak. Nine of the ten are paired with
-          a real long-run data series. The arrow under each entry opens the
-          longer story - what the theory actually claims, and the primary text
-          where it&apos;s defined. Follow a cycle for its calibration
-          rationale, sourcing, and provenance, or see all ten together on{" "}
-          <Link
-            href="/"
-            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
-          >
-            one axis
-          </Link>
-          .
-        </p>
-        {/* The three confidence tags appear on every entry and every cycle
-            page and were defined nowhere on the site. Journey-walk
-            2026-08-24, J8. */}
-        <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
-          The confidence tag on each entry is this site&apos;s rough grading
-          of the theory&apos;s evidence base:{" "}
-          <em>narrative</em>
-          {" — "}
-          {confidenceGloss("narrative")};{" "}
-          <em>quantitative</em>
-          {" — "}
-          {confidenceGloss("quantitative")};{" "}
-          <em>empirical · contested</em>
-          {" — "}
-          {confidenceGloss("empirical-contested")}.
-        </p>
-      </header>
-
-      {/* The verdict before the roster: a reader who lands here rather than on /methods
-          should see how every theory fares against the site's own test before choosing
-          one to read. Same component, same rows as /methods#spectral-testing. */}
-      <section
-        id="does-any-hold-up"
-        aria-labelledby="does-any-hold-up-heading"
-        className="mt-10 space-y-3.5"
-      >
-        <h2
-          id="does-any-hold-up-heading"
-          className="font-display text-[24px] tracking-tight text-ink mb-2"
-        >
-          Does any of them hold up?
-        </h2>
-        <p className="text-[15px] leading-[1.65] text-ink/85">
+        <div className="editorial-rule mt-4" />
+        <p className="mt-4 text-[16px] leading-[1.6] text-ink/85">
           {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at their stated period — that takes at least three full cycles of data.`}{" "}
           <Link
             href="/methods#spectral-testing"
@@ -237,10 +208,9 @@ export default function CyclesIndex() {
             How the test works →
           </Link>
         </p>
-        <VerdictTable />
-      </section>
+      </header>
 
-      <ul className="mt-10">
+      <ul className="mt-5">
         {byPeriod.map((cycle) => {
           const series = seriesForCycle(cycle);
           const more = MORE[cycle.id];
@@ -311,6 +281,71 @@ export default function CyclesIndex() {
           );
         })}
       </ul>
+
+      {/* The verdict table, below the roster rather than above it — see the note
+          at the top of the page. Same component, same rows as
+          /methods#spectral-testing. */}
+      <section
+        id="does-any-hold-up"
+        aria-labelledby="does-any-hold-up-heading"
+        className="mt-14 space-y-3.5"
+      >
+        <h2
+          id="does-any-hold-up-heading"
+          className="font-display text-[24px] tracking-tight text-ink mb-2"
+        >
+          Does any of them hold up?
+        </h2>
+        <VerdictTable />
+      </section>
+
+      {/* How the curves are drawn, and the confidence-tag glossary. Both were
+          above the roster until 2026-09-20; they answer questions a reader has
+          only after meeting an entry and its tag. The three confidence tags
+          appear on every entry and every cycle page and were defined nowhere on
+          the site — journey-walk 2026-08-24, J8.
+
+          THE J8 TENSION IS REAL AND IS NOT RESOLVED HERE. Every entry renders a
+          confidence label, so a reader now meets the tag up to ten times before
+          reaching this definition. The ordering is the 2026-09-20 P3 cut and the
+          fold defect it fixes is worse, but the cost is live: if a cold walk
+          reports the tags reading as unexplained, the fix is an affordance that
+          points here (this section carries an id for exactly that), NOT moving
+          the glossary back above the roster. */}
+      <section
+        id="confidence-tags"
+        aria-label="How the cycles are drawn, and what the confidence tags mean"
+        className="mt-14"
+      >
+        <p className="text-[16px] leading-[1.65] text-ink/85">
+          Each theory is drawn as a pure sinusoid from its own stated period and
+          a single documented reference peak. Nine of the ten are paired with
+          a real long-run data series. The arrow under each entry opens the
+          longer story - what the theory actually claims, and the primary text
+          where it&apos;s defined. Follow a cycle for its calibration
+          rationale, sourcing, and provenance, or see all ten together on{" "}
+          <Link
+            href="/"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            one axis
+          </Link>
+          .
+        </p>
+        <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
+          The confidence tag on each entry is this site&apos;s rough grading
+          of the theory&apos;s evidence base:{" "}
+          <em>narrative</em>
+          {" — "}
+          {confidenceGloss("narrative")};{" "}
+          <em>quantitative</em>
+          {" — "}
+          {confidenceGloss("quantitative")};{" "}
+          <em>empirical · contested</em>
+          {" — "}
+          {confidenceGloss("empirical-contested")}.
+        </p>
+      </section>
 
       <section className="mt-14">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
