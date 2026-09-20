@@ -32,7 +32,17 @@
   that the tags were defined nowhere. The fold defect is the worse of the two and the
   glossary section now carries `id="confidence-tags"` so an affordance can point at
   it; if a cold walk reports the tags reading as unexplained, that is the fix, not
-  moving the glossary back above the roster.
+  moving the glossary back above the roster. That question is now a dated row (`W-002`,
+  read 2026-09-27) rather than a promise with no reader.
+
+- **W-001's question changed, and its date did not** (`f4a72ba`). The waits gate asks
+  whether a data-wait's denominator can fill by its own read date; at the measured ~2.7
+  impressions/day it projects to ~68 by 2026-10-07 against a floor of 100, so it cannot.
+  The remedy is re-point or convert, never re-date. Click-through stops being the row's
+  question; the 10-07 read now asks whether the query set grew beyond the five
+  Dalio-dominated rows and whether average position moved off ~21. CTR reopens as a
+  fresh row only if position moves under 20. Yesterday pre-registered this for the day
+  itself; today it is applied, because a wait already known to land short is not a wait.
 
 ## The verdict reaches a phone reader (2026-09-19)
 

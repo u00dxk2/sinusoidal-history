@@ -55,6 +55,16 @@ the emitted CSS bytes without changing a style (per-build `@font-face` `url()` t
 Layout belongs to frames, not to this. `--selftest` carries the red arms and CI runs it through
 `src/lib/check-rendered-text.test.ts`.
 
+**`diff` is an ORDER gate, and on a re-ordering it goes RED and is RIGHT to** (learned the slow way
+2026-09-20, on the `/cycles` re-order). It compares visible text line-index by line-index, so moving
+a paragraph reports RED at the first moved line even though not one word changed. Two failure modes
+follow, and the second is the dangerous one: reading that RED as "the page broke", or learning to
+wave it through — after which a genuine prose deletion inside a future re-order rides out on the
+habit. **What proves a re-order safe is the line MULTISET**: `snap` both sides, sort, compare. On
+09-20 that was 216 lines and 166 distinct on both sides, identical, and the adversarial review
+reproduced it independently. Note the same command run BUILT-vs-PRODUCTION after a deploy asks a
+different question — "does production serve what I built" — and there GREEN is the expected answer.
+
 # Keep prose mirrors in sync
 
 Three React prose pages have plain-markdown mirrors that LLM crawlers and external agents fetch directly:
