@@ -118,6 +118,26 @@
         "2d693ac",
         "f4a72ba"
       ]
+    },
+    {
+      "id": "I-002",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "identified": "2026-09-20",
+      "created": "2026-09-20",
+      "updated": "2026-09-20",
+      "lastEvaluated": "2026-09-20",
+      "owner": "sinusoidal-cycles",
+      "title": "This lane's docs/daily-config.md declares no primer:handoff record, so every morning's SessionStart banner reports the primer as having no first-action section",
+      "hypothesis": "The primer's FIRST ACTION is authored by hand inside the hand:begin/hand:end banner, which a human or agent reading the file finds immediately. The machine path does not: gen-primer-first-action resolves the GOVERNING action from a `primer:handoff` JSON record in docs/daily-config.md, and this lane has never declared one, so firstActionDeclared is false and the SessionStart hook reports the primer as declaring none.",
+      "notes": "FOUND 2026-09-20 at the close, by running the generator rather than assuming the primer was fine. This is the defect I personally paid for at THIS MORNING'S cold start: the SessionStart banner read `docs/cold-starts/2026-09-20.md (today) exists but declares NO first-action section (no <!-- primer:first-action --> marker and no \"first action\" heading). Read the file before acting.` The primer DID carry a first action — numbered item 1 in its banner — so the cost was a moment of doubt rather than a lost action, but the banner is wrong on the only morning it matters and it will be wrong again tomorrow.\n\nTHE READ: `node C:/dev/skylark/skylark-site/scripts/gen-primer-first-action.mjs --target-date 2026-09-21 --json` returns `\"firstActionDeclared\": false` and `handoff: { usable: false, reason: \"one primer:handoff JSON record is required\" }`.\n\nWHY IT WAS NOT FIXED AT THE CLOSE THAT FOUND IT. The record is not a one-line marker. `readGoverningHandoff` (gen-primer-first-action.mjs:1848) parses it with `declaredHandoff`, then requires an `evidencePath` pointing at a tracked JSON file of execution evidence, and hands both to `validateHandoff` with the target date, the cwd and the repo's tracked-file list — all in ../skylark-site/src/lib/cc-primer-first-action-blocks.mjs, which I did not read. A record written from a guessed schema would be DECLARED-but-invalid, which is a worse state than absent: the generator would then own the banner region (finalizeGoverningHandoff only rewrites the hand region when `validation.declared`) and could overwrite an authored first action with an UNVERIFIED stub. So this is a task with a real read in front of it, not a close-time edit.\n\nSECOND-ORDER, worth knowing before anyone starts: the same run warns `⚠ SHADOW — emitted command cannot run as written: node C:/dev/skylark/skylark-site/scripts … does not resolve from the lane`, because this lane has no `scripts/sky.mjs` and the generator emits a DIRECTORY where a file should be. That is the generator's defect, not this lane's, but it means the generated foot's release commands are currently unrunnable here and should not be pasted into a primer as-is.",
+      "closeWhen": "`gen-primer-first-action.mjs --target-date <tomorrow> --json` returns `firstActionDeclared: true` and `handoff.usable: true` for this lane, AND the next morning's SessionStart banner stops reporting the primer as declaring no first-action section. Closes as 'declined' if the orchestrator rules that hand-authored banners are the intended path for this lane and the SessionStart check should read the hand region instead.",
+      "onTrigger": "Read ../skylark-site/src/lib/cc-primer-first-action-blocks.mjs first — specifically `declaredHandoff`, `validateHandoff` and `HANDOFF_MARKER` — and write the record from the validator, not from an example. Then run the readCommand and check BOTH `firstActionDeclared` and `handoff.usable` before committing, because a declared-but-invalid record lets the generator own the banner region. Do NOT let it rewrite an authored first action into an UNVERIFIED stub; if that is the behaviour, stop and say so rather than shipping it.",
+      "nextEvaluation": "2026-09-27",
+      "_nextEvaluationNote": "Set 2026-09-20 at row creation, one week out and deliberately the SAME date as I-001 and W-002 so this lane carries ONE gate date rather than three. The cost of waiting is one wrong line in the SessionStart banner each morning, against a first action that is present and readable in the primer's own banner — a nuisance, not a blocker, which is why it is P3 and not P2. Top-level per meta.signalDateField.",
+      "readCommand": "node C:/dev/skylark/skylark-site/scripts/gen-primer-first-action.mjs --repo . --target-date 2026-09-27 --json",
+      "waitingFor": "Nothing and nobody. This one is this lane's own to fix, unlike I-001 — the file is docs/daily-config.md in this repo."
     }
   ],
   "knownPatterns": [
