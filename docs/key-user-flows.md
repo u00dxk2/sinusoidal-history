@@ -25,10 +25,14 @@ journey-walk); update when a surface is added or a flow's steps change.
    dek, then an "In brief" block (what the site is + See the chart →, and the
    spectral headline count, derived from `verdicts.json`) and an "On this page"
    jump list over the six sections.
-2. First viewport: masthead, H1, dek, "State of the cycles" summary panel.
-3. Scroll: editor's note → tabs (Facets default; Overlay desktop-only;
-   Calibrate) → ten facet charts → shared time axis → range brush →
-   closing note (methods link + spectral-headline sentence).
+2. First viewport: masthead, H1, dek, tabs (Facets default; Overlay
+   desktop-only; Calibrate), and the first facet chart. Until 2026-09-21 the
+   "State of the cycles" panel and the editor's note came first, and the
+   first curve sat at 1381px on a 390x664 phone and 1113px on a 1440x900
+   desktop — below the fold at both.
+3. Scroll: ten facet charts → shared time axis → editor's note → range brush
+   → "State of the cycles" summary panel → closing note (methods link +
+   spectral-headline sentence).
 4. Focus a cycle: summary-row select (scrolls to the facet since 2026-08-24)
    or facet-title click. Focused facet = expanded chart + axis + rationale +
    caveat + calibration sliders + live Pearson r + **Full page →**.

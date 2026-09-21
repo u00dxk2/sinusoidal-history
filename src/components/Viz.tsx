@@ -90,6 +90,18 @@ export default function Viz({
     (id: string) => {
       setTab("facets");
       setFocusedCycleId(id);
+      // The panel sits below the chart, so a keyboard user who picks a row
+      // would be left below the facet it opened: carry focus up to it.
+      // After the commit, so a facets tab that was not mounted is. The
+      // focus scrolls on purpose: re-picking the already-open cycle changes
+      // no state, so FacetView's scroll effect does not run for it.
+      window.setTimeout(() => {
+        document
+          .querySelector<HTMLElement>(
+            `[data-facet-id="${CSS.escape(id)}"] button[aria-expanded]`
+          )
+          ?.focus();
+      }, 0);
     },
     [setTab, setFocusedCycleId]
   );
@@ -97,15 +109,15 @@ export default function Viz({
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-5">
-        <NowSummaryPanel
-          cycles={effectiveCycles}
-          currentYear={currentYear}
-          onSelectCycle={handleSelectCycleFromSummary}
-          permalinkHref={`/state/${currentYear}`}
-        />
-
-        <ConvergenceNote />
-
+        {/* The chart leads. The editor's note sits between the curves it
+            comments on and the brush it points at ("Drag the time-range
+            below"), and the reckoning follows. With the panel and note
+            first, a 390x664 phone met the first curve at 1381px and a
+            1440x900 desktop at 1113px — the chart this page is named for sat
+            below the fold at both. Moved in the DOM, not with CSS `order`,
+            so focus and reading order match what is seen. Gate:
+            `node scripts/measure-fold.mjs <url> 390 664
+            '[data-facet-id] svg[role="img"]'`. 2026-09-21. */}
         <Tabs
           value={tab}
           onValueChange={(v) =>
@@ -184,6 +196,8 @@ export default function Viz({
           </TabsContent>
         </Tabs>
 
+        <ConvergenceNote />
+
         <TimeRangeBrush
           cycles={effectiveCycles}
           fullStartYear={fullStartYear}
@@ -191,6 +205,13 @@ export default function Viz({
           visibleStartYear={visibleStartYear}
           visibleEndYear={visibleEndYear}
           onChange={setRange}
+        />
+
+        <NowSummaryPanel
+          cycles={effectiveCycles}
+          currentYear={currentYear}
+          onSelectCycle={handleSelectCycleFromSummary}
+          permalinkHref={`/state/${currentYear}`}
         />
       </div>
     </TooltipProvider>
