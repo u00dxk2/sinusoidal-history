@@ -1,5 +1,47 @@
 # Changelog
 
+## The home page opens on the chart (2026-09-21)
+
+- **A phone reader now meets a cycle curve on the first screen.** `/` opened with
+  the hero, the whole "State of the cycles" panel and the editor's convergence
+  note; the first curve began at 1381px on a 390x664 phone — 2.1 screens down —
+  and at 1113px on a 1440x900 desktop, below the fold on both, on a page whose H1
+  is "Ten cycles, one axis." The order inside `Viz` is now the tabs and facet
+  charts, then the editor's note, then the time-range brush, then the panel.
+  Curves fully inside the first screen went 0 → 1 at 390x664 and 0 → 2 at
+  1440x900 (`node scripts/measure-fold.mjs https://sinusoidalhistory.com/ 390 664
+  '[data-facet-id] svg[role="img"]'`: RED, cut 777px, before the deploy; OK, 500-560px,
+  104px of room, after it). Frames: `docs/frames/2026-09-21-home-390.png` before,
+  `-390-after.png`, `-1440-after.png`, `-360-after.png` built, `-390-after-prod.png`
+  production. At 360x560 the first facet's header clears the fold and its curve
+  does not — the honest extreme, stated rather than gated.
+
+- **The note moved with the chart, not with the panel, and that is why no words
+  changed.** Its text points at the brush ("Drag the time-range below"), so it sits
+  between the curves it comments on and that brush. An earlier cut of this ship put
+  it after the panel and changed "below" to "above"; the orchestrator's review named
+  the premise error before the build, and the word change was reverted.
+
+- **The proof that can see a client-rendered chart is not the one we reach for.**
+  `check-rendered-text.mjs diff` reads GREEN on this change and is **blind** to it:
+  the chart renders in the browser, so the static HTML it reads holds none of it —
+  the reverted word change did not register in it either. What was verified is the
+  line multiset of the page's rendered `main` innerText: 123 lines, 82 distinct,
+  identical against production.
+
+- **Moving the panel below the chart broke keyboard focus, and the ship fixes it.**
+  Activating a summary row scrolled to the facet but left focus in the panel below
+  it; focus now moves to that facet's header. Two adversarial-review passes found
+  it — the second caught focus landing off-screen when re-picking the already-open
+  cycle — and a three-case browser test (Facets tab, Calibrate tab, re-pick) reads
+  RED on the pre-ship build and OK on production.
+
+- **`scripts/measure-fold.mjs` takes an optional selector.** The no-argument call is
+  unchanged in behaviour and output (`/cycles/dalio`: "OK: the verdict is fully
+  visible, 44px of room to spare", identical to 2026-09-20). The fold question is now
+  answerable on any surface, which is what this week's three fold defects on three
+  different surfaces asked for.
+
 ## The index shows the ten cycles on a phone's first screen (2026-09-20)
 
 - **`/cycles` now leads with the verdict sentence and then the entries themselves.**

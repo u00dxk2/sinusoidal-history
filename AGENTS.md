@@ -55,6 +55,17 @@ the emitted CSS bytes without changing a style (per-build `@font-face` `url()` t
 Layout belongs to frames, not to this. `--selftest` carries the red arms and CI runs it through
 `src/lib/check-rendered-text.test.ts`.
 
+**It is BLIND to anything the browser renders, and on the home page that is the whole
+chart** (measured 2026-09-21). The snapshot reads server-rendered HTML; `Viz` and
+everything under it — the ten facets, the editor's note, the brush, the "State of the
+cycles" panel — arrive client-side, so `/` snaps to 25 lines and a re-order of those
+blocks reads GREEN with nothing compared. The positive control that proves it: a word
+changed inside `ConvergenceNote`, and later reverted, did not register either. **For a
+change inside `Viz`, the proof is the rendered `main` innerText line multiset** — load
+both sides in Playwright, split `innerText`, sort, compare (123 lines, 82 distinct on
+2026-09-21, identical against production). Use this gate for server-rendered prose,
+where it is still the right instrument.
+
 **`diff` is an ORDER gate, and on a re-ordering it goes RED and is RIGHT to** (learned the slow way
 2026-09-20, on the `/cycles` re-order). It compares visible text line-index by line-index, so moving
 a paragraph reports RED at the first moved line even though not one word changed. Two failure modes
