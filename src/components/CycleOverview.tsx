@@ -4,8 +4,9 @@ import { useCallback, useMemo, useRef } from "react";
 import { line as d3Line, curveCatmullRom } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
-import { phasePositionLabel, sineAtYear } from "@/lib/cycleMath";
+import { sineAtYear } from "@/lib/cycleMath";
 import { cycleTheorist } from "@/lib/cycleRoutes";
+import { isYearInRange, overviewRowReading } from "@/lib/overviewReading";
 import {
   useContainerWidth,
   useCycleValues,
@@ -53,7 +54,7 @@ export default function CycleOverview({
   const chartWidth = Math.max(0, width - NAME_COL);
   const innerWidth = Math.max(0, chartWidth - PAD * 2);
   const xScale = useTimeScale(startYear, endYear, innerWidth);
-  const nowVisible = currentYear >= startYear && currentYear <= endYear;
+  const nowVisible = isYearInRange(currentYear, startYear, endYear);
   const nowX = xScale(currentYear) + PAD;
 
   const place = useCallback(
@@ -185,8 +186,11 @@ function OverviewRow({
         />
         <span className="font-display text-[12px] leading-none tracking-tight text-ink truncate">
           {theorist}
+          {/* Same predicate as the now-line and the dot (overviewReading.ts):
+              brushed away from the current year the row draws no reading, so
+              it must not speak one either. */}
           <span className="sr-only">
-            {` (${cycle.period_years}-year cycle): ${phasePositionLabel(cycle, currentYear)} in ${currentYear}.`}
+            {overviewRowReading(cycle, { currentYear, startYear, endYear })}
           </span>
         </span>
       </span>
