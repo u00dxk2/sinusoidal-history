@@ -5,6 +5,7 @@ import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import CycleOverlay, { type CycleOverride } from "./CycleOverlay";
 import CalibrationPanel from "./CalibrationPanel";
 import ConvergenceNote from "./ConvergenceNote";
+import CycleOverview from "./CycleOverview";
 import FacetView from "./FacetView";
 import NowSummaryPanel from "./NowSummaryPanel";
 import TimeRangeBrush from "./TimeRangeBrush";
@@ -118,6 +119,19 @@ export default function Viz({
             so focus and reading order match what is seen. Gate:
             `node scripts/measure-fold.mjs <url> 390 664
             '[data-facet-id] svg[role="img"]'`. 2026-09-21. */}
+        {/* Phone only: the Overlay tab that shows all ten is desktop-only,
+            so without this a phone met one cycle at a time. It follows the
+            brush range and any calibration, like the facets it indexes.
+            2026-09-22. */}
+        <div className="sm:hidden">
+          <CycleOverview
+            cycles={effectiveCycles}
+            currentYear={currentYear}
+            startYear={visibleStartYear}
+            endYear={visibleEndYear}
+            detailBelow={tab === "facets"}
+          />
+        </div>
         <Tabs
           value={tab}
           onValueChange={(v) =>

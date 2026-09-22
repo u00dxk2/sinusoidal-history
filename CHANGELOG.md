@@ -1,5 +1,42 @@
 # Changelog
 
+## All ten cycles reach a phone's first screen (2026-09-22)
+
+- **A phone reader now meets every cycle at once, not one at a time.** Yesterday's
+  ship put the first curve on the first screen; the other nine still began about a
+  screen and a half down, and the Overlay tab that draws all ten together is
+  desktop-only (`hidden sm:inline-flex`), so a phone never reached it. `/` now opens
+  with **"Every cycle, at a glance"**: ten 24px rows, one curve each, on the same
+  time axis as the facets below, with a dashed line and a dot at 2026 and year
+  labels under it. Curves fully inside a 390x664 first screen went **1 → 10**, each
+  measured on its own selector (`node scripts/measure-fold.mjs
+  https://sinusoidalhistory.com/ 390 664 '[data-overview-id="<id>"] svg'`), the last
+  row clearing the fold with 72px to spare. Frames:
+  `docs/frames/2026-09-22-home-390-before.png` (production before),
+  `-390-after.png`, `-360x560-after.png`, `-1440-after.png`.
+- **The honest extremes.** 6 of 10 rows at 360x560 and 5 of 10 at 320x568 — better
+  than the 0 both showed before, and stated rather than gated. Desktop is untouched:
+  the figure is `sm:hidden`, and at 640px and 1440x900 the page renders exactly what
+  production renders.
+- **The rows are a figure, not controls, and the copy now says so.** A 24px row
+  cannot meet the 44px tap floor (canon R28), so the rows take no taps and the phone
+  dek dropped "Tap a row to focus and calibrate." — it sat directly above ten rows
+  that do nothing. The instruction moved to the caption under the figure, next to the
+  facet cards that do take the tap, and it renders only on the Facets tab, since on
+  Calibrate there is nothing "below".
+- **What the words proof showed.** The rendered `main` innerText multiset against
+  production, 390x664: 123 → 150 lines, the only differences being the shortened dek
+  and the figure's own 28 lines. Nothing else on the page moved.
+- **Adversarial review found four defects, all fixed before the commit.** Axis labels
+  collided at ≤340px (including the default 320px view, which read "16001700") because
+  the tick filter compared raw positions while the renderer clamped edge labels inward
+  — the filter now runs greedily on placed positions; the caption claimed "each in
+  detail below" on the Calibrate tab, where no facet renders; "All ten" was hard-coded
+  against a derived row count; and every visible part of a row was `aria-hidden`, so
+  explore-by-touch would have read nothing. The review also confirmed, by measurement,
+  that each dot sits within 0.5px of its curve and each row's phase label matches the
+  facet header's for the same cycle and year.
+
 ## The home page opens on the chart (2026-09-21)
 
 - **A phone reader now meets a cycle curve on the first screen.** `/` opened with

@@ -49,10 +49,10 @@ export default function Home() {
               Each a pure sinusoid pinned to one documented peak; nine of the
               ten carry a paired empirical series for stress-testing.
             </span>
-            <span className="sm:hidden">
-              Ten cycles of long-wave history on one axis. Tap a row to
-              focus and calibrate.
-            </span>
+            {/* The tap instruction moved to the caption under the phone
+                overview: said here, it sat directly above ten rows that
+                are a figure, not controls. 2026-09-22. */}
+            <span className="sm:hidden">Ten cycles of long-wave history on one axis.</span>
           </p>
           <p className="hidden sm:block mt-3 text-[13px] text-ink-soft italic font-display-italic">
             Click a row to focus one cycle; drag the brush below to zoom in
