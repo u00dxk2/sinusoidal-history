@@ -13,7 +13,9 @@
   https://sinusoidalhistory.com/ 390 664 '[data-overview-id="<id>"] svg'`), the last
   row clearing the fold with 72px to spare. Frames:
   `docs/frames/2026-09-22-home-390-before.png` (production before),
-  `-390-after.png`, `-360x560-after.png`, `-1440-after.png`.
+  `-390-after.png`, `-360x560-after.png`, `-1440-after.png` (built), and
+  `-390-after-prod.png` — production after the deploy, which is the frame the shipped
+  claim actually rests on.
 - **The honest extremes.** 6 of 10 rows at 360x560 and 5 of 10 at 320x568 — better
   than the 0 both showed before, and stated rather than gated. Desktop is untouched:
   the figure is `sm:hidden`, and at 640px and 1440x900 the page renders exactly what
@@ -27,7 +29,18 @@
 - **What the words proof showed.** The rendered `main` innerText multiset against
   production, 390x664: 123 → 150 lines, the only differences being the shortened dek
   and the figure's own 28 lines. Nothing else on the page moved.
-- **Adversarial review found four defects, all fixed before the commit.** Axis labels
+- **A row's spoken reading now moves with its drawn one (`258c538`).** Shipped in
+  `57ca745`, each row's screen-reader text asserted a phase at the current year
+  unconditionally while the now-line and dot were gated on that year falling inside the
+  brushed range — brushed away from today, a row drew nothing and still said "peaking in
+  2026". Found by the orchestrator's review of the ship. Both readings now come from one
+  predicate in `src/lib/overviewReading.ts`, pinned by `src/lib/overviewReading.test.ts`
+  and red-armed (making the reading unconditional fails with `expected ' (120-year
+  cycle): peaking in 2026.' not to contain 'peaking'`). Read back on production:
+  `?range=2027-2050` draws no line or dot and speaks "drawn 2027–2050; 2026 is outside
+  the years shown."
+- **Two reviews found five defects between them; four were fixed before the commit and
+  the fifth is `258c538` above.** Axis labels
   collided at ≤340px (including the default 320px view, which read "16001700") because
   the tick filter compared raw positions while the renderer clamped edge labels inward
   — the filter now runs greedily on placed positions; the caption claimed "each in
@@ -36,6 +49,16 @@
   explore-by-touch would have read nothing. The review also confirmed, by measurement,
   that each dot sits within 0.5px of its curve and each row's phase label matches the
   facet header's for the same cycle and year.
+- **The sibling sweep of that fifth defect found two more surfaces, and both are fixed.**
+  The shape is a non-visual string asserting what the drawing does not. `CycleOverlay`'s
+  chart described itself as "from 1600 to 2050" to every screen reader while the chart
+  followed the brush — it now interpolates the visible span — and its "now · 2026" marker
+  drew outside the plot area when the brush excluded today, so it is gated like the
+  identical marker in `FacetTimeAxis`. On `/cycles/<slug>`, the figure's label named a
+  reference-peak marker that is only drawn when the peak falls inside the window; the
+  clause is now gated on the same condition, latent today because every peak year does.
+  Read back in a browser: `?tab=overlay&range=2027-2050` labels itself "from 2027 to
+  2050" and draws no now marker.
 
 ## The home page opens on the chart (2026-09-21)
 

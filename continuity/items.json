@@ -138,7 +138,10 @@
       "nextEvaluation": "2026-09-23",
       "_nextEvaluationNote": "Moved 2026-09-27 -> 2026-09-23 on 2026-09-22 (P2): after the re-scope the read is the SessionStart banner of the morning after the P5 that writes the heading, so a week-out date would only delay a one-line answer. If 09-23's banner still reports no first action, re-date one day with the reason, never silently. Top-level per meta.signalDateField.",
       "readCommand": "node C:/Users/david/.claude/hooks/sessionstart-mt-date-and-primer.mjs",
-      "waitingFor": "Nothing and nobody. This one is this lane's own to fix, unlike I-001 — the file is docs/daily-config.md in this repo."
+      "waitingFor": "Nothing and nobody. This one is this lane's own to fix, unlike I-001 — the file is docs/daily-config.md in this repo.",
+      "linkedCommits": [
+        "ac42fcf"
+      ]
     },
     {
       "id": "I-003",
@@ -159,7 +162,68 @@
       "waitingFor": "The skylark-site-side edit (the orchestrator ruled it theirs in bus 1649c84f, on skylark-site I-001). Nothing waits on David. Nothing in this lane's product work is blocked; what is blocked is the machine check of this lane's primer at P5.",
       "created": "2026-09-21",
       "updated": "2026-09-22",
-      "closedAt": "2026-09-22"
+      "closedAt": "2026-09-22",
+      "linkedCommits": [
+        "f8a914b",
+        "789cd926c"
+      ]
+    },
+    {
+      "id": "I-004",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "identified": "2026-09-22",
+      "created": "2026-09-22",
+      "owner": "sinusoidal-cycles",
+      "title": "This lane's two leading product numbers are undeclared: four days of product work were measured by first-screen reach, which appears nowhere in docs/daily-config.md",
+      "hypothesis": "The declared north star (organic search clicks) reads 0, is classified expected-zero, and cannot be re-read before W-001's 2026-10-07 date. Meanwhile every product ship since 2026-09-19 has been measured by whether a page's answer reaches a phone's first screen — a number the lane computes, acts on, and never declares. Declaring it makes the day's ship gradeable against something other than a metric that cannot move yet. The orchestrator approved both numbers as SECONDARY leading indicators on 2026-09-22 (bus da93e347): they do not replace the north star.",
+      "notes": "OPENED 2026-09-22 at P5, from my own P1 proposal 2 (bus 4aa0d17d) and the orchestrator's approval (bus da93e347). THE TWO NUMBERS: (1) entry pages whose answer clears a 390x664 first screen — the four entry pages are /, /cycles, /cycles/<slug> and /methods, each with a QUESTION-scoped selector, never a container-scoped one; (2) home-page curves inside that screen, which went 1 -> 10 on 2026-09-22 (57ca7458b62ca33953fb420624f38821a86054f9). CAUTION THE MANAGER NAMED AND I ACCEPT: only the /methods leg of a '4 of 4' count has a receipt from 2026-09-22; the other three are carried from reads on 09-19, 09-20 and 09-21, so the count is NOT claimable until I-005's wrapper runs it in one pass. Do not write '4 of 4' into daily-config as a measured number before that.",
+      "closeWhen": "docs/daily-config.md declares both numbers with their instrument (the measure-fold selector per surface) and states plainly that they are secondary to the organic-clicks north star, not a replacement for it.",
+      "onTrigger": "Write the two numbers into docs/daily-config.md with, for each, the command that produces it and the surface+selector it reads. Do NOT record a current value for the entry-page count until I-005's wrapper has produced it in a single run — a carried-forward count from three different days is the exact shape this row exists to stop.",
+      "nextEvaluation": "2026-09-27",
+      "_nextEvaluationNote": "Set 2026-09-22 at row creation, deliberately the SAME date as W-002 and I-005 so this lane carries ONE gate date rather than three. Secondary to product work: the cost of waiting is that a ship is graded against a metric that cannot move, which is what the last four days already did.",
+      "readCommand": "node -e \"console.log(require('fs').readFileSync('C:/dev/skylark/sinusoidal-cycles/docs/daily-config.md','utf8').includes('first screen'))\"",
+      "waitingFor": "Nothing and nobody — this lane's own file, and the orchestrator has already approved the shape.",
+      "updated": "2026-09-22"
+    },
+    {
+      "id": "I-005",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "identified": "2026-09-22",
+      "created": "2026-09-22",
+      "owner": "sinusoidal-cycles",
+      "title": "No single command reads every entry page's first screen, so a layout ship can only be proven on the page it edited",
+      "hypothesis": "scripts/measure-fold.mjs answers one surface per run. The four entry pages therefore get read on four different days, and a shared surface — the site header, a global style — can push another page's answer below the fold with nothing catching it until the next cold walk. A thin roster wrapper (four URL+selector pairs, one exit code) turns that into one command, and its first run is the receipt I-004 needs for the count it must not claim before then.",
+      "notes": "OPENED 2026-09-22 at P5, from my own P1 proposal 2 (bus 4aa0d17d) and the orchestrator's approval and sequencing (bus da93e347: 'the roster wrapper's first run should be the receipt for that count. Build it after today's ship lands, not before. If time runs short, row it with a date.'). Time did run short: the 2026-09-22 ship plus five review defects took the day. SHAPE, decided not guessed: the pairs are question-scoped selectors — the /methods lesson of 2026-09-22 is that a container-scoped selector reads RED while the answer itself is fully visible ('section[aria-label=\"In brief\"]' RED at 98px, 'section[aria-label=\"In brief\"] > p:nth-of-type(2)' OK with 57px to spare). BUILD NOTE from the lane's own dispatch pre-flight: a new file under scripts/ is linted by CI's root eslint, and a test that IMPORTS a shebang-headed scripts/*.mjs collects ZERO tests under this repo's vitest (Vite 7 rejects the shebang stacklessly) — so either spawn the script from one it() and assert on its own --selftest, or add the strip-mjs-shebang plugin. Pick one deliberately.",
+      "closeWhen": "One command reads all four entry pages' first screens at 390x664 and exits non-zero when any one of them is cut, with a red arm recorded (the command that made it go RED and the RED output it printed).",
+      "onTrigger": "Build the wrapper, give it a --selftest, run it once to produce the entry-page count I-004 needs, and record the red arm. Then close this row and update I-004 with the measured count in the same pass.",
+      "nextEvaluation": "2026-09-27",
+      "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002 and I-004 so this lane carries ONE gate date. This is substrate under the <=20% correction budget: it buys a regression read the lane currently does not have, and it is explicitly SECOND to product work in the orchestrator's sequencing.",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs --selftest",
+      "waitingFor": "Nothing and nobody — this lane's own script, and the shape is decided above.",
+      "updated": "2026-09-22"
+    },
+    {
+      "id": "I-006",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "identified": "2026-09-22",
+      "created": "2026-09-22",
+      "owner": "sinusoidal-cycles",
+      "title": "Cycle counts are written as literals in user-facing copy on surfaces that already import the data, and only SITE_DESCRIPTION is test-pinned",
+      "hypothesis": "This exact class already shipped wrong once: SITE_DESCRIPTION said 'Eight' for the whole first Search Console window while the site served ten, on every impression. That one literal is now pinned by siteConfig.test.ts against NUMBER_WORDS[cycles.length]. Its siblings are not, and they sit on surfaces where the count is a claim rather than prose — the OG share card's standfirst above all, since it is the line other sites quote.",
+      "notes": "OPENED 2026-09-22 at P5, from the sibling sweep owed by that day's 'All ten' -> 'Every cycle' fix (the hard-coded-count half). SWEPT with the Grep tool over src/ (48 hits) and public/**/*.{md,txt} (13 hits) against src/data/cycles.json = 10 and src/data/series.json = 9, so every 'nine of the ten' is arithmetically right today. RANKED, strongest first: src/app/og/route.tsx:164 'Ten long-wave cycles of history, on one shared axis.' — the route already imports cycles and this is the same surface CLASS that shipped 'Eight'; src/components/Poster.tsx:169 (its masthead derives No. NN from cycles.length two blocks above, the standfirst does not) plus the hand-typed ten-name roster at :199-200; src/components/TimeRangeBrush.tsx:283 'the mean of all ten cycle sinusoids' three lines from `sum / cycles.length`; src/app/(app)/page.tsx:47-55 (desktop dek roster, 'nine of the ten', and the phone dek) and :86 '0 of the 9'. DERIVED ALREADY, leave alone: methods/page.tsx:60, NowSummaryPanel.tsx:75, Poster.tsx:125, embed/docs/page.tsx:101. DELIBERATE, leave alone: the H1 'Ten cycles, one axis.' and SITE_DESCRIPTION (literal by design, test-pinned). ALSO FOUND, not this row: two stale comments describing an eight-cycle site (og/route.tsx:53, page.tsx:9) — comments only, no user impact. PROSE PAGES (about, cycles, state, methods, colophon and their public/*.md mirrors) are a judgement call rather than a mechanical fix: they read as editorial sentences, and AGENTS.md already couples each page to its mirror, so any change there is a two-file edit by rule.",
+      "closeWhen": "The four ranked surfaces derive their count from cycles.length (or are deliberately exempted in one line each), and a test pins at least the OG standfirst the way siteConfig.test.ts pins SITE_DESCRIPTION.",
+      "onTrigger": "Start with og/route.tsx — it is the highest-consequence line and the route already has the data. Prose pages are NOT in scope unless the count is actually wrong; the point is the surfaces where the number is a claim, not the ones where it is a sentence. Any page edited here drags its public/*.md mirror with it (AGENTS.md).",
+      "nextEvaluation": "2026-09-27",
+      "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002, I-004 and I-005 so this lane carries ONE gate date. Nothing is wrong on the site today — all counts are arithmetically correct against ten cycles and nine series — so this is a robustness row, not a defect row; it comes due when the roster next changes or on 09-27, whichever is first.",
+      "readCommand": "node -e \"const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))\"",
+      "waitingFor": "Nothing and nobody — this lane's own files.",
+      "updated": "2026-09-22"
     }
   ],
   "knownPatterns": [

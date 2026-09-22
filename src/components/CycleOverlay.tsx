@@ -155,7 +155,11 @@ export default function CycleOverlay({
 
       <svg
         role="img"
-        aria-label="Overlay of historical cycle theories and data series from 1600 to 2050"
+        // Interpolated, not fixed: this chart follows the brush, and a hard-coded
+        // "1600 to 2050" told every screen reader the same span whatever was drawn
+        // (sibling sweep of the 2026-09-22 overview defect; CycleFacet already
+        // interpolates).
+        aria-label={`Overlay of historical cycle theories and data series from ${startYear} to ${endYear}`}
         width={width}
         height={height}
         className="block"
@@ -238,23 +242,30 @@ export default function CycleOverlay({
             />
           ))}
 
-          <line
-            x1={xScale(currentYear)}
-            x2={xScale(currentYear)}
-            y1={0}
-            y2={innerHeight}
-            stroke="#e11d48"
-            strokeWidth={1.5}
-            strokeOpacity={0.8}
-          />
-          <text
-            x={xScale(currentYear)}
-            y={-6}
-            textAnchor="middle"
-            className="fill-[#e11d48] text-[11px] font-medium font-mono"
-          >
-            now · {currentYear}
-          </text>
+          {/* Gated like FacetTimeAxis's identical marker: brushed to a range that
+              excludes today, this drew the line and its label outside the plot
+              area (sibling sweep of the 2026-09-22 overview defect). */}
+          {currentYear >= startYear && currentYear <= endYear && (
+            <>
+              <line
+                x1={xScale(currentYear)}
+                x2={xScale(currentYear)}
+                y1={0}
+                y2={innerHeight}
+                stroke="#e11d48"
+                strokeWidth={1.5}
+                strokeOpacity={0.8}
+              />
+              <text
+                x={xScale(currentYear)}
+                y={-6}
+                textAnchor="middle"
+                className="fill-[#e11d48] text-[11px] font-medium font-mono"
+              >
+                now · {currentYear}
+              </text>
+            </>
+          )}
 
           {pinnedYear !== null && (
             <line

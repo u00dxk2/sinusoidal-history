@@ -573,7 +573,11 @@ function CurveFigure({ cycle }: { cycle: Cycle }) {
       <svg
         viewBox={`0 0 ${width} ${height}`}
         role="img"
-        aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}, with its reference peak at ${cycle.reference_peak_year}.`}
+        // The peak clause is gated on the same condition as the marker it
+        // describes: naming a marker that is not drawn is the 2026-09-22
+        // overview defect, latent here only because every peak year currently
+        // falls inside the window.
+        aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}.`}
         className="block w-full h-auto"
       >
         <line
