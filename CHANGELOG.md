@@ -1,5 +1,27 @@
 # Changelog
 
+## Every entry page answers on a phone's first screen (2026-09-25)
+
+- **One command now reads every entry page's first screen** (`45abf72`):
+  `node scripts/check-entry-folds.mjs [--width N --height N]` walks 13 legs (`/`,
+  `/cycles`, `/methods`, and every `/cycles/<slug>`) from one table whose rows state
+  their question first. Its first run on production, at 390x664, read **11 of 13**.
+  It was the first measurement ever of nine of the ten cycle pages.
+- **The one cycle page that skipped "Does it hold up?" now answers it** (`5838ca8`).
+  Turchin's fathers-and-sons cycle has no paired data series, so it has no verdict,
+  and its page opened on the curve with no word on whether it was tested. It now
+  says "Not tested" and links to the caveat that explains why (the violence database
+  carries no reuse license). `/cycles/turchin`'s verdict, 37px below the fold, rose
+  onto it.
+- **Every entry page answers on a 360-wide phone too** (`27ec7df`). Below 640px
+  only: tighter spacing above the answer, smaller H1 and body type there, and the
+  breadcrumb's current-page crumb hidden (it repeated the H1). Production, before and
+  after: 390x664 11 → 13 of 13, 360x560 2 → 13 of 13, 320x568 1 → 10 of 13. Desktop
+  (1024x768 and the 640px boundary) reads identical to before, and no words changed.
+- **The lane's two leading product numbers are declared** in `docs/daily-config.md`,
+  each with its command: entry-page legs answering on the first screen, and home
+  curves inside it. Frames: `docs/frames/2026-09-25-*-after-prod.png`.
+
 ## All ten cycles on the smallest phones, and no sideways scroll (2026-09-24)
 
 - **A 320- or 360-wide phone now opens on all ten cycles too** (`be29b3a`). The
