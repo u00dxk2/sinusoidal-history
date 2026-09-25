@@ -298,7 +298,10 @@ export default async function StatePage({ params }: Params) {
           changelog. The edition CSV below is frozen as published and never
           recomputed. Suggested citation:
         </p>
-        <p className="mt-3 font-mono text-[12px] leading-relaxed text-ink/80 border-l-2 border-ink/40 pl-3.5">
+        {/* break-words: the citation's URL is one unbreakable monospace
+            string, 24px wider than this box at 320, which scrolled the whole
+            page sideways by 4px. 2026-09-24. */}
+        <p className="mt-3 font-mono text-[12px] leading-relaxed text-ink/80 border-l-2 border-ink/40 pl-3.5 break-words">
           Kooi, D. ({year}). &ldquo;State of the Cycles {year}.&rdquo;{" "}
           {SITE_NAME}, {SITE_MAKER}. {SITE_URL}
           {statePath(year)}
