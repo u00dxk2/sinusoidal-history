@@ -1,5 +1,22 @@
 # Changelog
 
+## All ten cycles on the smallest phones, and no sideways scroll (2026-09-24)
+
+- **A 320- or 360-wide phone now opens on all ten cycles too** (`be29b3a`). The
+  2026-09-22 ship fit ten at 390x664 but only 5 at 320x568 and 6 at 360x560. The
+  figure was never the problem: below 390px the site nav wrapped to a second 44px
+  line, the "Vol. I · An editorial chart-room" kicker to two lines, and the phone
+  intro restated the H1 over two lines. Under 390 each now fits one line (tighter
+  type; nav links held at 44x44), the top spacing tightens 32px, and the phone intro
+  reads "Long-wave history, 1600–2050." — what the H1 leaves out. Read per row on
+  production after the deploy: 10 of 10 at 320x568 (12px spare), 360x560 (4px) and
+  390x664 (72px, unchanged). Frames: `docs/frames/2026-09-24-home-320.png` (before),
+  `-320-after-prod.png`, `-360-after-prod.png`.
+- **`/state/<year>` no longer scrolls sideways on a 320px phone** (`130d8d3`). The
+  suggested citation's URL was one unbreakable monospace string 24px wider than its
+  box; it wraps now. A nine-page, eight-width sweep (320–640) went from 22 red cases
+  on production to 1 — the home kicker wrapping at 640, cosmetic, left as is.
+
 ## All ten cycles reach a phone's first screen (2026-09-22)
 
 - **A phone reader now meets every cycle at once, not one at a time.** Yesterday's

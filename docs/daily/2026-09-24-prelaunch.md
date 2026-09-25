@@ -6,7 +6,7 @@ north_star_metric: organic search clicks to sinusoidalhistory.com — the first 
 north_star_value: 0
 north_star_status: measured-zero
 north_star_classification: expected-zero
-last_deploy: be29b3a
+last_deploy: 130d8d3
 sentry_open_p1: null
 sentry_open_p2: null
 mrr_usd: null
@@ -25,7 +25,7 @@ top_action_today: "The change a reader should see today: on a small phone (320 o
 node scripts/measure-fold.mjs https://sinusoidalhistory.com/ 320 568 "[data-overview-id=\"turchin_fathers_sons\"] svg"
 ```
 
-**Today's ship, and what a reader sees.** On a 320- or 360-wide phone the home page now opens on **all ten cycles**, where production showed **5 of 10 at 320x568 and 6 of 10 at 360x560** this morning. The cause was not the figure: below 390px the site nav wrapped to a second 44px line, the "Vol. I · An editorial chart-room" kicker wrapped to two lines, and the phone intro restated the H1 over two lines — 85px of wrapping at 320 that 390 did not have. `be29b3a` sets the nav and kicker tighter under 390 (width < 390), keeps every nav link at least 44x44, tightens the top spacing by 32px there, and replaces the phone intro with one line that says what the H1 does not: "Long-wave history, 1600–2050." 390 and up are unchanged.
+**Today's ship, and what a reader sees.** On a 320- or 360-wide phone the home page now opens on **all ten cycles**, where production showed **5 of 10 at 320x568 and 6 of 10 at 360x560** this morning (390x664 already fit all ten, 72px spare — the 09-22 ship, re-read today in the table under Inputs). The cause was not the figure: below 390px the site nav wrapped to a second 44px line, the "Vol. I · An editorial chart-room" kicker wrapped to two lines, and the phone intro restated the H1 over two lines — 85px of wrapping at 320 that 390 did not have. `be29b3a` sets the nav and kicker tighter under 390 (width < 390), keeps every nav link at least 44x44, tightens the top spacing by 32px there, and replaces the phone intro with one line that says what the H1 does not: "Long-wave history, 1600–2050." 390 and up are unchanged.
 
 **The narrow-phone question, decided in one line:** a 320px reader is a reader this site serves; all ten now fit there, with 12px to spare at 320x568 and 4px at 360x560.
 
@@ -46,9 +46,10 @@ node scripts/measure-fold.mjs https://sinusoidalhistory.com/ 320 568 "[data-over
   | 360x560 | 6 of 10 (row 10 cut 93px) | **10 of 10** (4px spare) |
   | 390x664 | 10 of 10 (72px spare) | 10 of 10 (72px spare, unchanged) |
 
-- **The extremes, swept across the whole site, not just `/`.** Nine pages at eight widths (320–640) for horizontal overflow, nav line count and console errors: production 22 red cases before, **2 after** — the nav wrap is gone on every page from 320 to 389. The two that remain are on production today and untouched: `/state/2026` overflows 4px at 320, and the kicker wraps at 640 (the `sm` two-column layout).
+- **The extremes, swept across the whole site, not just `/`.** Nine pages at eight widths (320–640) for horizontal overflow, nav line count and console errors: 22 red cases on production (read 2026-09-24 ~8:05 PM MT, `node <scratchpad>/sweep.mjs https://sinusoidalhistory.com` — a throwaway Playwright script, not committed), **2 after** on the local build and again on production after the deploy — the nav now sits on one line on every page at 320, 340, 360, 375 and 389px. The two that remain are on production today and untouched: `/state/2026` overflows 4px at 320, and the kicker wraps at 640 (the `sm` two-column layout).
 - **Words proof.** `node scripts/check-rendered-text.mjs diff` production-before vs the local build → RED at exactly one line, the intended one (`Ten cycles of long-wave history on one axis.` → `Long-wave history, 1600–2050.`); a sorted comparison of both snapshots shows no other line moved (25 lines each). The chart itself is client-rendered and was not touched.
 - **Adversarial review (Codex, working tree, before commit) found two real defects, both fixed before the commit:** at 11px "Chart" and "About" measured ~41px wide, under the 44px tap floor (fixed with `min-w-11`; re-measured 44.0x44.0); and `max-[389px]` compiles to width < 389, leaving a 389px screen out of the fix (switched to `max-[390px]`; 389 re-measured one-line nav, first row at 316px).
+- **Sibling sweeps (P5, Grep tool over `src/`).** Kicker: `tracking-\[0\.3\dem\]` → 10 hits — the site masthead line, the home kicker (fixed), and eight page eyebrows (about, colophon, methods, cycles, cycles/<id>, state, NowSummaryPanel, Poster). None overflows in the sweep; whether any wraps into a page's first screen is exactly what `I-005`'s entry-page wrapper measures, so they are left for that read, not tuned blind. Citation URL: `\{SITE_URL\}|https://sinusoidalhistory` over `src/app` → 23 hits, and only `state/[year]/page.tsx:306` prints a URL as visible page text (the rest are metadata, sitemap and JSON-LD); `/embed/docs` shows none at 320 in the sweep.
 - **Gates at `be29b3a`:** `verify-with-receipt -- npm test` → `Test Files 12 passed (12) · Tests 90 passed (90)`, TRUE exit 0; `npm run typecheck` exit 0; `npm run lint` 0 errors.
 
 ## Outputs (lagging)
@@ -62,7 +63,7 @@ node scripts/measure-fold.mjs https://sinusoidalhistory.com/ 320 568 "[data-over
 
 **The 4px at 360x560 is thin.** Any future line added above the overview on a phone costs rows at that size first; re-run the 360x560 last-row read after any masthead edit.
 
-**Found, not fixed:** `/state/2026` overflows 4px at 320 wide. Small and pre-existing; worth one look next session.
+**`/state/2026`'s 4px overflow at 320 was fixed at P4** (`130d8d3`) — see the findings block below.
 
 **Nothing is blocked on David**, and no board card is open for this lane.
 
