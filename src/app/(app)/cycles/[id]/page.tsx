@@ -93,7 +93,12 @@ export default async function CyclePage({ params }: Params) {
     // the series card all want that width — but running prose at 15px hit ~94
     // chars per line there, and the mono citation ~128. Constraining only the
     // paragraphs keeps the layout and fixes the measure. Canon R5.
-    <article className="max-w-3xl mx-auto px-5 sm:px-8 py-10 sm:py-14 [&_p]:max-w-[68ch]">
+    // Phone spacing above the verdict (pt-6, and the mt-4s below) is 40px tighter
+    // than sm: on 2026-09-25 check-entry-folds.mjs read /cycles/turchin's answer
+    // 37px below a 390x664 first screen — the longest description on the roster —
+    // and three more pages with 1px to spare. Re-run it after any edit above the
+    // verdict.
+    <article className="max-w-3xl mx-auto px-5 sm:px-8 pt-6 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
@@ -137,7 +142,7 @@ export default async function CyclePage({ params }: Params) {
         </ol>
       </nav>
 
-      <header className="mt-6">
+      <header className="mt-4 sm:mt-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Cycle No. {String(index + 1).padStart(2, "0")} ·{" "}
           {confidenceLabel(cycle.confidence_level)}
@@ -150,10 +155,10 @@ export default async function CyclePage({ params }: Params) {
         </h1>
         <div
           aria-hidden
-          className="mt-5 h-[3px] w-16"
+          className="mt-4 sm:mt-5 h-[3px] w-16"
           style={{ backgroundColor: cycle.color }}
         />
-        <p className="mt-6 text-[17px] leading-[1.6] text-ink/85">
+        <p className="mt-4 sm:mt-6 text-[17px] leading-[1.6] text-ink/85">
           {cycle.short_description}
         </p>
       </header>
@@ -167,7 +172,7 @@ export default async function CyclePage({ params }: Params) {
         <section
           id="does-it-hold-up"
           aria-label="Does this cycle hold up"
-          className="mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
+          className="mt-6 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
         >
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
             Does it hold up?
@@ -205,6 +210,37 @@ export default async function CyclePage({ params }: Params) {
         </section>
       )}
 
+      {/* A cycle with no paired series has no verdict, and until 2026-09-25 its
+          page simply skipped the question — the fathers-and-sons page opened on
+          the curve with no word on whether it had been tested, the one page of
+          ten where a reader's first question went unanswered. Same id, so the
+          entry-fold roster reads it like the other nine. */}
+      {!verdict && !series && (
+        <section
+          id="does-it-hold-up"
+          aria-label="Does this cycle hold up"
+          className="mt-6 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
+        >
+          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
+            Does it hold up?
+          </h2>
+          <p className="mt-2.5 text-[17px] leading-[1.5] text-ink">
+            Not tested — this cycle has no paired data series on this site, so
+            there is no record to test it against.
+          </p>
+          {cycle.caveat && (
+            <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+              <a
+                href="#caveat"
+                className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+              >
+                Why there is none, in the caveat →
+              </a>
+            </p>
+          )}
+        </section>
+      )}
+
       {/* Period / reference peak / paired series sat directly under the H1
           until 2026-09-19, which pushed the verdict's answer sentence 17px
           below a real phone's visible viewport (390x664 — an iPhone 14 in
@@ -237,7 +273,10 @@ export default async function CyclePage({ params }: Params) {
         </h2>
         <p>{cycle.reference_peak_rationale}</p>
         {cycle.caveat && (
-          <p className="border-l-2 border-ink/40 pl-3.5 text-[15px] leading-relaxed">
+          <p
+            id="caveat"
+            className="scroll-mt-6 border-l-2 border-ink/40 pl-3.5 text-[15px] leading-relaxed"
+          >
             <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1.5 font-mono">
               Caveat
             </span>
