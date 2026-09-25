@@ -164,7 +164,11 @@ const jsonLd = {
 
 export default function CyclesIndex() {
   return (
-    <div className="max-w-3xl mx-auto px-5 sm:px-8 py-6 sm:py-16">
+    // Below sm the space above the roster is tighter than at sm and up (spacing,
+    // H1 and lede type), each value with an sm: twin, so the first entry clears a
+    // 360x560 phone screen: it was 71px below on 2026-09-25. Re-check with
+    //   node scripts/check-entry-folds.mjs --width 360 --height 560
+    <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-6 sm:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -188,18 +192,15 @@ export default function CyclesIndex() {
           production and against .next/server/app/cycles.html, then the two
           snapshots sorted and compared — 216 lines and 166 distinct both sides,
           identical. Re-run it that way, not with `diff`. */}
-      <header className="mb-6">
+      <header className="mb-4 sm:mb-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Index · By ascending period
         </p>
-        <h1
-          className="font-display mt-3 text-ink leading-[0.98] tracking-[-0.015em]"
-          style={{ fontSize: "clamp(40px, 6vw, 56px)" }}
-        >
+        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[34px] sm:text-[clamp(40px,6vw,56px)]">
           {TITLE}
         </h1>
-        <div className="editorial-rule mt-4" />
-        <p className="mt-4 text-[16px] leading-[1.6] text-ink/85">
+        <div className="editorial-rule mt-3 sm:mt-4" />
+        <p className="mt-3 sm:mt-4 text-[15px] leading-[1.55] sm:text-[16px] sm:leading-[1.6] text-ink/85">
           {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at their stated period — that takes at least three full cycles of data.`}{" "}
           <Link
             href="/methods#spectral-testing"
@@ -210,7 +211,7 @@ export default function CyclesIndex() {
         </p>
       </header>
 
-      <ul className="mt-5">
+      <ul className="mt-3 sm:mt-5">
         {byPeriod.map((cycle) => {
           const series = seriesForCycle(cycle);
           const more = MORE[cycle.id];
@@ -230,7 +231,7 @@ export default function CyclesIndex() {
                       visible link affordance at rest or on hover — cold
                       readers took the entries for headings. Journey-walk
                       2026-08-24, J11. */}
-                  <h2 className="font-display text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
+                  <h2 className="font-display text-[18px] sm:text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
                     {cycle.name}
                   </h2>
                   <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
@@ -250,7 +251,7 @@ export default function CyclesIndex() {
                     {confidenceLabel(cycle.confidence_level)}
                   </span>
                 </div>
-                <p className="mt-2 text-[15px] leading-snug text-ink/85">
+                <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-snug text-ink/85">
                   {cycle.short_description}
                 </p>
                 <p className="mt-1.5 text-[12px] leading-relaxed text-ink-soft font-mono">

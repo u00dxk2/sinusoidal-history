@@ -93,12 +93,16 @@ export default async function CyclePage({ params }: Params) {
     // the series card all want that width — but running prose at 15px hit ~94
     // chars per line there, and the mono citation ~128. Constraining only the
     // paragraphs keeps the layout and fixes the measure. Canon R5.
-    // Phone spacing above the verdict (pt-6, and the mt-4s below) is 40px tighter
-    // than sm: on 2026-09-25 check-entry-folds.mjs read /cycles/turchin's answer
-    // 37px below a 390x664 first screen — the longest description on the roster —
-    // and three more pages with 1px to spare. Re-run it after any edit above the
-    // verdict.
-    <article className="max-w-3xl mx-auto px-5 sm:px-8 pt-6 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
+    // Below sm, everything above the verdict is tighter than at sm and up — the
+    // spacing, the H1 and the description's type — so the answer clears a phone's
+    // first screen. On 2026-09-25 check-entry-folds.mjs read /cycles/turchin's
+    // answer 37px below 390x664, and at 360x560 ten of the ten cycle pages were
+    // cut by 4-142px. Every value here has an sm: twin that restores the desktop
+    // layout exactly. Re-run the script at BOTH sizes after any edit above the
+    // verdict:
+    //   node scripts/check-entry-folds.mjs
+    //   node scripts/check-entry-folds.mjs --width 360 --height 560
+    <article className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
@@ -132,33 +136,33 @@ export default async function CyclePage({ params }: Params) {
               Cycles
             </Link>
           </li>
-          <li aria-hidden className="text-ink-soft/40">
+          {/* Below sm the current page's crumb is hidden: it repeats the H1 one
+              line below, and on a phone a long name wrapped the breadcrumb onto a
+              second line, pushing the verdict down ~20px (2026-09-25). */}
+          <li aria-hidden className="hidden sm:list-item text-ink-soft/40">
             /
           </li>
           {/* Matches the BreadcrumbList in this page's JSON-LD. */}
-          <li aria-current="page" className="text-ink/70">
+          <li aria-current="page" className="hidden sm:list-item text-ink/70">
             {cycle.name}
           </li>
         </ol>
       </nav>
 
-      <header className="mt-4 sm:mt-6">
+      <header className="mt-3 sm:mt-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Cycle No. {String(index + 1).padStart(2, "0")} ·{" "}
           {confidenceLabel(cycle.confidence_level)}
         </p>
-        <h1
-          className="font-display mt-3 text-ink leading-[0.98] tracking-[-0.015em]"
-          style={{ fontSize: "clamp(34px, 5.2vw, 52px)" }}
-        >
+        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] sm:text-[clamp(34px,5.2vw,52px)]">
           {cycle.name}
         </h1>
         <div
           aria-hidden
-          className="mt-4 sm:mt-5 h-[3px] w-16"
+          className="mt-3 sm:mt-5 h-[3px] w-16"
           style={{ backgroundColor: cycle.color }}
         />
-        <p className="mt-4 sm:mt-6 text-[17px] leading-[1.6] text-ink/85">
+        <p className="mt-3 sm:mt-6 text-[15px] leading-[1.55] sm:text-[17px] sm:leading-[1.6] text-ink/85">
           {cycle.short_description}
         </p>
       </header>
@@ -172,12 +176,12 @@ export default async function CyclePage({ params }: Params) {
         <section
           id="does-it-hold-up"
           aria-label="Does this cycle hold up"
-          className="mt-6 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
+          className="mt-4 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
             Does it hold up?
           </h2>
-          <p className="mt-2.5 text-[17px] leading-[1.5] text-ink">
+          <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
             {verdict.eligible
               ? `Tested — ${SPECTRAL_STATE_LABELS[verdict.state]}.`
               : "Not testable on the record that exists — and that is the finding, not a dodge."}
@@ -219,12 +223,12 @@ export default async function CyclePage({ params }: Params) {
         <section
           id="does-it-hold-up"
           aria-label="Does this cycle hold up"
-          className="mt-6 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-5 py-4 sm:px-6 sm:py-5"
+          className="mt-4 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
             Does it hold up?
           </h2>
-          <p className="mt-2.5 text-[17px] leading-[1.5] text-ink">
+          <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
             Not tested — this cycle has no paired data series on this site, so
             there is no record to test it against.
           </p>
