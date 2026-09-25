@@ -13,7 +13,7 @@ export default function AppLayout({
             than the viewport, which pushed the whole page into horizontal
             scroll and clipped "About" off the right edge. Wrapping drops the
             nav to its own line instead. Canon R29. */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-5 pb-4 sm:pt-7 sm:pb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-5 pb-4 max-[390px]:pt-4 max-[390px]:pb-3 sm:pt-7 sm:pb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
           <Link href="/" className="group block">
             <span className="block text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
               Skylark Creations
@@ -26,8 +26,14 @@ export default function AppLayout({
             aria-label="Primary"
             /* [&>a]: the 44px tap-target floor applied once here rather than
                repeated on five links. -my-3 keeps the taller hit area from
-               changing the header's visual rhythm. Canon R28. */
-            className="flex flex-wrap gap-x-3 sm:gap-x-6 text-[12px] sm:text-[13px] uppercase tracking-[0.18em] text-ink-soft -my-3 [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-11"
+               changing the header's visual rhythm. Canon R28.
+               max-[390px] (width < 390): the five links wrapped onto a
+               second 44px line, which pushed half the home page's cycle
+               overview below a 320x568 first screen. Tighter type keeps them
+               on one line there; min-w-11 keeps the shortest labels (CHART,
+               ABOUT, ~41px at this size) on the 44px floor in width as well.
+               390 and up are unchanged. 2026-09-24. */
+            className="flex flex-wrap gap-x-3 sm:gap-x-6 text-[12px] sm:text-[13px] uppercase tracking-[0.18em] max-[390px]:gap-x-2 max-[390px]:text-[11px] max-[390px]:tracking-[0.1em] max-[390px]:[&>a]:min-w-11 max-[390px]:[&>a]:justify-center text-ink-soft -my-3 [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-11"
           >
             {/* Was "Overlay" — a label for a tab that is not the default view
                 (home opens on Facets) and is hidden entirely on mobile, so the

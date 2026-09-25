@@ -13,10 +13,16 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 pb-12 sm:pt-12">
-      <section className="mb-8 sm:mb-12 grid grid-cols-1 sm:grid-cols-12 gap-x-8 gap-y-4">
+    // max-[390px] (width < 390) spacing: the top padding, the masthead's
+    // bottom margin and its row gap tighten, so all ten overview rows clear
+    // a 360x560 first screen. 390 and up are unchanged. 2026-09-24.
+    <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 max-[390px]:pt-5 pb-12 sm:pt-12">
+      <section className="mb-8 max-[390px]:mb-5 sm:mb-12 grid grid-cols-1 sm:grid-cols-12 gap-x-8 gap-y-4 max-[390px]:gap-y-3">
         <div className="sm:col-span-7">
-          <p className="text-[11px] sm:text-[11px] uppercase tracking-[0.32em] text-ink-soft font-medium mb-3 sm:mb-4">
+          {/* max-[390px] (width < 390) tracking: at 0.32em the kicker wrapped
+              to two lines there, one of the three wraps that cost a 320px
+              phone half the cycle overview. 2026-09-24. */}
+          <p className="text-[11px] sm:text-[11px] uppercase tracking-[0.32em] max-[390px]:tracking-[0.16em] text-ink-soft font-medium mb-3 sm:mb-4">
             <span aria-hidden className="inline-block mr-2 align-middle">
               <svg
                 viewBox="0 0 24 8"
@@ -51,8 +57,11 @@ export default function Home() {
             </span>
             {/* The tap instruction moved to the caption under the phone
                 overview: said here, it sat directly above ten rows that
-                are a figure, not controls. 2026-09-22. */}
-            <span className="sm:hidden">Ten cycles of long-wave history on one axis.</span>
+                are a figure, not controls. 2026-09-22.
+                The phone line used to restate the H1 ("Ten cycles … on one
+                axis") and wrapped to two lines at 320. It now says what the
+                H1 does not — the subject and the span — in one. 2026-09-24. */}
+            <span className="sm:hidden">Long-wave history, 1600–2050.</span>
           </p>
           <p className="hidden sm:block mt-3 text-[13px] text-ink-soft italic font-display-italic">
             Click a row to focus one cycle; drag the brush below to zoom in
