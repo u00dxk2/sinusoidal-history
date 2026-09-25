@@ -28,3 +28,4 @@
 {"at":"2026-09-22T14:34:31.794Z","day":"2026-09-22","tool":"continuity-edit","id":"I-002","op":"set","field":"linkedCommits","from":"null","to":"[\"ac42fcf\"]","changed":true,"opNoop":false}
 {"at":"2026-09-22T14:34:33.252Z","day":"2026-09-22","tool":"continuity-edit","id":"I-003","op":"set","field":"linkedCommits","from":"null","to":"[\"f8a914b\",\"789cd926c\"]","changed":true,"opNoop":false}
 {"at":"2026-09-22T14:45:56.105Z","day":"2026-09-22","tool":"continuity-edit","id":"I-006","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-09-25T00:02:52.705Z","day":"2026-09-24","tool":"continuity-edit","id":"I-002","op":"close","field":"status","from":"\"open\"","to":"\"closed\"","changed":true,"opNoop":false}
