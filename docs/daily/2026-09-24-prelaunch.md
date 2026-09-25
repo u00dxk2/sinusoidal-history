@@ -67,6 +67,7 @@ node scripts/measure-fold.mjs https://sinusoidalhistory.com/ 320 568 "[data-over
 **Nothing is blocked on David**, and no board card is open for this lane.
 
 <!-- findings:begin -->
+**P4 (2026-09-24, 8:47 PM MT) — the `/state/2026` overflow above is FIXED, not carried.** The cause was the suggested citation: its closing URL is one unbreakable 12px monospace string that ran 24px past its box at 320 wide and scrolled the page 4px sideways. `130d8d3` lets it wrap (`break-words`); CI GREEN, Render live 2026-09-25T02:47:07Z on `130d8d350b`, and `be29b3a` is an ancestor of it (`git merge-base --is-ancestor` exit 0), so the P3 ship is still served. Production sweep, 9 pages x 8 widths: **22 red this morning → 2 after `be29b3a` → 1 after `130d8d3`**. The one left is the home kicker wrapping to two lines at 640 (the `sm` two-column masthead): cosmetic, desktop-width, no fold consequence, left as is.
 <!-- findings:end -->
 
 ## State Appendix
