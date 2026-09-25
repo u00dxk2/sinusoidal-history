@@ -117,6 +117,37 @@ Two standing cautions on its output:
   `Googlebot` / `Google-Extended` branches, and the buckets sum to the raw line
   count. Cite that positive control when the zero rides a claim.
 
+## The two leading product numbers (declared 2026-09-25, I-004)
+
+Both are **secondary to the organic-clicks north star, not a replacement for it.** They
+exist because the site carries no analytics, so the only product quality this lane can
+measure before a human arrives is whether the arriving reader gets the page's answer
+without scrolling. Both are read at **390x664**, the real visible area of an iPhone 14 in
+Safari (`scripts/measure-fold.mjs` explains why not 844).
+
+1. **Entry-page legs that answer on the first screen, out of the roster walked.** The
+   denominator is the wrapper's leg count (13 today: `/`, `/cycles`, `/methods`, and one
+   `/cycles/<slug>` per cycle in `src/data/cycles.json`), never a hand count. Each leg's
+   question and selector are in the table at the top of the script.
+
+   ```powershell
+   node scripts/check-entry-folds.mjs
+   ```
+
+   **Current value: 13 of 13** — production, 2026-09-25 ~7:54 AM MT, after `5838ca8`.
+   The first run, before that ship, read 11 of 13 (`/cycles/turchin` cut 37px,
+   `/cycles/turchin-fathers-sons` had no answer). Thinnest leg: `/cycles/turchin`, 7px.
+   **At 360x560 it reads 2 of 13**; the smaller phones are not yet fitted beyond the
+   home page.
+
+2. **Home-page cycle curves inside the first screen, out of ten.** The rows are stacked,
+   so the last row clearing the fold means all ten do; the `/` leg above measures the
+   last row (`[data-overview-id="turchin_fathers_sons"] svg`).
+
+   **Current value: 10 of 10** — the same 2026-09-25 production run, 72px spare. It was
+   1 of 10 before `57ca745` (2026-09-22); 320x568 and 360x560 fit since `be29b3a`
+   (2026-09-24, 12px and 4px spare).
+
 ## Prose invariants that will silently break
 
 See `AGENTS.md` for the full set. The two that catch people:
