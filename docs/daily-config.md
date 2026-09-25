@@ -134,11 +134,15 @@ Safari (`scripts/measure-fold.mjs` explains why not 844).
    node scripts/check-entry-folds.mjs
    ```
 
-   **Current value: 13 of 13** — production, 2026-09-25 ~7:54 AM MT, after `5838ca8`.
-   The first run, before that ship, read 11 of 13 (`/cycles/turchin` cut 37px,
-   `/cycles/turchin-fathers-sons` had no answer). Thinnest leg: `/cycles/turchin`, 7px.
-   **At 360x560 it reads 2 of 13**; the smaller phones are not yet fitted beyond the
-   home page.
+   **Current value: 13 of 13** — production, 2026-09-25 ~8:20 AM MT, after `27ec7df`.
+   The first run, before `5838ca8`, read 11 of 13 (`/cycles/turchin` cut 37px,
+   `/cycles/turchin-fathers-sons` had no answer). Thinnest leg at 390x664: `/`, 72px.
+
+   Read the smaller phones too, with `--width 360 --height 560` and
+   `--width 320 --height 568`. **At 360x560: 13 of 13** (was 2 of 13 that morning;
+   thinnest `/` at 4px, `/cycles/turchin` 12px, `/methods` 13px). **At 320x568: 10 of
+   13** (was 1 of 13); `/cycles` is cut 2px, `/cycles/turchin` 28px and `/methods`
+   40px, which is the open gap.
 
 2. **Home-page cycle curves inside the first screen, out of ten.** The rows are stacked,
    so the last row clearing the fold means all ten do; the `/` leg above measures the
