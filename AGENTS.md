@@ -1,12 +1,22 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
+
+# JSX whitespace: keep writing `{" "}`
+
+Moved OUT of the block above on 2026-09-26. `next dev` owns everything between its
+`nextjs-agent-rules` markers and rewrote them on 2026-09-25, deleting this section. Anything
+this repo needs to keep goes below the END marker.
 
 **JSX whitespace hazard (live-verified 2026-08-24):** this Next's compiler strips the edge whitespace of any JSX text node that spans multiple source lines — including a space on the *same line* as an adjacent inline element or `{expression}`. `the {year} reading` rendered as "the 2026reading"; `<em>estimation</em> conventionally` as "estimationconventionally"; the symmetric case (`…anchored to the\n<code>…`) too. Single-line text nodes are safe. Rule when writing prose JSX: at every junction with an inline element or expression, write the space as an explicit `{" "}` (or keep the whole text node on one line). A site-wide sweep landed 2026-08-24; verify new prose against the rendered HTML, not the source.
 
 **Re-measured on the 16.3.5 bump (2026-09-17): the hazard did not reproduce in the two cases probed.** A throwaway route written in exactly the hazardous shape — `the {year} reading` and `<em>estimation</em> conventionally`, both spanning source lines, neither using `{" "}` — prerendered as `the <!-- -->2026<!-- --> reading` and `<em>estimation</em> conventionally`, spaces intact. Two probes are not a proof that the compiler was fixed in general. So the paragraph above describes 16.2.4, which is where it was live-verified; it is kept because this repo's prose still carries the explicit `{" "}` the sweep added, and because the rule is version-scoped, not retired. **Keep writing `{" "}`** — it renders one space either way (HTML collapses whitespace), it is what every existing junction uses, and it is the only form that is correct on both versions. If a future bump is reverted, the hazard comes back with it. Re-run the probe rather than trusting either version's reputation.
-<!-- END:nextjs-agent-rules -->
 
 <!-- BEGIN:prose-mirror-invariant -->
 # CI, the commit hook, and where the traffic numbers come from (all new 2026-09-16)

@@ -11,7 +11,7 @@
       "status": "monitoring",
       "identified": "2026-08-13",
       "created": "2026-08-13",
-      "updated": "2026-09-19",
+      "updated": "2026-09-26",
       "lastEvaluated": "2026-09-19",
       "title": "sinusoidal-history is measured at last — indexed, 59 impressions, and converting at 0%",
       "hypothesis": "The 8 per-cycle routes shipped 2026-08-13 target high-intent queries ('Kondratiev wave chart', 'Turchin secular cycle data'). Whether they earn impressions is currently unknowable: there is no verified Google Search Console property for sinusoidal-history.skylarkcreations.com, no PostHog, and no page-view counter anywhere in the app.",
@@ -51,6 +51,12 @@
       "readCommandLastOutputRef": {
         "lines": 937,
         "sha256": "0961c79a6a20c4aa"
+      },
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "Search Console needs about three weeks of the rewritten snippets before a CTR change is readable; a read sooner measures noise, and it lags about three days",
+        "unWait": "on 2026-10-07 run this row's readCommand (node scripts/gsc-read.mjs --start 2026-09-10)",
+        "owner": "sinusoidal-cycles"
       }
     },
     {
@@ -103,7 +109,7 @@
       "status": "monitoring",
       "identified": "2026-09-20",
       "created": "2026-09-20",
-      "updated": "2026-09-21",
+      "updated": "2026-09-26",
       "lastEvaluated": "2026-09-20",
       "title": "Does a phone reader understand a cycle's confidence tag at first contact, now that the written glossary follows the roster instead of preceding it?",
       "hypothesis": "Probably yes, and the cost is smaller than it first looked — but the part that is genuinely unanswered is touch. A reader on a phone gets no hover, meets NARRATIVE or EMPIRICAL · CONTESTED beside the first entry, and the written definition is now below ten entries and a table.",
@@ -118,7 +124,13 @@
       "linkedCommits": [
         "2d693ac",
         "f4a72ba"
-      ]
+      ],
+      "waitJustification": {
+        "until": "2026-09-27",
+        "loadBearing": "a dated self-read, not a wait on anyone: the phone frame of /cycles is captured and read cold on its date",
+        "unWait": "on 2026-09-27 run this row's readCommand and record the verdict in notes",
+        "owner": "sinusoidal-cycles"
+      }
     },
     {
       "id": "I-002",
@@ -228,7 +240,36 @@
       "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002, I-004 and I-005 so this lane carries ONE gate date. Nothing is wrong on the site today — all counts are arithmetically correct against ten cycles and nine series — so this is a robustness row, not a defect row; it comes due when the roster next changes or on 09-27, whichever is first.",
       "readCommand": "node -e \"const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))\"",
       "waitingFor": "Nothing and nobody — this lane's own files.",
-      "updated": "2026-09-22"
+      "updated": "2026-09-26",
+      "waitJustification": {
+        "until": "2026-09-27",
+        "loadBearing": "a robustness row, not a live defect: every count is correct against ten cycles today, so it waits for its date or the next roster change, whichever comes first",
+        "unWait": "on 2026-09-27, or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger",
+        "owner": "sinusoidal-cycles"
+      }
+    },
+    {
+      "id": "I-007",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "identified": "2026-09-26",
+      "owner": "sinusoidal-cycles",
+      "title": "The /cycles index descriptions render at 14px below the sm breakpoint, under the 15px phone floor every other entry page's body text meets",
+      "hypothesis": "A judgement, not a defect. The ten entry descriptions on /cycles are text-[14px] below 640px (15px only from sm up). That predates 2026-09-26 and nothing that day shrank it. Raising it to 15px costs first-screen spare at every phone size, and /cycles has room: 30px at 320x568, 69px at 360x560, 188px at 390x664 (check-entry-folds on production, 2026-09-26 ~10:32 MT, after 4c1228e). The first description is the /cycles leg's answer, so its size is exactly what the fold number measures.",
+      "notes": "OPENED 2026-09-26 at P5, from the Codex adversarial review of 4c1228e (Target: working tree diff, verdict needs-attention, 1 finding: 'Cycle descriptions remain below the required readability floor (src/app/(app)/cycles/page.tsx:261-263) ... All ten index descriptions render at 14px below the sm breakpoint'). REJECTED for 2026-09-26's ship because the fix was scoped below 360px only and a size change here moves 360 and 390 too. The orchestrator's P3 review (bus 0e6dce17) asked the close to record it as a dated judgement so the finding does not evaporate; this row is that record. DECISION NOT YET MADE: whether 14px is fine for a one-line catalogue blurb under an 18px name, or whether it should match the 15px the /methods brief and cycle-page answers use. Both are defensible; the row exists so the choice is made on purpose.",
+      "closeWhen": "Either (a) the /cycles descriptions are 15px below sm and check-entry-folds still reads 13 of 13 at 320x568, 360x560 and 390x664 with /cycles at 8px spare or more, or (b) a one-line 'kept at 14px because ...' is written into this row's notes and the source comment beside the class.",
+      "onTrigger": "Change text-[14px] to text-[15px] on the description <p> in src/app/(app)/cycles/page.tsx (keep the sm: twin), build locally with next build + next start (never next dev), and run check-entry-folds at all three phone sizes. If /cycles stays at 8px+ spare everywhere, ship it; if not, choose (b). Desktop is untouched either way (the sm: value is already 15px).",
+      "nextEvaluation": "2026-10-03",
+      "_nextEvaluationNote": "Set 2026-09-26: one week out, and before W-001's 2026-10-07 Search Console read, so a /cycles layout change lands (or is declined) with time to settle before that window is read. Also due earlier if any layout pass touches /cycles at 360 or 390. Top-level per meta.signalDateField.",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs --width 320 --height 568",
+      "_readCommandNote": "This reads the fold cost of the change, not the judgement itself. A size is a design choice; the command says whether the 15px option is affordable.",
+      "waitingFor": "Nothing and nobody. This lane's own file and its own call.",
+      "linkedCommits": [
+        "4c1228e"
+      ],
+      "created": "2026-09-26",
+      "updated": "2026-09-26"
     }
   ],
   "knownPatterns": [

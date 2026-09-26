@@ -134,6 +134,41 @@ above the answer before shrinking type, and aim for at least 8px spare.
 - Below 360px, `/cycles` keeps a 20px gutter while `/methods` and the cycle pages use
   16px. This is cosmetic, a one-class change.
 
+## Close
+
+ACTION: COMPLETED · item check-entry-folds 320x568 (daily-config leading number 1) · P3 8010574a
+
+The acceptance condition held. The orchestrator re-ran the production read independently
+in its P3 review (bus `0e6dce17`): OK 13 of 13 at 320x568 with the same spare. Nothing
+changed after the P3 post. The receipt stands as posted in `8010574a`.
+
+**Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-09-26.md`): 0 draft lines,
+so 0 accepted, 0 amended, 0 rejected. READ-MUTATED: none. Its two checks:
+- wait-justification: NOTHING-SWEPT (exit 2, 0 of 9 rows). Resolved here by setting a
+  `waitJustification` on W-001, W-002 and I-006. Re-run after the edit:
+  `RESULT: PASS — 3 of 10 row(s) carry waitJustification; 0 warn / 1 info (exit 0)`.
+- engineering-zero: PASS (0 findings, 0 unreadable).
+
+**Ledger delta** (`continuity-edit.mjs`):
+- Minted **I-007** (due 2026-10-03): the `/cycles` descriptions are 14px below sm. This
+  is the Codex finding recorded as a dated judgement, as the P3 review asked. It closes
+  either on 15px with /cycles at 8px spare or more at all three phone sizes, or on a
+  written "kept at 14px because …". The source is `src/app/(app)/cycles/page.tsx:261`.
+- `waitJustification` set on W-001 (until 2026-10-07), W-002 (until 2026-09-27) and
+  I-006 (until 2026-09-27).
+- Due-gate verification: `check-due-gates-dispositioned` → `verdict: CLEAR`, snapshot
+  CURRENT (taken 2026-09-26), 0 gates due at Phase 0.
+
+**`AGENTS.md`, settled.** I committed `next dev`'s own block exactly as it generates it,
+so `next dev` stops producing an uncommitted diff. The JSX-whitespace section it had
+deleted now sits below the block's END marker. `next dev` rewrites only between its
+markers (`upsertAgentRulesBlock` in `node_modules/next/dist/server/lib/generate-agent-files.js`),
+so the section survives the next run. This closes the carry that went to David
+unrowed on 2026-09-25.
+
+**Pending reads:** W-002 and I-006 on 2026-09-27; I-007 on 2026-10-03; W-001 (Search
+Console) on 2026-10-07. The next user-side read of today's change is W-001's.
+
 ### Section 0
 
 - Primer: read (`docs/cold-starts/2026-09-26.md`, first action = this gap).
