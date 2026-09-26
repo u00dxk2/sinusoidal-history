@@ -102,7 +102,13 @@ export default async function CyclePage({ params }: Params) {
     // verdict:
     //   node scripts/check-entry-folds.mjs
     //   node scripts/check-entry-folds.mjs --width 360 --height 560
-    <article className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
+    //
+    // max-[360px] (width < 360) tightens it once more for a 320x568 screen, where
+    // Turchin's answer — the longest description on the roster — was 28px below
+    // on 2026-09-26: a 16px gutter like the site header's, a smaller H1, and less
+    // space between the breadcrumb, header and verdict. 360 and up are unchanged.
+    //   node scripts/check-entry-folds.mjs --width 320 --height 568
+    <article className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-4 max-[360px]:pt-3 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
@@ -149,12 +155,12 @@ export default async function CyclePage({ params }: Params) {
         </ol>
       </nav>
 
-      <header className="mt-3 sm:mt-6">
+      <header className="mt-3 max-[360px]:mt-2 sm:mt-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Cycle No. {String(index + 1).padStart(2, "0")} ·{" "}
           {confidenceLabel(cycle.confidence_level)}
         </p>
-        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] sm:text-[clamp(34px,5.2vw,52px)]">
+        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] max-[360px]:text-[28px] sm:text-[clamp(34px,5.2vw,52px)]">
           {cycle.name}
         </h1>
         <div
@@ -176,7 +182,7 @@ export default async function CyclePage({ params }: Params) {
         <section
           id="does-it-hold-up"
           aria-label="Does this cycle hold up"
-          className="mt-4 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
+          className="mt-4 max-[360px]:mt-3 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
             Does it hold up?
@@ -223,7 +229,7 @@ export default async function CyclePage({ params }: Params) {
         <section
           id="does-it-hold-up"
           aria-label="Does this cycle hold up"
-          className="mt-4 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
+          className="mt-4 max-[360px]:mt-3 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
           <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
             Does it hold up?

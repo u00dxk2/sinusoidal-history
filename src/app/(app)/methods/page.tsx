@@ -37,12 +37,16 @@ export default function Methods() {
     // H1 and dek type), each value with an sm: twin, so the brief's answer clears
     // a 360x560 phone screen: it was 86px below on 2026-09-25. Re-check with
     //   node scripts/check-entry-folds.mjs --width 360 --height 560
-    <article className="max-w-3xl mx-auto px-5 sm:px-8 pt-5 pb-12 sm:py-16 [&_p]:max-w-[68ch]">
-      <header className="mb-5 sm:mb-8">
-        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
+    // max-[360px] (width < 360) tightens it again so the answer clears a 320x568
+    // screen too (it was 40px below on 2026-09-26): a 16px gutter like the site
+    // header's, the kicker on one line, a smaller H1, less space around the rule.
+    // 360 and up are unchanged. Re-check with --width 320 --height 568.
+    <article className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]">
+      <header className="mb-5 max-[360px]:mb-4 sm:mb-8">
+        <p className="text-[11px] sm:text-[11px] tracking-[0.32em] max-[360px]:tracking-[0.16em] uppercase text-ink-soft font-medium">
           Methods · Provenance &amp; caveats
         </p>
-        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[34px] sm:text-[clamp(40px,6vw,56px)]">
+        <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[34px] max-[360px]:text-[30px] sm:text-[clamp(40px,6vw,56px)]">
           How the numbers were chosen
         </h1>
         <p className="mt-2 sm:mt-3 font-display-italic text-ink/75 text-[15px] sm:text-[17px] leading-snug">
@@ -50,7 +54,7 @@ export default function Methods() {
           the correlation number on the calibration panel is a diagnostic and
           not a test statistic.
         </p>
-        <div className="editorial-rule mt-4 sm:mt-6" />
+        <div className="editorial-rule mt-4 max-[360px]:mt-3 sm:mt-6" />
       </header>
 
       <section aria-label="In brief" className="space-y-2.5 text-[15px] leading-[1.6] text-ink/85">

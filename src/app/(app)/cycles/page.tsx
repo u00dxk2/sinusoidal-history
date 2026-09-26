@@ -221,6 +221,13 @@ export default function CyclesIndex() {
               className="border-t border-rule/30 py-5 first:border-t-0 first:pt-0"
             >
               <Link href={cycleRoutePath(cycle)} className="group block">
+                {/* max-[360px] (width < 360): the name's max-content is wider
+                    than the row, so it wrapped off the color bar and left the
+                    bar alone on a line of its own — 32px of nothing above the
+                    first entry, which put its description 2px below a 320x568
+                    screen (2026-09-26). flex-1 keeps the name beside its bar;
+                    basis-full keeps the period/peak tag on its own line, as
+                    it already falls. 360 and up are unchanged. */}
                 <div className="flex items-baseline gap-3 flex-wrap">
                   <span
                     aria-hidden
@@ -231,10 +238,10 @@ export default function CyclesIndex() {
                       visible link affordance at rest or on hover — cold
                       readers took the entries for headings. Journey-walk
                       2026-08-24, J11. */}
-                  <h2 className="font-display text-[18px] sm:text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
+                  <h2 className="max-[360px]:flex-1 font-display text-[18px] sm:text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
                     {cycle.name}
                   </h2>
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
+                  <span className="max-[360px]:basis-full font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                     {cycle.period_years}y · peak {cycle.reference_peak_year} ·{" "}
                     {/* Deliberately NOT wrapped in a <span title={gloss}> —
                         tried and reverted 2026-09-20 (P4). It buys a tooltip
