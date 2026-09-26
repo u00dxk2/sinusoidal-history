@@ -140,9 +140,11 @@ Safari (`scripts/measure-fold.mjs` explains why not 844).
 
    Read the smaller phones too, with `--width 360 --height 560` and
    `--width 320 --height 568`. **At 360x560: 13 of 13** (was 2 of 13 that morning;
-   thinnest `/` at 4px, `/cycles/turchin` 12px, `/methods` 13px). **At 320x568: 10 of
-   13** (was 1 of 13); `/cycles` is cut 2px, `/cycles/turchin` 28px and `/methods`
-   40px, which is the open gap.
+   thinnest `/` at 4px, `/cycles/turchin` 12px, `/methods` 13px). **At 320x568: 13 of
+   13** — production, 2026-09-26 ~10:32 AM MT, after `4c1228e` (was 10 of 13 that
+   morning, 1 of 13 on 2026-09-24); thinnest `/` and `/cycles/turchin` at 12px,
+   `/methods` 25px, `/cycles` 30px. Every edit behind it is `max-[360px]:` (width < 360),
+   so 360 and up did not move.
 
 2. **Home-page cycle curves inside the first screen, out of ten.** The rows are stacked,
    so the last row clearing the fold means all ten do; the `/` leg above measures the
