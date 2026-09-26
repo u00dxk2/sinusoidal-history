@@ -142,7 +142,7 @@ export default function Viz({
             {/* min-h-11 set here rather than in ui/tabs.tsx — that file is
                 vendored shadcn and shared; the 44px tap floor is this app's
                 requirement, not a change to the primitive. Canon R28. */}
-            <TabsList className="min-h-11">
+            <TabsList className="min-h-11" aria-label="Chart view">
               <TabsTrigger value="facets" className="min-h-11">
                 Facets
               </TabsTrigger>
