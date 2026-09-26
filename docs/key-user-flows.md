@@ -42,7 +42,12 @@ journey-walk); update when a surface is added or a flow's steps change.
    (methods link + spectral-headline sentence).
 4. Focus a cycle: summary-row select (scrolls to the facet since 2026-08-24)
    or facet-title click. Focused facet = expanded chart + axis + rationale +
-   caveat + calibration sliders + live Pearson r + **Full page →**.
+   caveat + **Full page →** + CALIBRATE: two sliders (reference peak year,
+   period) with their min/max, "published <value>" beside a moved value, a
+   "reset to published" link, and a live Pearson r labelled "Diagnostic, not
+   a test statistic". Moving the peak re-labels the phase live. The slider
+   track was invisible on production until 2026-09-26 (undefined shadcn
+   colour tokens; journey-walk 2026-09-26 F1).
 5. `/cycles/<slug>`: header (confidence tier + gloss) → curve figure → peak
    calibration → extrema table → paired series (CSV ↓ / upstream /
    provenance) → spectral verdict (verdict line → plain-English → figure →
