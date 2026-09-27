@@ -220,7 +220,15 @@ export default function CyclesIndex() {
               key={cycle.id}
               className="border-t border-rule/30 py-5 first:border-t-0 first:pt-0"
             >
-              <Link href={cycleRoutePath(cycle)} className="group block">
+              {/* The whole entry block opens the cycle page (J11), but the entry
+                  is no longer ONE <Link>: the confidence tag is its own link to
+                  #confidence-tags (W-002, 2026-09-27 — a 390x664 frame read the
+                  tag as unexplained, and an <a> nested in an <a> is invalid
+                  HTML). So the name is the link, and its ::after stretches over
+                  this `relative` block; the tag sits above that overlay (z-10).
+                  "The longer story" is OUTSIDE this block, so the overlay cannot
+                  swallow its taps. */}
+              <div className="group relative">
                 {/* max-[360px] (width < 360): the name's max-content is wider
                     than the row, so it wrapped off the color bar and left the
                     bar alone on a line of its own — 32px of nothing above the
@@ -238,24 +246,29 @@ export default function CyclesIndex() {
                       visible link affordance at rest or on hover — cold
                       readers took the entries for headings. Journey-walk
                       2026-08-24, J11. */}
-                  <h2 className="max-[360px]:flex-1 font-display text-[18px] sm:text-[20px] tracking-tight text-ink font-medium group-hover:underline group-focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors">
-                    {cycle.name}
+                  <h2 className="max-[360px]:flex-1 font-display text-[18px] sm:text-[20px] tracking-tight text-ink font-medium">
+                    <Link
+                      href={cycleRoutePath(cycle)}
+                      className="after:absolute after:inset-0 group-hover:underline focus-visible:underline decoration-ink/30 underline-offset-[3px] transition-colors"
+                    >
+                      {cycle.name}
+                    </Link>
                   </h2>
                   <span className="max-[360px]:basis-full font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/85">
                     {cycle.period_years}y · peak {cycle.reference_peak_year} ·{" "}
-                    {/* Deliberately NOT wrapped in a <span title={gloss}> —
-                        tried and reverted 2026-09-20 (P4). It buys a tooltip
-                        on hover only, so it does nothing for the phone reader
-                        this question is about, and the extra element SPLITS
-                        this line in check-rendered-text's extraction
-                        ("30y · peak 1970 ·" and "Narrative" become two lines),
-                        permanently perturbing the page's text baseline. The
-                        open question — does this tag read as findable on a
-                        touch screen now the glossary follows the roster — is
-                        W-002, dated 2026-09-27. Its named fix is to split the
-                        entry's click target so the tag can be a real anchor to
-                        #confidence-tags; do that if the read asks for it. */}
-                    {confidenceLabel(cycle.confidence_level)}
+                    {/* A real link, not a hover tooltip: a title= tooltip was
+                        tried and reverted 2026-09-20 because it does nothing on
+                        touch. The dotted underline is the only visible hint
+                        that the tag is tappable. It splits this line in
+                        check-rendered-text's extraction ("30y · peak 1970 ·"
+                        and "Narrative" become two lines) — expected, W-002. */}
+                    <a
+                      href="#confidence-tags"
+                      aria-label={`${confidenceLabel(cycle.confidence_level)}: what this confidence tag means`}
+                      className="relative z-10 underline decoration-dotted decoration-ink-soft/60 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
+                    >
+                      {confidenceLabel(cycle.confidence_level)}
+                    </a>
                   </span>
                 </div>
                 <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-snug text-ink/85">
@@ -266,7 +279,7 @@ export default function CyclesIndex() {
                     ? `Paired data - ${series.name}`
                     : "No paired data series this round"}
                 </p>
-              </Link>
+              </div>
               {more && (
                 <details className="group/more mt-2.5">
                   <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft hover:text-ink transition-colors">
@@ -335,7 +348,7 @@ export default function CyclesIndex() {
       <section
         id="confidence-tags"
         aria-label="How the cycles are drawn, and what the confidence tags mean"
-        className="mt-14"
+        className="mt-14 scroll-mt-6"
       >
         <p className="text-[16px] leading-[1.65] text-ink/85">
           Each theory is drawn as a pure sinusoid from its own stated period and
@@ -363,7 +376,10 @@ export default function CyclesIndex() {
           {confidenceGloss("quantitative")};{" "}
           <em>empirical · contested</em>
           {" — "}
-          {confidenceGloss("empirical-contested")}.
+          {confidenceGloss("empirical-contested")}. The tag grades the
+          theorist&apos;s own evidence for the period; the paired data series
+          under an entry is a separate comparison this site added, which is
+          why a narrative theory can still have one.
         </p>
       </section>
 

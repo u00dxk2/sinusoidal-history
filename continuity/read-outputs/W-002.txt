@@ -1,0 +1,7 @@
+# read-output sidecar for W-002 — written by check-due-gates-dispositioned --run
+# readCommand: node scripts/capture-frame.mjs https://sinusoidalhistory.com/cycles docs/frames/2026-09-27-cycles-390.png 390 664
+# ran: 2026-09-27T15:40:18.042Z · exit: 0
+# lines: 1 · sha256: 851356f084e8bc26 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+docs/frames/2026-09-27-cycles-390.png  <-  https://sinusoidalhistory.com/cycles @ 390x664 (viewport, not fullPage)

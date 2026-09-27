@@ -158,7 +158,17 @@ export default async function CyclePage({ params }: Params) {
       <header className="mt-3 max-[360px]:mt-2 sm:mt-6">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Cycle No. {String(index + 1).padStart(2, "0")} ·{" "}
-          {confidenceLabel(cycle.confidence_level)}
+          {/* A link to the classification's definition at the foot of the
+              page — the same defect W-002 found on /cycles (2026-09-27): a
+              bare tag that reads as a fact about the cycle and does nothing
+              on touch. */}
+          <a
+            href="#confidence"
+            aria-label={`${confidenceLabel(cycle.confidence_level)}: what this confidence tag means`}
+            className="underline decoration-dotted decoration-ink-soft/60 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
+          >
+            {confidenceLabel(cycle.confidence_level)}
+          </a>
         </p>
         <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] max-[360px]:text-[28px] sm:text-[clamp(34px,5.2vw,52px)]">
           {cycle.name}
@@ -293,13 +303,15 @@ export default async function CyclePage({ params }: Params) {
             <span className="font-display-italic">{cycle.caveat}</span>
           </p>
         )}
-        <p className="text-[13px] leading-relaxed text-ink-soft">
+        <p id="confidence" className="scroll-mt-6 text-[13px] leading-relaxed text-ink-soft">
           Confidence classification:{" "}
           <strong className="font-medium text-ink/80">
             {confidenceLabel(cycle.confidence_level)}
           </strong>
           {" — "}
-          {confidenceGloss(cycle.confidence_level)}. Every cycle on this site
+          {confidenceGloss(cycle.confidence_level)}. It grades the
+          theorist&apos;s own evidence for the period; a paired data series is
+          a separate comparison this site added. Every cycle on this site
           is a pure sinusoid built from the
           theory&apos;s stated period and one documented reference peak — a
           deliberately naïve construction, so that disagreement between

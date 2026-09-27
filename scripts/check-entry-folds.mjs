@@ -39,7 +39,9 @@ export function roster(cycles) {
     {
       question: "Does the first cycle in the index — its name and one-line description — reach the first screen?",
       path: "/cycles",
-      selector: "header + ul > li:first-child a > p",
+      // The first <p> in the entry is its description. Not `a > p`: since W-002
+      // (2026-09-27) the entry is a block with a stretched name link, not one <a>.
+      selector: "header + ul > li:first-child p",
     },
     {
       question: "Does the in-brief answer to 'is any of this real?' reach the first screen?",
