@@ -184,3 +184,41 @@ and the two new sentences.
   RED, when the page is restructured. It is fixed here, and the MISSING verdict is what
   surfaced it.
 <!-- findings:end -->
+## Close
+
+ACTION: COMPLETED · item W-002 · P3 9b8ddeec
+
+The replacement acceptance condition from the manager's redirect (bus 84c92a14) was met on
+production. The evidence is in the P3 section above, and the close review (bus 78246b47)
+agreed.
+
+**State changed since the P3 post:**
+- The tap check is now committed as `scripts/check-confidence-tag-taps.mjs`; it had lived in
+  `tmp/`, which is gitignored. It read 7/7 on production again at P5.
+
+**Ledger delta:**
+- `I-006`: re-dated to 2026-10-03. Its `waitJustification.until` moved with it, and its
+  loadBearing now cites today's read ("og: true poster: true brush: true", which means all
+  three literals are still present).
+- `W-002`: closed at P3 on `8e144cb`. A correction was appended pointing its gitignored
+  tap-test path at the committed script.
+- `W-003`: MINTED. It holds the encounter read: a cold phone walk of `/cycles`, due
+  2026-10-03, with the committed tap check as its `readCommand`.
+
+**Hygiene draft:** 1 line, 1 accepted (I-006 re-date), 0 amended, 0 rejected.
+- READ-MUTATED: none, 1 read guarded.
+- check-wait-justification: PASS, 0 warn and 1 info (I-007 has no contract owed); re-run at
+  close after the I-006 edit, still PASS.
+- check-engineering-zero: PASS, 0 findings.
+- `check-due-gates-dispositioned`: **CLEAR**. The snapshot is CURRENT (taken 2026-09-27),
+  and 2 of 2 due gates were dispositioned.
+
+**Pending reads, all on 2026-10-03 (the lane's one gate date):**
+- `W-003`: the encounter read.
+- `I-006`: the cycle-count literals.
+- `I-007`: the 14px `/cycles` descriptions.
+
+W-001's Search Console read follows on 2026-10-07.
+
+**Receipt:** P3's line still stands. Its reached and exercised brackets are still unknown,
+because the site has no analytics.
