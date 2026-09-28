@@ -271,7 +271,14 @@ export default function CyclesIndex() {
                     </a>
                   </span>
                 </div>
-                <p className="mt-1.5 sm:mt-2 text-[14px] sm:text-[15px] leading-snug text-ink/85">
+                {/* 15px from 360 up, the phone floor every other entry page's
+                    body text meets (I-007, 2026-09-28; it was 14px below sm).
+                    Kept at 14px under 360 (max-[360px] is width < 360): at
+                    15px the first description gains a line at 320x568 and
+                    /cycles falls to 2px spare, under the 8px floor that
+                    check-entry-folds holds. At 15px, 360x560 read 41px and
+                    390x664 read 181px. */}
+                <p className="mt-1.5 sm:mt-2 text-[15px] max-[360px]:text-[14px] leading-snug text-ink/85">
                   {cycle.short_description}
                 </p>
                 <p className="mt-1.5 text-[12px] leading-relaxed text-ink-soft font-mono">
