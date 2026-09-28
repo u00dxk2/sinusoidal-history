@@ -76,3 +76,26 @@ Paths: `src/app/(app)/cycles/page.tsx` (plus `continuity/items.json` and this re
 **What changed from the packet.** 15px at every width failed the 8px floor at 320x568 (2px spare), so the band below 360 keeps 14px. The reason is in the findings block above and in the source comment. The manager's copy suggestion was checked: each description's first clause already states what the cycle claims, so no copy changed.
 
 USER-VISIBLE: /cycles cycle descriptions are 15px instead of 14px on phones 360px and wider (14px kept below 360) — 1c2cc72 [proof: computed 14px → 15px at 360/390 on production after Render deploy live 2026-09-28 15:48:20Z, 10 of 10 descriptions; check-entry-folds 13/13 at 320x568, 360x560, 390x664] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a phone reader leaves no trace · bug row W-003]
+
+## Close
+
+ACTION: COMPLETED · item I-007 · P3 38ba9900
+
+**What shipped, in plain words:** the `/cycles` descriptions are **15px from 360px up and 14px below 360**. They are not 15px on every phone: at 320x568, 15px left `/cycles` 2px of first-screen spare, under the 8px floor.
+
+**Changed since the P3 post:**
+- 4a4e8eb (report + ledger close, docs-only) CI `ci.yml` **GREEN** (`check-ci-status --workflow ci.yml`, run at close). It was pending at the P3 post.
+- The manager review (dd4f3b01) read the action as COMPLETED and found no defects.
+
+**Ledger delta:**
+- I-007 closed in 4a4e8eb (P3): (a) from 360 up, (b) below 360.
+- W-003 (`continuity-edit --set`): a note that 1c2cc72 changed the surface it walks, and a third onTrigger question (can a stranger scan the ten descriptions at 390 wide without tapping in). Its date stays 2026-10-03.
+
+**Hygiene draft:** 1 draft line (`none — no inputs`), accepted. READ-MUTATED: `none — 0 reads guarded`. Engineering-zero PASS (0 findings). Wait-justification was re-run after I-007 closed: `RESULT: PASS — 4 of 11 row(s) carry waitJustification; 0 warn / 0 info`. Due gates: `verdict: CLEAR`, snapshot CURRENT (taken 2026-09-28), 0 due.
+
+**Pending reads:**
+- 2026-10-03: W-003 cold phone walk of `/cycles`. It is the first read of both the tappable confidence tag and the 15px descriptions (N = 1; the site has no analytics).
+- 2026-10-03: I-006 (cycle counts written as literals).
+- 2026-10-07: W-001 Search Console read. Titles, meta, H1s and URLs stay frozen until then.
+
+**Receipt:** P3's receipt is still true; nothing new.
