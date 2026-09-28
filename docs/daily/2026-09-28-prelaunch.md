@@ -58,3 +58,21 @@ Paths: `src/app/(app)/cycles/page.tsx` (plus `continuity/items.json` and this re
 - (a) Due rows not bearing on the choice: **none**. Read from `dated gates due today` (0) and this morning's `check-due-gates-dispositioned --snapshot` ("0 gate(s) due on/before 2026-09-28").
 - (b) Owed child rows in the orchestrator's ledger: **none**. Read from `rows owed to you` (0 of 729).
 - (c) State reads marked CROSSED: **none**. Of the kickoff's reads, none printed a crossed threshold. `missingLinkedCommits` read NOTHING SWEPT (0 of 0), and `stale-actionable` read 0 of 4.
+
+## P3 — Product-work loop
+
+**Action (improve):** the `/cycles` entry descriptions are now **15px on phones from 360px up** and stay at 14px below 360 (I-007, closed). This shipped as `1c2cc72`.
+
+**The four states**
+
+1. **Implementation.** `1c2cc72` on `main`. `verify-with-receipt -- npm test`: 16 files, 118 tests pass, receipt on 1c2cc72. CI `ci.yml` GREEN on 1c2cc72 (`check-ci-status --wait`, 70s). Codex adversarial review, `Target: working tree diff`: **approve**, no material findings. Its two next steps were to record the narrow-screen exception in I-007 (done) and to verify computed sizes in a browser (done below, because its sandbox could not run a browser).
+2. **Delivery.** Render deploy `1c2cc72` **live** at 2026-09-28 15:48:20Z (read from the Render deploys API; `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-trigger service). The surface, read on production after the deploy:
+   - computed size of all 10 descriptions: 14px at 320 and 359 wide, 15px at 360, 390 and 640 (`tmp/desc-size.mjs`)
+   - `check-entry-folds`: 13 of 13 at 320x568 (`/cycles` 30px spare, unchanged), 360x560 (69 → 41px) and 390x664 (188 → 181px)
+   - `check-confidence-tag-taps`: 7/7
+3. **Encounter:** blind. The site has no client analytics, by standing choice, so a phone reader leaves no trace. The encounter-shaped read of this page is W-003's cold walk on 2026-10-03 (N = 1).
+4. **Outcome:** open. There is no read yet.
+
+**What changed from the packet.** 15px at every width failed the 8px floor at 320x568 (2px spare), so the band below 360 keeps 14px. The reason is in the findings block above and in the source comment. The manager's copy suggestion was checked: each description's first clause already states what the cycle claims, so no copy changed.
+
+USER-VISIBLE: /cycles cycle descriptions are 15px instead of 14px on phones 360px and wider (14px kept below 360) — 1c2cc72 [proof: computed 14px → 15px at 360/390 on production after Render deploy live 2026-09-28 15:48:20Z, 10 of 10 descriptions; check-entry-folds 13/13 at 320x568, 360x560, 390x664] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a phone reader leaves no trace · bug row W-003]
