@@ -1,5 +1,22 @@
 # Changelog
 
+## The Calibrate tab draws the curve you are calibrating (2026-09-28)
+
+- **Calibrate now shows the chart** (`cdc1e4c`, I-008). The tab used to show two
+  sliders and a Pearson r with no curve, so dragging the peak moved a number and
+  nothing you could see (journey walk 2026-08-24, D8/M12). It now renders the selected
+  cycle as the same expanded facet the Facets tab uses: the curve against its paired
+  series, a year axis, then the sliders and r, then the rationale. On a phone the
+  chart's top and the peak slider sit 351px apart, inside a 568px screen. The chart
+  header opens that cycle in the Facets view. `CalibrationPanel.tsx` is deleted.
+- **r says what it covers.** Under r, in the tab and in the Facets drawer: "full
+  record 1800–2011 · n=212". r uses every row of the series; the chart shows only the
+  brushed window.
+- **The year axis no longer prints a tick over "now · 2026"** (same commit). Production
+  printed "1920" on top of it at 320 and 360 wide and "2050" at 1440, on the default
+  view. The collision test compared a fixed 50px; it now compares the two labels'
+  widths. The tick mark stays; its label is dropped.
+
 ## Every entry page answers on a phone's first screen (2026-09-25)
 
 - **One command now reads every entry page's first screen** (`45abf72`):
