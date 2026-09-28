@@ -179,3 +179,25 @@ Paths: `src/components/Viz.tsx`, possibly `src/components/CalibrationPanel.tsx` 
 4. **Outcome:** open. There is no read yet.
 
 USER-VISIBLE: the chart's Calibrate tab now draws the cycle's curve against its data, with a year axis, and the curve moves as you drag the peak or period sliders (it showed only sliders and a number); the year axis no longer prints a tick label over "now · 2026" — cdc1e4c [proof: Calibrate tab chart absent (measure-fold FAIL, no element) → present, and one peak drag changes the drawn path and r, 30/30 on production at 320x568/390x664/1440x900 after Render deploy live 2026-09-28 18:41:04Z; axis overlaps 6/12 → 0/12] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who calibrates leaves no trace · bug row W-003]
+
+## Close (round 2)
+
+ACTION: COMPLETED · item I-008 · P3 86a98d56
+
+**Changed since the P3 post:**
+- df316bd (checks, ledger, report) CI `ci.yml` **GREEN** (`check-ci-status --wait`, 44s).
+- Manager review (7eef5683): COMPLETED, no defects.
+- **I-008 moved from closed to monitoring.** P3 closed it on the delivery read, but a shipped change that still owes its encounter read stays monitoring. `nextEvaluation` is now 2026-10-03. closeWhen is W-003's cold walk answering its 4th question (drag the Calibrate peak; say what it did).
+
+**Ledger delta (all through `continuity-edit`):**
+- I-008: minted and closed at P3, then set to `monitoring` at P5. `closedAt` removed, the reopen reason appended to notes, extended to 2026-10-03 with the new closeWhen, and readCommand is `scripts/check-calibrate-tab.mjs`.
+- W-003: onTrigger gained a 4th question (the Calibrate drag). Its date stays 2026-10-03.
+
+**Hygiene draft:** 1 draft line (`none — no inputs; step 5 only`), accepted. READ-MUTATED: `none — 0 reads guarded`. Wait-justification (re-run at close, after the I-008 edits): `RESULT: PASS — 4 of 12 row(s) carry waitJustification; 0 warn / 0 info`. Engineering-zero (helper, 18:04Z; no lockfile change since): `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. Due gates: `verdict: CLEAR`, snapshot CURRENT (taken 2026-09-28), 0 due.
+
+**Pending reads:**
+- 2026-10-03: W-003 cold phone walk. It is the **first and only encounter read for I-008** (the Calibrate drag), and also the first read of the tappable confidence tag and the 15px descriptions. N = 1; the site has no analytics. The outcome stays open until then.
+- 2026-10-03: I-006 (cycle counts written as literals).
+- 2026-10-07: W-001 Search Console read. Titles, meta, H1s and URLs stay frozen until then.
+
+**Receipt:** P3's receipt is still true; nothing new.
