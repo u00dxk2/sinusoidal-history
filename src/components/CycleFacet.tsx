@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, type ReactNode } from "react";
 import Link from "next/link";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
@@ -37,6 +37,14 @@ interface CycleFacetProps {
   onResetOverride: () => void;
   onFocus: () => void;
   onBlur: () => void;
+  /** Set when the facet is hosted outside the facet stack (the Calibrate
+      tab): the header then opens the cycle in the Facets view instead of
+      toggling, since there is nothing here to collapse back into. */
+  onOpenInFacets?: () => void;
+  /** A year axis drawn directly under the chart. FacetView draws its own
+      axis beside the stack; a facet hosted alone (the Calibrate tab) has
+      none unless it is passed here. */
+  timeAxis?: ReactNode;
 }
 
 // Min-height in px per mode. Normal mode is shorter on mobile.
@@ -58,6 +66,8 @@ export default function CycleFacet({
   onResetOverride,
   onFocus,
   onBlur,
+  onOpenInFacets,
+  timeAxis,
 }: CycleFacetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(containerRef, 800);
@@ -99,6 +109,7 @@ export default function CycleFacet({
         overridden={overridden}
         onFocus={onFocus}
         onBlur={onBlur}
+        onOpenInFacets={onOpenInFacets}
       />
 
       {mode !== "collapsed" && series && (
@@ -118,6 +129,8 @@ export default function CycleFacet({
         />
       )}
 
+      {mode !== "collapsed" && timeAxis}
+
       {mode === "collapsed" && (
         <CollapsedSparkline
           cycle={effective}
@@ -135,6 +148,7 @@ export default function CycleFacet({
           override={override}
           onChange={onChangeOverride}
           onReset={onResetOverride}
+          controlsFirst={onOpenInFacets !== undefined}
         />
       )}
     </div>
@@ -149,6 +163,7 @@ function FacetHeader({
   overridden,
   onFocus,
   onBlur,
+  onOpenInFacets,
 }: {
   cycle: Cycle;
   effective: Cycle;
@@ -157,6 +172,7 @@ function FacetHeader({
   overridden: boolean;
   onFocus: () => void;
   onBlur: () => void;
+  onOpenInFacets?: () => void;
 }) {
   // For mobile readability, take the bit before the em-dash if the name is
   // long. Khaldun → "Ibn Khaldun"; Carlota Perez → "Carlota Perez"; etc.
@@ -168,8 +184,11 @@ function FacetHeader({
     <div className="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
       <button
         type="button"
-        onClick={mode === "expanded" ? onBlur : onFocus}
-        aria-expanded={mode === "expanded"}
+        onClick={
+          onOpenInFacets ?? (mode === "expanded" ? onBlur : onFocus)
+        }
+        aria-expanded={onOpenInFacets ? undefined : mode === "expanded"}
+        title={onOpenInFacets ? "Open in the facets view" : undefined}
         className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 min-h-11 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
       >
         <span
@@ -407,6 +426,7 @@ function ExpandedTail({
   override,
   onChange,
   onReset,
+  controlsFirst = false,
 }: {
   cycle: Cycle;
   effective: Cycle;
@@ -416,6 +436,11 @@ function ExpandedTail({
     o: { period_years?: number; reference_peak_year?: number }
   ) => void;
   onReset: () => void;
+  /** Calibrate tab: the sliders come before the rationale, so on a phone
+      they sit right under the chart and the curve stays in view while
+      dragging. With the rationale first, the peak slider sat ~700px below
+      the chart's top at 390x664. At md+ the sliders take the left column. */
+  controlsFirst?: boolean;
 }) {
   const peakMin = cycle.reference_peak_year - 30;
   const peakMax = cycle.reference_peak_year + 30;
@@ -445,112 +470,133 @@ function ExpandedTail({
     effective.period_years !== cycle.period_years ||
     effective.reference_peak_year !== cycle.reference_peak_year;
 
-  return (
-    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-sm border-t border-rule/30 pt-4">
-      <div className="space-y-2.5">
-        <p className="font-display-italic text-[16px] leading-snug text-ink/85">
-          {cycle.short_description}
-        </p>
-        <p className="text-[12px] leading-relaxed text-ink-soft">
-          <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1">
-            Peak calibration —
+  const about = (
+    <div className="space-y-2.5">
+      <p className="font-display-italic text-[16px] leading-snug text-ink/85">
+        {cycle.short_description}
+      </p>
+      <p className="text-[12px] leading-relaxed text-ink-soft">
+        <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1">
+          Peak calibration —
+        </span>
+        {cycle.reference_peak_rationale}
+      </p>
+      {cycle.caveat && (
+        <p className="text-[12px] leading-relaxed text-ink/85 border-l-2 border-ink/40 pl-2.5 mt-1.5">
+          <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1">
+            Caveat —
           </span>
-          {cycle.reference_peak_rationale}
+          <span className="font-display-italic">{cycle.caveat}</span>
         </p>
-        {cycle.caveat && (
-          <p className="text-[12px] leading-relaxed text-ink/85 border-l-2 border-ink/40 pl-2.5 mt-1.5">
-            <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft mr-1">
-              Caveat —
-            </span>
-            <span className="font-display-italic">{cycle.caveat}</span>
+      )}
+      <p className="text-[11px] tracking-wide text-ink-soft/75 font-mono pt-1">
+        {cycle.source}
+      </p>
+      {/* The focused facet is where a reader actually reads the rationale
+          and caveat, and it had no way through to /cycles/<slug> — the
+          page with the extrema, paired-series provenance, spectral verdict
+          and reuse packet. The only other in-chart link was buried in the
+          calibration drawer. */}
+      <p className="pt-1">
+        <Link
+          href={cycleRoutePath(cycle)}
+          className="text-[12px] uppercase tracking-[0.16em] font-mono text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+        >
+          Full page →
+        </Link>
+      </p>
+    </div>
+  );
+
+  const controls = (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-[11px] uppercase tracking-[0.28em] text-ink-soft font-medium">
+          Calibrate
+        </span>
+        <button
+          type="button"
+          onClick={onReset}
+          disabled={!overridden}
+          className="text-[11px] text-ink-soft hover:text-ink underline decoration-ink-soft/40 underline-offset-[3px] disabled:text-ink-soft/30 disabled:no-underline transition-colors"
+        >
+          reset to published
+        </button>
+      </div>
+      <SliderRow
+        label="Reference peak year"
+        value={effective.reference_peak_year}
+        published={cycle.reference_peak_year}
+        min={peakMin}
+        max={peakMax}
+        step={1}
+        formatValue={(v) => String(v)}
+        onChange={(v) =>
+          onChange({ ...override, reference_peak_year: v })
+        }
+      />
+      <SliderRow
+        label="Period (years)"
+        value={effective.period_years}
+        published={cycle.period_years}
+        min={periodMin}
+        max={periodMax}
+        step={1}
+        formatValue={(v) => `${v}y`}
+        onChange={(v) => onChange({ ...override, period_years: v })}
+      />
+      <div
+        aria-live="polite"
+        className="border-t border-rule/25 pt-2.5 mt-1"
+      >
+        <div className="flex items-baseline justify-between gap-2 text-[11px]">
+          <span className="text-ink-soft uppercase tracking-[0.18em]">
+            Pearson r · vs. {series.name}
+          </span>
+          <span
+            className="font-display text-[20px] tabular-nums tracking-tight"
+            style={{ color: cycle.color }}
+          >
+            {csv.loading
+              ? "…"
+              : csv.error
+                ? "n/a"
+                : correlation !== null
+                  ? correlation.toFixed(3)
+                  : "—"}
+          </span>
+        </div>
+        {/* r always uses every row of the series, not the brushed window the
+            chart shows — say so, or a narrowed chart reads as r's scope.
+            The deleted CalibrationPanel carried this; restored 2026-09-28
+            on Codex review. */}
+        {csv.points.length > 0 && (
+          <p className="mt-1 text-[11px] text-ink-soft/80 font-mono tabular-nums">
+            {`full record ${csv.points[0].year}–${
+              csv.points[csv.points.length - 1].year
+            } · n=${csv.points.length}`}
           </p>
         )}
-        <p className="text-[11px] tracking-wide text-ink-soft/75 font-mono pt-1">
-          {cycle.source}
-        </p>
-        {/* The focused facet is where a reader actually reads the rationale
-            and caveat, and it had no way through to /cycles/<slug> — the
-            page with the extrema, paired-series provenance, spectral verdict
-            and reuse packet. The only other in-chart link was buried in the
-            calibration drawer. */}
-        <p className="pt-1">
-          <Link
-            href={cycleRoutePath(cycle)}
-            className="text-[12px] uppercase tracking-[0.16em] font-mono text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+        <p className="mt-1 text-[11px] text-ink-soft/70 italic">
+          Diagnostic, not a test statistic. See{" "}
+          <a
+            href="/methods"
+            className="underline decoration-ink-soft/40 underline-offset-[2px] hover:decoration-ink-soft"
           >
-            Full page →
-          </Link>
+            methods
+          </a>
+          .
         </p>
       </div>
-      <div className="space-y-4">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-[11px] uppercase tracking-[0.28em] text-ink-soft font-medium">
-            Calibrate
-          </span>
-          <button
-            type="button"
-            onClick={onReset}
-            disabled={!overridden}
-            className="text-[11px] text-ink-soft hover:text-ink underline decoration-ink-soft/40 underline-offset-[3px] disabled:text-ink-soft/30 disabled:no-underline transition-colors"
-          >
-            reset to published
-          </button>
-        </div>
-        <SliderRow
-          label="Reference peak year"
-          value={effective.reference_peak_year}
-          published={cycle.reference_peak_year}
-          min={peakMin}
-          max={peakMax}
-          step={1}
-          formatValue={(v) => String(v)}
-          onChange={(v) =>
-            onChange({ ...override, reference_peak_year: v })
-          }
-        />
-        <SliderRow
-          label="Period (years)"
-          value={effective.period_years}
-          published={cycle.period_years}
-          min={periodMin}
-          max={periodMax}
-          step={1}
-          formatValue={(v) => `${v}y`}
-          onChange={(v) => onChange({ ...override, period_years: v })}
-        />
-        <div
-          aria-live="polite"
-          className="border-t border-rule/25 pt-2.5 mt-1"
-        >
-          <div className="flex items-baseline justify-between gap-2 text-[11px]">
-            <span className="text-ink-soft uppercase tracking-[0.18em]">
-              Pearson r · vs. {series.name}
-            </span>
-            <span
-              className="font-display text-[20px] tabular-nums tracking-tight"
-              style={{ color: cycle.color }}
-            >
-              {csv.loading
-                ? "…"
-                : csv.error
-                  ? "n/a"
-                  : correlation !== null
-                    ? correlation.toFixed(3)
-                    : "—"}
-            </span>
-          </div>
-          <p className="mt-1 text-[11px] text-ink-soft/70 italic">
-            Diagnostic, not a test statistic. See{" "}
-            <a
-              href="/methods"
-              className="underline decoration-ink-soft/40 underline-offset-[2px] hover:decoration-ink-soft"
-            >
-              methods
-            </a>
-            .
-          </p>
-        </div>
-      </div>
+    </div>
+  );
+
+  // Moved in the DOM, not with CSS `order`, so focus and reading order match
+  // what is seen (same rule as Viz's chart-first move, 2026-09-21).
+  return (
+    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-sm border-t border-rule/30 pt-4">
+      {controlsFirst ? controls : about}
+      {controlsFirst ? about : controls}
     </div>
   );
 }

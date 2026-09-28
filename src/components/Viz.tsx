@@ -3,9 +3,10 @@
 import { useMemo, useCallback, useState } from "react";
 import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import CycleOverlay, { type CycleOverride } from "./CycleOverlay";
-import CalibrationPanel from "./CalibrationPanel";
 import ConvergenceNote from "./ConvergenceNote";
+import CycleFacet from "./CycleFacet";
 import CycleOverview from "./CycleOverview";
+import FacetTimeAxis from "./FacetTimeAxis";
 import FacetView from "./FacetView";
 import NowSummaryPanel from "./NowSummaryPanel";
 import TimeRangeBrush from "./TimeRangeBrush";
@@ -206,6 +207,10 @@ export default function Viz({
               overrides={overrides}
               onChangeOverride={setOverride}
               onResetOverride={resetOverride}
+              currentYear={currentYear}
+              startYear={visibleStartYear}
+              endYear={visibleEndYear}
+              onOpenInFacets={handleSelectCycleFromSummary}
             />
           </TabsContent>
         </Tabs>
@@ -238,12 +243,20 @@ function CalibrationPanelWithPicker({
   overrides,
   onChangeOverride,
   onResetOverride,
+  currentYear,
+  startYear,
+  endYear,
+  onOpenInFacets,
 }: {
   cycles: Cycle[];
   dataSeriesByCycle: Map<string, DataSeries>;
   overrides: Record<string, CycleOverride>;
   onChangeOverride: (id: string, ov: CycleOverride) => void;
   onResetOverride: (id: string) => void;
+  currentYear: number;
+  startYear: number;
+  endYear: number;
+  onOpenInFacets: (id: string) => void;
 }) {
   const calibratable = cycles.filter((c) => dataSeriesByCycle.has(c.id));
   const [selectedId, setSelectedId] = useState(calibratable[0]?.id ?? "");
@@ -283,12 +296,34 @@ function CalibrationPanelWithPicker({
           </button>
         ))}
       </div>
-      <CalibrationPanel
+      {/* The expanded facet, not a slider-only panel: this tab used to show
+          two sliders and an r with no curve, so a reader moved the peak and
+          could not see what moved (journey-walk 2026-08-24, D8/M12). The
+          facet draws the curve against its paired series above the same
+          sliders, follows the brush, and matches the Facets drawer's caption.
+          Radix unmounts the inactive tab, so this never coexists with the
+          Facets tab's copy of the same data-facet-id. 2026-09-28, I-008. */}
+      <CycleFacet
+        key={cycle.id}
         cycle={cycle}
         series={series}
+        mode="expanded"
+        startYear={startYear}
+        endYear={endYear}
+        currentYear={currentYear}
         override={overrides[cycle.id] ?? {}}
-        onChange={(ov) => onChangeOverride(cycle.id, ov)}
-        onReset={() => onResetOverride(cycle.id)}
+        onChangeOverride={(ov) => onChangeOverride(cycle.id, ov)}
+        onResetOverride={() => onResetOverride(cycle.id)}
+        onFocus={() => onOpenInFacets(cycle.id)}
+        onBlur={() => onOpenInFacets(cycle.id)}
+        onOpenInFacets={() => onOpenInFacets(cycle.id)}
+        timeAxis={
+          <FacetTimeAxis
+            startYear={startYear}
+            endYear={endYear}
+            currentYear={currentYear}
+          />
+        }
       />
     </div>
   );

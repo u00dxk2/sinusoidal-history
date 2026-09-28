@@ -302,10 +302,11 @@ src/
     Viz.tsx                   Tabs, range, focus state
     NowSummaryPanel.tsx       "State of the cycles" masthead
     FacetView.tsx             Stack of CycleFacet rows
-    CycleFacet.tsx            One cycle's row + chart + legend
+    CycleFacet.tsx            One cycle's row + chart + legend; expanded, it
+                              carries the period + peak sliders and Pearson r
+                              (also what the Calibrate tab renders)
     FacetTimeAxis.tsx         Shared bottom axis
     CycleOverlay.tsx          Single-SVG overlay (Overlay tab)
-    CalibrationPanel.tsx      Period + peak sliders, Pearson r readout
     TimeRangeBrush.tsx        D3 brush + preset buttons
     ConvergenceNote.tsx       "Selection effect" call-out
     Poster.tsx                Print broadside

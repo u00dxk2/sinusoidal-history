@@ -38,6 +38,13 @@ export default function FacetTimeAxis({
     return ticks;
   }, [startYear, endYear, isMobile]);
 
+  const nowInRange = currentYear >= startYear && currentYear <= endYear;
+  const nowX = xScale(currentYear);
+  const nowAnchor = nowX > innerWidth - 40 ? "end" : "middle";
+  const nowSpan = nowInRange
+    ? labelSpan(nowX, nowAnchor, `now · ${currentYear}`.length)
+    : null;
+
   // Hide annotation labels on small viewports — they crowd unreadably.
   const showAnnotationLabels = annotations.length > 0 && !isMobile;
   const annotationBandHeight = showAnnotationLabels ? 38 : 0;
@@ -82,10 +89,14 @@ export default function FacetTimeAxis({
             // Journey-walk 2026-08-24, J3.
             const anchor =
               x < 16 ? "start" : x > innerWidth - 16 ? "end" : "middle";
+            // Compare the two labels' actual extents. A fixed 50px test
+            // assumed a centred "now" label, but near the right edge it is
+            // end-anchored and reaches ~66px left, so "1920" overprinted it
+            // at 320px (2026-09-28, I-008).
             const collidesWithNow =
-              currentYear >= startYear &&
-              currentYear <= endYear &&
-              Math.abs(x - xScale(currentYear)) < 50;
+              nowSpan !== null &&
+              labelSpan(x, anchor, String(y).length)[1] + 6 > nowSpan[0] &&
+              labelSpan(x, anchor, String(y).length)[0] - 6 < nowSpan[1];
             return (
               <g key={y} transform={`translate(${x},${axisBaseY})`}>
                 <line y1={0} y2={6} stroke="currentColor" strokeOpacity={0.3} />
@@ -112,9 +123,7 @@ export default function FacetTimeAxis({
               />
               <text
                 y={20}
-                textAnchor={
-                  xScale(currentYear) > innerWidth - 40 ? "end" : "middle"
-                }
+                textAnchor={nowAnchor}
                 className="fill-current text-[11px] font-medium font-mono"
                 style={{ opacity: 0.85 }}
               >
@@ -126,4 +135,17 @@ export default function FacetTimeAxis({
       </svg>
     </div>
   );
+}
+
+// 11px monospace: ~0.6em per glyph. Returns the label's [left, right] x.
+const GLYPH_PX = 6.6;
+function labelSpan(
+  x: number,
+  anchor: "start" | "middle" | "end",
+  chars: number
+): [number, number] {
+  const w = chars * GLYPH_PX;
+  if (anchor === "start") return [x, x + w];
+  if (anchor === "end") return [x - w, x];
+  return [x - w / 2, x + w / 2];
 }
