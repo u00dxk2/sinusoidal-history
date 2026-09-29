@@ -88,9 +88,11 @@ On `/cycles/dalio` the sentence reads: *"By this page's curve, 2026 sits at a pe
 
 USER-VISIBLE: each /cycles/<slug> page now says in one sentence where its curve puts this year (e.g. Dalio: "2026 sits at a peak (the curve tops out in 2025; cos +1.00). The next low falls around 2063"), linked to /state/2026; and the Dalio and Modelski pages no longer show "2011 PPP \$" — 07c96d3 [proof: check-year-position 0/10 → 31/31 on production after Render deploy live 2026-09-29 14:09:17Z, each sentence equal to /api/v1/state; check-entry-folds 13/13 at 320x568, 360x560, 390x664 with spare unchanged] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who lands on a cycle page leaves no trace · bug row W-003]
 
+mechanism-verified: `node scripts/check-year-position.mjs` (production, after the deploy) → `31/31 PASS`; `Invoke-WebRequest -Method Head https://sinusoidalhistory.com/cycles/dalio` → `cache-control: s-maxage=86400, stale-while-revalidate=31449600`
+
 codexCalls: 2 (adversarial reviews; probe GREEN 13:03Z)
 adversarialReviews: 2 — EXECUTED (Target: working tree diff, both runs)
-hygiene helper: DISPATCHED 13:4xZ · draft `tmp/hygiene-draft-sinusoidal-cycles-2026-09-29.md` PRESENT. inputs none; wait-justification PASS (4 of 12); engineering-zero PASS (0 findings); READ-MUTATED none.
+hygiene helper: DISPATCHED 13:4xZ · draft PRESENT (the lane's gitignored hygiene-draft file for 2026-09-29; its content is summarised here). inputs none; wait-justification PASS (4 of 12); engineering-zero PASS (0 findings); READ-MUTATED none.
 [standing-rules-hash: 88cc2dc9]
 
 **What remains:** W-003's walk (2026-10-03) is I-009's encounter read, and W-001's Search Console read (2026-10-07) is its ranking read. Nothing else is owed on this outcome today.
