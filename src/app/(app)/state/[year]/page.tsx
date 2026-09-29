@@ -222,10 +222,12 @@ export default async function StatePage({ params }: Params) {
                   <span data-field="phase" className="capitalize font-medium">
                     {entry.phase}
                   </span>
+                  {/* data-field spans carry the kind WITH the year, so a
+                      check that reads "peak 2030" also catches a swapped
+                      label (Codex review, 2026-09-29). */}
                   {" · next "}
-                  {first.kind}{" "}
                   <span data-field={first.field} className="tabular-nums">
-                    {first.year}
+                    {`${first.kind} ${first.year}`}
                   </span>
                 </p>
                 {/* nowrap per segment: at 320 the line wrapped inside
@@ -233,8 +235,9 @@ export default async function StatePage({ params }: Params) {
                 <p className="mt-1 font-mono text-[12px] leading-relaxed text-ink-soft tabular-nums">
                   <span className="whitespace-nowrap">
                     {"then "}
-                    {second.kind}{" "}
-                    <span data-field={second.field}>{second.year}</span>
+                    <span data-field={second.field}>
+                      {`${second.kind} ${second.year}`}
+                    </span>
                   </span>
                   {" · "}
                   <span className="whitespace-nowrap">

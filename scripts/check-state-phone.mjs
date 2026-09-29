@@ -1,30 +1,39 @@
 // Does /state/<year> answer on a phone without a sideways swipe? Held against /api/v1/state.
 //
-//   node scripts/check-state-phone.mjs [origin]
+//   node scripts/check-state-phone.mjs [origin] [--year YYYY]
 //
-// origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
+// origin defaults to https://sinusoidalhistory.com; --year defaults to the API's current year.
+// Exit 0 all PASS, 3 any FAIL.
 // Written 2026-09-29 (round 3). A cold walk that day found the page's table 576px wide inside a
 // 353px sideways scroller on an iPhone 15: PHASE cut to "RIS / FAL / PEA", NEXT PEAK and NEXT
 // TROUGH off-screen, and nothing saying the table scrolls. At 320 wide even cos was cut.
 //
 // Legs, at the iPhone 15 preset (coarse pointer proven, not assumed) and at 320x568 with touch:
-// for each of the API's cycles, the page's entry shows the phase word, the next peak year and
-// the next trough year, each equal to the API's value, each visible, and each wholly inside the
-// viewport; nothing on the page scrolls sideways; the cycle's link is at least 44px tall.
-// At 1440x900 the table still shows its 7 columns and one row per cycle, and the phone list
-// is not shown. The API is the independent side (force-dynamic, cycleStateAtYear); the page's
-// fields are read from where they actually render, never from the page's own data.
+// for each of the API's cycles, the page's entry shows the phase word, "peak <next peak year>"
+// and "trough <next trough year>" (the label rides with the year, so a swapped label fails),
+// each equal to the API's value, each visible (visibility and opacity included), each wholly
+// inside the viewport and not clipped by any ancestor; nothing on the page scrolls sideways; the
+// cycle's link is at least 44px tall, unrounded. At 1440x900 the table shows its 7 headers by
+// name and, per cycle, the API's phase, next peak and next trough; the phone list is hidden.
+// The API is the independent side (force-dynamic, cycleStateAtYear); the page's fields are read
+// from where they actually render, never from the page's own data.
 // Red arm: production before this change has no phone list, so every per-cycle leg fails.
+// NOT seen: occlusion by a later-painted element, and colour contrast. The table's whole text
+// is proven by the rendered-text multiset, not here.
 import { chromium, devices } from "playwright";
 
-const origin = (process.argv[2] ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
+const argv = process.argv.slice(2);
+const yearAt = argv.indexOf("--year");
+const yearArg = yearAt >= 0 ? argv[yearAt + 1] : null;
+const positional = argv.filter((a, i) => !a.startsWith("--") && !(yearAt >= 0 && i === yearAt + 1));
+const origin = (positional[0] ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
 const results = [];
 const check = (name, ok, detail = "") => {
   results.push(ok);
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  — " + detail : ""}`);
 };
 
-const state = await (await fetch(`${origin}/api/v1/state`)).json();
+const state = await (await fetch(`${origin}/api/v1/state${yearArg ? `?year=${yearArg}` : ""}`)).json();
 const year = state.year;
 const url = `${origin}/state/${year}`;
 const browser = await chromium.launch();
@@ -61,21 +70,32 @@ for (const [label, opts] of phones) {
 
   for (const e of state.cycles) {
     const got = await page.evaluate((id) => {
+      const seen = { visibilityProperty: true, opacityProperty: true };
       const item = document.querySelector(`[data-state-id="${id}"]`);
-      if (!item || !item.checkVisibility()) return null;
+      if (!item || !item.checkVisibility(seen)) return null;
       const vw = window.innerWidth;
       const field = (name) => {
         const el = item.querySelector(`[data-field="${name}"]`);
-        if (!el || !el.checkVisibility()) return null;
+        if (!el || !el.checkVisibility(seen)) return null;
         const r = el.getBoundingClientRect();
-        return { text: el.textContent.trim(), inside: r.left >= 0 && r.right <= vw + 0.5 && r.width > 0 };
+        let inside = r.left >= 0 && r.right <= vw + 0.5 && r.width > 0;
+        // Any ancestor that clips (overflow other than visible) must contain the field whole.
+        for (let a = el.parentElement; a && inside; a = a.parentElement) {
+          const cs = getComputedStyle(a);
+          if (cs.overflowX !== "visible" || cs.overflowY !== "visible") {
+            const b = a.getBoundingClientRect();
+            if (a !== document.documentElement && a !== document.body)
+              inside = r.left >= b.left - 0.5 && r.right <= b.right + 0.5 && r.top >= b.top - 0.5 && r.bottom <= b.bottom + 0.5;
+          }
+        }
+        return { text: el.textContent.replace(/\s+/g, " ").trim(), inside };
       };
       const link = item.querySelector("a");
       return {
         phase: field("phase"),
         peak: field("next-peak"),
         trough: field("next-trough"),
-        linkH: link ? Math.round(link.getBoundingClientRect().height) : 0,
+        linkH: link ? link.getBoundingClientRect().height : 0,
       };
     }, e.id);
     const tag = `${label}: ${e.id}`;
@@ -87,36 +107,47 @@ for (const [label, opts] of phones) {
       check(
         `${tag} ${name}`,
         !!f && f.text.toLowerCase() === String(want).toLowerCase() && f.inside,
-        f ? `"${f.text}" (API ${want})${f.inside ? "" : " — OUTSIDE the viewport"}` : "missing"
+        f ? `"${f.text}" (API ${want})${f.inside ? "" : " — OUTSIDE the viewport or clipped"}` : "missing"
       );
     leg("phase", got.phase, e.phase);
-    leg("next peak", got.peak, e.next_peak_year);
-    leg("next trough", got.trough, e.next_trough_year);
-    check(`${tag} link ≥44px`, got.linkH >= 44, `${got.linkH}px`);
+    leg("next peak", got.peak, `peak ${e.next_peak_year}`);
+    leg("next trough", got.trough, `trough ${e.next_trough_year}`);
+    check(`${tag} link ≥44px`, got.linkH >= 44, `${got.linkH.toFixed(2)}px`);
   }
   await ctx.close();
 }
 
-// Desktop: the table is unchanged and the phone list stays out of sight.
+// Desktop: the table still answers, by header name and by value, and the phone list is hidden.
 {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   await page.goto(url, { waitUntil: "domcontentloaded" });
   const d = await page.evaluate(() => {
     const table = document.querySelector("table");
-    const shown = !!table && table.checkVisibility();
+    const shown = !!table && table.checkVisibility({ visibilityProperty: true, opacityProperty: true });
     return {
       shown,
-      heads: shown ? [...table.querySelectorAll("thead th")].map((th) => th.textContent.trim()) : [],
-      rows: shown ? table.querySelectorAll("tbody tr").length : 0,
-      cells: shown ? table.querySelectorAll("tbody td").length : 0,
+      heads: shown ? [...table.querySelectorAll("thead th")].map((th) => th.textContent.replace(/\s+/g, " ").trim()) : [],
+      rows: shown
+        ? [...table.querySelectorAll("tbody tr")].map((tr) => ({
+            href: tr.querySelector("a")?.getAttribute("href") ?? "",
+            cells: [...tr.querySelectorAll("td")].map((td) => td.textContent.trim()),
+          }))
+        : [],
       listShown: [...document.querySelectorAll("[data-state-id]")].some((el) => el.checkVisibility()),
     };
   });
-  const n = state.cycles.length;
+  const want = ["Cycle", "Period", "Ref. peak", `cos in ${year}`, "Phase", "Next peak", "Next trough"];
   check("1440: table shown", d.shown);
-  check("1440: 7 column headers", d.heads.length === 7, d.heads.join(" | "));
-  check(`1440: ${n} rows, ${n * 7} cells`, d.rows === n && d.cells === n * 7, `${d.rows} rows, ${d.cells} cells`);
+  check("1440: headers by name", d.heads.join("|") === want.join("|"), d.heads.join(" | "));
+  check(`1440: ${state.cycles.length} rows`, d.rows.length === state.cycles.length, `${d.rows.length} rows`);
+  for (const e of state.cycles) {
+    const slug = new URL(e.page).pathname;
+    const row = d.rows.find((r) => r.href === slug);
+    const c = row?.cells ?? [];
+    const ok = !!row && c[4]?.toLowerCase() === e.phase && c[5] === String(e.next_peak_year) && c[6] === String(e.next_trough_year);
+    check(`1440: ${e.id} phase/next peak/next trough`, ok, row ? `${c[4]} ${c[5]} ${c[6]} (API ${e.phase} ${e.next_peak_year} ${e.next_trough_year})` : `no row for ${slug}`);
+  }
   check("1440: phone list hidden", !d.listShown);
   await ctx.close();
 }
