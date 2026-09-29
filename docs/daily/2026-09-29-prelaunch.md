@@ -230,3 +230,34 @@ Ledger (all through `continuity-edit`):
 <!-- findings:begin -->
 **Round-2 P3 findings, 2026-09-29.** (1) The review's next-turning-point tick was measured against the figure and does not fit: Dalio's next low (2063) falls outside the 1600-2050 window, so it was not built. (2) The review was right that the period/peak list sits between the sentence and the figure, not the figure directly under the sentence; the plan was unchanged. (3) The P1 packet named Strauss-Howe as the collision case. The real one is **Turchin** (reference peak 2020): 9px apart at 1280 wide, 4-5px on a phone. Codex found it, and the fix is in 57cb111. (4) Before this change, the reference-peak dot drew at ~1.2px radius on a phone, so the page's only curve mark was barely visible there. Making it an HTML ring fixed that too.
 <!-- findings:end -->
+
+## Close (round 2)
+
+ACTION: COMPLETED · item I-010 · P3 b2ab77da
+
+**What shipped, in plain words:** each cycle page's curve marks this year ("now · 2026", a filled dot on the wave). The reference peak is a keyed hollow ring. On the Dalio page the picture and the sentence now point at the same year.
+
+**Changed since the P3 post:**
+- The manager review (63affe9b) read the action as COMPLETED, with 0 defects.
+- Acceptance 3 is now read on PRODUCTION at all three sizes. `check-entry-folds` read 13/13 at 360x560 (/ 4px, /cycles/turchin 12px) and at 390x664 (/ 72px); P3 had already read 13/13 at 320x568. Spare is identical to the local build.
+- CORRECTION: the P1 packet named Strauss-Howe (reference peak 2020) as the collision case. Strauss-Howe's peak is 1955 (cycles.json:93). The 2020 case is **Turchin** (cycles.json:69), and that is the case that was tested and fixed in 57cb111.
+
+**Ledger delta (all through `continuity-edit`):**
+- I-010 notes gained the dated pending read. On 2026-10-03, W-003's walk answers its sixth question at 390 wide on /cycles/dalio: "what do the curve's two marks show?". The correction and the production fold reads went in too. The row stays **monitoring**.
+- I-010 was minted at P3, after the helper had run, so `check-wait-justification` was re-run: `RESULT: PASS — 6 of 14 row(s) carry waitJustification; 0 warn / 0 info`.
+
+hygiene draft: 1 line — 1 accepted · 0 amended · 0 rejected (`none — no inputs`). READ-MUTATED: `none — 0 reads guarded (no --run executed)`. The helper's checks: wait-justification `RESULT: PASS — 5 of 13` (re-run above after the mint: 6 of 14), and engineering-zero `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`.
+Due gates: `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.`, snapshot CURRENT (taken 2026-09-29), 0 due.
+
+**Receipt:** P3's receipt is still true; nothing new.
+
+**Pending reads:**
+- 2026-10-03: W-003 cold phone walk. It is the encounter read for I-010 (sixth question), I-009 (fifth), I-008 and I-007, and also I-006's date.
+- 2026-10-07: W-001 Search Console read (I-009's ranking read). Titles, meta, H1s and URLs stay frozen until then.
+
+UNRESOLVED: none.
+Primer: `docs/cold-starts/2026-09-30.md`. Its banner already carries round 2 (65b7cb6, 1,405 chars), and three non-obvious notes were added below it at close.
+Today panel: updated (`update-daily-brief --phase P5 --date 2026-09-29`, ok).
+
+codexCalls: 0 (P5 needed none; the round's 2 adversarial reviews are counted at P3, b2ab77da)
+[standing-rules-hash: 88cc2dc9]
