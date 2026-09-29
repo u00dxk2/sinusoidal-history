@@ -96,3 +96,25 @@ hygiene helper: DISPATCHED 13:4xZ · draft PRESENT (the lane's gitignored hygien
 [standing-rules-hash: 88cc2dc9]
 
 **What remains:** W-003's walk (2026-10-03) is I-009's encounter read, and W-001's Search Console read (2026-10-07) is its ranking read. Nothing else is owed on this outcome today.
+
+## Close
+
+ACTION: COMPLETED · item I-009 · P3 0e05a1fb
+
+**What shipped, in plain words:** every cycle page says in one sentence where its curve puts 2026, linked to the year's reading. On a phone the sentence is one scroll down, not on the first screen.
+
+**Changed since the P3 post:**
+- The manager review (b83128a5) read the action as COMPLETED against the redirect's acceptance. It re-read `/cycles/dalio` on production itself (sentence word for word, `s-maxage=86400`, 0 `\$`) and found no defects.
+- Freeze scope, as the review suggested: W-001's freeze covers titles, meta, H1s and URLs, and `series.json` descriptions are outside it (`cycleMetaDescription` never reads `short_description`).
+
+**Ledger delta (all through `continuity-edit`):**
+- I-009's notes gained the dated pending read and the expected result. On 2026-10-03, W-003's walk opens `/cycles/dalio` at 390 wide and records whether "where are we now" is found and how far the reader scrolled. The sentence was measured below the first screen (780-874px at 390x664), so "found after one scroll" is the expected result, not a regression. The freeze-scope clause went in too.
+- I-009 gained a `waitJustification` (until 2026-10-03, owner this lane). It cleared the one INFO line that minting the row had raised: `check-wait-justification` → `RESULT: PASS — 5 of 13 row(s) carry waitJustification; 0 warn / 0 info`.
+
+**Hygiene draft:** 1 draft line (`none — no inputs`), accepted. READ-MUTATED: `none — 0 reads guarded`. Engineering-zero (helper): `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. Wait-justification was re-run at close, above. Due gates: `check-due-gates-dispositioned` → `verdict: CLEAR`, snapshot CURRENT (taken 2026-09-29), 0 due.
+
+**Pending reads:**
+- 2026-10-03: W-003 cold phone walk. It is the encounter read for I-009 (the Dalio question, fifth), I-008 (the Calibrate drag) and I-007, and also I-006's date.
+- 2026-10-07: W-001 Search Console read. It is I-009's ranking read (`/cycles/dalio` on the Dalio queries, from position 49.5-60; N = 6 impressions in 28 days). Titles, meta, H1s and URLs stay frozen until then.
+
+**Receipt:** P3's receipt is still true; nothing new.
