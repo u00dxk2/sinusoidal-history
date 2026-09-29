@@ -301,7 +301,7 @@
       "hypothesis": "Probably yes. The tag now reads as tappable (a dotted underline), the tap lands with the definitions in view, and the new sentence answers 'is this backed by data or not?' directly. What is not established is whether a reader taps at all, and whether the sentence reads plainly at 13px in ink-soft.",
       "notes": "OPENED 2026-09-27 at P5 on the orchestrator's close review (bus 78246b47). W-002 asked whether the tag read as understood. Its cold read said no (verdict (b)), and the fix shipped in 8e144cb, so W-002 is closed. The ENCOUNTER read was left owed: there are no analytics on this site, so a tap leaves no trace, and that read is this row. Delivery is proven, not assumed: scripts/check-confidence-tag-taps.mjs read 7/7 on production on 2026-09-27 (2/7 before the deploy). That script checks where taps LAND, not what a reader understands. The frames are docs/frames/2026-09-27-cycles-390-after.png (the tag) and -landed.png (after the tap).\n\n | 2026-09-28 (MT): 1c2cc72 changed the surface this walk reads. The /cycles descriptions are now 15px from 360px up and still 14px below 360 (not 15px on every phone: at 320x568 15px left /cycles 2px of first-screen spare, under the 8px floor; I-007, closed). So this walk is ALSO the first read of whether the larger descriptions help a stranger scan the ten cycles. The site has no analytics, so this N = 1 walk is the only encounter read available.",
       "closeWhen": "A cold journey-walk of /cycles at phone width (N = 1) reports (a) that the tag reads as a link to a definition, and after the tap the reader can say in their own words that the paired series is this site's comparison, not the theorist's evidence; this closes as confirmed. Or it reports (b) that either half fails, in which case the failing half is named in notes and a fix row is minted.",
-      "onTrigger": "Run this row's readCommand to regenerate the landed frame from production. Then walk /cycles cold at 390x664, via /journey-walk or by hand: look at the first entry, tap NARRATIVE, and read what you land on. Answer two questions: did the tag look tappable before you tapped it, and after reading, is 'Paired data - US Policy Mood (Stimson)' the theory's evidence or the site's check? Record the verdict in notes with the date.\n\n Third question (added 2026-09-28, after 1c2cc72): at 390 wide, can you scan all ten descriptions and say what each cycle claims without tapping in? They are 15px from 360 up (14px below 360).\n\n\n\n Fourth question (added 2026-09-28 round 2, after cdc1e4c / I-008): open the Calibrate tab, drag the peak-year slider, and say in one sentence what the drag did to the curve and to r. Pass = a cold reader can say it without reading /methods.",
+      "onTrigger": "Run this row's readCommand to regenerate the landed frame from production. Then walk /cycles cold at 390x664, via /journey-walk or by hand: look at the first entry, tap NARRATIVE, and read what you land on. Answer two questions: did the tag look tappable before you tapped it, and after reading, is 'Paired data - US Policy Mood (Stimson)' the theory's evidence or the site's check? Record the verdict in notes with the date.\n\n Third question (added 2026-09-28, after 1c2cc72): at 390 wide, can you scan all ten descriptions and say what each cycle claims without tapping in? They are 15px from 360 up (14px below 360).\n\n\n\n Fourth question (added 2026-09-28 round 2, after cdc1e4c / I-008): open the Calibrate tab, drag the peak-year slider, and say in one sentence what the drag did to the curve and to r. Pass = a cold reader can say it without reading /methods.\n\n | 2026-09-29 (I-009, 07c96d3): FIFTH question — open /cycles/dalio at 390 wide, cold, as someone who searched 'ray dalio big cycle theory'. Can you say where the Big Cycle is now, by this site's curve, and how far did you scroll to find it? (The sentence starts ~803px down at 390x664, below the first screen, so 'found it after one scroll' is the expected answer; record the scroll, not just yes/no.) Its answer is I-009's encounter read.",
       "nextEvaluation": "2026-10-03",
       "_nextEvaluationNote": "Set 2026-09-27 to the lane's one gate date, which I-006 and I-007 share, so the three reads land on the same day and before W-001's 2026-10-07 Search Console read. Top-level per meta.signalDateField.",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-confidence-tag-taps.mjs https://sinusoidalhistory.com C:/dev/skylark/sinusoidal-cycles/docs/frames/2026-10-03-cycles-390-landed.png",
@@ -317,7 +317,7 @@
         "8e144cb"
       ],
       "created": "2026-09-27",
-      "updated": "2026-09-28"
+      "updated": "2026-09-29"
     },
     {
       "id": "I-008",
@@ -339,6 +339,27 @@
       "updated": "2026-09-28",
       "lastEvaluated": "2026-09-28",
       "nextEvaluation": "2026-10-03"
+    },
+    {
+      "id": "I-009",
+      "type": "issue",
+      "priority": "P2",
+      "status": "monitoring",
+      "identified": "2026-09-29",
+      "owner": "sinusoidal-cycles",
+      "title": "A searcher who lands on a /cycles/<slug> page by the theorist's name cannot find where the cycle puts this year without reading it off the extrema row",
+      "hypothesis": "Search Console's only non-brand queries (2026-08-31..09-27, gsc-demand-worklist) were 'ray dalio big cycle (theory)' variants at position 49.5-60, landing on /cycles/dalio (12 of 70 impressions since 09-01, the most of any page). A reader arriving on a theory's name asks 'where are we now?' first, and the page gave the period, the 1950 reference peak and a chart but never said it in words.",
+      "notes": "SHIPPED 2026-09-29 in 07c96d3 (CI ci.yml GREEN; Render live 14:09:17Z). Every cycle page now has one sentence right after 'Does it hold up?': 'By this page's curve, <year> sits <phase> (<extremum year;> cos <x>). <next high/low>. That is a position of this construction, not the theorist's forecast. Every cycle in <year> ->' (link /state/<year>). Derived by yearPositionSentence from cycleStateAtYear, so it equals /api/v1/state. revalidate = 86400 on the route (production cache-control s-maxage=86400). Manager review 2026-09-29 (db6a1e87) redirected it from a mono metadata cell to this body-type sentence. PLACEMENT COST, measured: the sentence starts 780-874px down at 390x664 on 9 of 10 pages (549px on fathers-and-sons), i.e. NOT on a phone's first screen; above the verdict it would break /cycles/turchin's 12px fold at 320x568. Also fixed: series.json held '\\\\$' twice, showing readers '2011 PPP \\$' on the Dalio and Modelski pages; a test pins no backslash. Codex adversarial review x2: needs-attention (checker could false-pass -> fixed; ISR one-stale-request at a year boundary -> rejected, the sentence names its own year), then approve.",
+      "closeWhen": "W-003's cold walk (2026-10-03) opens /cycles/dalio at 390 wide and records whether the reader finds 'where are we now' and how far they scrolled to find it; and the W-001 Search Console read (2026-10-07) reports /cycles/dalio's position on the Dalio queries against 49.5-60. A walk that finds the sentence but only after scrolling is a finding about placement (move it up only if a fold can pay for it), not a reason to reopen the wording.",
+      "onTrigger": "Run the readCommand first (31/31 on production 2026-09-29). Then read W-003's verdict for the Dalio question and the W-001 read for /cycles/dalio.",
+      "nextEvaluation": "2026-10-03",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-year-position.mjs",
+      "waitingFor": "W-003's cold walk on 2026-10-03 (the encounter read) and W-001's Search Console read on 2026-10-07.",
+      "linkedCommits": [
+        "07c96d3"
+      ],
+      "created": "2026-09-29",
+      "updated": "2026-09-29"
     }
   ],
   "knownPatterns": [
