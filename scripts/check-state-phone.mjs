@@ -18,8 +18,11 @@
 // The API is the independent side (force-dynamic, cycleStateAtYear); the page's fields are read
 // from where they actually render, never from the page's own data.
 // Red arm: production before this change has no phone list, so every per-cycle leg fails.
-// NOT seen: occlusion by a later-painted element, and colour contrast. The table's whole text
-// is proven by the rendered-text multiset, not here.
+// NOT seen: occlusion by a later-painted element, colour contrast, and whether the reader can
+// scroll DOWN to the list (a root `overflow: hidden` would pass; html/body are not treated as
+// clipping ancestors). The table's whole text is proven by the rendered-text multiset, not here.
+// Codex round 2 (2026-09-29) found the scroll case; it is the second blind-spot finding in two
+// rounds, so the check names it here instead of growing another leg.
 import { chromium, devices } from "playwright";
 
 const argv = process.argv.slice(2);
@@ -33,7 +36,18 @@ const check = (name, ok, detail = "") => {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  — " + detail : ""}`);
 };
 
-const state = await (await fetch(`${origin}/api/v1/state${yearArg ? `?year=${yearArg}` : ""}`)).json();
+// --year is refused unless it is four digits: a missing or bad value must never fall back to
+// the current year and read GREEN on the wrong page.
+if (yearAt >= 0 && !/^\d{4}$/.test(yearArg ?? "")) {
+  console.log(`REFUSED  --year needs a four-digit year, got ${JSON.stringify(yearArg ?? null)}`);
+  process.exit(2);
+}
+const res = await fetch(`${origin}/api/v1/state${yearArg ? `?year=${yearArg}` : ""}`);
+const state = res.ok ? await res.json() : null;
+if (!state || !Array.isArray(state.cycles) || !state.year) {
+  console.log(`FAIL  /api/v1/state answered HTTP ${res.status} with no cycles — nothing to hold the page against`);
+  process.exit(3);
+}
 const year = state.year;
 const url = `${origin}/state/${year}`;
 const browser = await chromium.launch();
