@@ -424,3 +424,43 @@ Ledger (all through `continuity-edit`):
 <!-- findings:begin -->
 **Round-3 P3 findings, 2026-09-29.** (1) The P1 packet named the walk's #3 (rising at +0.98 vs peaking at +0.99) as out of scope. The stacked list makes it more visible: Kondratiev, Huntington and Khaldun are rows 3, 5 and 9. It needs its own row and decision on the shared phase bands. (2) Sibling sweep: VerdictTable (/cycles, /methods) carries the same 36rem-table-in-a-scroller pattern. It is not fixed this round. (3) Two Codex rounds each found blind spots in the new check, not in the page. After the second, the check names its remaining blind spots (occlusion, contrast, vertical scroll) instead of growing legs.
 <!-- findings:end -->
+
+## Close (round 3)
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-011 · P3 2a73b751
+
+**What shipped, in plain words:** on a phone, /state/2026 lists every cycle with its phase and its next peak or trough ("Rising · next peak 2030"), with no sideways swipe. From 640px up the table is unchanged.
+
+**Changed since the P3 post:**
+- The manager review (510312e4) read the action as COMPLETED with 0 defects. It also OBSERVED the served HTML carrying the 3b0631f span form.
+- Nothing else changed on the product.
+
+**Ledger delta (all through `continuity-edit`):**
+- **I-012 minted `open`**, as the next-round candidate on the review's suggestion. VerdictTable (`src/components/VerdictTable.tsx:22-23`, rendered on /cycles and /methods) is the same 36rem table in an unmarked sideways scroller, the third appearance of that shape. nextEvaluation is 2026-09-30. It has no readCommand yet, on purpose: no existing check reads this table's phone layout, so the work's first step writes one.
+- **I-013 minted `open`**: the phase-band wording ("rising" at +0.98 vs "peaking" at +0.99). **David decides.** A band or vocabulary change alters the stated method, `/api/v1/state`, and the live reading, while the frozen `public/data/state-2026.csv` carries a `phase` column and is never recomputed, so the two would disagree. The lane recommends no band change for 2026: the list already prints the next peak year beside the word. W-003's 2026-10-03 walk reads it first, and a card goes up only if a reader trips on it. It is not asked yet because nothing is blocked on it.
+- I-011's notes gained the delivery read (Render live 23:28:54Z, 18/40 → 100/100). The row stays **monitoring**.
+- W-003's onTrigger gained its seventh question (at P3).
+
+hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (the draft reads `none — no input ids (0 lines)`). READ-MUTATED: `none — 0 reads guarded (no --run executed)`. The helper's checks:
+- wait-justification: `RESULT: PASS — 6 of 14`.
+- engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`.
+
+**Re-run after the mints** (I-011 at P3, then I-012 and I-013 here): `check-wait-justification` → `RESULT: PASS — 7 of 17 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+
+Due gates: `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-09-29), with 0 due.
+
+**Receipt:** P3's receipt is still true; nothing new.
+
+**Pending reads:**
+- 2026-09-30: I-012 comes due. Measure the cut VerdictTable columns at 393 and 320, then select it at a P1 or record why not.
+- 2026-10-03: W-003 cold phone walk. It is the encounter read for I-011 (seventh question), I-010, I-009, I-008 and I-007. I-013 reads the same walk, and I-006's date is also 2026-10-03.
+- 2026-10-07: W-001 Search Console read. Titles, meta, H1s and URLs stay frozen until then.
+
+UNRESOLVED: none.
+Primer: `docs/cold-starts/2026-09-30.md`. The banner was rewritten in place for round 3 (1,212 chars; first action `check-state-phone.mjs`, expecting 100/100), and round-3 non-obvious notes were appended.
+Today panel: updated (`update-daily-brief --phase P5 --date 2026-09-29`, ok).
+
+codexCalls: 0 (probed-declined — P5 needed none; the round's 2 read-only reviews are counted at P3, 2a73b751)
+[standing-rules-hash: 88cc2dc9]
