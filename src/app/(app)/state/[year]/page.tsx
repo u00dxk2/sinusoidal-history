@@ -191,7 +191,72 @@ export default async function StatePage({ params }: Params) {
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-3">
           The reading
         </h2>
-        <div className="overflow-x-auto border-t border-rule/30">
+        {/* Phones get a list, not the table. Inside a 353px scroller the
+            table showed Cycle, Period, Ref. peak and cos, and cut PHASE to
+            "RIS"; the next peak and trough sat off-screen behind an unmarked
+            swipe (cold walk 2026-09-29, the second time this table came up
+            after J10). Each entry leads with the answer — the phase word and
+            the nearer turning point — and the numbers go on the quiet line.
+            Same `state` array as the table, so the two cannot disagree. */}
+        <ol className="sm:hidden border-t border-rule/30">
+          {state.map((entry) => {
+            const peakFirst = entry.next_peak_year < entry.next_trough_year;
+            const turns = [
+              { kind: "peak", field: "next-peak", year: entry.next_peak_year },
+              { kind: "trough", field: "next-trough", year: entry.next_trough_year },
+            ];
+            const [first, second] = peakFirst ? turns : [turns[1], turns[0]];
+            return (
+              <li
+                key={entry.id}
+                data-state-id={entry.id}
+                className="border-t border-rule/20 first:border-t-0 pb-3"
+              >
+                <Link
+                  href={`/cycles/${entry.id.replace(/_/g, "-")}`}
+                  className="inline-flex items-center min-h-11 font-display text-[18px] tracking-tight font-medium text-ink underline decoration-ink/25 underline-offset-[3px] hover:decoration-ink transition-colors"
+                >
+                  {entry.name.split("—")[0]?.trim() ?? entry.name}
+                </Link>
+                <p className="text-[17px] leading-snug text-ink">
+                  <span data-field="phase" className="capitalize font-medium">
+                    {entry.phase}
+                  </span>
+                  {" · next "}
+                  {first.kind}{" "}
+                  <span data-field={first.field} className="tabular-nums">
+                    {first.year}
+                  </span>
+                </p>
+                {/* nowrap per segment: at 320 the line wrapped inside
+                    "ref. | peak 1970" and "30y | period". */}
+                <p className="mt-1 font-mono text-[12px] leading-relaxed text-ink-soft tabular-nums">
+                  <span className="whitespace-nowrap">
+                    {"then "}
+                    {second.kind}{" "}
+                    <span data-field={second.field}>{second.year}</span>
+                  </span>
+                  {" · "}
+                  <span className="whitespace-nowrap">
+                    {"cos "}
+                    {formatCos(entry.cos)}
+                  </span>
+                  {" · "}
+                  <span className="whitespace-nowrap">
+                    {entry.period_years}
+                    {"y period"}
+                  </span>
+                  {" · "}
+                  <span className="whitespace-nowrap">
+                    {"ref. peak "}
+                    {entry.reference_peak_year}
+                  </span>
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+        <div className="hidden sm:block overflow-x-auto border-t border-rule/30">
           <table className="w-full text-left border-collapse min-w-[36rem]">
             <thead>
               <tr className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft/80">
