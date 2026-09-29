@@ -70,6 +70,16 @@ node ../skylark-site/scripts/check-posted-unpushed.mjs --project sinusoidal-cycl
 
 Flags task-completes citing commits absent from origin >3h; exit 3 = findings.
 
+**Section 0's deploy-drift read** needs the Render service name, which is NOT the slug:
+
+```powershell
+node ../skylark-site/scripts/check-deployed-sha-drift.mjs --service sinusoidal-history
+```
+
+It prints NOT-APPLICABLE-BY-REGISTRY (this is a commit-trigger service, `srv-d7mcat7lk1mc73bidim0`),
+so read the live sha from the Render deploys API instead and compare it to HEAD.
+`--service sinusoidal-cycles` matches nothing (2026-09-29).
+
 ## The instruments
 
 **Tier-1 (since 2026-09-16, orchestrator-approved): organic clicks by page**, read
