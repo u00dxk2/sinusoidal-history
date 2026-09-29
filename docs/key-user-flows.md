@@ -48,7 +48,13 @@ journey-walk); update when a surface is added or a flow's steps change.
    a test statistic". Moving the peak re-labels the phase live. The slider
    track was invisible on production until 2026-09-26 (undefined shadcn
    colour tokens; journey-walk 2026-09-26 F1).
-5. `/cycles/<slug>`: header (confidence tier + gloss) → curve figure → peak
+5. `/cycles/<slug>`: header (confidence tier + gloss) → "Does it hold up?" →
+   one sentence saying where this cycle's curve puts the current year (phase,
+   cos, next high/low; "Every cycle in <year> →" to `/state/<year>`; since
+   2026-09-29 — a searcher landing on the theorist's name asks "where are we
+   now?", and the page used to leave it to the extrema row; it sits below the
+   verdict, ~780-874px down at 390x664, so it is not on a phone's first screen)
+   → period/peak/paired list → curve figure → peak
    calibration → extrema table → paired series (CSV ↓ / upstream /
    provenance) → spectral verdict (verdict line → plain-English → figure →
    downloads → protocol links) → Reuse this (copy attribution) → open-in-chart
@@ -78,4 +84,6 @@ journey-walk); update when a surface is added or a flow's steps change.
   2026-09-22 by the phone "All ten, at a glance" figure rather than by
   un-hiding the Overlay (ten overlaid curves at 358px is a tangle). The
   Overlay tab stays desktop-only (journey-walk 2026-08-24, J-deferred #2).
-- Calibrate tab has no chart in view (D8/M12) — carried.
+- ~~Calibrate tab has no chart in view (D8/M12)~~ — fixed 2026-09-28
+  (`cdc1e4c`): the tab renders the selected cycle's expanded facet, sliders
+  first on a phone. Its encounter read is W-003's walk (2026-10-03).

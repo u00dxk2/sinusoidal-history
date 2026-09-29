@@ -1,5 +1,25 @@
 # Changelog
 
+## Each cycle page says where this year sits (2026-09-29)
+
+- **"Where are we now?" is answered in words** (I-009). Every `/cycles/<slug>` page now
+  has one sentence right after "Does it hold up?", e.g. "By this page's curve, 2026 sits
+  at a peak (the curve tops out in 2025; cos +1.00). The next low falls around 2063.
+  That is a position of this construction, not the theorist's forecast. Every cycle in
+  2026 →". The page used to leave it to the extrema row further down. Search Console's
+  only non-brand queries (2026-08-31..09-27) were "ray dalio big cycle (theory)", and
+  those land on `/cycles/dalio`. The sentence comes from `cycleStateAtYear`, the same
+  derivation as `/state/<year>` and `/api/v1/state`, so it cannot disagree with them.
+- **The pages re-render daily** (`revalidate = 86400`), so the year moves at New Year
+  without a deploy. The sentence names its own year, so a response served stale on the
+  first request after the rollover is still true about the year it names.
+- **No more "2011 PPP \$"**: two series descriptions in `series.json` held `\\$`, which
+  showed readers a backslash on the Dalio and Modelski pages. A test now pins "no
+  backslash in any series name or description".
+- New check: `node scripts/check-year-position.mjs [origin]` rebuilds each page's
+  sentence from the API's raw fields and requires an exact match (`--selftest` holds 7
+  red arms, including a flipped crossing direction and a wrong peak year).
+
 ## The Calibrate tab draws the curve you are calibrating (2026-09-28)
 
 - **Calibrate now shows the chart** (`cdc1e4c`, I-008). The tab used to show two

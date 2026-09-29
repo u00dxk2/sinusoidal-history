@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   STATE_FIRST_YEAR,
+  formatCos,
   statePath,
   stateOfCycles,
   stateYears,
@@ -60,12 +61,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     recomputed; the link renders only when the file exists. */
 function hasFrozenEdition(year: number): boolean {
   return existsSync(join(process.cwd(), "public", "data", `state-${year}.csv`));
-}
-
-function formatCos(v: number): string {
-  if (v > 0) return `+${v.toFixed(2)}`;
-  if (v < 0) return `−${Math.abs(v).toFixed(2)}`;
-  return "0.00";
 }
 
 function stateJsonLd(year: number): Record<string, unknown> {

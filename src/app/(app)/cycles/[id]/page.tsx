@@ -20,6 +20,7 @@ import {
 } from "@/lib/cycleRoutes";
 import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
+import { statePath, yearPositionSentence } from "@/lib/stateOfCycles";
 import {
   SPECTRAL_STATE_LABELS,
   spectralDraws,
@@ -31,6 +32,14 @@ type Params = { params: Promise<{ id: string }> };
 
 /** One prerendered route per cycle; anything else is a 404, not a render. */
 export const dynamicParams = false;
+
+/**
+ * Re-render once a day. The page states where its curve puts the current year
+ * (yearPosition), and a prerender alone would freeze that year at build time —
+ * a page built in December would say the old year all of January. Daily ISR
+ * keeps it within a day of /state/<year>, which is force-dynamic.
+ */
+export const revalidate = 86400;
 
 export function generateStaticParams() {
   return cycles.map((cycle) => ({ id: cycleSlug(cycle) }));
@@ -87,6 +96,8 @@ export default async function CyclePage({ params }: Params) {
   const provenanceHref = series
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
+  const year = new Date().getUTCFullYear();
+  const positionSentence = yearPositionSentence(cycle, year);
 
   return (
     // [&_p]: the article stays 3xl because the curve, the extrema table, and
@@ -260,6 +271,26 @@ export default async function CyclePage({ params }: Params) {
           )}
         </section>
       )}
+
+      {/* "Where are we now?" — the question a searcher who lands here on the
+          theorist's name arrives with. Until 2026-09-29 the page never said it:
+          the reader had to find the current decade in the extrema row further
+          down. Derived (yearPosition → cycleStateAtYear), so it matches
+          /state/<year> and /api/v1/state. It sits BELOW the verdict on purpose:
+          the verdict is each page's first-screen answer, and /cycles/turchin
+          had 12px to spare at 320x568 before this line existed. */}
+      <p
+        id="where-now"
+        className="mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85"
+      >
+        {`${positionSentence} That is a position of this construction, not the theorist's forecast.`}{" "}
+        <Link
+          href={statePath(year)}
+          className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+        >
+          {`Every cycle in ${year} →`}
+        </Link>
+      </p>
 
       {/* Period / reference peak / paired series sat directly under the H1
           until 2026-09-19, which pushed the verdict's answer sentence 17px
