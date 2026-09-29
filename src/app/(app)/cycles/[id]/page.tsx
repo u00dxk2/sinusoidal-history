@@ -20,7 +20,11 @@ import {
 } from "@/lib/cycleRoutes";
 import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
-import { statePath, yearPositionSentence } from "@/lib/stateOfCycles";
+import {
+  statePath,
+  yearPosition,
+  yearPositionSentence,
+} from "@/lib/stateOfCycles";
 import {
   SPECTRAL_STATE_LABELS,
   spectralDraws,
@@ -316,7 +320,7 @@ export default async function CyclePage({ params }: Params) {
         </div>
       </dl>
 
-      <CurveFigure cycle={cycle} />
+      <CurveFigure cycle={cycle} year={year} />
 
       <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
@@ -634,7 +638,7 @@ function cycleTheoristSentence(cycle: Cycle): string {
  * from the same `sineAtYear` the interactive chart uses, so the figure can't
  * drift from the curve it illustrates.
  */
-function CurveFigure({ cycle }: { cycle: Cycle }) {
+function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
   const width = 900;
   const height = 150;
@@ -658,70 +662,149 @@ function CurveFigure({ cycle }: { cycle: Cycle }) {
   const showPeakMarker =
     cycle.reference_peak_year >= start && cycle.reference_peak_year <= end;
 
+  // "Now" on the curve. Until 2026-09-29 the only marked point was the
+  // reference peak, so on /cycles/dalio the one dot said 1950 while the
+  // sentence above said 2026 is at a peak. Same look as the home chart's
+  // now-line (a thin ink rule, a dot in the cycle's colour, "now · <year>").
+  // The dot and label are HTML over the SVG, not SVG marks: the 900-wide
+  // viewBox scales to ~0.39 on a phone, which shrinks an SVG dot to ~1.5px
+  // and 11px SVG text to ~4px. Same sineAtYear as the curve and the sentence.
+  const showNow = year >= start && year <= end;
+  const nowPct = (x(year) / width) * 100;
+  const nowTopPct = (y(sineAtYear(cycle, year)) / height) * 100;
+  // End-anchor the label near the right edge (2026 sits at ~95% of the
+  // window) so it never runs off a 320px screen; start-anchor near the left.
+  const nowLabelShift =
+    nowPct > 80 ? "-translate-x-full" : nowPct < 20 ? "" : "-translate-x-1/2";
+
   return (
     // mt-4, not mt-8: the metadata list now sits directly above and reads as
     // this figure's lead-in rather than as a free-floating block.
     <figure className="mt-4">
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        role="img"
-        // The peak clause is gated on the same condition as the marker it
-        // describes: naming a marker that is not drawn is the 2026-09-22
-        // overview defect, latent here only because every peak year currently
-        // falls inside the window.
-        aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}.`}
-        className="block w-full h-auto"
-      >
-        <line
-          x1="0"
-          y1={height / 2}
-          x2={width}
-          y2={height / 2}
-          stroke="currentColor"
-          strokeWidth="1"
-          className="text-rule"
-          opacity="0.2"
-        />
-        {centuryTicks.map((year) => (
+      <div className="relative">
+        <svg
+          viewBox={`0 0 ${width} ${height}`}
+          role="img"
+          // The peak clause is gated on the same condition as the marker it
+          // describes: naming a marker that is not drawn is the 2026-09-22
+          // overview defect, latent here only because every peak year currently
+          // falls inside the window. The now clause is gated the same way.
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.`}
+          className="block w-full h-auto"
+        >
           <line
-            key={year}
-            x1={x(year)}
-            y1={padY / 2}
-            x2={x(year)}
-            y2={height - padY / 2}
+            x1="0"
+            y1={height / 2}
+            x2={width}
+            y2={height / 2}
             stroke="currentColor"
             strokeWidth="1"
             className="text-rule"
-            opacity="0.12"
+            opacity="0.2"
           />
-        ))}
-        {showPeakMarker && (
-          <>
+          {centuryTicks.map((tick) => (
             <line
-              x1={peakX}
+              key={tick}
+              x1={x(tick)}
               y1={padY / 2}
-              x2={peakX}
+              x2={x(tick)}
               y2={height - padY / 2}
-              stroke={cycle.color}
+              stroke="currentColor"
               strokeWidth="1"
-              strokeDasharray="3 3"
-              opacity="0.7"
+              className="text-rule"
+              opacity="0.12"
             />
-            <circle cx={peakX} cy={y(1)} r="3.5" fill={cycle.color} />
-          </>
+          ))}
+          {showPeakMarker && (
+            <>
+              <line
+                x1={peakX}
+                y1={padY / 2}
+                x2={peakX}
+                y2={height - padY / 2}
+                stroke={cycle.color}
+                strokeWidth="1"
+                strokeDasharray="3 3"
+                opacity="0.7"
+              />
+            </>
+          )}
+          {showNow && (
+            <line
+              data-mark="now-line"
+              x1={x(year)}
+              y1={0}
+              x2={x(year)}
+              y2={height}
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeOpacity="0.55"
+              vectorEffect="non-scaling-stroke"
+              className="text-ink"
+            />
+          )}
+          <polyline
+            points={points.join(" ")}
+            fill="none"
+            stroke={cycle.color}
+            strokeWidth="2"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        {showNow && (
+          <span
+            aria-hidden
+            data-mark="now"
+            data-year={year}
+            className="absolute block w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-paper"
+            style={{
+              left: `${nowPct}%`,
+              top: `${nowTopPct}%`,
+              backgroundColor: cycle.color,
+            }}
+          />
         )}
-        <polyline
-          points={points.join(" ")}
-          fill="none"
-          stroke={cycle.color}
-          strokeWidth="2"
-          strokeLinejoin="round"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+        {/* The reference peak: a hollow ring, painted AFTER the filled now-dot.
+            It was an SVG circle (r 3.5 in the viewBox), which a phone drew at
+            ~1.2px radius, and on /cycles/turchin (peak 2020, now 2026) the
+            now-dot sat ~4px away and covered it whole (Codex review,
+            2026-09-29). Hollow and on top, its outer arc stays visible
+            wherever the two meet. */}
+        {showPeakMarker && (
+          <span
+            aria-hidden
+            data-mark="ref-peak"
+            className="absolute block w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2"
+            style={{
+              left: `${(peakX / width) * 100}%`,
+              top: `${(y(1) / height) * 100}%`,
+              borderColor: cycle.color,
+            }}
+          />
+        )}
+      </div>
+      {showNow && (
+        <div aria-hidden className="relative h-4 mt-1">
+          <span
+            data-mark="now-label"
+            className={`absolute top-0 ${nowLabelShift} whitespace-nowrap font-mono text-[11px] leading-4 tabular-nums font-medium text-ink`}
+            style={{ left: `${nowPct}%` }}
+          >
+            {`now · ${year}`}
+          </span>
+        </div>
+      )}
       <figcaption className="mt-2 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft/75">
         <span>{start}</span>
         <span className="normal-case tracking-normal text-[11px] font-sans italic">
+          {/* The key for the reference-peak ring, so it is not read as "now"
+              (the filled now-dot is labelled above). */}
+          <span
+            aria-hidden
+            className="inline-block w-2 h-2 rounded-full border-[1.5px] mr-1.5 align-[-1px]"
+            style={{ borderColor: cycle.color }}
+          />
           Reference peak {cycle.reference_peak_year} · period{" "}
           {cycle.period_years}{" "}years
         </span>

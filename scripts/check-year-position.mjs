@@ -15,6 +15,9 @@
 // far below the first screen the sentence starts — that is W-003's question, not a pass/fail.
 // Written for I-009 (2026-09-29). Red arm: the production build before this change has no
 // #where-now element, so the first leg fails on all ten pages.
+// Round 2 (2026-09-29) added the figure's now-mark legs: the dot, read back from pixels at 1280
+// wide, lands on the API's year and cos; and the "now · <year>" label is ≥11px and fully on
+// screen at 390 and 320 wide. Red arm: production before it has no [data-mark="now"].
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
@@ -60,6 +63,23 @@ function expectedSentence(e, year) {
 /** The page's text is the expected sentence, then the construction caveat and the link. */
 const matches = (text, e, year) => text.startsWith(`${expectedSentence(e, year)} That is a position`);
 
+// The figure's "now" dot, read back from pixels into (year, value) — the inverse of the page's
+// x()/y() in CurveFigure (viewBox 900x150, padY 14), so the page's own numbers are never trusted:
+// only where the dot actually landed on the drawn SVG. start/end come from the figcaption's
+// first and last labels. Added 2026-09-29 (round 2): until then the only marked point on the
+// curve was the reference peak.
+function dotReading(svg, dot, start, end) {
+  const cx = dot.x + dot.width / 2 - svg.x;
+  const cy = dot.y + dot.height / 2 - svg.y;
+  const pad = (14 / 150) * svg.height;
+  return {
+    year: start + (cx / svg.width) * (end - start),
+    value: (svg.height / 2 - cy) / (svg.height / 2 - pad),
+  };
+}
+// At 1280 wide the figure is ~700px across: ~0.6 years and ~0.02 of cos per pixel.
+const dotAgrees = (r, year, cos) => Math.abs(r.year - year) <= 1 && Math.abs(r.value - cos) <= 0.03;
+
 if (process.argv.includes("--selftest")) {
   const tail = " That is a position of this construction, not the theorist's forecast. Every cycle in 2026 →";
   const modelski = { period_years: 110, reference_peak_year: 1945, cos: -0.09, phase: "crossing", next_peak_year: 2055, next_trough_year: 2110 };
@@ -81,7 +101,24 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "match" : "no match"}`);
   }
-  console.log(`selftest: ${cases.length - bad}/${cases.length} ${bad ? "FAIL" : "PASS"}`);
+  // Dot arms: a 700x116.67 svg at the origin, window 1600-2050. Dalio 2026 (cos +1.00) sits at
+  // x = 426/450·700 = 662.7, y = pad = 10.89; a 10px dot is centred there.
+  const svg = { x: 0, y: 0, width: 700, height: 700 * 150 / 900 };
+  const at = (cx, cy) => ({ x: cx - 5, y: cy - 5, width: 10, height: 10 });
+  const pad = (14 / 150) * svg.height;
+  const dots = [
+    ["dot on dalio 2026", at(662.7, pad), true],
+    ["dot 4px right (a later year)", at(666.7, pad), false],
+    ["dot on the midline (cos 0)", at(662.7, svg.height / 2), false],
+    ["dot at the reference peak 1950", at((350 / 450) * 700, pad), false],
+  ];
+  for (const [name, dot, want] of dots) {
+    const got = dotAgrees(dotReading(svg, dot, 1600, 2050), 2026, 1);
+    if (got !== want) bad += 1;
+    console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "agrees" : "disagrees"}`);
+  }
+  const total = cases.length + dots.length;
+  console.log(`selftest: ${total - bad}/${total} ${bad ? "FAIL" : "PASS"}`);
   process.exit(bad ? 3 : 0);
 }
 
@@ -110,6 +147,84 @@ for (const entry of state.cycles) {
   check(`${tag} no "\\$" on the page`, !body.includes("\\$"));
   const box = await el.boundingBox();
   console.log(`      ${tag} at 390x664: sentence top ${Math.round(box.y)}px (first screen ends at 664)`);
+}
+
+// The figure's now-mark. Geometry at 1280 wide (finest pixels); the label at the two phone
+// widths the fold gate reads, where an end-of-window label is most likely to run off-screen.
+const wide = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+for (const entry of state.cycles) {
+  const path = new URL(entry.page).pathname;
+  const tag = path.replace("/cycles/", "");
+  await wide.goto(`${origin}${path}`, { waitUntil: "domcontentloaded" });
+  const dot = wide.locator('[data-mark="now"]');
+  if ((await dot.count()) !== 1) {
+    check(`${tag} figure marks ${state.year}`, false, `${await dot.count()} now-marks`);
+    continue;
+  }
+  const fig = wide.locator("figure", { has: dot });
+  const svgBox = await fig.locator("svg").first().boundingBox();
+  const caps = await fig.locator("figcaption > span").allInnerTexts();
+  const start = Number(caps[0]);
+  const end = Number(caps[caps.length - 1]);
+  const r = dotReading(svgBox, await dot.boundingBox(), start, end);
+  check(
+    `${tag} figure's dot = API ${state.year} (cos ${fmtCos(entry.cos)})`,
+    dotAgrees(r, state.year, entry.cos),
+    `read year ${r.year.toFixed(1)}, value ${r.value.toFixed(2)} (window ${start}-${end})`
+  );
+  // How close the now-line sits to the reference-peak marker (Turchin: 2020 vs 2026).
+  const peak = await fig.locator('[data-mark="ref-peak"]').boundingBox();
+  if (peak) {
+    const gap = Math.abs(peak.x + peak.width / 2 - (svgBox.x + ((state.year - start) / (end - start)) * svgBox.width));
+    console.log(`      ${tag} at 1280: now-line ${Math.round(gap)}px from the reference-peak dot`);
+  }
+}
+await wide.close();
+
+for (const [w, h] of [[390, 664], [320, 568]]) {
+  const phone = await browser.newPage({ viewport: { width: w, height: h } });
+  for (const entry of state.cycles) {
+    const path = new URL(entry.page).pathname;
+    const tag = path.replace("/cycles/", "");
+    await phone.goto(`${origin}${path}`, { waitUntil: "domcontentloaded" });
+    const label = phone.locator('[data-mark="now-label"]');
+    if ((await label.count()) !== 1) {
+      check(`${tag} at ${w}: now label present`, false, `${await label.count()} labels`);
+      continue;
+    }
+    const text = (await label.innerText()).trim();
+    const size = await label.evaluate((n) => parseFloat(getComputedStyle(n).fontSize));
+    const lb = await label.boundingBox();
+    const ok = text === `now · ${state.year}` && size >= 11 && lb.x >= 0 && lb.x + lb.width <= w;
+    check(
+      `${tag} at ${w}: label "now · ${state.year}", ≥11px, on screen`,
+      ok,
+      `"${text}" ${size}px, x ${Math.round(lb.x)}-${Math.round(lb.x + lb.width)} of ${w}`
+    );
+    // Both points stay visible where they meet (Codex review 2026-09-29: on Turchin at phone
+    // width the now-dot covered the reference dot whole). Hit-test the reference ring's edge on
+    // the side AWAY from the now-dot: the topmost element there must be the ring itself.
+    const seen = await phone.evaluate(() => {
+      const ref = document.querySelector('[data-mark="ref-peak"]');
+      const now = document.querySelector('[data-mark="now"]');
+      if (!ref || !now) return { ok: false, why: "missing mark" };
+      ref.scrollIntoView({ block: "center" });
+      const r = ref.getBoundingClientRect();
+      const n = now.getBoundingClientRect();
+      const rc = [r.x + r.width / 2, r.y + r.height / 2];
+      const nc = [n.x + n.width / 2, n.y + n.height / 2];
+      let dx = rc[0] - nc[0];
+      let dy = rc[1] - nc[1];
+      const len = Math.hypot(dx, dy) || 1;
+      if (Math.hypot(dx, dy) === 0) dx = -1;
+      dx /= len; dy /= len;
+      const edge = r.width / 2 - 1;
+      const hit = document.elementFromPoint(rc[0] + dx * edge, rc[1] + dy * edge);
+      return { ok: hit === ref, why: `${Math.round(Math.hypot(rc[0] - nc[0], rc[1] - nc[1]))}px apart, edge hit ${hit?.dataset?.mark ?? hit?.tagName}` };
+    });
+    check(`${tag} at ${w}: reference-peak ring visible beside the now-dot`, seen.ok, seen.why);
+  }
+  await phone.close();
 }
 
 await browser.close();
