@@ -118,3 +118,115 @@ ACTION: COMPLETED · item I-009 · P3 0e05a1fb
 - 2026-10-07: W-001 Search Console read. It is I-009's ranking read (`/cycles/dalio` on the Dalio queries, from position 49.5-60; N = 6 impressions in 28 days). Titles, meta, H1s and URLs stay frozen until then.
 
 **Receipt:** P3's receipt is still true; nothing new.
+
+# Round 2
+
+## P1 — Evidence and choice (round 2)
+
+[P1 — Evidence and choice]
+
+**Round 2, 2026-09-29.** Round 1 (I-009, `07c96d3`) is done and still holds on production: `check-year-position.mjs` read **31/31** at ~16:5xZ. I am not redoing it.
+
+**Outcome:** each cycle page's curve marks where this year falls on it, so the picture gives the same answer as the round-1 sentence. Item: **I-009 follow-up** (the new row will be minted at P3, as I-009 was).
+**The problem, as a reader has it:** "The sentence says 2026 is at a peak. But the one dot on the curve is at 1950. Is 1950 the peak it means? Where is now on this wave?"
+
+### Evidence
+
+- OBSERVED: the source of `CurveFigure` (`src/app/(app)/cycles/[id]/page.tsx:637-731`). It draws the sinusoid, century ticks and ONE marked point: a dashed line and dot at `reference_peak_year`. Nothing marks the current year. That holds on all 10 pages.
+- OBSERVED: on `/cycles/dalio` the only marked point is **1950**, the reference peak (`cycles.json:81`). The round-1 sentence directly above it says 2026 "sits at a peak (the curve tops out in 2025)". So the text and the figure point at two different years, 75 years apart, and nothing on the figure is labelled "now". Dalio gets the most impressions of any page on the site (12 in 2026-09-01..09-29, the Search Console read from round 1 today, under 24h old). 5 of the 6 non-brand queries it gets impressions on are Dalio queries.
+- OBSERVED: at 390x664 the sentence starts 780-874px down (549px on fathers-and-sons; `check-year-position`, today). The figure sits directly below it. So a reader who scrolls once for "where are we now" arrives at the sentence and the curve together.
+- OBSERVED: fold baseline on production at 320x568 (`check-entry-folds`, today): 13 of 13; `/cycles/turchin` and `/` have the least room, 12px spare each. The figure is below the verdict, so a mark on it cannot cost a fold. Acceptance re-reads this anyway.
+- HYPOTHESIS: a reader looks at the picture before the prose. A marked "2026" on the wave answers "where are we" faster than the sentence does, and it stops the 1950 dot from reading as "the peak".
+- MISSING: any real-user evidence. The site has no client analytics (standing choice). `check-cycle-rotation` → exit 0 ("no product-love cycle picks this lane today"). `docs/evangelism-bar.md` and `docs/evangelism-evidence.md` do not exist here. W-003's cold walk on 2026-10-03 is the first reader-level read.
+
+### Permission
+
+The figure is this lane's own page template and derived data, so the call is the lane's. No board card is open on it (`answered-cards`: none). The W-001 freeze (until 2026-10-07) covers titles, meta, H1s and URLs, not the figure. The mark is derived from the same `sineAtYear` / `cycleStateAtYear` as the sentence (KP-001), so the figure cannot drift from the math. No spectral surface is touched.
+
+### Next action: improve
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-year-position.mjs --selftest
+```
+
+Then extend that check with a failing arm: every cycle page's figure carries a current-year mark whose x is `year` and whose y equals the API's cos for that year. Then add the mark to `CurveFigure`: a point at `(x(year), y(sineAtYear(cycle, year)))` and a thin vertical rule. The "2026" label goes in HTML (the figcaption row or an overlay), because SVG text in a 900-wide viewBox shrinks to ~5px on a phone. The reference-peak dot stays but is told apart from it, for example by labelling the caption "Reference peak 1950 · 2026 marked". The aria-label gains a "this year" clause. The page already re-renders daily (`revalidate = 86400`), so the year stays current.
+
+### Acceptance
+
+On the local build, then on production after the deploy:
+1. All 10 `/cycles/<slug>` figures carry the current-year mark. Its year equals `new Date().getUTCFullYear()`, and its plotted value equals `/api/v1/state` cos to 2dp. That is checked by the extended `check-year-position.mjs`, with a red arm that fails on production before the deploy.
+2. The label is readable on a phone: it renders at 11px or larger at 390 wide (measured, not assumed), and it does not collide with the reference-peak marker where they are close (Strauss-Howe: ref 2020 vs 2026).
+3. `check-entry-folds` reads 13 of 13 at 320x568, 360x560 and 390x664, with spare no lower than today's baseline.
+4. `npm test` and `npm run typecheck` pass. Rendered-text multiset of the cycle pages: at most the caption and aria text change.
+
+### Delivery and encounter checks
+
+- Delivery: the Render deploy row for the new sha shows live, then acceptance 1-3 on production.
+- Encounter: blind at the reader level (no analytics). W-003's walk on 2026-10-03 already opens `/cycles/dalio` at 390 wide and asks "where are we now, and how far did you scroll?". P3 adds "what did the marks on the curve tell you?" to it. N = 1 walker; the answer is readable at N = 1.
+
+### USER-FACING: yes
+
+Paths: `src/app/(app)/cycles/[id]/page.tsx` (`CurveFigure`), `scripts/check-year-position.mjs` (internal), possibly `src/lib/stateOfCycles.ts`, plus `continuity/items.json` and the daily report (internal). No prose page and no `public/*.md` mirror changes.
+
+### HYGIENE INPUTS
+
+Copied from this morning's kickoff reads (round 1). This round's kickoff carries no separate state block.
+- (a) Due rows not bearing on the choice: **none**. Read from `check-due-gates-dispositioned` against the morning snapshot → "0 gate(s) were due at Phase 0", verdict CLEAR (re-read ~16:5xZ, no new snapshot taken).
+- (b) Owed child rows: **none**. Read from the round-1 kickoff's `rows owed to you` (0 of 729).
+- (c) CROSSED state reads: **none**. Read from the round-1 kickoff's reads; none crossed.
+
+codexCalls: 0 (probe GREEN 13:03Z per this prompt; P1 needed no delegate)
+
+## P3 — Product-work loop (round 2)
+
+[P3 — Product-work loop]
+
+**Round 2, 2026-09-29.** Action (improve): every `/cycles/<slug>` curve now marks this year, so the picture gives the same answer as the round-1 sentence. Shipped as `57cb111` (I-010, minted monitoring). The manager review (09c07da1) APPROVED it and its acceptance stood.
+
+What a reader sees now: a thin ink rule at 2026, a filled dot on the wave in the cycle's colour, and **"now · 2026"** under it. This is the home chart's now-line look, as the review suggested. The reference peak is a hollow ring, and the caption carries a matching ring as its key. On `/cycles/dalio` the dot sits on the 2025 crest, and the 1950 ring no longer reads as "the peak".
+
+On the review's two suggestions:
+- (a) Reuse the home chart's now look: **done**.
+- (b) A faint tick at the next turning point: **measured, and it does not fit**. Dalio's next low (2063) falls outside the figure's 1600-2050 window, so the mark cannot be drawn where the review pictured it.
+
+**The four states**
+
+1. **Implementation.**
+   - `57cb111` on `main`. Paths: `src/app/(app)/cycles/[id]/page.tsx` (CurveFigure) and `scripts/check-year-position.mjs`.
+   - `verify-with-receipt -- npm test`: 16 files, 124 tests pass (receipt names 57cb1110; the only later path is doc-shaped).
+   - `npm run typecheck` and eslint on both files: clean.
+   - CI `ci.yml` **GREEN** on 57cb111 (`check-ci-status --wait`, 54s).
+   - Codex adversarial review ran twice, both with `Target: working tree diff`.
+     - Run 1: needs-attention, 1 medium finding. On `/cycles/turchin` (peak 2020, now 2026) the now-dot covered the reference dot whole at phone width. The old SVG dot drew at a ~1.2px radius on a phone, so it was barely visible before this change either.
+     - FIXED before commit, in 57cb111: the reference peak became a hollow HTML ring painted above the now-dot, and a hit-test leg was added. Its red arm (the now-dot repainted on top) reads `now` instead of `ref-peak`.
+     - Run 2: **approve**, no material findings. Its one next step was to look at Turchin at 320 and 390 in both themes. Done, and both marks are distinct in all four frames.
+   - Sibling sweep (SVG dots inside a scaled viewBox): 3 `<circle>` roots in `src`. CycleOverlay and CycleOverview draw at pixel size, and `og` is a fixed 1200x630 image, so there are **0** other hits.
+
+2. **Delivery.** Render deploy `57cb111` is **live** at 2026-09-29 17:46:02Z (Render deploys API; `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-trigger service, per daily-config). Production reads after the deploy:
+   - `check-year-position.mjs`: **81/81**. On all 10 pages the dot, read back from pixels at 1280 wide, lands on `/api/v1/state`'s year (2026.0) and cos. The "now · 2026" label is 11px and on screen at 390 and 320. The reference ring is hit-tested visible beside the now-dot at 390 and 320, including Turchin at 4-5px apart.
+   - The same check read **31/61** on production before the deploy: 0 now-marks on all 10 pages.
+   - `check-entry-folds`: 13 of 13 at 320x568 on production, spare identical to this morning's baseline. On the local build it was also 13 of 13 at 360x560 and 390x664, spare unchanged.
+   - Rendered-text line multiset, local build against pre-deploy production: **+1 line per cycle page ("now · 2026"), nothing else moved**, on all 10.
+   - Figure caption height is unchanged at 320, 360 and 390 on all 10 pages. The caption's wrap at 320 is on production already.
+
+3. **Encounter:** blind. The site has no client analytics, by standing choice, so a reader leaves no trace. The encounter read is W-003's cold walk on 2026-10-03, which now carries a **sixth question** (I-010): at 390 wide on `/cycles/dalio`, what do the curve's two marks show?
+
+4. **Outcome:** open. No read yet.
+
+USER-VISIBLE: every /cycles/<slug> curve now marks this year — a filled dot on the wave labelled "now · 2026" (on Dalio, sitting on the 2025 crest instead of the one 1950 dot being the only mark), with the reference peak as a keyed hollow ring — 57cb111 [proof: check-year-position 31/61 → 81/81 on production after Render deploy live 2026-09-29 17:46:02Z; the dot read back from pixels equals /api/v1/state year and cos on all 10 pages; check-entry-folds 13/13 at 320x568 with spare unchanged] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who views a cycle page leaves no trace · bug row W-003]
+
+mechanism-verified: `node scripts/check-year-position.mjs` (production, after the deploy) → `81/81 PASS`
+
+codexCalls: 2 (adversarial reviews; probe GREEN 13:03Z)
+adversarialReviews: 2 — EXECUTED (Target: working tree diff, both runs; run 1's finding FIXED in 57cb111; run 2 approve)
+hygiene helper: DISPATCHED ~17:04Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-09-29-r2.md PRESENT. Inputs: none. wait-justification PASS (5 of 13; I-010, minted after it ran, carries its own waitJustification). engineering-zero PASS (0 findings). READ-MUTATED: none.
+Ledger (all through `continuity-edit`):
+- I-010 minted as monitoring, with a waitJustification until 2026-10-03.
+- W-003: onTrigger gained its sixth question, and notes record that 57cb111 changed a surface it reads.
+[standing-rules-hash: 88cc2dc9]
+
+**What remains:** W-003's walk on 2026-10-03 is I-010's encounter read (and I-009's, I-008's, I-007's). Nothing else is owed on this outcome today.
+
+<!-- findings:begin -->
+**Round-2 P3 findings, 2026-09-29.** (1) The review's next-turning-point tick was measured against the figure and does not fit: Dalio's next low (2063) falls outside the 1600-2050 window, so it was not built. (2) The review was right that the period/peak list sits between the sentence and the figure, not the figure directly under the sentence; the plan was unchanged. (3) The P1 packet named Strauss-Howe as the collision case. The real one is **Turchin** (reference peak 2020): 9px apart at 1280 wide, 4-5px on a phone. Codex found it, and the fix is in 57cb111. (4) Before this change, the reference-peak dot drew at ~1.2px radius on a phone, so the page's only curve mark was barely visible there. Making it an HTML ring fixed that too.
+<!-- findings:end -->
