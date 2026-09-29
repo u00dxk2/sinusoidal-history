@@ -261,3 +261,166 @@ Today panel: updated (`update-daily-brief --phase P5 --date 2026-09-29`, ok).
 
 codexCalls: 0 (P5 needed none; the round's 2 adversarial reviews are counted at P3, b2ab77da)
 [standing-rules-hash: 88cc2dc9]
+
+# Round 3
+
+## P1 — Evidence and choice (round 3)
+
+[P1 — Evidence and choice]
+
+**Round 3, 2026-09-29.** Rounds 1 and 2 are done and are not being redone: I-009 `07c96d3`, and I-010 `57cb111`, whose round-2 close is eb2a75ab.
+
+**Outcome:** on a phone, `/state/2026` shows each cycle's phase word and its next peak and trough without a sideways swipe. Item: **I-010 follow-up**. A new row is minted at P3, as I-009 and I-010 were.
+**The problem, as a reader has it:** "I tapped 'Every cycle in 2026' to see where each one stands. I get a column of numbers like +0.67, then the table stops. Is it rising or falling? When is the next peak?"
+
+### Evidence
+
+- OBSERVED: I measured production myself (`tmp` scratch script, Playwright, 2026-09-29 ~22:40Z).
+  - iPhone 15 preset: 393x659, `(pointer: coarse)` true. The table is 576px wide inside a 353px `overflow-x: auto` box.
+  - Visible columns: Cycle, Period, Ref. peak, cos. Phase starts at x=350, so it is cut. Next peak (442-517) and Next trough (517-596) are off-screen.
+  - At **320x568**, `cos in 2026` is cut too. Only Cycle, Period and Ref. peak show.
+  - Page scrollWidth equals the viewport width, so the table box is the only horizontal scroller, and nothing marks it as one.
+  - Desktop 1440x900: all 7 columns show, in a 704px table.
+- OBSERVED: the cold walk (`skylark-site/docs/walks/2026-09-29/sinusoidal-cycles.md`, 21:02-21:41Z, iPhone 15 with touch proven) found the same problem as its #1: PHASE reads "RIS / FAL / PEA", and Next peak and Next trough are off-screen with no scroll cue.
+- OBSERVED: `/state/2026` is where the round-1 link "Every cycle in 2026 →" sends readers from all 10 cycle pages (the walk measured that tap at 433 ms). So it is the second step on the path the last two rounds built.
+- OBSERVED: `gsc-read --start 2026-09-01`, re-read now: **71 impressions, 0 clicks** in total. `/state/2026` is not among the listed pages (the list is truncated, but the total is whole). Readers arrive through the internal link, not from search.
+- HYPOTHESIS: the phase word and the dates are the answer this page promises ("where each … sits in 2026, with the next peak and trough"), so hiding them on a phone loses the page's point for anyone who taps through.
+- MISSING: any real-user evidence.
+  - The site has no client analytics (standing choice).
+  - `check-cycle-rotation` → exit 0: no product-love cycle picks this lane today.
+  - `docs/evangelism-bar.md` and `docs/evangelism-evidence.md` do not exist in this repo.
+  - W-003's cold walk on 2026-10-03 is the first reader-level read.
+- Not selected, carried as a finding: the walk's #3. Huntington at cos +0.98 reads "RISING" while Kondratiev and Khaldun at +0.99 read "PEAKING". That is a wording change to the phase bands, which the chart, `/api/v1/state` and the frozen `state-2026.csv` all share, so it does not belong in a layout round. The walk's #2 (the now-dot is below the phone fold) conflicts with the fold budget measured in round 1: 12px spare on `/cycles/turchin`.
+- Recurring prior finding that bears on this: round 1's journey-walk J10 (2026-08-24) already patched this table with a sticky name column. **This is the second time the phone table has come up, so per rule 2 I'm changing the layout rather than patching the scroller again.**
+
+### Permission
+
+This is the lane's own page template and it renders derived data, so the lane decides. `answered-cards`: no card is open on it. The W-001 freeze (until 2026-10-07) covers titles, meta, H1 text and URLs. This change touches none of them: `/state/2026`'s title, H1 and URL stay as they are.
+
+Not touched:
+- `public/data/state-2026.csv`, the frozen edition (primer: do not touch)
+- `/api/v1/state`
+- the phase-band math in `cycleMath`
+- any spectral surface
+
+### Next action: improve
+
+```
+node C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/f6a7b03a-705e-4c41-bbc3-6b6a55fccf73/scratchpad/state-phone-r3.mjs
+```
+
+That is the reproduction, and it has already been run once. The plan:
+
+1. Turn it into a committed check, `scripts/check-state-phone.mjs`, with a red arm that fails on production today.
+2. In `src/app/(app)/state/[year]/page.tsx`, below `sm` (640px), render the same `state` array as a stacked list instead of the table. Each entry shows:
+   - the cycle name as a link with a tap target of at least 44px
+   - the phase word
+   - "next peak YYYY · next trough YYYY"
+   - cos and period in a smaller line
+3. The table stays exactly as it is at `sm` and up (`hidden sm:block` / `sm:hidden`, so only one copy is in the accessibility tree at any width).
+4. Both views map over one array, so they cannot disagree.
+
+### Acceptance
+
+On the local build, then on production after the deploy:
+
+1. At 393x659 (iPhone 15, coarse pointer proven) and at 320x568, every one of the 10 cycles shows its phase word, next peak year and next trough year, each inside the viewport horizontally. Page scrollWidth equals the viewport width, and no element on the page scrolls sideways. The values equal `/api/v1/state?year=2026` for all 10: 30 of 30 fields per width. The new check does this, and its red arm fails on production before the deploy.
+2. At 1440x900 the table's 7 column headers and 70 cells are unchanged: rendered-text multiset of the table region, local build against production, identical.
+3. Each cycle name link in the phone list is at least 44px tall.
+4. `npm test` and `npm run typecheck` pass. The rendered-text gate on `/state/2026` (server-rendered, so this gate can see it) changes only by the phone list's lines. Title, H1 and meta description are byte-identical.
+
+### Delivery and encounter checks
+
+- **Delivery:** the Render deploy row for the new sha shows live, then acceptance 1-3 are read on production.
+- **Encounter:** blind at the reader level (no analytics). W-003's walk on 2026-10-03 already goes phone → `/cycles/dalio`. P3 adds one question: "tap 'Every cycle in 2026 →'. Which cycles are rising, and when is the next peak for Dalio?" It needs N = 1 walker and is readable at N = 1.
+
+### USER-FACING: yes
+
+Paths:
+- `src/app/(app)/state/[year]/page.tsx` (user-facing)
+- `scripts/check-state-phone.mjs` (new, internal)
+- `continuity/items.json` and `docs/daily/2026-09-29-prelaunch.md` (internal)
+
+No prose page and no `public/*.md` mirror changes. Not touched: `state-2026.csv`, `/api/v1/*`, `llms.txt`.
+
+### HYGIENE INPUTS
+
+Copied from this session's reads (round 3 carries no separate kickoff state block):
+
+- (a) Due rows not bearing on the choice: **none**. `check-due-gates-dispositioned --snapshot` re-run at ~22:35Z: "re-snapshot for 2026-09-29 is IDENTICAL to the existing one (0 id(s)) … 0 gate(s) due on/before 2026-09-29".
+- (b) Owed child rows: **none**. Read from the round-1 kickoff's `rows owed to you` (0 of 729). Not re-derived.
+- (c) CROSSED state reads: **none**. Read from the round-1 kickoff's reads; none crossed.
+
+codexCalls: 0 (probe GREEN 13:03Z per this prompt; P1 needed no delegate)
+
+## P3 — Product-work loop (round 3)
+
+[P3 — Product-work loop]
+
+**Round 3, 2026-09-29.** Action (improve): on a phone, `/state/2026` now shows each cycle's phase word and its next peak and trough without a sideways swipe. Below 640px the reading is a stacked list that leads with the answer ("Rising · next peak 2030"). The other turning point, cos, period and reference peak go on a quieter line under it. The table is unchanged from 640px up, and both views map over the same `state` array. Shipped as `b216a6c`, `3b0631f` and `50fe22f`. I-011 is minted as monitoring. The manager review (46791219) APPROVED the change, and its suggestion to lead each entry with the phase word and turning point, larger than the numbers, was built.
+
+**The four states**
+
+1. **Implementation.**
+   - Commits on `main`:
+     - `b216a6c`: the phone list, plus `scripts/check-state-phone.mjs`.
+     - `3b0631f`: check fixes from Codex round 1. The span now carries "peak 2030" whole.
+     - `50fe22f`: check fixes from Codex round 2.
+   - Paths: `src/app/(app)/state/[year]/page.tsx` and `scripts/check-state-phone.mjs`.
+   - `verify-with-receipt -- npm test`: 16 files, 124 tests pass. The receipt names 50fe22f4; the only later paths are docs.
+   - `npm run typecheck` and eslint on both files are clean. CI `ci.yml` is **GREEN** on 50fe22f (`check-ci-status --wait`, 48s).
+   - Codex review, 2 rounds. Each was a foreground `codex exec --sandbox read-only`, and each banner's `workdir: C:\dev\skylark\sinusoidal-cycles` matched this worktree.
+     - **Round 1, HEAD b216a6c:** 5 STATIC findings, all CONFIRMED and fixed in 3b0631f.
+       1. A swapped peak/trough label passed, because the label sat outside the checked span.
+       2. `checkVisibility()` ignored visibility, opacity and clipping ancestors.
+       3. The desktop leg counted cells without comparing any values.
+       4. The page read followed the clock (no `--year`).
+       5. The link height was compared after rounding.
+     - **Round 2, HEAD 3b0631f:** 3 STATIC findings.
+       - A missing or bad `--year` fell back to the current year: CONFIRMED, now REFUSED with exit 2. Reproduced: `--year` gives exit 2.
+       - An API error threw instead of failing: CONFIRMED, now FAIL with exit 3. Reproduced: `--year 1000` and `--year 2031` both give exit 3.
+       - A root `overflow: hidden` would pass: PLAUSIBLE, since the page has no such rule. This was the second blind-spot finding in two rounds, so under the stop-patching rule the check now names the case as NOT seen instead of growing a leg. Fixed in 50fe22f.
+     - No round was run on 50fe22f itself. That diff is the refusal paths plus a header comment, and all three of those paths were exercised live (above).
+   - Red arm for the new check:
+     - Production before the deploy read **18/40**.
+     - A local build mutated with swapped labels and an `invisible` phase word read **40/100**. Exactly the 60 legs for those two faults failed, and the build read 100/100 once restored (tree clean after the revert).
+   - Sibling sweep (the pattern: a wide table in an `overflow-x-auto` box). Grep `overflow-x-auto` over `src` finds **5 roots**. This page is one. Poster's deliberate 1200px poster and the embed-docs `<pre>` code block scroll on purpose. **1 real sibling hit, NOT fixed this round:** `src/components/VerdictTable.tsx:22-23`, the same `min-w-[36rem]` table in a sideways scroller, rendered on `/cycles` (page.tsx:339) and `/methods` (page.tsx:265). It is carried to the close as a candidate for the next round, since this round is one change.
+   - Extremes:
+     - At 320, 393 and 639 the list shows and no element scrolls sideways.
+     - At 640 the table shows, with no scroller.
+     - Checked in both light and dark on a phone. At 320, one wrap inside "ref. peak 1970" was fixed with per-segment nowrap before the first commit.
+
+2. **Delivery.** Render deploy `50fe22f` is **live** at 2026-09-29 23:28:54Z, read from the Render deploys API. `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-trigger service, per daily-config. Production reads after the deploy:
+   - `check-state-phone.mjs --year 2026`: **100/100**.
+     - On both phone sizes (iPhone 15, `(pointer: coarse)` true; 320x568), all 10 cycles show their phase word, "peak YYYY" and "trough YYYY". All equal `/api/v1/state`, all are visible and unclipped, and there is no sideways scroller.
+     - Links are 44.00px tall.
+     - At 1440 the table shows its 7 headers by name and all 10 rows agree with the API.
+   - Rendered text, built against production: **GREEN, 244 lines identical**.
+   - Line multiset, local build against production before the deploy: **0 lines lost**. The +120 lines are the phone list only.
+   - Title, meta description, H1 and canonical are byte-identical to pre-deploy production, so the W-001 freeze holds.
+
+3. **Encounter:** blind. The site has no client analytics, by standing choice, so a reader leaves no trace. The encounter read is W-003's cold walk on 2026-10-03, which now carries a **seventh question** (I-011): at 390 wide, tap "Every cycle in 2026 →" from /cycles/dalio, and without swiping, say which cycles are rising and when Dalio's next turning point is.
+
+4. **Outcome:** open. No read yet.
+
+USER-VISIBLE: on a phone, /state/2026 now lists each cycle as "Rising · next peak 2030" with the other turning point, cos, period and reference peak beneath — no sideways swipe; before, the table cut PHASE to "RIS" and hid next peak/trough off-screen — 50fe22f [proof: check-state-phone 18/40 → 100/100 on production after Render deploy live 2026-09-29 23:28:54Z; 30/30 phase/peak/trough fields per phone width equal /api/v1/state at 393x659 (coarse pointer) and 320x568; rendered-text built vs production GREEN 244 lines] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who views /state/2026 leaves no trace · bug row W-003]
+
+[red-armed: node scripts/check-state-phone.mjs https://sinusoidalhistory.com --year 2026 (before deploy) -> 18/40 FAIL — "no visible [data-state-id]" on all 10 cycles at both widths, "div.overflow-x-auto" sideways scroller]
+
+mechanism-verified: `node scripts/check-state-phone.mjs https://sinusoidalhistory.com --year 2026` (production, after the deploy) → `100/100 PASS`
+
+**Named for the close, not fixed (the review asked):** the walk's #3. Huntington at cos +0.98 reads "rising" while Kondratiev and Khaldun at +0.99 read "peaking", because of the ±3%-of-period band. Stacking the list puts those words side by side, so the disagreement is now easier to see, which confirms the review's HYPOTHESIS: on production they are rows 3, 5 and 9 of the list. It is a phase-band wording change shared with the chart, `/api/v1/state` and the frozen `state-2026.csv`, so it is recorded in I-011's notes for its own row and decision.
+
+codexCalls: 2 (two read-only review rounds; probe GREEN 13:03Z)
+adversarialReviews: 2 — EXECUTED (foreground codex exec --sandbox read-only; round 1 HEAD b216a6c, 5 findings fixed in 3b0631f; round 2 HEAD 3b0631f, 2 fixed + 1 named-not-seen in 50fe22f)
+hygiene helper: DISPATCHED ~22:48Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-09-29-r3.md PRESENT. Inputs: none. wait-justification `RESULT: PASS — 6 of 14`. engineering-zero `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. READ-MUTATED: none.
+Ledger (all through `continuity-edit`):
+- I-011 minted as monitoring, with a waitJustification until 2026-10-03. It was minted after the helper ran, so the close should re-run check-wait-justification.
+- W-003's onTrigger gained its seventh question.
+[standing-rules-hash: 88cc2dc9]
+
+**What remains:** W-003's walk on 2026-10-03 is I-011's encounter read, and also I-010's, I-009's, I-008's and I-007's. The phase-band wording (the walk's #3) needs its own row and decision. The sibling hit, the VerdictTable scroller on /cycles and /methods, is a next-round candidate: the close should mint it or say why not. Nothing else is owed on this outcome today.
+
+<!-- findings:begin -->
+**Round-3 P3 findings, 2026-09-29.** (1) The P1 packet named the walk's #3 (rising at +0.98 vs peaking at +0.99) as out of scope. The stacked list makes it more visible: Kondratiev, Huntington and Khaldun are rows 3, 5 and 9. It needs its own row and decision on the shared phase bands. (2) Sibling sweep: VerdictTable (/cycles, /methods) carries the same 36rem-table-in-a-scroller pattern. It is not fixed this round. (3) Two Codex rounds each found blind spots in the new check, not in the page. After the second, the check names its remaining blind spots (occlusion, contrast, vertical scroll) instead of growing legs.
+<!-- findings:end -->
