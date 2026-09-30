@@ -17,7 +17,7 @@
 // with its period; each entry's link shows that cycle's own name, points at that cycle's page,
 // is visible and at least 44px tall; nothing on the page scrolls sideways. At 1440x900 the table
 // shows its 6 headers by name and every row in order, identified by its link's name and href,
-// every cell equal to the JSON (the raw state code, as the unchanged table prints it) and
+// every cell equal to the JSON (the Verdict cell in the reader's words, as on phones) and
 // visible; the phone list is hidden. Codex round 1 (2026-09-30) added the identity, unpaired
 // and per-cell desktop legs: before them a swapped name or a wrong record could read GREEN.
 // The independent side is the frozen verdicts.json fetched from the origin, never the page's own
@@ -67,8 +67,9 @@ const want = primary.map((v) => {
     record: `${v.span_years}y record`,
     periods: `${v.cycles_covered.toFixed(1)} of 3.0 periods`,
     short: short > 0 ? `needs ${short} more years` : "long enough",
-    // The desktop row, cell by cell after the name (unchanged table: raw state code).
-    cells: [`${v.period_years}y`, `${v.span_years}y`, v.cycles_covered.toFixed(1), short > 0 ? `+${short}` : "—", v.state],
+    // The desktop row, cell by cell after the name. The Verdict cell says the state in the
+    // same words as the phone list (round 2, 2026-09-30): the raw code there read as jargon.
+    cells: [`${v.period_years}y`, `${v.span_years}y`, v.cycles_covered.toFixed(1), short > 0 ? `+${short}` : "—", LABELS[v.state]],
   };
 });
 // Identity, from /api/v1/cycles: the visible name is the cycle name before its em dash (the

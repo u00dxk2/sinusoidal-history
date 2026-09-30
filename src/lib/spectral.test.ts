@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { cycles } from "@/data/cycles";
 import { cycleSlug, cycleTheorist } from "@/lib/cycleRoutes";
-import { spectralPrimary } from "@/lib/spectral";
+import { SPECTRAL_STATE_LABELS, spectralPrimary } from "@/lib/spectral";
 
 // public/methods.md hand-mirrors the verdict table that /methods derives from verdicts.json.
 // The page cannot drift; the mirror can. This pins every mirrored row to the frozen JSON.
@@ -17,7 +17,7 @@ describe("methods.md verdict table mirror", () => {
       const row =
         `| [${cycleTheorist(cycle)}](https://sinusoidalhistory.com/cycles/${cycleSlug(cycle)}#does-it-hold-up)` +
         ` | ${v.period_years}y | ${v.span_years}y | ${v.cycles_covered.toFixed(1)}` +
-        ` | ${short > 0 ? `+${short}` : "—"} | ${v.state} |`;
+        ` | ${short > 0 ? `+${short}` : "—"} | ${SPECTRAL_STATE_LABELS[v.state]} |`;
       expect(md).toContain(row);
     }
   });

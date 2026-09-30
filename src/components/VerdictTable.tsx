@@ -132,8 +132,10 @@ export default function VerdictTable() {
                 <td className="py-3 pr-3 text-right font-mono text-[13px] text-ink/85 tabular-nums">
                   {yearsShort > 0 ? `+${yearsShort}` : "—"}
                 </td>
-                <td className="py-3 font-mono text-[11px] uppercase tracking-[0.1em] text-ink/80">
-                  {v.state}
+                {/* The same words the phone list leads with, not the raw state code (round 2,
+                    2026-09-30). It wraps inside the cell rather than widening the table. */}
+                <td className="py-3 text-[14px] leading-snug text-ink">
+                  {SPECTRAL_STATE_LABELS[v.state]}
                 </td>
               </tr>
             ))}

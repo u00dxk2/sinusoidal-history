@@ -470,6 +470,22 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs",
       "created": "2026-09-29",
       "updated": "2026-09-29"
+    },
+    {
+      "id": "I-014",
+      "type": "issue",
+      "priority": "P2",
+      "status": "open",
+      "identified": "2026-09-30",
+      "owner": "sinusoidal-cycles",
+      "title": "The spectral verdict table on /cycles and /methods prints the raw state code (INSUFFICIENT_DATA) from 640px up, while the phone list says it in words",
+      "hypothesis": "Found by the 2026-09-30 cold walk (skylark-site e57fa3eff, docs/walks/2026-09-30/sinusoidal-cycles.md finding 1, OBSERVED at 700 and 1440). src/components/VerdictTable.tsx printed {v.state} in the table's Verdict cell and SPECTRAL_STATE_LABELS[v.state] in the phone list (I-012). A tablet or desktop reader asking 'does this cycle hold up?' gets a code; a phone reader of the same page gets 'Insufficient data — no test possible'. public/methods.md mirrored the code, pinned by src/lib/spectral.test.ts.",
+      "notes": "Round 2 of 2026-09-30, approved by the manager review (bus 072df77b). Display only: reads the frozen verdicts.json, no spectral re-run or manifest change. The label wraps inside the cell (measured locally: 640 and 700 two lines, 768 and 1440 one line, scroller client = scroll at every width). /methods prose now joins each state code to its words (review suggestion).",
+      "closeWhen": "check-verdict-phone reads 308/308 on production with every desktop Verdict cell equal to the reader label (red on production before the deploy: 290/308, the 18 desktop row legs), and W-003's cold walk (2026-10-03) reads the verdict in words at a width of 640 or more.",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-phone.mjs https://sinusoidalhistory.com",
+      "nextEvaluation": "2026-10-03",
+      "created": "2026-09-30",
+      "updated": "2026-09-30"
     }
   ],
   "knownPatterns": [

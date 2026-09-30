@@ -300,10 +300,14 @@ export default function Methods() {
           <em>estimation</em>{" "}conventionally wants ~5). Below the gate the
           verdict is INSUFFICIENT_DATA and no code path emits a p-value; the
           test suite enforces that, not just convention. There are exactly
-          four verdict states: INSUFFICIENT_DATA,
-          NO_SIGNIFICANT_TARGET_POWER, MODEL_SENSITIVE (the AR(1) and AR(2)
-          nulls disagree at the Holm-adjusted threshold, so no verdict is
-          claimed), and SIGNIFICANT_TARGET_POWER. The 2026 run&apos;s
+          four verdict states, each shown in the tables in the words that
+          follow it: INSUFFICIENT_DATA (&ldquo;Insufficient data — no test
+          possible&rdquo;), NO_SIGNIFICANT_TARGET_POWER (&ldquo;No significant
+          target power&rdquo;), MODEL_SENSITIVE (&ldquo;Model-sensitive — no
+          verdict&rdquo;: the AR(1) and AR(2) nulls disagree at the
+          Holm-adjusted threshold, so no verdict is claimed), and
+          SIGNIFICANT_TARGET_POWER (&ldquo;Significant target
+          power&rdquo;). The 2026 run&apos;s
           headline:{" "}<strong className="font-medium text-ink">0 of the 9
           paired constructions reach the gate</strong>{" "}- none of these
           records is long enough to clear it, which is itself the finding.
