@@ -307,3 +307,35 @@ Ledger (all through `continuity-edit`):
 1. The check's third blind spot in three review rounds (identity, then visibility, then width band) was answered by a stated rule, not a new leg. The rule's own limit (per-cell visibility at tablet widths) is named, not closed.
 2. The sibling sweep found one reader-facing raw code the walk had not reported (the cycle-page note), on 9 pages.
 <!-- findings:end -->
+
+## Round 2 — Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-014 · P3 cc30c1ae
+
+**What shipped, in plain words:** from 640px up, the verdict table on /cycles and /methods says each verdict in words ("Insufficient data — no test possible"), the same words a phone shows. Each tested cycle page's note under its verdict says "Insufficient data" too.
+
+**Changed since the P3 post:**
+- The manager review (abc20c68) read the action as COMPLETED, with no defects in the shipped work.
+- Its process nit, the review numbering: `b1bfd0e`'s commit message says "Codex round 3". It was the first Codex review of this change (round 1 of 2 here). It was also the third round today, counting round 1's two, to find a gap in this same check. Both counts are true. The ledger does not depend on either.
+
+**Hygiene draft (round 2):** 0 lines, with nothing to accept, amend or reject (inputs: none).
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification: `RESULT: PASS — 8 of 17` at the helper. Re-run after I-014's wait: `RESULT: PASS — 9 of 18 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. No lockfile changed.
+
+**Due gates:** `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-09-30).
+
+**Ledger delta (all through `continuity-edit`, at P3):**
+- **I-014 minted → monitoring:** nextEvaluation 2026-10-03, with a waitJustification until then. readCommand is check-verdict-phone. linkedCommits: 033c1c4, b1bfd0e.
+  - The first half of its closeWhen (316/316 on production) is met. **Its encounter read is W-003's cold walk on 2026-10-03:** at 640px or wider, is the verdict in words, and does anything need a sideways scroll?
+  - Its notes carry the named limit: the check's no-sideways-scroll rule proves no overflow, not that every cell is visible at tablet widths.
+- **W-003:** its onTrigger gained the I-014 question.
+- Nothing else was touched at P5.
+
+**Pending reads:** W-003's cold walk on **2026-10-03** is the encounter read for I-014 (the wide-table question) and for I-007 through I-013.
+
+**Receipt:** P3's line (cc30c1ae) still holds. Nothing new.
+
+codexCalls: 2 (the two P3 review rounds; none at P5)
