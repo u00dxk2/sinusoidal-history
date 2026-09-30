@@ -124,7 +124,14 @@ function readEntry(id) {
       ? {
           text: link.textContent.replace(/\s+/g, " ").trim(),
           href: link.getAttribute("href") ?? "",
-          shown: link.checkVisibility(seen) && lr.left >= 0 && lr.right <= vw + 0.5 && lr.width > 0,
+          // Visible, inside the viewport, and its name not clipped inside its own box
+          // (Codex round 2: a 1px-wide overflow-hidden link kept its full textContent).
+          shown:
+            link.checkVisibility(seen) &&
+            lr.left >= 0 &&
+            lr.right <= vw + 0.5 &&
+            lr.width > 0 &&
+            link.scrollWidth <= link.clientWidth + 1,
           h: lr.height,
         }
       : null,
@@ -227,7 +234,9 @@ for (const path of ["/cycles", "/methods"]) {
               name: a?.textContent.replace(/\s+/g, " ").trim() ?? "",
               href: a?.getAttribute("href") ?? "",
               cells: tds.slice(1).map((td) => td.textContent.replace(/\s+/g, " ").trim()),
-              allVisible: tds.length > 0 && tds.every(visible),
+              // The link too, not just its cell (Codex round 2: a visibility:hidden link sat
+              // in a visible td).
+              allVisible: tds.length > 0 && tds.every(visible) && !!a && visible(a) && a.scrollWidth <= a.clientWidth + 1,
             };
           })
         : [],
