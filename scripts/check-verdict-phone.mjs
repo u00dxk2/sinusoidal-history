@@ -13,9 +13,13 @@
 // ([data-verdict-id]) shows the verdict in words (the state's reader label, not its code),
 // "<P>y period", "<S>y record", "<C> of 3.0 periods" and "needs <N> more years" (or "long
 // enough") — each equal to the JSON, each visible, each wholly inside the viewport and
-// unclipped by any ancestor; each unpaired cycle's entry says "Not tested"; nothing on the page
-// scrolls sideways; each cycle link is at least 44px tall. At 1440x900 the table shows its 6
-// headers by name, one row per entry, each verdict cell equal to the JSON; the phone list is hidden.
+// unclipped by any ancestor; each unpaired cycle's entry says "Not tested — no paired series"
+// with its period; each entry's link shows that cycle's own name, points at that cycle's page,
+// is visible and at least 44px tall; nothing on the page scrolls sideways. At 1440x900 the table
+// shows its 6 headers by name and every row in order, identified by its link's name and href,
+// every cell equal to the JSON (the raw state code, as the unchanged table prints it) and
+// visible; the phone list is hidden. Codex round 1 (2026-09-30) added the identity, unpaired
+// and per-cell desktop legs: before them a swapped name or a wrong record could read GREEN.
 // The independent side is the frozen verdicts.json fetched from the origin, never the page's own
 // data. The shortfall is recomputed here as ceil(3 x period - span) for ineligible rows — the
 // same arithmetic the component states, written out again so a slip there does not pass itself.
@@ -63,9 +67,28 @@ const want = primary.map((v) => {
     record: `${v.span_years}y record`,
     periods: `${v.cycles_covered.toFixed(1)} of 3.0 periods`,
     short: short > 0 ? `needs ${short} more years` : "long enough",
+    // The desktop row, cell by cell after the name (unchanged table: raw state code).
+    cells: [`${v.period_years}y`, `${v.span_years}y`, v.cycles_covered.toFixed(1), short > 0 ? `+${short}` : "—", v.state],
   };
 });
-const unpaired = allCycles.map((c) => c.id).filter((id) => !primary.some((v) => v.cycle_id === id));
+// Identity, from /api/v1/cycles: the visible name is the cycle name before its em dash (the
+// dash is load-bearing, AGENTS.md), and the URL slug is the id with underscores as hyphens.
+const byId = new Map(allCycles.map((c) => [c.id, c]));
+const nameOf = (id) => (byId.get(id)?.name.split("—")[0] ?? "").trim();
+const pathOf = (id) => `/cycles/${id.replace(/_/g, "-")}`;
+const missing = primary.find((v) => !byId.has(v.cycle_id));
+if (missing) {
+  console.log(`FAIL  verdict for "${missing.cycle_id}" names no cycle in /api/v1/cycles`);
+  process.exit(3);
+}
+for (const w of want) {
+  w.name = nameOf(w.id);
+  w.href = `${pathOf(w.id)}#does-it-hold-up`;
+}
+const unpaired = allCycles
+  .filter((c) => !primary.some((v) => v.cycle_id === c.id))
+  .map((c) => ({ id: c.id, name: nameOf(c.id), href: pathOf(c.id), period: `${c.period_years}y period`, periodCell: `${c.period_years}y` }));
+const UNTESTED = "Not tested — no paired series";
 const browser = await chromium.launch();
 
 const phones = [
@@ -94,10 +117,28 @@ function readEntry(id) {
     return { text: el.textContent.replace(/\s+/g, " ").trim(), inside };
   };
   const link = item.querySelector("a");
+  const lr = link?.getBoundingClientRect();
   return {
     fields: Object.fromEntries(["verdict", "period", "record", "periods", "short", "untested"].map((n) => [n, field(n)])),
-    linkH: link ? link.getBoundingClientRect().height : 0,
+    link: link
+      ? {
+          text: link.textContent.replace(/\s+/g, " ").trim(),
+          href: link.getAttribute("href") ?? "",
+          shown: link.checkVisibility(seen) && lr.left >= 0 && lr.right <= vw + 0.5 && lr.width > 0,
+          h: lr.height,
+        }
+      : null,
   };
+}
+
+// The entry's link: the cycle's own name, pointing at the cycle's own page, visible, ≥44px.
+function linkLegs(tag, link, name, href) {
+  check(
+    `${tag} link names and targets this cycle`,
+    !!link && link.text === name && link.href === href && link.shown,
+    link ? `"${link.text}" → ${link.href}${link.shown ? "" : " — NOT visible in the viewport"} (want "${name}" → ${href})` : "no link"
+  );
+  check(`${tag} link ≥44px`, !!link && link.h >= 44, link ? `${link.h.toFixed(2)}px` : "no link");
 }
 
 for (const path of ["/cycles", "/methods"]) {
@@ -138,40 +179,78 @@ for (const path of ["/cycles", "/methods"]) {
           f ? `"${f.text}" (JSON ${w[name]})${f.inside ? "" : " — OUTSIDE the viewport or clipped"}` : "missing"
         );
       }
-      check(`${tag} link ≥44px`, got.linkH >= 44, `${got.linkH.toFixed(2)}px`);
+      linkLegs(tag, got.link, w.name, w.href);
     }
-    for (const id of unpaired) {
-      const got = await page.evaluate(readEntry, id);
-      const f = got?.fields.untested;
-      check(`${at}: ${id} says not tested`, !!f && /^not tested/i.test(f.text) && f.inside, f ? `"${f.text}"` : "no visible entry");
+    for (const u of unpaired) {
+      const got = await page.evaluate(readEntry, u.id);
+      const tag = `${at}: ${u.id}`;
+      if (!got) {
+        check(`${tag} entry shown`, false, "no visible [data-verdict-id]");
+        continue;
+      }
+      for (const [name, wantText] of [["untested", UNTESTED], ["period", u.period]]) {
+        const f = got.fields[name];
+        check(
+          `${tag} ${name}`,
+          !!f && f.text === wantText && f.inside,
+          f ? `"${f.text}" (want ${wantText})${f.inside ? "" : " — OUTSIDE the viewport or clipped"}` : "missing"
+        );
+      }
+      linkLegs(tag, got.link, u.name, u.href);
     }
     await ctx.close();
   }
 
-  // Desktop: the table still answers, by header and by verdict, and the phone list is hidden.
+  // Desktop: the table is unchanged — every row, in order, identified by its link, every cell
+  // equal to the JSON and visible (inside the viewport's width; 1440 needs no scroll). The
+  // phone list is hidden.
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   await page.goto(url, { waitUntil: "domcontentloaded" });
   const d = await page.evaluate(() => {
+    const seen = { visibilityProperty: true, opacityProperty: true };
+    const vw = window.innerWidth;
     const table = [...document.querySelectorAll("table")].find((t) => /Spectral verdict/.test(t.caption?.textContent ?? ""));
-    const shown = !!table && table.checkVisibility({ visibilityProperty: true, opacityProperty: true });
+    const shown = !!table && table.checkVisibility(seen);
+    const visible = (el) => {
+      const r = el.getBoundingClientRect();
+      return el.checkVisibility(seen) && r.width > 0 && r.left >= 0 && r.right <= vw + 0.5;
+    };
     return {
       shown,
       heads: shown ? [...table.querySelectorAll("thead th")].map((th) => th.textContent.replace(/\s+/g, " ").trim()) : [],
-      rows: shown ? [...table.querySelectorAll("tbody tr")].map((tr) => [...tr.querySelectorAll("td")].map((td) => td.textContent.trim())) : [],
+      rows: shown
+        ? [...table.querySelectorAll("tbody tr")].map((tr) => {
+            const a = tr.querySelector("a");
+            const tds = [...tr.querySelectorAll("td")];
+            return {
+              name: a?.textContent.replace(/\s+/g, " ").trim() ?? "",
+              href: a?.getAttribute("href") ?? "",
+              cells: tds.slice(1).map((td) => td.textContent.replace(/\s+/g, " ").trim()),
+              allVisible: tds.length > 0 && tds.every(visible),
+            };
+          })
+        : [],
       listShown: [...document.querySelectorAll("[data-verdict-id]")].some((el) => el.checkVisibility()),
     };
   });
   const heads = ["Cycle", "Period", "Record", "Periods of 3.0", "Years short", "Verdict"];
   check(`${path} 1440: table shown`, d.shown);
   check(`${path} 1440: headers by name`, d.heads.join("|") === heads.join("|"), d.heads.join(" | "));
-  check(`${path} 1440: ${want.length + unpaired.length} rows`, d.rows.length === want.length + unpaired.length, `${d.rows.length} rows`);
-  const verdictCells = d.rows.filter((c) => c.length === 6).map((c) => c[5]);
-  check(
-    `${path} 1440: verdict cells equal the JSON, in order`,
-    verdictCells.join("|") === want.map((w) => w.state).join("|"),
-    verdictCells.join(" ")
-  );
+  const expected = [
+    ...want.map((w) => ({ id: w.id, name: w.name, href: w.href, cells: w.cells })),
+    ...unpaired.map((u) => ({ id: u.id, name: u.name, href: u.href, cells: [u.periodCell, UNTESTED] })),
+  ];
+  check(`${path} 1440: ${expected.length} rows`, d.rows.length === expected.length, `${d.rows.length} rows`);
+  expected.forEach((e, i) => {
+    const r = d.rows[i];
+    const ok = !!r && r.name === e.name && r.href === e.href && r.cells.join("|") === e.cells.join("|") && r.allVisible;
+    check(
+      `${path} 1440: row ${i + 1} ${e.id}`,
+      ok,
+      r ? `${r.name} → ${r.href} | ${r.cells.join(" | ")}${r.allVisible ? "" : " — a cell is NOT visible"}` : "no row"
+    );
+  });
   check(`${path} 1440: phone list hidden`, !d.listShown);
   await ctx.close();
 }

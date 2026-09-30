@@ -22,7 +22,8 @@ export default function VerdictTable() {
       {/* Phones get a stacked list: the table below is 36rem wide, and at 393px its Verdict
           column sat wholly off-screen behind an unmarked sideways scroll (I-012, measured
           2026-09-30). Same pattern as /state's list (I-011). The verdict leads, in words. */}
-      <ol className="sm:hidden border-t border-rule/30">
+      {/* role="list": Safari drops list semantics once list-style is none (Tailwind Preflight). */}
+      <ol role="list" className="sm:hidden border-t border-rule/30">
         {VERDICT_ROWS.map(({ v, cycle, yearsShort }) => (
           <li
             key={v.cycle_id}
