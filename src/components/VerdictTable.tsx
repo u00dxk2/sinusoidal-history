@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cycles } from "@/data/cycles";
 import { cycleRoutePath, cycleTheorist } from "@/lib/cycleRoutes";
-import { spectralPrimary } from "@/lib/spectral";
+import { SPECTRAL_STATE_LABELS, spectralPrimary } from "@/lib/spectral";
 
 // One row per primary verdict, in verdicts.json order (ascending period). Every value is
 // read from the frozen verdicts.json; the shortfall uses the exact span, never the rounded
@@ -19,7 +19,71 @@ const UNPAIRED = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id ==
 export default function VerdictTable() {
   return (
     <>
-      <div className="overflow-x-auto border-t border-rule/30">
+      {/* Phones get a stacked list: the table below is 36rem wide, and at 393px its Verdict
+          column sat wholly off-screen behind an unmarked sideways scroll (I-012, measured
+          2026-09-30). Same pattern as /state's list (I-011). The verdict leads, in words. */}
+      <ol className="sm:hidden border-t border-rule/30">
+        {VERDICT_ROWS.map(({ v, cycle, yearsShort }) => (
+          <li
+            key={v.cycle_id}
+            data-verdict-id={v.cycle_id}
+            className="border-t border-rule/20 first:border-t-0 pb-3"
+          >
+            <Link
+              href={`${cycleRoutePath(cycle)}#does-it-hold-up`}
+              className="inline-flex items-center min-h-11 font-display text-[18px] tracking-tight font-medium text-ink underline decoration-ink/25 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              {cycleTheorist(cycle)}
+            </Link>
+            <p className="text-[16px] leading-snug text-ink">
+              <span data-field="verdict" className="font-medium">
+                {SPECTRAL_STATE_LABELS[v.state]}
+              </span>
+              {" · "}
+              {/* The label rides inside each data-field span with its value, so a check
+                  that reads "72y record" also catches a swapped label (as on /state). */}
+              <span data-field="short" className="whitespace-nowrap tabular-nums">
+                {yearsShort > 0 ? `needs ${yearsShort} more years` : "long enough"}
+              </span>
+            </p>
+            <p className="mt-1 font-mono text-[12px] leading-relaxed text-ink-soft tabular-nums">
+              <span data-field="period" className="whitespace-nowrap">
+                {`${v.period_years}y period`}
+              </span>
+              {" · "}
+              <span data-field="record" className="whitespace-nowrap">
+                {`${v.span_years}y record`}
+              </span>
+              {" · "}
+              <span data-field="periods" className="whitespace-nowrap">
+                {`${v.cycles_covered.toFixed(1)} of 3.0 periods`}
+              </span>
+            </p>
+          </li>
+        ))}
+        {UNPAIRED.map((cycle) => (
+          <li
+            key={cycle.id}
+            data-verdict-id={cycle.id}
+            className="border-t border-rule/20 pb-3"
+          >
+            <Link
+              href={cycleRoutePath(cycle)}
+              className="inline-flex items-center min-h-11 font-display text-[18px] tracking-tight font-medium text-ink-soft underline decoration-ink/25 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              {cycleTheorist(cycle)}
+            </Link>
+            <p className="text-[14px] italic text-ink-soft">
+              <span data-field="untested">Not tested — no paired series</span>
+              {" · "}
+              <span data-field="period" className="whitespace-nowrap not-italic font-mono text-[12px] tabular-nums">
+                {`${cycle.period_years}y period`}
+              </span>
+            </p>
+          </li>
+        ))}
+      </ol>
+      <div className="hidden sm:block overflow-x-auto border-t border-rule/30">
         <table className="w-full text-left border-collapse min-w-[36rem]">
           <caption className="sr-only">Spectral verdict for each cycle–series pairing</caption>
           <thead>

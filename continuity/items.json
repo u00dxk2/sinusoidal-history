@@ -436,9 +436,10 @@
       "closeWhen": "A phone check in the shape of check-state-phone.mjs reads every verdict row's decisive fields visible, inside the viewport, with no sideways scroller, at 393x659 and 320x568 on production; the desktop table is unchanged.",
       "onTrigger": "Measure first: which VerdictTable columns are cut at 393 and 320 on /cycles and /methods. Then select it at a P1 or record why not.",
       "nextEvaluation": "2026-09-30",
-      "_readCommandNote": "No readCommand yet on purpose: no existing check reads this table's phone layout (check-entry-folds reads folds, check-state-phone reads /state). The first step of the work writes one in check-state-phone.mjs's shape and sets it here.",
+      "_readCommandNote": "No readCommand yet on purpose: no existing check reads this table's phone layout (check-entry-folds reads folds, check-state-phone reads /state). The first step of the work writes one in check-state-phone.mjs's shape and sets it here.\n\n | Set 2026-09-30: check-verdict-phone.mjs, in check-state-phone.mjs's shape. Red on production before the change (18/62); 242/242 on the local build.",
       "created": "2026-09-29",
-      "updated": "2026-09-29"
+      "updated": "2026-09-30",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-phone.mjs https://sinusoidalhistory.com"
     },
     {
       "id": "I-013",
