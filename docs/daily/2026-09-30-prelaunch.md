@@ -148,3 +148,37 @@ Ledger (all through `continuity-edit`):
 2. Two Codex rounds each found blind spots in the new check, not in the page. The classes differed: identity and coverage in round 1, visibility in round 2. Both were fixed and mutation-proven. If a third round finds another blind spot, the stop-patching rule says the check should name it rather than grow a leg.
 3. This was the third appearance of the wide-table-in-a-scroller shape (J10, I-011, I-012). After it, the sibling sweep reads 0 unintended scrollers in `src`.
 <!-- findings:end -->
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-012 · P3 d142d858
+
+**What shipped, in plain words:** on a phone, /cycles and /methods show each cycle's spectral verdict in words ("Insufficient data — no test possible · needs 18 more years"), with period, record and periods of 3.0 beneath it and no sideways swipe. From 640px up, the table is unchanged.
+
+**Changed since the P3 post:**
+- The manager review (a876efff) read the action as COMPLETED with 0 defects. It also OBSERVED 10 `data-verdict-id` entries served on each page.
+- The review's one HYPOTHESIS was that the `hidden sm:block` table might still scroll sideways between 640 and 768 with Verdict last. It is **REFUTED on production**: at 640x800 the scroller is client 576 / scroll 576 and all six columns, Verdict included, are FULL. 700x800 and 768x1024 are the same, on both /cycles and /methods (scratchpad `measure-verdict.mjs`, 2026-09-30 ~16:55Z). Nothing is owed.
+
+**Hygiene draft:** 0 lines, with nothing to accept, amend or reject (inputs: none).
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification: `RESULT: PASS — 7 of 17` at the helper. Re-run after I-012's new wait: `RESULT: PASS — 8 of 17 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable` (covers Sentry and Dependabot). No lockfile changed today.
+
+**Due gates:** `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-09-30). The one row, I-012, was re-dated to 2026-10-03.
+
+**Ledger delta (all through `continuity-edit`):**
+- **I-012 → monitoring** (at P3): nextEvaluation 2026-10-03, with a waitJustification until then.
+  - Its closeWhen is now W-003's encounter; the first condition was met on production today.
+  - readCommand is check-verdict-phone. linkedCommits: 2426658, da776d2, 2784e10.
+  - Its notes gained the 640-768 read and the delivery read (at P5).
+- **W-003**: its onTrigger gained an eighth question (at P3).
+- **I-013 unchanged**, and no board card filed on purpose. Its own closeWhen says the card goes up only if W-003's walk shows a reader tripping on rising vs peaking. Until then nothing is waiting on David, and the lane's recommendation (no band change for 2026) stays in the row's notes.
+
+**Pending reads:** W-003's cold walk on **2026-10-03** is the encounter read for I-012 (eighth question: at 390 wide on /cycles, does any record pass, and how many more years does Kondratiev's need), and also for I-007 through I-011 and I-013.
+
+**Receipt:** P3's line (d142d858) still holds. Nothing new.
+
+codexCalls: 2 (the two P3 review rounds; none at P5)
+
