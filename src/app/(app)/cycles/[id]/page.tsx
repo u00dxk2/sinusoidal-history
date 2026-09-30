@@ -511,7 +511,7 @@ export default async function CyclePage({ params }: Params) {
           </p>
           {!verdict.eligible && (
             <p className="text-[13px] leading-relaxed text-ink-soft mb-4">
-              INSUFFICIENT_DATA is an eligibility outcome under the
+              &ldquo;Insufficient data&rdquo; is an eligibility outcome under the
               site&apos;s pre-registered 3.0-period rule - the test is
               declined, not failed - and is not evidence for or against the
               theory.

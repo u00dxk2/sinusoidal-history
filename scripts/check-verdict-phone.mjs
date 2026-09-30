@@ -24,8 +24,11 @@
 // data. The shortfall is recomputed here as ceil(3 x period - span) for ineligible rows — the
 // same arithmetic the component states, written out again so a slip there does not pass itself.
 // Red arm: production before this change has no [data-verdict-id], so every per-row leg fails.
+// At 640, 700, 768 and 1440 the table is shown and neither its scroller nor the page scrolls
+// sideways (one rule, added after Codex round 3 found the 640-768 band unread).
 // NOT seen (named, as check-state-phone names them): occlusion by a later-painted element,
-// colour contrast, and whether the reader can scroll DOWN to the list.
+// colour contrast, whether the reader can scroll DOWN to the list, a table cell clipped by an
+// ancestor OTHER than the table's own scroller, and widths between the four measured.
 import { chromium, devices } from "playwright";
 
 const origin = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
@@ -263,6 +266,33 @@ for (const path of ["/cycles", "/methods"]) {
   });
   check(`${path} 1440: phone list hidden`, !d.listShown);
   await ctx.close();
+
+  // Every width the table serves, as one stated rule rather than more per-cell legs (Codex round
+  // 3, 2026-09-30, the third round to find a blind spot in this check): the table is shown and
+  // its scroller does not scroll, and neither does the page. A cell can only hide behind the
+  // table's own overflow box by making that box scroll, so this also covers the 1440 rows above.
+  for (const w of [640, 700, 768, 1440]) {
+    const wctx = await browser.newContext({ viewport: { width: w, height: 900 } });
+    const wpage = await wctx.newPage();
+    await wpage.goto(url, { waitUntil: "domcontentloaded" });
+    const s = await wpage.evaluate(() => {
+      const table = [...document.querySelectorAll("table")].find((t) => /Spectral verdict/.test(t.caption?.textContent ?? ""));
+      const sc = table?.parentElement;
+      return {
+        shown: !!table && table.checkVisibility({ visibilityProperty: true, opacityProperty: true }),
+        client: sc?.clientWidth ?? 0,
+        scroll: sc?.scrollWidth ?? 0,
+        page: document.documentElement.scrollWidth,
+        vw: window.innerWidth,
+      };
+    });
+    check(
+      `${path} ${w}: table shown, no sideways scroll`,
+      s.shown && s.scroll <= s.client + 1 && s.page <= s.vw,
+      `table ${s.shown ? "shown" : "NOT shown"} · scroller ${s.client}/${s.scroll} · page ${s.page}/${s.vw}`
+    );
+    await wctx.close();
+  }
 }
 
 await browser.close();
