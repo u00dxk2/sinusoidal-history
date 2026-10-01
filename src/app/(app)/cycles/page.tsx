@@ -202,12 +202,20 @@ export default function CyclesIndex() {
         <div className="editorial-rule mt-3 sm:mt-4" />
         <p className="mt-3 sm:mt-4 text-[15px] leading-[1.55] sm:text-[16px] sm:leading-[1.6] text-ink/85">
           {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at their stated period — that takes at least three full cycles of data.`}{" "}
-          <Link
-            href="/methods#spectral-testing"
-            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          {/* An in-page link to the per-cycle verdicts, which sit below all ten
+              entries — 3103px down at 390x664 before this (I-015, cold walk
+              2026-09-30). It replaced a link to /methods#spectral-testing, which
+              now sits in that section. py-[13px] grows the tap box from its
+              19px text box to 45px without growing the line: vertical padding on
+              an inline box does not change the line height, so the 320x568 fold
+              (30px spare) holds. nowrap keeps it one box; a wrapped link would
+              be two short ones. */}
+          <a
+            href="#does-any-hold-up"
+            className="py-[13px] whitespace-nowrap underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
-            How the test works →
-          </Link>
+            See which ones, and how short ↓
+          </a>
         </p>
       </header>
 
@@ -328,7 +336,7 @@ export default function CyclesIndex() {
       <section
         id="does-any-hold-up"
         aria-labelledby="does-any-hold-up-heading"
-        className="mt-14 space-y-3.5"
+        className="mt-14 space-y-3.5 scroll-mt-6"
       >
         <h2
           id="does-any-hold-up-heading"
@@ -337,6 +345,14 @@ export default function CyclesIndex() {
           Does any of them hold up?
         </h2>
         <VerdictTable />
+        <p className="text-[14px] leading-relaxed text-ink-soft">
+          <Link
+            href="/methods#spectral-testing"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink hover:text-ink transition-colors"
+          >
+            How the test works →
+          </Link>
+        </p>
       </section>
 
       {/* How the curves are drawn, and the confidence-tag glossary. Both were
