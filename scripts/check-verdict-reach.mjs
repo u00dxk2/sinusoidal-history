@@ -24,13 +24,20 @@
 // the edge hit-test runs at every size, visibility uses checkVisibility() so an ancestor's
 // opacity/visibility counts, the heading must land between CLEARANCE and LAND_MAX px (not just
 // "in view"), and the href is matched exactly.
+// Round 2 (2026-10-01, cold walk finding 1) added a Back leg: from the verdicts open a cycle,
+// press Back once, and /cycles must be on screen (path AND h1), not just in the address bar.
+// Red on production with the plain <a href="#…">: 24/28, every Back leg showing the cycle page
+// under the URL /cycles#does-any-hold-up. Where /cycles lands after Back is printed, not judged.
 // NOT seen: whether a reader notices the link (that is W-003's cold walk); occlusion anywhere
 // but the two hit-test points on the link's vertical centre line; clipping by an ancestor's
 // overflow; colour contrast; large text scaling; how far the method link sits below the
 // landing (on phones it is under all ten verdict entries: one scroll, then one tap); and widths
 // between the four measured.
-import { chromium, devices } from "playwright";
+import { chromium, devices, webkit } from "playwright";
 
+// --webkit runs every leg in Playwright's WebKit instead of Chromium: closer to iOS Safari than
+// Chromium, still not a real iPhone.
+const engine = process.argv.includes("--webkit") ? webkit : chromium;
 const origin = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
 const results = [];
 const check = (name, ok, detail = "") => {
@@ -51,7 +58,7 @@ const SIZES = [
   { name: "1440x900", ctx: { viewport: { width: 1440, height: 900 } }, touch: false },
 ];
 
-const browser = await chromium.launch();
+const browser = await engine.launch();
 try {
   for (const s of SIZES) {
     const ctx = await browser.newContext(s.ctx);
@@ -137,6 +144,36 @@ try {
       Boolean(method?.visible),
       method ? `"${method.text}"` : "no /methods#spectral-testing link inside #does-any-hold-up",
     );
+    // Back must come home (cold walk 2026-10-01, finding 1): open a cycle from the verdicts,
+    // press Back once, and /cycles must be on screen again — not just in the address bar. A
+    // native #hash jump pushes a null-state history entry, and the App Router ignores a popstate
+    // with no state (next/dist/client/components/app-router.js onPopState), so the URL changed
+    // and the cycle page stayed. The control trip (scroll, no link) always came back.
+    const cycle = page.locator('#does-any-hold-up a[href^="/cycles/"]:visible').first();
+    const cycleHref = await cycle.getAttribute("href");
+    if (s.touch) await cycle.tap();
+    else await cycle.click();
+    await page.waitForURL((u) => u.pathname !== "/cycles", { timeout: 10000 });
+    await page.waitForTimeout(800);
+    await page.goBack();
+    await page.waitForTimeout(1500);
+    const back = await page.evaluate(() => {
+      const h = document.getElementById("does-any-hold-up-heading");
+      return {
+        path: location.pathname,
+        hash: location.hash,
+        h1: document.querySelector("h1")?.textContent.trim(),
+        scrollY: Math.round(scrollY),
+        headingTop: h ? Math.round(h.getBoundingClientRect().top) : null,
+      };
+    });
+    // Where it lands is RECORDED, not judged: the reader came from the verdict list, and the
+    // detail says whether Back put them there (heading near the top) or at the page top.
+    check(
+      `${s.name}: one Back from a cycle opened there shows /cycles again`,
+      back.path === "/cycles" && back.h1 === "The ten cycles",
+      `opened ${cycleHref}; after Back: url ${back.path}${back.hash} · h1 "${back.h1}" · scrollY ${back.scrollY} · verdict heading at ${back.headingTop}px`,
+    );
     await ctx.close();
   }
 } finally {
@@ -144,5 +181,5 @@ try {
 }
 
 const pass = results.filter(Boolean).length;
-console.log(`\n${pass}/${results.length} ${pass === results.length ? "PASS" : "FAIL"}  (${origin})`);
+console.log(`\n${pass}/${results.length} ${pass === results.length ? "PASS" : "FAIL"}  (${origin}, ${engine.name()})`);
 process.exit(pass === results.length ? 0 : 3);

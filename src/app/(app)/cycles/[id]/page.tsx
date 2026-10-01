@@ -177,13 +177,13 @@ export default async function CyclePage({ params }: Params) {
               page — the same defect W-002 found on /cycles (2026-09-27): a
               bare tag that reads as a fact about the cycle and does nothing
               on touch. */}
-          <a
+          <Link
             href="#confidence"
             aria-label={`${confidenceLabel(cycle.confidence_level)}: what this confidence tag means`}
             className="underline decoration-dotted decoration-ink-soft/60 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
           >
             {confidenceLabel(cycle.confidence_level)}
-          </a>
+          </Link>
         </p>
         <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] max-[360px]:text-[28px] sm:text-[clamp(34px,5.2vw,52px)]">
           {cycle.name}
@@ -235,12 +235,12 @@ export default async function CyclePage({ params }: Params) {
             {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}
           </p>
           <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
-            <a
+            <Link
               href="#spectral-verdict"
               className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
             >
               The full verdict, the figure and the protocol →
-            </a>
+            </Link>
           </p>
         </section>
       )}
@@ -265,12 +265,12 @@ export default async function CyclePage({ params }: Params) {
           </p>
           {cycle.caveat && (
             <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
-              <a
+              <Link
                 href="#caveat"
                 className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
               >
                 Why there is none, in the caveat →
-              </a>
+              </Link>
             </p>
           )}
         </section>

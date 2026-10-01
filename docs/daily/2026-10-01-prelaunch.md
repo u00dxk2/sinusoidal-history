@@ -185,3 +185,77 @@ ACTION: COMPLETED · item I-015 · P3 ecba3770
 
 codexCalls: 0 (probe-red: machine-level exec RED at 15:14:27Z)
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+## Round 2 — P1, evidence and choice (2026-10-01, ~16:30 MT)
+
+**Outcome:** after a reader uses the /cycles header link "See which ones, and how short ↓" and then opens a cycle, browser Back brings back /cycles. **Item:** I-015 (monitoring). This is a defect in I-015's own change (`d69f696`/`26c244d`), so no new row is needed. Its fix and the new check leg are recorded on I-015 through `continuity-edit` at P3.
+
+**The user problem, in the reader's words:** "I tapped down to the verdicts, opened Carlota Perez, hit Back, and nothing happened." The URL changes to `/cycles#does-any-hold-up` but the Perez page stays on screen. A second Back is needed.
+
+### Section 0 (round-2 deltas only; round 1's Section 0 above still stands)
+
+- `git pull`: already up to date at `e1aba80`. The kickoff read CI as GREEN for `e1aba809` (run 36903745111). No code has changed since round 1's deploy of `26c244d`.
+- Listener: 🟢 relaunched by the SessionStart hook (pid 52456; SESSION START 22:14:55Z, hello 22:15:03Z, slug sinusoidal-cycles, replayed 0). Waker ranks 1-3 are armed and the loop is armed by `ScheduleWakeup`.
+- Codex: **GREEN** (the probe line on this prompt, machine-level exec at 22:18:38Z, SPAWN proven with fd-backed stdio). A cross-family review of the P3 diff is planned, plus the `d69f696..26c244d` gap the round-1 close named.
+- Primer: `docs/cold-starts/2026-10-01.md` read whole. Its banner still stands; round 2 will be appended to the same file at close.
+
+### Evidence
+
+- OBSERVED (cold walk, skylark-site `docs/walks/2026-10-01/sinusoidal-cycles.md` finding 1): /cycles → link → Perez → Back leaves Perez on screen with the URL at `/cycles#does-any-hold-up`. The control without the link returns correctly. Walked on Chromium, iPhone 15 emulation plus desktop. Walk window 20:00:00Z-20:22:55Z, to be excluded from every read.
+- OBSERVED (my reproduction on production, ~22:30Z, `tmp/repro-back.mjs`, Playwright Chromium; 1 run, 4 trips):
+
+  | Viewport | Trip | After one Back |
+  |---|---|---|
+  | iPhone 15 (tap) | WITH the link | url `/cycles#does-any-hold-up` · h1 "Carlota Perez — techno-economic paradigm" ✗ |
+  | iPhone 15 (tap) | control, scroll instead | url `/cycles` · h1 "The ten cycles" ✓ |
+  | 1440x900 (click) | WITH the link | url `/cycles#does-any-hold-up` · h1 "Carlota Perez — …" ✗ |
+  | 1440x900 (click) | control | url `/cycles` · h1 "The ten cycles" ✓ |
+
+- OBSERVED (mechanism, read in source): `node_modules/next/dist/client/components/app-router.js:284-288`. The App Router's `onPopState` returns early when `event.state` is null ("this case only happens when pushState/replaceState was called outside of Next.js"). A plain `<a href="#…">` is a native fragment navigation, so it pushes a history entry with null state. Back into that entry fires a popstate the router ignores. The walk's hypothesis is therefore confirmed in the code, not just inferred.
+- OBSERVED (the existing check is blind to this): `scripts/check-verdict-reach.mjs` has no navigation after the tap, so it read 24/24 on production with this bug live.
+- MISSING: real iOS Safari. Both the walk and my reproduction ran on Chromium. The mechanism is in the router's JavaScript, not the engine, so WebKit is expected to behave the same (HYPOTHESIS until a WebKit run).
+- MISSING: real-user evidence. There is no client analytics (a standing choice), no `docs/evangelism-bar.md`, and no `docs/evangelism-evidence.md`. `check-cycle-rotation --lane sinusoidal-cycles` → exit 0, "no product-love cycle picks this lane today; run the normal P3".
+- Why this one: I shipped it today, and it breaks the trip the link exists for (tap down, open one cycle, come back to compare). A live defect from my own change outranks new work.
+
+### Permission
+
+- I-015 is lane-owned and monitoring. Fixing a defect in its own change is a lane-owned navigation fix on an existing surface.
+- W-001's freeze (titles, meta, H1s, URLs to 2026-10-07) is untouched: no title, meta, H1 or URL changes, and the rendered text is the same.
+- No spectral or manifest surface is touched. No board card is open on this, and no David decision is needed.
+
+### Next action — improve (fix a live defect)
+
+Add the Back leg to the check first and red-arm it against production. At each size: tap the header link, tap a visible cycle link inside `#does-any-hold-up`, then `goBack()`. Pass means the path is `/cycles` and the h1 reads "The ten cycles". Then fix the link.
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-reach.mjs https://sinusoidalhistory.com
+```
+
+The fix to test first (HYPOTHESIS until measured): replace the header's `<a href="#does-any-hold-up">` with `next/link` (`<Link href="#does-any-hold-up">`), keeping `py-[13px] whitespace-nowrap`. The router then pushes the hash entry with its own `__NA` state, so popstate restores. Fallback if `Link`'s hash scroll ignores `scroll-mt-6` or misplaces the landing: a small client component that calls `preventDefault` + `scrollIntoView()` + `history.replaceState` and pushes no entry at all.
+
+### Acceptance
+
+- The new Back leg is **red on production before the deploy** and green after it, at all four sizes (iPhone 15 390x664, 360x560, 320x568, 1440x900).
+- Every existing leg stays green (24/24 today). In particular the landing stays 12-48px below the top, and the tap box stays ≥44px and one fragment.
+- `check-entry-folds` stays 13 of 13 at 390x664, 360x560 and 320x568, with `/cycles` ≥8px spare.
+- The rendered-text multiset of /cycles is unchanged.
+
+### Delivery and encounter checks
+
+- Delivery: the extended `check-verdict-reach` on production after Render goes live. The deploy sha is read from the Render deploys API.
+- Encounter: W-003's cold walk on **2026-10-03**. It adds a leg: after the I-015 find-the-list question, open one cycle from the list and press Back. A pass means the reader is back on /cycles without a second press. At this traffic there is no event to read (no client analytics), so the walk is the only encounter read.
+
+**USER-FACING: yes.** Paths: `src/app/(app)/cycles/page.tsx` (the header link), `scripts/check-verdict-reach.mjs` (internal check), `continuity/items.json` (internal, via `continuity-edit`).
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none** (read: `check-due-gates-dispositioned --print` → "0 gate(s) due on/before 2026-10-01", 19 rows swept).
+- (b) Owed child rows: **none** (read: the kickoff's "rows owed to you" → 0 of 739).
+- (c) Reads that crossed a threshold or could not be judged:
+  - **key numbers:** no `docs/key-metrics.json` yet, so this is unjudged rather than 0.
+  - **missingLinkedCommits:** NOTHING SWEPT, 0 of 0 considered.
+  - **prior-day retro:** 9 of 10 of my 09-30 findings are still on discipline, and 1 is carried (I-013, to 10-03). None recurred in a way that bears on this choice.
+
+**Held, not selected:** walk finding 2 (the per-cycle deep link lands with the cycle's h1 off-screen) and finding 3 (where the "0 of the 9" sits). Both are low severity per the walker, and both are behind W-003.
