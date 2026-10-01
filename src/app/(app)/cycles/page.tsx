@@ -214,7 +214,7 @@ export default function CyclesIndex() {
             href="#does-any-hold-up"
             className="py-[13px] whitespace-nowrap underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
-            See which ones, and how short ↓
+            See which ones, and how short <span aria-hidden>↓</span>
           </a>
         </p>
       </header>

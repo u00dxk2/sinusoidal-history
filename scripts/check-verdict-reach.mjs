@@ -20,8 +20,15 @@
 // header's link did not strand the method.
 // Red arm: production before this change has no link to #does-any-hold-up, so the first leg
 // fails at every size and the tap leg cannot run.
-// NOT seen: whether a reader notices the link (that is W-003's cold walk), occlusion by a
-// later-painted element, colour contrast, and widths between the four measured.
+// Review round 1 (fresh-context Claude, 2026-10-01, Codex probe RED) tightened four legs:
+// the edge hit-test runs at every size, visibility uses checkVisibility() so an ancestor's
+// opacity/visibility counts, the heading must land between CLEARANCE and LAND_MAX px (not just
+// "in view"), and the href is matched exactly.
+// NOT seen: whether a reader notices the link (that is W-003's cold walk); occlusion anywhere
+// but the two hit-test points on the link's vertical centre line; clipping by an ancestor's
+// overflow; colour contrast; large text scaling; how far the method link sits below the
+// landing (on phones it is under all ten verdict entries: one scroll, then one tap); and widths
+// between the four measured.
 import { chromium, devices } from "playwright";
 
 const origin = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
@@ -31,8 +38,11 @@ const check = (name, ok, detail = "") => {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  — " + detail : ""}`);
 };
 
-// Pixels the heading must clear below the viewport's top edge after the tap.
+// Pixels the heading must clear below the viewport's top edge after the tap, and the most it
+// may sit below it (scroll-mt-6 is 24px; a heading far down the screen means the anchor broke).
 const CLEARANCE = 12;
+const LAND_MAX = 48;
+const TARGET = 'a[href="#does-any-hold-up"]';
 
 const SIZES = [
   { name: "iPhone 15 390x664", ctx: { ...devices["iPhone 15"], viewport: { width: 390, height: 664 } }, touch: true },
@@ -52,18 +62,18 @@ try {
       check(`${s.name}: coarse pointer`, coarse, `(pointer: coarse) = ${coarse}`);
     }
     // The first-screen link: visible, nonzero, wholly inside the viewport at scroll 0.
-    const found = await page.evaluate(() => {
+    const found = await page.evaluate((target) => {
       const vh = innerHeight;
       const vw = innerWidth;
-      const all = [...document.querySelectorAll('a[href$="#does-any-hold-up"]')];
+      const all = [...document.querySelectorAll(target)];
       const rows = all.map((a, i) => {
         // The HIT box, not the text box: an inline link's padding is in its client rect and
         // in hit-testing without changing the line. One fragment only — a link that wraps
         // is two short boxes, and the first one is what a thumb meets.
         const rects = [...a.getClientRects()];
         const b = rects[0] ?? a.getBoundingClientRect();
-        const cs = getComputedStyle(a);
-        const visible = b.width > 0 && b.height > 0 && cs.visibility !== "hidden" && cs.display !== "none" && Number(cs.opacity) > 0;
+        // checkVisibility walks ancestors: an opacity:0 or visibility:hidden parent fails it.
+        const visible = b.width > 0 && b.height > 0 && a.checkVisibility({ opacityProperty: true, visibilityProperty: true });
         const inside = b.top >= 0 && b.bottom <= vh && b.left >= 0 && b.right <= vw;
         // Prove the box is really tappable at its top and bottom edges: whatever the browser
         // hit-tests there must be this link (or inside it), not the line above or below.
@@ -75,7 +85,7 @@ try {
         return { i, text: a.textContent.trim(), top: Math.round(b.top), bottom: Math.round(b.bottom), h: b.height, fragments: rects.length, hitEdges: hits.every(Boolean), visible, inside };
       });
       return { count: all.length, vh, rows };
-    });
+    }, TARGET);
     const first = found.rows.find((r) => r.visible && r.inside);
     check(
       `${s.name}: a link to the verdicts sits on the first screen`,
@@ -89,15 +99,16 @@ try {
       continue;
     }
     check(`${s.name}: that link is one box`, first.fragments === 1, `${first.fragments} fragment(s)`);
+    check(
+      `${s.name}: it hit-tests as the link at its top and bottom edges`,
+      first.hitEdges,
+      first.hitEdges ? "both edges hit the link" : "an edge hits something else",
+    );
     if (s.touch) {
-      check(
-        `${s.name}: its tap box is ≥44px tall and hit-tests as the link at both edges`,
-        first.h >= 44 && first.hitEdges,
-        `${first.h.toFixed(2)}px, edges ${first.hitEdges ? "hit the link" : "hit something else"}`,
-      );
+      check(`${s.name}: its tap box is ≥44px tall`, first.h >= 44, `${first.h.toFixed(2)}px`);
     }
     // Tap it and read where the heading lands.
-    const link = page.locator('a[href$="#does-any-hold-up"]').nth(first.i);
+    const link = page.locator(TARGET).nth(first.i);
     if (s.touch) await link.tap();
     else await link.click();
     await page.waitForTimeout(900);
@@ -109,18 +120,17 @@ try {
     });
     // Clearance, not just "in view": a heading flush against the top edge reads as cut off.
     check(
-      `${s.name}: the tap lands on "Does any of them hold up?" with ≥${CLEARANCE}px above it`,
-      Boolean(landed) && landed.text === "Does any of them hold up?" && landed.top >= CLEARANCE && landed.bottom <= landed.vh,
+      `${s.name}: the tap lands on "Does any of them hold up?" ${CLEARANCE}-${LAND_MAX}px below the top`,
+      Boolean(landed) && landed.text === "Does any of them hold up?" && landed.top >= CLEARANCE && landed.top <= LAND_MAX,
       landed ? `"${landed.text}" at ${landed.top}-${landed.bottom}px of ${landed.vh}, hash ${landed.hash}` : "no #does-any-hold-up-heading",
     );
-    // The method stays one tap away from the verdicts.
+    // The method is still linked from the verdict section (under the list, not beside the heading).
     const method = await page.evaluate(() => {
       const sec = document.getElementById("does-any-hold-up");
       const a = sec?.querySelector('a[href="/methods#spectral-testing"]');
       if (!a) return null;
       const b = a.getBoundingClientRect();
-      const cs = getComputedStyle(a);
-      return { text: a.textContent.trim(), visible: b.width > 0 && b.height > 0 && cs.visibility !== "hidden" && cs.display !== "none" };
+      return { text: a.textContent.trim(), visible: b.width > 0 && b.height > 0 && a.checkVisibility({ opacityProperty: true, visibilityProperty: true }) };
     });
     check(
       `${s.name}: the verdict section links to the method`,
