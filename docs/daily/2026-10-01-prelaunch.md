@@ -152,3 +152,36 @@ Ledger (all through `continuity-edit`):
 2. The review found two ways the new check could read GREEN for a link a reader cannot use (an ancestor's opacity, a heading far down the screen). Both were closed in round 1 and mutation-proven. Its remaining blind spots are named in the check's header rather than added as legs, per the stop-patching rule.
 3. The /cycles rendered-text extraction now splits the header link into two lines at its aria-hidden span. That is expected, the same shape as W-002's tag split.
 <!-- findings:end -->
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-015 · P3 ecba3770
+
+**What shipped, in plain words:** on /cycles, the headline "0 of the 9 paired theories have a record long enough…" now ends in "See which ones, and how short ↓". One tap jumps to the per-cycle verdicts on the same page, and the heading lands 24px below the top. Before, they sat 3103px down at 390x664 and nothing linked to them. "How the test works →" sits under the verdict list.
+
+**Changed since the P3 post:**
+- The manager review (6099b86b) read the action as COMPLETED with no defects. It confirmed `d69f696` and `26c244d` are ancestors of origin/main and that the tree matches the claim.
+- **The review gap, stated plainly, not as a pass.** Codex was RED all day (probe at 15:14:27Z), so **no cross-family review ran**. The only review was one same-family, fresh-context Claude sub-agent, on `d69f696`. The `26c244d` delta (its fixes) had **no second review round**. It was proven by mutation instead: 15/19 on a broken build, 24/24 on the real one.
+- The low-memory reaper stopped all three waker rungs at ~17:50Z. I relaunched them under David's 2026-09-26 standing go-ahead with 24,462,792 KB free (bus 84de49fe). This was not product work.
+
+**Hygiene draft:** 0 lines, with nothing to accept, amend or reject (inputs: none).
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification: `RESULT: PASS — 9 of 18` at the helper. Re-run at close, after I-015's wait: `RESULT: PASS — 10 of 19 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable` (Sentry and Dependabot). No lockfile changed today.
+
+**Due gates:** `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-10-01; 0 rows were due).
+
+**Ledger delta (all through `continuity-edit`):**
+- **I-015 minted → monitoring** (at P3): nextEvaluation 2026-10-03, with a waitJustification until then. readCommand is check-verdict-reach. linkedCommits: d69f696, 26c244d. The first half of its closeWhen (24/24 on production) is met.
+- **I-015 onTrigger** (at P5) now carries the pending read: W-003's cold walk on 2026-10-03 asks, before its eighth question, "at 390 wide on /cycles, cold: which cycles have a long enough record to test, and how did you find out?" Pass: answered through the header link within one tap.
+- **W-003**: its onTrigger gained that question (at P3).
+- **I-013 unchanged.** It is still David's decision, carried to 10-03, and goes on a board card only if W-003 shows a reader tripping on rising vs peaking.
+
+**Pending reads:** W-003's cold walk on **2026-10-03** is the encounter read for I-015 (the find-the-list question), I-008 through I-014, and I-013. Walk finding 3 (phone list names don't look much like links) is still held behind W-003's eighth question.
+
+**Receipt:** P3's line (ecba3770) still holds. Nothing new.
+
+codexCalls: 0 (probe-red: machine-level exec RED at 15:14:27Z)
+[standing-rules-hash: 88cc2dc9]
