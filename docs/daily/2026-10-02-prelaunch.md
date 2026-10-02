@@ -729,3 +729,36 @@ What remains:
 - In-flight status d0b6f392 is superseded by this post.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+## ROUND 3 — Close
+
+ACTION: COMPLETED · item I-018 · P3 5f0196da
+
+**State changed since the P3 post:** the live sha is now `e726f5e`, finished 21:55:50Z UTC (manager review 0dcdf0f8, Render deploys API). `cbfc8b6..e726f5e` touches only this report and `continuity/items.json`, so the code measured at 391/391 is the code serving.
+
+**Ledger delta:**
+- **I-018: closed → monitoring.** The close rule keeps a shipped change that still owes an encounter read in monitoring. `closedAt` was removed.
+  - `waitingFor` now names W-003's 10-03 walk.
+  - `waitJustification` is `{until 2026-10-03, unWait: W-003 answers the round-3 return question, owner sinusoidal-cycles}`.
+  - The note records why, and the live sha.
+- **W-003:** the round-3 return question was added to `onTrigger` (at P3). Its date is unchanged, 2026-10-03.
+
+**Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-02-r3.md`): 0 lines — 0 accepted · 0 amended · 0 rejected.
+- READ-MUTATED: none.
+- engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`.
+- wait-justification, re-run after I touched I-018: `RESULT: PASS — 13 of 23 row(s) carry waitJustification; 0 warn / 1 info`. The info line is I-019, structural, not due.
+
+**Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-02), 0 due.
+
+**Receipt:** P3's receipt (5f0196da) still holds and is not restated.
+
+**Pending reads:**
+- 2026-10-03: W-003 cold walk, with the round-3 return question. A link return should start at the left edge, and Back should keep the place. N = 1, synthetic. Not pulled forward.
+- Real iOS Safari: unwalked, no date.
+- 2026-10-07: W-001's Search Console read.
+
+**Carried:** I-019 (desktop labels at 7.8px).
+
+codexCalls: 0 at this close (2 this round, at P3)
