@@ -221,3 +221,126 @@ The same walk is still the encounter read for I-008 through I-015, and for I-013
 
 codexCalls: 1 (one foreground read-only Codex review run at P3; none at P5)
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## ROUND 2 — P1 — Evidence and choice
+
+**Outcome:** a phone reader can read the full spectral-verdict figure, and the /cycles sentence counts nine records instead of "each record below" over ten rows. **Item:** I-016 (monitoring). These are two of round 1's cold-walk findings on the change I-016 shipped. A follow-up row is minted through `continuity-edit` at P3.
+
+**The user problem, in the reader's words:** "The link said 'the full verdict, the figure'. I tapped it and got a picture whose labels I can't read, and tapping the picture did nothing." Second: "It says 'each record below'. There are ten rows below. Is the last one a record too?"
+
+### Section 0
+
+- `git pull`: already up to date at `b712295`. Working tree clean.
+- Listener: 🟢 SSE alive. The SessionStart hook relaunched it: pid 32944, SESSION START 15:20:24Z, hello 15:20:37Z, slug sinusoidal-cycles, replayed 0. Waker ranks 1-3 armed. Loop armed by `ScheduleWakeup` (`/loop-tick 2m`).
+- Codex: **GREEN** (the probe line on this prompt: machine-level exec 2026-10-02T06:16:15Z, 9.1h old). Not used at P1. A cross-family review of the P3 diff is planned.
+- CI: **GREEN** for `b71229538d` (`check-ci-status --workflow ci.yml`, 1 success, 0 failures, 0 pending).
+- Deploy drift: `check-deployed-sha-drift --service sinusoidal-history` is NOT-APPLICABLE-BY-REGISTRY: the service deploys on every commit, so the checker declines to judge it. That is neither a pass nor a stop. Liveness comes from the first-action read below. The commits since `4fe0aef` (`66e8040`, `dc4da1c`, `b712295`) are docs-only.
+- Primer first action: `check-verdict-landing https://sinusoidalhistory.com --fails-only` → **112/112 PASS**, 10 of 10 landings name the cycle at 390x664, 360x560, 320x568 and 1440x900 (Chromium, ~15:23Z). Round 1's ship holds.
+- Harness: running 2.1.287 · fleet UNIFORM (27 of 27 panes) · installed 2.1.287 (SAME).
+- Recs from round 1: no `## Recommendation` block in this report. Round 1's "What remains" list:
+  - W-003's walk: carrying to its own date, 2026-10-03.
+  - Re-ordering the verdict rows (I-012's order, W-003 question 8): carrying to 10-03. Not today.
+  - Walk finding 4 (keyboard focus after Back) and the box's generic `aria-label`: carrying. Not selected.
+  - Real iOS Safari: still unwalked.
+- Cycle rotation: `check-cycle-rotation --lane sinusoidal-cycles` → exit 0, "no product-love cycle picks this lane today; run the normal P3".
+- Due gates: snapshot re-taken, "IDENTICAL to the existing one", "0 gate(s) due on/before 2026-10-02" (20 ledger rows swept). Nothing was dropped.
+- Board: `answered-cards --project sinusoidal-cycles` → no waiting, answered or pending-verify cards.
+
+### Evidence
+
+- OBSERVED (cold walk of round 1, skylark-site `docs/walks/2026-10-02-r1/sinusoidal-cycles.md`, finding 1). Setup: Chromium emulating iPhone 15 at 393x659 with touch. N = 1 walker; 3 cycles opened, 1 of them via the figure path (Kondratiev). The figure renders 353px wide. Every label inside it is too small to read: the title, axis years, "INSUFFICIENT SPAN" and "target: 54y". A tap on the figure does nothing: URL and scroll were unchanged. Below it, "FIGURE SVG ↓" is capitals and "Figure PNG ↓" is mixed case.
+- OBSERVED (source): this is how the figure is built in the code, which is why a tap does nothing.
+  - The figure is a bare `<img>` inside a `<figure>` with no link, at `src/app/(app)/cycles/[id]/page.tsx:522-534`.
+  - The SVG has a `viewBox="0 0 900 500"` and no width or height. Its smallest text is 12 units, which renders at about 4.7 CSS px at 353 wide.
+  - The case mismatch: "Figure SVG ↓" is an `<a>` and "Figure PNG ↓" is a `<button>` in one `uppercase` list (`src/components/ReusePacket.tsx:75-84`). The button does not pick up the list's uppercase. HYPOTHESIS: Tailwind preflight's `text-transform: none` on buttons is the cause. P3 reads the computed style.
+- OBSERVED (cold walk, finding 2, both viewports): the sentence "None of the 9 paired theories can be tested yet. Each record below is shorter than…" sits above ten rows. The tenth, Turchin 50y, reads "Not tested — no paired series" and has no record. The page also states the result twice in different words: the intro says "0 of the 9 paired theories have a record long enough to check" and the list says "None of the 9 paired theories can be tested yet". The source is `src/app/(app)/cycles/page.tsx:357`, mirrored by `scripts/check-verdict-landing.mjs:69`.
+- HYPOTHESIS (not measured): a standalone SVG with only a viewBox opens at the phone's width. It would then be the same size as inline, though zoomable as a vector. Measuring what a tap actually opens is P3's first step. If it opens at 393px with nothing gained, the fallback is a phone-only horizontal scroller that shows the figure at its native 900px width inline. Either way the tap must do something.
+- MISSING: real-user evidence. The site has no client analytics (a standing choice). This repo has no `docs/evangelism-bar.md` or `docs/evangelism-evidence.md`. A synthetic walk is not a real-user encounter.
+- MISSING: real iOS Safari. The walk is Chromium emulation.
+- Not re-read: Search Console. W-001's read is dated 2026-10-07 and does not bear on this choice.
+- My own 10-01 finding "the Back bug was not one link" bears on this. So P3 changes the figure on all nine paired cycle pages, which share one component, and checks Back from the opened figure.
+
+### Permission, and the freeze
+
+- This is lane-owned layout and copy on existing surfaces. No board card is open on it and no David decision is needed.
+- **Spectral freeze:** the figures, `verdicts.json` and the manifest are not touched. Only the page markup around the `<img>` changes. The SVG bytes stay byte-identical, and the `--selftest` manifest is unaffected.
+- **W-001 freeze (titles, meta, H1s, URLs, to 2026-10-07):** none of these change.
+  - The /cycles sentence is body copy under an h2. Its change is logged in W-001's notes like round 1's.
+  - The /cycles intro sentence is the first paragraph, which is snippet-adjacent. It is **left alone**, so the two wordings stay different for now. P3 also confirms the /cycles meta description is not derived from either sentence.
+- I-013 (rising vs peaking) is David's decision and is not touched.
+- W-003's question "does it describe all of them?" (minted at round 1's close) was answered by the round-1 walker, who read the sentence as covering the tenth row. That is the Fail branch, and the row says "then the copy changes". P3 re-points that question to the new sentence.
+
+### Next action — improve
+
+Two small edits on one trip:
+
+1. **Selected:** the spectral figure on each of the nine paired cycle pages becomes a link to its own SVG, so a tap opens it full size and zoomable. It gets a visible "Tap to open full size" affordance on touch sizes, and the two download controls get the same case. If the opened SVG proves no more readable than inline, the phone-only scroller replaces the tap-out. The P3 measurement decides, not taste.
+2. The /cycles result sentence counts the records ("Each of the 9 records below…") and says the tenth row has no paired record. The text is derived from `verdicts.json`, and `check-verdict-landing.mjs` is updated in the same commit.
+
+First command, the red arm (prep only; it becomes a committed check leg at P3):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com
+```
+
+The new figure leg is written into this check during prep. On production today it must read red: the tap leaves the URL unchanged on 9 of 9 paired pages at the three phone sizes.
+
+### Acceptance
+
+- At 390x664, 360x560 and 320x568, on 9 of 9 paired cycle pages:
+  - Tapping the figure changes something a reader can use: either it navigates to `/data/spectral/<id>.svg` (200, `image/svg+xml`), or the inline figure renders at 900 CSS px in a scroller.
+  - The figure's 12-unit labels render at **≥ 11 CSS px** where the reader lands, measured from the `<text>` bounding box.
+  - Back from the opened SVG returns to the same scroll position.
+  - **Red today:** the tap does nothing and the labels render at ~4.7px.
+- "Figure SVG ↓" and "Figure PNG ↓" have the same computed `text-transform`. **Red today:** they differ.
+- /cycles at all four sizes: the result sentence names the count of records, and the tenth row is not covered by "each record". `check-verdict-landing` stays 112/112 with the updated sentence. Its `--mutate wrong-sentence` arm still goes red.
+- `check-entry-folds` stays 13 of 13 at the three phone sizes. No leg that is OK today may be cut. Cycle-page legs are at 12px or more today: the figure sits far below the first screen and the sentence is not on an entry fold.
+- `check-verdict-reach` stays 37/37, and `check-verdict-phone` keeps its count (316/316 at round 1).
+- The visible text of /cycles and one paired cycle page (production before vs after, line multiset) shows only the intended lines.
+- No title, meta description, H1 or URL changes. No byte of `public/data/spectral/` changes.
+
+### Delivery and encounter checks
+
+- **Delivery** (at P3): when Render reports the new deploy, read its sha from the Render deploys API and run the extended `check-verdict-landing` against production.
+- **Encounter:** W-003's cold walk on **2026-10-03**. It gains one question, asked after the walker follows "The full verdict, the figure and the protocol →" on a phone: "what is the target period on the figure, and what does the band over the record say?" Pass: the walker reads both from the figure.
+  - There is no client analytics, so no event will appear at any traffic level. The walk (N = 1, synthetic) is the only encounter read.
+  - Render request logs could show `/data/spectral/<id>.svg` fetched with a `text/html` Accept header, which is a tap-open rather than the inline `<img>` load. At the current traffic that is readable only in aggregate at the monthly `crawl-read`. It is noted, not promised.
+
+**USER-FACING: yes.** Paths:
+- User-facing: `src/app/(app)/cycles/[id]/page.tsx`, `src/components/ReusePacket.tsx`, `src/app/(app)/cycles/page.tsx`.
+- Internal: `scripts/check-verdict-landing.mjs` (the root lint reaches it), `CHANGELOG.md`, `continuity/items.json` (via `continuity-edit`), `docs/daily/2026-10-02-prelaunch.md`.
+- None of these pages has a markdown mirror. `public/llms.txt` states no figure or sentence text, and P3 re-checks it with Grep.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none**. Read: `check-due-gates-dispositioned --snapshot` ("0 gate(s) due on/before 2026-10-02", 20 rows swept).
+- (b) Owed child rows: **none**. Read: the kickoff's "rows owed to you" (0 of 739).
+- (c) Reads that crossed a threshold or could not be judged:
+  - key numbers: there is no `docs/key-metrics.json` yet, so this is unjudged, not 0.
+  - missingLinkedCommits: NOTHING SWEPT, 0 of 0 considered.
+  - prior-day retro: 11 of 11 of my 10-01 findings are still on discipline, with no machine behind them.
+  - deployed-sha-drift: NOT-APPLICABLE-BY-REGISTRY (commit-triggered service).
+
+Exclude from any request-log read:
+- The round-1 walk window, 2026-10-02T08:17:21Z-08:22:46Z.
+- My own probes, 2026-10-02T15:22Z-15:28Z: `check-verdict-landing`, which made page loads of /cycles and the ten cycle pages at four sizes.
+
+codexCalls: 0 (probe green; Codex is planned for the P3 diff review)
+
+**Prep after the P1 post (f451262e). Nothing committed.** `tmp/measure-figure-tap.mjs` ran on production at ~15:35Z UTC, Chromium with iPhone 15 emulation, on /cycles/kondratiev only.
+
+| Size | Inline figure | Tap on figure | SVG opened as its own page |
+|---|---|---|---|
+| 390x664 | 350px wide, 12-unit label ~4.7px | did nothing | 980px layout viewport, label 13 CSS px |
+| 360x560 | 320px, ~4.3px | did nothing | same |
+| 320x568 | 288px, ~3.8px | did nothing | same |
+
+- The red arm is confirmed: the tap does nothing at all three sizes.
+- **The HYPOTHESIS changes.** The opened SVG gets the browser's default 980px layout viewport and is zoomed out to fit the screen. A label measuring 13 CSS px therefore shows at about 5px on screen until the reader pinches. A tap-out buys pinch-zoom; it does not buy readable on arrival.
+- So **the phone-only inline scroller is the likelier shape**: the figure at its native 900px inside an `overflow-x-auto`, where 12-unit labels show at 12px with no zoom.
+- **Acceptance correction:** the "≥ 11 px" leg is measured in on-screen px (CSS px × visual-viewport scale), not CSS px. Measured that way, the tap-out reads ~5px and fails.
+- P3 still decides by measurement.

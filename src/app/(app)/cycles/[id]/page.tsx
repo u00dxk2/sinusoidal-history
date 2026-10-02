@@ -519,18 +519,34 @@ export default async function CyclePage({ params }: Params) {
               theory.
             </p>
           )}
+          {/* Below md the figure keeps its native 900px inside a sideways
+              scroller: shrunk to a phone's width its 10-unit axis labels drew at
+              ~4px and could not be read (cold walk 2026-10-02 r1, finding 1).
+              A tap opens the SVG on its own, for pinch-zoom. */}
           <figure className="border-t border-rule/30 pt-4">
-            {/* Static committed output of scripts/spectral_verdict.py; next/image
-                adds nothing to a same-origin SVG. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={`/data/spectral/${cycle.id}.svg`}
-              alt={`Spectral-verdict figure for ${cycle.name}: the paired series with the reference cosine, and its multitaper spectrum with a marker at the ${cycle.period_years}-year target period. Verdict: ${SPECTRAL_STATE_LABELS[verdict.state]}.`}
-              width={900}
-              height={500}
-              loading="lazy"
-              className="w-full h-auto"
-            />
+            <p className="md:hidden font-mono text-[12px] text-ink-soft mb-2">
+              Swipe sideways for the whole figure · tap it to open it on its own
+            </p>
+            <div
+              tabIndex={0}
+              role="region"
+              aria-label="Spectral-verdict figure, scrolls sideways"
+              className="overflow-x-auto md:overflow-visible"
+            >
+              <a href={`/data/spectral/${cycle.id}.svg`} className="block w-max md:w-auto">
+                {/* Static committed output of scripts/spectral_verdict.py; next/image
+                    adds nothing to a same-origin SVG. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/data/spectral/${cycle.id}.svg`}
+                  alt={`Spectral-verdict figure for ${cycle.name}: the paired series with the reference cosine, and its multitaper spectrum with a marker at the ${cycle.period_years}-year target period. Verdict: ${SPECTRAL_STATE_LABELS[verdict.state]}.`}
+                  width={900}
+                  height={500}
+                  loading="lazy"
+                  className="block w-[900px] max-w-none h-auto md:w-full md:max-w-full"
+                />
+              </a>
+            </div>
           </figure>
           <FigureDownloads
             svgHref={`/data/spectral/${cycle.id}.svg`}

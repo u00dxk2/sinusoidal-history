@@ -70,9 +70,10 @@ export function FigureDownloads({
   }
 
   // min-h-11 via [&_a]/[&_button]: these measured 109×16px on a phone.
-  // Canon R28; journey-walk 2026-08-24, J13.
+  // Canon R28; journey-walk 2026-08-24, J13. [&_button]:uppercase because preflight
+  // resets a button's text-transform, so "Figure PNG" sat mixed-case beside "FIGURE SVG".
   return (
-    <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-0 text-[12px] uppercase tracking-[0.16em] font-mono [&_a]:inline-flex [&_a]:items-center [&_a]:min-h-11 [&_button]:inline-flex [&_button]:items-center [&_button]:min-h-11">
+    <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-0 text-[12px] uppercase tracking-[0.16em] font-mono [&_a]:inline-flex [&_a]:items-center [&_a]:min-h-11 [&_button]:inline-flex [&_button]:items-center [&_button]:min-h-11 [&_button]:uppercase">
       <li>
         <a href={svgHref} download={`${slug}-spectral.svg`} className={LINK_CLASS}>
           Figure SVG ↓

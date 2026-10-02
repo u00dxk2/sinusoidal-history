@@ -9,8 +9,11 @@ import {
   seriesForCycle,
 } from "@/lib/cycleRoutes";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
-import { spectralHeadline } from "@/lib/spectral";
+import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
 import VerdictTable from "@/components/VerdictTable";
+
+// The verdict list's rows with no record: the same rule as VerdictTable's UNPAIRED.
+const unpairedCount = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id === c.id)).length;
 
 const TITLE = "The ten cycles";
 const DESCRIPTION =
@@ -352,10 +355,17 @@ export default function CyclesIndex() {
             answer; the count sat in the header ~3,000px up (cold walk 2026-10-02,
             finding 2). Here rather than in VerdictTable: /methods states its own
             count above the same component. */}
+        {/* "Each record below" sat over ten rows, one of which has no record
+            (cold walk 2026-10-02 r1, finding 2), so the sentence counts them. */}
         <p className="text-[16px] leading-[1.55] text-ink">
           {spectralHeadline.eligible_primary === 0
-            ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each record below is shorter than the three full periods a test needs; here is how far short.`
+            ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each of the ${spectralHeadline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
             : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to test.`}
+          {unpairedCount === 1
+            ? " One cycle has no paired series, so there is nothing to test."
+            : unpairedCount > 1
+              ? ` ${unpairedCount} cycles have no paired series, so there is nothing to test.`
+              : ""}
         </p>
         <VerdictTable />
         <p className="text-[14px] leading-relaxed text-ink-soft">

@@ -1,5 +1,28 @@
 # Changelog
 
+## The spectral-verdict figure can be read on a phone (2026-10-02, round 2)
+
+- **The figure keeps its own size on phones** (cold walk 2026-10-02 r1, finding 1). The
+  box's link promises "the full verdict, the figure and the protocol", and on a phone the
+  figure shrank to the column (288-350px), so its 10-unit axis labels drew at 3.2-3.9px
+  and its "target: 54y" label at 3.5-4.3px. A tap on it did nothing. Below 768px wide it
+  now renders at its native 900px inside a sideways scroller, under the line "Swipe
+  sideways for the whole figure · tap it to open it on its own", so its smallest labels
+  draw at 10px. A tap opens the SVG on its own for pinch-zoom, and Back returns to the
+  same scroll position. On desktop the figure keeps the column's width; a click there
+  also opens it on its own. The SVGs themselves are untouched (the
+  spectral manifest is frozen).
+- **"Figure PNG ↓" is capitalised like "FIGURE SVG ↓"**. Preflight resets a button's
+  `text-transform`, so the two download controls sat side by side in different cases.
+- **The /cycles result sentence counts its records** (finding 2). "Each record below"
+  sat over ten rows, one with no record. It now reads "Each of the 9 records below…" and
+  ends "One cycle has no paired series, so there is nothing to test." Both counts are
+  derived, from `verdicts.json` and `cycles.json`.
+- `scripts/check-verdict-landing.mjs` gains the figure legs (labels ≥10px, "target:"
+  ≥11px, the tap opens the figure, Back keeps the scroll, one case for both controls)
+  and the new sentence. Production before: 112/256. Local build after: 256/256.
+  `--mutate flat-figure` turns exactly the 144 figure legs red (112/256).
+
 ## Opening a cycle from the verdict list says which cycle it is (2026-10-02)
 
 - **The "Does it hold up?" box names its cycle** (I-015 follow-up; cold walk 2026-10-02,

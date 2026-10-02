@@ -1,7 +1,16 @@
 // After a reader opens a cycle from the /cycles verdict list, does the screen they land on say
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
-//   node scripts/check-verdict-landing.mjs [origin] [--fails-only] [--mutate hide-name|wrong-sentence|dead-link]
+//   node scripts/check-verdict-landing.mjs [origin] [--fails-only] [--mutate hide-name|wrong-sentence|dead-link|flat-figure]
+//
+// Round 2 (2026-10-02, cold walk docs/walks/2026-10-02-r1 findings 1-2) added the figure legs,
+// on each of the nine paired pages: the download controls share one case (all sizes); and at the
+// three touch sizes, from where the box's link lands, the figure's smallest (10-unit) labels
+// render at >=10px and its "target:" label at >=11px, a tap on the figure opens the SVG on its
+// own, and Back from it keeps the scroll position. Production before: 112/256 (every figure leg
+// red: labels at 3.2-3.9px, the tap did nothing, PNG mixed-case). --mutate flat-figure squeezes
+// the figure to the column, makes its link untappable and un-capitalises the PNG button.
+// The result sentence now counts its records and names the unpaired row(s).
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
 // Written 2026-10-02 from the cold walk of that morning (skylark-site
@@ -63,11 +72,19 @@ const SIZES = [
 // The sentence the page must show, rebuilt from the frozen verdicts the origin itself serves.
 // It mirrors the two branches in src/app/(app)/cycles/page.tsx; if that copy changes, this
 // leg goes red until the two agree again.
-const headline = (await (await fetch(`${origin}/data/spectral/verdicts.json`)).json()).headline;
-const EXPECTED =
-  headline.eligible_primary === 0
-    ? `None of the ${headline.total_primary} paired theories can be tested yet. Each record below is shorter than the three full periods a test needs; here is how far short.`
-    : `${headline.eligible_primary} of the ${headline.total_primary} paired theories have a record long enough to test.`;
+// The unpaired tail ("One cycle has no paired series…", round 2) counts the list's rows that
+// carry no verdict: the visible cycle links minus the primary verdicts.
+const verdicts = await (await fetch(`${origin}/data/spectral/verdicts.json`)).json();
+const headline = verdicts.headline;
+const expectedSentence = (rows) => {
+  const unpaired = rows - verdicts.primary.length;
+  return (
+    (headline.eligible_primary === 0
+      ? `None of the ${headline.total_primary} paired theories can be tested yet. Each of the ${headline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
+      : `${headline.eligible_primary} of the ${headline.total_primary} paired theories have a record long enough to test.`) +
+    (unpaired === 1 ? " One cycle has no paired series, so there is nothing to test." : unpaired > 1 ? ` ${unpaired} cycles have no paired series, so there is nothing to test.` : "")
+  );
+};
 
 async function openList(page) {
   await page.goto(`${origin}/cycles`, { waitUntil: "load", timeout: 60000 });
@@ -77,6 +94,93 @@ async function openList(page) {
     const t = document.getElementById("does-any-hold-up-heading")?.getBoundingClientRect().top;
     return t !== undefined && t >= 0 && t < innerHeight / 2;
   }, null, { timeout: 10000 });
+}
+
+// The figure the box's link promises ("the full verdict, the figure and the protocol"). Round-2
+// cold walk (docs/walks/2026-10-02-r1, finding 1): on a phone it rendered ~350px wide, its
+// 10-unit axis labels at ~4px, and a tap on it did nothing. Read from where the box link lands.
+// Font sizes come from the SVG the page itself points at, scaled by the width it renders at,
+// because an <img> exposes no text boxes. The smallest label must render at >= 10px and the
+// "target: Ny" label at >= 11px.
+const svgFonts = new Map();
+async function fontsOf(src) {
+  if (!svgFonts.has(src)) {
+    const svg = await (await fetch(`${origin}${src}`)).text();
+    const vb = Number(svg.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+)/)[1]);
+    const sizes = [...svg.matchAll(/<text[^>]*font-size="([\d.]+)"[^>]*>([^<]*)</g)].map((t) => ({ size: Number(t[1]), text: t[2] }));
+    svgFonts.set(src, {
+      vb,
+      min: Math.min(...sizes.map((t) => t.size)),
+      target: sizes.find((t) => t.text.startsWith("target:"))?.size ?? null,
+    });
+  }
+  return svgFonts.get(src);
+}
+
+async function checkFigure(page, s, path) {
+  if (mutate === "flat-figure") {
+    await page.addStyleTag({
+      content: "#spectral-verdict figure img { width: 100% !important; max-width: 100% !important } #spectral-verdict figure a { pointer-events: none } #spectral-verdict button { text-transform: none !important }",
+    });
+  }
+  const downloads = await page.evaluate(() => {
+    const ul = document.querySelector("#spectral-verdict a[download]")?.closest("ul");
+    return ul ? [...ul.querySelectorAll("a, button")].map((el) => getComputedStyle(el).textTransform) : [];
+  });
+  check(
+    `${s.name}: ${path} figure download controls share one case`,
+    downloads.length >= 2 && new Set(downloads).size === 1,
+    downloads.join(" / ") || "no download controls",
+  );
+  if (!s.touch) return;
+
+  // The reader's path: tap the box's link forward, as the landing leg above already proved it works.
+  await page.locator('#does-it-hold-up a[href="#spectral-verdict"]').tap();
+  await page.waitForFunction(() => location.hash === "#spectral-verdict", null, { timeout: 5000 });
+  const img = page.locator('#spectral-verdict figure img[src^="/data/spectral/"]');
+  const src = await img.getAttribute("src");
+  const f = await fontsOf(src);
+  await img.scrollIntoViewIfNeeded();
+  const g = await img.evaluate((el) => {
+    const b = el.getBoundingClientRect();
+    // The tap point: the middle of the part of the figure that is on screen.
+    const l = Math.max(b.left, 0), r = Math.min(b.right, innerWidth);
+    const t = Math.max(b.top, 0), btm = Math.min(b.bottom, innerHeight);
+    return { w: b.width, x: (l + r) / 2, y: (t + btm) / 2 };
+  });
+  const scale = g.w / f.vb;
+  const minPx = f.min * scale;
+  const targetPx = f.target === null ? null : f.target * scale;
+  check(
+    `${s.name}: ${path} figure's smallest labels render at ≥10px`,
+    minPx >= 10,
+    `${f.min}-unit text at ${minPx.toFixed(1)}px (figure ${Math.round(g.w)}px wide)`,
+  );
+  check(
+    `${s.name}: ${path} figure's "target:" label renders at ≥11px`,
+    targetPx !== null && targetPx >= 11,
+    targetPx === null ? "no target: label in the SVG" : `${f.target}-unit text at ${targetPx.toFixed(1)}px`,
+  );
+
+  const yBefore = await page.evaluate(() => scrollY);
+  await page.touchscreen.tap(g.x, g.y);
+  const opened = await page
+    .waitForFunction((src) => location.pathname === src, src, { timeout: 5000 })
+    .then(() => true, () => false);
+  check(`${s.name}: ${path} a tap on the figure opens it on its own`, opened, opened ? src : "the tap did nothing");
+  if (!opened) {
+    check(`${s.name}: ${path} Back from the opened figure keeps the scroll position`, false, "nothing to go back from");
+    return;
+  }
+  await page.goBack();
+  await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
+  await page.waitForFunction(() => new Promise((r) => { const y = scrollY; requestAnimationFrame(() => requestAnimationFrame(() => r(scrollY === y))); }), null, { timeout: 5000 });
+  const yAfter = await page.evaluate(() => scrollY);
+  check(
+    `${s.name}: ${path} Back from the opened figure keeps the scroll position`,
+    Math.abs(yAfter - yBefore) <= 2,
+    `scrollY ${Math.round(yBefore)} → ${Math.round(yAfter)}`,
+  );
 }
 
 const browser = await chromium.launch();
@@ -116,6 +220,10 @@ try {
         };
       });
     });
+    const hrefs = await page.evaluate(() =>
+      [...new Set([...document.querySelectorAll('#does-any-hold-up a[href^="/cycles/"]')].filter((a) => a.checkVisibility()).map((a) => a.getAttribute("href")))],
+    );
+    const EXPECTED = expectedSentence(hrefs.length);
     const hit = result.find((r) => r.text === EXPECTED);
     check(
       `${s.name}: the verdict list states its result, as verdicts.json has it, between the heading and the first row`,
@@ -124,9 +232,6 @@ try {
     );
     check(`${s.name}: that sentence is visible on the screen the header link lands on`, Boolean(hit?.shown), hit ? `at ${hit.top}px` : "no such sentence");
 
-    const hrefs = await page.evaluate(() =>
-      [...new Set([...document.querySelectorAll('#does-any-hold-up a[href^="/cycles/"]')].filter((a) => a.checkVisibility()).map((a) => a.getAttribute("href")))],
-    );
     check(`${s.name}: the list carries ten cycle links`, hrefs.length === 10, `${hrefs.length} visible`);
 
     let named = 0;
@@ -196,6 +301,7 @@ try {
           `${m.fwdH.toFixed(2)}px · top edge ${m.fwdHitTop ? "hits" : "misses"} · bottom edge ${m.fwdHitBottom ? "hits" : "misses"}`,
         );
       }
+      if (href.includes("#")) await checkFigure(page, s, path);
     }
     console.log(`  ${s.name}: ${named} of ${hrefs.length} landings name the cycle`);
     await ctx.close();
