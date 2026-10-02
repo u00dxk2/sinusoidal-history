@@ -344,3 +344,107 @@ codexCalls: 0 (probe green; Codex is planned for the P3 diff review)
 - So **the phone-only inline scroller is the likelier shape**: the figure at its native 900px inside an `overflow-x-auto`, where 12-unit labels show at 12px with no zoom.
 - **Acceptance correction:** the "≥ 11 px" leg is measured in on-screen px (CSS px × visual-viewport scale), not CSS px. Measured that way, the tap-out reads ~5px and fails.
 - P3 still decides by measurement.
+
+---
+
+[P3 — Product-work loop]
+
+## ROUND 2 — P3 — Product-work loop
+
+**Action (kind: improve):** I-017, minted today and following on from I-016. On a phone, the spectral-verdict figure that the box's link promises can now be read where the reader lands, and tapping it opens it on its own page. The /cycles result sentence now counts its nine records. The manager review (ce35aca9) REDIRECTED this change's acceptance:
+- **Its premise correction held.** The smallest text in the SVG is 10 units ("54y", the axis ticks) and "target: Ny" is 11, not 12. My P1 packet was wrong; finding 1 below.
+- **Its HYPOTHESIS held.** Opening a viewBox-only SVG on its own page fits it to the phone's screen, so a tap that opens it gains nothing by itself. My prep measurement agreed: the opened SVG got a 980px layout viewport and was zoomed out to fit.
+- **Its SUGGESTION was taken.** On phones the figure is drawn at its native 900px inside a sideways scroller, with a visible cue line. Tap-to-open stays as the extra.
+
+1. **Implementation.**
+   - **Commits on main:**
+     - `fc1ef40`: below 768px, the figure keeps 900px inside an `overflow-x-auto` region under the line "Swipe sideways for the whole figure · tap it to open it on its own". The figure is now a link to its own `/data/spectral/<id>.svg`. "Figure PNG ↓" is set uppercase on the button. /cycles reads "Each of the 9 records below… One cycle has no paired series, so there is nothing to test." (both counts derived). `check-verdict-landing` gains the figure legs.
+     - `4b7d2a1` (Codex r1): five check gaps closed. One real page defect, found by the tightened check: Back reset the scroller's sideways position. The new `FigureScroller` keeps it in sessionStorage. The has/have agreement in the eligible branch is fixed, and so is the button-case explanation.
+     - `d341757` (Codex r2 #3): the case leg reads the computed `text-transform` again. The ceiling is declared in the check's header.
+   - **The page defect the review exposed.** Back from the opened SVG kept `scrollY` exactly but reset the figure's `scrollLeft` from 200 to 0 on **27 of 27** phone landings (local build, measured). The browser restores the page's scroll, not an inner scroller's. Fixed and re-read: 283/283.
+   - **Gates:**
+     - `verify-with-receipt -- npm test`: 124/124, exit 0, on `d341757`.
+     - lint: clean on every changed file.
+     - typecheck: clean.
+     - CI: **GREEN** for `d341757` (`check-ci-status --workflow ci.yml --wait`, 1 success, 0 failures).
+   - **Review: cross-family, Codex, read-only, foreground pipe, banner workdir checked = `C:\dev\skylark\sinusoidal-cycles` on both rounds.**
+     - **r1** on `b712295..fc1ef40` (head confirmed by the reviewer). 0 defects in the page markup. 8 STATIC findings:
+       - #1-#5 (P2, check gaps): CONFIRMED, fixed in `4b7d2a1`.
+         - Size was judged by width alone.
+         - The tap leg proved only a pathname.
+         - The Back leg ignored the sideways position. This one was REAL on the page.
+         - The case leg read computed style, not drawn text.
+         - `dead-link` threw.
+       - #6 (P3): Preflight was wrongly blamed for the button case (it has no `text-transform`). CONFIRMED, fixed in `4b7d2a1`.
+       - #7 (P3): the "12 units" error in this report. CONFIRMED, corrected in the findings below.
+       - #8 (P3): "1 of the 9 … have". CONFIRMED, pre-existing, unreachable today, fixed in `4b7d2a1`.
+     - **r2** on `fc1ef40..4b7d2a1` (fresh aim: `FigureScroller`, the tightened legs). 0 defects in the component: hydration, storage, clamping and cleanup were all read clean. Three STATIC P2 findings on the check:
+       - #3 (I had dropped the acceptance's computed `text-transform`): CONFIRMED, fixed in `d341757`.
+       - #1 (an inner overflow ancestor can hide an outer `overflow:hidden`) and #2 (padding inside a 900x500 img box): CONFIRMED as possible. **Not patched.** They are the same class as r1 #1, geometric proxies fooled by contrived CSS. By the stop-patching rule, the second appearance is declared as a CEILING in the check header and not patched a third time. "Can read it" is proven by a person, at W-003's walk.
+     - `d341757` is check-only and had no r3. It is proven by a mutation instead: `literal-case` turns exactly the 36 case legs red.
+   - **Proof the instrument fails** (portable rule 1). All runs are on the local build of `4b7d2a1`/`d341757`, and the tree was clean after each:
+
+     | Run | Result | Legs that went red |
+     |---|---|---|
+     | Unmutated | **283/283** | none |
+     | `flat-figure` | 139/283 | 144 figure legs: size ×54, tap ×27, Back ×27, case ×36 |
+     | `clip-figure` | 256/283 | the 27 reachability legs |
+     | `lose-place` | 256/283 | the 27 Back legs |
+     | `literal-case` | 247/283 | the 36 case legs |
+     | `dead-link` | 118/175 | completes now; 30 tap-box legs plus 27 "box link reaches the figure" legs |
+     | `wrong-sentence` | 275/283 | the 8 sentence legs |
+     | `hide-name` | 243/283 | the 40 naming legs |
+
+     Production before the deploy: **112/256** on the first version of the check. Every figure leg was red: labels at 3.2-3.9px, a tap did nothing, PNG in mixed case.
+   - **Sibling sweep.**
+     - Pattern: the spectral figure `<img src="/data/spectral/…">`, and the `FigureDownloads` control pair.
+     - Roots: `src/`.
+     - Hits: 1 figure site (`cycles/[id]/page.tsx`, shared by all nine paired pages) and 1 `FigureDownloads` use. /methods carries no spectral figure image.
+
+2. **Delivery.**
+   - Render deploy `d341757b0bb762d6408a18b6da1ca68aff1d5b0e` is **live**, finished **2026-10-02 17:09:14Z UTC** (Render deploys API, srv-d7mcat7lk1mc73bidim0). The wait was bounded at 15 minutes and ended on "observed live".
+   - `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-triggered service.
+   - Production reads after the deploy:
+     - `check-verdict-landing https://sinusoidalhistory.com --fails-only`: **283/283** (112/256 before). 10 of 10 landings name the cycle at all four sizes. On 9 of 9 paired pages at 390x664, 360x560 and 320x568: labels at 10px, "target:" at 11px, the figure reachable by swipe, a tap opens `image/svg+xml`, and Back keeps scrollY and scrollLeft.
+     - `check-entry-folds`: **13 of 13** at 390x664, 360x560 and 320x568. `/` is 4px at 360x560 (unchanged since 09-24). `/cycles/turchin` is 12px at 360x560 and 320x568 (unchanged).
+     - `check-verdict-reach`: **37/37**. `check-verdict-phone`: **316/316**.
+     - Visible text, production before vs after (line multiset): /cycles swaps the one sentence; /cycles/kondratiev gains the one cue line; /cycles/turchin-fathers-sons is identical. Nothing else.
+     - The W-001 freeze holds: no title, meta description, H1 or URL changed, and no byte under `public/data/spectral/` changed. The changed strings are logged in W-001's notes.
+
+3. **Encounter:** blind. The site has no client analytics (a standing choice), so a reader swiping the figure leaves no trace. The read is W-003's cold walk on 2026-10-03, which gains the I-017 questions:
+   - The figure: target period and band, read without pinch-zoom, then swipe, tap and Back.
+   - The re-pointed "how many rows" question, now on the new copy.
+
+4. **Outcome:** open. No read yet.
+
+USER-VISIBLE: on a phone, the spectral-verdict figure on all nine paired cycle pages is now drawn at full size in a sideways scroller (its smallest labels at 10px, were 3.2-3.9px), a tap opens it on its own and Back returns to the same place, "Figure PNG" matches "FIGURE SVG", and /cycles says "Each of the 9 records below… One cycle has no paired series" instead of "each record below" over ten rows — fc1ef40 [proof: check-verdict-landing 112/256 → 283/283 on production after Render deploy d341757 live 2026-10-02 17:09:14Z UTC; entry folds 13 of 13 at all three phone sizes; verdict-reach 37/37; verdict-phone 316/316] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader on the figure leaves no trace · bug row W-003]
+
+[red-armed: node scripts/check-verdict-landing.mjs https://sinusoidalhistory.com (production before the deploy) -> 112/256 FAIL — "figure's smallest labels render at ≥10px — 10-unit text at 3.9px (figure 350px wide)", "a tap on the figure opens it on its own — the tap did nothing", "download controls share one case — uppercase / none" on 9 of 9 paired pages at every touch size]
+
+mechanism-verified: `node scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only` (production, after the deploy) → `283/283 PASS`
+
+codexCalls: 2 (two foreground `codex exec --sandbox read-only` review runs, r1 and r2)
+adversarialReviews: 2 — EXECUTED (Codex r1 on b712295..fc1ef40: 0 page defects, 8 findings, 8 confirmed and acted on; r2 on fc1ef40..4b7d2a1: 0 component defects, 3 findings, #3 fixed in d341757, #1-#2 declared a ceiling under the stop-patching rule; d341757 check-only, proven by literal-case mutation, no r3)
+hygiene helper: DISPATCHED ~15:40Z UTC · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-02-r2.md PRESENT (0 disposition lines; inputs none). wait-justification `RESULT: PASS — 11 of 20`. engineering-zero `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. READ-MUTATED: none. No production-shaped finding, so no status was posted.
+
+**Ledger** (all through `continuity-edit`):
+- **I-017** minted, monitoring to 2026-10-03, with the problem, the fix, both reviews, the mutation table and closeWhen = 283/283 on production (met) plus W-003's answers.
+- **W-003:** onTrigger gains the I-017 figure question and the re-pointed rows question.
+- **W-001:** notes gain the changed body strings and the ship's Search Console day (the 2026-10-02 Pacific bucket).
+
+**What remains:**
+- W-003's walk on 2026-10-03 is the encounter read for I-016 and I-017.
+- Not done, on purpose:
+  - The two check ceilings (r2 #1-#2).
+  - The desktop figure: it still draws at the column's width, with 10-unit labels below 10px. Not measured today and not in this acceptance.
+  - The /cycles intro sentence still words the result differently from the list ("0 of the 9 … have a record long enough to check"). It is the first paragraph, which Google can use as the search snippet, so it is left alone under the W-001 freeze to 10-07.
+- Real iOS Safari is still unwalked.
+
+<!-- findings:begin -->
+**P3 findings, 2026-10-02 round 2.**
+1. My P1 packet and the prep note said the figure's smallest text was 12 units. It is 10 (the axis ticks), with "target: Ny" at 11. The manager review caught it (ce35aca9), and so did Codex r1 #7. The "~4.7px" in the packet should read 3.9px for the 10-unit labels at 390 wide.
+2. A tightened check found a page defect the first version could not see: the browser restores a page's scroll on Back but not an inner scroller's (scrollLeft 200 → 0, 27 of 27). Any sideways scroller this site adds needs its own restore.
+3. Two review rounds found the same class in the figure check: geometric proxies that contrived CSS can fool. By the stop-patching rule I declared it a ceiling in the header rather than patching a third time. A check can show the figure is drawn at 900px; only a person can show it is readable.
+<!-- findings:end -->
+
+[standing-rules-hash: 88cc2dc9]
