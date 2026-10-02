@@ -1,36 +1,55 @@
 // After a reader opens a cycle from the /cycles verdict list, does the screen they land on say
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
-//   node scripts/check-verdict-landing.mjs [origin]
+//   node scripts/check-verdict-landing.mjs [origin] [--fails-only] [--mutate hide-name|wrong-sentence|dead-link]
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
 // Written 2026-10-02 from the cold walk of that morning (skylark-site
 // docs/walks/2026-10-02/sinusoidal-cycles.md, findings 1-3). Measured on production before the
 // change, over every link in the list at four sizes: each list link lands on the cycle page's
 // "Does it hold up?" box with the h1 136-288px above the screen, and the box's text never named
-// the cycle, so 0 of the 9 paired cycles named themselves on the landing screen at any phone size
-// (4 of 9 at 1440, by accident: the name appears further down the same screen). The list showed
-// nine rows of one identical verdict with no sentence stating the result, and the box's one link
-// forward was 17px tall on phones.
+// the cycle, so 0 of the 10 landings named the cycle at any size. The list showed nine rows of
+// one identical verdict with no sentence stating the result, and the box's one link forward was
+// 17px tall on phones (38px at 320, where it wraps).
 //
 // Legs, at the iPhone 15 preset at 390x664, 360x560 and 320x568 with touch, and 1440x900:
-// - after the header's "See which ones, and how short ↓", a sentence opening "None of the" (or
-//   "N of the M") is visible on screen, inside #does-any-hold-up;
+// - after the header's "See which ones, and how short ↓", the result sentence is on screen
+//   between the section's heading and its first verdict row, and its text is EXACTLY the
+//   sentence that the origin's own /data/spectral/verdicts.json headline implies;
 // - for EVERY cycle link in the list (all ten, not a sample): open it, and the #does-it-hold-up
-//   box's text contains the exact text of the link that was tapped, and that text is inside the
-//   viewport; on a touch size the box's own link (to #spectral-verdict, or #caveat on the one
-//   unpaired cycle) has a hit box at least 44px tall.
-// Red arm: production before 2026-10-02's change fails the result leg at every size and the
-// naming leg on all ten cycles at every size (the box never carried a name).
-// NOT seen: whether a reader notices the name (that is W-003's cold walk); entries into the box
-// from anywhere but /cycles (the /methods table and markdown links land the same way and get the
-// same box, but are not walked here); widths between the four measured; real iOS Safari.
+//   box carries the exact text of the link that was tapped, as a text node that is visible
+//   (checkVisibility with opacity and visibility), wholly inside the viewport, and on top at
+//   its own centre (elementFromPoint); on a touch size the box's own link goes where it
+//   should (#spectral-verdict, or #caveat on the one unpaired cycle), is at least 44px tall
+//   unrounded, and hit-tests as that link at its top and bottom edges.
+// Red arms. Production before 2026-10-02's change: 34/112 (only the "ten links" and "goes
+// to the right anchor" legs pass). On the changed build, unmutated: 112/112.
+// --mutate breaks the loaded page on purpose, so each predicate is shown to fail on a build
+// where it otherwise passes (Codex review r1, 2026-10-02, found the first version of each leg
+// could pass on a broken page): hide-name sets the name to visibility:hidden (every naming
+// leg must FAIL), wrong-sentence rewrites the result sentence to a false count (the result
+// legs must FAIL), dead-link puts pointer-events:none on the box's link (every tap leg must
+// FAIL). A mutated run exits 3 by design.
+// NOT seen: whether a reader notices the name (that is W-003's cold walk); the accessible
+// name of the box (its aria-label is still the generic "Does this cycle hold up") and focus;
+// entries into the box from anywhere but /cycles (the /methods table and markdown links land
+// the same way and get the same box, but are not walked here); a hash landing on the unpaired
+// cycle (its list link carries no fragment, so that leg reads the box from the page top);
+// clipping by an ancestor's overflow; colour contrast; widths between the four measured; real
+// iOS Safari. It does not re-run check-entry-folds, check-verdict-reach or the rendered-text
+// gate: a label change must be read with those too.
 import { chromium, devices } from "playwright";
 
-const origin = (process.argv.slice(2).find((a) => !a.startsWith("--")) ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
+const args = process.argv.slice(2);
+const mi = args.indexOf("--mutate");
+const mutate = mi === -1 ? null : args[mi + 1];
+// --fails-only prints the FAIL lines, the per-size counts and the total: 112 PASS lines bury a red one.
+const failsOnly = args.includes("--fails-only");
+const origin = (args.find((a, i) => !a.startsWith("--") && (mi === -1 || i !== mi + 1)) ??"https://sinusoidalhistory.com").replace(/\/$/, "");
 const results = [];
 const check = (name, ok, detail = "") => {
   results.push(ok);
+  if (ok && failsOnly) return;
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  — " + detail : ""}`);
 };
 
@@ -40,6 +59,15 @@ const SIZES = [
   { name: "320x568", ctx: { viewport: { width: 320, height: 568 }, hasTouch: true, isMobile: true }, touch: true },
   { name: "1440x900", ctx: { viewport: { width: 1440, height: 900 } }, touch: false },
 ];
+
+// The sentence the page must show, rebuilt from the frozen verdicts the origin itself serves.
+// It mirrors the two branches in src/app/(app)/cycles/page.tsx; if that copy changes, this
+// leg goes red until the two agree again.
+const headline = (await (await fetch(`${origin}/data/spectral/verdicts.json`)).json()).headline;
+const EXPECTED =
+  headline.eligible_primary === 0
+    ? `None of the ${headline.total_primary} paired theories can be tested yet. Each record below is shorter than the three full periods a test needs; here is how far short.`
+    : `${headline.eligible_primary} of the ${headline.total_primary} paired theories have a record long enough to test.`;
 
 async function openList(page) {
   await page.goto(`${origin}/cycles`, { waitUntil: "load", timeout: 60000 });
@@ -58,18 +86,43 @@ try {
     const page = await ctx.newPage();
     await openList(page);
 
+    if (mutate === "wrong-sentence") {
+      await page.evaluate(() => {
+        const p = document.querySelector("#does-any-hold-up-heading + p");
+        if (p) p.textContent = "9 of the 9 paired theories have a record long enough to test.";
+      });
+    }
     const result = await page.evaluate(() => {
       const sec = document.getElementById("does-any-hold-up");
-      const p = [...sec.querySelectorAll("p")].find((el) => /^(None of the|\d+ of the) \d+ paired/.test(el.textContent.trim()));
-      if (!p) return { found: false };
-      const b = p.getBoundingClientRect();
-      return { found: true, text: p.textContent.trim().slice(0, 60), top: Math.round(b.top), inView: b.top >= 0 && b.bottom <= innerHeight };
+      const heading = document.getElementById("does-any-hold-up-heading");
+      const firstRow = [...sec.querySelectorAll("[data-verdict-id], tbody tr")].find((el) => el.checkVisibility());
+      // The paragraphs between the heading and the first visible verdict row, in document order.
+      const between = [...sec.querySelectorAll("p")].filter(
+        (p) =>
+          heading.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING &&
+          firstRow &&
+          p.compareDocumentPosition(firstRow) & Node.DOCUMENT_POSITION_FOLLOWING &&
+          !firstRow.contains(p),
+      );
+      return between.map((p) => {
+        const b = p.getBoundingClientRect();
+        return {
+          text: p.textContent.replace(/\s+/g, " ").trim(),
+          top: Math.round(b.top),
+          shown:
+            b.width > 0 && b.height > 0 &&
+            p.checkVisibility({ opacityProperty: true, visibilityProperty: true }) &&
+            b.top >= 0 && b.bottom <= innerHeight && b.left >= 0 && b.right <= innerWidth,
+        };
+      });
     });
+    const hit = result.find((r) => r.text === EXPECTED);
     check(
-      `${s.name}: the verdict list states its result on the screen the header link lands on`,
-      result.found && result.inView,
-      result.found ? `"${result.text}…" at ${result.top}px` : "no result sentence in #does-any-hold-up",
+      `${s.name}: the verdict list states its result, as verdicts.json has it, between the heading and the first row`,
+      Boolean(hit),
+      hit ? `"${hit.text.slice(0, 48)}…"` : `wanted "${EXPECTED.slice(0, 48)}…", found ${JSON.stringify(result.map((r) => r.text.slice(0, 48)))}`,
     );
+    check(`${s.name}: that sentence is visible on the screen the header link lands on`, Boolean(hit?.shown), hit ? `at ${hit.top}px` : "no such sentence");
 
     const hrefs = await page.evaluate(() =>
       [...new Set([...document.querySelectorAll('#does-any-hold-up a[href^="/cycles/"]')].filter((a) => a.checkVisibility()).map((a) => a.getAttribute("href")))],
@@ -87,25 +140,62 @@ try {
       await page.waitForFunction((p) => location.pathname === p && Boolean(document.querySelector("h1") && document.getElementById("does-it-hold-up")), path, { timeout: 20000 });
       // Let the hash scroll settle: two consecutive frames at the same scrollY.
       await page.waitForFunction(() => new Promise((r) => { const y = scrollY; requestAnimationFrame(() => requestAnimationFrame(() => r(scrollY === y))); }), null, { timeout: 5000 });
+      if (mutate === "hide-name") await page.addStyleTag({ content: "#does-it-hold-up h2 span { visibility: hidden }" });
+      if (mutate === "dead-link") await page.addStyleTag({ content: '#does-it-hold-up a[href^="#"] { pointer-events: none }' });
       const m = await page.evaluate((tapped) => {
         const box = document.getElementById("does-it-hold-up");
-        // The exact tapped text, as a rendered text node inside the box and inside the viewport.
+        // The exact tapped text as a rendered text node inside the box: its element visible,
+        // its rect wholly inside the viewport, and on top at its own centre.
         const w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT);
         let shown = false;
+        let why = "no text node in the box equals the tapped text";
         for (let n = w.nextNode(); n; n = w.nextNode()) {
           if (n.textContent.trim() !== tapped) continue;
+          const el = n.parentElement;
           const r = document.createRange();
           r.selectNodeContents(n);
           const b = r.getBoundingClientRect();
-          if (b.width > 0 && b.top >= 0 && b.bottom <= innerHeight) shown = true;
+          if (!el.checkVisibility({ opacityProperty: true, visibilityProperty: true })) why = "the name is in the box but hidden";
+          else if (!(b.width > 0 && b.height > 0)) why = "the name renders zero-size";
+          else if (!(b.top >= 0 && b.bottom <= innerHeight && b.left >= 0 && b.right <= innerWidth)) why = `the name is outside the screen (top ${Math.round(b.top)}, left ${Math.round(b.left)})`;
+          else {
+            const top = document.elementFromPoint(b.left + b.width / 2, b.top + b.height / 2);
+            if (top && (top === el || el.contains(top) || top.contains(el)) && box.contains(top)) shown = true;
+            else why = "something else is painted over the name";
+          }
         }
+        // The naming read above is of the landing screen. The link can sit below it (at
+        // 320x568 two boxes run past the fold), and elementFromPoint is null off-screen, so
+        // bring the link into view before hit-testing it.
         const fwd = box.querySelector('a[href^="#"]');
+        fwd?.scrollIntoView({ block: "center", behavior: "instant" });
         const fb = fwd?.getBoundingClientRect();
-        return { shown, fwd: fwd?.getAttribute("href") ?? null, fwdH: fb ? Math.round(fb.height) : 0 };
+        const hits = (y) => {
+          const t = fb && document.elementFromPoint(fb.left + fb.width / 2, y);
+          return Boolean(t && (t === fwd || fwd.contains(t)));
+        };
+        return {
+          shown,
+          why,
+          fwd: fwd?.getAttribute("href") ?? null,
+          fwdH: fb ? fb.height : 0,
+          fwdVisible: Boolean(fwd?.checkVisibility({ opacityProperty: true, visibilityProperty: true })),
+          fwdHitTop: fb ? hits(fb.top + 1) : false,
+          fwdHitBottom: fb ? hits(fb.bottom - 1) : false,
+        };
       }, tapped);
       if (m.shown) named++;
-      check(`${s.name}: ${path} names "${tapped}" in its box, on screen`, m.shown);
-      if (s.touch) check(`${s.name}: ${path} box link ${m.fwd} is ≥44px tall`, m.fwdH >= 44, `${m.fwdH}px`);
+      check(`${s.name}: ${path} names "${tapped}" in its box, readable on screen`, m.shown, m.shown ? "" : m.why);
+      if (s.touch) {
+        // A paired cycle's list link carries the #does-it-hold-up fragment; the unpaired one does not.
+        const want = href.includes("#") ? "#spectral-verdict" : "#caveat";
+        check(`${s.name}: ${path} box link goes to ${want}`, m.fwd === want, `${m.fwd}`);
+        check(
+          `${s.name}: ${path} box link is ≥44px tall and hit-tests as the link at both edges`,
+          m.fwdVisible && m.fwdH >= 44 && m.fwdHitTop && m.fwdHitBottom,
+          `${m.fwdH.toFixed(2)}px · top edge ${m.fwdHitTop ? "hits" : "misses"} · bottom edge ${m.fwdHitBottom ? "hits" : "misses"}`,
+        );
+      }
     }
     console.log(`  ${s.name}: ${named} of ${hrefs.length} landings name the cycle`);
     await ctx.close();
@@ -115,5 +205,5 @@ try {
 }
 
 const passed = results.filter(Boolean).length;
-console.log(`\n${passed}/${results.length} ${passed === results.length ? "PASS" : "FAIL"}  (${origin}, chromium)`);
+console.log(`\n${passed}/${results.length} ${passed === results.length ? "PASS" : "FAIL"}  (${origin}, chromium${mutate ? `, MUTATED: ${mutate}` : ""})`);
 process.exit(passed === results.length ? 0 : 3);

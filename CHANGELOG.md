@@ -21,8 +21,10 @@
   figure and the protocol →" and, on the one unpaired cycle, "Why there is none, in
   the caveat →". Both were 17px tall on phones (38px at 320, where the first wraps).
 - New check: `node scripts/check-verdict-landing.mjs [origin]` walks all ten links in
-  the list at four sizes. Production before this change: 4/78 (only the "ten links"
-  legs). After: 78/78 on the local build.
+  the list at four sizes. Production before this change: 34/112 (only the "ten links"
+  and "goes to the right anchor" legs). After: 112/112 on the local build. Its
+  `--mutate hide-name|wrong-sentence|dead-link` switch breaks the loaded page on
+  purpose and must fail exactly the naming, sentence and tap legs (40, 8 and 30).
 
 ## Each cycle page says where this year sits (2026-09-29)
 
