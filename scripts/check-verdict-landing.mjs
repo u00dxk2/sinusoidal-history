@@ -334,15 +334,27 @@ async function checkFigure(page, s, path) {
 
   // Codex r3-1 #1: swipe, THEN an in-page hash jump (the box's own HashLink pushes a new entry
   // that carries no place), then leave and come Back to that entry without swiping again.
+  // The URL already carries #spectral-verdict from the box tap above, and HashLink pushes
+  // nothing when the hash already matches (Codex r3-2), so drop the hash from this entry first
+  // (keeping its state), and then require that the tap really made a NEW entry carrying no place.
+  // A probe marker on the pre-jump entry tells a NEW entry from the same one (history.length
+  // cannot: the in-app Back above left a forward entry, which the push truncates).
+  await page.evaluate(() => history.replaceState({ ...history.state, landingProbe: 1 }, "", location.pathname));
   await swipeTo(250);
   await page.locator('#does-it-hold-up a[href="#spectral-verdict"]').tap();
   await page.waitForFunction(() => location.hash === "#spectral-verdict", null, { timeout: 5000 });
+  const hashEntry = await page.evaluate(() => ({ probe: history.state?.landingProbe ?? null, place: history.state?.figureScroll ?? null }));
+  const madeBareEntry = hashEntry.probe === null && hashEntry.place === null;
   await toCyclesInApp();
   await page.goBack();
   await arrive(path);
   if (mutate === "lose-place") await page.evaluate(() => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = 0; });
   const afterHash = await left();
-  check(`${s.name}: ${path} Back to a hash-jump entry keeps the figure's sideways place`, Math.abs(afterHash - 250) <= 2, `scrollLeft 250 → ${Math.round(afterHash)}`);
+  check(
+    `${s.name}: ${path} Back to a hash-jump entry keeps the figure's sideways place`,
+    madeBareEntry && Math.abs(afterHash - 250) <= 2,
+    `${madeBareEntry ? "the jump pushed an entry with no place" : `the jump did NOT push a bare entry (probe ${hashEntry.probe}, place ${JSON.stringify(hashEntry.place)})`} · scrollLeft 250 → ${Math.round(afterHash)}`,
+  );
 
   await toCyclesInApp();
   await page.locator(`#does-any-hold-up a[href^="${path}"]:visible`).first().tap();
