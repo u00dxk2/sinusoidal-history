@@ -27,7 +27,9 @@
 // Round 2 (2026-10-01, cold walk finding 1) added a Back leg: from the verdicts open a cycle,
 // press Back once, and /cycles must be on screen (path AND h1), not just in the address bar.
 // Red on production with the plain <a href="#…">: 24/28, every Back leg showing the cycle page
-// under the URL /cycles#does-any-hold-up. Where /cycles lands after Back is printed, not judged.
+// under the URL /cycles#does-any-hold-up. Since Codex r2 the landing is judged too: Back must put
+// the verdict heading on the upper half of the screen, and the forward page must prove itself a
+// cycle page (h1 + #does-it-hold-up) before Back is pressed.
 // Codex review r1 (2026-10-01) found that the first fix, next/link, broke two native behaviours,
 // and both reproduced; two legs now watch them: a second tap from the top jumps again (every
 // size), and at 1440 Enter-then-Tab puts focus inside the verdicts.
@@ -173,12 +175,16 @@ try {
     // Wait for the cycle page to RENDER, not just for the URL (Codex r1: a Back pressed before
     // the forward render lands is a different trip; on 2026-10-01 a local WebKit forward render
     // once took >10s and a fixed 800ms wait read that as a Back failure).
-    await page.waitForFunction(() => document.querySelector("h1")?.textContent.trim() !== "The ten cycles", null, { timeout: 20000 });
+    // A cycle page is proven by its own content: an h1 AND its #does-it-hold-up box (every cycle
+    // page has one; the link targets it). Codex r2: "h1 is not the index's" also accepted no h1,
+    // or the error boundary's. A page that never renders times out here and fails the leg.
+    const rendered = await page
+      .waitForFunction(() => Boolean(document.querySelector("h1") && document.getElementById("does-it-hold-up")), null, { timeout: 20000 })
+      .then(() => true, () => false);
     await page.waitForTimeout(300);
     await page.goBack();
     // Poll for the restore (5s) rather than sleeping a fixed time; a stuck Back never arrives.
-    await page.waitForFunction(() => document.querySelector("h1")?.textContent.trim() === "The ten cycles", null, { timeout: 5000 }).catch(() => {});
-    const back = await page.evaluate(() => {
+    await page.waitForFunction(() => document.querySelector("h1")?.textContent.trim() === "The ten cycles", null, { timeout: 5000 }).catch(() => {});    const back = await page.evaluate(() => {
       const h = document.getElementById("does-any-hold-up-heading");
       return {
         path: location.pathname,
@@ -188,12 +194,19 @@ try {
         headingTop: h ? Math.round(h.getBoundingClientRect().top) : null,
       };
     });
-    // Where it lands is RECORDED, not judged: the reader came from the verdict list, and the
-    // detail says whether Back put them there (heading near the top) or at the page top.
     check(
       `${s.name}: one Back from a cycle opened there shows /cycles again`,
-      back.path === "/cycles" && back.h1 === "The ten cycles",
-      `opened ${cycleHref}; after Back: url ${back.path}${back.hash} · h1 "${back.h1}" · scrollY ${back.scrollY} · verdict heading at ${back.headingTop}px`,
+      rendered && back.path === "/cycles" && back.h1 === "The ten cycles",
+      `opened ${cycleHref}${rendered ? "" : " (it never rendered as a cycle page)"}; after Back: url ${back.path}${back.hash} · h1 "${back.h1}" · scrollY ${back.scrollY} · verdict heading at ${back.headingTop}px`,
+    );
+    // ...and lands back AT the verdict list, not the page top (the manager review's "great
+    // version": open the next cycle and compare). Judged since Codex r2: the heading is on the
+    // upper half of the screen.
+    const vh = await page.evaluate(() => innerHeight);
+    check(
+      `${s.name}: that Back lands at the verdict list`,
+      back.headingTop !== null && back.headingTop >= 0 && back.headingTop <= vh / 2,
+      `verdict heading at ${back.headingTop}px of ${vh}`,
     );
     // Keyboard (Codex review r1, finding 1: next/link kept focus at the link, so the next Tab
     // walked the ten entries above the verdicts). Fresh load, focus the link, Enter, Tab once:
