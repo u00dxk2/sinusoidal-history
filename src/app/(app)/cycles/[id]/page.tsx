@@ -14,6 +14,7 @@ import {
   cycleMetaTitle,
   cycleRoutePath,
   cycleSlug,
+  cycleTheorist,
   findCycleBySlug,
   peakYearsInRange,
   seriesForCycle,
@@ -210,9 +211,7 @@ export default async function CyclePage({ params }: Params) {
           aria-label="Does this cycle hold up"
           className="mt-4 max-[360px]:mt-3 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
-            Does it hold up?
-          </h2>
+          <BoxLabel name={cycleTheorist(cycle)} />
           <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
             {verdict.eligible
               ? `Tested — ${SPECTRAL_STATE_LABELS[verdict.state]}.`
@@ -236,9 +235,13 @@ export default async function CyclePage({ params }: Params) {
             {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}
           </p>
           <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+            {/* min-h-11: this was a 17px-tall target on phones, and it is the
+                only way forward from the box (cold walk 2026-10-02, finding 3).
+                It sits below the answer sentence, so the first-screen fold
+                does not move. */}
             <HashLink
               href="#spectral-verdict"
-              className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+              className="inline-flex items-center min-h-11 underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
             >
               The full verdict, the figure and the protocol →
             </HashLink>
@@ -257,9 +260,7 @@ export default async function CyclePage({ params }: Params) {
           aria-label="Does this cycle hold up"
           className="mt-4 max-[360px]:mt-3 sm:mt-8 border border-rule/40 bg-ink/[0.02] px-4 py-3 sm:px-6 sm:py-5"
         >
-          <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft font-medium">
-            Does it hold up?
-          </h2>
+          <BoxLabel name={cycleTheorist(cycle)} />
           <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
             Not tested — this cycle has no paired data series on this site, so
             there is no record to test it against.
@@ -268,7 +269,7 @@ export default async function CyclePage({ params }: Params) {
             <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
               <HashLink
                 href="#caveat"
-                className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+                className="inline-flex items-center min-h-11 underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
               >
                 Why there is none, in the caveat →
               </HashLink>
@@ -627,6 +628,24 @@ function attributionFor(cycle: Cycle, series: DataSeries | undefined): string {
   return (
     `${base}. Paired data series: ${series.name} ` +
     `(${publisher}), ${series.license}.`
+  );
+}
+
+/**
+ * The verdict box's label. It names the cycle because the verdict lists on
+ * /cycles and /methods land a reader on #does-it-hold-up with the H1 above the
+ * screen (165-280px up on a phone), and the box said "Does it hold up?" and
+ * "a 54-year claim" without saying whose (cold walk 2026-10-02, finding 1).
+ * The name is the short form the reader tapped in that list (cycleTheorist),
+ * set BESIDE the question rather than inside it: "Does Peter Turchin hold up?"
+ * reads as a verdict on a person, and the box goes on to say it is not one.
+ */
+function BoxLabel({ name }: { name: string }) {
+  return (
+    <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] max-[380px]:tracking-[0.08em] text-ink-soft font-medium">
+      <span className="text-ink">{name}</span>
+      {" · Does it hold up?"}
+    </h2>
   );
 }
 

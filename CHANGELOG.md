@@ -1,5 +1,29 @@
 # Changelog
 
+## Opening a cycle from the verdict list says which cycle it is (2026-10-02)
+
+- **The "Does it hold up?" box names its cycle** (I-015 follow-up; cold walk 2026-10-02,
+  finding 1). Tapping a name in the /cycles verdict list lands on that page's box with the
+  H1 136-288px above the screen, and the box never said whose verdict it was: on
+  production 0 of the 10 landings named the cycle at any phone size. The label now reads
+  "Kondratiev wave · Does it hold up?", using the same short name the reader tapped. The
+  name sits beside the question, not inside it, because "Does Peter Turchin hold up?"
+  reads as a verdict on a person. Below 380px wide the label's letter-spacing tightens
+  so it stays on one line where it can; at 320 two labels wrap, and every cycle page
+  still answers on the first screen (`check-entry-folds` 13 of 13 at 320x568, 360x560
+  and 390x664; Turchin unchanged at 12px spare).
+- **The verdict list states its result** (finding 2). Under "Does any of them hold up?"
+  on /cycles: "None of the 9 paired theories can be tested yet. Each record below is
+  shorter than the three full periods a test needs; here is how far short." Derived
+  from `verdicts.json`, so it changes if a record ever clears the floor. It lives on
+  the /cycles page, not in `VerdictTable`, because /methods states its own count.
+- **The box's link forward is a 44px tap target** (finding 3): "The full verdict, the
+  figure and the protocol →" and, on the one unpaired cycle, "Why there is none, in
+  the caveat →". Both were 17px tall on phones (38px at 320, where the first wraps).
+- New check: `node scripts/check-verdict-landing.mjs [origin]` walks all ten links in
+  the list at four sizes. Production before this change: 4/78 (only the "ten links"
+  legs). After: 78/78 on the local build.
+
 ## Each cycle page says where this year sits (2026-09-29)
 
 - **"Where are we now?" is answered in words** (I-009). Every `/cycles/<slug>` page now

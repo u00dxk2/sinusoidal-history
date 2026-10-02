@@ -347,6 +347,16 @@ export default function CyclesIndex() {
         >
           Does any of them hold up?
         </h2>
+        {/* The result, stated where the header link lands. Without it a reader
+            who jumped here met ten rows of the same verdict and had to infer the
+            answer; the count sat in the header ~3,000px up (cold walk 2026-10-02,
+            finding 2). Here rather than in VerdictTable: /methods states its own
+            count above the same component. */}
+        <p className="text-[16px] leading-[1.55] text-ink">
+          {spectralHeadline.eligible_primary === 0
+            ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each record below is shorter than the three full periods a test needs; here is how far short.`
+            : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to test.`}
+        </p>
         <VerdictTable />
         <p className="text-[14px] leading-relaxed text-ink-soft">
           <Link
