@@ -505,3 +505,227 @@ No lockfile changed today.
 
 codexCalls: 2 (two foreground read-only Codex review runs at P3; none at P5)
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+## ROUND 3 — P1 — Evidence and choice
+
+**Outcome:** on a phone, the spectral figure opens at its start whenever a reader arrives fresh, and keeps their sideways place only when they come back by Back or Forward. The phone cue stops promising a better view than it gives. **Item:** I-018 (open, P3).
+
+**The user problem, in the reader's words:** "I came back to the Kondratiev page from the list, and the chart was already scrolled to the far right. The title and the start of the record were gone, and nothing said it had moved." Second: "It said 'tap it to open it on its own'. I did, and everything got smaller."
+
+### Section 0
+
+- `git pull --ff-only`: already up to date at `0cd84d5`. Working tree clean.
+- Listener: 🟢 SSE alive. The SessionStart hook relaunched it as pid 36408 (SESSION START 20:24:37Z UTC, hello 20:24:50Z, slug sinusoidal-cycles, 0 replayed). Waker ranks 1-3 are armed, and the loop is armed by `ScheduleWakeup` (`/loop-tick 2m`).
+- Codex: **GREEN**, from the probe line on this prompt (machine-level exec 2026-10-02T15:35:13Z, 4.8h old). Not used at P1. I plan a cross-family review of the P3 diff.
+- CI: **GREEN** for `0cd84d58d4` (`check-ci-status --workflow ci.yml`: 1 success, 0 failures, 0 pending).
+- Deploy drift: the Render deploys API for `srv-d7mcat7lk1mc73bidim0` reads `live 0cd84d58d47e45d23b0b8b714ef6ee30bcd7680f` (finished 17:42:25Z), and that equals HEAD. No drift. The `--service` checker is NOT-APPLICABLE-BY-REGISTRY for this commit-triggered service, so I read the API directly, as `docs/daily-config.md` says to.
+- Primer first action: not re-run this round. It is the 10-03 first action, round 2 read it at 283/283 at ~17:12Z, and nothing has been deployed since except docs (`803ad7b`, `0cd84d5`). P3 re-runs it as the regression base before any change.
+- Harness: `check-claude-build --panes` read fleet **SKEW** (25 panes: 2.1.288 ×22, 2.1.287 ×3) with installed 2.1.288 (AHEAD of the 9-18 record). This pane started at 20:24Z UTC, after today's update, so it is probably on 2.1.288. That is INFERRED: the read does not name panes.
+- Recs from round 2: no `## Recommendation` block. Round 2's carry-forwards:
+  - I-018 is **carrying today**: it is this selection.
+  - I-019 (desktop labels at 7.8px) is carrying to a later round. W-003's desktop walk on 10-03 may decide its shape.
+  - I-013 is David's, and only if the walk shows a reader tripping.
+- Cycle rotation: exit 0, "no product-love cycle picks this lane today; run the normal P3".
+- Due gates: snapshot "IDENTICAL to the existing one", "0 gate(s) due on/before 2026-10-02" (23 rows swept).
+- Board: `answered-cards` found no waiting, answered or pending-verify cards.
+- Retro: I read today's round-2 retro (b6a9f1ed) whole. One recurring finding bears on this choice: "a check written from a measurement script inherits its looseness". The new fresh-visit leg therefore ships with a mutation arm that proves it goes red on the current code. I don't count a passing number as proof.
+
+### Evidence
+
+- **OBSERVED (production, round-2 P5 measurement, I-018 hypothesis, ~17:35Z UTC).** Chromium with iPhone 15 emulation at 390x664, on /cycles/kondratiev:
+  - I swiped the figure to scrollLeft 200.
+  - A fresh visit through the /cycles list link reopened it at 200.
+  - So did a typed URL in the same tab.
+  - A new tab opened at 0, the positive control.
+- **OBSERVED (cold walk of round 2, `skylark-site/tmp/walks-2026-10-02-r2/sinusoidal-cycles.md`, finding 1).** Same reading by an independent walker, N = 1, synthetic, on iPhone 15 at 393 wide. From scrollLeft 547, the walker went to /cycles and tapped "Kondratiev wave". The page landed at scrollY 0 with the figure at scrollLeft 547. The title, the 1948 axis start and the left half of the verdict band were off-screen.
+- **OBSERVED (source).** `src/components/FigureScroller.tsx:34-36` restores the saved `figure-scroll:<id>` from sessionStorage on every mount, with no navigation-type check.
+- **OBSERVED (walk, finding 3).** On a phone, the opened SVG fits 900 units into 393px and every label is about 3-4px. My own round-2 prep measured the same thing: the opened SVG gets a 980px layout viewport and is zoomed out to fit. The phone cue at `src/app/(app)/cycles/[id]/page.tsx:529` reads "Swipe sideways for the whole figure · tap it to open it on its own", which promises that the opened view helps. On a phone it buys pinch-zoom, not readable on arrival.
+- **The verdict line, answered without touching the frozen figures (walk finding 2, the lead's P1 question).** The SVG's band "INSUFFICIENT SPAN — 1.4 OF 3.0 REQUIRED PERIODS" never fits a 353px window. But the page already says the same thing in HTML two lines above the figure, at `page.tsx:503-507`: "Insufficient data — no test possible · 1.4 of 3.0 required periods" in a wrapping mono line, followed by the lay paragraph. That is how it reads whole on a phone today. The walker also recorded it as "Mitigated: the page prose states the verdict above the figure." So I make **no figure change**. The new start-at-zero behaviour also means a reader arriving fresh sees the band's left edge rather than a mid-word slice. P3 confirms the HTML line wraps whole at 320, 360 and 390 by reading its rendered rect.
+- **Walk finding 4b (subtitle "annual, unsmoothed" vs reuse box "5-yr rolling") is not a data contradiction.** Both statements are true, and they describe two different series:
+  - The spectral figure tests the unsmoothed `us_tfp_growth_annual.csv`. AGENTS.md bans the rolled CSV from inference.
+  - The reuse box cites the site's display series, `src/data/series.json:20` "US TFP growth (5-yr rolling)".
+  - It may still read as a contradiction to a reuser. That is a copy question for a later round, and **not selected**.
+- **MISSING:** real-user evidence. The site has no client analytics (a standing choice) and no `docs/evangelism-bar.md` or `docs/evangelism-evidence.md`.
+- **MISSING:** real iOS Safari. Its back-forward cache could differ from Chromium on the navigation type. Under bfcache the page is not re-mounted at all, so the place survives without the code.
+- **HYPOTHESIS (P3 measures it):** App Router client navigations do not create a new navigation entry. So a page first reached by Back (`back_forward`) and then re-reached by a link would still read `back_forward` and wrongly restore. The fix restores **once per document load**, and treats an in-app `popstate` as a Back. P3 tests both paths.
+
+### Permission, and the freezes
+
+- This is lane-owned behaviour and copy on an existing surface. No board card is open on it, no David decision is needed, and I-018's `waitingFor` reads "Nothing and nobody".
+- **Spectral freeze:** no byte of `public/data/spectral/` changes, and neither do the figures, `verdicts.json` or the manifest.
+- **W-001 freeze (titles, meta, H1s, URLs, to 2026-10-07):** none change. The cue line is body copy.
+- **W-003 (10-03):** not pulled forward. Its walk will meet the fixed behaviour.
+
+### Next action — improve
+
+1. **Selected (I-018):** `FigureScroller` restores the saved sideways place only on a Back/Forward return. That means either a document load whose navigation type is `back_forward` (consumed once per document), or an in-app `popstate` just before the mount. On any other arrival it starts at 0 and clears the key. Back from the opened SVG is a full document load of type `back_forward`, so the existing Back leg must stay green.
+2. **Same trip, same surface:** the phone cue drops "tap it to open it on its own" and becomes "Swipe sideways for the whole figure". The figure stays a link, so the tap still opens the SVG for pinch-zoom; the cue just stops promising it is the better view. The check's leg "a tap on the figure opens it on its own" tests the link, not the cue text, so it is unaffected.
+3. `check-verdict-landing` gains a **fresh-visit leg**: swipe to 200, reach the same page by its /cycles list link, expect scrollLeft 0. It also gains an in-app Back leg (/cycles then browser Back, expect the place kept) and a mutation arm `restore-always` that reinstates the old restore-on-every-mount and must go red.
+
+First command, the red arm (prep only; the leg is written into the check before P3, and it must read red on production today):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only
+```
+
+### Acceptance
+
+- At 390x664, 360x560 and 320x568, on 9 of 9 paired cycle pages:
+  - A fresh visit by the /cycles list link reads **scrollLeft 0** after a swipe to 200. **Red today:** 200.
+  - Back from the opened SVG still restores the swiped place.
+  - In-app Back from /cycles restores it, if P3 measures that it does not already.
+- `--mutate restore-always` goes red on the fresh-visit leg. Every existing mutation arm keeps its expected count, adjusted only by the new legs' arithmetic.
+- The phone cue reads "Swipe sideways for the whole figure". The figure is still a link that opens `/data/spectral/<id>.svg` (200, `image/svg+xml`).
+- The HTML verdict line above the figure renders whole (no horizontal clipping) at 320, 360 and 390.
+- `check-entry-folds` stays 13 of 13 at the three phone sizes. `check-verdict-reach` and `check-verdict-phone` keep their counts.
+- The `main` innerText line multiset of /cycles/kondratiev (production before vs after) differs only by the cue line.
+- No title, meta, H1 or URL changes. No byte of `public/data/spectral/` changes.
+
+### Delivery and encounter checks
+
+- **Delivery (P3):** when Render reports the new deploy, read its sha from the deploys API and run the extended `check-verdict-landing` against production.
+- **Encounter:** W-003's cold walk on 2026-10-03, N = 1, synthetic. It gains one question: "leave the Kondratiev page for /cycles, come back by its link: where does the figure start?" Pass: at its left edge, title visible.
+  - There is no client analytics, so no event appears at any traffic level. The walk is the only encounter read.
+
+**USER-FACING: yes.** Paths:
+- User-facing: `src/components/FigureScroller.tsx`, `src/app/(app)/cycles/[id]/page.tsx` (cue line).
+- Internal: `scripts/check-verdict-landing.mjs` (the root lint reaches it), `CHANGELOG.md`, `continuity/items.json` (via `continuity-edit`), `docs/daily/2026-10-02-prelaunch.md`.
+- None of these pages has a markdown mirror. `public/llms.txt` states no cue text; P3 confirms that with Grep.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none**. Read: `check-due-gates-dispositioned --snapshot` ("0 gate(s) due on/before 2026-10-02", 23 rows swept).
+- (b) Owed child rows: **none**. Read: the kickoff's "rows owed to you" (0 of 739).
+- (c) Reads that crossed a threshold or could not be judged:
+  - key numbers: there is no `docs/key-metrics.json`, so this is unjudged, not 0.
+  - missingLinkedCommits: NOTHING SWEPT, 0 of 0 considered.
+  - prior-day retro: 11 of 11 of my 10-01 findings are still on discipline.
+  - deployed-sha-drift: NOT-APPLICABLE-BY-REGISTRY (live sha read from the API instead: equals HEAD).
+  - harness: fleet SKEW (2.1.287 ×3, 2.1.288 ×22). This is a read, not a stop.
+
+Exclude from any request-log read:
+- The round-2 walk window, 2026-10-02T17:55:30Z-18:00:04Z.
+- My own probes this round, from 20:40Z UTC onward.
+
+codexCalls: 0 (probe green; Codex is planned for the P3 diff review)
+
+**Prep after the P1 post (8701f50c). Nothing committed.** `tmp/measure-restore-navtypes.mjs` ran on production at ~20:45Z UTC, Chromium with iPhone 15 emulation at 390x664, on /cycles/kondratiev.
+
+| Path | navigation type the mount sees | scrollLeft today |
+|---|---|---|
+| A typed arrival | navigate | 0 |
+| C in-app Back (popstate) after swiping to 200 | **navigate** | 200 (kept) |
+| D Back from the opened SVG after swiping to 300 | back_forward | 300 (kept) |
+| E after D: in-app link to /cycles, then the list link back | **back_forward** | 300 (the bug) |
+
+- **Both halves of the P1 HYPOTHESIS are confirmed.**
+- A navigation-type check on its own is wrong in BOTH directions:
+  - It would drop C's place, because an in-app Back reads `navigate`.
+  - It would keep E's bug, because the document entry stays `back_forward` across later client navigations.
+- So P3's fix is the packet's rule: restore once per document load when its type is `back_forward`, or right after an in-app `popstate`, and otherwise start at 0 and clear the key.
+- The new check legs cover C and E as well as the fresh list visit.
+
+---
+
+[P3 — Product-work loop]
+
+## ROUND 3 — P3 — Product-work loop
+
+**Action: improve, I-018.** On a phone, the spectral figure now starts at its left edge on a fresh arrival. Back and Forward still return the reader to their sideways place. The phone cue no longer promises the opened view.
+
+<!-- findings:begin -->
+- **The packet's mechanism was wrong, and the measurement replaced it.** Both the I-018 onTrigger and the P1 plan named a navigation-type test, possibly with a popstate flag.
+  - Prep on production (`tmp/measure-restore-navtypes.mjs`) showed a navigation-type test fails in both directions. An in-app Back mounts with type `navigate`, and after a document Back from the opened SVG, every later in-app arrival reads `back_forward`. This confirms the manager's HYPOTHESIS.
+  - Reading the Next 16.3.5 router source showed it keeps custom `history.state` on a traverse and on the initial load after a document Back, and drops it on a push (`segment-cache/navigation.js:483-492`, `create-initial-router-state.js:137`).
+  - So the place now lives on the history entry. That shape claims less than any navigation-type logic, and Codex r3-1 confirmed the router table.
+- **The verdict line (the lead's P1 question):** no figure edit was needed. The HTML line above the figure reads "INSUFFICIENT DATA — NO TEST POSSIBLE · 1.4 OF 3.0 REQUIRED PERIODS" whole on production at 390 (x 20-370), 360 (20-340) and 320 (16-304) (`tmp/measure-verdict-line.mjs`).
+- **The manager's SUGGESTION (what a phone tap should do):** the link stays, for pinch-zoom. A swipe is not a tap, so an accidental open is unlikely. Opening the figure at native width would mean a wrapper page, which is a separate change. It is not minted as a row: no evidence yet that a reader trips on it. W-003's walk can raise it.
+<!-- findings:end -->
+
+### 1. Implementation
+
+Three commits are on main, pushed `0cd84d5..cbfc8b6`:
+- `a0c1f8d`: `FigureScroller` stores the sideways place in `window.history.state` (key `figureScroll`) instead of sessionStorage, and the phone cue becomes "Swipe sideways for the whole figure". `check-verdict-landing` gains three return legs per paired page at the touch sizes, plus the `restore-always` mutation arm.
+- `e670a91` (Codex r3-1):
+  - Every click writes the current place onto the current entry, which covers HashLink's entry that carries no place.
+  - A debounced save is dropped once the URL has changed.
+  - The scroller sets `data-place-ready` after its restore decision, and every return read waits for it.
+  - New leg: Back to a hash-jump entry.
+- `cbfc8b6` (Codex r3-2): the hash-jump leg clears the hash first and proves, with a probe marker, that the jump made a NEW entry with no place before it reads Back.
+
+Gates:
+- Typecheck passes (`verify-with-receipt` on `a0c1f8d`).
+- Unit tests: 124/124 (`verify-with-receipt` on `cbfc8b6`).
+- ESLint passes on every changed file.
+- CI on `cbfc8b6` is GREEN (`check-ci-status --workflow ci.yml --wait`: 1 success, 0 failures).
+
+Proof that the instrument goes red:
+
+| Run | Result |
+|---|---|
+| Production before (sessionStorage code) | **310/364**, exactly the 54 fresh-visit legs (list link and typed URL, 9 pages × 3 sizes) failing at scrollLeft 300 |
+| Local after | 391/391 |
+| `--mutate restore-always` | 337/391, exactly the 54 fresh-visit legs |
+| `--mutate lose-place` | 310/391, failing the SVG Back, in-app Back and hash-jump Back legs, 27 each |
+
+Not REPRODUCED: the hash-jump leg against the `a0c1f8d` build. With the ready mark absent there, `arrive()` would time out, so the comparison is unclean. Its sensitivity rests on lose-place plus the bare-entry precondition, which read true on 27 of 27 jumps.
+
+Sibling sweep:
+- Pattern: inner scrollers that keep a place across navigation (`sessionStorage`, `scrollLeft =`).
+- Roots: `src/`.
+- Hits: 1 (`FigureScroller`). Nothing else restores an inner scroll.
+
+### 2. Delivery
+
+Render deploy `cbfc8b686895a111ee299c4c9f5049b2e7d1462f` is **live**, finished 2026-10-02 21:48:21Z UTC (deploys API, `srv-d7mcat7lk1mc73bidim0`). The wait was observe-then-act, bounded at 20 minutes. `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-triggered service.
+
+Production reads after the deploy:
+- `check-verdict-landing https://sinusoidalhistory.com --fails-only`: **391/391**.
+  - The fresh visit by the /cycles list and the typed URL both start at scrollLeft 0, on 9 of 9 paired pages at 390x664, 360x560 and 320x568.
+  - The SVG Back, in-app Back and hash-jump Back legs keep the place.
+  - 10 of 10 landings name the cycle at all four sizes.
+- `check-entry-folds`: **13 of 13** at all three phone sizes. `/` is 4px at 360x560, unchanged.
+- `check-verdict-reach`: **37/37**. `check-verdict-phone`: **316/316**.
+- Visible text of /cycles/kondratiev, production before vs the local build: 94 = 94 lines, and the only difference is the cue line.
+- The W-001 freeze holds: no title, meta, H1 or URL changed, and no byte of `public/data/spectral/` changed.
+
+### 3. Encounter
+
+**Blind.** The site has no client analytics (a standing choice), so a swipe leaves no trace. The read is W-003's cold walk on 2026-10-03, which gains the round-3 question: swipe, go to /cycles, return by the link (Pass: starts at its left edge), then return by Back (Pass: the place is kept).
+
+### 4. Outcome
+
+Open. No read yet.
+
+USER-VISIBLE (debt-paydown): on a phone, coming back to a cycle page by a link or a typed address now shows the spectral figure from its left edge (title and record start visible) instead of wherever it was last swiped, while Back and Forward still return to the reader's place; the cue no longer promises the opened view — a0c1f8d [proof: check-verdict-landing 310/364 → 391/391 on production after Render deploy cbfc8b6 live 2026-10-02 21:48:21Z UTC; fresh-visit legs scrollLeft 300 → 0 on 9 of 9 paired pages at three phone sizes; entry folds 13 of 13; verdict-reach 37/37; verdict-phone 316/316] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader on the figure leaves no trace · bug row W-003]
+
+[red-armed: node scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only (production before the deploy) -> 310/364 FAIL — "a fresh visit by the /cycles list starts the figure at its left edge — swiped to 300, then scrollLeft 300" and "a typed visit in the same tab starts the figure at its left edge — swiped to 300, then scrollLeft 300" on 9 of 9 paired pages at 390x664, 360x560 and 320x568]
+
+mechanism-verified: `node scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only` (production, after the deploy) → `391/391 PASS`
+
+Ledger:
+- **I-018 CLOSED.** Its closeWhen is met, and the receipt is in its notes.
+- W-003's onTrigger gains the round-3 question. Its date is unchanged: 2026-10-03.
+
+codexCalls: 2 (two foreground `codex exec --sandbox read-only` review runs, r3-1 and r3-2)
+adversarialReviews: 2 — EXECUTED
+- r3-1 on `0cd84d5..a0c1f8d`: 3 P2, all confirmed against source and fixed in `e670a91`. It also confirmed the router's history-state handling and the click-flush ordering.
+- r3-2 on `a0c1f8d..e670a91`: 1 P2 in the check, confirmed and fixed in `cbfc8b6`.
+- `cbfc8b6` is check-only and **not reviewed**. Two rounds found ways the check could pass on a broken page (r3-1 #3 timing, r3-2 #1 precondition), so under the stop-patching rule there is no third round. The check header declares what it does not see: a Back within the 250ms debounce, `router.refresh()`, and real iOS Safari bfcache.
+- Both banners read `workdir: C:\dev\skylark\sinusoidal-cycles`.
+
+hygiene helper: DISPATCHED ~20:47Z UTC · draft `tmp/hygiene-draft-sinusoidal-cycles-2026-10-02-r3.md` PRESENT (0 disposition lines; inputs none).
+- wait-justification: `RESULT: PASS — 12 of 23`, 2 info (I-018, I-019: WAIT_UNDECLARED_STRUCTURAL).
+- engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`.
+- READ-MUTATED: none.
+- No production-shaped finding.
+
+What remains:
+- I-019 (desktop labels at 7.8px) is carried to a later round.
+- W-003's walk is 10-03, not pulled forward.
+- Real iOS Safari is unwalked.
+- In-flight status d0b6f392 is superseded by this post.
+
+[standing-rules-hash: 88cc2dc9]
