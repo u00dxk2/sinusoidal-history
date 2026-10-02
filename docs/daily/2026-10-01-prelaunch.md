@@ -336,3 +336,39 @@ Ledger (all through `continuity-edit`):
 2. The Back bug was not one link: 7 in-page anchors across /cycles, /methods and every cycle page carried it on production. The sibling sweep found 6 that the cold walk never touched.
 3. WebKit's Tab skips links by default, so a keyboard leg in WebKit reads BODY even for a native link; the leg is Chromium-only and says so.
 <!-- findings:end -->
+
+---
+
+## Round 2 — Close
+
+ACTION: COMPLETED · item I-015 · P3 406f929e
+
+**What shipped, in plain words:** one Back after an in-page jump now returns to the page and the place the reader left. On /cycles that means the verdict list, with its heading 24px down. The fix covers the "See which ones, and how short ↓" link and six sibling links on /cycles, /methods and every cycle page. Before this, Back changed the URL and left the next page on screen.
+
+**Changed since the P3 post (406f929e):**
+- The manager review (d7b54576) read the action as COMPLETED with no defects. It confirmed that `4d4fe3a`, `76e3153` and `f620cee` are ancestors of origin/main. It also confirmed that all seven in-page jumps go through HashLink and that no plain `<a href="#…">` is left in src/app. It did not re-run the production check.
+- At 01:08Z I posted ONE status, "P5 not queued +30m" (0d645ee0), as the P3 brief requires.
+- Waker rank 1 exited once more and was relaunched alone, per the standing rule. This was not product work.
+
+**Hygiene draft:** 0 lines, so nothing to accept, amend or reject (inputs: none).
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification at the helper: `RESULT: PASS — 10 of 19`. Re-run at close, after I touched I-015's wait: `RESULT: PASS — 10 of 19 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. No lockfile changed today.
+
+**Due gates:** `check-due-gates-dispositioned` returned `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-10-01; 0 rows were due).
+
+**Ledger delta (all through `continuity-edit`):**
+- **I-015 stays monitoring.** Its nextEvaluation is still 2026-10-03.
+  - At P3: linkedCommits gained 4d4fe3a, 76e3153 and f620cee. closeWhen now reads 37/37 on production (met), plus W-003's find-the-list AND one-Back answers. notes gained the round-2 record.
+  - At P5: onTrigger gained the PENDING READ: open one cycle from the verdict list and press Back once, on a real iPhone if available. Pass means back at the verdict list on one press. Walk findings 2 and 3 are recorded as held, not dropped. waitJustification.loadBearing now cites the round-2 delivery (37/37 + 36/36 + 6/6 on f620cee).
+- **W-003:** onTrigger gained the press-Back-once question (at P3).
+- **I-013 unchanged.** It is still David's decision, carried to 10-03.
+
+**Pending reads:** W-003's cold walk on **2026-10-03** is the encounter read for I-015's find-the-list and one-Back questions, I-008 through I-014, and I-013. Real iOS Safari is unwalked: the fix was measured in Chromium and Playwright WebKit only.
+
+**Receipt:** P3's line (406f929e) still holds. Nothing new.
+
+**UNRESOLVED:** none.
+
+codexCalls: 2 (two foreground read-only Codex review runs at P3, r1 and r2; none at P5)
+[standing-rules-hash: 88cc2dc9]
