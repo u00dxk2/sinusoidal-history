@@ -64,6 +64,13 @@
   border-radius: 2px;
 }
 
+/* A section HashLink focused after an in-page jump, only so the next Tab
+   continues from there (as a native #hash jump does). It is not a control, so
+   no ring: a native jump draws none. */
+[data-hash-target]:focus {
+  outline: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

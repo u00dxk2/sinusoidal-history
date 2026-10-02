@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HashLink from "@/components/HashLink";
 import { dataSeries } from "@/data/series";
 import { cycles } from "@/data/cycles";
 import { spectralHeadline } from "@/lib/spectral";
@@ -69,9 +70,9 @@ export default function Methods() {
         </p>
         <p>
           {`The result to read first: a pre-registered spectral test finds that ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the theory's own period.`}{" "}
-          <Link href="#spectral-testing" className={link}>
+          <HashLink href="#spectral-testing" className={link}>
             How the test works →
-          </Link>
+          </HashLink>
         </p>
         <nav aria-label="On this page" className="pt-3">
           <p className="text-[11px] tracking-[0.24em] uppercase text-ink-soft font-medium">
@@ -80,9 +81,9 @@ export default function Methods() {
           <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1.5 text-[14px]">
             {SECTIONS.map((s) => (
               <li key={s.id}>
-                <Link href={`#${s.id}`} className={link}>
+                <HashLink href={`#${s.id}`} className={link}>
                   {s.label}
-                </Link>
+                </HashLink>
               </li>
             ))}
           </ul>

@@ -28,6 +28,9 @@
 // press Back once, and /cycles must be on screen (path AND h1), not just in the address bar.
 // Red on production with the plain <a href="#…">: 24/28, every Back leg showing the cycle page
 // under the URL /cycles#does-any-hold-up. Where /cycles lands after Back is printed, not judged.
+// Codex review r1 (2026-10-01) found that the first fix, next/link, broke two native behaviours,
+// and both reproduced; two legs now watch them: a second tap from the top jumps again (every
+// size), and at 1440 Enter-then-Tab puts focus inside the verdicts.
 // NOT seen: whether a reader notices the link (that is W-003's cold walk); occlusion anywhere
 // but the two hit-test points on the link's vertical centre line; clipping by an ancestor's
 // overflow; colour contrast; large text scaling; how far the method link sits below the
@@ -144,6 +147,19 @@ try {
       Boolean(method?.visible),
       method ? `"${method.text}"` : "no /methods#spectral-testing link inside #does-any-hold-up",
     );
+    // A second use of the same link jumps again (Codex review r1, finding 2: next/link left the
+    // reader at the header when the hash was already in the URL). Scroll home, tap again.
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(400);
+    if (s.touch) await link.tap();
+    else await link.click();
+    await page.waitForTimeout(900);
+    const again = await page.evaluate(() => Math.round(document.getElementById("does-any-hold-up-heading").getBoundingClientRect().top));
+    check(
+      `${s.name}: a second tap on it, from the top, jumps again (${CLEARANCE}-${LAND_MAX}px)`,
+      again >= CLEARANCE && again <= LAND_MAX,
+      `heading at ${again}px`,
+    );
     // Back must come home (cold walk 2026-10-01, finding 1): open a cycle from the verdicts,
     // press Back once, and /cycles must be on screen again — not just in the address bar. A
     // native #hash jump pushes a null-state history entry, and the App Router ignores a popstate
@@ -154,9 +170,14 @@ try {
     if (s.touch) await cycle.tap();
     else await cycle.click();
     await page.waitForURL((u) => u.pathname !== "/cycles", { timeout: 10000 });
-    await page.waitForTimeout(800);
+    // Wait for the cycle page to RENDER, not just for the URL (Codex r1: a Back pressed before
+    // the forward render lands is a different trip; on 2026-10-01 a local WebKit forward render
+    // once took >10s and a fixed 800ms wait read that as a Back failure).
+    await page.waitForFunction(() => document.querySelector("h1")?.textContent.trim() !== "The ten cycles", null, { timeout: 20000 });
+    await page.waitForTimeout(300);
     await page.goBack();
-    await page.waitForTimeout(1500);
+    // Poll for the restore (5s) rather than sleeping a fixed time; a stuck Back never arrives.
+    await page.waitForFunction(() => document.querySelector("h1")?.textContent.trim() === "The ten cycles", null, { timeout: 5000 }).catch(() => {});
     const back = await page.evaluate(() => {
       const h = document.getElementById("does-any-hold-up-heading");
       return {
@@ -174,6 +195,25 @@ try {
       back.path === "/cycles" && back.h1 === "The ten cycles",
       `opened ${cycleHref}; after Back: url ${back.path}${back.hash} · h1 "${back.h1}" · scrollY ${back.scrollY} · verdict heading at ${back.headingTop}px`,
     );
+    // Keyboard (Codex review r1, finding 1: next/link kept focus at the link, so the next Tab
+    // walked the ten entries above the verdicts). Fresh load, focus the link, Enter, Tab once:
+    // focus must land inside the verdict section, as a native #hash jump puts it.
+    // Chromium only: WebKit's Tab skips links by default, so this leg reads BODY there even for
+    // a native <a href="#…"> (measured on production 2026-10-01) and would say nothing.
+    if (!s.touch && engine === webkit) {
+      console.log(`SKIP  ${s.name}: keyboard leg — WebKit's Tab skips links by default`);
+    } else if (!s.touch) {
+      await page.goto(`${origin}/cycles`, { waitUntil: "networkidle" });
+      await page.locator(TARGET).first().focus();
+      await page.keyboard.press("Enter");
+      await page.waitForTimeout(900);
+      await page.keyboard.press("Tab");
+      const kb = await page.evaluate(() => {
+        const a = document.activeElement;
+        return { inside: Boolean(document.getElementById("does-any-hold-up")?.contains(a)), what: `${a?.tagName} ${a?.getAttribute("href") ?? ""} "${(a?.textContent ?? "").trim().slice(0, 30)}"` };
+      });
+      check(`${s.name}: Enter on it, then Tab, focuses inside the verdicts`, kb.inside, `focus on ${kb.what}`);
+    }
     await ctx.close();
   }
 } finally {

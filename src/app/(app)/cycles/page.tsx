@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import HashLink from "@/components/HashLink";
 import { cycles } from "@/data/cycles";
 import {
   confidenceGloss,
@@ -209,17 +210,15 @@ export default function CyclesIndex() {
               19px text box to 45px without growing the line: vertical padding on
               an inline box does not change the line height, so the 320x568 fold
               (30px spare) holds. nowrap keeps it one box; a wrapped link would
-              be two short ones. It is a <Link>, not a plain <a>: a native #hash
-              jump pushes a history entry with no router state, and the App
-              Router ignores a popstate without state, so Back from a cycle page
-              changed the URL and left that page on screen (cold walk
-              2026-10-01, finding 1). */}
-          <Link
+              be two short ones. It is a HashLink, not a plain <a> (Back from a
+              cycle page left that page on screen, cold walk 2026-10-01) and not
+              a next/link (focus and repeat jumps broke); see HashLink.tsx. */}
+          <HashLink
             href="#does-any-hold-up"
             className="py-[13px] whitespace-nowrap underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
             See which ones, and how short <span aria-hidden>↓</span>
-          </Link>
+          </HashLink>
         </p>
       </header>
 
@@ -274,13 +273,13 @@ export default function CyclesIndex() {
                         that the tag is tappable. It splits this line in
                         check-rendered-text's extraction ("30y · peak 1970 ·"
                         and "Narrative" become two lines) — expected, W-002. */}
-                    <Link
+                    <HashLink
                       href="#confidence-tags"
                       aria-label={`${confidenceLabel(cycle.confidence_level)}: what this confidence tag means`}
                       className="relative z-10 underline decoration-dotted decoration-ink-soft/60 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
                     >
                       {confidenceLabel(cycle.confidence_level)}
-                    </Link>
+                    </HashLink>
                   </span>
                 </div>
                 {/* 15px from 360 up, the phone floor every other entry page's
