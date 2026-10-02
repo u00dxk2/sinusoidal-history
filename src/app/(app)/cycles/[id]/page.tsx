@@ -523,10 +523,12 @@ export default async function CyclePage({ params }: Params) {
           {/* Below md the figure keeps its native 900px inside a sideways
               scroller: shrunk to a phone's width its 10-unit axis labels drew at
               ~4px and could not be read (cold walk 2026-10-02 r1, finding 1).
-              A tap opens the SVG on its own, for pinch-zoom. */}
+              A tap still opens the SVG on its own, for pinch-zoom, but the cue
+              no longer promises it: opened on a phone it is fitted to the
+              screen and smaller than inline (cold walk 2026-10-02 r2, finding 3). */}
           <figure className="border-t border-rule/30 pt-4">
             <p className="md:hidden font-mono text-[12px] text-ink-soft mb-2">
-              Swipe sideways for the whole figure · tap it to open it on its own
+              Swipe sideways for the whole figure
             </p>
             <FigureScroller
               storageKey={cycle.id}

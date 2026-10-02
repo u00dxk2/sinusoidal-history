@@ -2,7 +2,7 @@
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
 //   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
-//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always]
 //
 // Round 2 (2026-10-02, cold walk docs/walks/2026-10-02-r1 findings 1-2) added the figure legs,
 // on each of the nine paired pages: the visible download controls are DRAWN in one case (all
@@ -15,6 +15,12 @@
 // first), still equal 600ms later. Mutations: flat-figure (squeezed, untappable, PNG mixed-case),
 // clip-figure (900px but overflow-x hidden), lose-place (scrollLeft reset after Back).
 // The result sentence now counts its records and names the unpaired row(s).
+// Round 3 (2026-10-02, I-018, cold walk r2 finding 1) added three return legs per paired page at
+// the touch sizes: an in-app Back keeps the sideways place (300); a fresh visit by the /cycles
+// list link, and a typed URL in the same tab, start the figure at scrollLeft 0. Red arm:
+// production before the change (sessionStorage restore on every mount) fails both fresh legs.
+// Mutation restore-always puts the old restore back on the fresh arrivals; lose-place also
+// drops the in-app Back place.
 // CEILING, declared after two review rounds found the same class (Codex r1 #1, r2 #1-#2): the
 // size and reachability legs are geometric PROXIES for "the reader can see and swipe to every
 // label", and contrived CSS can fool them — padding or object-fit inside a 900x500 img box
@@ -283,6 +289,51 @@ async function checkFigure(page, s, path) {
     Math.abs(after.y - before.y) <= 2 && Math.abs(after.x - before.x) <= 2 && Math.abs(after.y - first.y) <= 2,
     `scrollY ${Math.round(before.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)}`,
   );
+
+  // Round 3 (I-018; cold walk 2026-10-02 r2, finding 1): the place is kept for a RETURN only.
+  // This page was just reached by a document Back, so its navigation entry reads back_forward,
+  // which is the case a navigation-type test gets wrong (tmp/measure-restore-navtypes, prod).
+  const left = () => page.evaluate(() => document.querySelector('#spectral-verdict [role="region"]')?.scrollLeft ?? -1);
+  const swipeTo = async (x) => {
+    await page.locator('#spectral-verdict [role="region"]').scrollIntoViewIfNeeded();
+    await page.evaluate((x) => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = x; }, x);
+    await page.waitForTimeout(400);
+  };
+  const arrive = async (p) => {
+    await page.waitForFunction((p) => location.pathname === p && Boolean(document.querySelector('#spectral-verdict [role="region"]')), p, { timeout: 20000 });
+    await page.waitForTimeout(600);
+  };
+  const toCyclesInApp = async () => {
+    await page.locator('main a[href="/cycles"]:visible').first().tap();
+    await page.waitForFunction(() => location.pathname === "/cycles" && Boolean(document.getElementById("does-any-hold-up")), null, { timeout: 20000 });
+  };
+  // restore-always puts back round 2's behaviour (the saved place on every arrival); every
+  // fresh-arrival leg must FAIL under it. lose-place also drops the in-app Back place.
+  const mutateFresh = async () => {
+    if (mutate === "restore-always") await page.evaluate(() => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = 300; });
+  };
+
+  await swipeTo(300);
+  await toCyclesInApp();
+  await page.goBack();
+  await arrive(path);
+  if (mutate === "lose-place") await page.evaluate(() => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = 0; });
+  const inAppBack = await left();
+  check(`${s.name}: ${path} an in-app Back keeps the figure's sideways place`, Math.abs(inAppBack - 300) <= 2, `scrollLeft 300 → ${Math.round(inAppBack)}`);
+
+  await toCyclesInApp();
+  await page.locator(`#does-any-hold-up a[href^="${path}"]:visible`).first().tap();
+  await arrive(path);
+  await mutateFresh();
+  const viaList = await left();
+  check(`${s.name}: ${path} a fresh visit by the /cycles list starts the figure at its left edge`, viaList === 0, `swiped to 300, then scrollLeft ${Math.round(viaList)}`);
+
+  await swipeTo(300);
+  await page.goto(`${origin}${path}`, { waitUntil: "load", timeout: 60000 });
+  await arrive(path);
+  await mutateFresh();
+  const typed = await left();
+  check(`${s.name}: ${path} a typed visit in the same tab starts the figure at its left edge`, typed === 0, `swiped to 300, then scrollLeft ${Math.round(typed)}`);
 }
 
 const browser = await chromium.launch();

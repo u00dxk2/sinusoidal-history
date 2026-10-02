@@ -1,5 +1,23 @@
 # Changelog
 
+## The phone figure starts where the story starts (2026-10-02, round 3)
+
+- **A fresh visit opens the spectral figure at its left edge** (I-018; cold walk 2026-10-02
+  r2, finding 1). Round 2 kept the reader's sideways place in sessionStorage and put it back
+  on every visit, so coming back to a cycle page by a link (or a typed URL in the same tab)
+  reopened the figure scrolled to wherever it was left, with its title and the start of the
+  record off-screen. The place now lives on the browser-history entry it belongs to: Back
+  and Forward (in the site, or from the opened SVG) still return to it, and any new arrival
+  starts at 0. A navigation-type test could not do this: an in-app Back reads "navigate",
+  and after a Back from the opened SVG every later in-app arrival reads "back_forward".
+- **The phone cue no longer promises the opened view.** It reads "Swipe sideways for the
+  whole figure". Opened on a phone the SVG is fitted to the screen and smaller than inline
+  (finding 3); the tap still opens it, for pinch-zoom.
+- `scripts/check-verdict-landing.mjs` gains three return legs per paired page at the three
+  touch sizes: an in-app Back keeps the place, and a fresh visit by the /cycles list or a
+  typed URL starts at 0. Production before: 310/364 (the 54 fresh-visit legs fail). Local
+  build after: 364/364. `--mutate restore-always` turns exactly those 54 red (310/364).
+
 ## The spectral-verdict figure can be read on a phone (2026-10-02, round 2)
 
 - **The figure keeps its own size on phones** (cold walk 2026-10-02 r1, finding 1). The
