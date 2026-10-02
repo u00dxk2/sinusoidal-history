@@ -259,3 +259,80 @@ The fix to test first (HYPOTHESIS until measured): replace the header's `<a href
   - **prior-day retro:** 9 of 10 of my 09-30 findings are still on discipline, and 1 is carried (I-013, to 10-03). None recurred in a way that bears on this choice.
 
 **Held, not selected:** walk finding 2 (the per-cycle deep link lands with the cycle's h1 off-screen) and finding 3 (where the "0 of the 9" sits). Both are low severity per the walker, and both are behind W-003.
+
+---
+
+## Round 2 — P3, product-work loop (2026-10-01)
+
+**Action (kind: improve — a fix to my own live change):** I-015. After a reader used "See which ones, and how short ↓" on /cycles and then opened a cycle, one Back changed the URL to `/cycles#does-any-hold-up` but left the cycle page on screen. One Back now returns them to /cycles **at the verdict list** (heading 24px down), which is the manager review's "great version". The same bug was live in **six more** in-page links, and they are fixed too. The manager review (0d02870c) APPROVED it. Its HYPOTHESIS that `next/link` with a hash respects `scroll-mt-6` **held** (landing 24px). Its two SUGGESTIONS were taken: the Back leg records and now judges where /cycles lands, and the check runs in WebKit.
+
+1. **Implementation.**
+   - Commits on main:
+     - `4d4fe3a`: the seven `#hash` anchors become `next/link`; a lint rule; a Back leg and a `--webkit` switch in `check-verdict-reach`.
+     - `76e3153`: Codex r1's two regressions from `next/link` were reproduced. The fix changes the shape: `src/components/HashLink.tsx` does the jump itself. It calls `history.pushState(null, …)`, which Next's patched pushState stamps with router state, so Back restores. It then calls `scrollIntoView`, then focuses the target, so the next Tab continues from it. All seven jumps use it. The lint rule now refuses both `<a href="#…">` and `<Link href="#…">`. The check gains repeat-jump and keyboard legs.
+     - `f620cee`: Codex r2's two check-predicate gaps are closed. The Back landing is judged, and the forward page must prove it is a cycle page before Back.
+   - **Gates:** `verify-with-receipt -- npm test` → 124/124, exit 0, receipt on `f620cee1` (dirty paths are ledger-only). lint and typecheck are clean. **CI: GREEN** for `f620cee` (`check-ci-status --workflow ci.yml --wait`, 1 success, 0 failures).
+   - **Review — cross-family, Codex, read-only, foreground pipe, banner workdir checked = `C:\dev\skylark\sinusoidal-cycles` both rounds:**
+     - **r1** on `e3ed7d0..4d4fe3a`, which also covers round 1's unreviewed `d69f696..26c244d` gap. Two P2 findings, both CONFIRMED by reproduction:
+       - (1) After Enter on the link, Tab went to the roster above the verdicts. Production's native `<a>` put focus inside them. **Fixed in `76e3153`.**
+       - (2) A second click on the same link did not jump: heading at 2312px, against 24px on native. **Fixed in `76e3153`.**
+       - Coverage notes: the lint rule's blind spots are now named in its comment, and the Back leg's fixed waits are replaced by render and restore polls (`f620cee`).
+       - The config-override question was REFUTED by Codex itself: eslint-config-next sets no `no-restricted-syntax`.
+     - **r2** on `4d4fe3a..76e3153`. **No runtime defect in HashLink.** Two P2 findings in the check, both CONFIRMED against source:
+       - (1) The Back landing was printed but not judged. **Fixed in `f620cee`:** the heading must sit on the upper half of the screen.
+       - (2) The forward wait accepted no h1, or the error boundary's h1. **Fixed in `f620cee`:** it requires an h1 and `#does-it-hold-up`, and fails closed.
+     - `f620cee` touches the check only and had **no third review round**. It was proven by mutation instead (below).
+   - **Proof the instruments fail** (rule 1):
+     - Production before any change: Back leg **24/28** in Chromium and in WebKit.
+     - The `4d4fe3a` (Link) build: **28/33**, exactly the 5 new repeat and keyboard legs.
+     - Mutation, /cycles scrolled to the top after Back: **33/37**, exactly the 4 landing legs.
+     - Mutation, the forward wait aimed at an id no page has: **33/37**, the 4 Back legs ("it never rendered as a cycle page").
+     - Lint rule on `4d4fe3a`'s pages: **7 of 7** Link anchors flagged. Before `4d4fe3a`, it flagged **6 of 6** plain anchors.
+     - All mutations were reverted, and a Grep confirmed 0 `MUTATION` lines left.
+   - **Measured, not changed:**
+     - In WebKit, production's native `<a>` also puts focus on BODY after Enter+Tab, because WebKit's Tab skips links by default. So the keyboard leg is Chromium-only and says why.
+     - One WebKit Back failure in 3 runs was the check's fixed 800ms wait: a local forward render once took >10s. Across 10 repeated trips, every restore that followed a rendered page took 71-768ms.
+     - Jump→Back, Back→Forward and jump→2nd hash→Back are byte-identical to native `<a>` on scroll and URL.
+   - **Sibling sweep** (pattern: plain `<a>` with a `#…` href; roots: `src/**/*.tsx`; hit count **6** beyond the header link):
+     - /cycles `#confidence-tags`
+     - /methods `#spectral-testing` and its "On this page" list
+     - /cycles/<slug> `#confidence`, `#spectral-verdict` and `#caveat`
+
+     All 6 were live-broken on production (**0/6** came back after a hash jump, an in-app navigation and Back) and are fixed. The lint rule keeps the class out.
+
+2. **Delivery.**
+   - Render deploy `f620cee` is **live**, finished 2026-10-02 00:28:34Z UTC (Render deploys API, srv-d7mcat7lk1mc73bidim0; `check-deployed-sha-drift` is NOT-APPLICABLE-BY-REGISTRY for this commit-triggered service).
+   - Production reads after the deploy:
+     - `check-verdict-reach https://sinusoidalhistory.com`: **37/37** (29/37 before).
+     - `--webkit`: **36/36**.
+     - Sibling probe: **6/6** (0/6 before), each landing at the same offset as before (24/0/0/24/0/24px).
+     - `check-entry-folds 320x568`: **13 of 13**, `/cycles` 30px spare (unchanged).
+     - `/cycles` visible text, before vs live: **identical** (313 lines). /methods, /cycles/perez and the fathers-and-sons page were identical on the local build.
+     - The W-001 freeze holds: no title, meta, H1 or URL changed.
+
+3. **Encounter:** blind. There is no client analytics (a standing choice), so a reader pressing Back leaves no trace. The read is W-003's cold walk on 2026-10-03, whose onTrigger now adds: after the I-015 find-the-list question, open one cycle from the list and press Back once. Pass: back at the verdict list without a second press, on a real iPhone if one is available.
+
+4. **Outcome:** open. No read yet.
+
+USER-VISIBLE (debt-paydown): one Back from a cycle page now returns to the page the reader came from, at the place they left it — on /cycles after "See which ones, and how short ↓" (lands at the verdict list, heading 24px down) and after six other in-page links on /cycles, /methods and every cycle page; before, Back changed the URL and left the cycle page on screen — f620cee [proof: check-verdict-reach 29/37 → 37/37 on production (Chromium) and 36/36 (WebKit) after Render deploy f620cee live 2026-10-02 00:28:34Z UTC; sibling Back probe 0/6 → 6/6 on production; /cycles visible text identical; entry folds 13/13 at 320x568 unchanged] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader pressing Back leaves no trace · bug row W-003]
+
+[red-armed: node scripts/check-verdict-reach.mjs https://sinusoidalhistory.com (production before the deploy, plain <a href="#…">) -> 29/37 FAIL — "one Back from a cycle opened there shows /cycles again" and "that Back lands at the verdict list" at all four sizes: after Back, url /cycles#does-any-hold-up · h1 "Schlesinger Jr. — liberal/conservative cycle" · verdict heading at nullpx]
+
+mechanism-verified: `node scripts/check-verdict-reach.mjs https://sinusoidalhistory.com` (production, after the deploy) → `37/37 PASS`
+
+codexCalls: 2 (two foreground `codex exec --sandbox read-only` review runs, r1 and r2)
+adversarialReviews: 2 — EXECUTED (Codex r1 on e3ed7d0..4d4fe3a: 2 P2 found, both reproduced and fixed in 76e3153; Codex r2 on 4d4fe3a..76e3153: 0 runtime defects, 2 check-predicate P2 fixed in f620cee; f620cee check-only, proven by two mutations, no r3)
+hygiene helper: DISPATCHED ~22:36Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-01-r2.md PRESENT (0 disposition lines; inputs none). wait-justification `RESULT: PASS — 10 of 19`. engineering-zero `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. READ-MUTATED: none.
+Ledger (all through `continuity-edit`):
+- I-015: linkedCommits + 4d4fe3a, 76e3153, f620cee. closeWhen now reads 37/37 on production (met), plus W-003's find-the-list AND one-Back answers. notes + the round-2 record. Status is still monitoring to 10-03.
+- W-003: onTrigger gains the Back question.
+[standing-rules-hash: 88cc2dc9]
+
+**What remains:** W-003's walk on 2026-10-03 is the encounter read. A real iPhone (iOS Safari) has not been walked; the fix was verified in Chromium and Playwright WebKit. Walk findings 2 (the per-cycle deep link lands with the cycle's h1 off-screen) and 3 (where "0 of the 9" sits) are still held. Nothing else is owed on this outcome today.
+
+<!-- findings:begin -->
+**Round-2 P3 findings, 2026-10-01.**
+1. The obvious fix (next/link with a hash) fixed Back and silently dropped two native behaviours, keyboard focus and repeat jumps. A cross-family review caught both; neither the rendered-text gate nor the reach check could see them. In-page jumps now go through one component (HashLink) and a lint rule keeps plain or Link hash anchors out.
+2. The Back bug was not one link: 7 in-page anchors across /cycles, /methods and every cycle page carried it on production. The sibling sweep found 6 that the cold walk never touched.
+3. WebKit's Tab skips links by default, so a keyboard leg in WebKit reads BODY even for a native link; the leg is Chromium-only and says so.
+<!-- findings:end -->
