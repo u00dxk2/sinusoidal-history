@@ -360,7 +360,7 @@ export default function CyclesIndex() {
         <p className="text-[16px] leading-[1.55] text-ink">
           {spectralHeadline.eligible_primary === 0
             ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each of the ${spectralHeadline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
-            : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to test.`}
+            : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories ${spectralHeadline.eligible_primary === 1 ? "has" : "have"} a record long enough to test.`}
           {unpairedCount === 1
             ? " One cycle has no paired series, so there is nothing to test."
             : unpairedCount > 1

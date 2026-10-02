@@ -1,16 +1,23 @@
 // After a reader opens a cycle from the /cycles verdict list, does the screen they land on say
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
-//   node scripts/check-verdict-landing.mjs [origin] [--fails-only] [--mutate hide-name|wrong-sentence|dead-link|flat-figure]
+//   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place]
 //
 // Round 2 (2026-10-02, cold walk docs/walks/2026-10-02-r1 findings 1-2) added the figure legs,
-// on each of the nine paired pages: the download controls share one case (all sizes); and at the
-// three touch sizes, from where the box's link lands, the figure's smallest (10-unit) labels
-// render at >=10px and its "target:" label at >=11px, a tap on the figure opens the SVG on its
-// own, and Back from it keeps the scroll position. Production before: 112/256 (every figure leg
-// red: labels at 3.2-3.9px, the tap did nothing, PNG mixed-case). --mutate flat-figure squeezes
-// the figure to the column, makes its link untappable and un-capitalises the PNG button.
+// on each of the nine paired pages: the visible download controls are DRAWN in one case (all
+// sizes); and at the three touch sizes, from where the box's link lands: the figure's smallest
+// (10-unit) labels draw at >=10px and its "target:" label at >=11px (font size in the SVG times
+// the smaller of the img's two axis scales; the img must be loaded and visible); every part of
+// the figure can be brought on screen (it fits, or its clipping ancestor is a swipeable
+// overflow-x auto/scroll); a tap opens an image/svg+xml document at the figure's address; and
+// Back from it keeps both the page's scrollY and the figure's sideways scrollLeft (set to 200
+// first), still equal 600ms later. Mutations: flat-figure (squeezed, untappable, PNG mixed-case),
+// clip-figure (900px but overflow-x hidden), lose-place (scrollLeft reset after Back).
 // The result sentence now counts its records and names the unpaired row(s).
+// NOT seen by the figure legs: real gestures (a swipe, pinch), keyboard activation, ancestor
+// clipping above the nearest clipping box, CSS-set or inherited SVG font sizes (the frozen SVGs
+// set every size inline), real iOS Safari.
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
 // Written 2026-10-02 from the cold walk of that morning (skylark-site
@@ -81,7 +88,7 @@ const expectedSentence = (rows) => {
   return (
     (headline.eligible_primary === 0
       ? `None of the ${headline.total_primary} paired theories can be tested yet. Each of the ${headline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
-      : `${headline.eligible_primary} of the ${headline.total_primary} paired theories have a record long enough to test.`) +
+      : `${headline.eligible_primary} of the ${headline.total_primary} paired theories ${headline.eligible_primary === 1 ? "has" : "have"} a record long enough to test.`) +
     (unpaired === 1 ? " One cycle has no paired series, so there is nothing to test." : unpaired > 1 ? ` ${unpaired} cycles have no paired series, so there is nothing to test.` : "")
   );
 };
@@ -106,10 +113,12 @@ const svgFonts = new Map();
 async function fontsOf(src) {
   if (!svgFonts.has(src)) {
     const svg = await (await fetch(`${origin}${src}`)).text();
-    const vb = Number(svg.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+)/)[1]);
+    const [, vbW, vbH] = svg.match(/viewBox="[\d.]+ [\d.]+ ([\d.]+) ([\d.]+)"/);
+    const vb = Number(vbW);
     const sizes = [...svg.matchAll(/<text[^>]*font-size="([\d.]+)"[^>]*>([^<]*)</g)].map((t) => ({ size: Number(t[1]), text: t[2] }));
     svgFonts.set(src, {
       vb,
+      vbH: Number(vbH),
       min: Math.min(...sizes.map((t) => t.size)),
       target: sizes.find((t) => t.text.startsWith("target:"))?.size ?? null,
     });
@@ -123,63 +132,135 @@ async function checkFigure(page, s, path) {
       content: "#spectral-verdict figure img { width: 100% !important; max-width: 100% !important } #spectral-verdict figure a { pointer-events: none } #spectral-verdict button { text-transform: none !important }",
     });
   }
+  if (mutate === "clip-figure") {
+    // Keeps the figure 900px wide but takes the swipe away: the size legs alone would stay green.
+    await page.addStyleTag({ content: '#spectral-verdict [role="region"] { overflow-x: hidden !important }' });
+  }
+  // Case as DRAWN: innerText reflects text-transform, on the control and anything inside it, so a
+  // normal-case span inside an uppercase button still reads as mixed case (Codex r1 #4). Only the
+  // download controls a reader can see are read.
   const downloads = await page.evaluate(() => {
-    const ul = document.querySelector("#spectral-verdict a[download]")?.closest("ul");
-    return ul ? [...ul.querySelectorAll("a, button")].map((el) => getComputedStyle(el).textTransform) : [];
+    const ul = [...document.querySelectorAll("#spectral-verdict a[download]")].find((a) => a.checkVisibility())?.closest("ul");
+    return ul
+      ? [...ul.querySelectorAll("a, button")].filter((el) => el.checkVisibility({ opacityProperty: true, visibilityProperty: true })).map((el) => el.innerText.trim())
+      : [];
   });
   check(
-    `${s.name}: ${path} figure download controls share one case`,
-    downloads.length >= 2 && new Set(downloads).size === 1,
-    downloads.join(" / ") || "no download controls",
+    `${s.name}: ${path} figure download controls are drawn in one case`,
+    downloads.length >= 2 && downloads.every((t) => t === t.toUpperCase()),
+    downloads.map((t) => `"${t}"`).join(" / ") || "no visible download controls",
   );
   if (!s.touch) return;
 
-  // The reader's path: tap the box's link forward, as the landing leg above already proved it works.
-  await page.locator('#does-it-hold-up a[href="#spectral-verdict"]').tap();
-  await page.waitForFunction(() => location.hash === "#spectral-verdict", null, { timeout: 5000 });
+  // The reader's path: tap the box's link forward. Under --mutate dead-link that link cannot be
+  // tapped, which the landing legs already record; say so once and stop here (Codex r1 #5).
+  const reached = await page
+    .locator('#does-it-hold-up a[href="#spectral-verdict"]')
+    .tap({ timeout: 5000 })
+    .then(() => page.waitForFunction(() => location.hash === "#spectral-verdict", null, { timeout: 5000 }))
+    .then(() => true, () => false);
+  if (!reached) {
+    check(`${s.name}: ${path} the box link reaches the figure`, false, "the box link could not be tapped");
+    return;
+  }
   const img = page.locator('#spectral-verdict figure img[src^="/data/spectral/"]');
   const src = await img.getAttribute("src");
   const f = await fontsOf(src);
   await img.scrollIntoViewIfNeeded();
+  await page.waitForFunction((el) => el.complete && el.naturalWidth > 0, await img.elementHandle(), { timeout: 10000 }).catch(() => {});
   const g = await img.evaluate((el) => {
     const b = el.getBoundingClientRect();
-    // The tap point: the middle of the part of the figure that is on screen.
-    const l = Math.max(b.left, 0), r = Math.min(b.right, innerWidth);
-    const t = Math.max(b.top, 0), btm = Math.min(b.bottom, innerHeight);
-    return { w: b.width, x: (l + r) / 2, y: (t + btm) / 2 };
+    // The nearest ancestor that clips sideways, and whether a reader can swipe it (Codex r1 #1:
+    // overflow hidden still lets a script set scrollLeft, so the computed style decides).
+    let clip = null;
+    for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+      const ox = getComputedStyle(a).overflowX;
+      if (ox !== "visible") { clip = a; break; }
+    }
+    const fits = b.left >= -1 && b.right <= innerWidth + 1;
+    const swipeable = Boolean(clip && ["auto", "scroll"].includes(getComputedStyle(clip).overflowX) && clip.scrollWidth >= b.width - 1);
+    return {
+      w: b.width,
+      h: b.height,
+      loaded: el.complete && el.naturalWidth > 0,
+      visible: el.checkVisibility({ opacityProperty: true, visibilityProperty: true }),
+      reachable: fits || swipeable,
+      clipOverflow: clip ? getComputedStyle(clip).overflowX : "none",
+    };
   });
-  const scale = g.w / f.vb;
+  // Width alone could be fooled by a capped height letterboxing the drawing inside a wide box, so
+  // the drawn size is the smaller of the two axis scales (Codex r1 #1).
+  const scale = Math.min(g.w / f.vb, g.h / f.vbH);
   const minPx = f.min * scale;
   const targetPx = f.target === null ? null : f.target * scale;
+  const drawn = g.loaded && g.visible;
   check(
     `${s.name}: ${path} figure's smallest labels render at ≥10px`,
-    minPx >= 10,
-    `${f.min}-unit text at ${minPx.toFixed(1)}px (figure ${Math.round(g.w)}px wide)`,
+    drawn && minPx >= 10,
+    `${f.min}-unit text at ${minPx.toFixed(1)}px (figure ${Math.round(g.w)}x${Math.round(g.h)}px${drawn ? "" : ", NOT DRAWN"})`,
   );
   check(
     `${s.name}: ${path} figure's "target:" label renders at ≥11px`,
-    targetPx !== null && targetPx >= 11,
+    drawn && targetPx !== null && targetPx >= 11,
     targetPx === null ? "no target: label in the SVG" : `${f.target}-unit text at ${targetPx.toFixed(1)}px`,
   );
+  check(
+    `${s.name}: ${path} every part of the figure can be brought on screen`,
+    g.reachable,
+    g.reachable ? `clip ${g.clipOverflow}` : `wider than the screen and its clip is overflow-x: ${g.clipOverflow}`,
+  );
 
-  const yBefore = await page.evaluate(() => scrollY);
-  await page.touchscreen.tap(g.x, g.y);
+  // Swipe partway first, so Back is asked to keep the sideways place as well as the page's
+  // (Codex r1 #3).
+  const before = await page.evaluate(() => {
+    const r = document.querySelector('#spectral-verdict [role="region"]');
+    if (r && r.scrollWidth > r.clientWidth) r.scrollLeft = 200;
+    return { y: scrollY, x: r ? r.scrollLeft : 0 };
+  });
+  const tapAt = await img.evaluate((el) => {
+    const b = el.getBoundingClientRect();
+    const l = Math.max(b.left, 0), r = Math.min(b.right, innerWidth);
+    const t = Math.max(b.top, 0), btm = Math.min(b.bottom, innerHeight);
+    return { x: (l + r) / 2, y: (t + btm) / 2 };
+  });
+  await page.touchscreen.tap(tapAt.x, tapAt.y);
+  // Opened means the browser is showing an SVG document at the figure's address, not an error
+  // page or a pushed history entry at the same path (Codex r1 #2).
   const opened = await page
-    .waitForFunction((src) => location.pathname === src, src, { timeout: 5000 })
+    .waitForFunction(
+      (src) => location.pathname === src && document.contentType === "image/svg+xml" && document.documentElement.localName === "svg",
+      src,
+      { timeout: 5000 },
+    )
     .then(() => true, () => false);
-  check(`${s.name}: ${path} a tap on the figure opens it on its own`, opened, opened ? src : "the tap did nothing");
+  check(`${s.name}: ${path} a tap on the figure opens it on its own`, opened, opened ? `${src} (image/svg+xml)` : "the tap did not open the SVG");
   if (!opened) {
-    check(`${s.name}: ${path} Back from the opened figure keeps the scroll position`, false, "nothing to go back from");
+    check(`${s.name}: ${path} Back from the opened figure keeps the reader's place`, false, "nothing to go back from");
     return;
   }
   await page.goBack();
   await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
+  // Settled = the same place across two frames AND again 600ms later (Codex r1 #3: a late
+  // scroll after two quiet frames would otherwise pass).
+  const place = () =>
+    page.evaluate(() => {
+      const r = document.querySelector('#spectral-verdict [role="region"]');
+      return { y: scrollY, x: r ? r.scrollLeft : 0 };
+    });
   await page.waitForFunction(() => new Promise((r) => { const y = scrollY; requestAnimationFrame(() => requestAnimationFrame(() => r(scrollY === y))); }), null, { timeout: 5000 });
-  const yAfter = await page.evaluate(() => scrollY);
+  const first = await place();
+  await page.waitForTimeout(600);
+  if (mutate === "lose-place") {
+    await page.evaluate(() => {
+      const r = document.querySelector('#spectral-verdict [role="region"]');
+      if (r) r.scrollLeft = 0;
+    });
+  }
+  const after = await place();
   check(
-    `${s.name}: ${path} Back from the opened figure keeps the scroll position`,
-    Math.abs(yAfter - yBefore) <= 2,
-    `scrollY ${Math.round(yBefore)} → ${Math.round(yAfter)}`,
+    `${s.name}: ${path} Back from the opened figure keeps the reader's place`,
+    Math.abs(after.y - before.y) <= 2 && Math.abs(after.x - before.x) <= 2 && Math.abs(after.y - first.y) <= 2,
+    `scrollY ${Math.round(before.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)}`,
   );
 }
 

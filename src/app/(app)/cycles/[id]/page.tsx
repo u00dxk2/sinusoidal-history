@@ -21,6 +21,7 @@ import {
   troughYearsInRange,
 } from "@/lib/cycleRoutes";
 import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
+import FigureScroller from "@/components/FigureScroller";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import {
   statePath,
@@ -527,10 +528,9 @@ export default async function CyclePage({ params }: Params) {
             <p className="md:hidden font-mono text-[12px] text-ink-soft mb-2">
               Swipe sideways for the whole figure · tap it to open it on its own
             </p>
-            <div
-              tabIndex={0}
-              role="region"
-              aria-label="Spectral-verdict figure, scrolls sideways"
+            <FigureScroller
+              storageKey={cycle.id}
+              label="Spectral-verdict figure, scrolls sideways"
               className="overflow-x-auto md:overflow-visible"
             >
               <a href={`/data/spectral/${cycle.id}.svg`} className="block w-max md:w-auto">
@@ -546,7 +546,7 @@ export default async function CyclePage({ params }: Params) {
                   className="block w-[900px] max-w-none h-auto md:w-full md:max-w-full"
                 />
               </a>
-            </div>
+            </FigureScroller>
           </figure>
           <FigureDownloads
             svgHref={`/data/spectral/${cycle.id}.svg`}

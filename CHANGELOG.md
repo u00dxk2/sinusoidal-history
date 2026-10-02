@@ -12,8 +12,9 @@
   same scroll position. On desktop the figure keeps the column's width; a click there
   also opens it on its own. The SVGs themselves are untouched (the
   spectral manifest is frozen).
-- **"Figure PNG ↓" is capitalised like "FIGURE SVG ↓"**. Preflight resets a button's
-  `text-transform`, so the two download controls sat side by side in different cases.
+- **"Figure PNG ↓" is capitalised like "FIGURE SVG ↓"**. The button did not take its
+  list's uppercase (its computed `text-transform` was `none`), so the two download
+  controls sat side by side in different cases. It is now set on the button itself.
 - **The /cycles result sentence counts its records** (finding 2). "Each record below"
   sat over ten rows, one with no record. It now reads "Each of the 9 records below…" and
   ends "One cycle has no paired series, so there is nothing to test." Both counts are
