@@ -116,7 +116,7 @@ Own probes to exclude from any request-log read: 2026-10-02T06:15Z-06:23Z (page 
      - `4fe0aef`: Codex r1's three check gaps closed (below). Check-only.
    - One commit for the three edits, not the three my P1 packet promised: the label and the tap box are in the same file and I could not split them without interactive staging.
    - **The fold was the real constraint.** The first build wrapped the label at 320 wide and cut `/cycles/turchin` 5px below a 320x568 screen (12 of 13). Tightening the label's letter-spacing below 380px restored 13 of 13 with Turchin back at 12px. At 320 two labels still wrap (Schlesinger Jr. 35 → 18px spare, Kondratiev 92 → 76px). My P1 estimate that the name "may have to go somewhere other than the label line" was wrong for 8 of 10 and survivable for the other 2.
-   - **Gates:** `verify-with-receipt -- npm test` → 124/124, exit 0, receipt on `e5bd4174` (later paths are the check script, the changelog and docs). lint clean (whole repo on `e5bd417`; the check file alone on `4fe0aef`). typecheck clean. **CI: GREEN** for `4fe0aef` (`check-ci-status --workflow ci.yml --wait`, 1 success, 0 failures).
+   - **Gates:** `verify-with-receipt -- npm test` → 124/124, exit 0, first on `e5bd4174` and again at HEAD `66e8040e` after the check fix and the docs commit. lint clean (whole repo on `e5bd417`; the check file alone on `4fe0aef`). typecheck clean. **CI: GREEN** for `4fe0aef` (`check-ci-status --workflow ci.yml --wait`, 1 success, 0 failures).
    - **Review — cross-family, Codex, read-only, foreground pipe, banner workdir checked = `C:\dev\skylark\sinusoidal-cycles`:**
      - **r1** on `6bf8e65..e5bd417` (head confirmed by the reviewer). No defect found in the pages, in the copy against `verdicts.json` (both branches), or in titles, meta, H1s, URLs and ids. Three P2 findings in the new check, all STATIC, all CONFIRMED against source and fixed in `4fe0aef`:
        - (1) The naming leg passed on a name with `visibility:hidden`. It now needs `checkVisibility`, a rect wholly inside the viewport, and the name on top at its own centre.
@@ -170,3 +170,54 @@ Ledger (all through `continuity-edit`):
 2. A check written from a measurement script inherits its looseness. All three of the first version's legs could pass on a broken page (hidden name, wrong sentence, dead link); the cross-family review found all three by reading, and each now has a mutation arm in the script.
 3. `elementFromPoint` returns null below the fold, so a hit-test on a link the landing screen does not reach reads as "misses". The check scrolls the link into view first.
 <!-- findings:end -->
+
+---
+
+## Close
+
+ACTION: COMPLETED · item I-016 · P3 2df7ee10
+
+**What shipped, in plain words:** opening a cycle from the /cycles verdict list now lands on a box that names it ("Kondratiev wave · Does it hold up?"). The list states "None of the 9 paired theories can be tested yet" above its rows, and the box's link forward is a 44px tap target. Live on Render since 2026-10-02 07:20:46Z UTC (`4fe0aef`).
+
+**Acceptance correction (manager review f14f2b7d, item 1).** My P1 acceptance said `check-entry-folds` stays 13 of 13 "with every leg at 8px spare or more". That line was wrong, not the page:
+- `scripts/check-entry-folds.mjs` has no 8px floor. A leg is OK when it is not cut.
+- The 8px figure is a design rule that I-007 applied to the one leg it changed (`/cycles`).
+- `/` has read 4px spare at 360x560 since `be29b3a` (2026-09-24); `docs/daily-config.md` records it. It read 4px on production today before this change and 4px after.
+- The legs this change can move are the ten cycle pages. Their minimum is 12px (`/cycles/turchin`, unchanged), so the floor holds for every leg the change touches.
+- So the action is COMPLETED on the acceptance as corrected: 13 of 13 at all three phone sizes, no leg lost spare that cut it, and every changed leg has 12px or more. `/` at 4px is thin, was not caused by this change, and is not I-016's.
+
+**Changed since the P3 post (2df7ee10):**
+- The manager review read the action as COMPLETED. It confirmed the three commits are on origin/main, read the diff, and read the new label and sentence in production's HTML. It did not re-run the four-size check or the mutation arms.
+- Its item 2 (does "Each record below…" read as covering the tenth, unpaired row?) is not changed tonight. It is now a question in W-003's walk.
+- CI for `66e8040e` (the docs commit): GREEN (`check-ci-status --workflow ci.yml`, 1 success, 0 failures).
+- Waker rank 1 exited twice to wake the pane for queued rows and was relaunched alone each time. Not product work.
+
+**Hygiene draft:** 0 lines, so nothing to accept, amend or reject (inputs: none).
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification at the helper: `RESULT: PASS — 10 of 19`. Re-run at close, after I minted I-016 with its wait: `RESULT: PASS — 11 of 20 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable`. No lockfile changed today.
+
+**Due gates:** `check-due-gates-dispositioned` returned `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-10-02; 0 rows were due).
+
+**Ledger delta (all through `continuity-edit`):**
+- **I-016 minted, monitoring, nextEvaluation 2026-10-03.** At P3: the problem, the fix, the review, the delivery numbers. At P5: notes gained the acceptance correction above and the line that W-003's walk is N = 1 and synthetic, never to be quoted as a user encounter.
+- **W-003:** onTrigger gained three questions today (two at P3, one at P5), quoted under Pending reads.
+- **W-001:** notes gained the changed body strings and the ship's Search Console day (the 2026-10-02 Pacific bucket), so the 2026-10-07 read can attribute a move.
+- **I-015:** notes say its two held walk findings shipped as I-016. Still monitoring to 2026-10-03.
+- **I-013 unchanged.** Still David's decision, carried to 10-03.
+
+**Pending reads.** W-003's cold walk on **2026-10-03** is the only encounter read I-016 has, and I-016 closes only on it. It is N = 1 and synthetic. The questions as they stand in the row:
+- After opening a cycle from the verdict list, before scrolling or pressing Back: "which cycle is this page about, and where on the screen does it say so?" Pass: named from the box's label. Fail: they scrolled up to the H1, or could not say.
+- Back at the list: "before reading the rows, what did the list as a whole find?" Pass: "none can be tested yet", from the sentence under the heading.
+- "How many rows are below that sentence, and does it describe all of them?" Pass: the walker reads the tenth row as outside the nine. Fail: they read the sentence as covering all ten rows; then the copy changes.
+
+The same walk is still the encounter read for I-008 through I-015, and for I-013. Real iOS Safari is unwalked.
+
+**Receipt:** P3's line (2df7ee10) still holds. Nothing new.
+
+**Recorded as it stands:** `4fe0aef` (check-only) had no second cross-family round; three mutation arms are its proof. The box's `aria-label` is still the generic "Does this cycle hold up". 3 of the 11 changed pages were text-diffed on production.
+
+**UNRESOLVED:** none.
+
+codexCalls: 1 (one foreground read-only Codex review run at P3; none at P5)
+[standing-rules-hash: 88cc2dc9]
