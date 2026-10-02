@@ -2,7 +2,7 @@
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
 //   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
-//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case]
 //
 // Round 2 (2026-10-02, cold walk docs/walks/2026-10-02-r1 findings 1-2) added the figure legs,
 // on each of the nine paired pages: the visible download controls are DRAWN in one case (all
@@ -15,6 +15,13 @@
 // first), still equal 600ms later. Mutations: flat-figure (squeezed, untappable, PNG mixed-case),
 // clip-figure (900px but overflow-x hidden), lose-place (scrollLeft reset after Back).
 // The result sentence now counts its records and names the unpaired row(s).
+// CEILING, declared after two review rounds found the same class (Codex r1 #1, r2 #1-#2): the
+// size and reachability legs are geometric PROXIES for "the reader can see and swipe to every
+// label", and contrived CSS can fool them — padding or object-fit inside a 900x500 img box
+// (the drawing is smaller than the box), or an inner overflow ancestor with no scroll range
+// hiding an outer overflow:hidden (only the nearest clipping ancestor is read). They catch the
+// regressions that have happened (the figure shrunk to the column; the swipe taken away); they
+// do not prove readability. The proof of "can read it" is a person: W-003's walk question.
 // NOT seen by the figure legs: real gestures (a swipe, pinch), keyboard activation, ancestor
 // clipping above the nearest clipping box, CSS-set or inherited SVG font sizes (the frozen SVGs
 // set every size inline), real iOS Safari.
@@ -136,19 +143,33 @@ async function checkFigure(page, s, path) {
     // Keeps the figure 900px wide but takes the swipe away: the size legs alone would stay green.
     await page.addStyleTag({ content: '#spectral-verdict [role="region"] { overflow-x: hidden !important }' });
   }
+  if (mutate === "literal-case") {
+    // Codex r2 #3's case: the button's text typed in capitals with text-transform none. Drawn
+    // text matches; the computed text-transform does not.
+    await page.evaluate(() => {
+      for (const b of document.querySelectorAll("#spectral-verdict button")) {
+        b.textContent = b.textContent.toUpperCase();
+        b.style.setProperty("text-transform", "none", "important");
+      }
+    });
+  }
   // Case as DRAWN: innerText reflects text-transform, on the control and anything inside it, so a
   // normal-case span inside an uppercase button still reads as mixed case (Codex r1 #4). Only the
   // download controls a reader can see are read.
   const downloads = await page.evaluate(() => {
     const ul = [...document.querySelectorAll("#spectral-verdict a[download]")].find((a) => a.checkVisibility())?.closest("ul");
     return ul
-      ? [...ul.querySelectorAll("a, button")].filter((el) => el.checkVisibility({ opacityProperty: true, visibilityProperty: true })).map((el) => el.innerText.trim())
+      ? [...ul.querySelectorAll("a, button")]
+          .filter((el) => el.checkVisibility({ opacityProperty: true, visibilityProperty: true }))
+          .map((el) => ({ text: el.innerText.trim(), tt: getComputedStyle(el).textTransform }))
       : [];
   });
+  // Both: the acceptance names the computed text-transform (Codex r2 #3), and the drawn text
+  // catches a differently-cased child inside an uppercase control (r1 #4).
   check(
     `${s.name}: ${path} figure download controls are drawn in one case`,
-    downloads.length >= 2 && downloads.every((t) => t === t.toUpperCase()),
-    downloads.map((t) => `"${t}"`).join(" / ") || "no visible download controls",
+    downloads.length >= 2 && new Set(downloads.map((d) => d.tt)).size === 1 && downloads.every((d) => d.text === d.text.toUpperCase()),
+    downloads.map((d) => `"${d.text}" (${d.tt})`).join(" / ") || "no visible download controls",
   );
   if (!s.touch) return;
 
