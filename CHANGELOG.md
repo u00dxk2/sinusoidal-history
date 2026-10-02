@@ -13,10 +13,14 @@
 - **The phone cue no longer promises the opened view.** It reads "Swipe sideways for the
   whole figure". Opened on a phone the SVG is fitted to the screen and smaller than inline
   (finding 3); the tap still opens it, for pinch-zoom.
-- `scripts/check-verdict-landing.mjs` gains three return legs per paired page at the three
-  touch sizes: an in-app Back keeps the place, and a fresh visit by the /cycles list or a
-  typed URL starts at 0. Production before: 310/364 (the 54 fresh-visit legs fail). Local
-  build after: 364/364. `--mutate restore-always` turns exactly those 54 red (310/364).
+- `scripts/check-verdict-landing.mjs` gains four return legs per paired page at the three
+  touch sizes: an in-app Back keeps the place, Back to an in-page hash-jump entry keeps it,
+  and a fresh visit by the /cycles list or a typed URL starts at 0. Every return read waits
+  for the scroller's own ready mark. Production before (three of the legs): 310/364, the 54
+  fresh-visit legs failing. Local build after: 391/391. `--mutate restore-always` turns
+  exactly the 54 fresh-visit legs red (337/391). A Codex review (r3-1) found the hash-jump
+  and debounce cases; both are fixed, and a Back pressed within 250ms of the last swipe
+  drops that swipe by design.
 
 ## The spectral-verdict figure can be read on a phone (2026-10-02, round 2)
 

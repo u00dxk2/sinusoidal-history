@@ -61,21 +61,35 @@ export default function FigureScroller({
     if (!el) return;
     const saved = savedPlace(storageKey);
     if (saved > 0) el.scrollLeft = saved;
+    // Read by check-verdict-landing: the restore (or the decision not to) has
+    // run, so a scrollLeft read after this is the settled answer.
+    el.dataset.placeReady = "1";
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const flush = () => {
-      if (timer === undefined) return;
-      clearTimeout(timer);
-      timer = undefined;
-      savePlace(storageKey, Math.round(el.scrollLeft));
-    };
+    let pendingFor = "";
+    const write = () => savePlace(storageKey, Math.round(el.scrollLeft));
     const save = () => {
       clearTimeout(timer);
-      timer = setTimeout(flush, 250);
+      pendingFor = location.href;
+      timer = setTimeout(() => {
+        timer = undefined;
+        // A browser Back inside the debounce has already moved history to
+        // another entry; writing now would put this place on THAT entry
+        // (Codex r3-1 #2). The last <250ms of swiping before such a Back is
+        // lost instead: a declared limit, not a bug.
+        if (location.href === pendingFor) write();
+      }, 250);
     };
-    // A tap that leaves (the figure's own link, or any in-app link) can come
-    // inside the debounce. Flush at the click, while this page's entry is still
-    // the current one; an unmount is too late, because the router has already
-    // pushed the next entry by then.
+    // Any click may be the one that leaves (the figure's own link, an in-app
+    // link). Write the current place onto the CURRENT entry at the click,
+    // before the router pushes the next one, and do it even with no save
+    // pending: an in-page hash jump (HashLink) pushes an entry that carries no
+    // place, and the reader may then leave from it without swiping again
+    // (Codex r3-1 #1).
+    const flush = () => {
+      clearTimeout(timer);
+      timer = undefined;
+      write();
+    };
     el.addEventListener("scroll", save, { passive: true });
     document.addEventListener("click", flush, true);
     window.addEventListener("pagehide", flush);

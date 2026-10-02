@@ -20,7 +20,11 @@
 // list link, and a typed URL in the same tab, start the figure at scrollLeft 0. Red arm:
 // production before the change (sessionStorage restore on every mount) fails both fresh legs.
 // Mutation restore-always puts the old restore back on the fresh arrivals; lose-place also
-// drops the in-app Back place.
+// drops the in-app Back place. Codex r3-1 added a fourth: Back to an in-page hash-jump entry
+// (swipe, then the box's HashLink, then leave and come Back) keeps the place; and every return
+// read waits for the scroller's data-place-ready mark, not just the DOM. NOT seen: a Back
+// pressed within the scroller's 250ms save debounce (the last swipe is dropped by design);
+// router.refresh() (clears the place; the site never calls it); real iOS Safari's bfcache.
 // CEILING, declared after two review rounds found the same class (Codex r1 #1, r2 #1-#2): the
 // size and reachability legs are geometric PROXIES for "the reader can see and swipe to every
 // label", and contrived CSS can fool them — padding or object-fit inside a 900x500 img box
@@ -299,8 +303,15 @@ async function checkFigure(page, s, path) {
     await page.evaluate((x) => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = x; }, x);
     await page.waitForTimeout(400);
   };
+  // Settled = the scroller's own effect has run (data-place-ready, set after its restore
+  // decision), not merely the DOM present: a server-rendered region reads 0 before hydration,
+  // and a late restore would otherwise escape the read (Codex r3-1 #3).
   const arrive = async (p) => {
-    await page.waitForFunction((p) => location.pathname === p && Boolean(document.querySelector('#spectral-verdict [role="region"]')), p, { timeout: 20000 });
+    await page.waitForFunction(
+      (p) => location.pathname === p && document.querySelector('#spectral-verdict [role="region"]')?.dataset.placeReady === "1",
+      p,
+      { timeout: 20000 },
+    );
     await page.waitForTimeout(600);
   };
   const toCyclesInApp = async () => {
@@ -320,6 +331,18 @@ async function checkFigure(page, s, path) {
   if (mutate === "lose-place") await page.evaluate(() => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = 0; });
   const inAppBack = await left();
   check(`${s.name}: ${path} an in-app Back keeps the figure's sideways place`, Math.abs(inAppBack - 300) <= 2, `scrollLeft 300 → ${Math.round(inAppBack)}`);
+
+  // Codex r3-1 #1: swipe, THEN an in-page hash jump (the box's own HashLink pushes a new entry
+  // that carries no place), then leave and come Back to that entry without swiping again.
+  await swipeTo(250);
+  await page.locator('#does-it-hold-up a[href="#spectral-verdict"]').tap();
+  await page.waitForFunction(() => location.hash === "#spectral-verdict", null, { timeout: 5000 });
+  await toCyclesInApp();
+  await page.goBack();
+  await arrive(path);
+  if (mutate === "lose-place") await page.evaluate(() => { document.querySelector('#spectral-verdict [role="region"]').scrollLeft = 0; });
+  const afterHash = await left();
+  check(`${s.name}: ${path} Back to a hash-jump entry keeps the figure's sideways place`, Math.abs(afterHash - 250) <= 2, `scrollLeft 250 → ${Math.round(afterHash)}`);
 
   await toCyclesInApp();
   await page.locator(`#does-any-hold-up a[href^="${path}"]:visible`).first().tap();
