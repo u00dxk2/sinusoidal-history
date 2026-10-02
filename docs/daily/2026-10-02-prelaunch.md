@@ -448,3 +448,60 @@ hygiene helper: DISPATCHED ~15:40Z UTC · draft tmp/hygiene-draft-sinusoidal-cyc
 <!-- findings:end -->
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+## ROUND 2 — Close
+
+ACTION: COMPLETED · item I-017 · P3 851e9c28
+
+The manager review (fc7f695b) found the work COMPLETED against the redirected acceptance:
+- **Acceptance:** `check-verdict-landing` reads 283/283 on production after Render deploy `d341757` (live 17:09:14Z UTC), up from 112/256.
+- **What that covers:** on 9 of 9 paired pages at 390x664, 360x560 and 320x568, the 10-unit labels draw at 10px and "target:" at 11px; a tap opens the SVG; Back keeps scrollY and scrollLeft; the download pair shares one computed text-transform and one drawn case; and the /cycles sentence counts its records.
+
+**Changed since the P3 post (851e9c28):**
+- **The manager's restore HYPOTHESIS is now OBSERVED.** On production (~17:35Z UTC, Chromium, iPhone 15 390x664, /cycles/kondratiev; the script is in the untracked `tmp/`):
+  - after swiping to 200, a fresh visit through the /cycles list reopens the figure at scrollLeft 200;
+  - a typed URL in the same tab also reopens at 200;
+  - a new tab opens at 0 (positive control).
+  Rowed as **I-018**.
+- **The desktop figure is now measured.** On production (~17:37Z UTC) it renders 704px wide at 768, 1024 and 1440, so the 10-unit labels draw at 7.8px and "target:" at 8.6px. Rowed as **I-019**.
+
+**Hygiene draft:** 0 lines (0 accepted, 0 amended, 0 rejected; no inputs). READ-MUTATED: none (0 reads guarded).
+
+| Check | When | Result |
+|---|---|---|
+| check-wait-justification | at the helper | `RESULT: PASS — 11 of 20` |
+| check-wait-justification | re-run at close, after I minted I-017, I-018, I-019 | `RESULT: PASS — 12 of 23 row(s) carry waitJustification; 0 warn / 2 info (exit 0)` |
+| check-engineering-zero | at the helper | `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable` |
+| check-engineering-zero | re-run at close | same |
+
+No lockfile changed today.
+
+**Due gates:** `check-due-gates-dispositioned` → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-10-02; 0 rows due).
+
+**Ledger delta** (all through `continuity-edit`):
+- **I-017** was minted at P3, monitoring to 2026-10-03. At close its notes gained the review verdict and the two follow-ups.
+- **I-018 minted, open, nextEvaluation 2026-10-03.** FigureScroller restores the sideways place on a fresh visit too (OBSERVED above). The fix and its check leg are in its onTrigger.
+- **I-019 minted, open, nextEvaluation 2026-10-03.** The desktop figure's labels draw at 7.8px (OBSERVED above). The options and the check extension are in its onTrigger.
+- **W-003**'s onTrigger gained the I-017 questions at P3. **W-001**'s notes gained round 2's changed strings at P3.
+
+**Pending reads:**
+- **2026-10-03: W-003's cold walk.** It is the encounter read for I-016 and I-017. It is N = 1 and synthetic, never to be quoted as a user. Its I-017 questions are:
+  - on a phone, the figure's target period and band are read without pinch-zoom, then swipe, tap and Back;
+  - the rows question, now on the new copy.
+- **2026-10-07: W-001's Search Console read.** The freeze holds until then.
+
+**Receipt:** P3's line (851e9c28) still holds. Nothing new.
+
+**Recorded as it stands:**
+- The two Codex r2 check ceilings are declared in the check's header, not fixed.
+- Real iOS Safari is unwalked.
+- The /cycles intro sentence is left alone under the freeze.
+
+**UNRESOLVED:** none.
+
+codexCalls: 2 (two foreground read-only Codex review runs at P3; none at P5)
+[standing-rules-hash: 88cc2dc9]
