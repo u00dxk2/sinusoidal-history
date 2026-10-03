@@ -1,0 +1,107 @@
+# read-output sidecar for I-011 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs
+# ran: 2026-10-03T15:59:26.328Z · exit: 0
+# lines: 101 · sha256: 94015afe1afacc3c (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  iPhone 15: coarse pointer  — (pointer: coarse) = true
+PASS  iPhone 15: no page scroll sideways  — scrollWidth 393 vs 393
+PASS  iPhone 15: no sideways scroller on the page  — none
+PASS  iPhone 15: schlesinger_jr phase  — "rising" (API rising)
+PASS  iPhone 15: schlesinger_jr next peak  — "peak 2030" (API peak 2030)
+PASS  iPhone 15: schlesinger_jr next trough  — "trough 2045" (API trough 2045)
+PASS  iPhone 15: schlesinger_jr link ≥44px  — 44.00px
+PASS  iPhone 15: turchin_fathers_sons phase  — "falling" (API falling)
+PASS  iPhone 15: turchin_fathers_sons next peak  — "peak 2070" (API peak 2070)
+PASS  iPhone 15: turchin_fathers_sons next trough  — "trough 2045" (API trough 2045)
+PASS  iPhone 15: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  iPhone 15: kondratiev phase  — "peaking" (API peaking)
+PASS  iPhone 15: kondratiev next peak  — "peak 2027" (API peak 2027)
+PASS  iPhone 15: kondratiev next trough  — "trough 2054" (API trough 2054)
+PASS  iPhone 15: kondratiev link ≥44px  — 44.00px
+PASS  iPhone 15: perez phase  — "troughing" (API troughing)
+PASS  iPhone 15: perez next peak  — "peak 2055" (API peak 2055)
+PASS  iPhone 15: perez next trough  — "trough 2028" (API trough 2028)
+PASS  iPhone 15: perez link ≥44px  — 44.00px
+PASS  iPhone 15: huntington phase  — "rising" (API rising)
+PASS  iPhone 15: huntington next peak  — "peak 2028" (API peak 2028)
+PASS  iPhone 15: huntington next trough  — "trough 2058" (API trough 2058)
+PASS  iPhone 15: huntington link ≥44px  — 44.00px
+PASS  iPhone 15: dalio phase  — "peaking" (API peaking)
+PASS  iPhone 15: dalio next peak  — "peak 2100" (API peak 2100)
+PASS  iPhone 15: dalio next trough  — "trough 2063" (API trough 2063)
+PASS  iPhone 15: dalio link ≥44px  — 44.00px
+PASS  iPhone 15: strauss_howe phase  — "rising" (API rising)
+PASS  iPhone 15: strauss_howe next peak  — "peak 2039" (API peak 2039)
+PASS  iPhone 15: strauss_howe next trough  — "trough 2081" (API trough 2081)
+PASS  iPhone 15: strauss_howe link ≥44px  — 44.00px
+PASS  iPhone 15: modelski phase  — "crossing" (API crossing)
+PASS  iPhone 15: modelski next peak  — "peak 2055" (API peak 2055)
+PASS  iPhone 15: modelski next trough  — "trough 2110" (API trough 2110)
+PASS  iPhone 15: modelski link ≥44px  — 44.00px
+PASS  iPhone 15: khaldun phase  — "peaking" (API peaking)
+PASS  iPhone 15: khaldun next peak  — "peak 2029" (API peak 2029)
+PASS  iPhone 15: khaldun next trough  — "trough 2089" (API trough 2089)
+PASS  iPhone 15: khaldun link ≥44px  — 44.00px
+PASS  iPhone 15: turchin phase  — "falling" (API falling)
+PASS  iPhone 15: turchin next peak  — "peak 2170" (API peak 2170)
+PASS  iPhone 15: turchin next trough  — "trough 2095" (API trough 2095)
+PASS  iPhone 15: turchin link ≥44px  — 44.00px
+PASS  320x568: coarse pointer  — (pointer: coarse) = true
+PASS  320x568: no page scroll sideways  — scrollWidth 320 vs 320
+PASS  320x568: no sideways scroller on the page  — none
+PASS  320x568: schlesinger_jr phase  — "rising" (API rising)
+PASS  320x568: schlesinger_jr next peak  — "peak 2030" (API peak 2030)
+PASS  320x568: schlesinger_jr next trough  — "trough 2045" (API trough 2045)
+PASS  320x568: schlesinger_jr link ≥44px  — 44.00px
+PASS  320x568: turchin_fathers_sons phase  — "falling" (API falling)
+PASS  320x568: turchin_fathers_sons next peak  — "peak 2070" (API peak 2070)
+PASS  320x568: turchin_fathers_sons next trough  — "trough 2045" (API trough 2045)
+PASS  320x568: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  320x568: kondratiev phase  — "peaking" (API peaking)
+PASS  320x568: kondratiev next peak  — "peak 2027" (API peak 2027)
+PASS  320x568: kondratiev next trough  — "trough 2054" (API trough 2054)
+PASS  320x568: kondratiev link ≥44px  — 44.00px
+PASS  320x568: perez phase  — "troughing" (API troughing)
+PASS  320x568: perez next peak  — "peak 2055" (API peak 2055)
+PASS  320x568: perez next trough  — "trough 2028" (API trough 2028)
+PASS  320x568: perez link ≥44px  — 44.00px
+PASS  320x568: huntington phase  — "rising" (API rising)
+PASS  320x568: huntington next peak  — "peak 2028" (API peak 2028)
+PASS  320x568: huntington next trough  — "trough 2058" (API trough 2058)
+PASS  320x568: huntington link ≥44px  — 44.00px
+PASS  320x568: dalio phase  — "peaking" (API peaking)
+PASS  320x568: dalio next peak  — "peak 2100" (API peak 2100)
+PASS  320x568: dalio next trough  — "trough 2063" (API trough 2063)
+PASS  320x568: dalio link ≥44px  — 44.00px
+PASS  320x568: strauss_howe phase  — "rising" (API rising)
+PASS  320x568: strauss_howe next peak  — "peak 2039" (API peak 2039)
+PASS  320x568: strauss_howe next trough  — "trough 2081" (API trough 2081)
+PASS  320x568: strauss_howe link ≥44px  — 44.00px
+PASS  320x568: modelski phase  — "crossing" (API crossing)
+PASS  320x568: modelski next peak  — "peak 2055" (API peak 2055)
+PASS  320x568: modelski next trough  — "trough 2110" (API trough 2110)
+PASS  320x568: modelski link ≥44px  — 44.00px
+PASS  320x568: khaldun phase  — "peaking" (API peaking)
+PASS  320x568: khaldun next peak  — "peak 2029" (API peak 2029)
+PASS  320x568: khaldun next trough  — "trough 2089" (API trough 2089)
+PASS  320x568: khaldun link ≥44px  — 44.00px
+PASS  320x568: turchin phase  — "falling" (API falling)
+PASS  320x568: turchin next peak  — "peak 2170" (API peak 2170)
+PASS  320x568: turchin next trough  — "trough 2095" (API trough 2095)
+PASS  320x568: turchin link ≥44px  — 44.00px
+PASS  1440: table shown
+PASS  1440: headers by name  — Cycle | Period | Ref. peak | cos in 2026 | Phase | Next peak | Next trough
+PASS  1440: 10 rows  — 10 rows
+PASS  1440: schlesinger_jr phase/next peak/next trough  — rising 2030 2045 (API rising 2030 2045)
+PASS  1440: turchin_fathers_sons phase/next peak/next trough  — falling 2070 2045 (API falling 2070 2045)
+PASS  1440: kondratiev phase/next peak/next trough  — peaking 2027 2054 (API peaking 2027 2054)
+PASS  1440: perez phase/next peak/next trough  — troughing 2055 2028 (API troughing 2055 2028)
+PASS  1440: huntington phase/next peak/next trough  — rising 2028 2058 (API rising 2028 2058)
+PASS  1440: dalio phase/next peak/next trough  — peaking 2100 2063 (API peaking 2100 2063)
+PASS  1440: strauss_howe phase/next peak/next trough  — rising 2039 2081 (API rising 2039 2081)
+PASS  1440: modelski phase/next peak/next trough  — crossing 2055 2110 (API crossing 2055 2110)
+PASS  1440: khaldun phase/next peak/next trough  — peaking 2029 2089 (API peaking 2029 2089)
+PASS  1440: turchin phase/next peak/next trough  — falling 2170 2095 (API falling 2170 2095)
+PASS  1440: phone list hidden
+100/100 PASS  (https://sinusoidalhistory.com/state/2026)

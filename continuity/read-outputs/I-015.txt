@@ -1,0 +1,45 @@
+# read-output sidecar for I-015 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-reach.mjs https://sinusoidalhistory.com
+# ran: 2026-10-03T16:00:32.827Z · exit: 0
+# lines: 39 · sha256: b18e47408829d5e0 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  iPhone 15 390x664: coarse pointer  — (pointer: coarse) = true
+PASS  iPhone 15 390x664: a link to the verdicts sits on the first screen  — "See which ones, and how short ↓" at 268-313px of 664
+PASS  iPhone 15 390x664: that link is one box  — 1 fragment(s)
+PASS  iPhone 15 390x664: it hit-tests as the link at its top and bottom edges  — both edges hit the link
+PASS  iPhone 15 390x664: its tap box is ≥44px tall  — 45.00px
+PASS  iPhone 15 390x664: the tap lands on "Does any of them hold up?" 12-48px below the top  — "Does any of them hold up?" at 24-60px of 664, hash #does-any-hold-up
+PASS  iPhone 15 390x664: the verdict section links to the method  — "How the test works →"
+PASS  iPhone 15 390x664: a second tap on it, from the top, jumps again (12-48px)  — heading at 24px
+PASS  iPhone 15 390x664: one Back from a cycle opened there shows /cycles again  — opened /cycles/schlesinger-jr#does-it-hold-up; after Back: url /cycles#does-any-hold-up · h1 "The ten cycles" · scrollY 3079 · verdict heading at 24px
+PASS  iPhone 15 390x664: that Back lands at the verdict list  — verdict heading at 24px of 664
+PASS  360x560: a link to the verdicts sits on the first screen  — "See which ones, and how short ↓" at 283-328px of 560
+PASS  360x560: that link is one box  — 1 fragment(s)
+PASS  360x560: it hit-tests as the link at its top and bottom edges  — both edges hit the link
+PASS  360x560: its tap box is ≥44px tall  — 45.00px
+PASS  360x560: the tap lands on "Does any of them hold up?" 12-48px below the top  — "Does any of them hold up?" at 24-60px of 560, hash #does-any-hold-up
+PASS  360x560: the verdict section links to the method  — "How the test works →"
+PASS  360x560: a second tap on it, from the top, jumps again (12-48px)  — heading at 24px
+PASS  360x560: one Back from a cycle opened there shows /cycles again  — opened /cycles/schlesinger-jr#does-it-hold-up; after Back: url /cycles#does-any-hold-up · h1 "The ten cycles" · scrollY 3267 · verdict heading at 24px
+PASS  360x560: that Back lands at the verdict list  — verdict heading at 24px of 560
+PASS  320x568: a link to the verdicts sits on the first screen  — "See which ones, and how short ↓" at 283-328px of 568
+PASS  320x568: that link is one box  — 1 fragment(s)
+PASS  320x568: it hit-tests as the link at its top and bottom edges  — both edges hit the link
+PASS  320x568: its tap box is ≥44px tall  — 45.00px
+PASS  320x568: the tap lands on "Does any of them hold up?" 12-48px below the top  — "Does any of them hold up?" at 24-60px of 568, hash #does-any-hold-up
+PASS  320x568: the verdict section links to the method  — "How the test works →"
+PASS  320x568: a second tap on it, from the top, jumps again (12-48px)  — heading at 24px
+PASS  320x568: one Back from a cycle opened there shows /cycles again  — opened /cycles/schlesinger-jr#does-it-hold-up; after Back: url /cycles#does-any-hold-up · h1 "The ten cycles" · scrollY 3394 · verdict heading at 24px
+PASS  320x568: that Back lands at the verdict list  — verdict heading at 24px of 568
+PASS  1440x900: a link to the verdicts sits on the first screen  — "See which ones, and how short ↓" at 295-342px of 900
+PASS  1440x900: that link is one box  — 1 fragment(s)
+PASS  1440x900: it hit-tests as the link at its top and bottom edges  — both edges hit the link
+PASS  1440x900: the tap lands on "Does any of them hold up?" 12-48px below the top  — "Does any of them hold up?" at 24-60px of 900, hash #does-any-hold-up
+PASS  1440x900: the verdict section links to the method  — "How the test works →"
+PASS  1440x900: a second tap on it, from the top, jumps again (12-48px)  — heading at 24px
+PASS  1440x900: one Back from a cycle opened there shows /cycles again  — opened /cycles/schlesinger-jr#does-it-hold-up; after Back: url /cycles#does-any-hold-up · h1 "The ten cycles" · scrollY 2288 · verdict heading at 24px
+PASS  1440x900: that Back lands at the verdict list  — verdict heading at 24px of 900
+PASS  1440x900: Enter on it, then Tab, focuses inside the verdicts  — focus on A /cycles/schlesinger-jr#does-it-hold-up "Schlesinger Jr."
+
+37/37 PASS  (https://sinusoidalhistory.com, chromium)

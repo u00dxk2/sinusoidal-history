@@ -255,9 +255,9 @@
         "unWait": "on 2026-10-03, or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger",
         "owner": "sinusoidal-cycles"
       },
-      "readCommandLastRun": "2026-09-27T15:56:52.062Z",
+      "readCommandLastRun": "2026-10-03T15:58:40.316Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 590,
+      "readCommandLastDurationMs": 62,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "d886dd7e22c27e21"
@@ -338,7 +338,14 @@
       "created": "2026-09-28",
       "updated": "2026-09-28",
       "lastEvaluated": "2026-09-28",
-      "nextEvaluation": "2026-10-03"
+      "nextEvaluation": "2026-10-03",
+      "readCommandLastRun": "2026-10-03T15:59:00.955Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 13003,
+      "readCommandLastOutputRef": {
+        "lines": 31,
+        "sha256": "26f543e6a428d769"
+      }
     },
     {
       "id": "I-009",
@@ -365,6 +372,13 @@
         "loadBearing": "a shipped change whose only encounter read is W-003's cold walk on 2026-10-03 (the site has no client analytics); its delivery read is done (check-year-position 31/31 on production 2026-09-29)",
         "unWait": "on 2026-10-03 read W-003's fifth-question verdict for /cycles/dalio; then W-001's Search Console read on 2026-10-07",
         "owner": "sinusoidal-cycles"
+      },
+      "readCommandLastRun": "2026-10-03T15:59:16.797Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 7818,
+      "readCommandLastOutputRef": {
+        "lines": 102,
+        "sha256": "0b5579d722e575aa"
       }
     },
     {
@@ -392,7 +406,14 @@
         "57cb111"
       ],
       "created": "2026-09-29",
-      "updated": "2026-09-29"
+      "updated": "2026-09-29",
+      "readCommandLastRun": "2026-10-03T15:59:16.797Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 7818,
+      "readCommandLastOutputRef": {
+        "lines": 102,
+        "sha256": "0b5579d722e575aa"
+      }
     },
     {
       "id": "I-011",
@@ -421,7 +442,14 @@
         "50fe22f"
       ],
       "created": "2026-09-29",
-      "updated": "2026-09-29"
+      "updated": "2026-09-29",
+      "readCommandLastRun": "2026-10-03T15:59:26.328Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 2018,
+      "readCommandLastOutputRef": {
+        "lines": 101,
+        "sha256": "94015afe1afacc3c"
+      }
     },
     {
       "id": "I-012",
@@ -452,7 +480,14 @@
         "2426658",
         "da776d2",
         "2784e10"
-      ]
+      ],
+      "readCommandLastRun": "2026-10-03T15:59:40.226Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 6651,
+      "readCommandLastOutputRef": {
+        "lines": 317,
+        "sha256": "f082f0894b91a1cc"
+      }
     },
     {
       "id": "I-013",
@@ -469,7 +504,14 @@
       "nextEvaluation": "2026-10-03",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs",
       "created": "2026-09-29",
-      "updated": "2026-09-29"
+      "updated": "2026-09-29",
+      "readCommandLastRun": "2026-10-03T15:59:26.328Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 2018,
+      "readCommandLastOutputRef": {
+        "lines": 101,
+        "sha256": "94015afe1afacc3c"
+      }
     },
     {
       "id": "I-014",
@@ -495,6 +537,13 @@
         "loadBearing": "a shipped change whose only encounter read is W-003's cold walk on 2026-10-03 (the site has no client analytics); its delivery read is check-verdict-phone on production after the Render deploy (316/316, 2026-09-30, b1bfd0e)",
         "unWait": "on 2026-10-03 read W-003's answer to whether the /cycles verdict is in words at a width of 640 or more",
         "owner": "sinusoidal-cycles"
+      },
+      "readCommandLastRun": "2026-10-03T15:59:40.226Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 6651,
+      "readCommandLastOutputRef": {
+        "lines": 317,
+        "sha256": "f082f0894b91a1cc"
       }
     },
     {
@@ -527,7 +576,14 @@
         "unWait": "on 2026-10-03, run the readCommand, then read the I-015 question in the W-003 walk notes",
         "owner": "sinusoidal-cycles"
       },
-      "lastEvaluated": "2026-10-01"
+      "lastEvaluated": "2026-10-01",
+      "readCommandLastRun": "2026-10-03T16:00:32.827Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 45040,
+      "readCommandLastOutputRef": {
+        "lines": 39,
+        "sha256": "b18e47408829d5e0"
+      }
     },
     {
       "id": "I-016",
@@ -555,7 +611,15 @@
         "owner": "sinusoidal-cycles"
       },
       "created": "2026-10-02",
-      "updated": "2026-10-02"
+      "updated": "2026-10-03",
+      "readCommandTimeoutMs": 420000,
+      "readCommandLastRun": "2026-10-03T16:04:14.510Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 211000,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bd575eee90423a38"
+      }
     },
     {
       "id": "I-017",
@@ -584,7 +648,15 @@
       },
       "notes": "2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (10-unit labels >=10px, \"target:\" >=11px; the P1 packet wrongly said the smallest text was 12 units). Shipped fc1ef40 (scroller, tap-to-open, PNG case, sentence), 4b7d2a1 (Codex r1: five check gaps; Back reset the scroller's scrollLeft 200 -> 0 on 27 of 27 phone landings, fixed by FigureScroller's sessionStorage restore), d341757 (Codex r2 #3: computed text-transform restored to the case leg). Codex r2 #1-#2 are the same class as r1 #1 (geometric proxies fooled by contrived CSS) and are declared as a CEILING in the check header, not patched a third time. Mutations: flat-figure 139/283, clip-figure 256/283, lose-place 256/283, literal-case 247/283, dead-link 118/175, wrong-sentence 275/283, hide-name 243/283.\n\n | 2026-10-02 round 2 close (manager review fc7f695b: COMPLETED against the redirected acceptance). Follow-ups rowed, not loose lines: I-018 (FigureScroller restores the sideways place on a FRESH visit too — OBSERVED on production: scrollLeft 200 after a fresh visit via the /cycles list and after a typed URL in the same tab; new tab 0) and I-019 (desktop figure 704px wide at 768/1024/1440, 10-unit labels 7.8px, \"target:\" 8.6px). The encounter read stays W-003's cold walk on 2026-10-03 with both I-017 questions; N = 1 and synthetic.",
       "created": "2026-10-02",
-      "updated": "2026-10-02"
+      "updated": "2026-10-03",
+      "readCommandTimeoutMs": 420000,
+      "readCommandLastRun": "2026-10-03T16:04:14.510Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 211000,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bd575eee90423a38"
+      }
     },
     {
       "id": "I-018",
@@ -602,7 +674,7 @@
       "closeWhen": "check-verdict-landing carries a fresh-visit leg that reads scrollLeft 0 on production for 9 of 9 paired pages at the three phone sizes, with the Back leg still passing.",
       "linkedCommits": [],
       "created": "2026-10-02",
-      "updated": "2026-10-02",
+      "updated": "2026-10-03",
       "lastEvaluated": "2026-10-02",
       "notes": " | 2026-10-02 round 3 (MT): CLOSED. a0c1f8d + e670a91 + cbfc8b6, live on Render 21:48:21Z UTC. The figure's sideways place now lives on the history entry (window.history.state), not sessionStorage: a link or typed URL starts at 0, and Back/Forward (in-app, from the opened SVG, or to a hash-jump entry) return to it. The onTrigger's navigation-type fix was NOT used, because measured on production an in-app Back reads \"navigate\" and later in-app arrivals after a document Back read \"back_forward\" (tmp/measure-restore-navtypes.mjs). closeWhen met: check-verdict-landing https://sinusoidalhistory.com --fails-only -> 391/391, including fresh-visit (list link) and typed-visit legs at scrollLeft 0 on 9 of 9 paired pages at 390x664, 360x560 and 320x568, with the SVG Back, in-app Back and hash-jump Back legs passing. Red arm: production before, 310/364 (exactly the 54 fresh legs). restore-always 337/391; lose-place 310/391. Codex r3-1 (3 findings) fixed in e670a91; r3-2 (1) fixed in cbfc8b6. Declared limit: a Back within 250ms of the last swipe drops that swipe.\n\n | 2026-10-02 round 3 P5 (MT): status closed -> monitoring. The P5 rule keeps a shipped change that still owes an encounter read in monitoring. closeWhen's production read is met (391/391). Live sha is e726f5e (Render 21:55:50Z UTC; cbfc8b6..e726f5e is docs and ledger only, so the measured code is the code serving). Close after W-003's 2026-10-03 walk answers the round-3 return question.",
       "waitJustification": {
@@ -610,6 +682,14 @@
         "loadBearing": "the only encounter read for the round-3 return fix; no client analytics on this site",
         "unWait": "W-003 cold walk on 2026-10-03 answers the round-3 return question",
         "owner": "sinusoidal-cycles"
+      },
+      "readCommandTimeoutMs": 420000,
+      "readCommandLastRun": "2026-10-03T16:04:14.510Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 211000,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bd575eee90423a38"
       }
     },
     {
@@ -628,7 +708,15 @@
       "closeWhen": "On production at 1440x900, on 9 of 9 paired pages, the figure's 10-unit labels draw at 10px or more (or a stated alternative passes a W-003-style cold read), read by an extended check-verdict-landing leg.",
       "linkedCommits": [],
       "created": "2026-10-02",
-      "updated": "2026-10-02"
+      "updated": "2026-10-03",
+      "readCommandTimeoutMs": 420000,
+      "readCommandLastRun": "2026-10-03T16:04:14.510Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 211000,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bd575eee90423a38"
+      }
     }
   ],
   "knownPatterns": [

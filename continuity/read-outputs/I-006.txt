@@ -1,6 +1,6 @@
 # read-output sidecar for I-006 — written by check-due-gates-dispositioned --run
 # readCommand: node -e "const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))"
-# ran: 2026-09-27T15:56:52.062Z · exit: 0
+# ran: 2026-10-03T15:58:40.316Z · exit: 0
 # lines: 1 · sha256: d886dd7e22c27e21 (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--

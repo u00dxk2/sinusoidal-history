@@ -1,0 +1,108 @@
+# read-output sidecar for I-009 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-year-position.mjs
+# ran: 2026-10-03T15:59:16.797Z · exit: 0
+# lines: 102 · sha256: 0b5579d722e575aa (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  schlesinger-jr sentence = API 2026 (rising, cos +0.67)
+PASS  schlesinger-jr links /state/2026  — /state/2026
+PASS  schlesinger-jr no "\$" on the page
+      schlesinger-jr at 390x664: sentence top 832px (first screen ends at 664)
+PASS  turchin-fathers-sons sentence = API 2026 (falling, cos +0.73)
+PASS  turchin-fathers-sons links /state/2026  — /state/2026
+PASS  turchin-fathers-sons no "\$" on the page
+      turchin-fathers-sons at 390x664: sentence top 572px (first screen ends at 664)
+PASS  kondratiev sentence = API 2026 (peaking, cos +0.99)
+PASS  kondratiev links /state/2026  — /state/2026
+PASS  kondratiev no "\$" on the page
+      kondratiev at 390x664: sentence top 827px (first screen ends at 664)
+PASS  perez sentence = API 2026 (troughing, cos −0.99)
+PASS  perez links /state/2026  — /state/2026
+PASS  perez no "\$" on the page
+      perez at 390x664: sentence top 856px (first screen ends at 664)
+PASS  huntington sentence = API 2026 (rising, cos +0.98)
+PASS  huntington links /state/2026  — /state/2026
+PASS  huntington no "\$" on the page
+      huntington at 390x664: sentence top 826px (first screen ends at 664)
+PASS  dalio sentence = API 2026 (peaking, cos +1.00)
+PASS  dalio links /state/2026  — /state/2026
+PASS  dalio no "\$" on the page
+      dalio at 390x664: sentence top 825px (first screen ends at 664)
+PASS  strauss-howe sentence = API 2026 (rising, cos +0.56)
+PASS  strauss-howe links /state/2026  — /state/2026
+PASS  strauss-howe no "\$" on the page
+      strauss-howe at 390x664: sentence top 803px (first screen ends at 664)
+PASS  modelski sentence = API 2026 (crossing, cos −0.09)
+PASS  modelski links /state/2026  — /state/2026
+PASS  modelski no "\$" on the page
+      modelski at 390x664: sentence top 856px (first screen ends at 664)
+PASS  khaldun sentence = API 2026 (peaking, cos +0.99)
+PASS  khaldun links /state/2026  — /state/2026
+PASS  khaldun no "\$" on the page
+      khaldun at 390x664: sentence top 849px (first screen ends at 664)
+PASS  turchin sentence = API 2026 (falling, cos +0.97)
+PASS  turchin links /state/2026  — /state/2026
+PASS  turchin no "\$" on the page
+      turchin at 390x664: sentence top 897px (first screen ends at 664)
+PASS  schlesinger-jr figure's dot = API 2026 (cos +0.67)  — read year 2026.0, value 0.67 (window 1600-2050)
+      schlesinger-jr at 1280: now-line 88px from the reference-peak dot
+PASS  turchin-fathers-sons figure's dot = API 2026 (cos +0.73)  — read year 2026.0, value 0.73 (window 1600-2050)
+      turchin-fathers-sons at 1280: now-line 88px from the reference-peak dot
+PASS  kondratiev figure's dot = API 2026 (cos +0.99)  — read year 2026.0, value 0.99 (window 1600-2050)
+      kondratiev at 1280: now-line 83px from the reference-peak dot
+PASS  perez figure's dot = API 2026 (cos −0.99)  — read year 2026.0, value -0.99 (window 1600-2050)
+      perez at 1280: now-line 41px from the reference-peak dot
+PASS  huntington figure's dot = API 2026 (cos +0.98)  — read year 2026.0, value 0.98 (window 1600-2050)
+      huntington at 1280: now-line 91px from the reference-peak dot
+PASS  dalio figure's dot = API 2026 (cos +1.00)  — read year 2026.0, value 1.00 (window 1600-2050)
+      dalio at 1280: now-line 119px from the reference-peak dot
+PASS  strauss-howe figure's dot = API 2026 (cos +0.56)  — read year 2026.0, value 0.56 (window 1600-2050)
+      strauss-howe at 1280: now-line 111px from the reference-peak dot
+PASS  modelski figure's dot = API 2026 (cos −0.09)  — read year 2026.0, value -0.09 (window 1600-2050)
+      modelski at 1280: now-line 127px from the reference-peak dot
+PASS  khaldun figure's dot = API 2026 (cos +0.99)  — read year 2026.0, value 0.99 (window 1600-2050)
+      khaldun at 1280: now-line 371px from the reference-peak dot
+PASS  turchin figure's dot = API 2026 (cos +0.97)  — read year 2026.0, value 0.97 (window 1600-2050)
+      turchin at 1280: now-line 9px from the reference-peak dot
+PASS  schlesinger-jr at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  schlesinger-jr at 390: reference-peak ring visible beside the now-dot  — 44px apart, edge hit ref-peak
+PASS  turchin-fathers-sons at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  turchin-fathers-sons at 390: reference-peak ring visible beside the now-dot  — 44px apart, edge hit ref-peak
+PASS  kondratiev at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  kondratiev at 390: reference-peak ring visible beside the now-dot  — 41px apart, edge hit ref-peak
+PASS  perez at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  perez at 390: reference-peak ring visible beside the now-dot  — 51px apart, edge hit ref-peak
+PASS  huntington at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  huntington at 390: reference-peak ring visible beside the now-dot  — 45px apart, edge hit ref-peak
+PASS  dalio at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  dalio at 390: reference-peak ring visible beside the now-dot  — 59px apart, edge hit ref-peak
+PASS  strauss-howe at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  strauss-howe at 390: reference-peak ring visible beside the now-dot  — 56px apart, edge hit ref-peak
+PASS  modelski at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  modelski at 390: reference-peak ring visible beside the now-dot  — 68px apart, edge hit ref-peak
+PASS  khaldun at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  khaldun at 390: reference-peak ring visible beside the now-dot  — 184px apart, edge hit ref-peak
+PASS  turchin at 390: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 285-351 of 390
+PASS  turchin at 390: reference-peak ring visible beside the now-dot  — 5px apart, edge hit ref-peak
+PASS  schlesinger-jr at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  schlesinger-jr at 320: reference-peak ring visible beside the now-dot  — 36px apart, edge hit ref-peak
+PASS  turchin-fathers-sons at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  turchin-fathers-sons at 320: reference-peak ring visible beside the now-dot  — 36px apart, edge hit ref-peak
+PASS  kondratiev at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  kondratiev at 320: reference-peak ring visible beside the now-dot  — 34px apart, edge hit ref-peak
+PASS  perez at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  perez at 320: reference-peak ring visible beside the now-dot  — 42px apart, edge hit ref-peak
+PASS  huntington at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  huntington at 320: reference-peak ring visible beside the now-dot  — 37px apart, edge hit ref-peak
+PASS  dalio at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  dalio at 320: reference-peak ring visible beside the now-dot  — 49px apart, edge hit ref-peak
+PASS  strauss-howe at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  strauss-howe at 320: reference-peak ring visible beside the now-dot  — 46px apart, edge hit ref-peak
+PASS  modelski at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  modelski at 320: reference-peak ring visible beside the now-dot  — 56px apart, edge hit ref-peak
+PASS  khaldun at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  khaldun at 320: reference-peak ring visible beside the now-dot  — 152px apart, edge hit ref-peak
+PASS  turchin at 320: label "now · 2026", ≥11px, on screen  — "now · 2026" 11px, x 223-289 of 320
+PASS  turchin at 320: reference-peak ring visible beside the now-dot  — 4px apart, edge hit ref-peak
+PASS  roster: API served 10 of cycles.json's 10
+81/81 PASS

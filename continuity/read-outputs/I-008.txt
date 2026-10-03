@@ -1,0 +1,37 @@
+# read-output sidecar for I-008 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-calibrate-tab.mjs
+# ran: 2026-10-03T15:59:00.955Z · exit: 0
+# lines: 31 · sha256: 26f543e6a428d769 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  390x664 exactly one facet mounted in Calibrate tab  — count=1
+PASS  390x664 chart svg present
+PASS  390x664 r states its scope  — full record 1800–2011 · n=212
+PASS  390x664 year axis inside the facet  — labels=5
+PASS  390x664 chart top + peak slider fit one screen  — span=351px of 664
+PASS  390x664 peak drag moves the drawn curve
+PASS  390x664 r changes with it
+PASS  390x664 reset restores the curve
+PASS  390x664 picker switches the facet  — khaldun -> kondratiev
+PASS  390x664 header opens Facets on that cycle  — focus=kondratiev
+PASS  1440x900 exactly one facet mounted in Calibrate tab  — count=1
+PASS  1440x900 chart svg present
+PASS  1440x900 r states its scope  — full record 1800–2011 · n=212
+PASS  1440x900 year axis inside the facet  — labels=10
+PASS  1440x900 chart top + peak slider fit one screen  — span=351px of 900
+PASS  1440x900 peak drag moves the drawn curve
+PASS  1440x900 r changes with it
+PASS  1440x900 reset restores the curve
+PASS  1440x900 picker switches the facet  — khaldun -> kondratiev
+PASS  1440x900 header opens Facets on that cycle  — focus=kondratiev
+PASS  320x568 exactly one facet mounted in Calibrate tab  — count=1
+PASS  320x568 chart svg present
+PASS  320x568 r states its scope  — full record 1800–2011 · n=212
+PASS  320x568 year axis inside the facet  — labels=5
+PASS  320x568 chart top + peak slider fit one screen  — span=351px of 568
+PASS  320x568 peak drag moves the drawn curve
+PASS  320x568 r changes with it
+PASS  320x568 reset restores the curve
+PASS  320x568 picker switches the facet  — khaldun -> kondratiev
+PASS  320x568 header opens Facets on that cycle  — focus=kondratiev
+30/30 PASS

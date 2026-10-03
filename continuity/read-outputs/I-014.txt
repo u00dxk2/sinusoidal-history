@@ -1,0 +1,324 @@
+# read-output sidecar for I-014 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-phone.mjs https://sinusoidalhistory.com
+# ran: 2026-10-03T15:59:40.226Z · exit: 0
+# lines: 317 · sha256: f082f0894b91a1cc (first 16 hex of the output below)
+# truncated: false
+# stampedVia: I-012 (one execution, shared byte-identical readCommand — this row was not spawned)
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  /cycles iPhone 15: coarse pointer  — (pointer: coarse) = true
+PASS  /cycles iPhone 15: no page scroll sideways  — scrollWidth 393 vs 393
+PASS  /cycles iPhone 15: no sideways scroller on the page  — none
+PASS  /cycles iPhone 15: schlesinger_jr verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: schlesinger_jr period  — "30y period" (JSON 30y period)
+PASS  /cycles iPhone 15: schlesinger_jr record  — "72y record" (JSON 72y record)
+PASS  /cycles iPhone 15: schlesinger_jr periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /cycles iPhone 15: schlesinger_jr short  — "needs 18 more years" (JSON needs 18 more years)
+PASS  /cycles iPhone 15: schlesinger_jr link names and targets this cycle  — "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up (want "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up)
+PASS  /cycles iPhone 15: schlesinger_jr link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: kondratiev verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: kondratiev period  — "54y period" (JSON 54y period)
+PASS  /cycles iPhone 15: kondratiev record  — "77y record" (JSON 77y record)
+PASS  /cycles iPhone 15: kondratiev periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /cycles iPhone 15: kondratiev short  — "needs 85 more years" (JSON needs 85 more years)
+PASS  /cycles iPhone 15: kondratiev link names and targets this cycle  — "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up (want "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up)
+PASS  /cycles iPhone 15: kondratiev link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: perez verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: perez period  — "55y period" (JSON 55y period)
+PASS  /cycles iPhone 15: perez record  — "158y record" (JSON 158y record)
+PASS  /cycles iPhone 15: perez periods  — "2.9 of 3.0 periods" (JSON 2.9 of 3.0 periods)
+PASS  /cycles iPhone 15: perez short  — "needs 7 more years" (JSON needs 7 more years)
+PASS  /cycles iPhone 15: perez link names and targets this cycle  — "Carlota Perez" → /cycles/perez#does-it-hold-up (want "Carlota Perez" → /cycles/perez#does-it-hold-up)
+PASS  /cycles iPhone 15: perez link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: huntington verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: huntington period  — "60y period" (JSON 60y period)
+PASS  /cycles iPhone 15: huntington record  — "144y record" (JSON 144y record)
+PASS  /cycles iPhone 15: huntington periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /cycles iPhone 15: huntington short  — "needs 36 more years" (JSON needs 36 more years)
+PASS  /cycles iPhone 15: huntington link names and targets this cycle  — "Huntington" → /cycles/huntington#does-it-hold-up (want "Huntington" → /cycles/huntington#does-it-hold-up)
+PASS  /cycles iPhone 15: huntington link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: dalio verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: dalio period  — "75y period" (JSON 75y period)
+PASS  /cycles iPhone 15: dalio record  — "152y record" (JSON 152y record)
+PASS  /cycles iPhone 15: dalio periods  — "2.0 of 3.0 periods" (JSON 2.0 of 3.0 periods)
+PASS  /cycles iPhone 15: dalio short  — "needs 73 more years" (JSON needs 73 more years)
+PASS  /cycles iPhone 15: dalio link names and targets this cycle  — "Ray Dalio" → /cycles/dalio#does-it-hold-up (want "Ray Dalio" → /cycles/dalio#does-it-hold-up)
+PASS  /cycles iPhone 15: dalio link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: strauss_howe verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: strauss_howe period  — "84y period" (JSON 84y period)
+PASS  /cycles iPhone 15: strauss_howe record  — "236y record" (JSON 236y record)
+PASS  /cycles iPhone 15: strauss_howe periods  — "2.8 of 3.0 periods" (JSON 2.8 of 3.0 periods)
+PASS  /cycles iPhone 15: strauss_howe short  — "needs 16 more years" (JSON needs 16 more years)
+PASS  /cycles iPhone 15: strauss_howe link names and targets this cycle  — "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up (want "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up)
+PASS  /cycles iPhone 15: strauss_howe link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: modelski verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: modelski period  — "110y period" (JSON 110y period)
+PASS  /cycles iPhone 15: modelski record  — "152y record" (JSON 152y record)
+PASS  /cycles iPhone 15: modelski periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /cycles iPhone 15: modelski short  — "needs 178 more years" (JSON needs 178 more years)
+PASS  /cycles iPhone 15: modelski link names and targets this cycle  — "Modelski" → /cycles/modelski#does-it-hold-up (want "Modelski" → /cycles/modelski#does-it-hold-up)
+PASS  /cycles iPhone 15: modelski link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: khaldun verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: khaldun period  — "120y period" (JSON 120y period)
+PASS  /cycles iPhone 15: khaldun record  — "211y record" (JSON 211y record)
+PASS  /cycles iPhone 15: khaldun periods  — "1.8 of 3.0 periods" (JSON 1.8 of 3.0 periods)
+PASS  /cycles iPhone 15: khaldun short  — "needs 149 more years" (JSON needs 149 more years)
+PASS  /cycles iPhone 15: khaldun link names and targets this cycle  — "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up (want "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up)
+PASS  /cycles iPhone 15: khaldun link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: turchin verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles iPhone 15: turchin period  — "150y period" (JSON 150y period)
+PASS  /cycles iPhone 15: turchin record  — "111y record" (JSON 111y record)
+PASS  /cycles iPhone 15: turchin periods  — "0.7 of 3.0 periods" (JSON 0.7 of 3.0 periods)
+PASS  /cycles iPhone 15: turchin short  — "needs 339 more years" (JSON needs 339 more years)
+PASS  /cycles iPhone 15: turchin link names and targets this cycle  — "Peter Turchin" → /cycles/turchin#does-it-hold-up (want "Peter Turchin" → /cycles/turchin#does-it-hold-up)
+PASS  /cycles iPhone 15: turchin link ≥44px  — 44.00px
+PASS  /cycles iPhone 15: turchin_fathers_sons untested  — "Not tested — no paired series" (want Not tested — no paired series)
+PASS  /cycles iPhone 15: turchin_fathers_sons period  — "50y period" (want 50y period)
+PASS  /cycles iPhone 15: turchin_fathers_sons link names and targets this cycle  — "Turchin (50y)" → /cycles/turchin-fathers-sons (want "Turchin (50y)" → /cycles/turchin-fathers-sons)
+PASS  /cycles iPhone 15: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  /cycles 320x568: coarse pointer  — (pointer: coarse) = true
+PASS  /cycles 320x568: no page scroll sideways  — scrollWidth 320 vs 320
+PASS  /cycles 320x568: no sideways scroller on the page  — none
+PASS  /cycles 320x568: schlesinger_jr verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: schlesinger_jr period  — "30y period" (JSON 30y period)
+PASS  /cycles 320x568: schlesinger_jr record  — "72y record" (JSON 72y record)
+PASS  /cycles 320x568: schlesinger_jr periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /cycles 320x568: schlesinger_jr short  — "needs 18 more years" (JSON needs 18 more years)
+PASS  /cycles 320x568: schlesinger_jr link names and targets this cycle  — "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up (want "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up)
+PASS  /cycles 320x568: schlesinger_jr link ≥44px  — 44.00px
+PASS  /cycles 320x568: kondratiev verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: kondratiev period  — "54y period" (JSON 54y period)
+PASS  /cycles 320x568: kondratiev record  — "77y record" (JSON 77y record)
+PASS  /cycles 320x568: kondratiev periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /cycles 320x568: kondratiev short  — "needs 85 more years" (JSON needs 85 more years)
+PASS  /cycles 320x568: kondratiev link names and targets this cycle  — "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up (want "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up)
+PASS  /cycles 320x568: kondratiev link ≥44px  — 44.00px
+PASS  /cycles 320x568: perez verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: perez period  — "55y period" (JSON 55y period)
+PASS  /cycles 320x568: perez record  — "158y record" (JSON 158y record)
+PASS  /cycles 320x568: perez periods  — "2.9 of 3.0 periods" (JSON 2.9 of 3.0 periods)
+PASS  /cycles 320x568: perez short  — "needs 7 more years" (JSON needs 7 more years)
+PASS  /cycles 320x568: perez link names and targets this cycle  — "Carlota Perez" → /cycles/perez#does-it-hold-up (want "Carlota Perez" → /cycles/perez#does-it-hold-up)
+PASS  /cycles 320x568: perez link ≥44px  — 44.00px
+PASS  /cycles 320x568: huntington verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: huntington period  — "60y period" (JSON 60y period)
+PASS  /cycles 320x568: huntington record  — "144y record" (JSON 144y record)
+PASS  /cycles 320x568: huntington periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /cycles 320x568: huntington short  — "needs 36 more years" (JSON needs 36 more years)
+PASS  /cycles 320x568: huntington link names and targets this cycle  — "Huntington" → /cycles/huntington#does-it-hold-up (want "Huntington" → /cycles/huntington#does-it-hold-up)
+PASS  /cycles 320x568: huntington link ≥44px  — 44.00px
+PASS  /cycles 320x568: dalio verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: dalio period  — "75y period" (JSON 75y period)
+PASS  /cycles 320x568: dalio record  — "152y record" (JSON 152y record)
+PASS  /cycles 320x568: dalio periods  — "2.0 of 3.0 periods" (JSON 2.0 of 3.0 periods)
+PASS  /cycles 320x568: dalio short  — "needs 73 more years" (JSON needs 73 more years)
+PASS  /cycles 320x568: dalio link names and targets this cycle  — "Ray Dalio" → /cycles/dalio#does-it-hold-up (want "Ray Dalio" → /cycles/dalio#does-it-hold-up)
+PASS  /cycles 320x568: dalio link ≥44px  — 44.00px
+PASS  /cycles 320x568: strauss_howe verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: strauss_howe period  — "84y period" (JSON 84y period)
+PASS  /cycles 320x568: strauss_howe record  — "236y record" (JSON 236y record)
+PASS  /cycles 320x568: strauss_howe periods  — "2.8 of 3.0 periods" (JSON 2.8 of 3.0 periods)
+PASS  /cycles 320x568: strauss_howe short  — "needs 16 more years" (JSON needs 16 more years)
+PASS  /cycles 320x568: strauss_howe link names and targets this cycle  — "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up (want "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up)
+PASS  /cycles 320x568: strauss_howe link ≥44px  — 44.00px
+PASS  /cycles 320x568: modelski verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: modelski period  — "110y period" (JSON 110y period)
+PASS  /cycles 320x568: modelski record  — "152y record" (JSON 152y record)
+PASS  /cycles 320x568: modelski periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /cycles 320x568: modelski short  — "needs 178 more years" (JSON needs 178 more years)
+PASS  /cycles 320x568: modelski link names and targets this cycle  — "Modelski" → /cycles/modelski#does-it-hold-up (want "Modelski" → /cycles/modelski#does-it-hold-up)
+PASS  /cycles 320x568: modelski link ≥44px  — 44.00px
+PASS  /cycles 320x568: khaldun verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: khaldun period  — "120y period" (JSON 120y period)
+PASS  /cycles 320x568: khaldun record  — "211y record" (JSON 211y record)
+PASS  /cycles 320x568: khaldun periods  — "1.8 of 3.0 periods" (JSON 1.8 of 3.0 periods)
+PASS  /cycles 320x568: khaldun short  — "needs 149 more years" (JSON needs 149 more years)
+PASS  /cycles 320x568: khaldun link names and targets this cycle  — "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up (want "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up)
+PASS  /cycles 320x568: khaldun link ≥44px  — 44.00px
+PASS  /cycles 320x568: turchin verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /cycles 320x568: turchin period  — "150y period" (JSON 150y period)
+PASS  /cycles 320x568: turchin record  — "111y record" (JSON 111y record)
+PASS  /cycles 320x568: turchin periods  — "0.7 of 3.0 periods" (JSON 0.7 of 3.0 periods)
+PASS  /cycles 320x568: turchin short  — "needs 339 more years" (JSON needs 339 more years)
+PASS  /cycles 320x568: turchin link names and targets this cycle  — "Peter Turchin" → /cycles/turchin#does-it-hold-up (want "Peter Turchin" → /cycles/turchin#does-it-hold-up)
+PASS  /cycles 320x568: turchin link ≥44px  — 44.00px
+PASS  /cycles 320x568: turchin_fathers_sons untested  — "Not tested — no paired series" (want Not tested — no paired series)
+PASS  /cycles 320x568: turchin_fathers_sons period  — "50y period" (want 50y period)
+PASS  /cycles 320x568: turchin_fathers_sons link names and targets this cycle  — "Turchin (50y)" → /cycles/turchin-fathers-sons (want "Turchin (50y)" → /cycles/turchin-fathers-sons)
+PASS  /cycles 320x568: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  /cycles 1440: table shown
+PASS  /cycles 1440: headers by name  — Cycle | Period | Record | Periods of 3.0 | Years short | Verdict
+PASS  /cycles 1440: 10 rows  — 10 rows
+PASS  /cycles 1440: row 1 schlesinger_jr  — Schlesinger Jr. → /cycles/schlesinger-jr#does-it-hold-up | 30y | 72y | 2.4 | +18 | Insufficient data — no test possible
+PASS  /cycles 1440: row 2 kondratiev  — Kondratiev wave → /cycles/kondratiev#does-it-hold-up | 54y | 77y | 1.4 | +85 | Insufficient data — no test possible
+PASS  /cycles 1440: row 3 perez  — Carlota Perez → /cycles/perez#does-it-hold-up | 55y | 158y | 2.9 | +7 | Insufficient data — no test possible
+PASS  /cycles 1440: row 4 huntington  — Huntington → /cycles/huntington#does-it-hold-up | 60y | 144y | 2.4 | +36 | Insufficient data — no test possible
+PASS  /cycles 1440: row 5 dalio  — Ray Dalio → /cycles/dalio#does-it-hold-up | 75y | 152y | 2.0 | +73 | Insufficient data — no test possible
+PASS  /cycles 1440: row 6 strauss_howe  — Strauss-Howe → /cycles/strauss-howe#does-it-hold-up | 84y | 236y | 2.8 | +16 | Insufficient data — no test possible
+PASS  /cycles 1440: row 7 modelski  — Modelski → /cycles/modelski#does-it-hold-up | 110y | 152y | 1.4 | +178 | Insufficient data — no test possible
+PASS  /cycles 1440: row 8 khaldun  — Ibn Khaldun → /cycles/khaldun#does-it-hold-up | 120y | 211y | 1.8 | +149 | Insufficient data — no test possible
+PASS  /cycles 1440: row 9 turchin  — Peter Turchin → /cycles/turchin#does-it-hold-up | 150y | 111y | 0.7 | +339 | Insufficient data — no test possible
+PASS  /cycles 1440: row 10 turchin_fathers_sons  — Turchin (50y) → /cycles/turchin-fathers-sons | 50y | Not tested — no paired series
+PASS  /cycles 1440: phone list hidden
+PASS  /cycles 640: table shown, no sideways scroll  — table shown · scroller 576/576 · page 640/640
+PASS  /cycles 700: table shown, no sideways scroll  — table shown · scroller 636/636 · page 700/700
+PASS  /cycles 768: table shown, no sideways scroll  — table shown · scroller 704/704 · page 768/768
+PASS  /cycles 1440: table shown, no sideways scroll  — table shown · scroller 704/704 · page 1440/1440
+PASS  /methods iPhone 15: coarse pointer  — (pointer: coarse) = true
+PASS  /methods iPhone 15: no page scroll sideways  — scrollWidth 393 vs 393
+PASS  /methods iPhone 15: no sideways scroller on the page  — none
+PASS  /methods iPhone 15: schlesinger_jr verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: schlesinger_jr period  — "30y period" (JSON 30y period)
+PASS  /methods iPhone 15: schlesinger_jr record  — "72y record" (JSON 72y record)
+PASS  /methods iPhone 15: schlesinger_jr periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /methods iPhone 15: schlesinger_jr short  — "needs 18 more years" (JSON needs 18 more years)
+PASS  /methods iPhone 15: schlesinger_jr link names and targets this cycle  — "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up (want "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up)
+PASS  /methods iPhone 15: schlesinger_jr link ≥44px  — 44.00px
+PASS  /methods iPhone 15: kondratiev verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: kondratiev period  — "54y period" (JSON 54y period)
+PASS  /methods iPhone 15: kondratiev record  — "77y record" (JSON 77y record)
+PASS  /methods iPhone 15: kondratiev periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /methods iPhone 15: kondratiev short  — "needs 85 more years" (JSON needs 85 more years)
+PASS  /methods iPhone 15: kondratiev link names and targets this cycle  — "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up (want "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up)
+PASS  /methods iPhone 15: kondratiev link ≥44px  — 44.00px
+PASS  /methods iPhone 15: perez verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: perez period  — "55y period" (JSON 55y period)
+PASS  /methods iPhone 15: perez record  — "158y record" (JSON 158y record)
+PASS  /methods iPhone 15: perez periods  — "2.9 of 3.0 periods" (JSON 2.9 of 3.0 periods)
+PASS  /methods iPhone 15: perez short  — "needs 7 more years" (JSON needs 7 more years)
+PASS  /methods iPhone 15: perez link names and targets this cycle  — "Carlota Perez" → /cycles/perez#does-it-hold-up (want "Carlota Perez" → /cycles/perez#does-it-hold-up)
+PASS  /methods iPhone 15: perez link ≥44px  — 44.00px
+PASS  /methods iPhone 15: huntington verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: huntington period  — "60y period" (JSON 60y period)
+PASS  /methods iPhone 15: huntington record  — "144y record" (JSON 144y record)
+PASS  /methods iPhone 15: huntington periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /methods iPhone 15: huntington short  — "needs 36 more years" (JSON needs 36 more years)
+PASS  /methods iPhone 15: huntington link names and targets this cycle  — "Huntington" → /cycles/huntington#does-it-hold-up (want "Huntington" → /cycles/huntington#does-it-hold-up)
+PASS  /methods iPhone 15: huntington link ≥44px  — 44.00px
+PASS  /methods iPhone 15: dalio verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: dalio period  — "75y period" (JSON 75y period)
+PASS  /methods iPhone 15: dalio record  — "152y record" (JSON 152y record)
+PASS  /methods iPhone 15: dalio periods  — "2.0 of 3.0 periods" (JSON 2.0 of 3.0 periods)
+PASS  /methods iPhone 15: dalio short  — "needs 73 more years" (JSON needs 73 more years)
+PASS  /methods iPhone 15: dalio link names and targets this cycle  — "Ray Dalio" → /cycles/dalio#does-it-hold-up (want "Ray Dalio" → /cycles/dalio#does-it-hold-up)
+PASS  /methods iPhone 15: dalio link ≥44px  — 44.00px
+PASS  /methods iPhone 15: strauss_howe verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: strauss_howe period  — "84y period" (JSON 84y period)
+PASS  /methods iPhone 15: strauss_howe record  — "236y record" (JSON 236y record)
+PASS  /methods iPhone 15: strauss_howe periods  — "2.8 of 3.0 periods" (JSON 2.8 of 3.0 periods)
+PASS  /methods iPhone 15: strauss_howe short  — "needs 16 more years" (JSON needs 16 more years)
+PASS  /methods iPhone 15: strauss_howe link names and targets this cycle  — "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up (want "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up)
+PASS  /methods iPhone 15: strauss_howe link ≥44px  — 44.00px
+PASS  /methods iPhone 15: modelski verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: modelski period  — "110y period" (JSON 110y period)
+PASS  /methods iPhone 15: modelski record  — "152y record" (JSON 152y record)
+PASS  /methods iPhone 15: modelski periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /methods iPhone 15: modelski short  — "needs 178 more years" (JSON needs 178 more years)
+PASS  /methods iPhone 15: modelski link names and targets this cycle  — "Modelski" → /cycles/modelski#does-it-hold-up (want "Modelski" → /cycles/modelski#does-it-hold-up)
+PASS  /methods iPhone 15: modelski link ≥44px  — 44.00px
+PASS  /methods iPhone 15: khaldun verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: khaldun period  — "120y period" (JSON 120y period)
+PASS  /methods iPhone 15: khaldun record  — "211y record" (JSON 211y record)
+PASS  /methods iPhone 15: khaldun periods  — "1.8 of 3.0 periods" (JSON 1.8 of 3.0 periods)
+PASS  /methods iPhone 15: khaldun short  — "needs 149 more years" (JSON needs 149 more years)
+PASS  /methods iPhone 15: khaldun link names and targets this cycle  — "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up (want "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up)
+PASS  /methods iPhone 15: khaldun link ≥44px  — 44.00px
+PASS  /methods iPhone 15: turchin verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods iPhone 15: turchin period  — "150y period" (JSON 150y period)
+PASS  /methods iPhone 15: turchin record  — "111y record" (JSON 111y record)
+PASS  /methods iPhone 15: turchin periods  — "0.7 of 3.0 periods" (JSON 0.7 of 3.0 periods)
+PASS  /methods iPhone 15: turchin short  — "needs 339 more years" (JSON needs 339 more years)
+PASS  /methods iPhone 15: turchin link names and targets this cycle  — "Peter Turchin" → /cycles/turchin#does-it-hold-up (want "Peter Turchin" → /cycles/turchin#does-it-hold-up)
+PASS  /methods iPhone 15: turchin link ≥44px  — 44.00px
+PASS  /methods iPhone 15: turchin_fathers_sons untested  — "Not tested — no paired series" (want Not tested — no paired series)
+PASS  /methods iPhone 15: turchin_fathers_sons period  — "50y period" (want 50y period)
+PASS  /methods iPhone 15: turchin_fathers_sons link names and targets this cycle  — "Turchin (50y)" → /cycles/turchin-fathers-sons (want "Turchin (50y)" → /cycles/turchin-fathers-sons)
+PASS  /methods iPhone 15: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  /methods 320x568: coarse pointer  — (pointer: coarse) = true
+PASS  /methods 320x568: no page scroll sideways  — scrollWidth 320 vs 320
+PASS  /methods 320x568: no sideways scroller on the page  — none
+PASS  /methods 320x568: schlesinger_jr verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: schlesinger_jr period  — "30y period" (JSON 30y period)
+PASS  /methods 320x568: schlesinger_jr record  — "72y record" (JSON 72y record)
+PASS  /methods 320x568: schlesinger_jr periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /methods 320x568: schlesinger_jr short  — "needs 18 more years" (JSON needs 18 more years)
+PASS  /methods 320x568: schlesinger_jr link names and targets this cycle  — "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up (want "Schlesinger Jr." → /cycles/schlesinger-jr#does-it-hold-up)
+PASS  /methods 320x568: schlesinger_jr link ≥44px  — 44.00px
+PASS  /methods 320x568: kondratiev verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: kondratiev period  — "54y period" (JSON 54y period)
+PASS  /methods 320x568: kondratiev record  — "77y record" (JSON 77y record)
+PASS  /methods 320x568: kondratiev periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /methods 320x568: kondratiev short  — "needs 85 more years" (JSON needs 85 more years)
+PASS  /methods 320x568: kondratiev link names and targets this cycle  — "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up (want "Kondratiev wave" → /cycles/kondratiev#does-it-hold-up)
+PASS  /methods 320x568: kondratiev link ≥44px  — 44.00px
+PASS  /methods 320x568: perez verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: perez period  — "55y period" (JSON 55y period)
+PASS  /methods 320x568: perez record  — "158y record" (JSON 158y record)
+PASS  /methods 320x568: perez periods  — "2.9 of 3.0 periods" (JSON 2.9 of 3.0 periods)
+PASS  /methods 320x568: perez short  — "needs 7 more years" (JSON needs 7 more years)
+PASS  /methods 320x568: perez link names and targets this cycle  — "Carlota Perez" → /cycles/perez#does-it-hold-up (want "Carlota Perez" → /cycles/perez#does-it-hold-up)
+PASS  /methods 320x568: perez link ≥44px  — 44.00px
+PASS  /methods 320x568: huntington verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: huntington period  — "60y period" (JSON 60y period)
+PASS  /methods 320x568: huntington record  — "144y record" (JSON 144y record)
+PASS  /methods 320x568: huntington periods  — "2.4 of 3.0 periods" (JSON 2.4 of 3.0 periods)
+PASS  /methods 320x568: huntington short  — "needs 36 more years" (JSON needs 36 more years)
+PASS  /methods 320x568: huntington link names and targets this cycle  — "Huntington" → /cycles/huntington#does-it-hold-up (want "Huntington" → /cycles/huntington#does-it-hold-up)
+PASS  /methods 320x568: huntington link ≥44px  — 44.00px
+PASS  /methods 320x568: dalio verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: dalio period  — "75y period" (JSON 75y period)
+PASS  /methods 320x568: dalio record  — "152y record" (JSON 152y record)
+PASS  /methods 320x568: dalio periods  — "2.0 of 3.0 periods" (JSON 2.0 of 3.0 periods)
+PASS  /methods 320x568: dalio short  — "needs 73 more years" (JSON needs 73 more years)
+PASS  /methods 320x568: dalio link names and targets this cycle  — "Ray Dalio" → /cycles/dalio#does-it-hold-up (want "Ray Dalio" → /cycles/dalio#does-it-hold-up)
+PASS  /methods 320x568: dalio link ≥44px  — 44.00px
+PASS  /methods 320x568: strauss_howe verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: strauss_howe period  — "84y period" (JSON 84y period)
+PASS  /methods 320x568: strauss_howe record  — "236y record" (JSON 236y record)
+PASS  /methods 320x568: strauss_howe periods  — "2.8 of 3.0 periods" (JSON 2.8 of 3.0 periods)
+PASS  /methods 320x568: strauss_howe short  — "needs 16 more years" (JSON needs 16 more years)
+PASS  /methods 320x568: strauss_howe link names and targets this cycle  — "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up (want "Strauss-Howe" → /cycles/strauss-howe#does-it-hold-up)
+PASS  /methods 320x568: strauss_howe link ≥44px  — 44.00px
+PASS  /methods 320x568: modelski verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: modelski period  — "110y period" (JSON 110y period)
+PASS  /methods 320x568: modelski record  — "152y record" (JSON 152y record)
+PASS  /methods 320x568: modelski periods  — "1.4 of 3.0 periods" (JSON 1.4 of 3.0 periods)
+PASS  /methods 320x568: modelski short  — "needs 178 more years" (JSON needs 178 more years)
+PASS  /methods 320x568: modelski link names and targets this cycle  — "Modelski" → /cycles/modelski#does-it-hold-up (want "Modelski" → /cycles/modelski#does-it-hold-up)
+PASS  /methods 320x568: modelski link ≥44px  — 44.00px
+PASS  /methods 320x568: khaldun verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: khaldun period  — "120y period" (JSON 120y period)
+PASS  /methods 320x568: khaldun record  — "211y record" (JSON 211y record)
+PASS  /methods 320x568: khaldun periods  — "1.8 of 3.0 periods" (JSON 1.8 of 3.0 periods)
+PASS  /methods 320x568: khaldun short  — "needs 149 more years" (JSON needs 149 more years)
+PASS  /methods 320x568: khaldun link names and targets this cycle  — "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up (want "Ibn Khaldun" → /cycles/khaldun#does-it-hold-up)
+PASS  /methods 320x568: khaldun link ≥44px  — 44.00px
+PASS  /methods 320x568: turchin verdict  — "Insufficient data — no test possible" (JSON Insufficient data — no test possible)
+PASS  /methods 320x568: turchin period  — "150y period" (JSON 150y period)
+PASS  /methods 320x568: turchin record  — "111y record" (JSON 111y record)
+PASS  /methods 320x568: turchin periods  — "0.7 of 3.0 periods" (JSON 0.7 of 3.0 periods)
+PASS  /methods 320x568: turchin short  — "needs 339 more years" (JSON needs 339 more years)
+PASS  /methods 320x568: turchin link names and targets this cycle  — "Peter Turchin" → /cycles/turchin#does-it-hold-up (want "Peter Turchin" → /cycles/turchin#does-it-hold-up)
+PASS  /methods 320x568: turchin link ≥44px  — 44.00px
+PASS  /methods 320x568: turchin_fathers_sons untested  — "Not tested — no paired series" (want Not tested — no paired series)
+PASS  /methods 320x568: turchin_fathers_sons period  — "50y period" (want 50y period)
+PASS  /methods 320x568: turchin_fathers_sons link names and targets this cycle  — "Turchin (50y)" → /cycles/turchin-fathers-sons (want "Turchin (50y)" → /cycles/turchin-fathers-sons)
+PASS  /methods 320x568: turchin_fathers_sons link ≥44px  — 44.00px
+PASS  /methods 1440: table shown
+PASS  /methods 1440: headers by name  — Cycle | Period | Record | Periods of 3.0 | Years short | Verdict
+PASS  /methods 1440: 10 rows  — 10 rows
+PASS  /methods 1440: row 1 schlesinger_jr  — Schlesinger Jr. → /cycles/schlesinger-jr#does-it-hold-up | 30y | 72y | 2.4 | +18 | Insufficient data — no test possible
+PASS  /methods 1440: row 2 kondratiev  — Kondratiev wave → /cycles/kondratiev#does-it-hold-up | 54y | 77y | 1.4 | +85 | Insufficient data — no test possible
+PASS  /methods 1440: row 3 perez  — Carlota Perez → /cycles/perez#does-it-hold-up | 55y | 158y | 2.9 | +7 | Insufficient data — no test possible
+PASS  /methods 1440: row 4 huntington  — Huntington → /cycles/huntington#does-it-hold-up | 60y | 144y | 2.4 | +36 | Insufficient data — no test possible
+PASS  /methods 1440: row 5 dalio  — Ray Dalio → /cycles/dalio#does-it-hold-up | 75y | 152y | 2.0 | +73 | Insufficient data — no test possible
+PASS  /methods 1440: row 6 strauss_howe  — Strauss-Howe → /cycles/strauss-howe#does-it-hold-up | 84y | 236y | 2.8 | +16 | Insufficient data — no test possible
+PASS  /methods 1440: row 7 modelski  — Modelski → /cycles/modelski#does-it-hold-up | 110y | 152y | 1.4 | +178 | Insufficient data — no test possible
+PASS  /methods 1440: row 8 khaldun  — Ibn Khaldun → /cycles/khaldun#does-it-hold-up | 120y | 211y | 1.8 | +149 | Insufficient data — no test possible
+PASS  /methods 1440: row 9 turchin  — Peter Turchin → /cycles/turchin#does-it-hold-up | 150y | 111y | 0.7 | +339 | Insufficient data — no test possible
+PASS  /methods 1440: row 10 turchin_fathers_sons  — Turchin (50y) → /cycles/turchin-fathers-sons | 50y | Not tested — no paired series
+PASS  /methods 1440: phone list hidden
+PASS  /methods 640: table shown, no sideways scroll  — table shown · scroller 576/576 · page 640/640
+PASS  /methods 700: table shown, no sideways scroll  — table shown · scroller 636/636 · page 700/700
+PASS  /methods 768: table shown, no sideways scroll  — table shown · scroller 704/704 · page 768/768
+PASS  /methods 1440: table shown, no sideways scroll  — table shown · scroller 704/704 · page 1440/1440
+316/316 PASS  (https://sinusoidalhistory.com)
