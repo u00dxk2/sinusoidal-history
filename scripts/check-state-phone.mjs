@@ -75,7 +75,7 @@ function expectedReason(e) {
   const where = !atS.includes(".") ? "" : off < 0 ? ` at ${atS} (shown as ${shown})` : ` at ${atS}`;
   const lead = d === "0" ? `At its ${kind}` : `${d} ${d === "1" ? "year" : "years"} ${off < 0 ? "before" : "after"} its ${kind}${where}`;
   // inside/outside follows the API's own label.
-  return `${lead}, ${turning ? "inside" : "outside"} the ${peak ? "peaking" : "troughing"} band: ±${fmt(0.03 * e.period_years)} years, 3% of a ${e.period_years}-year cycle.`;
+  return `${lead}, ${turning ? "inside" : "outside"} the ${peak ? "peaking" : "troughing"} band: ${fmt(0.03 * e.period_years)} ${fmt(0.03 * e.period_years) === "1" ? "year" : "years"} either side, 3% of a ${e.period_years}-year cycle.`;
 }
 const browser = await chromium.launch();
 

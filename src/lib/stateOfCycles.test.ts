@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import type { NextRequest } from "next/server";
+import { GET } from "@/app/api/v1/state/route";
 import api2026 from "./__fixtures__/api-v1-state-2026.json";
 import { cycles } from "@/data/cycles";
 import { dataSeries as series } from "@/data/series";
@@ -155,8 +157,12 @@ describe("stateYears", () => {
 describe("I-013 is wording only: the API and the frozen 2026 edition do not move", () => {
   // David, 2026-10-03: "Wording only for 2026. Keep the band; make the line say why."
   // The fixture is production's /api/v1/state?year=2026 body, saved before the change.
-  it("stateOfCycles(2026) equals the API body production served before the change", () => {
-    expect(stateOfCycles(2026)).toEqual(api2026.cycles);
+  it("GET /api/v1/state?year=2026 returns the whole body production served before the change", async () => {
+    // The route handler itself, so the envelope (site, year, formula, note) is
+    // pinned too, not only the cycles array (Codex r3-1).
+    const req = { nextUrl: new URL("https://sinusoidalhistory.com/api/v1/state?year=2026") } as NextRequest;
+    const body = await (await GET(req)).json();
+    expect(body).toEqual(api2026);
   });
 
   it("public/data/state-2026.csv is the edition as frozen (sha256, LF-normalised)", () => {
@@ -175,17 +181,17 @@ describe("phaseReason (I-013: the word near a turning point says why)", () => {
 
   it("explains the 2026 rows the cold walker tripped on, from the period", () => {
     expect(phaseReason(byId("huntington"), 2026)).toBe(
-      "2 years before its peak, outside the peaking band: ±1.8 years, 3% of a 60-year cycle."
+      "2 years before its peak, outside the peaking band: 1.8 years either side, 3% of a 60-year cycle."
     );
     expect(phaseReason(byId("khaldun"), 2026)).toBe(
-      "3 years before its peak, inside the peaking band: ±3.6 years, 3% of a 120-year cycle."
+      "3 years before its peak, inside the peaking band: 3.6 years either side, 3% of a 120-year cycle."
     );
     expect(phaseReason(byId("turchin"), 2026)).toBe(
-      "6 years after its peak, outside the peaking band: ±4.5 years, 3% of a 150-year cycle."
+      "6 years after its peak, outside the peaking band: 4.5 years either side, 3% of a 150-year cycle."
     );
     // The trough falls at 2027.5; the row's "next trough" prints it rounded (Codex r1-2).
     expect(phaseReason(byId("perez"), 2026)).toBe(
-      "1.5 years before its trough at 2027.5 (shown as 2028), inside the troughing band: ±1.65 years, 3% of a 55-year cycle."
+      "1.5 years before its trough at 2027.5 (shown as 2028), inside the troughing band: 1.65 years either side, 3% of a 55-year cycle."
     );
   });
 
@@ -215,7 +221,7 @@ describe("phaseReason (I-013: the word near a turning point says why)", () => {
         if (turning) expect(text, `${entry.id} ${year}`).not.toBeNull();
         if (!text) continue;
         const m = text.match(
-          /^(?:At its \w+|([\d.]+) years? \w+ its \w+(?: at [\d.]+(?: \(shown as \d+\))?)?), (inside|outside) the \w+ band: ±([\d.]+) years, 3% of a \d+-year cycle\.$/
+          /^(?:At its \w+|([\d.]+) years? \w+ its \w+(?: at [\d.]+(?: \(shown as \d+\))?)?), (inside|outside) the \w+ band: ([\d.]+) years? either side, 3% of a \d+-year cycle\.$/
         );
         expect(m, text).not.toBeNull();
         const tag = `${entry.id} ${year}: ${text} / ${entry.phase}`;

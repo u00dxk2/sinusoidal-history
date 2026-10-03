@@ -207,7 +207,9 @@ export function phaseReason(cycle: Cycle, year: number): string | null {
   // different year widths read as one rule (manager review, 2026-10-03).
   const share = formatYears((nearPeak ? PEAK_BAND : TROUGH_BAND) * 100);
   const at = d === "0" ? `At its ${kind}` : `${d} ${d === "1" ? "year" : "years"} ${side} its ${kind}${when}`;
-  return `${at}, ${turning ? "inside" : "outside"} the ${word} band: ±${band} years, ${share}% of a ${period}-year cycle.`;
+  // "either side", not "±": the share is the half-width, and "3%" alone was
+  // read as the whole band ("the last 3% of the cycle") — Codex r3-3.
+  return `${at}, ${turning ? "inside" : "outside"} the ${word} band: ${band} ${band === "1" ? "year" : "years"} either side, ${share}% of a ${period}-year cycle.`;
 }
 
 /** phaseReason for every cycle, by id. Kept off CycleStateEntry so /api/v1/state is unchanged. */
