@@ -122,3 +122,25 @@
 {"at":"2026-10-03T15:57:36.905Z","day":"2026-10-03","tool":"continuity-edit","id":"I-017","op":"set","field":"readCommandTimeoutMs","from":"null","to":"420000","changed":true,"opNoop":false}
 {"at":"2026-10-03T15:57:40.114Z","day":"2026-10-03","tool":"continuity-edit","id":"I-018","op":"set","field":"readCommandTimeoutMs","from":"null","to":"420000","changed":true,"opNoop":false}
 {"at":"2026-10-03T15:57:43.212Z","day":"2026-10-03","tool":"continuity-edit","id":"I-019","op":"set","field":"readCommandTimeoutMs","from":"null","to":"420000","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:42.372Z","day":"2026-10-03","tool":"continuity-edit","id":"I-008","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:42.664Z","day":"2026-10-03","tool":"continuity-edit","id":"I-010","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:42.919Z","day":"2026-10-03","tool":"continuity-edit","id":"I-011","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:43.206Z","day":"2026-10-03","tool":"continuity-edit","id":"I-012","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:43.469Z","day":"2026-10-03","tool":"continuity-edit","id":"I-014","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:43.674Z","day":"2026-10-03","tool":"continuity-edit","id":"I-015","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:43.888Z","day":"2026-10-03","tool":"continuity-edit","id":"I-016","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:44.160Z","day":"2026-10-03","tool":"continuity-edit","id":"I-018","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:44.493Z","day":"2026-10-03","tool":"continuity-edit","id":"I-019","op":"close","field":"status","from":"\"open\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:44.780Z","day":"2026-10-03","tool":"continuity-edit","id":"W-003","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:44.977Z","day":"2026-10-03","tool":"continuity-edit","id":"I-006","op":"extend","field":"nextEvaluation","from":"\"2026-10-03\"","to":"\"2026-10-07\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:45.191Z","day":"2026-10-03","tool":"continuity-edit","id":"I-009","op":"extend","field":"nextEvaluation","from":"\"2026-10-03\"","to":"\"2026-10-07\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:45.359Z","day":"2026-10-03","tool":"continuity-edit","id":"I-013","op":"extend","field":"nextEvaluation","from":"\"2026-10-03\"","to":"\"2026-10-07\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:45.581Z","day":"2026-10-03","tool":"continuity-edit","id":"I-017","op":"extend","field":"nextEvaluation","from":"\"2026-10-03\"","to":"\"2026-10-07\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:45.788Z","day":"2026-10-03","tool":"continuity-edit","id":"I-013","op":"set","field":"notes","from":"\"DECISION: who decides — David. Changing the bands or the phase vocabulary chang… [592 chars · sha256:111ea9db]","to":"\"DECISION: who decides — David. Changing the bands or the phase vocabulary chang… [1107 chars · sha256:b696ef1f]","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:46.033Z","day":"2026-10-03","tool":"continuity-edit","id":"I-017","op":"set","field":"notes","from":"\"2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (… [1342 chars · sha256:c52de7ff]","to":"\"2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (… [2088 chars · sha256:d241ec35]","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:55.010Z","day":"2026-10-03","tool":"continuity-edit","id":"I-020","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:55.271Z","day":"2026-10-03","tool":"continuity-edit","id":"I-021","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:55.504Z","day":"2026-10-03","tool":"continuity-edit","id":"I-022","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:55.842Z","day":"2026-10-03","tool":"continuity-edit","id":"I-023","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:56.156Z","day":"2026-10-03","tool":"continuity-edit","id":"I-024","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T17:01:56.444Z","day":"2026-10-03","tool":"continuity-edit","id":"W-004","op":"mint","field":null,"from":null,"to":"\"monitoring\"","changed":true,"opNoop":false}

@@ -244,7 +244,7 @@
       "notes": "OPENED 2026-09-22 at P5, from the sibling sweep owed by that day's 'All ten' -> 'Every cycle' fix (the hard-coded-count half). SWEPT with the Grep tool over src/ (48 hits) and public/**/*.{md,txt} (13 hits) against src/data/cycles.json = 10 and src/data/series.json = 9, so every 'nine of the ten' is arithmetically right today. RANKED, strongest first: src/app/og/route.tsx:164 'Ten long-wave cycles of history, on one shared axis.' — the route already imports cycles and this is the same surface CLASS that shipped 'Eight'; src/components/Poster.tsx:169 (its masthead derives No. NN from cycles.length two blocks above, the standfirst does not) plus the hand-typed ten-name roster at :199-200; src/components/TimeRangeBrush.tsx:283 'the mean of all ten cycle sinusoids' three lines from `sum / cycles.length`; src/app/(app)/page.tsx:47-55 (desktop dek roster, 'nine of the ten', and the phone dek) and :86 '0 of the 9'. DERIVED ALREADY, leave alone: methods/page.tsx:60, NowSummaryPanel.tsx:75, Poster.tsx:125, embed/docs/page.tsx:101. DELIBERATE, leave alone: the H1 'Ten cycles, one axis.' and SITE_DESCRIPTION (literal by design, test-pinned). ALSO FOUND, not this row: two stale comments describing an eight-cycle site (og/route.tsx:53, page.tsx:9) — comments only, no user impact. PROSE PAGES (about, cycles, state, methods, colophon and their public/*.md mirrors) are a judgement call rather than a mechanical fix: they read as editorial sentences, and AGENTS.md already couples each page to its mirror, so any change there is a two-file edit by rule.",
       "closeWhen": "The four ranked surfaces derive their count from cycles.length (or are deliberately exempted in one line each), and a test pins at least the OG standfirst the way siteConfig.test.ts pins SITE_DESCRIPTION.",
       "onTrigger": "Start with og/route.tsx — it is the highest-consequence line and the route already has the data. Prose pages are NOT in scope unless the count is actually wrong; the point is the surfaces where the number is a claim, not the ones where it is a sentence. Any page edited here drags its public/*.md mirror with it (AGENTS.md).",
-      "nextEvaluation": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
       "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002, I-004 and I-005 so this lane carries ONE gate date. Nothing is wrong on the site today — all counts are arithmetically correct against ten cycles and nine series — so this is a robustness row, not a defect row; it comes due when the roster next changes or on 09-27, whichever is first.",
       "readCommand": "node -e \"const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))\"",
       "waitingFor": "Nothing and nobody — this lane's own files.",
@@ -262,7 +262,7 @@
         "lines": 1,
         "sha256": "d886dd7e22c27e21"
       },
-      "lastEvaluated": "2026-09-27"
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-007",
@@ -294,12 +294,12 @@
       "id": "W-003",
       "type": "watch",
       "priority": "P3",
-      "status": "monitoring",
+      "status": "closed",
       "owner": "sinusoidal-cycles",
       "identified": "2026-09-27",
       "title": "After 8e144cb, does a cold phone reader who taps a confidence tag come away knowing that the paired data is the site's own comparison?",
       "hypothesis": "Probably yes. The tag now reads as tappable (a dotted underline), the tap lands with the definitions in view, and the new sentence answers 'is this backed by data or not?' directly. What is not established is whether a reader taps at all, and whether the sentence reads plainly at 13px in ink-soft.",
-      "notes": "OPENED 2026-09-27 at P5 on the orchestrator's close review (bus 78246b47). W-002 asked whether the tag read as understood. Its cold read said no (verdict (b)), and the fix shipped in 8e144cb, so W-002 is closed. The ENCOUNTER read was left owed: there are no analytics on this site, so a tap leaves no trace, and that read is this row. Delivery is proven, not assumed: scripts/check-confidence-tag-taps.mjs read 7/7 on production on 2026-09-27 (2/7 before the deploy). That script checks where taps LAND, not what a reader understands. The frames are docs/frames/2026-09-27-cycles-390-after.png (the tag) and -landed.png (after the tap).\n\n | 2026-09-28 (MT): 1c2cc72 changed the surface this walk reads. The /cycles descriptions are now 15px from 360px up and still 14px below 360 (not 15px on every phone: at 320x568 15px left /cycles 2px of first-screen spare, under the 8px floor; I-007, closed). So this walk is ALSO the first read of whether the larger descriptions help a stranger scan the ten cycles. The site has no analytics, so this N = 1 walk is the only encounter read available.\n\n\n\n | 2026-09-29 round 2 (MT): 57cb111 changed a surface this walk reads. Every /cycles/<slug> curve now marks this year ('now · 2026', a filled dot), and the reference peak is a hollow ring. onTrigger gained a sixth question (I-010). Date unchanged: 2026-10-03.",
+      "notes": "OPENED 2026-09-27 at P5 on the orchestrator's close review (bus 78246b47). W-002 asked whether the tag read as understood. Its cold read said no (verdict (b)), and the fix shipped in 8e144cb, so W-002 is closed. The ENCOUNTER read was left owed: there are no analytics on this site, so a tap leaves no trace, and that read is this row. Delivery is proven, not assumed: scripts/check-confidence-tag-taps.mjs read 7/7 on production on 2026-09-27 (2/7 before the deploy). That script checks where taps LAND, not what a reader understands. The frames are docs/frames/2026-09-27-cycles-390-after.png (the tag) and -landed.png (after the tap).\n\n | 2026-09-28 (MT): 1c2cc72 changed the surface this walk reads. The /cycles descriptions are now 15px from 360px up and still 14px below 360 (not 15px on every phone: at 320x568 15px left /cycles 2px of first-screen spare, under the 8px floor; I-007, closed). So this walk is ALSO the first read of whether the larger descriptions help a stranger scan the ten cycles. The site has no analytics, so this N = 1 walk is the only encounter read available.\n\n\n\n | 2026-09-29 round 2 (MT): 57cb111 changed a surface this walk reads. Every /cycles/<slug> curve now marks this year ('now · 2026', a filled dot), and the reference peak is a hollow ring. onTrigger gained a sixth question (I-010). Date unchanged: 2026-10-03. | 2026-10-03 (MT): ANSWERED (a), confirmed. Cold walk docs/walks/2026-10-03-w003.md (N = 1, synthetic, Chromium, live site, before the 9c958e4 deploy): the tag read as a definition marker (mildly tappable, dotted underline the only cue), and after the tap the walker said the paired series is a real measurement the site, not the theorist, set beside the curve as a comparison. The landing put an unrelated larger paragraph first: I-023. All other onTrigger questions answered; see each row. The read of today's two fixes is W-004.",
       "closeWhen": "A cold journey-walk of /cycles at phone width (N = 1) reports (a) that the tag reads as a link to a definition, and after the tap the reader can say in their own words that the paired series is this site's comparison, not the theorist's evidence; this closes as confirmed. Or it reports (b) that either half fails, in which case the failing half is named in notes and a fix row is minted.",
       "onTrigger": "Run this row's readCommand to regenerate the landed frame from production. Then walk /cycles cold at 390x664, via /journey-walk or by hand: look at the first entry, tap NARRATIVE, and read what you land on. Answer two questions: did the tag look tappable before you tapped it, and after reading, is 'Paired data - US Policy Mood (Stimson)' the theory's evidence or the site's check? Record the verdict in notes with the date.\n\n Third question (added 2026-09-28, after 1c2cc72): at 390 wide, can you scan all ten descriptions and say what each cycle claims without tapping in? They are 15px from 360 up (14px below 360).\n\n\n\n Fourth question (added 2026-09-28 round 2, after cdc1e4c / I-008): open the Calibrate tab, drag the peak-year slider, and say in one sentence what the drag did to the curve and to r. Pass = a cold reader can say it without reading /methods.\n\n | 2026-09-29 (I-009, 07c96d3): FIFTH question — open /cycles/dalio at 390 wide, cold, as someone who searched 'ray dalio big cycle theory'. Can you say where the Big Cycle is now, by this site's curve, and how far did you scroll to find it? (The sentence starts ~803px down at 390x664, below the first screen, so 'found it after one scroll' is the expected answer; record the scroll, not just yes/no.) Its answer is I-009's encounter read.\n\n\n\n | 2026-09-29 round 2 (I-010, 57cb111): SIXTH question. On the same /cycles/dalio visit at 390 wide, look at the curve under the sentence. It now carries two marks: a filled dot labelled 'now · 2026' and a hollow ring, which the caption keys as the reference peak (1950). Say in your own words what each mark shows. Pass: the dot is read as today's position, and the ring is not read as 'now'. Its answer is I-010's encounter read.\n\n | 2026-09-29 round 3 (I-011, b216a6c/3b0631f/50fe22f): SEVENTH question — at 390 wide on /cycles/dalio, tap 'Every cycle in 2026 →'. Without swiping sideways: which cycles are rising, and when is Dalio's next turning point? Pass: answered from the stacked list (phase word + 'next peak/trough YYYY'). Fail: a follow-up fix row on I-011.\n\n (8) I-012, 2026-09-30: at 390 wide on /cycles, scroll to the spectral verdicts and, without swiping sideways, say whether any cycle's record passes the test, and how many more years Kondratiev's needs (answer: none pass, all insufficient data; 85 more years).\n\n (I-014, added 2026-09-30 round 2) On /cycles at a width of 640 or more, read the Verdict column: is each verdict in words (not a code), and does anything need a sideways scroll?\n\n\n\n (I-015, added 2026-10-01) BEFORE the eighth question, cold, at 390 wide on /cycles: which cycles have a long enough record to test, and how did you find out? Do not scroll first. Pass: answered through the header's \"See which ones, and how short ↓\" within one tap (answer: none; all have insufficient data). Fail: the reader scrolled, or went to /methods, to find it.\n\n | ADDED 2026-10-01 round 2 (I-015 Back fix, f620cee): right after the I-015 find-the-list question, have the walker open one cycle from the verdict list and press Back once. Pass: they are back on /cycles at the verdict list without a second press. On a real iPhone if one is available (the fix was verified in Chromium and Playwright WebKit only).\n\n\n\n | ADDED 2026-10-02 (I-016, e5bd417/4fe0aef): when the walker opens a cycle from the verdict list (the step before the Back press), ask BEFORE they scroll or press Back: \"which cycle is this page about, and where on the screen does it say so?\" Pass: named from the box's label (\"<name> · Does it hold up?\"). Fail: they scrolled up to the H1, or could not say. Then, back at the list: \"before reading the rows, what did the list as a whole find?\" Pass: \"none can be tested yet\", from the sentence under the heading.\n\n\n\n | ADDED 2026-10-02 close (manager review f14f2b7d): on the second I-016 question, also ask \"how many rows are below that sentence, and does it describe all of them?\" The sentence says \"None of the 9 paired theories can be tested yet. Each record below is shorter than the three full periods a test needs\", and ten rows follow: nine paired, and one (\"Turchin (50y)\") that reads \"Not tested — no paired series\" and has no record. Pass: the walker reads the tenth row as outside the nine. Fail: they read the sentence as covering all ten rows; then the copy changes. This walk is N = 1 and synthetic; record its answers as a cold walk, never as a user encounter.\n\n\n\n\n\n | ADDED 2026-10-02 round 2 (I-017, fc1ef40/4b7d2a1/d341757): (1) THE \"HOW MANY ROWS\" QUESTION ABOVE NOW READS NEW COPY. The round-1 cold walk already answered it on the old copy, on the Fail branch, and the copy changed: the sentence now reads \"None of the 9 paired theories can be tested yet. Each of the 9 records below is shorter than the three full periods a test needs; here is how far short. One cycle has no paired series, so there is nothing to test.\" Ask it unchanged. Pass: the walker says the sentence covers nine rows and the tenth is the one with no paired series. (2) NEW, on a PHONE size, after the walker follows \"The full verdict, the figure and the protocol →\" from a paired cycle's box: \"what is the target period on the figure, and what does the band over the record say?\" Pass: both read off the figure without pinch-zooming (it now sits at 900px in a sideways scroller under \"Swipe sideways for the whole figure · tap it to open it on its own\"). Then have them swipe partway, tap the figure, and press Back once. Pass: back on the cycle page at the same place, figure still swiped where they left it. Real iPhone if available (verified in Chromium emulation only).\n\n\n\nRound 3 question (2026-10-02, I-018, a0c1f8d/e670a91/cbfc8b6), on a phone: on /cycles/kondratiev swipe the spectral figure partway right, go to /cycles, then come back by the \"Kondratiev wave\" link. Where does the figure start? Pass: at its left edge, the figure title visible. Then swipe again, open /cycles, and press Back: Pass if the figure is where you left it.",
       "nextEvaluation": "2026-10-03",
@@ -317,18 +317,20 @@
         "8e144cb"
       ],
       "created": "2026-09-27",
-      "updated": "2026-10-02"
+      "updated": "2026-10-03",
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-008",
       "type": "issue",
       "priority": "P2",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-08-24",
       "owner": "sinusoidal-cycles",
       "title": "The Calibrate tab shows sliders and a Pearson r but no chart, so a reader moves the peak and cannot see what moved",
       "hypothesis": "The calibration lever is the one place a reader tests the site's 'calibrated to a single date' claim, and the most show-a-friend interaction on the site (drag a cycle's peak, watch it stop fitting). With no curve, it shows nothing to look at. Carried since the 2026-08-24 journey walk (D8/M12) as a layout decision.",
-      "notes": "OPENED 2026-09-28 at round-2 P1 (bus 8116810c; manager review APPROVE, bus 2109e1e5). Baseline on production: `measure-fold.mjs https://sinusoidalhistory.com/?tab=calibrate 390 664 '[data-facet-id] svg[role=img]'` -> FAIL, no chart element in the tab. Built as cdc1e4c: the tab renders the selected cycle as an expanded CycleFacet (curve against its paired series, year axis under it, sliders + r, then rationale); CalibrationPanel deleted. Codex adversarial review round 1 (working tree): needs-attention, 2 findings, both FIXED in cdc1e4c (full-record caption restored under r; year axis added). Round 2: approve, no material findings. Sibling defect found and fixed in the same commit: FacetTimeAxis printed '1920' over 'now · 2026' at 320/360 and '2050' over it at 1440 on production's DEFAULT view (tmp/axis-overlap.mjs, 6 of 12 legs OVERLAP before, 0 of 12 after on the local build). | CLOSED 2026-09-28 (MT) on cdc1e4c (CI ci.yml GREEN; Render live 2026-09-28 18:41:04Z). Production after deploy: scripts/check-calibrate-tab.mjs 30/30 at 390x664, 1440x900 and 320x568 (chart present, r scope caption, year axis, chart top to peak slider 351px, drag moves path and r, reset restores, picker switches, header opens Facets with focus). scripts/check-axis-labels.mjs 12/12 OK (6 of 12 OVERLAP before). check-entry-folds 13/13 at 320x568 (/cycles 30px, / 12px), 360x560 (/ 4px, /cycles 41px) and 390x664, identical spare to before. check-confidence-tag-taps 7/7. readCommand moved off measure-fold: that command now FINDS the chart but reads it below the phone fold (1096px), because the tab sits under the phone overview figure like every tab, so it is the wrong gate for this row. Encounter: blind (no client analytics, by standing choice); W-003's 2026-10-03 cold walk carries a fourth question for this tab.\n\n | RE-OPENED TO monitoring 2026-09-28 at round-2 P5 (manager review bus 7eef5683): the implementation and delivery are done (see the CLOSED receipt above, which stays true), but the row still owes its ENCOUNTER read, and a shipped change owed one stays monitoring. The first and only encounter read for the Calibrate drag is W-003's cold phone walk on 2026-10-03 (its 4th question: 'drag the peak; say what it did'). Close this row on that walk's verdict. Outcome stays open until then.",
+      "notes": "OPENED 2026-09-28 at round-2 P1 (bus 8116810c; manager review APPROVE, bus 2109e1e5). Baseline on production: `measure-fold.mjs https://sinusoidalhistory.com/?tab=calibrate 390 664 '[data-facet-id] svg[role=img]'` -> FAIL, no chart element in the tab. Built as cdc1e4c: the tab renders the selected cycle as an expanded CycleFacet (curve against its paired series, year axis under it, sliders + r, then rationale); CalibrationPanel deleted. Codex adversarial review round 1 (working tree): needs-attention, 2 findings, both FIXED in cdc1e4c (full-record caption restored under r; year axis added). Round 2: approve, no material findings. Sibling defect found and fixed in the same commit: FacetTimeAxis printed '1920' over 'now · 2026' at 320/360 and '2050' over it at 1440 on production's DEFAULT view (tmp/axis-overlap.mjs, 6 of 12 legs OVERLAP before, 0 of 12 after on the local build). | CLOSED 2026-09-28 (MT) on cdc1e4c (CI ci.yml GREEN; Render live 2026-09-28 18:41:04Z). Production after deploy: scripts/check-calibrate-tab.mjs 30/30 at 390x664, 1440x900 and 320x568 (chart present, r scope caption, year axis, chart top to peak slider 351px, drag moves path and r, reset restores, picker switches, header opens Facets with focus). scripts/check-axis-labels.mjs 12/12 OK (6 of 12 OVERLAP before). check-entry-folds 13/13 at 320x568 (/cycles 30px, / 12px), 360x560 (/ 4px, /cycles 41px) and 390x664, identical spare to before. check-confidence-tag-taps 7/7. readCommand moved off measure-fold: that command now FINDS the chart but reads it below the phone fold (1096px), because the tab sits under the phone overview figure like every tab, so it is the wrong gate for this row. Encounter: blind (no client analytics, by standing choice); W-003's 2026-10-03 cold walk carries a fourth question for this tab.\n\n | RE-OPENED TO monitoring 2026-09-28 at round-2 P5 (manager review bus 7eef5683): the implementation and delivery are done (see the CLOSED receipt above, which stays true), but the row still owes its ENCOUNTER read, and a shipped change owed one stays monitoring. The first and only encounter read for the Calibrate drag is W-003's cold phone walk on 2026-10-03 (its 4th question: 'drag the peak; say what it did'). Close this row on that walk's verdict. Outcome stays open until then. | 2026-10-03 (MT): check-calibrate-tab 30/30 on production (helper --run); W-003 cold walk Q4 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): dragging the peak 1970 -> 1981 slid the wave and r went 0.123 -> -0.549, said in one sentence without /methods. Getting to the tab was the walk's worst finding; its wrong-cycle part shipped 25c90b2 (Calibrate opens on the focused cycle, check 36/36 on production at live 9c958e4), the rest is I-022.",
       "closeWhen": "W-003's cold phone walk (2026-10-03) answers its 4th question: a cold reader drags the Calibrate tab's peak slider and says in one sentence what it did to the curve and to r. Pass -> close. Fail -> a follow-up fix row. Production behaviour already verified (check-calibrate-tab 30/30, 2026-09-28).",
       "onTrigger": "Run tmp/check-calibrate-tab.mjs (or its readCommand successor) against production and record the counts in notes.",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-calibrate-tab.mjs",
@@ -336,8 +338,8 @@
         "cdc1e4c"
       ],
       "created": "2026-09-28",
-      "updated": "2026-09-28",
-      "lastEvaluated": "2026-09-28",
+      "updated": "2026-10-03",
+      "lastEvaluated": "2026-10-03",
       "nextEvaluation": "2026-10-03",
       "readCommandLastRun": "2026-10-03T15:59:00.955Z",
       "readCommandLastExit": 0,
@@ -345,7 +347,8 @@
       "readCommandLastOutputRef": {
         "lines": 31,
         "sha256": "26f543e6a428d769"
-      }
+      },
+      "closedAt": "2026-10-03"
     },
     {
       "id": "I-009",
@@ -359,7 +362,7 @@
       "notes": "SHIPPED 2026-09-29 in 07c96d3 (CI ci.yml GREEN; Render live 14:09:17Z). Every cycle page now has one sentence right after 'Does it hold up?': 'By this page's curve, <year> sits <phase> (<extremum year;> cos <x>). <next high/low>. That is a position of this construction, not the theorist's forecast. Every cycle in <year> ->' (link /state/<year>). Derived by yearPositionSentence from cycleStateAtYear, so it equals /api/v1/state. revalidate = 86400 on the route (production cache-control s-maxage=86400). Manager review 2026-09-29 (db6a1e87) redirected it from a mono metadata cell to this body-type sentence. PLACEMENT COST, measured: the sentence starts 780-874px down at 390x664 on 9 of 10 pages (549px on fathers-and-sons), i.e. NOT on a phone's first screen; above the verdict it would break /cycles/turchin's 12px fold at 320x568. Also fixed: series.json held '\\\\$' twice, showing readers '2011 PPP \\$' on the Dalio and Modelski pages; a test pins no backslash. Codex adversarial review x2: needs-attention (checker could false-pass -> fixed; ISR one-stale-request at a year boundary -> rejected, the sentence names its own year), then approve.\n\n | P5 2026-09-29 (manager review b83128a5: COMPLETED against the redirect's acceptance): pending read DATED — on 2026-10-03 W-003's cold walk opens /cycles/dalio at 390 wide and records whether 'where are we now' is found and how far the reader scrolled. The sentence was MEASURED below the first screen (780-874px at 390x664, check-year-position.mjs), so 'found after one scroll' is the EXPECTED result, not a regression. Ranking read: W-001's Search Console read on 2026-10-07 (N tiny: 6 Dalio impressions in 28 days). Freeze scope: W-001's freeze covers titles, meta, H1s and URLs; series.json descriptions are outside it (cycleMetaDescription never reads short_description).",
       "closeWhen": "W-003's cold walk (2026-10-03) opens /cycles/dalio at 390 wide and records whether the reader finds 'where are we now' and how far they scrolled to find it; and the W-001 Search Console read (2026-10-07) reports /cycles/dalio's position on the Dalio queries against 49.5-60. A walk that finds the sentence but only after scrolling is a finding about placement (move it up only if a fold can pay for it), not a reason to reopen the wording.",
       "onTrigger": "Run the readCommand first (31/31 on production 2026-09-29). Then read W-003's verdict for the Dalio question and the W-001 read for /cycles/dalio.",
-      "nextEvaluation": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-year-position.mjs",
       "waitingFor": "W-003's cold walk on 2026-10-03 (the encounter read) and W-001's Search Console read on 2026-10-07.",
       "linkedCommits": [
@@ -379,18 +382,19 @@
       "readCommandLastOutputRef": {
         "lines": 102,
         "sha256": "0b5579d722e575aa"
-      }
+      },
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-010",
       "type": "issue",
       "priority": "P2",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-09-29",
       "owner": "sinusoidal-cycles",
       "title": "Each /cycles/<slug> curve marked only its reference peak, so the picture and the where-now sentence pointed at different years (Dalio: dot at 1950, sentence says 2026 is at a peak)",
       "hypothesis": "A reader looks at the picture before the prose. A marked 'now · <year>' on the wave answers 'where are we' at a glance and stops the 1950 dot from reading as 'the' peak. Follow-up to I-009 (07c96d3), selected at round-2 P1 on 2026-09-29 (bus 2966d213; manager review APPROVE, bus 09c07da1).",
-      "notes": "SHIPPED 2026-09-29 (round 2) in 57cb111 (CI ci.yml GREEN; Render live 17:46:02Z). CurveFigure now draws a thin ink rule at the current year, a filled dot on the curve in the cycle's colour, and a 'now · <year>' label in the same look as the home chart's now-line. The dot and label are HTML over the SVG, because the 900-wide viewBox shrinks SVG marks to ~1.5px and 11px text to ~4px on a phone. The reference peak is now a hollow ring, painted after the now-dot, and the caption carries a matching ring as its key. The aria-label gains 'and <year> marked <where>'. Production after the deploy: check-year-position.mjs read 81/81, against 31/61 before the deploy (the red arm: 0 now-marks on all 10 pages). The dot is read back from pixels at 1280 wide and lands on /api/v1/state's year and cos on all 10 pages. The label is 11px and on screen at 390 and 320. The reference ring is hit-tested visible beside the now-dot at 390 and 320, including Turchin at 4-5px apart. check-entry-folds read 13/13 at 320x568, 360x560 and 390x664, with spare identical to before. Rendered-text multiset: +1 line ('now · 2026') per cycle page, nothing else moved. Codex adversarial review, round 1 (working tree): needs-attention, 1 medium finding. The now-dot covered Turchin's reference dot whole at phone width (the old SVG dot drew at ~1.2px radius). FIXED before commit: the hollow HTML ring painted on top, plus a hit-test leg whose red arm reads 'now' when the dot is painted over it. Round 2: approve, no material findings. The manager's 'faint tick at the next turning point' suggestion was measured and does not fit: Dalio's next low (2063) falls outside the figure's 1600-2050 window.\n\n\n\n | P5 round 2, 2026-09-29. The manager review (bus 63affe9b) read this as COMPLETED, 0 defects.\n\nPENDING READ, dated. Trigger: W-003's cold walk on 2026-10-03. At 390 wide on /cycles/dalio, the walker answers the sixth question: \"what do the curve's two marks show?\" Pass means the filled dot labelled 'now · 2026' is read as today's position, and the hollow ring as the reference peak, not as 'now'. Until then this row stays monitoring. Owner: sinusoidal-cycles. readCommand: check-year-position.mjs, 81/81 on production 2026-09-29.\n\nCORRECTION. The round-2 P1 packet (2966d213) named \"Strauss-Howe: ref 2020 vs 2026\" as the collision case. Strauss-Howe's reference peak is 1955 (cycles.json:93). The 2020 peak is Turchin's (cycles.json:69). Turchin is the case that was actually tested and fixed: the now-dot sits 9px from the reference peak at 1280 wide and 4-5px on a phone, found by Codex review run 1, fixed in 57cb111.\n\nAcceptance 3, read on PRODUCTION at close. check-entry-folds read 13/13 at 360x560 (/ 4px, /cycles/turchin 12px) and at 390x664 (/ 72px). At P3 it read 13/13 at 320x568. Spare is identical to the local build at all three sizes.",
+      "notes": "SHIPPED 2026-09-29 (round 2) in 57cb111 (CI ci.yml GREEN; Render live 17:46:02Z). CurveFigure now draws a thin ink rule at the current year, a filled dot on the curve in the cycle's colour, and a 'now · <year>' label in the same look as the home chart's now-line. The dot and label are HTML over the SVG, because the 900-wide viewBox shrinks SVG marks to ~1.5px and 11px text to ~4px on a phone. The reference peak is now a hollow ring, painted after the now-dot, and the caption carries a matching ring as its key. The aria-label gains 'and <year> marked <where>'. Production after the deploy: check-year-position.mjs read 81/81, against 31/61 before the deploy (the red arm: 0 now-marks on all 10 pages). The dot is read back from pixels at 1280 wide and lands on /api/v1/state's year and cos on all 10 pages. The label is 11px and on screen at 390 and 320. The reference ring is hit-tested visible beside the now-dot at 390 and 320, including Turchin at 4-5px apart. check-entry-folds read 13/13 at 320x568, 360x560 and 390x664, with spare identical to before. Rendered-text multiset: +1 line ('now · 2026') per cycle page, nothing else moved. Codex adversarial review, round 1 (working tree): needs-attention, 1 medium finding. The now-dot covered Turchin's reference dot whole at phone width (the old SVG dot drew at ~1.2px radius). FIXED before commit: the hollow HTML ring painted on top, plus a hit-test leg whose red arm reads 'now' when the dot is painted over it. Round 2: approve, no material findings. The manager's 'faint tick at the next turning point' suggestion was measured and does not fit: Dalio's next low (2063) falls outside the figure's 1600-2050 window.\n\n\n\n | P5 round 2, 2026-09-29. The manager review (bus 63affe9b) read this as COMPLETED, 0 defects.\n\nPENDING READ, dated. Trigger: W-003's cold walk on 2026-10-03. At 390 wide on /cycles/dalio, the walker answers the sixth question: \"what do the curve's two marks show?\" Pass means the filled dot labelled 'now · 2026' is read as today's position, and the hollow ring as the reference peak, not as 'now'. Until then this row stays monitoring. Owner: sinusoidal-cycles. readCommand: check-year-position.mjs, 81/81 on production 2026-09-29.\n\nCORRECTION. The round-2 P1 packet (2966d213) named \"Strauss-Howe: ref 2020 vs 2026\" as the collision case. Strauss-Howe's reference peak is 1955 (cycles.json:93). The 2020 peak is Turchin's (cycles.json:69). Turchin is the case that was actually tested and fixed: the now-dot sits 9px from the reference peak at 1280 wide and 4-5px on a phone, found by Codex review run 1, fixed in 57cb111.\n\nAcceptance 3, read on PRODUCTION at close. check-entry-folds read 13/13 at 360x560 (/ 4px, /cycles/turchin 12px) and at 390x664 (/ 72px). At P3 it read 13/13 at 320x568. Spare is identical to the local build at all three sizes. | 2026-10-03 (MT): check-year-position 81/81 on production; W-003 Q6 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): the filled dot read as now 2026, the ring read as the reference peak 1950 via its legend, not as now.",
       "closeWhen": "W-003's cold walk (2026-10-03) answers its sixth question. At 390 wide on /cycles/dalio, a cold reader looks at the curve and says what its two marks show. Pass: the filled dot labelled 'now · 2026' is read as today's position, and the ring as the reference peak, not as 'now'. Fail: a follow-up fix row.",
       "onTrigger": "Run the readCommand first (81/81 on production 2026-09-29). Then read W-003's sixth-question verdict.",
       "nextEvaluation": "2026-10-03",
@@ -406,25 +410,27 @@
         "57cb111"
       ],
       "created": "2026-09-29",
-      "updated": "2026-09-29",
+      "updated": "2026-10-03",
       "readCommandLastRun": "2026-10-03T15:59:16.797Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 7818,
       "readCommandLastOutputRef": {
         "lines": 102,
         "sha256": "0b5579d722e575aa"
-      }
+      },
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-011",
       "type": "issue",
       "priority": "P2",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-09-29",
       "owner": "sinusoidal-cycles",
       "title": "On a phone, /state/<year> hid each cycle's phase and next peak/trough behind an unmarked sideways swipe (576px table in a 353px scroller; at 320 even cos was cut)",
       "hypothesis": "The phase word and the next turning point are the answer /state/2026 promises, and every cycle page's 'Every cycle in 2026 →' link sends readers there; on a phone they got numbers without the words or dates. A stacked phone list that leads with 'Rising · next peak 2030' answers without a swipe. Follow-up to I-009/I-010, selected at round-3 P1 on 2026-09-29 (bus be709fe4; manager review APPROVE, bus 46791219). Second time this table came up (journey-walk J10, 2026-08-24, added a sticky name column), so the layout was replaced rather than the scroller patched.",
-      "notes": "Shipped b216a6c + 3b0631f + 50fe22f (check fixes from two Codex rounds). check-state-phone: production before 18/40, local after 100/100; mutation (labels swapped + phase invisible) 40/100. Known, NOT fixed here: the walk's #3 — Huntington at cos +0.98 reads 'rising' while Kondratiev and Khaldun at +0.99 read 'peaking' (±3%-of-period band); the stacked list puts those words side by side, so the disagreement is more visible now. It is a phase-band wording change shared with the chart, /api/v1/state and the frozen state-2026.csv, so it needs its own row and decision.\n\n | 2026-09-29 delivery: Render deploy 50fe22f live 23:28:54Z; CI ci.yml GREEN on 50fe22f; check-state-phone on production 18/40 -> 100/100; rendered-text diff built vs production GREEN (244 lines identical).",
+      "notes": "Shipped b216a6c + 3b0631f + 50fe22f (check fixes from two Codex rounds). check-state-phone: production before 18/40, local after 100/100; mutation (labels swapped + phase invisible) 40/100. Known, NOT fixed here: the walk's #3 — Huntington at cos +0.98 reads 'rising' while Kondratiev and Khaldun at +0.99 read 'peaking' (±3%-of-period band); the stacked list puts those words side by side, so the disagreement is more visible now. It is a phase-band wording change shared with the chart, /api/v1/state and the frozen state-2026.csv, so it needs its own row and decision.\n\n | 2026-09-29 delivery: Render deploy 50fe22f live 23:28:54Z; CI ci.yml GREEN on 50fe22f; check-state-phone on production 18/40 -> 100/100; rendered-text diff built vs production GREEN (244 lines identical). | 2026-10-03 (MT): check-state-phone 100/100 on production; W-003 Q7 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): rising cycles and Dalio's next turning point (trough 2063) answered from the stacked list, no sideways swipe. The walker did trip on Rising vs Peaking: that is I-013.",
       "closeWhen": "W-003's cold walk (2026-10-03) at 390 wide taps 'Every cycle in 2026 →' from /cycles/dalio and answers: which cycles are rising, and when is Dalio's next turning point? Pass: answered from the first view of the list without a sideways swipe. Fail: a follow-up fix row.",
       "onTrigger": "Run the readCommand first. Then read W-003's seventh-question verdict.",
       "nextEvaluation": "2026-10-03",
@@ -442,33 +448,35 @@
         "50fe22f"
       ],
       "created": "2026-09-29",
-      "updated": "2026-09-29",
+      "updated": "2026-10-03",
       "readCommandLastRun": "2026-10-03T15:59:26.328Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 2018,
       "readCommandLastOutputRef": {
         "lines": 101,
         "sha256": "94015afe1afacc3c"
-      }
+      },
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-012",
       "type": "issue",
       "priority": "P2",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-09-29",
       "owner": "sinusoidal-cycles",
       "title": "The spectral verdict table (VerdictTable, on /cycles and /methods) is the same 36rem table in an unmarked sideways scroller on phones that I-011 replaced on /state",
       "hypothesis": "Found by round 3's sibling sweep (bus 2a73b751): src/components/VerdictTable.tsx:22-23 wraps a min-w-[36rem] table in overflow-x-auto, rendered at /cycles (page.tsx:339) and /methods (page.tsx:265). On a 393px phone the right-hand columns sit behind a swipe nothing announces. Third appearance of this table shape (J10 2026-08-24, I-011 2026-09-29). I-011's stacked-list pattern (sm:hidden list + hidden sm:block table over one array, check-state-phone.mjs) is the template to copy. Not measured yet: which columns are cut at 393 and 320.",
-      "notes": "Next-round candidate, minted at the round-3 close on the manager review's suggestion (bus 510312e4). Display only: the rows read the frozen verdicts.json, so no spectral re-run or manifest change. public/methods.md mirrors the rows in markdown and needs no layout change; src/lib/spectral.test.ts guards that mirror.\n\n | 2026-09-30 P5: the manager review's 640-768px HYPOTHESIS (the sm:block table might still scroll with Verdict last) is REFUTED on production. At 640x800 the scroller is client 576 / scroll 576, and all six columns including Verdict are FULL; 700 and 768 are the same (scratchpad measure-verdict.mjs, /cycles and /methods). Delivery 2026-09-30: Render 2784e10 live 16:35:49Z, check-verdict-phone 36/80 -> 308/308 on production.",
+      "notes": "Next-round candidate, minted at the round-3 close on the manager review's suggestion (bus 510312e4). Display only: the rows read the frozen verdicts.json, so no spectral re-run or manifest change. public/methods.md mirrors the rows in markdown and needs no layout change; src/lib/spectral.test.ts guards that mirror.\n\n | 2026-09-30 P5: the manager review's 640-768px HYPOTHESIS (the sm:block table might still scroll with Verdict last) is REFUTED on production. At 640x800 the scroller is client 576 / scroll 576, and all six columns including Verdict are FULL; 700 and 768 are the same (scratchpad measure-verdict.mjs, /cycles and /methods). Delivery 2026-09-30: Render 2784e10 live 16:35:49Z, check-verdict-phone 36/80 -> 308/308 on production. | 2026-10-03 (MT): check-verdict-phone 316/316 on production; W-003 Q8 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): none pass, Kondratiev needs 85 more years, read from the landing screen without a sideways swipe.",
       "closeWhen": "W-003's cold walk (2026-10-03) at 390 wide on /cycles scrolls to the spectral verdicts and answers, without a sideways swipe: does any cycle's record pass the test, and how many more years does Kondratiev's need? Pass: answered from the phone list. Fail: a follow-up fix row. (The first closeWhen, a production phone check reading every verdict row's decisive fields visible at 393x659 and 320x568 with the desktop table unchanged, was met 2026-09-30: check-verdict-phone 308/308 on production after 2784e10.)",
       "onTrigger": "Run the readCommand first (expect 308/308). Then read W-003's eighth-question verdict.",
       "nextEvaluation": "2026-10-03",
       "_readCommandNote": "No readCommand yet on purpose: no existing check reads this table's phone layout (check-entry-folds reads folds, check-state-phone reads /state). The first step of the work writes one in check-state-phone.mjs's shape and sets it here.\n\n | Set 2026-09-30: check-verdict-phone.mjs, in check-state-phone.mjs's shape. Red on production before the change (18/62); 242/242 on the local build.",
       "created": "2026-09-29",
-      "updated": "2026-09-30",
+      "updated": "2026-10-03",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-phone.mjs https://sinusoidalhistory.com",
-      "lastEvaluated": "2026-09-30",
+      "lastEvaluated": "2026-10-03",
       "waitingFor": "W-003's cold walk on 2026-10-03, the only encounter read (the site has no client analytics).",
       "waitJustification": {
         "until": "2026-10-03",
@@ -487,7 +495,8 @@
       "readCommandLastOutputRef": {
         "lines": 317,
         "sha256": "f082f0894b91a1cc"
-      }
+      },
+      "closedAt": "2026-10-03"
     },
     {
       "id": "I-013",
@@ -498,36 +507,37 @@
       "owner": "sinusoidal-cycles",
       "title": "Phase words disagree near a peak: Huntington at cos +0.98 reads 'rising' while Kondratiev and Khaldun at +0.99 read 'peaking' (the ±3%-of-period band), now side by side in the /state phone list",
       "hypothesis": "From the 2026-09-29 cold walk's finding #3 (skylark-site docs/walks/2026-09-29/sinusoidal-cycles.md). The words follow the stated band, but to a stranger two curves that look the same get different words. I-011's stacked list (50fe22f) puts them at rows 3, 5 and 9, so the disagreement is easier to see than it was in the table. The list already prints the next turning point beside the word ('Rising · next peak 2028'), which may be enough on its own.",
-      "notes": "DECISION: who decides — David. Changing the bands or the phase vocabulary changes the stated method on /state, /methods and the chart, and alters /api/v1/state; the frozen edition public/data/state-2026.csv carries a phase column and is never recomputed, so the live 2026 reading would then disagree with its own citable frozen file. The lane's recommendation when it asks: no band change for 2026; let W-003's walk (2026-10-03, seventh question on /state) show whether a reader is actually confused now that the next peak year sits beside the word. Not asked yet: nothing is blocked on it.",
+      "notes": "DECISION: who decides — David. Changing the bands or the phase vocabulary changes the stated method on /state, /methods and the chart, and alters /api/v1/state; the frozen edition public/data/state-2026.csv carries a phase column and is never recomputed, so the live 2026 reading would then disagree with its own citable frozen file. The lane's recommendation when it asks: no band change for 2026; let W-003's walk (2026-10-03, seventh question on /state) show whether a reader is actually confused now that the next peak year sits beside the word. Not asked yet: nothing is blocked on it.\n\n | 2026-10-03 (MT): TRIGGER FIRED. W-003 cold walk (docs/walks/2026-10-03-w003.md P6, N = 1, synthetic): 'Huntington is Rising with cos +0.98 and a peak in 2028, while Kondratiev is Peaking with cos +0.99 and a peak in 2027. From the list alone those look like the same situation with different labels.' Per closeWhen this goes to David: needs-decision card filed 2026-10-03 (band change vs wording only, and the effect on the frozen 2026 edition). Re-dated to 2026-10-07; unWait is David's answer on that card.",
       "closeWhen": "Either W-003's 2026-10-03 walk reads the /state list without tripping on rising-vs-peaking (close as not-a-problem), or a reader does, in which case the lane files a needs-decision card to David with the options (band change vs wording-only) and their effect on the frozen 2026 edition.",
       "onTrigger": "On 2026-10-03, read W-003's seventh-question notes for any rising/peaking confusion.",
-      "nextEvaluation": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs",
       "created": "2026-09-29",
-      "updated": "2026-09-29",
+      "updated": "2026-10-03",
       "readCommandLastRun": "2026-10-03T15:59:26.328Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 2018,
       "readCommandLastOutputRef": {
         "lines": 101,
         "sha256": "94015afe1afacc3c"
-      }
+      },
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-014",
       "type": "issue",
       "priority": "P2",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-09-30",
       "owner": "sinusoidal-cycles",
       "title": "The spectral verdict table on /cycles and /methods prints the raw state code (INSUFFICIENT_DATA) from 640px up, while the phone list says it in words",
       "hypothesis": "Found by the 2026-09-30 cold walk (skylark-site e57fa3eff, docs/walks/2026-09-30/sinusoidal-cycles.md finding 1, OBSERVED at 700 and 1440). src/components/VerdictTable.tsx printed {v.state} in the table's Verdict cell and SPECTRAL_STATE_LABELS[v.state] in the phone list (I-012). A tablet or desktop reader asking 'does this cycle hold up?' gets a code; a phone reader of the same page gets 'Insufficient data — no test possible'. public/methods.md mirrored the code, pinned by src/lib/spectral.test.ts.",
-      "notes": "Round 2 of 2026-09-30, approved by the manager review (bus 072df77b). Display only: reads the frozen verdicts.json, no spectral re-run or manifest change. The label wraps inside the cell (measured locally: 640 and 700 two lines, 768 and 1440 one line, scroller client = scroll at every width). /methods prose now joins each state code to its words (review suggestion).\n\n | 2026-09-30 delivery: Render b1bfd0e live 21:38:36Z; check-verdict-phone 290/308 (old legs) -> 316/316 on production (8 new no-sideways-scroll legs at 640/700/768/1440 after Codex round 3); line multiset production before vs after: /cycles 9 lines and /methods 10 lines changed, 0 other. Sibling: cycle-page note now says 'Insufficient data'. Codex round-2 scope note: the rule proves no horizontal overflow, not per-cell visibility at tablet widths.",
+      "notes": "Round 2 of 2026-09-30, approved by the manager review (bus 072df77b). Display only: reads the frozen verdicts.json, no spectral re-run or manifest change. The label wraps inside the cell (measured locally: 640 and 700 two lines, 768 and 1440 one line, scroller client = scroll at every width). /methods prose now joins each state code to its words (review suggestion).\n\n | 2026-09-30 delivery: Render b1bfd0e live 21:38:36Z; check-verdict-phone 290/308 (old legs) -> 316/316 on production (8 new no-sideways-scroll legs at 640/700/768/1440 after Codex round 3); line multiset production before vs after: /cycles 9 lines and /methods 10 lines changed, 0 other. Sibling: cycle-page note now says 'Insufficient data'. Codex round-2 scope note: the rule proves no horizontal overflow, not per-cell visibility at tablet widths. | 2026-10-03 (MT): check-verdict-phone 316/316 on production; W-003 D1 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): the Verdict column reads in words at 1440 and 700 wide, no sideways scroll at either.",
       "closeWhen": "check-verdict-phone reads 308/308 on production with every desktop Verdict cell equal to the reader label (red on production before the deploy: 290/308, the 18 desktop row legs), and W-003's cold walk (2026-10-03) reads the verdict in words at a width of 640 or more.",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-phone.mjs https://sinusoidalhistory.com",
       "nextEvaluation": "2026-10-03",
       "created": "2026-09-30",
-      "updated": "2026-09-30",
+      "updated": "2026-10-03",
       "linkedCommits": [
         "033c1c4",
         "b1bfd0e"
@@ -544,18 +554,20 @@
       "readCommandLastOutputRef": {
         "lines": 317,
         "sha256": "f082f0894b91a1cc"
-      }
+      },
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-015",
       "type": "issue",
       "priority": "P3",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-10-01",
       "owner": "sinusoidal-cycles",
       "title": "The /cycles header states the spectral headline but its only link left the page; the per-cycle verdicts sat 3103px down at 390x664 with nothing linking to them",
       "hypothesis": "A phone reader who reads '0 of the 9 paired theories have a record long enough' wants to know which ones and by how much. The page sent them to /methods, or made them scroll past ten entries (4.7 screens at 390x664, 6.0 at 320x568) with no sign the answer was below. One in-page link from the headline answers it in a tap.",
-      "notes": "OPENED 2026-10-01 at P3 from the 2026-09-30 cold walk, finding 2 (skylark-site docs/walks/2026-09-30/sinusoidal-cycles.md). Measured on production that morning (scratchpad measure-verdict-offset.mjs): #does-any-hold-up top 3103px at 390x664, 3291 at 360x560, 3418 at 320x568, 2312 at 1440x900, and a Grep for does-any-hold-up outside node_modules found only its own definition, so 0 inbound links. Fix: the header's /methods link became 'See which ones, and how short ↓' (#does-any-hold-up), with py-[13px] so the inline tap box is 45px without growing the line (the 320x568 fold stays 30px spare); 'How the test works →' moved under the verdict list; the section gained scroll-mt-6 so the heading lands 24px below the top, not flush (manager review 2026-10-01, both hypotheses measured true: 41px at py-[11px]; 0px without the margin).\n\n | 2026-10-01 delivery: d69f696 + 26c244d (review round 1: aria-hidden arrow; the check's hit-test at every size, checkVisibility, a 12-48px landing bound, an exact href) live on Render 17:22:38Z. check-verdict-reach 1/5 before -> 24/24 on production; check-entry-folds 13/13 at 320x568 (/cycles 30px, unchanged); check-verdict-phone 316/316; /cycles line multiset 311 -> 313, 0 lost (the link splits into two extracted lines at its aria-hidden span). Measured locally, not on production: 375x667 and 340x568 folds 13/13. Named limit: the method link sits under all ten verdict entries on phones (one scroll, then one tap).\n\n | 2026-10-01 round 2 (cold walk 2026-10-01 finding 1): the header link was a plain <a href=\"#…\">, which pushes a null-state history entry the App Router ignores on popstate (next/dist/client/components/app-router.js:284-288), so /cycles -> link -> a cycle page -> Back changed the URL and left the cycle page on screen. Reproduced on production in Chromium and WebKit (24/28, every Back leg). Sibling sweep: 6 more plain #hash anchors (/cycles #confidence-tags, /methods #spectral-testing + its On-this-page list, /cycles/<slug> #confidence, #spectral-verdict, #caveat) had the same live bug, 0/6 on production. 4d4fe3a made all seven next/link; Codex r1 (cross-family) found and the lane reproduced two regressions from that (keyboard focus stayed at the link; a repeat click did not jump), so 76e3153 replaced it with src/components/HashLink.tsx (pushState stamped by Next, scrollIntoView, focus the target) and a lint rule refusing <a|Link href=\"#…\">. Codex r2: no runtime defect; two check-predicate gaps fixed in f620cee (Back landing judged; forward page must prove itself). Local: check-verdict-reach 37/37 Chromium, 36/36 WebKit; production before deploy 29/37 (all 8 Back legs). Back lands at the verdict list (heading 24px).\n\n | 2026-10-02: the two walk findings this row held (the deep link landing with the h1 off-screen; where '0 of the 9' sits) shipped as I-016 (e5bd417, 4fe0aef). They are no longer held here.",
+      "notes": "OPENED 2026-10-01 at P3 from the 2026-09-30 cold walk, finding 2 (skylark-site docs/walks/2026-09-30/sinusoidal-cycles.md). Measured on production that morning (scratchpad measure-verdict-offset.mjs): #does-any-hold-up top 3103px at 390x664, 3291 at 360x560, 3418 at 320x568, 2312 at 1440x900, and a Grep for does-any-hold-up outside node_modules found only its own definition, so 0 inbound links. Fix: the header's /methods link became 'See which ones, and how short ↓' (#does-any-hold-up), with py-[13px] so the inline tap box is 45px without growing the line (the 320x568 fold stays 30px spare); 'How the test works →' moved under the verdict list; the section gained scroll-mt-6 so the heading lands 24px below the top, not flush (manager review 2026-10-01, both hypotheses measured true: 41px at py-[11px]; 0px without the margin).\n\n | 2026-10-01 delivery: d69f696 + 26c244d (review round 1: aria-hidden arrow; the check's hit-test at every size, checkVisibility, a 12-48px landing bound, an exact href) live on Render 17:22:38Z. check-verdict-reach 1/5 before -> 24/24 on production; check-entry-folds 13/13 at 320x568 (/cycles 30px, unchanged); check-verdict-phone 316/316; /cycles line multiset 311 -> 313, 0 lost (the link splits into two extracted lines at its aria-hidden span). Measured locally, not on production: 375x667 and 340x568 folds 13/13. Named limit: the method link sits under all ten verdict entries on phones (one scroll, then one tap).\n\n | 2026-10-01 round 2 (cold walk 2026-10-01 finding 1): the header link was a plain <a href=\"#…\">, which pushes a null-state history entry the App Router ignores on popstate (next/dist/client/components/app-router.js:284-288), so /cycles -> link -> a cycle page -> Back changed the URL and left the cycle page on screen. Reproduced on production in Chromium and WebKit (24/28, every Back leg). Sibling sweep: 6 more plain #hash anchors (/cycles #confidence-tags, /methods #spectral-testing + its On-this-page list, /cycles/<slug> #confidence, #spectral-verdict, #caveat) had the same live bug, 0/6 on production. 4d4fe3a made all seven next/link; Codex r1 (cross-family) found and the lane reproduced two regressions from that (keyboard focus stayed at the link; a repeat click did not jump), so 76e3153 replaced it with src/components/HashLink.tsx (pushState stamped by Next, scrollIntoView, focus the target) and a lint rule refusing <a|Link href=\"#…\">. Codex r2: no runtime defect; two check-predicate gaps fixed in f620cee (Back landing judged; forward page must prove itself). Local: check-verdict-reach 37/37 Chromium, 36/36 WebKit; production before deploy 29/37 (all 8 Back legs). Back lands at the verdict list (heading 24px).\n\n | 2026-10-02: the two walk findings this row held (the deep link landing with the h1 off-screen; where '0 of the 9' sits) shipped as I-016 (e5bd417, 4fe0aef). They are no longer held here. | 2026-10-03 (MT): check-verdict-reach 37/37 on production; W-003 Q7-P10 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): none answered from the header sentence with 0 taps, the list reached in one tap, one Back returned to the verdict list. Real iOS Safari still unwalked.",
       "closeWhen": "check-verdict-reach reads 37/37 on production after the deploy of f620cee (36/36 with --webkit, keyboard leg skipped there), AND W-003's cold walk on 2026-10-03 reports that a reader asked 'which cycles have a long enough record to test?' at 390 wide on /cycles found the answer through the header link within one tap, AND that one Back from a cycle opened from the verdicts returned them to the verdict list.",
       "onTrigger": "Run the readCommand on production, then read W-003's I-015 question in its walk notes.\n\n PENDING READ (recorded at P5 2026-10-01; trigger W-003's cold walk, 2026-10-03, owner sinusoidal-cycles): W-003 asks, BEFORE its eighth question and without scrolling first, \"at 390 wide on /cycles, cold: which cycles have a long enough record to test, and how did you find out?\" Pass: answered through the header link \"See which ones, and how short ↓\" within one tap (answer: none; all insufficient data). Fail: the reader scrolled, or went to /methods, to find it; then mint a follow-up fix row and name the failing half in notes.\n\n\n\n PENDING READ (recorded at P5 round 2, 2026-10-01; trigger W-003's cold walk, 2026-10-03, owner sinusoidal-cycles): right after the find-the-list question, the walker opens one cycle from the verdict list and presses Back once, on a real iPhone (iOS Safari) if one is available. Pass: back on /cycles AT the verdict list on one press. Fail: a second press was needed, or Back landed at the page top; then mint a follow-up row naming the browser. The fix (f620cee, HashLink) was verified in Chromium and Playwright WebKit only; real iOS Safari is unwalked. Also held, not dropped (cold walk 2026-10-01): finding 2 (the per-cycle deep link lands with the cycle's h1 off-screen) and finding 3 (where \"0 of the 9\" sits and the 9-vs-10 gap), both behind W-003.",
       "nextEvaluation": "2026-10-03",
@@ -569,32 +581,33 @@
         "f620cee"
       ],
       "created": "2026-10-01",
-      "updated": "2026-10-02",
+      "updated": "2026-10-03",
       "waitJustification": {
         "until": "2026-10-03",
         "loadBearing": "delivery is proven (check-verdict-reach 37/37 Chromium and 36/36 WebKit on production after Render deploy f620cee, live 2026-10-02 00:28:34Z UTC; sibling Back probe 6/6); the site has no client analytics, so the only encounter read is the W-003 cold walk on its date",
         "unWait": "on 2026-10-03, run the readCommand, then read the I-015 question in the W-003 walk notes",
         "owner": "sinusoidal-cycles"
       },
-      "lastEvaluated": "2026-10-01",
+      "lastEvaluated": "2026-10-03",
       "readCommandLastRun": "2026-10-03T16:00:32.827Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 45040,
       "readCommandLastOutputRef": {
         "lines": 39,
         "sha256": "b18e47408829d5e0"
-      }
+      },
+      "closedAt": "2026-10-03"
     },
     {
       "id": "I-016",
       "type": "issue",
       "priority": "P3",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-10-02",
       "owner": "sinusoidal-cycles",
       "title": "Opening a cycle from the /cycles verdict list landed on a box that never said which cycle it was; the list itself stated no result",
       "hypothesis": "A reader who taps one name in a list of ten identical verdicts lands on that page's 'Does it hold up?' box with the H1 above the screen, and the box said 'a 54-year claim' without saying whose. Naming the cycle in the box's label, with the same short name the reader tapped, answers 'which one did I open?' without a scroll. A result sentence at the list ('None of the 9 paired theories can be tested yet') tells a reader who jumped there what the ten rows add up to.",
-      "notes": "OPENED 2026-10-02 at P3 from the 2026-10-02 cold walk (skylark-site docs/walks/2026-10-02/sinusoidal-cycles.md, findings 1-3; these were I-015's held walk findings 2 and 3). Measured on production before the change, all ten list links at 390x664, 320x568 and 1440x900 (tmp/measure-verdict-landing.mjs, 06:21Z): the box named the cycle on 0 of 9 paired landings at every size; h1 bottom 133-225px above the screen; the forward link 269x17px (38px at 320, wrapped). Fix e5bd417: the label reads '<cycleTheorist> · Does it hold up?' (the name beside the question, not inside it: 'Does Peter Turchin hold up?' reads as a verdict on a person; manager review 4892cfd0), max-[380px]:tracking-[0.08em] so it stays on one line where it can; /cycles gains the result sentence under 'Does any of them hold up?', derived from verdicts.json and placed in the page, not VerdictTable (/methods states its own count); both box links get inline-flex min-h-11. First attempt without the tracking change cut /cycles/turchin 5px below a 320x568 screen (12 of 13); with it 13 of 13, Turchin unchanged at 12px. At 320 two labels still wrap (Schlesinger Jr. 35 -> 18px spare, Kondratiev 92 -> 76px).\n\n | Review: Codex r1 (cross-family, read-only, banner workdir checked) on 6bf8e65..e5bd417: no defect in the pages, the copy or the freeze surfaces; three P2 gaps in the new check, all confirmed and fixed in 4fe0aef (naming leg needs visibility + in-viewport + on-top; result leg needs the exact sentence verdicts.json implies, between heading and first row; tap leg reads the unrounded hit box, the destination, and hit-tests both edges). 4fe0aef is check-only and had no second round; proven by its three --mutate arms on the local build: hide-name 72/112 (40 naming legs), wrong-sentence 104/112 (8), dead-link 82/112 (30).\n\n | 2026-10-02 delivery: Render 4fe0aef live 07:20:46Z UTC; CI green. Production: check-verdict-landing 34/112 before -> 112/112; check-entry-folds 13 of 13 at 390x664, 360x560, 320x568 (thinnest / 4px at 360x560 and /cycles/turchin 12px, both unchanged); check-verdict-reach 37/37; check-verdict-phone 316/316; visible-text line multiset before vs after: /cycles +1 line, /cycles/kondratiev and /cycles/turchin-fathers-sons swap 'Does it hold up?' for '<name>' + '· Does it hold up?', nothing else. No title, meta, H1, URL or id changed (W-001). Not changed: the box's aria-label is still the generic 'Does this cycle hold up'; the verdict rows still lead with the verdict words, not the years short (that order is I-012's, read by W-003 question 8).\n\n\n\n | 2026-10-02 close (manager review f14f2b7d): (1) THE ENCOUNTER READ IS NOT A USER ENCOUNTER. W-003's cold walk on 2026-10-03 is N = 1 and synthetic (an agent walking the page cold). It is the only encounter read this row has, and this row closes only on it, but its answer must never be quoted as a real reader's. (2) ACCEPTANCE CORRECTION. The P1 packet asked for check-entry-folds 13 of 13 \"with every leg at 8px spare or more\". That line was written looser than the site: scripts/check-entry-folds.mjs has no 8px floor (OK is any leg not cut), and `/` has read 4px spare at 360x560 since be29b3a (2026-09-24; docs/daily-config.md records it). The 8px figure is a design rule I-007 applied to the one leg it changed (/cycles), not a property of the check. Read on production today before the change: `/` 4px at 360x560, the same as after. What this change could move is the ten cycle-page legs, and their minimum is 12px (/cycles/turchin, unchanged), so the floor holds for every leg the change touches. The acceptance line was wrong, not the page; `/` at 4px is thin and is not this row's.",
+      "notes": "OPENED 2026-10-02 at P3 from the 2026-10-02 cold walk (skylark-site docs/walks/2026-10-02/sinusoidal-cycles.md, findings 1-3; these were I-015's held walk findings 2 and 3). Measured on production before the change, all ten list links at 390x664, 320x568 and 1440x900 (tmp/measure-verdict-landing.mjs, 06:21Z): the box named the cycle on 0 of 9 paired landings at every size; h1 bottom 133-225px above the screen; the forward link 269x17px (38px at 320, wrapped). Fix e5bd417: the label reads '<cycleTheorist> · Does it hold up?' (the name beside the question, not inside it: 'Does Peter Turchin hold up?' reads as a verdict on a person; manager review 4892cfd0), max-[380px]:tracking-[0.08em] so it stays on one line where it can; /cycles gains the result sentence under 'Does any of them hold up?', derived from verdicts.json and placed in the page, not VerdictTable (/methods states its own count); both box links get inline-flex min-h-11. First attempt without the tracking change cut /cycles/turchin 5px below a 320x568 screen (12 of 13); with it 13 of 13, Turchin unchanged at 12px. At 320 two labels still wrap (Schlesinger Jr. 35 -> 18px spare, Kondratiev 92 -> 76px).\n\n | Review: Codex r1 (cross-family, read-only, banner workdir checked) on 6bf8e65..e5bd417: no defect in the pages, the copy or the freeze surfaces; three P2 gaps in the new check, all confirmed and fixed in 4fe0aef (naming leg needs visibility + in-viewport + on-top; result leg needs the exact sentence verdicts.json implies, between heading and first row; tap leg reads the unrounded hit box, the destination, and hit-tests both edges). 4fe0aef is check-only and had no second round; proven by its three --mutate arms on the local build: hide-name 72/112 (40 naming legs), wrong-sentence 104/112 (8), dead-link 82/112 (30).\n\n | 2026-10-02 delivery: Render 4fe0aef live 07:20:46Z UTC; CI green. Production: check-verdict-landing 34/112 before -> 112/112; check-entry-folds 13 of 13 at 390x664, 360x560, 320x568 (thinnest / 4px at 360x560 and /cycles/turchin 12px, both unchanged); check-verdict-reach 37/37; check-verdict-phone 316/316; visible-text line multiset before vs after: /cycles +1 line, /cycles/kondratiev and /cycles/turchin-fathers-sons swap 'Does it hold up?' for '<name>' + '· Does it hold up?', nothing else. No title, meta, H1, URL or id changed (W-001). Not changed: the box's aria-label is still the generic 'Does this cycle hold up'; the verdict rows still lead with the verdict words, not the years short (that order is I-012's, read by W-003 question 8).\n\n\n\n | 2026-10-02 close (manager review f14f2b7d): (1) THE ENCOUNTER READ IS NOT A USER ENCOUNTER. W-003's cold walk on 2026-10-03 is N = 1 and synthetic (an agent walking the page cold). It is the only encounter read this row has, and this row closes only on it, but its answer must never be quoted as a real reader's. (2) ACCEPTANCE CORRECTION. The P1 packet asked for check-entry-folds 13 of 13 \"with every leg at 8px spare or more\". That line was written looser than the site: scripts/check-entry-folds.mjs has no 8px floor (OK is any leg not cut), and `/` has read 4px spare at 360x560 since be29b3a (2026-09-24; docs/daily-config.md records it). The 8px figure is a design rule I-007 applied to the one leg it changed (/cycles), not a property of the check. Read on production today before the change: `/` 4px at 360x560, the same as after. What this change could move is the ten cycle-page legs, and their minimum is 12px (/cycles/turchin, unchanged), so the floor holds for every leg the change touches. The acceptance line was wrong, not the page; `/` at 4px is thin and is not this row's. | 2026-10-03 (MT): check-verdict-landing 472/472 on production at live 9c958e4; W-003 P8/P10 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): named Huntington from the box label before scrolling; read the list sentence as covering nine rows plus the tenth unpaired one.",
       "closeWhen": "check-verdict-landing reads 112/112 on production (met 2026-10-02 after 4fe0aef), AND W-003's cold walk on 2026-10-03 reports that a reader who opened a cycle from the verdict list could say which cycle the page was about without scrolling.",
       "onTrigger": "Run the readCommand on production, then read W-003's I-016 question in its walk notes. Pass: the walker names the cycle from the box without scrolling. Fail: they scrolled up to the H1 or could not say; then name the failing size in notes and mint a follow-up.",
       "nextEvaluation": "2026-10-03",
@@ -619,7 +632,9 @@
       "readCommandLastOutputRef": {
         "lines": 6,
         "sha256": "bd575eee90423a38"
-      }
+      },
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-017",
@@ -629,7 +644,7 @@
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-02",
-      "nextEvaluation": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
       "hypothesis": "The box link I-016 made 44px tall promises \"the full verdict, the figure and the protocol\". On a phone the figure shrank to the column (288-350px), its 10-unit axis labels drew at 3.2-3.9px and \"target: Ny\" at 3.5-4.3px, and a tap on it did nothing (round-1 cold walk, skylark-site docs/walks/2026-10-02-r1/sinusoidal-cycles.md, finding 1). Keeping the figure at its native 900px inside a phone-only sideways scroller makes its labels readable where the reader already is; a tap opening the SVG on its own adds pinch-zoom. Separately, the /cycles sentence counting its nine records and naming the unpaired row removes the walker's \"is the tenth row a record too?\" (finding 2).",
       "waitingFor": "Nothing and nobody. A dated self-read.",
       "linkedCommits": [
@@ -646,7 +661,7 @@
         "unWait": "on 2026-10-03, run the readCommand, then read the I-017 questions in the W-003 walk notes",
         "owner": "sinusoidal-cycles"
       },
-      "notes": "2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (10-unit labels >=10px, \"target:\" >=11px; the P1 packet wrongly said the smallest text was 12 units). Shipped fc1ef40 (scroller, tap-to-open, PNG case, sentence), 4b7d2a1 (Codex r1: five check gaps; Back reset the scroller's scrollLeft 200 -> 0 on 27 of 27 phone landings, fixed by FigureScroller's sessionStorage restore), d341757 (Codex r2 #3: computed text-transform restored to the case leg). Codex r2 #1-#2 are the same class as r1 #1 (geometric proxies fooled by contrived CSS) and are declared as a CEILING in the check header, not patched a third time. Mutations: flat-figure 139/283, clip-figure 256/283, lose-place 256/283, literal-case 247/283, dead-link 118/175, wrong-sentence 275/283, hide-name 243/283.\n\n | 2026-10-02 round 2 close (manager review fc7f695b: COMPLETED against the redirected acceptance). Follow-ups rowed, not loose lines: I-018 (FigureScroller restores the sideways place on a FRESH visit too — OBSERVED on production: scrollLeft 200 after a fresh visit via the /cycles list and after a typed URL in the same tab; new tab 0) and I-019 (desktop figure 704px wide at 768/1024/1440, 10-unit labels 7.8px, \"target:\" 8.6px). The encounter read stays W-003's cold walk on 2026-10-03 with both I-017 questions; N = 1 and synthetic.",
+      "notes": "2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (10-unit labels >=10px, \"target:\" >=11px; the P1 packet wrongly said the smallest text was 12 units). Shipped fc1ef40 (scroller, tap-to-open, PNG case, sentence), 4b7d2a1 (Codex r1: five check gaps; Back reset the scroller's scrollLeft 200 -> 0 on 27 of 27 phone landings, fixed by FigureScroller's sessionStorage restore), d341757 (Codex r2 #3: computed text-transform restored to the case leg). Codex r2 #1-#2 are the same class as r1 #1 (geometric proxies fooled by contrived CSS) and are declared as a CEILING in the check header, not patched a third time. Mutations: flat-figure 139/283, clip-figure 256/283, lose-place 256/283, literal-case 247/283, dead-link 118/175, wrong-sentence 275/283, hide-name 243/283.\n\n | 2026-10-02 round 2 close (manager review fc7f695b: COMPLETED against the redirected acceptance). Follow-ups rowed, not loose lines: I-018 (FigureScroller restores the sideways place on a FRESH visit too — OBSERVED on production: scrollLeft 200 after a fresh visit via the /cycles list and after a typed URL in the same tab; new tab 0) and I-019 (desktop figure 704px wide at 768/1024/1440, 10-unit labels 7.8px, \"target:\" 8.6px). The encounter read stays W-003's cold walk on 2026-10-03 with both I-017 questions; N = 1 and synthetic.\n\n | 2026-10-03 (MT): W-003 answered both I-017 questions on the old build (docs/walks/2026-10-03-w003.md P11-P12: target and band read without pinch-zoom after a swipe; Back kept page and sideways place). Open for the Back intermittent: the 'Back from the opened figure keeps the reader's place' leg missed once on /cycles/modelski at 320x568 (scrollY 4582 -> 4221, the #spectral-verdict fragment's own position), 1 miss in 195 Backs today (5 complete production runs x 27 + 60 isolated repeats), not reproduced, cause unknown. The check header (6330855) keeps the dated 1-in-114 observation; its failure line now prints first-settled scrollY and the fragment, so the next miss explains itself. Re-dated to 2026-10-07 to re-run the check then.",
       "created": "2026-10-02",
       "updated": "2026-10-03",
       "readCommandTimeoutMs": 420000,
@@ -656,13 +671,14 @@
       "readCommandLastOutputRef": {
         "lines": 6,
         "sha256": "bd575eee90423a38"
-      }
+      },
+      "lastEvaluated": "2026-10-03"
     },
     {
       "id": "I-018",
       "type": "issue",
       "title": "The spectral figure reopens at the reader's old sideways place on a fresh visit, not only on Back",
-      "status": "monitoring",
+      "status": "closed",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-02",
@@ -675,8 +691,8 @@
       "linkedCommits": [],
       "created": "2026-10-02",
       "updated": "2026-10-03",
-      "lastEvaluated": "2026-10-02",
-      "notes": " | 2026-10-02 round 3 (MT): CLOSED. a0c1f8d + e670a91 + cbfc8b6, live on Render 21:48:21Z UTC. The figure's sideways place now lives on the history entry (window.history.state), not sessionStorage: a link or typed URL starts at 0, and Back/Forward (in-app, from the opened SVG, or to a hash-jump entry) return to it. The onTrigger's navigation-type fix was NOT used, because measured on production an in-app Back reads \"navigate\" and later in-app arrivals after a document Back read \"back_forward\" (tmp/measure-restore-navtypes.mjs). closeWhen met: check-verdict-landing https://sinusoidalhistory.com --fails-only -> 391/391, including fresh-visit (list link) and typed-visit legs at scrollLeft 0 on 9 of 9 paired pages at 390x664, 360x560 and 320x568, with the SVG Back, in-app Back and hash-jump Back legs passing. Red arm: production before, 310/364 (exactly the 54 fresh legs). restore-always 337/391; lose-place 310/391. Codex r3-1 (3 findings) fixed in e670a91; r3-2 (1) fixed in cbfc8b6. Declared limit: a Back within 250ms of the last swipe drops that swipe.\n\n | 2026-10-02 round 3 P5 (MT): status closed -> monitoring. The P5 rule keeps a shipped change that still owes an encounter read in monitoring. closeWhen's production read is met (391/391). Live sha is e726f5e (Render 21:55:50Z UTC; cbfc8b6..e726f5e is docs and ledger only, so the measured code is the code serving). Close after W-003's 2026-10-03 walk answers the round-3 return question.",
+      "lastEvaluated": "2026-10-03",
+      "notes": " | 2026-10-02 round 3 (MT): CLOSED. a0c1f8d + e670a91 + cbfc8b6, live on Render 21:48:21Z UTC. The figure's sideways place now lives on the history entry (window.history.state), not sessionStorage: a link or typed URL starts at 0, and Back/Forward (in-app, from the opened SVG, or to a hash-jump entry) return to it. The onTrigger's navigation-type fix was NOT used, because measured on production an in-app Back reads \"navigate\" and later in-app arrivals after a document Back read \"back_forward\" (tmp/measure-restore-navtypes.mjs). closeWhen met: check-verdict-landing https://sinusoidalhistory.com --fails-only -> 391/391, including fresh-visit (list link) and typed-visit legs at scrollLeft 0 on 9 of 9 paired pages at 390x664, 360x560 and 320x568, with the SVG Back, in-app Back and hash-jump Back legs passing. Red arm: production before, 310/364 (exactly the 54 fresh legs). restore-always 337/391; lose-place 310/391. Codex r3-1 (3 findings) fixed in e670a91; r3-2 (1) fixed in cbfc8b6. Declared limit: a Back within 250ms of the last swipe drops that swipe.\n\n | 2026-10-02 round 3 P5 (MT): status closed -> monitoring. The P5 rule keeps a shipped change that still owes an encounter read in monitoring. closeWhen's production read is met (391/391). Live sha is e726f5e (Render 21:55:50Z UTC; cbfc8b6..e726f5e is docs and ledger only, so the measured code is the code serving). Close after W-003's 2026-10-03 walk answers the round-3 return question. | 2026-10-03 (MT): check-verdict-landing 472/472 on production at live 9c958e4 (fresh-visit legs inside); W-003 P13 (docs/walks/2026-10-03-w003.md, N = 1, synthetic): a link return started the figure at its left edge, Back kept 205px.",
       "waitJustification": {
         "until": "2026-10-03",
         "loadBearing": "the only encounter read for the round-3 return fix; no client analytics on this site",
@@ -690,13 +706,14 @@
       "readCommandLastOutputRef": {
         "lines": 6,
         "sha256": "bd575eee90423a38"
-      }
+      },
+      "closedAt": "2026-10-03"
     },
     {
       "id": "I-019",
       "type": "issue",
       "title": "On desktop the spectral figure draws at the column width, with its smallest labels at 7.8px",
-      "status": "open",
+      "status": "closed",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-02",
@@ -716,7 +733,149 @@
       "readCommandLastOutputRef": {
         "lines": 6,
         "sha256": "bd575eee90423a38"
-      }
+      },
+      "closedAt": "2026-10-03",
+      "lastEvaluated": "2026-10-03",
+      "notes": " | 2026-10-03 (MT): shipped 6330855 (figure at native 900px from 1024 wide up; below that, the sideways scroller). check-verdict-landing on production: 418/472 before (54 desktop size legs at 7.8px/8.6px) -> 472/472 after, read at live 9c958e4 (Render 16:33:30Z UTC); live is now 9a85de0, a docs-only commit after it. 9 of 9 paired pages at 1440x900 draw 10-unit labels at 10px. Codex r1: no actionable defect. The encounter read is W-004 on 2026-10-07; known trade at 768-1023 is I-025."
+    },
+    {
+      "id": "I-020",
+      "title": "On a phone, tapping the spectral figure opens it smaller, on a page with no way back but Back",
+      "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P12 (N = 1, synthetic, iPhone 15 390x664): the tap opens the bare /data/spectral/<id>.svg fitted to the screen, labels about 4-6px, no site header and no control back. The walker: \"The tap looks like enlarge and does the opposite.\" Ranked 2nd of 5. Round 2 dropped the cue that promised it; the link itself remains.",
+      "onTrigger": "Decide by measurement: (a) on phones the figure is not a link (the SVG and PNG downloads stay); (b) the link opens a site page that shows the SVG at native size inside a scroller, with a way back. The spectral SVGs stay frozen.",
+      "closeWhen": "A cold walk on a phone taps the figure and does not land somewhere smaller or without a way back.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
+        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "owner": "sinusoidal-cycles"
+      },
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "I-021",
+      "title": "The spectral figure's first view and cue mislead: on phones the target and band arrive cut off; from 768 to 1023 wide a mouse reader is told to Swipe",
+      "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P11 (N = 1, synthetic, 390x664): on arrival the subtitle reads \"target pe\" and the band \"INSUFFI\"; the band is nearly as wide as the window and was never seen whole in one position; the only cue is one 12px line. Ranked 4th of 5. Also OBSERVED (6330855, a deliberate trade, manager review b4b27df0): from 768 to 1023 wide the figure sits in the scroller under \"Swipe sideways for the whole figure\", the wrong verb for a mouse.",
+      "onTrigger": "Options to measure, not taste: a cue worded for both pointers; a visible edge fade or scrollbar on the scroller. The HTML verdict line above the figure already carries the band's words (10-02 round 3). The spectral SVGs stay frozen.",
+      "closeWhen": "A cold walk at 390 wide and at about 900 wide with a mouse reads the target and the band, and says the cue told it what to do.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
+        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "owner": "sinusoidal-cycles"
+      },
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "I-022",
+      "title": "From a cycle page the way into Calibrate is one link about seven screens down, landing below the tabs, with curve and r not on one phone screen",
+      "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P3 and its single worst thing (N = 1, synthetic, 390x664): \"Open in the chart\" sits about 4,700px down; it lands at /?focus=<id> scrolled to 936px, about 280px below the Facets/Calibrate tabs; after the tab, the slider is another screen down and r 160px below it. The wrong-cycle part shipped on 2026-10-03 (25c90b2); this row is the rest.",
+      "onTrigger": "Measure first (scripts/check-calibrate-tab.mjs already reads the chart-top-plus-slider span): a link that lands with Calibrate open on the cycle, placed where the cycle page talks about calibrating; then whether curve and r fit one 664px screen.",
+      "closeWhen": "From a cycle page a cold phone walker reaches that cycle's Calibrate view in one tap and sees the curve and r change together.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
+        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "owner": "sinusoidal-cycles"
+      },
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "I-023",
+      "title": "The confidence-tag jump lands with an unrelated, larger paragraph filling the top of the screen",
+      "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P1 (N = 1, synthetic, 390x664): after the tap the top 40% of the screen is \"Each theory is drawn as a pure sinusoid…\" at 16px; the definition starts about 280px down at 13px, nothing is highlighted, and the walker read the wrong paragraph first. scripts/check-confidence-tag-taps.mjs only checks that #confidence-tags is in view (top=24).",
+      "onTrigger": "Put the definition itself at the jump target (move the id, or give the definition its own heading), and tighten check-confidence-tag-taps to require the definition sentence near the top of the screen.",
+      "closeWhen": "check-confidence-tag-taps reads the definition sentence within the first screen after the tap, on production.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
+        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "owner": "sinusoidal-cycles"
+      },
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "I-024",
+      "title": "Kondratiev's pairing is called \"US TFP growth (5-yr rolling)\" on /cycles and in the citation, but \"annual, unsmoothed\" in the verdict and figure",
+      "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md D2 (N = 1, synthetic): \"I could not tell from the page which series was tested without reading on.\" Both are true of two different series (10-02 round 3: the spectral test uses us_tfp_growth_annual.csv; the chart shows the 5-yr rolling series in src/data/series.json). A copy question, not a data error.",
+      "onTrigger": "Say on the verdict, once, that the test runs on the annual unsmoothed series while the chart shows its 5-year rolling average. Body copy only: no title, meta, H1 or URL change before 2026-10-07. Mirror any /methods change in public/methods.md.",
+      "closeWhen": "A cold reader of /cycles/kondratiev can say which series was tested and why the chart's label differs.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
+        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "owner": "sinusoidal-cycles"
+      },
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "W-004",
+      "type": "watch",
+      "priority": "P3",
+      "status": "monitoring",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
+      "hypothesis": "Probably yes: the labels draw at 10px from 1024 wide up (check-verdict-landing 472/472 on production) and Calibrate opens on the focused cycle (check-calibrate-tab 36/36 on production). Not established: whether a reader with a mouse at about 900 wide follows the scroller's cue, and whether the way into Calibrate (I-022) still loses them. The 2026-10-03 walk read the OLD build.",
+      "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.",
+      "closeWhen": "(a) All three read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-021, I-022).",
+      "nextEvaluation": "2026-10-07",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only",
+      "readCommandTimeoutMs": 420000,
+      "_readCommandNote": "Proves the desktop figure still draws at 10px on production before the walk. The walk is the read; this is its precondition.",
+      "waitingFor": "Nothing and nobody. A dated self-read.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "the only encounter read for the two 2026-10-03 fixes; no client analytics on this site",
+        "unWait": "on 2026-10-07 run the readCommand, then the three-step cold walk in onTrigger",
+        "owner": "sinusoidal-cycles"
+      },
+      "linkedCommits": [
+        "6330855",
+        "25c90b2"
+      ],
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
     }
   ],
   "knownPatterns": [

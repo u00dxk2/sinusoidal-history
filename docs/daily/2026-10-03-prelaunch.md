@@ -212,3 +212,55 @@ What remains:
 - In-flight statuses 5b48a22d and eabe547d are superseded by this post.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-019 · P3 1ba9f75b
+
+## Close
+
+**The acceptance in force** was the manager review's REDIRECT (d483bf88); the review of the work (b4b27df0) read it COMPLETED.
+
+**State changed since the P3 post:**
+- The live sha is now `9a85de0` (Render, finished 16:43:47Z UTC). That commit is docs and ledger only, so the code measured at 472/472 and 36/36 (read at live `9c958e4`) is the code serving.
+- The review's HYPOTHESIS, checked: the Calibrate picker reads `?focus=` only as its initial value, and no path changes the focus while the tab stays open. Every in-app path that sets the focus also switches to Facets (`Viz.tsx:91-94`). Radix unmounts the inactive tab. nuqs writes `focus` with history `replace` (`urlState.ts:66`, no `history` option), so Back cannot change it underneath.
+
+**Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-03.md`): 12 lines — 2 accepted · 10 amended · 0 rejected.
+- Accepted: I-006 and I-009, both re-dated to 2026-10-07. I-009's Search Console half is due then. The optional I-006 onTrigger path fix was not applied.
+- Amended to close, because W-003's walk answered their questions after the draft was written: I-008, I-010, I-011, I-012, I-014, I-015, I-016 and I-018. Each closing note quotes the walk.
+- Amended, I-013 (UNDECIDED in the draft): the walker tripped on Rising vs Peaking, which is the row's trigger. It was re-dated to 2026-10-07 and David's card was filed (67b4a9dc, board card c55395fc).
+- Amended, I-017: re-dated to 2026-10-07, with a note carrying today's Back count (1 in 195) and the walk's two passes.
+- READ-MUTATED, quoted: "READ-MUTATED I-016 scripts/check-verdict-landing.mjs — path named in the readCommand — BUT the lane told the helper beforehand that it would edit this file during P3 …" and "READ-MUTATED I-016 src/app/(app)/cycles/[id]/page.tsx — NOT named in the readCommand: may be the lane's own concurrent P3 edit; lane checks". Both are this lane's own P3 edits (status 5b48a22d).
+- wait-justification (draft): PASS, 13 of 23, 1 info. engineering-zero: PASS, 0 findings, 0 unreadable.
+
+**Ledger delta (beyond the draft):**
+- **I-019 CLOSED** on its production read: 418/472 → 472/472, 9 of 9 paired pages at 1440x900 with 10-unit labels at 10px, read at live `9c958e4`.
+- **W-003 CLOSED** as (a), confirmed on its own question. The tag read as a definition marker, and after the tap the walker said the paired series is the site's comparison.
+- **Minted, from the walk's unselected findings:**
+  - I-020: on a phone, the figure tap opens a smaller dead end.
+  - I-021: the figure's first view and its cue; this includes "Swipe" said to a mouse at 768-1023.
+  - I-022: the way into Calibrate from a cycle page.
+  - I-023: the confidence-tag landing.
+  - I-024: the TFP series wording.
+  All five are open and dated 2026-10-07.
+- **Minted W-004**, THE ONE THING: a cold walk on 2026-10-07 of the desktop figure (1440 and about 900 wide, with a mouse) and of Calibrate reached from a cycle page. Its readCommand is check-verdict-landing, with a 420000ms cap.
+- `readCommandTimeoutMs` 420000 was set on I-016 to I-019 at P3.
+
+**Verify:**
+- `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-03).
+- `check-wait-justification` after my edits → "RESULT: PASS — 19 of 29 row(s) carry `waitJustification`; 0 warn / 1 info". The info is WAIT_SHARED_CAUSE_CLUSTER on I-020 to I-024: the five new rows share one wait sentence. They are separate problems on one date, so this is not one upstream cause.
+- Sentry and Dependabot: engineering-zero read 0 findings for this lane.
+
+**Receipt:** P3's receipt (1ba9f75b) still holds and is not restated. The exposure is still blind, and the read is W-004.
+
+**Pending reads:**
+- 2026-10-07: W-004's cold walk of the two fixes.
+- 2026-10-07: W-001's Search Console read.
+- 2026-10-07: I-006, I-009, I-013 (David's card), I-017 (re-run the check), and I-020 to I-024.
+- Real iOS Safari: unwalked, no date.
+
+**Primer:** `docs/cold-starts/2026-10-03.md`, banner 1,224 chars.
+
+codexCalls: 2 today, both at P3. None at this close (probed-declined: no code diff).
