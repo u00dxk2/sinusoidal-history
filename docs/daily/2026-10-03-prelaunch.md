@@ -478,3 +478,39 @@ hygiene helper: DISPATCHED ~19:00Z UTC · draft tmp/hygiene-draft-sinusoidal-cyc
 - **For the orchestrator:** `render-put-secret.mjs` has no cancel leg. A lane told to "cancel both stuck deploys" through it cannot.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+## Round 2 — Close
+
+ACTION: COMPLETED · item I-013 · P3 809f3fb4
+
+**State changed since the P3 post (809f3fb4):**
+- **Render live is `ae8ec3f`** (dep-db0maqbtqb8s738jaj5g, 20:29:37Z UTC). It is a docs-only descendant of `4faabbc`, so the code serving is unchanged. The manager review (c9891dfe) read all six sentences in the live /state/2026 HTML after the post.
+- **Card c55395fc: handed to the orchestrator.** The ruling is executed; the dismissal is the orchestrator's (`--dismiss --reason`). The lane does not record it as done.
+- **Orchestrator item, not a lane row:** `skylark-site/scripts/render-put-secret.mjs` has no cancel leg. A lane told to "cancel the stuck deploys" through the ruled entry point cannot do it. On 10-03 Render cancelled them itself.
+
+**Hygiene draft:** 0 lines (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-03-r2.md`: "none — no input rows").
+- READ-MUTATED: none.
+- check-wait-justification: "RESULT: PASS — 19 of 29 row(s) carry `waitJustification`; 0 warn / 1 info" (WAIT_SHARED_CAUSE_CLUSTER on I-020 to I-024).
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable".
+
+**Ledger delta, round 2:**
+- **I-013 CLOSED**, with its receipt note. The encounter read lives on W-004, not here.
+- **I-025 minted:** the band for the 2027 edition, dated 2026-12-01.
+- **W-004:** onTrigger gained the Rising/Peaking question.
+- **Notes:** I-013 notes carry David's words verbatim.
+
+**Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-03).
+
+**Receipt:** P3's line (809f3fb4) still holds and is not restated. Exposure stays blind, and the read is W-004.
+
+**Pending reads:**
+- 2026-10-07: W-004's cold walk, which now includes whether Rising and Peaking read as one rule. A no goes into I-025's card.
+- 2026-10-07: W-001's Search Console read.
+- 2026-10-07: I-006, I-009, I-017 and I-020 to I-024.
+- 2026-12-01: I-025, the band question to David.
+
+**Primer:** `docs/cold-starts/2026-10-03.md`. The banner was rewritten in place for round 2 (1,331 chars), and the round-2 detail is appended below it.
+
+codexCalls: 4 today in round 2 (r1-r4, all P3 reviews). None at this close: probed-declined, because the close has no code diff.
