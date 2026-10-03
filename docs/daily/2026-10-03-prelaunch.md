@@ -386,3 +386,95 @@ The tests:
 - `/state/2026`: +12 lines, none removed.
 
 **Not re-reviewed:** the r1 fixes themselves. Before the commit, I'll ask Codex for a narrow r2 on the new sentence shape, unless the P1 review says otherwise.
+---
+
+## Round 2 — P3 — Product-work loop
+
+[P3 — Product-work loop]
+
+**Round 2.** This is the same session that posted P1 (7e35c7bb): a new pane in this lane after the round-1 close (c6996e31), not a strand.
+
+**Action — improve the product:** on /state/2026, every row near a peak or trough now says why it reads Rising, Peaking, Falling or Troughing. Item I-013, under David's ruling (card c55395fc, verbatim): "Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition."
+
+What a reader sees, six of ten rows, in the phone list and the desktop table:
+- Huntington (Rising): "2 years before its peak, outside the peaking band: 1.8 years either side, 3% of a 60-year cycle."
+- Khaldun (Peaking): "3 years before its peak, inside the peaking band: 3.6 years either side, 3% of a 120-year cycle."
+- Perez (Troughing): "1.5 years before its trough at 2027.5 (shown as 2028), inside the troughing band: 1.65 years either side, 3% of a 55-year cycle."
+
+### The manager review (6ac726c6), both items
+
+1. **The stray reformat in `cycleStateAtYear`: reverted.** It was left over from my own red-arm revert.
+2. **"Name the 3%": adopted, but not in the review's words.** The HYPOTHESIS was measured and its example is wrong as written. "Peaking means the last 3% of the cycle" does not match the code: the band is `frac < 0.03 || frac > 0.97`, 3% either side of the peak, 6% of the cycle in all, and it runs past the peak. Codex r3 then found my own first form ("±1.8 years, 3% of a 60-year cycle") open to the same misreading. The shipped line says "1.8 years either side, 3% of a 60-year cycle".
+
+### 1. Implementation
+
+- **Commits:**
+  - `b26cb2c`: the reason line, the tests and the check legs.
+  - `8b28be4`: the "either side" wording; the API pin now covers the whole body.
+  - `12c21f3`: the API pin runs with the clock in 2031.
+  - `4faabbc`: docs only.
+- **Unchanged, as the ruling requires:** `PEAK_BAND`/`TROUGH_BAND`, /methods, `src/app/api/v1/state/route.ts`, `public/data/state-2026.csv`. The reason is kept off the API entry.
+- **Tests:** 131/131, typecheck clean, CI success for 12c21f3 and 4faabbc.
+- **Red arms run:** each was restored afterwards.
+  - Band 0.03 → 0.04 in the reason: 2 fail.
+  - A `phase_reason` field on the API entry: the API pin fails.
+  - One byte appended to the CSV: the CSV pin fails.
+  - Inside/outside taken from rounded numbers: the edge test fails.
+  - One character changed in the route's `note`: the body pin fails.
+  - The route's year lookup set to null: the pin fails with year 2031.
+- **Codex, four read-only runs, banner workdir checked each time:**
+  - r1 (working tree): 5 findings, all fixed in b26cb2c.
+    - A rounded band edge could print the same numbers for two different labels.
+    - Perez "1.5 years" beside "next trough 2028".
+    - "0 years after" in the app vs "At its" in the check.
+    - The phone leg ignored a duplicate reason line.
+    - The sentence read as a rival label.
+  - r2 (working tree): 1 finding. "Shown as" re-rounded a float (48 disagreements, all before year 983). Already fixed in b26cb2c by taking the year from nextPeakYear/nextTroughYear.
+  - r3 (HEAD b26cb2c022): 2 findings, both fixed in 8b28be4. The fixture pinned only `cycles`. "3%" could be read as the total width.
+  - r4 (HEAD 8b28be4b54): 1 finding, fixed in 12c21f3. The pin could not tell `?year=2026` from the current-year fallback.
+  - **Coverage:** in r3 and r4, 0 disagreements between app and checker over 99,990 cycle-years. Six of six sentences HOLD in every round.
+- 12c21f3 is a test-only change that implements r4's own fix and is red-armed. It was not sent back for a fifth run.
+
+### 2. Delivery
+
+- **Live:** Render `live` = `4faabbc`, deploy `dep-db0m868u01pc73b02lt0`, finished 20:24:09Z UTC.
+- **The stall:** the two automatic deploys (12c21f3, 4faabbc) sat in `build_in_progress` from 19:16Z for about 65 minutes. Their builds had succeeded, and no deploy step ever started.
+- **The manual deploy:** on the orchestrator's instruction (ae4c5f9c) I ran ONE `render-put-secret.mjs --deploy-latest` (HTTP 201).
+  - **The entry point has no cancel leg**, so I did not cancel the two stuck deploys.
+  - Render marked both `canceled` at 20:22:50Z.
+  - No hand-written API write was made.
+- **The surface, read on production at ~20:27Z:**
+  - `check-state-phone https://sinusoidalhistory.com` → **142/142**.
+  - `/api/v1/state?year=2026` sha256 C728127D… is identical before and after.
+  - `state-2026.csv` LF sha 092db812… is as pinned.
+  - Rendered text of /state/2026: +12 lines, 0 removed (244 → 256).
+
+### 3. Encounter
+
+Blind. The site carries no client analytics, by standing choice. The next cold read is W-004 on 2026-10-07; one question about this change was added to its `onTrigger`.
+
+### 4. Outcome
+
+Open. No read exists yet.
+
+USER-VISIBLE: on /state/2026 each cycle near a peak or trough now says why it reads Rising or Peaking, e.g. Huntington "2 years before its peak, outside the peaking band: 1.8 years either side, 3% of a 60-year cycle" — b26cb2c [proof: check-state-phone on production 102/130 before → 142/142 after Render deploy 4faabbc live 2026-10-03 20:24:09Z UTC; 6 of 10 rows carry the sentence at iPhone 15, 320x568 and 1440; /api/v1/state?year=2026 byte-identical before and after] [coverage: none — no client analytics by standing choice · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader of /state leaves no trace · bug row W-004] [red-armed: node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs https://sinusoidalhistory.com (before the deploy) -> 102/130 FAIL  (https://sinusoidalhistory.com/state/2026)]
+
+codexCalls: 4 (r1-r4, all foreground read-only reviews; 0 build delegations)
+adversarialReviews: 4 — EXECUTED (r1, r2 on the working tree; r3 on b26cb2c; r4 on 8b28be4). 12c21f3: BY-INSPECTION (test-only, r4's own fix, red-armed).
+hygiene helper: DISPATCHED ~19:00Z UTC · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-03-r2.md PRESENT (0 dispositions to apply; engineering-zero 0 findings; wait-justification PASS with 1 info, the I-020 to I-024 shared-cause cluster; no READ-MUTATED).
+
+### Ledger, done in this phase
+
+- **I-013 CLOSED**, with the receipt in its notes.
+- **I-025 minted** (open, dated 2026-12-01): put the band question to David before the 2027 edition. /state/2027 renders by itself on 2027-01-01 UTC.
+- **W-004:** one question appended, for the 2026-10-07 walk.
+- **Ruling banked:** docs/answers/2026-10-03.md, the lane's first answers file.
+
+### What remains
+
+- **Card c55395fc:** the ruling is executed. The dismissal is the orchestrator's (`--dismiss --reason`).
+- **Not selected this round:** the "Swipe" cue said to mouse readers at 768-1023px (I-021, 2026-10-07).
+- **Local dev note:** `next start` outlived TaskStop five times this round. Each time the port was freed by PID, after reading the command line.
+- **For the orchestrator:** `render-put-secret.mjs` has no cancel leg. A lane told to "cancel both stuck deploys" through it cannot.
+
+[standing-rules-hash: 88cc2dc9]

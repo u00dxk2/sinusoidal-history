@@ -502,12 +502,12 @@
       "id": "I-013",
       "type": "issue",
       "priority": "P3",
-      "status": "open",
+      "status": "closed",
       "identified": "2026-09-29",
       "owner": "sinusoidal-cycles",
       "title": "Phase words disagree near a peak: Huntington at cos +0.98 reads 'rising' while Kondratiev and Khaldun at +0.99 read 'peaking' (the ±3%-of-period band), now side by side in the /state phone list",
       "hypothesis": "From the 2026-09-29 cold walk's finding #3 (skylark-site docs/walks/2026-09-29/sinusoidal-cycles.md). The words follow the stated band, but to a stranger two curves that look the same get different words. I-011's stacked list (50fe22f) puts them at rows 3, 5 and 9, so the disagreement is easier to see than it was in the table. The list already prints the next turning point beside the word ('Rising · next peak 2028'), which may be enough on its own.",
-      "notes": "DECISION: who decides — David. Changing the bands or the phase vocabulary changes the stated method on /state, /methods and the chart, and alters /api/v1/state; the frozen edition public/data/state-2026.csv carries a phase column and is never recomputed, so the live 2026 reading would then disagree with its own citable frozen file. The lane's recommendation when it asks: no band change for 2026; let W-003's walk (2026-10-03, seventh question on /state) show whether a reader is actually confused now that the next peak year sits beside the word. Not asked yet: nothing is blocked on it.\n\n | 2026-10-03 (MT): TRIGGER FIRED. W-003 cold walk (docs/walks/2026-10-03-w003.md P6, N = 1, synthetic): 'Huntington is Rising with cos +0.98 and a peak in 2028, while Kondratiev is Peaking with cos +0.99 and a peak in 2027. From the list alone those look like the same situation with different labels.' Per closeWhen this goes to David: needs-decision card filed 2026-10-03 (band change vs wording only, and the effect on the frozen 2026 edition). Re-dated to 2026-10-07; unWait is David's answer on that card.\n\n2026-10-03 DAVID'S RULING, verbatim (board card c55395fc, replied 2026-10-03T17:10:23.870Z; banked in docs/answers/2026-10-03.md at 12:56 MDT): \"Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition.\" Round-2 P1 (7e35c7bb) selected the wording fix; prep is uncommitted pending the manager review and Codex.",
+      "notes": "DECISION: who decides — David. Changing the bands or the phase vocabulary changes the stated method on /state, /methods and the chart, and alters /api/v1/state; the frozen edition public/data/state-2026.csv carries a phase column and is never recomputed, so the live 2026 reading would then disagree with its own citable frozen file. The lane's recommendation when it asks: no band change for 2026; let W-003's walk (2026-10-03, seventh question on /state) show whether a reader is actually confused now that the next peak year sits beside the word. Not asked yet: nothing is blocked on it.\n\n | 2026-10-03 (MT): TRIGGER FIRED. W-003 cold walk (docs/walks/2026-10-03-w003.md P6, N = 1, synthetic): 'Huntington is Rising with cos +0.98 and a peak in 2028, while Kondratiev is Peaking with cos +0.99 and a peak in 2027. From the list alone those look like the same situation with different labels.' Per closeWhen this goes to David: needs-decision card filed 2026-10-03 (band change vs wording only, and the effect on the frozen 2026 edition). Re-dated to 2026-10-07; unWait is David's answer on that card.\n\n2026-10-03 DAVID'S RULING, verbatim (board card c55395fc, replied 2026-10-03T17:10:23.870Z; banked in docs/answers/2026-10-03.md at 12:56 MDT): \"Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition.\" Round-2 P1 (7e35c7bb) selected the wording fix; prep is uncommitted pending the manager review and Codex. | 2026-10-03 CLOSED on David's ruling and the production read. Ruling (card c55395fc, verbatim): \"Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition.\" Shipped b26cb2c + 8b28be4 + 12c21f3, live on 4faabbc at 20:24:09Z (manual deploy dep-db0m868u01pc73b02lt0 after two wedged deploys; orchestrator ae4c5f9c). Each row near a peak or trough on /state/<year> now says e.g. \"2 years before its peak, outside the peaking band: 1.8 years either side, 3% of a 60-year cycle.\" Production read ~20:27Z: check-state-phone 142/142; /api/v1/state?year=2026 sha256 C728127D… identical before and after; state-2026.csv LF sha 092db812… as pinned; rendered text +12 lines, 0 removed. Band, /methods and API unchanged. Codex r1-r4 dispositioned. Encounter: synthetic only; W-004 (2026-10-07) is asked whether Rising and Peaking now read as one rule. The 2027 band question is I-025 (2026-12-01).",
       "closeWhen": "Either W-003's 2026-10-03 walk reads the /state list without tripping on rising-vs-peaking (close as not-a-problem), or a reader does, in which case the lane files a needs-decision card to David with the options (band change vs wording-only) and their effect on the frozen 2026 edition.",
       "onTrigger": "On 2026-10-03, read W-003's seventh-question notes for any rising/peaking confusion.",
       "nextEvaluation": "2026-10-07",
@@ -521,7 +521,8 @@
         "lines": 101,
         "sha256": "94015afe1afacc3c"
       },
-      "lastEvaluated": "2026-10-03"
+      "lastEvaluated": "2026-10-03",
+      "closedAt": "2026-10-03"
     },
     {
       "id": "I-014",
@@ -857,7 +858,7 @@
       "identified": "2026-10-03",
       "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
       "hypothesis": "Probably yes: the labels draw at 10px from 1024 wide up (check-verdict-landing 472/472 on production) and Calibrate opens on the focused cycle (check-calibrate-tab 36/36 on production). Not established: whether a reader with a mouse at about 900 wide follows the scroller's cue, and whether the way into Calibrate (I-022) still loses them. The 2026-10-03 walk read the OLD build.",
-      "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.",
+      "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.\n\n ADDED 2026-10-03 round 2 (I-013 shipped 12c21f3): also open /state/2026 on a phone and ask, before any hint, \"Huntington says Rising and Kondratiev says Peaking, both near the top. Why?\" Record whether the walker answers from the sentence under the word (the band is 3% of the period either side, so it is wider in years for a longer cycle), and whether Perez's \"at 2027.5 (shown as 2028)\" reads as an explanation or as noise. The answer is evidence for I-025.",
       "closeWhen": "(a) All three read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-021, I-022).",
       "nextEvaluation": "2026-10-07",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only",
@@ -873,6 +874,33 @@
       "linkedCommits": [
         "6330855",
         "25c90b2"
+      ],
+      "created": "2026-10-03",
+      "updated": "2026-10-03"
+    },
+    {
+      "id": "I-025",
+      "title": "Revisit the Rising/Peaking band (±3% of a period) before the 2027 State of the Cycles edition",
+      "hypothesis": "David's ruling on I-013 (board card c55395fc, 2026-10-03T17:10:23Z, verbatim in docs/answers/2026-10-03.md): \"Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition.\" The 2026 fix (b26cb2c, 8b28be4, 12c21f3) explains the band on each row near a turning point; it does not change it. /state/2027 renders by itself on 2027-01-01 UTC (parseYear in src/app/(app)/state/[year]/page.tsx), and a state-2027.csv would be frozen at publication, so the band question has to be put to David before then. Evidence to bring: W-004's cold-walk answer (2026-10-07) on whether Rising and Peaking near the top now read as one rule, and any later walk.",
+      "onTrigger": "On 2026-12-01: file a needs-decision card to David with the options (keep ±3% of a period; a fixed width in years; a cos threshold) and, for each, which 2027 rows change label and what it does to /methods, /api/v1/state and the chart. Changing PEAK_BAND/TROUGH_BAND changes the stated method and the API: it is David's decision, never the lane's. state-2026.csv stays frozen whatever is chosen.",
+      "closeWhen": "David has ruled on the band for the 2027 edition and the ruling is banked verbatim in a dated answers file; if it changes, the change is shipped and /methods plus public/methods.md say so before /state/2027 is frozen.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-03",
+      "nextEvaluation": "2026-12-01",
+      "waitingFor": "The date. David asked for the band to be revisited for the 2027 edition, not now.",
+      "waitJustification": {
+        "until": "2026-12-01",
+        "loadBearing": "David's ruling of 2026-10-03 defers the band question to the 2027 edition; acting earlier would re-open what he just decided",
+        "unWait": "2026-12-01 arrives, or David raises the band himself",
+        "owner": "sinusoidal-cycles"
+      },
+      "linkedCommits": [
+        "b26cb2c",
+        "8b28be4",
+        "12c21f3"
       ],
       "created": "2026-10-03",
       "updated": "2026-10-03"
