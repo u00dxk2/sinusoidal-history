@@ -144,3 +144,4 @@
 {"at":"2026-10-03T17:01:55.842Z","day":"2026-10-03","tool":"continuity-edit","id":"I-023","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
 {"at":"2026-10-03T17:01:56.156Z","day":"2026-10-03","tool":"continuity-edit","id":"I-024","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
 {"at":"2026-10-03T17:01:56.444Z","day":"2026-10-03","tool":"continuity-edit","id":"W-004","op":"mint","field":null,"from":null,"to":"\"monitoring\"","changed":true,"opNoop":false}
+{"at":"2026-10-03T18:56:33.601Z","day":"2026-10-03","tool":"continuity-edit","id":"I-013","op":"set","field":"notes","from":"\"DECISION: who decides — David. Changing the bands or the phase vocabulary chang… [1107 chars · sha256:b696ef1f]","to":"\"DECISION: who decides — David. Changing the bands or the phase vocabulary chang… [1464 chars · sha256:c47dfda0]","changed":true,"opNoop":false}

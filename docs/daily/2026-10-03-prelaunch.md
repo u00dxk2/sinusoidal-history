@@ -264,3 +264,125 @@ ACTION: COMPLETED · item I-019 · P3 1ba9f75b
 **Primer:** `docs/cold-starts/2026-10-03.md`, banner 1,224 chars.
 
 codexCalls: 2 today, both at P3. None at this close (probed-declined: no code diff).
+
+---
+
+## Round 2 — P1 — Evidence and choice
+
+[P1 — Evidence and choice]
+
+**Round 2 (afternoon).** **Outcome:** a reader of /state/2026 can see why two curves that look alike carry different words. **Item:** I-013 (open, P3), answered by David on board card c55395fc.
+
+**The user problem, in the reader's words:** "Huntington is 'Rising' with cos +0.98 … while Kondratiev is 'Peaking' with cos +0.99 … those look like the same situation with different labels." This is a quote from the W-003 cold walk (10-03, synthetic walker, N = 1), not from a real user.
+
+**David's ruling, verbatim (card c55395fc, replied 2026-10-03T17:10:23Z):** "Wording only for 2026. Keep the band; make the line say why. Revisit the band for the 2027 edition."
+
+**What a user will see differently:** on /state/2026, every row near a peak or trough gets one plain sentence under its phase word. That is six of the ten rows in 2026, on phones and on the desktop table. For example:
+- Huntington: "2 years before its peak; peaking means within ±1.8 years for a 60-year cycle."
+- Khaldun: "3 years before its peak; peaking means within ±3.6 years for a 120-year cycle."
+
+### Section 0 (round 2)
+
+- **git:** `fetch` done, `main...origin/main` level at `98a2007`. The working tree holds only this prep (4 modified files plus one new fixture), uncommitted.
+- **Listener:** the SessionStart hook relaunched it at 18:45:57Z UTC (pid 36332): slug sinusoidal-cycles, hello 18:45:59Z, 2 replayed. Waker ranks 1-3 are re-armed, and the loop is armed by a `ScheduleWakeup` call.
+- **CI:** GREEN for `98a2007f` (the kickoff's read: 1 success, 0 failures).
+- **Deploy drift:** the Render deploys API for `srv-d7mcat7lk1mc73bidim0` reads `live 98a2007f…` (finished 17:08:58Z UTC), which equals HEAD. No drift.
+- **Codex:** GREEN, from the probe line on this prompt. One review is running now on the prep diff (read-only, foreground pipe).
+- **Cycle rotation:** exit 0, "no product-love cycle picks this lane today (4 cycle(s) rotate over 23 lanes); run the normal P3".
+- **Due gates:** the kickoff reads 0 due on or before 2026-10-03. This morning's snapshot stands, and no re-snapshot was taken.
+- **Board:** 1 answered card, c55395fc (above). It is this selection.
+- **Retro (10-02):** one finding bears on this: "a check written from a measurement inherits its looseness". So the new check legs recompute the expected sentence from the API's period and reference peak, independently. They do not read the page's own text back.
+
+### Evidence
+
+- **OBSERVED, W-003 cold walk (10-03, report above):** the walker tripped on exactly the row's trigger. Synthetic, N = 1.
+- **OBSERVED, arithmetic (cos(2π·(2026 − ref)/period), all ten cycles):** the peaking band is 3% of the period, so its width in years differs by cycle.
+  - Huntington: 2 years from its peak, band ±1.8 years, so it reads "rising".
+  - Khaldun: 3 years from its peak, band ±3.6 years, so it reads "peaking".
+  - Turchin: 6 years past its peak at cos +0.97, band ±4.5 years, so it reads "falling".
+  The labels are correct by the stated band. What a reader cannot see is that the band scales with the period.
+- **MISSING:** real-user evidence. The site has no client analytics, and there is no evangelism-bar file in this lane.
+
+### Permission
+
+David decided this himself, on the card. Scope, from the ruling:
+- No change to the band (`PEAK_BAND`/`TROUGH_BAND` in `src/lib/cycleMath.ts`).
+- No change to `/methods`, to `/api/v1/state`, or to the frozen `public/data/state-2026.csv`.
+- The W-001 freeze (titles, meta, H1s, URLs, to 2026-10-07) is untouched: the change adds body text only.
+
+### Next action — improve (prep is done, held for review)
+
+The prep is built and verified locally. Nothing is committed, pushed or deployed. P3's first command is the commit, then the production read:
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-state-phone.mjs https://sinusoidalhistory.com
+```
+
+What the prep holds:
+- **`src/lib/stateOfCycles.ts`:** a new `phaseReason(cycle, year)` and `phaseReasons(year)`. They are derived from the period and the reference peak, and kept off `CycleStateEntry` so the API body is unchanged.
+- **`src/app/(app)/state/[year]/page.tsx`:** the reason renders under the phase word, in the phone list and in the desktop phase cell.
+
+The tests:
+- **4 new tests in `stateOfCycles.test.ts`:**
+  - The four 2026 sentences, pinned.
+  - Silence away from a turning point.
+  - A sweep over 1900-2100 showing the sentence's "inside the band" always agrees with the label.
+  - The two ruling pins: `stateOfCycles(2026)` deep-equals production's `/api/v1/state?year=2026` body, saved before the change (`src/lib/__fixtures__/api-v1-state-2026.json`), and `state-2026.csv` has a pinned sha256 (LF-normalised).
+- **Red arms run:** each new pin was broken on purpose, then restored, and the tree is clean.
+  - Band changed from 0.03 to 0.04 in the reason → 2 failures.
+  - A `phase_reason` field added to the API entry → the API pin fails.
+  - One byte appended to the CSV → the CSV pin fails; the file was restored with `git checkout`.
+  - All 16 state tests pass. The full suite passed 127/127 before the pins were added; it is not yet re-run with them. Typecheck is clean.
+- **`scripts/check-state-phone.mjs`:** gains a reason leg per cycle at three widths, plus a "no reason away from a turning point" leg.
+  - On production (before the change): 102/130, failing exactly the 18 reason legs and the 10 desktop phase legs. Those 10 now read the word from its own `data-field="phase"` span, which production does not have yet.
+  - On the local build: 130/130.
+- **API bytes:** `/api/v1/state?year=2026` has the same sha256 on production and on the local build (C728127D…).
+- **Rendered text:** `/state/2026` gains exactly 12 lines (6 reasons × phone list and table) and loses none (244 → 256).
+
+**Acceptance:**
+- `check-state-phone` reads 130/130 on production after the deploy.
+- The API sha256 on production is unchanged (C728127D…).
+- The state tests pass in CI.
+- The Codex review is dispositioned before the commit.
+
+**Encounter check:** N = 1 synthetic. The W-004 walk (2026-10-07) is the next cold read. I will ask the orchestrator to add one question to it: "Do Rising and Peaking near the top now read as one rule?"
+
+**USER-FACING: yes** — `src/app/(app)/state/[year]/page.tsx`, `src/lib/stateOfCycles.ts`. Internal: `src/lib/stateOfCycles.test.ts`, `src/lib/__fixtures__/api-v1-state-2026.json`, `scripts/check-state-phone.mjs`.
+
+**Owed at P3 or the close:**
+- I-013 closes on the production read.
+- A new dated row revisits the band for the 2027 edition. Date: before the 2027 page appears, i.e. 2026-12-15.
+- Card c55395fc is dismissed with a reason.
+- Carried from round 1, not selected: the "Swipe" cue said to mouse readers at 768-1023 (I-021, dated 2026-10-07).
+
+### HYGIENE INPUTS
+- (a) Due rows not bearing on the choice: **none** — read: kickoff "dated gates due today: 0".
+- (b) Owed child rows: **none** — read: kickoff "rows owed to you" (0 of 744).
+- (c) CROSSED state reads: **none** — read: the kickoff's state block. "board cards carrying David's word: 1" is this selection, so it is not hygiene.
+
+### Round 2 — Codex review of the prep (r1), dispositioned before any commit
+
+**Run:** foreground pipe, `--sandbox read-only`. Banner `workdir: C:\dev\skylark\sinusoidal-cycles`. Prompt quoted David's ruling verbatim.
+
+**Claims pass: all six 2026 sentences HOLD**, checked against `cycles.json`, the cosine and `0.03 × period`. Codex REPRODUCED that the ruling is honoured: `stateOfCycles` output identical to HEAD for every integer year 1-9999, CSV hash matches, and `expectedReason` imports no app code.
+
+**Findings, each held against the source:**
+1. **P2, REPRODUCED — PLAUSIBLE.** At a rounded band edge, two different labels print the same distance (Huntington 1969.799 vs 1969.801). No instance at integer years with today's data.
+   **Fixed:** the sentence now says "inside"/"outside", taken from the label, so it cannot disagree with the word. A test pins both edge cases.
+2. **P2, STATIC — CONFIRMED.** Perez says "1.5 years" while its row prints "next trough 2028".
+   **Fixed:** "1.5 years before its trough at 2027.5 (shown as 2028)". This appears only when the turning point falls between years.
+3. **P3, REPRODUCED — CONFIRMED.** For a near-zero distance the app printed "0 years after" while the check expected "At its peak". Fractional data only.
+   **Fixed:** the app now decides from the rounded string, the same way the check does. A test pins it.
+4. **P3, STATIC — CONFIRMED.** The phone reason leg ignored a duplicate reason line.
+   **Fixed:** a new "one reason line" leg per cycle per phone width (+12 legs).
+5. **P3, STATIC — CONFIRMED.** "peaking means…" under the word Falling read like a competing label.
+   **Fixed, together with 1:** e.g. "6 years after its peak, outside the ±4.5-year peaking band for a 150-year cycle."
+
+**After the fixes (local build, uncommitted):**
+- `check-state-phone`: 142/142.
+- Full suite: 131/131. Typecheck clean; lint clean on the changed files.
+- Red arm: inside/outside computed from the rounded numbers again → the edge test fails. Restored.
+- `/api/v1/state?year=2026`: same sha256 as production.
+- `/state/2026`: +12 lines, none removed.
+
+**Not re-reviewed:** the r1 fixes themselves. Before the commit, I'll ask Codex for a narrow r2 on the new sentence shape, unless the P1 review says otherwise.
