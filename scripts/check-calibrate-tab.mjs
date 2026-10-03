@@ -11,6 +11,9 @@
 // Written for I-008 (2026-09-28, commit cdc1e4c). Production read 30/30 after that deploy. The red
 // arm is the P1 baseline on the old build: measure-fold found no `[data-facet-id] svg[role=img]` in
 // the tab at all (exit 2), which here fails the first two legs at every size.
+// 2026-10-03 (cold walk, W-003): two more legs per size. Arriving at /?focus=<id> and opening the
+// tab, the facet and the pressed chip are that cycle. Red arm: production before the change opens
+// on the picker's first cycle whatever the focus is.
 // It checks that the drag is VISIBLE, not that a reader understands it; that is W-003's cold walk.
 import { chromium } from "playwright";
 
@@ -86,6 +89,21 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
     facetsSelected === "true" && focusedIn === secondId,
     `focus=${focusedIn}`
   );
+
+  // The reader's path from a cycle page: "Open in the chart" arrives at /?focus=<id>, and the
+  // Calibrate tab must open on THAT cycle. Two ids, so at least one is not the picker's first.
+  for (const id of ["schlesinger_jr", "kondratiev"]) {
+    await page.goto(`${origin}/?focus=${id}`, { waitUntil: "load" });
+    const tab = page.getByRole("tab", { name: "Calibrate" });
+    await tab.waitFor({ timeout: 10000 });
+    await tab.click();
+    await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
+    const opened = (await facets.count()) === 1 ? await facets.first().getAttribute("data-facet-id") : null;
+    // The picker's chips are the pressed buttons outside the facet (the brush presets are pressed
+    // buttons too, further down); the first one is the chip.
+    const pressed = (await page.locator('button[aria-pressed="true"]').first().innerText().catch(() => "none")).replace(/\s+/g, " ");
+    check(`${tag} Calibrate opens on the focused cycle (${id})`, opened === id, `facet=${opened} · chip pressed: ${pressed}`);
+  }
   await page.close();
 }
 await browser.close();

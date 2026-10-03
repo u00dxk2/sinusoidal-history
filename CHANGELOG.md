@@ -8,6 +8,13 @@
   now breaks out of the column by 98px a side. From 768px to 1023px there is no room for
   900px, so the figure sits in the same sideways scroller a phone gets, under the same cue.
   The SVGs are untouched; only the page layout changed.
+- **The Calibrate tab opens on the cycle the reader came for** (cold walk 2026-10-03, its
+  worst finding). A cycle page's "Open in the chart" link arrives at `/?focus=<id>`, and
+  Calibrate then opened on the picker's first cycle, Ibn Khaldun, whatever the focus was: a
+  reader who came for Schlesinger dragged Ibn Khaldun's slider with nothing saying so. It now
+  opens on the focused cycle when that cycle has a paired series.
+  `scripts/check-calibrate-tab.mjs` gains two legs per size for it. Production before:
+  30/36, the six new legs failing. Local build after: 36/36.
 - `scripts/check-verdict-landing.mjs` gains nine desktop legs per paired page: sizes at 1440,
   1024 and 1023 wide, the whole figure on screen at 1440 and 1024, in a swipeable scroller at
   1023, and no sideways scroll of the page at any of them. Production before: 418/472, the

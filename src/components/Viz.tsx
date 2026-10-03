@@ -204,6 +204,7 @@ export default function Viz({
             <CalibrationPanelWithPicker
               cycles={cycles}
               dataSeriesByCycle={seriesByCycle}
+              focusedCycleId={focusedCycleId}
               overrides={overrides}
               onChangeOverride={setOverride}
               onResetOverride={resetOverride}
@@ -240,6 +241,7 @@ export default function Viz({
 function CalibrationPanelWithPicker({
   cycles,
   dataSeriesByCycle,
+  focusedCycleId,
   overrides,
   onChangeOverride,
   onResetOverride,
@@ -250,6 +252,7 @@ function CalibrationPanelWithPicker({
 }: {
   cycles: Cycle[];
   dataSeriesByCycle: Map<string, DataSeries>;
+  focusedCycleId: string | null;
   overrides: Record<string, CycleOverride>;
   onChangeOverride: (id: string, ov: CycleOverride) => void;
   onResetOverride: (id: string) => void;
@@ -259,7 +262,16 @@ function CalibrationPanelWithPicker({
   onOpenInFacets: (id: string) => void;
 }) {
   const calibratable = cycles.filter((c) => dataSeriesByCycle.has(c.id));
-  const [selectedId, setSelectedId] = useState(calibratable[0]?.id ?? "");
+  // Open on the cycle the reader is already focused on (`?focus=<id>`, which
+  // is how a cycle page's "Open in the chart" link arrives). It used to open
+  // on the first calibratable cycle whatever the focus was, so a reader who
+  // came for Schlesinger dragged Ibn Khaldun's slider (cold walk 2026-10-03).
+  // Radix unmounts the inactive tab, so this initial value is read each time
+  // the tab is opened. A focused cycle with no paired series has no chip here
+  // and falls back to the first.
+  const [selectedId, setSelectedId] = useState(
+    () => calibratable.find((c) => c.id === focusedCycleId)?.id ?? calibratable[0]?.id ?? "",
+  );
   const cycle = calibratable.find((c) => c.id === selectedId);
   const series = cycle ? dataSeriesByCycle.get(cycle.id) : undefined;
 
