@@ -1,5 +1,25 @@
 # Changelog
 
+## The spectral figure's labels can be read on a desktop too (2026-10-03)
+
+- **From 1024px wide up, the figure draws at its native 900px** (I-019). It used to be held
+  to the 704px text column, so its 10-unit axis labels drew at 7.8px and its "target: 54y"
+  label at 8.6px, under the 10px and 11px floors the phone figure was already held to. It
+  now breaks out of the column by 98px a side. From 768px to 1023px there is no room for
+  900px, so the figure sits in the same sideways scroller a phone gets, under the same cue.
+  The SVGs are untouched; only the page layout changed.
+- `scripts/check-verdict-landing.mjs` gains nine desktop legs per paired page: sizes at 1440,
+  1024 and 1023 wide, the whole figure on screen at 1440 and 1024, in a swipeable scroller at
+  1023, and no sideways scroll of the page at any of them. Production before: 418/472, the
+  54 size legs failing. Local build after: 472/472. `--mutate column-figure` puts the figure
+  back in the column at the column's width, and turns exactly those 54 legs red (418/472).
+- The same check's header now declares one observed miss of its "Back from the opened figure
+  keeps the reader's place" leg (1 in 114 Backs, not reproduced, cause unknown), and that
+  leg's failure line prints the first-settled position and the address's fragment. No wait
+  was added.
+- `scripts/check-confidence-tag-taps.mjs` waits for `load`, not `networkidle`. The router's
+  prefetches stay open on /cycles, and the check timed out on 2 of 2 production runs.
+
 ## The phone figure starts where the story starts (2026-10-02, round 3)
 
 - **A fresh visit opens the spectral figure at its left edge** (I-018; cold walk 2026-10-02

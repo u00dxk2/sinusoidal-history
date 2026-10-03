@@ -2,7 +2,21 @@
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
 //   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
-//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always|column-figure]
+//
+// Round 4 (2026-10-03, I-019) added the desktop figure legs, on each of the nine paired pages
+// with a mouse: at 1440 and 1024 wide the 10-unit labels draw at >=10px, the "target:" label at
+// >=11px, and the whole figure is on screen with no sideways scroll of the page; at 1023 wide
+// (one pixel under the breakout) the same sizes hold and the figure is in a swipeable scroller.
+// Red arm: production before the change, where the figure drew at the 704px column and its
+// labels at 7.8px. Mutation column-figure puts it back in the column.
+// OBSERVED ONCE, cause unknown (2026-10-03): the "Back from the opened figure keeps the reader's
+// place" leg failed on /cycles/modelski at 320x568 in 1 of 2 complete production runs (scrollY
+// 4582 → 4221, sideways place kept), and in 0 of 60 isolated repeats of that leg, so 1 miss in
+// 114 Backs. 4221 is where a jump to the address's own fragment, #spectral-verdict, puts that
+// page: the reader came back to the section heading, not to their place 361px below it. Whether
+// the browser or the router made that jump is not known, and it was not reproduced. No wait was
+// added for it; the leg's failure line now carries the first-settled scrollY and the fragment.
 //
 // Round 2 (2026-10-02, cold walk docs/walks/2026-10-02-r1 findings 1-2) added the figure legs,
 // on each of the nine paired pages: the visible download controls are DRAWN in one case (all
@@ -143,6 +157,76 @@ async function fontsOf(src) {
   return svgFonts.get(src);
 }
 
+// I-019 (2026-10-03): with a mouse the figure used to draw at the 704px text column, its 10-unit
+// labels at 7.8px. From lg (1024px) up it now breaks out of the column to its native 900px; below
+// lg it sits in the same sideways scroller a phone gets. Read at the two extremes of the breakout
+// (1440 and 1024 wide) and one pixel under it (1023, where it must be swipeable instead).
+const DESKTOP_WIDTHS = [1440, 1024, 1023];
+async function checkDesktopFigure(page, s, path) {
+  const img = page.locator('#spectral-verdict figure img[src^="/data/spectral/"]');
+  const f = await fontsOf(await img.getAttribute("src"));
+  for (const w of DESKTOP_WIDTHS) {
+    await page.setViewportSize({ width: w, height: s.ctx.viewport.height });
+    if (mutate === "column-figure") {
+      // Puts the figure back in the text column at the column's width, as it was before I-019:
+      // every desktop size leg must FAIL (the on-screen legs still pass: it fits, too small).
+      await page.addStyleTag({
+        content:
+          '#spectral-verdict [role="region"] { margin-left: 0 !important; margin-right: 0 !important } #spectral-verdict figure a { width: auto !important } #spectral-verdict figure img { width: 100% !important; max-width: 100% !important }',
+      });
+    }
+    await img.scrollIntoViewIfNeeded();
+    await page.waitForFunction((el) => el.complete && el.naturalWidth > 0, await img.elementHandle(), { timeout: 10000 }).catch(() => {});
+    const g = await img.evaluate((el) => {
+      const b = el.getBoundingClientRect();
+      let clip = null;
+      for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+        const ox = getComputedStyle(a).overflowX;
+        if (ox !== "visible") { clip = a; break; }
+      }
+      // clientWidth leaves out a vertical scrollbar; innerWidth does not.
+      const vw = document.documentElement.clientWidth;
+      const fits = b.left >= -1 && b.right <= vw + 1;
+      const swipeable = Boolean(clip && ["auto", "scroll"].includes(getComputedStyle(clip).overflowX) && clip.scrollWidth >= b.width - 1);
+      return {
+        w: b.width,
+        h: b.height,
+        left: b.left,
+        right: b.right,
+        vw,
+        drawn: el.complete && el.naturalWidth > 0 && el.checkVisibility({ opacityProperty: true, visibilityProperty: true }),
+        fits,
+        swipeable,
+        pageOverflow: document.documentElement.scrollWidth - vw,
+      };
+    });
+    const scale = Math.min(g.w / f.vb, g.h / f.vbH);
+    const minPx = f.min * scale;
+    const targetPx = f.target === null ? null : f.target * scale;
+    const at = `${w}x${s.ctx.viewport.height}`;
+    check(
+      `${at}: ${path} figure's smallest labels render at ≥10px`,
+      g.drawn && minPx >= 10,
+      `${f.min}-unit text at ${minPx.toFixed(1)}px (figure ${Math.round(g.w)}x${Math.round(g.h)}px${g.drawn ? "" : ", NOT DRAWN"})`,
+    );
+    check(
+      `${at}: ${path} figure's "target:" label renders at ≥11px`,
+      g.drawn && targetPx !== null && targetPx >= 11,
+      targetPx === null ? "no target: label in the SVG" : `${f.target}-unit text at ${targetPx.toFixed(1)}px`,
+    );
+    // At lg and up the whole figure is on screen with no sideways scroll of the page; under lg it
+    // may be wider than the screen only inside a swipeable scroller. Either way the page itself
+    // must not scroll sideways.
+    const whole = w >= 1024 ? g.fits : g.fits || g.swipeable;
+    check(
+      `${at}: ${path} the whole figure is ${w >= 1024 ? "on screen" : "on screen or in a sideways scroller"}, and the page does not scroll sideways`,
+      whole && g.pageOverflow <= 0,
+      `figure ${Math.round(g.left)}…${Math.round(g.right)} of ${g.vw}px${g.fits ? "" : g.swipeable ? " (swipeable)" : " (CUT OFF)"} · page overflow ${g.pageOverflow}px`,
+    );
+  }
+  await page.setViewportSize(s.ctx.viewport);
+}
+
 async function checkFigure(page, s, path) {
   if (mutate === "flat-figure") {
     await page.addStyleTag({
@@ -181,7 +265,10 @@ async function checkFigure(page, s, path) {
     downloads.length >= 2 && new Set(downloads.map((d) => d.tt)).size === 1 && downloads.every((d) => d.text === d.text.toUpperCase()),
     downloads.map((d) => `"${d.text}" (${d.tt})`).join(" / ") || "no visible download controls",
   );
-  if (!s.touch) return;
+  if (!s.touch) {
+    await checkDesktopFigure(page, s, path);
+    return;
+  }
 
   // The reader's path: tap the box's link forward. Under --mutate dead-link that link cannot be
   // tapped, which the landing legs already record; say so once and stop here (Codex r1 #5).
@@ -288,10 +375,13 @@ async function checkFigure(page, s, path) {
     });
   }
   const after = await place();
+  // The first-settled read and the address's fragment ride the line so a miss explains itself:
+  // the one miss on record (2026-10-03, see the header) printed only before and after.
+  const hashNow = await page.evaluate(() => location.hash || "(no fragment)");
   check(
     `${s.name}: ${path} Back from the opened figure keeps the reader's place`,
     Math.abs(after.y - before.y) <= 2 && Math.abs(after.x - before.x) <= 2 && Math.abs(after.y - first.y) <= 2,
-    `scrollY ${Math.round(before.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)}`,
+    `scrollY ${Math.round(before.y)} → first settled ${Math.round(first.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)} · address ${hashNow}`,
   );
 
   // Round 3 (I-018; cold walk 2026-10-02 r2, finding 1): the place is kept for a RETURN only.

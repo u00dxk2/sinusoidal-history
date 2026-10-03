@@ -10,6 +10,10 @@
 // the deploy (the two tag legs), which is the red arm.
 // It checks where taps LAND, not whether a reader understands what they land on. The second
 // question is a cold read of the landed frame (W-003).
+// Waits for "load", not "networkidle" (2026-10-03): the router's prefetches of the cycle pages
+// stay open on /cycles, so networkidle timed out at 30s on 2 of 2 production runs that day while
+// the server answered each of those requests in under half a second. Every tap here is on a
+// plain link or a <details>, which work before hydration.
 import { chromium } from "playwright";
 
 const origin = (process.argv[2] ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
@@ -23,7 +27,7 @@ const check = (name, ok, detail) => results.push(`${ok ? "PASS" : "FAIL"}  ${nam
 const first = "header + ul > li:first-child";
 
 // 1. Tap the tag.
-await page.goto(origin + "/cycles", { waitUntil: "networkidle" });
+await page.goto(origin + "/cycles", { waitUntil: "load" });
 const tag = page.locator(`${first} a[href="#confidence-tags"]`);
 const tagCount = await tag.count();
 check("tag is a link, labelled", tagCount === 1, tagCount ? await tag.textContent() : "no tag link");
@@ -37,21 +41,21 @@ check("tap tag -> #confidence-tags in view", page.url().endsWith("/cycles#confid
 if (frameOut) await page.screenshot({ path: frameOut });
 
 // 2. Tap the description (the stretched overlay, not the name itself).
-await page.goto(origin + "/cycles", { waitUntil: "networkidle" });
+await page.goto(origin + "/cycles", { waitUntil: "load" });
 const desc = await page.locator(`${first} p`).first().boundingBox();
 await page.touchscreen.tap(desc.x + desc.width / 2, desc.y + desc.height / 2);
 await page.waitForURL(/\/cycles\/[a-z-]+$/, { timeout: 8000 }).catch(() => {});
 check("tap description -> cycle page", /\/cycles\/schlesinger-jr$/.test(page.url()), page.url());
 
 // 3. Tap the metadata line to the LEFT of the tag ("30y · peak 1970 ·").
-await page.goto(origin + "/cycles", { waitUntil: "networkidle" });
+await page.goto(origin + "/cycles", { waitUntil: "load" });
 const meta = await page.locator(`${first} span.font-mono`).boundingBox();
 await page.touchscreen.tap(meta.x + 5, meta.y + meta.height / 2);
 await page.waitForURL(/\/cycles\/[a-z-]+$/, { timeout: 8000 }).catch(() => {});
 check("tap '30y · peak' -> cycle page", /\/cycles\/schlesinger-jr$/.test(page.url()), page.url());
 
 // 4. "The longer story" still toggles.
-await page.goto(origin + "/cycles", { waitUntil: "networkidle" });
+await page.goto(origin + "/cycles", { waitUntil: "load" });
 const summary = page.locator(`${first} details > summary`);
 await summary.tap();
 await page.waitForTimeout(300);
@@ -63,7 +67,7 @@ const nested = await page.evaluate(() => document.querySelectorAll("a a").length
 check("no <a> inside <a>", nested === 0, `${nested}`);
 
 // 6. Sibling: a cycle page's masthead tag jumps to its own classification.
-await page.goto(origin + "/cycles/schlesinger-jr", { waitUntil: "networkidle" });
+await page.goto(origin + "/cycles/schlesinger-jr", { waitUntil: "load" });
 const mast = page.locator('header a[href="#confidence"]');
 if (await mast.count()) {
   await mast.tap();

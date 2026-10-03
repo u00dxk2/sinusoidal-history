@@ -520,22 +520,25 @@ export default async function CyclePage({ params }: Params) {
               theory.
             </p>
           )}
-          {/* Below md the figure keeps its native 900px inside a sideways
-              scroller: shrunk to a phone's width its 10-unit axis labels drew at
-              ~4px and could not be read (cold walk 2026-10-02 r1, finding 1).
+          {/* The figure is drawn at its native 900px at every width, because
+              that is the size its 10-unit axis labels read at (10px). Below lg
+              it sits in a sideways scroller: shrunk to a phone's width the
+              labels drew at ~4px (cold walk 2026-10-02 r1, finding 1). From lg
+              up it breaks out of the 704px text column by 98px a side: held to
+              the column the labels drew at 7.8px (I-019).
               A tap still opens the SVG on its own, for pinch-zoom, but the cue
               no longer promises it: opened on a phone it is fitted to the
               screen and smaller than inline (cold walk 2026-10-02 r2, finding 3). */}
           <figure className="border-t border-rule/30 pt-4">
-            <p className="md:hidden font-mono text-[12px] text-ink-soft mb-2">
+            <p className="lg:hidden font-mono text-[12px] text-ink-soft mb-2">
               Swipe sideways for the whole figure
             </p>
             <FigureScroller
               storageKey={cycle.id}
               label="Spectral-verdict figure, scrolls sideways"
-              className="overflow-x-auto md:overflow-visible"
+              className="overflow-x-auto lg:overflow-visible lg:-mx-[98px]"
             >
-              <a href={`/data/spectral/${cycle.id}.svg`} className="block w-max md:w-auto">
+              <a href={`/data/spectral/${cycle.id}.svg`} className="block w-max">
                 {/* Static committed output of scripts/spectral_verdict.py; next/image
                     adds nothing to a same-origin SVG. */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -545,7 +548,7 @@ export default async function CyclePage({ params }: Params) {
                   width={900}
                   height={500}
                   loading="lazy"
-                  className="block w-[900px] max-w-none h-auto md:w-full md:max-w-full"
+                  className="block w-[900px] max-w-none h-auto"
                 />
               </a>
             </FigureScroller>
