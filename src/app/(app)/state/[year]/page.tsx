@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import {
   STATE_FIRST_YEAR,
   formatCos,
+  phaseReasons,
   statePath,
   stateOfCycles,
   stateYears,
@@ -105,6 +106,7 @@ export default async function StatePage({ params }: Params) {
   if (year === null) notFound();
 
   const state = stateOfCycles(year);
+  const reasons = phaseReasons(year);
   const years = stateYears();
 
   // The deterministic headline numbers — computed from the same table the
@@ -230,6 +232,15 @@ export default async function StatePage({ params }: Params) {
                     {`${first.kind} ${first.year}`}
                   </span>
                 </p>
+                {/* Near a turning point, say why the word is what it is: the
+                    band is a share of the period, so Huntington 2 years from
+                    its peak reads "rising" while Khaldun 3 years from its own
+                    reads "peaking" (I-013; David, 2026-10-03: wording only). */}
+                {reasons[entry.id] && (
+                  <p data-field="phase-reason" className="mt-0.5 text-[14px] leading-snug text-ink/75">
+                    {reasons[entry.id]}
+                  </p>
+                )}
                 {/* nowrap per segment: at 320 the line wrapped inside
                     "ref. | peak 1970" and "30y | period". */}
                 <p className="mt-1 font-mono text-[12px] leading-relaxed text-ink-soft tabular-nums">
@@ -316,8 +327,21 @@ export default async function StatePage({ params }: Params) {
                   <td className="py-3 pr-3 text-right font-mono text-[13px] text-ink/85 tabular-nums">
                     {formatCos(entry.cos)}
                   </td>
-                  <td className="py-3 pr-3 font-mono text-[12px] uppercase tracking-[0.14em] text-ink/80">
-                    {entry.phase}
+                  <td className="py-3 pr-3">
+                    <span
+                      data-field="phase"
+                      className="font-mono text-[12px] uppercase tracking-[0.14em] text-ink/80"
+                    >
+                      {entry.phase}
+                    </span>
+                    {reasons[entry.id] && (
+                      <span
+                        data-field="phase-reason"
+                        className="block mt-1 text-[12px] leading-snug text-ink-soft max-w-[22ch]"
+                      >
+                        {reasons[entry.id]}
+                      </span>
+                    )}
                   </td>
                   <td className="py-3 pr-3 text-right font-mono text-[13px] text-ink/85 tabular-nums">
                     {entry.next_peak_year}

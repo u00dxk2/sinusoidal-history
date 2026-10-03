@@ -1,4 +1,8 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import api2026 from "./__fixtures__/api-v1-state-2026.json";
 import { cycles } from "@/data/cycles";
 import { dataSeries as series } from "@/data/series";
 import { sineAtYear } from "@/lib/cycleMath";
@@ -9,6 +13,8 @@ import {
   formatCos,
   nextPeakYear,
   nextTroughYear,
+  phaseReason,
+  phaseReasons,
   stateOfCycles,
   stateYears,
   yearPosition,
@@ -143,5 +149,83 @@ describe("stateYears", () => {
     expect(stateYears(2028)).toEqual([2026, 2027, 2028]);
     // A clock earlier than first publication still yields the first year.
     expect(stateYears(2020)).toEqual([STATE_FIRST_YEAR]);
+  });
+});
+
+describe("I-013 is wording only: the API and the frozen 2026 edition do not move", () => {
+  // David, 2026-10-03: "Wording only for 2026. Keep the band; make the line say why."
+  // The fixture is production's /api/v1/state?year=2026 body, saved before the change.
+  it("stateOfCycles(2026) equals the API body production served before the change", () => {
+    expect(stateOfCycles(2026)).toEqual(api2026.cycles);
+  });
+
+  it("public/data/state-2026.csv is the edition as frozen (sha256, LF-normalised)", () => {
+    const csv = readFileSync(join(process.cwd(), "public", "data", "state-2026.csv"), "utf8");
+    const sha = createHash("sha256").update(csv.replace(/\r\n/g, "\n")).digest("hex");
+    expect(sha).toBe("092db81290a44f4dfadcee2024cc89dee6d6d7f37ad4786c6ab326562cdb6e92");
+  });
+});
+
+describe("phaseReason (I-013: the word near a turning point says why)", () => {
+  const byId = (id: string) => {
+    const c = cycles.find((x) => x.id === id);
+    if (!c) throw new Error(id);
+    return c;
+  };
+
+  it("explains the 2026 rows the cold walker tripped on, from the period", () => {
+    expect(phaseReason(byId("huntington"), 2026)).toBe(
+      "2 years before its peak, outside the peaking band: ±1.8 years, 3% of a 60-year cycle."
+    );
+    expect(phaseReason(byId("khaldun"), 2026)).toBe(
+      "3 years before its peak, inside the peaking band: ±3.6 years, 3% of a 120-year cycle."
+    );
+    expect(phaseReason(byId("turchin"), 2026)).toBe(
+      "6 years after its peak, outside the peaking band: ±4.5 years, 3% of a 150-year cycle."
+    );
+    // The trough falls at 2027.5; the row's "next trough" prints it rounded (Codex r1-2).
+    expect(phaseReason(byId("perez"), 2026)).toBe(
+      "1.5 years before its trough at 2027.5 (shown as 2028), inside the troughing band: ±1.65 years, 3% of a 55-year cycle."
+    );
+  });
+
+  it("decides inside/outside from the label at a rounded band edge (Codex r1-1)", () => {
+    // Huntington's peak band is ±1.8y around 1968. At 1969.799 the label is
+    // peaking, at 1969.801 falling; both distances print as 1.8.
+    const h = byId("huntington");
+    expect(phaseReason(h, 1969.799)).toMatch(/^1\.8 years after its peak, inside /);
+    expect(phaseReason(h, 1969.801)).toMatch(/^1\.8 years after its peak, outside /);
+  });
+
+  it("calls a distance that prints as 0 'At its' (Codex r1-3)", () => {
+    expect(phaseReason(byId("huntington"), 1968.001)).toMatch(/^At its peak, inside /);
+  });
+
+  it("is silent away from a turning point", () => {
+    expect(phaseReason(byId("strauss_howe"), 2026)).toBeNull();
+    expect(phaseReason(byId("modelski"), 2026)).toBeNull();
+  });
+
+  it("never contradicts the label: inside the band exactly when the word is peaking/troughing", () => {
+    for (let year = 1900; year <= 2100; year += 1) {
+      const reasons = phaseReasons(year);
+      for (const entry of stateOfCycles(year)) {
+        const text = reasons[entry.id];
+        const turning = entry.phase === "peaking" || entry.phase === "troughing";
+        if (turning) expect(text, `${entry.id} ${year}`).not.toBeNull();
+        if (!text) continue;
+        const m = text.match(
+          /^(?:At its \w+|([\d.]+) years? \w+ its \w+(?: at [\d.]+(?: \(shown as \d+\))?)?), (inside|outside) the \w+ band: ±([\d.]+) years, 3% of a \d+-year cycle\.$/
+        );
+        expect(m, text).not.toBeNull();
+        const tag = `${entry.id} ${year}: ${text} / ${entry.phase}`;
+        expect(m![2] === "inside", tag).toBe(turning);
+        // The printed numbers agree with the word (equal only at a rounded edge).
+        const dist = m![1] === undefined ? 0 : Number(m![1]);
+        const band = Number(m![3]);
+        if (turning) expect(dist <= band, tag).toBe(true);
+        else expect(dist >= band, tag).toBe(true);
+      }
+    }
   });
 });

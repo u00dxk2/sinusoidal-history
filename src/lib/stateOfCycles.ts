@@ -1,6 +1,9 @@
 import { cycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
 import {
+  PEAK_BAND,
+  TROUGH_BAND,
+  normalizedPhase,
   phasePositionLabel,
   sineAtYear,
   type PhasePositionLabel,
@@ -154,6 +157,62 @@ export function yearPositionSentence(cycle: Cycle, year: number): string {
   const { where, note, cos, next } = yearPosition(cycle, year);
   const bracket = note ? `${note}; cos ${cos}` : `cos ${cos}`;
   return `By this page's curve, ${year} sits ${where} (${bracket}). ${next}`;
+}
+
+/** |cos| from which a rising/falling row looks like a turning point and gets a reason. */
+export const PHASE_REASON_COS = 0.9;
+
+/** A year count as the reason line prints it: at most two decimals, no trailing zeros. */
+function formatYears(v: number): string {
+  return String(Math.round(v * 100) / 100);
+}
+
+/**
+ * Why a row near a turning point carries the word it does, for the /state
+ * reading. The bands are a share of the period, so in years they differ by
+ * cycle: in 2026 Huntington, 2 years before its peak, reads "rising" while
+ * Khaldun, 3 years before its own, reads "peaking" (cold walk 2026-10-03,
+ * I-013). David's ruling (2026-10-03): keep the band, make the line say why.
+ * Returns null away from a peak or trough, where the word is not in doubt.
+ */
+export function phaseReason(cycle: Cycle, year: number): string | null {
+  const frac = normalizedPhase(cycle, year);
+  const label = phasePositionLabel(cycle, year);
+  const nearPeak = frac < 0.25 || frac > 0.75;
+  const turning = label === "peaking" || label === "troughing";
+  if (!turning && Math.abs(Math.cos(2 * Math.PI * frac)) < PHASE_REASON_COS) return null;
+
+  const period = cycle.period_years;
+  const offset = nearPeak ? (frac > 0.5 ? frac - 1 : frac) : frac - 0.5;
+  const dist = Math.abs(offset) * period;
+  const side = offset < 0 ? "before" : "after";
+  const kind = nearPeak ? "peak" : "trough";
+  const word = nearPeak ? "peaking" : "troughing";
+  const band = formatYears((nearPeak ? PEAK_BAND : TROUGH_BAND) * period);
+  const d = formatYears(dist);
+  // A turning point between whole years: the table rounds it ("next trough
+  // 2028") while the distance does not (1.5 years), so say both (Codex r1-2).
+  // "Shown as" is the row's own next-turn year, from the same function the
+  // row prints, never a second rounding of a float.
+  const exact = formatYears(year - offset * period);
+  const shown = nearPeak ? nextPeakYear(cycle, year) : nextTroughYear(cycle, year);
+  const when = !exact.includes(".")
+    ? ""
+    : side === "before"
+      ? ` at ${exact} (shown as ${shown})`
+      : ` at ${exact}`;
+  // Inside/outside comes from the label itself, never from the rounded
+  // numbers, so the sentence cannot disagree with the word (Codex r1-1, r1-5).
+  // The rule is named once per line — the share of the period — so the six
+  // different year widths read as one rule (manager review, 2026-10-03).
+  const share = formatYears((nearPeak ? PEAK_BAND : TROUGH_BAND) * 100);
+  const at = d === "0" ? `At its ${kind}` : `${d} ${d === "1" ? "year" : "years"} ${side} its ${kind}${when}`;
+  return `${at}, ${turning ? "inside" : "outside"} the ${word} band: ±${band} years, ${share}% of a ${period}-year cycle.`;
+}
+
+/** phaseReason for every cycle, by id. Kept off CycleStateEntry so /api/v1/state is unchanged. */
+export function phaseReasons(year: number): Record<string, string | null> {
+  return Object.fromEntries(cycles.map((c) => [c.id, phaseReason(c, year)]));
 }
 
 /** All cycles' state at a year, ascending period (the /cycles ordering). */
