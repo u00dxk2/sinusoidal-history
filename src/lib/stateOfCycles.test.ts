@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import type { NextRequest } from "next/server";
 import { GET } from "@/app/api/v1/state/route";
 import api2026 from "./__fixtures__/api-v1-state-2026.json";
@@ -160,9 +160,17 @@ describe("I-013 is wording only: the API and the frozen 2026 edition do not move
   it("GET /api/v1/state?year=2026 returns the whole body production served before the change", async () => {
     // The route handler itself, so the envelope (site, year, formula, note) is
     // pinned too, not only the cycles array (Codex r3-1).
-    const req = { nextUrl: new URL("https://sinusoidalhistory.com/api/v1/state?year=2026") } as NextRequest;
-    const body = await (await GET(req)).json();
-    expect(body).toEqual(api2026);
+    // The clock sits in another year, so the pin proves ?year=2026 was read
+    // rather than the route's current-year fallback (Codex r4-1).
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date("2031-06-01T00:00:00Z"));
+    try {
+      const req = { nextUrl: new URL("https://sinusoidalhistory.com/api/v1/state?year=2026") } as NextRequest;
+      const body = await (await GET(req)).json();
+      expect(body).toEqual(api2026);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("public/data/state-2026.csv is the edition as frozen (sha256, LF-normalised)", () => {
