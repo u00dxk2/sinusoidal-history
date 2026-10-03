@@ -11,7 +11,8 @@
 - **The Calibrate tab opens on the cycle the reader came for** (cold walk 2026-10-03, its
   worst finding). A cycle page's "Open in the chart" link arrives at `/?focus=<id>`, and
   Calibrate then opened on the picker's first cycle, Ibn Khaldun, whatever the focus was: a
-  reader who came for Schlesinger dragged Ibn Khaldun's slider with nothing saying so. It now
+  reader who came for Schlesinger and missed the pressed chip dragged Ibn Khaldun's slider,
+  while the address still said `focus=schlesinger_jr`. It now
   opens on the focused cycle when that cycle has a paired series.
   `scripts/check-calibrate-tab.mjs` gains two legs per size for it. Production before:
   30/36, the six new legs failing. Local build after: 36/36.

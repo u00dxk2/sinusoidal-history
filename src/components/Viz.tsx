@@ -265,7 +265,8 @@ function CalibrationPanelWithPicker({
   // Open on the cycle the reader is already focused on (`?focus=<id>`, which
   // is how a cycle page's "Open in the chart" link arrives). It used to open
   // on the first calibratable cycle whatever the focus was, so a reader who
-  // came for Schlesinger dragged Ibn Khaldun's slider (cold walk 2026-10-03).
+  // came for Schlesinger, and missed the pressed chip, dragged Ibn Khaldun's
+  // slider (cold walk 2026-10-03).
   // Radix unmounts the inactive tab, so this initial value is read each time
   // the tab is opened. A focused cycle with no paired series has no chip here
   // and falls back to the first.
@@ -295,6 +296,8 @@ function CalibrationPanelWithPicker({
             type="button"
             onClick={() => setSelectedId(c.id)}
             aria-pressed={selectedId === c.id}
+            // Read by check-calibrate-tab: which cycle the pressed chip is.
+            data-chip-id={c.id}
             className={`rounded-md border px-2.5 py-1 text-sm transition ${
               selectedId === c.id
                 ? "border-foreground/40 bg-foreground/10 font-medium"

@@ -99,10 +99,15 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
     await tab.click();
     await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
     const opened = (await facets.count()) === 1 ? await facets.first().getAttribute("data-facet-id") : null;
-    // The picker's chips are the pressed buttons outside the facet (the brush presets are pressed
-    // buttons too, further down); the first one is the chip.
-    const pressed = (await page.locator('button[aria-pressed="true"]').first().innerText().catch(() => "none")).replace(/\s+/g, " ");
-    check(`${tag} Calibrate opens on the focused cycle (${id})`, opened === id, `facet=${opened} · chip pressed: ${pressed}`);
+    // The picker's chips carry data-chip-id. Exactly one is pressed, and it is this cycle's
+    // (Codex r2 #1: the first version read the chip for the detail line only, so a wrong chip
+    // could not fail the leg). A build without the attribute reads "none" and fails.
+    const pressed = await page.locator('button[data-chip-id][aria-pressed="true"]').evaluateAll((bs) => bs.map((b) => b.getAttribute("data-chip-id")));
+    check(
+      `${tag} Calibrate opens on the focused cycle (${id})`,
+      opened === id && pressed.length === 1 && pressed[0] === id,
+      `facet=${opened} · chip pressed: ${pressed.join(", ") || "none"}`,
+    );
   }
   await page.close();
 }
