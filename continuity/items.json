@@ -912,6 +912,31 @@
       ],
       "created": "2026-10-03",
       "updated": "2026-10-03"
+    },
+    {
+      "id": "I-026",
+      "title": "Switch Render's deploy trigger for sinusoidal-history from `commit` to `checksPass`, so a red CI run stops shipping",
+      "hypothesis": "Read live 2026-10-04 ~18:40Z UTC (GET /v1/services/srv-d7mcat7lk1mc73bidim0): autoDeploy=yes, autoDeployTrigger=commit, branch=main. So every push to main deploys whether or not .github/workflows/ci.yml passes; the repo-health matrix of 2026-10-04 (skylark-site docs/rollups/repo-health-matrix-2026-10-04.md, finding 4, R28) lists it beside ba-api/ba-web, while every other roster web service reads checksPass. Made concrete the same day: the GHSA-vcvr-r3jv-pc5j bump f50e237 went live at 18:41:51Z before anything waited on its CI run (CI did go GREEN).",
+      "onTrigger": "A service-config change, not code. The lane CANNOT do it through the vetted path: skylark-site scripts/render-put-secret.mjs (the ruled Render entry point) covers env vars, secret files, --resume and --deploy-latest only, and has no deploy-trigger flag; a hand-written PATCH to the Render API would be improvising, which the global rules forbid. So: David flips it in the Render dashboard (Service → Settings → Build & Deploy → Auto-Deploy: \"After CI Checks Pass\"), OR skylark-site adds a ruled flag to the mover for it and this lane runs that. After either, re-read autoDeployTrigger via the API and update docs/daily-config.md § CI and AGENTS.md (both say Render does NOT wait for CI).",
+      "closeWhen": "GET /v1/services/srv-d7mcat7lk1mc73bidim0 reads autoDeployTrigger=checksPass, and the next push's deploy row is created only after its ci.yml run completes green.",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-04",
+      "nextEvaluation": "2026-10-07",
+      "waitingFor": "David (Render dashboard) or a ruled flag in skylark-site's render-put-secret.mjs; the lane holds no sanctioned path for this setting.",
+      "waitJustification": {
+        "until": "2026-10-07",
+        "loadBearing": "the change needs a Render service-config write the lane has no vetted entry point for",
+        "unWait": "David flips the setting, or a ruled mover flag lands; re-read the API on 2026-10-07 either way",
+        "owner": "sinusoidal-cycles"
+      },
+      "linkedCommits": [
+        "f50e237"
+      ],
+      "created": "2026-10-04",
+      "updated": "2026-10-04"
     }
   ],
   "knownPatterns": [
