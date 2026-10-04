@@ -42,9 +42,9 @@ export function cycleChartPath(cycle: Cycle): string {
 
 /**
  * Deep link into the chart's Calibrate tab, open on this cycle. `arrive=1` is
- * a one-shot: the chart scrolls its curve into view and then removes it from
- * the URL (`Viz.tsx`), so a reload, Back or a tab opened by hand never
- * scrolls. Only cycles with a paired series have a Calibrate view; the caller
+ * a one-shot: the chart strips it from the URL on arrival and scrolls its
+ * curve into view once (`Viz.tsx`), so a reload, Back or a tab opened by hand
+ * never scrolls. Only cycles with a paired series have a Calibrate view; the caller
  * checks.
  */
 export function cycleCalibratePath(cycle: Cycle): string {

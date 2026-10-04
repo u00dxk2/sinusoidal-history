@@ -184,6 +184,12 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
       boxes ? `curve top ${boxes.top}, r bottom ${boxes.bottom} of ${h}, r=${rValue ?? "not loaded"}` : "no facet",
     );
     if (!boxes) continue;
+    const landedUrl = page.url();
+    check(
+      `${tag} ${slug}: the one-shot arrive param is gone after the tap`,
+      /tab=calibrate/.test(landedUrl) && !/[?&]arrive=/.test(landedUrl),
+      landedUrl.replace(origin, ""),
+    );
     // Once per arrival, by decision (2026-10-04, manager review). Codex r1 found the first version
     // re-scrolled after a slider move (nuqs's replaceState wiped a history.state marker), and that
     // the legs only reloaded from scrollY 0 with nothing touched. So: move the slider (a URL
@@ -208,7 +214,8 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
     const yReload = await settledY();
     check(
       `${tag} ${slug}: a reload after a slider move does not scroll again`,
-      yReload <= park + 50,
+      // Kept at the park, not merely "not far down": a reset to 0 is a different bug (Codex r2).
+      Math.abs(yReload - park) <= 50,
       `parked at ${park}, after reload ${yReload} (the landing was ${boxes.y})`,
     );
     await parked();
@@ -217,7 +224,7 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
     const yBack = await settledY();
     check(
       `${tag} ${slug}: Back to the chart does not scroll again`,
-      yBack <= park + 50,
+      Math.abs(yBack - park) <= 50,
       `parked at ${park}, after Back ${yBack} (the landing was ${boxes.y})`,
     );
     await page.getByRole("tab", { name: "Facets" }).click();
@@ -239,6 +246,61 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
       `scrollY ${yHand} -> ${afterHand.y} (expected ${expectedHand})`,
     );
   }
+
+  // Codex r2 (2026-10-04): an arrival that never reaches its scroll must still be spent. Two
+  // ways in, both ending in "open Calibrate by hand; it must not scroll":
+  //  (a) a URL carrying arrive=1 while on Facets (crafted, or left behind by any path);
+  //  (b) the real cancellation: tap the link and switch to Facets the instant the Calibrate facet
+  //      mounts, before any animation frame (a MutationObserver callback runs as a microtask).
+  const handOpenAfter = async (p, label) => {
+    const calTab = p.getByRole("tab", { name: "Calibrate" });
+    await calTab.waitFor({ timeout: 10000 });
+    await p.waitForTimeout(800);
+    await calTab.scrollIntoViewIfNeeded();
+    await p.waitForTimeout(200);
+    const y0 = await p.evaluate(() => Math.round(window.scrollY));
+    await calTab.click();
+    await p.waitForTimeout(1000);
+    const a = await p.evaluate(() => ({
+      y: Math.round(window.scrollY),
+      max: Math.max(0, Math.round(document.documentElement.scrollHeight - window.innerHeight)),
+      url: location.search,
+    }));
+    const want = Math.min(y0, a.max);
+    check(`${tag} ${label}`, Math.abs(a.y - want) <= 2, `scrollY ${y0} -> ${a.y} (expected ${want}) · ${a.url}`);
+  };
+  await page.goto(`${origin}/?tab=facets&focus=kondratiev&arrive=1`, { waitUntil: "load" });
+  await handOpenAfter(page, "a stray arrive=1 on Facets never scrolls a hand-opened Calibrate");
+
+  const racer = await browser.newPage({ viewport: { width: w, height: h } });
+  await racer.addInitScript(() => {
+    if (!/[?&]arrive=/.test(location.search)) return;
+    const mo = new MutationObserver(() => {
+      if (!document.querySelector("[data-facet-id] svg[role=img]")) return;
+      const facetsTab = [...document.querySelectorAll('[role="tab"]')].find((t) => t.textContent.trim() === "Facets");
+      if (!facetsTab) return;
+      mo.disconnect();
+      // Radix tabs activate on mousedown; fire the full sequence.
+      for (const type of ["pointerdown", "mousedown", "pointerup", "mouseup", "click"]) {
+        facetsTab.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, button: 0 }));
+      }
+      window.__arrivalCancelled = true;
+    });
+    mo.observe(document, { childList: true, subtree: true });
+  });
+  await racer.goto(`${origin}/?tab=calibrate&focus=kondratiev&arrive=1`, { waitUntil: "load" });
+  await racer.waitForTimeout(1200);
+  const cancelled = await racer.evaluate(() => ({
+    fired: window.__arrivalCancelled === true,
+    tab: document.querySelector('[role="tab"][aria-selected="true"]')?.textContent?.trim(),
+  }));
+  check(
+    `${tag} the race harness cancelled the arrival before its scroll`,
+    cancelled.fired && cancelled.tab === "Facets",
+    `observer fired=${cancelled.fired} · selected tab=${cancelled.tab}`,
+  );
+  await handOpenAfter(racer, "a cancelled arrival never scrolls a hand-opened Calibrate later");
+  await racer.close();
   await page.close();
 }
 await browser.close();

@@ -45,12 +45,20 @@ export default function Viz({
   const [overrides, setOverride, resetOverride, setAllOverrides] =
     useOverridesState(cycles);
   // A cycle page's "calibrate this cycle" link carries a one-shot `arrive`
-  // (I-022). Live, not frozen at mount: once the panel has scrolled it clears
-  // the param, so a later remount of the tab (Facets, then Calibrate again)
-  // reads false.
+  // (I-022). It is consumed at MOUNT, never on the scroll's completion: the
+  // URL param is stripped at once (so a reload or Back reads no arrival), and
+  // the pending flag below is spent the moment the Calibrate panel's effect
+  // runs, before its scroll frames. A cancelled frame then costs the scroll,
+  // never a second scroll later (Codex r2: a tab switch inside the two
+  // frames left the flag armed). A tab opened by hand finds it spent.
   const [arrive, setArrive] = useArrivalState();
-  const arrivedOnCalibrate = tab === "calibrate" && arrive !== null;
-  const clearArrival = useCallback(() => setArrive(null), [setArrive]);
+  const [pendingArrival, setPendingArrival] = useState(
+    () => tab === "calibrate" && arrive !== null,
+  );
+  useEffect(() => {
+    if (arrive !== null) setArrive(null);
+  }, [arrive, setArrive]);
+  const consumeArrival = useCallback(() => setPendingArrival(false), []);
 
   const range = useMemo(
     () => parseRange(rangeParam, { start: fullStartYear, end: fullEndYear }),
@@ -220,8 +228,8 @@ export default function Viz({
               startYear={visibleStartYear}
               endYear={visibleEndYear}
               onOpenInFacets={handleSelectCycleFromSummary}
-              scrollOnArrival={arrivedOnCalibrate}
-              onArrived={clearArrival}
+              scrollOnArrival={pendingArrival}
+              onArrived={consumeArrival}
             />
           </TabsContent>
         </Tabs>
@@ -296,10 +304,10 @@ function CalibrationPanelWithPicker({
   // Arriving from a cycle page's "calibrate this cycle" link (I-022), put the
   // curve, the peak slider and r on one screen. Without this the page opened
   // at its top with the curve 1,096px down at 390x664 (measured 2026-10-04).
-  // Once per arrival: the link's one-shot `arrive` param is cleared after the
-  // scroll (onArrived), so a reload, Back, a slider move or a tab reopened by
-  // hand finds no `arrive` and leaves the reader where they were. A focus
-  // with no chip here clears it without scrolling.
+  // Once per arrival: the arrival is spent (onArrived) as soon as this effect
+  // runs, before the scroll frames, so a remount of this tab, by hand or
+  // after a cancelled frame, finds it spent. The scroll itself is best
+  // effort. A focus with no chip here spends it without scrolling.
   const [arrival] = useState(() =>
     scrollOnArrival
       ? {
@@ -309,11 +317,9 @@ function CalibrationPanelWithPicker({
   );
   useEffect(() => {
     if (!arrival) return;
+    onArrived();
     const arrivalId = arrival.id;
-    if (!arrivalId) {
-      onArrived();
-      return;
-    }
+    if (!arrivalId) return;
     let frame = requestAnimationFrame(() => {
       frame = requestAnimationFrame(() => {
         const facet = document.querySelector<HTMLElement>(
@@ -331,7 +337,6 @@ function CalibrationPanelWithPicker({
           const above = Math.max(0, Math.min(chartTop - facetTop, window.innerHeight - span - 8));
           window.scrollTo({ top: window.scrollY + chartTop - above, behavior: "instant" });
         }
-        onArrived();
       });
     });
     return () => cancelAnimationFrame(frame);
