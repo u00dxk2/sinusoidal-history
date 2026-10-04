@@ -248,11 +248,11 @@
       "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002, I-004 and I-005 so this lane carries ONE gate date. Nothing is wrong on the site today — all counts are arithmetically correct against ten cycles and nine series — so this is a robustness row, not a defect row; it comes due when the roster next changes or on 09-27, whichever is first.",
       "readCommand": "node -e \"const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))\"",
       "waitingFor": "Nothing and nobody — this lane's own files.",
-      "updated": "2026-09-27",
+      "updated": "2026-10-04",
       "waitJustification": {
-        "until": "2026-10-03",
+        "until": "2026-10-07",
         "loadBearing": "a robustness row, not a live defect: its read on 2026-09-27 (og: true poster: true brush: true) shows all three literals still present, and every count is correct against ten cycles, so it waits for the lane's one gate date or the next roster change",
-        "unWait": "on 2026-10-03, or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger",
+        "unWait": "on 2026-10-07 (the lane's gate date, matching nextEvaluation), or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger. Re-justified 2026-10-04 P5: the 10-03 until expired while the lane spent 10-03 and 10-04 on user-facing rows (I-013, I-022); every count is still correct against ten cycles and nine series, so nothing user-visible is wrong while it waits.",
         "owner": "sinusoidal-cycles"
       },
       "readCommandLastRun": "2026-10-03T15:58:40.316Z",
@@ -369,11 +369,11 @@
         "07c96d3"
       ],
       "created": "2026-09-29",
-      "updated": "2026-09-29",
+      "updated": "2026-10-04",
       "waitJustification": {
-        "until": "2026-10-03",
-        "loadBearing": "a shipped change whose only encounter read is W-003's cold walk on 2026-10-03 (the site has no client analytics); its delivery read is done (check-year-position 31/31 on production 2026-09-29)",
-        "unWait": "on 2026-10-03 read W-003's fifth-question verdict for /cycles/dalio; then W-001's Search Console read on 2026-10-07",
+        "until": "2026-10-07",
+        "loadBearing": "a shipped change whose remaining read is W-001's Search Console read on 2026-10-07 (/cycles/dalio position on the Dalio queries against 49.5-60); the encounter half was W-003's 10-03 cold walk (docs/walks/2026-10-03-w003.md P4); delivery done (check-year-position 31/31 on production 2026-09-29). Re-justified 2026-10-04 P5: the 10-03 until expired with the walk read; the Search Console half is dated 10-07.",
+        "unWait": "on 2026-10-07 read W-001's Search Console result for /cycles/dalio, then close or carry",
         "owner": "sinusoidal-cycles"
       },
       "readCommandLastRun": "2026-10-03T15:59:16.797Z",
@@ -657,14 +657,14 @@
       "onTrigger": "Run the readCommand on production (283/283 since Render deploy d341757, 2026-10-02 17:09:14Z UTC), then read W-003's I-017 questions in its walk notes. Pass: on a phone, after \"The full verdict, the figure and the protocol →\", the walker reads the target period and the band's words off the figure without pinch-zooming, and reads the /cycles sentence as covering nine rows, not ten. Fail: either not; name the size and mint a follow-up. N = 1 and synthetic: never quote it as a user encounter.",
       "closeWhen": "check-verdict-landing reads 283/283 on production (met 2026-10-02 after d341757), AND W-003's cold walk on 2026-10-03 passes both I-017 questions.",
       "waitJustification": {
-        "until": "2026-10-03",
+        "until": "2026-10-07",
         "loadBearing": "delivery is proven (check-verdict-landing 112/256 before -> 283/283 on production after Render deploy d341757, live 2026-10-02 17:09:14Z UTC); the site has no client analytics, so the only encounter read is the W-003 cold walk on its date",
-        "unWait": "on 2026-10-03, run the readCommand, then read the I-017 questions in the W-003 walk notes",
+        "unWait": "on 2026-10-07 re-run the readCommand on production (the Back intermittent: 1 miss in 195 Backs on 10-03, cause unknown); W-003 already answered both I-017 questions on 10-03 (docs/walks/2026-10-03-w003.md P11-P12). Re-justified 2026-10-04 P5: the 10-03 until expired after the walk read; the row was re-dated to 10-07 in its notes on 10-03 but the wait's until was not.",
         "owner": "sinusoidal-cycles"
       },
       "notes": "2026-10-02 round 2 (P3): manager review ce35aca9 REDIRECTED the P1 acceptance (10-unit labels >=10px, \"target:\" >=11px; the P1 packet wrongly said the smallest text was 12 units). Shipped fc1ef40 (scroller, tap-to-open, PNG case, sentence), 4b7d2a1 (Codex r1: five check gaps; Back reset the scroller's scrollLeft 200 -> 0 on 27 of 27 phone landings, fixed by FigureScroller's sessionStorage restore), d341757 (Codex r2 #3: computed text-transform restored to the case leg). Codex r2 #1-#2 are the same class as r1 #1 (geometric proxies fooled by contrived CSS) and are declared as a CEILING in the check header, not patched a third time. Mutations: flat-figure 139/283, clip-figure 256/283, lose-place 256/283, literal-case 247/283, dead-link 118/175, wrong-sentence 275/283, hide-name 243/283.\n\n | 2026-10-02 round 2 close (manager review fc7f695b: COMPLETED against the redirected acceptance). Follow-ups rowed, not loose lines: I-018 (FigureScroller restores the sideways place on a FRESH visit too — OBSERVED on production: scrollLeft 200 after a fresh visit via the /cycles list and after a typed URL in the same tab; new tab 0) and I-019 (desktop figure 704px wide at 768/1024/1440, 10-unit labels 7.8px, \"target:\" 8.6px). The encounter read stays W-003's cold walk on 2026-10-03 with both I-017 questions; N = 1 and synthetic.\n\n | 2026-10-03 (MT): W-003 answered both I-017 questions on the old build (docs/walks/2026-10-03-w003.md P11-P12: target and band read without pinch-zoom after a swipe; Back kept page and sideways place). Open for the Back intermittent: the 'Back from the opened figure keeps the reader's place' leg missed once on /cycles/modelski at 320x568 (scrollY 4582 -> 4221, the #spectral-verdict fragment's own position), 1 miss in 195 Backs today (5 complete production runs x 27 + 60 isolated repeats), not reproduced, cause unknown. The check header (6330855) keeps the dated 1-in-114 observation; its failure line now prints first-settled scrollY and the fragment, so the next miss explains itself. Re-dated to 2026-10-07 to re-run the check then.",
       "created": "2026-10-02",
-      "updated": "2026-10-03",
+      "updated": "2026-10-04",
       "readCommandTimeoutMs": 420000,
       "readCommandLastRun": "2026-10-03T16:04:14.510Z",
       "readCommandLastExit": 0,
@@ -799,7 +799,7 @@
       "waitJustification": {
         "until": "2026-10-07",
         "loadBearing": "a shipped change whose only encounter read is W-004's cold walk on 2026-10-07, step 3 (the site has no client analytics); delivery is proven (check-calibrate-tab 93/93 on production after Render deploy 7b0b0bf, live 2026-10-04 17:07:53Z UTC)",
-        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "unWait": "on 2026-10-07 read W-004's cold phone walk, step 3: a cold walker reaches Calibrate from /cycles/schlesinger-jr in one tap and sees curve and r move together. Pass: close. A miss (including the open 2-in-48 landing miss, page left at scrollY 0) gets its own row.",
         "owner": "sinusoidal-cycles"
       },
       "created": "2026-10-03",

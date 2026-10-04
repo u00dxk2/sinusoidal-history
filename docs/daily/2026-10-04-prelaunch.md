@@ -195,3 +195,54 @@ hygiene helper: DISPATCHED ~16:06Z UTC · draft tmp/hygiene-draft-sinusoidal-cyc
   - Codex r3's I3 ceiling is declared, not fixed.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-022 · P3 5152673c
+
+**Acceptance met, per the manager review e328865f (COMPLETED):**
+- Production `check-calibrate-tab` reads 93/93 after Render deploy `7b0b0bf`, live 17:07:53Z UTC.
+- The manager's own touch-emulated production read: 4 of 4 taps landed, and reload, Back and Forward stayed put.
+
+**Changed since the P3 post (5152673c):** no code. Ledger only: the three expired waits were re-justified, and I-022's unWait now names W-004.
+
+**hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected.**
+- `tmp/hygiene-draft-sinusoidal-cycles-2026-10-04.md`, 26 lines in all. Its Drafts section reads "none", because every input was none.
+- READ-MUTATED: none (0 reads guarded).
+- check-wait-justification, at helper time: "RESULT: FAIL — 3 warn finding(s)" (I-006, I-009, I-017 expired 10-03). Posted at once as dfc8fb72.
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable".
+
+**The three step-5 findings, dispositioned by hand with continuity-edit.** Each row's own `nextEvaluation` already read 2026-10-07; only `waitJustification.until` was left at 10-03.
+- **I-006:** until → 2026-10-07. unWait carries the reason. It is a robustness row; every count is still correct against 10 cycles and 9 series.
+- **I-009:** until → 2026-10-07. loadBearing and unWait now name W-001's 10-07 Search Console read as the remaining read; the walk half was read 10-03.
+- **I-017:** until → 2026-10-07. unWait names the readCommand re-run for the Back intermittent; the walk half was read 10-03.
+- **Re-run after the edits:** check-wait-justification "RESULT: PASS — 20 of 30 row(s) carry `waitJustification`; 0 warn / 1 info". The info is the shared-cause cluster.
+
+**Due gates:** check-due-gates-dispositioned "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-04).
+
+**Ledger delta today:**
+- **I-022:** open → monitoring. It carries a ship note, linkedCommits `117b2df`, `b125ed7`, `12120d8` and `0d22a91`, and a waitJustification that names W-004.
+- **W-004:** a note that step 3's path changed, and what to ask cold.
+- **W-001:** a freeze note recording one body line added (no title, meta, H1 or URL change).
+- **I-006, I-009, I-017:** re-justified, as above.
+
+**Receipt:** P3's line (5152673c) still holds; no bracket has changed. Exposure is blind, with W-004 as the read; the outcome stays open.
+
+**Pending reads:**
+- **2026-10-07, W-004 cold walk.** Step 3 is I-022's encounter and outcome read. Close condition: a cold phone walker reaches Calibrate in one tap and sees curve and r move together.
+- **2026-10-07, W-001 Search Console.** This read also covers I-009.
+- **2026-10-07, re-runs:** I-006, I-017 and I-020 to I-024.
+- **2026-12-01, I-025:** the band question goes to David.
+
+**UNRESOLVED:**
+- The 2-in-48 landing miss on I-022: page left at scrollY 0, cause not established. A miss seen by W-004 or a later check run gets its own row.
+
+**Primer:** `docs/cold-starts/2026-10-04.md`. Banner 1,206 chars; first action is `check-calibrate-tab` on production.
+
+codexCalls: 0 — probed-declined (the close has no code diff; today's 3 review runs are counted on P3 5152673c)
+
+[standing-rules-hash: 88cc2dc9]
