@@ -67,8 +67,9 @@ export function useFocusState() {
 }
 
 /**
- * `arrive=1`: a one-shot set by a cycle page's "calibrate this cycle" link
- * (I-022). Viz reads it once at mount and strips it at once, through nuqs.
+ * `arrive=1`: set by a cycle page's "calibrate this cycle" link (I-022). Viz
+ * reads it once at mount and strips it at once, through nuqs (the rule and
+ * its one known edge are stated in Viz.tsx).
  * (A history.state marker was wiped by nuqs's own replaceState(null) on every
  * slider move; Codex r1, 2026-10-04.)
  */

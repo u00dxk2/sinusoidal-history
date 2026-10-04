@@ -18,7 +18,12 @@
 // one tap onto its chip; curve top and a LOADED r on screen; then, once per arrival, no second
 // scroll on a reload after a slider move, on Back from another page, or on reopening the tab by
 // hand. Plus one per focused cycle: opening the tab by hand does not scroll. Red arm: production
-// on 10-04 (no link: 36/42).
+// on 10-04 (no link: 36/42). Codex r2 added a stray-arrive leg and a race harness that cancels
+// the arrival before its frames (red on b125ed7: 87/93). The rule these legs pin (Viz.tsx): a
+// page load carrying `arrive` lands on the curve once; nothing else scrolls. NOT SEEN (Codex r3):
+// a Back/Forward inside nuqs's deferred URL write (a declared ceiling), transient scroll calls
+// (only settled positions are read), a deliberately delayed CSV, and seven of the nine paired
+// cycles (two are walked).
 // It checks that the drag is VISIBLE, not that a reader understands it; that is W-003's cold walk.
 import { chromium } from "playwright";
 

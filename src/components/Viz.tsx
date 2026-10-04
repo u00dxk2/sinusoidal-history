@@ -44,13 +44,20 @@ export default function Viz({
   const [rangeParam, setRangeParam] = useRangeState();
   const [overrides, setOverride, resetOverride, setAllOverrides] =
     useOverridesState(cycles);
-  // A cycle page's "calibrate this cycle" link carries a one-shot `arrive`
-  // (I-022). It is consumed at MOUNT, never on the scroll's completion: the
-  // URL param is stripped at once (so a reload or Back reads no arrival), and
-  // the pending flag below is spent the moment the Calibrate panel's effect
-  // runs, before its scroll frames. A cancelled frame then costs the scroll,
-  // never a second scroll later (Codex r2: a tab switch inside the two
-  // frames left the flag armed). A tab opened by hand finds it spent.
+  // A cycle page's "calibrate this cycle" link carries `arrive` (I-022).
+  // THE RULE: a page load whose URL carries `arrive` lands on the Calibrate
+  // curve, once; every other way onto the chart never scrolls. A shared or
+  // copied `arrive` URL therefore lands its opener on the curve too, which is
+  // what that link is for. It is consumed at MOUNT, never on the scroll's
+  // completion: the URL param is stripped at once (so a later reload or Back
+  // reads no arrival), and the pending flag below is spent the moment the
+  // Calibrate panel's effect runs, before its scroll frames, so a cancelled
+  // frame costs the scroll and never causes a later one (Codex r2).
+  // CEILING (Codex r3, declared, not patched): nuqs defers the URL write a
+  // tick and aborts it on popstate, so a Back inside that window (tens of ms
+  // after landing) leaves `arrive` on the entry, and Forward to it lands on
+  // the curve once more. Three review rounds found defects in this signal's
+  // lifecycle; the rule above is the contract, and this is its known edge.
   const [arrive, setArrive] = useArrivalState();
   const [pendingArrival, setPendingArrival] = useState(
     () => tab === "calibrate" && arrive !== null,
