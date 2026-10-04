@@ -61,7 +61,7 @@ describe("cycle route slugs", () => {
 
   it("deep-links the Calibrate tab by raw id (I-022)", () => {
     const strauss = cycles.find((c) => c.id === "strauss_howe")!;
-    expect(cycleCalibratePath(strauss)).toBe("/?tab=calibrate&focus=strauss_howe");
+    expect(cycleCalibratePath(strauss)).toBe("/?tab=calibrate&focus=strauss_howe&arrive=1");
   });
 });
 

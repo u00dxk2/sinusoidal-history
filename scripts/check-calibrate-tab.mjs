@@ -14,10 +14,11 @@
 // 2026-10-03 (cold walk, W-003): two more legs per size. Arriving at /?focus=<id> and opening the
 // tab, the facet and the pressed chip are that cycle. Red arm: production before the change opens
 // on the picker's first cycle whatever the focus is.
-// 2026-10-04 (I-022): four more legs per cycle page and size: a Calibrate link within 3 screens,
-// one tap onto its chip, curve top and r bottom on screen, and a reload that does not scroll again
-// (the arrival scroll is once per history entry). Plus one per focused cycle: opening the tab by
-// hand does not scroll. Red arm: production on 10-04 (no link: 36/42).
+// 2026-10-04 (I-022): six more legs per cycle page and size: a Calibrate link within 3 screens;
+// one tap onto its chip; curve top and a LOADED r on screen; then, once per arrival, no second
+// scroll on a reload after a slider move, on Back from another page, or on reopening the tab by
+// hand. Plus one per focused cycle: opening the tab by hand does not scroll. Red arm: production
+// on 10-04 (no link: 36/42).
 // It checks that the drag is VISIBLE, not that a reader understands it; that is W-003's cold walk.
 import { chromium } from "playwright";
 
@@ -165,29 +166,78 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
       pressed.length === 1 && pressed[0] === id,
       `chip pressed: ${pressed.join(", ") || "none"}`,
     );
+    // r must be a LOADED number, not "…" or "n/a": a box on screen holding a placeholder is not
+    // "r on screen" (Codex r1, 2026-10-04).
     const boxes = await page.evaluate(() => {
       const facet = document.querySelector("[data-facet-id]");
       const chart = facet?.querySelector('svg[role="img"]')?.getBoundingClientRect();
-      const r = facet?.querySelector('[aria-live="polite"]')?.getBoundingClientRect();
-      return chart && r ? { top: Math.round(chart.top), bottom: Math.round(r.bottom) } : null;
+      const rEl = facet?.querySelector('[aria-live="polite"]');
+      const r = rEl?.getBoundingClientRect();
+      return chart && r
+        ? { top: Math.round(chart.top), bottom: Math.round(r.bottom), y: Math.round(window.scrollY), text: rEl.innerText }
+        : null;
     });
+    const rValue = boxes ? (boxes.text.match(/[−-]?\d\.\d{3}/) ?? [null])[0] : null;
     check(
-      `${tag} ${slug}: curve and r on one screen after the tap`,
-      boxes !== null && boxes.top >= 0 && boxes.bottom <= h,
-      boxes ? `curve top ${boxes.top}, r bottom ${boxes.bottom} of ${h}` : "no facet",
+      `${tag} ${slug}: curve and a loaded r on one screen after the tap`,
+      boxes !== null && boxes.top >= 0 && boxes.bottom <= h && rValue !== null,
+      boxes ? `curve top ${boxes.top}, r bottom ${boxes.bottom} of ${h}, r=${rValue ?? "not loaded"}` : "no facet",
     );
-    // Once per arrival, by decision (2026-10-04, manager review): a reload of the landed entry
-    // leaves the reader where they were. Scroll to the top, reload, and the page must NOT jump
-    // back down to the curve.
-    if (boxes) {
-      await page.evaluate(() => window.scrollTo(0, 0));
+    if (!boxes) continue;
+    // Once per arrival, by decision (2026-10-04, manager review). Codex r1 found the first version
+    // re-scrolled after a slider move (nuqs's replaceState wiped a history.state marker), and that
+    // the legs only reloaded from scrollY 0 with nothing touched. So: move the slider (a URL
+    // write), park at a mid position that is NOT the landing, then reload, then Back from another
+    // page, then reopen the tab by hand. None may scroll the reader back to the curve.
+    const slider = page.locator('[data-facet-id] [role="slider"]').first();
+    await slider.focus();
+    for (let i = 0; i < 3; i++) await slider.press("ArrowRight");
+    await page.waitForTimeout(400);
+    const park = 200;
+    const parked = async () => {
+      await page.evaluate((y) => window.scrollTo(0, y), park);
       await page.waitForTimeout(400);
-      await page.reload({ waitUntil: "load" });
+    };
+    const settledY = async () => {
       await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
       await page.waitForTimeout(1200);
-      const yReload = await page.evaluate(() => Math.round(window.scrollY));
-      check(`${tag} ${slug}: a reload does not scroll again`, yReload < 50, `scrollY after reload ${yReload}`);
-    }
+      return page.evaluate(() => Math.round(window.scrollY));
+    };
+    await parked();
+    await page.reload({ waitUntil: "load" });
+    const yReload = await settledY();
+    check(
+      `${tag} ${slug}: a reload after a slider move does not scroll again`,
+      yReload <= park + 50,
+      `parked at ${park}, after reload ${yReload} (the landing was ${boxes.y})`,
+    );
+    await parked();
+    await page.goto(`${origin}/about`, { waitUntil: "load" });
+    await page.goBack({ waitUntil: "load" });
+    const yBack = await settledY();
+    check(
+      `${tag} ${slug}: Back to the chart does not scroll again`,
+      yBack <= park + 50,
+      `parked at ${park}, after Back ${yBack} (the landing was ${boxes.y})`,
+    );
+    await page.getByRole("tab", { name: "Facets" }).click();
+    await page.waitForTimeout(600);
+    const calTab = page.getByRole("tab", { name: "Calibrate" });
+    await calTab.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(200);
+    const yHand = await page.evaluate(() => Math.round(window.scrollY));
+    await calTab.click();
+    await page.waitForTimeout(800);
+    const afterHand = await page.evaluate(() => ({
+      y: Math.round(window.scrollY),
+      max: Math.max(0, Math.round(document.documentElement.scrollHeight - window.innerHeight)),
+    }));
+    const expectedHand = Math.min(yHand, afterHand.max);
+    check(
+      `${tag} ${slug}: reopening Calibrate by hand after the arrival does not scroll`,
+      Math.abs(afterHand.y - expectedHand) <= 2,
+      `scrollY ${yHand} -> ${afterHand.y} (expected ${expectedHand})`,
+    );
   }
   await page.close();
 }

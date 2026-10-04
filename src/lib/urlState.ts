@@ -66,6 +66,19 @@ export function useFocusState() {
   return useQueryState("focus", parseAsString);
 }
 
+/**
+ * `arrive=1`: a one-shot set by a cycle page's "calibrate this cycle" link
+ * (I-022). Viz scrolls the Calibrate facet into view and clears it, through
+ * nuqs, so nothing else can erase it half-way (a history.state marker was
+ * wiped by nuqs's own replaceState(null) on every slider move; Codex r1,
+ * 2026-10-04).
+ */
+export function useArrivalState() {
+  // Presence is the signal; the value is not read (parseAsBoolean would read
+  // the link's "1" as false).
+  return useQueryState("arrive", parseAsString);
+}
+
 export function useRangeState() {
   return useQueryState("range", parseAsString);
 }
