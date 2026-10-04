@@ -97,3 +97,101 @@ node C:/dev/skylark/sinusoidal-cycles/tmp/measure-calibrate-entry.mjs https://si
 - (a) Due rows not bearing on the choice: **none** — read: kickoff "dated gates due today: 0", and this morning's snapshot "0 gate(s) due on/before 2026-10-04".
 - (b) Owed child rows: **none** — read: kickoff "rows owed to you in skylark-site's ledger: 0 of 744".
 - (c) CROSSED state reads: **none** — read: the kickoff's state block (no threshold clause printed as crossed). Noted, not crossed: "key numbers (yours): no list yet — write docs/key-metrics.json". It is a standing absence, and no threshold fired.
+
+---
+
+## P3 — Product-work loop
+
+[P3 — Product-work loop]
+
+**Action: improve the product.** Item I-022: one tap from a cycle page into that cycle's Calibrate view. The manager review (299336fe) approved it as packeted. Its two HYPOTHESIS items were measured:
+- **Where the link goes.** The end of "Peak calibration" sat at 3.3-4.95 screens at 320x568, past the 3-screen bar, so the link went under the heading instead. The heading sits at most 2.6 screens down.
+- **"Once per arrival"** was defined as a rule, and the check pins it.
+
+### 1. Implementation (main, pushed `618feea..7b0b0bf`)
+
+- `117b2df`: the link plus the arrival scroll.
+- `b125ed7`: Codex r1 fix.
+- `12120d8`: Codex r2 fix.
+- `0d22a91`: the rule and the ceiling, comments only.
+- `7b0b0bf`: P1 report.
+
+Files:
+- `src/app/(app)/cycles/[id]/page.tsx`: the link, only for the 9 cycles with a paired series.
+- `src/lib/cycleRoutes.ts`: `cycleCalibratePath` returns `/?tab=calibrate&focus=<id>&arrive=1`, with a unit test.
+- `src/lib/urlState.ts`: `useArrivalState`.
+- `src/components/Viz.tsx`: `arrive` is consumed at mount, and the panel scrolls the curve, the slider and r onto one screen.
+- `scripts/check-calibrate-tab.mjs`: 30 legs became 93.
+
+**The rule, stated in `Viz.tsx`:** a page load carrying `arrive` lands on the curve once, and nothing else ever scrolls.
+
+**Gates:**
+- Typecheck clean. Lint has 0 errors; its one warning is an old `tmp/` file.
+- Unit tests 132/132, receipt run at `7b0b0bf`.
+- **CI GREEN for `7b0b0bf`** (`check-ci-status --wait`: 1 success, 0 failures).
+
+**Red arms**, each recorded before the fix it tests:
+- Production before the change: 36/42. The 6 link legs fail ("no link").
+- Mutation A (the guard removed, scroll on hand-open): 48/66. The reload and by-hand legs go red.
+- Mutation B (no arrival scroll): 60/66. The on-one-screen legs go red, with curve top 1,096.
+- Codex r1 reproduced on `117b2df`: 66/78. A reload after a slider move went 200 → 1,012, and a reopen by hand went 348 → 936.
+- Codex r2 reproduced on `b125ed7`: 87/93. A race harness cancelled the arrival before its frames, then a hand-opened Calibrate went 348 → 1,012. A stray `arrive=1` on Facets did the same.
+
+**Independent review:** three Codex rounds. All were read-only, run as a foreground pipe, with the banner `workdir` = `C:\dev\skylark\sinusoidal-cycles` on all three.
+
+- **r1 on `117b2df`, one medium finding, STATIC → CONFIRMED.** nuqs's `replaceState(null)` wiped the `history.state` marker. REPRODUCED, then fixed in `b125ed7` with a one-shot URL param.
+- **r2 on `b125ed7`, one P2 finding, STATIC → CONFIRMED.** A cancelled arrival left the param armed. REPRODUCED, then fixed in `12120d8`: the arrival is consumed at mount. Two rounds had now found the same class, so the shape changed.
+- **r3 on `12120d8`, a cold round asked to break six invariants.** I1, I2, I5 and I6 HOLD. Two findings:
+  - I4: a shared `arrive` URL lands its opener on the curve. **DELIBERATE**: the restated rule says exactly that, and the invariant I had written was too strict.
+  - I3: a Back inside nuqs's deferred URL write leaves `arrive` for Forward. **PLAUSIBLE, declared as a ceiling in `Viz.tsx` (`0d22a91`), not patched**: the third round in one mechanism, so the recipe's stop-patching rule applied.
+
+  The legs' blind spots, as r3 enumerated them, are written into the check's header.
+
+**Sibling sweep:** `arrive` appears only in the link builder, its test, `Viz.tsx` and `urlState.ts`. Search space: `src/**` and `public/**` (Grep for `arrive`). The canonical tag, the sitemap, JSON-LD, `llms.txt` and the `.md` mirrors do not carry it.
+
+### 2. Delivery
+
+- The Render deploys API for `srv-d7mcat7lk1mc73bidim0` reads `7b0b0bf6 live`, created 17:06:38Z UTC and finished 17:07:53Z UTC. The deploy-drift checker declines this service (`commit` trigger, NOT-APPLICABLE-BY-REGISTRY), so the delivery read is the surface itself.
+- `check-calibrate-tab.mjs https://sinusoidalhistory.com`: first run **91/93**, then **93/93**.
+  - The 2 misses were the first run, minutes after the deploy, both at 320x568. The page landed at scrollY 0 with the curve at 1,158.
+  - Follow-up: 10/10 cold taps and 20/20 on a warm page at 320x568.
+  - Total: **2 misses in 48 production landings** (Wilson 80% CI about 1.7%-9.5%). Cause NOT established.
+  - A miss lands where the old path landed: the top of the chart, with Calibrate open on the right cycle. It is not worse than before.
+- `check-state-phone.mjs` (round 2 of 10-03): **142/142** on production after the deploy.
+- Rendered text: `/cycles/kondratiev` gained exactly one line, "Move the peak yourself: calibrate this cycle →" (94 → 95, none removed). `/cycles/turchin-fathers-sons` is GREEN (identical, 69 lines).
+
+### 3. Encounter
+
+blind — the site has no client analytics, so a reader who taps the link leaves no trace. Bug row: W-004. Its 2026-10-07 cold walk, step 3, walks exactly this path, and its notes now say the path changed and what to ask.
+
+### 4. Outcome
+
+Open. There is no direct read yet. W-004 on 10-07 is the next one.
+
+### Receipt
+
+USER-VISIBLE: a phone reader on any of the 9 paired cycle pages taps "Move the peak yourself: calibrate this cycle →" about 2 screens down and lands in Calibrate on that cycle with the curve and r on one screen — 117b2df [proof: before, the only way in was "Open in the chart" 7.6 screens down at 390x664, landing on Facets with the curve 1,096px below the screen; after, check-calibrate-tab on production after Render deploy 7b0b0bf (live 17:07:53Z UTC) reads 93/93, link at 1.8-2.5 screens, curve top 84 / r bottom 631 of 664 with r loaded; 2 misses in 48 production landings, cause open] [coverage: none — the site has no client analytics · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who taps the link leaves no trace · bug row W-004]
+
+[red-armed: node scripts/check-calibrate-tab.mjs https://sinusoidalhistory.com (production before 117b2df) -> 36/42 PASS, "FAIL 390x664 schlesinger-jr: a Calibrate link within 3 screens — no link"]
+mechanism-verified: node scripts/check-calibrate-tab.mjs http://localhost:3477 on b125ed7 -> 87/93, "FAIL 390x664 a cancelled arrival never scrolls a hand-opened Calibrate later — scrollY 348 -> 1012"; on 12120d8 -> 93/93
+
+codexCalls: 3 (r1, r2, r3, all review)
+adversarialReviews: 3 — EXECUTED (head shas 117b2df, b125ed7, 12120d8; findings dispositioned above)
+hygiene helper: DISPATCHED ~16:06Z UTC · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-04.md PRESENT (26 lines). Its one nonzero finding (3 expired waits: I-006, I-009, I-017) was posted at once as status dfc8fb72.
+
+### Ledger, done in this phase
+
+- **I-022 → monitoring.** It carries the ship note, `linkedCommits` and a `waitJustification` naming W-004.
+- **W-004:** a note says step 3's path changed and what to ask cold.
+- **W-001:** a freeze note records the one body line added (no title, meta, H1 or URL change).
+
+### What remains
+
+- **2026-10-07 W-004:** the cold walk is the encounter and outcome read for I-022. The close condition is a cold phone walker reaching Calibrate in one tap and seeing curve and r move together.
+- **The 2-in-48 miss:** carried in I-022's notes, cause open. If W-004's walker or a later check run sees a miss, it gets its own row.
+- **At the close:** re-justify or un-wait I-006, I-009 and I-017 (expired 10-03), from the hygiene draft.
+- **Not done, named:**
+  - The manager's bolder suggestion, an inline "drag the peak" preview on the cycle page itself, is "not today", per the review.
+  - Codex r3's I3 ceiling is declared, not fixed.
+
+[standing-rules-hash: 88cc2dc9]
