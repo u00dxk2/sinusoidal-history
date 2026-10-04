@@ -5,6 +5,7 @@ import { dataSeries } from "@/data/series";
 import { sineAtYear } from "@/lib/cycleMath";
 import {
   confidenceLabel,
+  cycleCalibratePath,
   cycleChartPath,
   cycleJsonLd,
   cycleMetaDescription,
@@ -56,6 +57,11 @@ describe("cycle route slugs", () => {
     expect(cycleRoutePath(strauss)).toBe("/cycles/strauss-howe");
     // The chart's `focus` param keys on the cycle id, not the URL slug.
     expect(cycleChartPath(strauss)).toBe("/?focus=strauss_howe");
+  });
+
+  it("deep-links the Calibrate tab by raw id (I-022)", () => {
+    const strauss = cycles.find((c) => c.id === "strauss_howe")!;
+    expect(cycleCalibratePath(strauss)).toBe("/?tab=calibrate&focus=strauss_howe");
   });
 });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useCallback, useState } from "react";
+import { useMemo, useCallback, useEffect, useState } from "react";
 import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import CycleOverlay, { type CycleOverride } from "./CycleOverlay";
 import ConvergenceNote from "./ConvergenceNote";
@@ -43,6 +43,9 @@ export default function Viz({
   const [rangeParam, setRangeParam] = useRangeState();
   const [overrides, setOverride, resetOverride, setAllOverrides] =
     useOverridesState(cycles);
+  // Did this page ARRIVE on Calibrate (a cycle page's "calibrate this cycle"
+  // link), rather than have the tab opened by hand? Read once, at mount.
+  const [arrivedOnCalibrate] = useState(() => tab === "calibrate");
 
   const range = useMemo(
     () => parseRange(rangeParam, { start: fullStartYear, end: fullEndYear }),
@@ -212,6 +215,7 @@ export default function Viz({
               startYear={visibleStartYear}
               endYear={visibleEndYear}
               onOpenInFacets={handleSelectCycleFromSummary}
+              scrollOnArrival={arrivedOnCalibrate}
             />
           </TabsContent>
         </Tabs>
@@ -238,6 +242,11 @@ export default function Viz({
   );
 }
 
+/** history.state key marking an entry whose Calibrate arrival has scrolled. */
+const ARRIVAL_KEY = "calibrateArrived";
+/** Height of the "full record START–END · n=N" line r gains once its CSV loads. */
+const R_LOAD_RESERVE = 20;
+
 function CalibrationPanelWithPicker({
   cycles,
   dataSeriesByCycle,
@@ -249,6 +258,7 @@ function CalibrationPanelWithPicker({
   startYear,
   endYear,
   onOpenInFacets,
+  scrollOnArrival,
 }: {
   cycles: Cycle[];
   dataSeriesByCycle: Map<string, DataSeries>;
@@ -260,6 +270,7 @@ function CalibrationPanelWithPicker({
   startYear: number;
   endYear: number;
   onOpenInFacets: (id: string) => void;
+  scrollOnArrival: boolean;
 }) {
   const calibratable = cycles.filter((c) => dataSeriesByCycle.has(c.id));
   // Open on the cycle the reader is already focused on (`?focus=<id>`, which
@@ -275,6 +286,50 @@ function CalibrationPanelWithPicker({
   );
   const cycle = calibratable.find((c) => c.id === selectedId);
   const series = cycle ? dataSeriesByCycle.get(cycle.id) : undefined;
+
+  // Arriving from a cycle page's "calibrate this cycle" link (I-022), put the
+  // curve, the peak slider and r on one screen. Without this the page opened
+  // at its top with the curve 1,096px down at 390x664 (measured 2026-10-04).
+  // Once per history entry: the marker rides history.state, which the App
+  // Router keeps on a traverse and the browser keeps on a reload, so Back and
+  // reload leave the reader where they were. A tab opened by hand, or a focus
+  // with no chip here, never scrolls.
+  const [arrivalId] = useState(() =>
+    scrollOnArrival && calibratable.some((c) => c.id === focusedCycleId)
+      ? focusedCycleId
+      : null,
+  );
+  useEffect(() => {
+    if (!arrivalId) return;
+    try {
+      if (window.history.state?.[ARRIVAL_KEY]) return;
+    } catch {
+      return;
+    }
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        const facet = document.querySelector<HTMLElement>(
+          `[data-facet-id="${CSS.escape(arrivalId)}"]`,
+        );
+        const chart = facet?.querySelector('svg[role="img"]');
+        const r = facet?.querySelector('[aria-live="polite"]');
+        if (!facet || !chart || !r) return;
+        const facetTop = facet.getBoundingClientRect().top;
+        const chartTop = chart.getBoundingClientRect().top;
+        // r grows by a line ("full record …") when its CSV arrives; reserve it.
+        const span = r.getBoundingClientRect().bottom - chartTop + R_LOAD_RESERVE;
+        // Show as much of the facet's header above the curve as still leaves
+        // r on screen; never push the curve's top off it.
+        const above = Math.max(0, Math.min(chartTop - facetTop, window.innerHeight - span - 8));
+        window.scrollTo({ top: window.scrollY + chartTop - above, behavior: "instant" });
+        try {
+          const state = window.history.state ?? {};
+          window.history.replaceState({ ...state, [ARRIVAL_KEY]: true }, "");
+        } catch {}
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [arrivalId]);
 
   if (!cycle || !series) {
     return (

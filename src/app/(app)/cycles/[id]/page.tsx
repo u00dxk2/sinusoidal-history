@@ -8,6 +8,7 @@ import { sineAtYear } from "@/lib/cycleMath";
 import {
   confidenceGloss,
   confidenceLabel,
+  cycleCalibratePath,
   cycleChartPath,
   cycleJsonLd,
   cycleMetaDescription,
@@ -329,6 +330,24 @@ export default async function CyclePage({ params }: Params) {
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
           Peak calibration
         </h2>
+        {/* Under the heading, not at the section's end: the end sat 3.3 to
+            4.95 screens down at 320x568, the heading at most 2.6 (measured
+            2026-10-04). The only way in used to be "Open in the chart" at
+            the page's foot, 7.6 screens down at 390x664, landing on the
+            Facets tab (cold walk 2026-10-03, its single worst thing; I-022).
+            This opens Calibrate on this cycle, and the chart scrolls its
+            curve and r into one screen (Viz.tsx). Gate:
+            scripts/check-calibrate-tab.mjs. */}
+        {series && (
+          <p className="-mt-1">
+            <Link
+              href={cycleCalibratePath(cycle)}
+              className="inline-flex items-center min-h-11 font-mono text-[12px] uppercase tracking-[0.16em] text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+            >
+              Move the peak yourself: calibrate this cycle →
+            </Link>
+          </p>
+        )}
         <p>{cycle.reference_peak_rationale}</p>
         {cycle.caveat && (
           <p

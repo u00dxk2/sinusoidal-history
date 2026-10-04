@@ -14,6 +14,10 @@
 // 2026-10-03 (cold walk, W-003): two more legs per size. Arriving at /?focus=<id> and opening the
 // tab, the facet and the pressed chip are that cycle. Red arm: production before the change opens
 // on the picker's first cycle whatever the focus is.
+// 2026-10-04 (I-022): four more legs per cycle page and size: a Calibrate link within 3 screens,
+// one tap onto its chip, curve top and r bottom on screen, and a reload that does not scroll again
+// (the arrival scroll is once per history entry). Plus one per focused cycle: opening the tab by
+// hand does not scroll. Red arm: production on 10-04 (no link: 36/42).
 // It checks that the drag is VISIBLE, not that a reader understands it; that is W-003's cold walk.
 import { chromium } from "playwright";
 
@@ -96,6 +100,13 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
     await page.goto(`${origin}/?focus=${id}`, { waitUntil: "load" });
     const tab = page.getByRole("tab", { name: "Calibrate" });
     await tab.waitFor({ timeout: 10000 });
+    await page.waitForTimeout(800);
+    // A reader scrolls up to the tab before tapping it; so does Playwright's click, which would
+    // otherwise move the page itself and fail the "by hand" leg below (it did, 936 -> 348, on the
+    // first run of that leg). Bring the tab into view first, then take the before reading.
+    await tab.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(200);
+    const yBeforeTab = await page.evaluate(() => Math.round(window.scrollY));
     await tab.click();
     await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
     const opened = (await facets.count()) === 1 ? await facets.first().getAttribute("data-facet-id") : null;
@@ -108,6 +119,75 @@ for (const [w, h] of [[390, 664], [1440, 900], [320, 568]]) {
       opened === id && pressed.length === 1 && pressed[0] === id,
       `facet=${opened} · chip pressed: ${pressed.join(", ") || "none"}`,
     );
+    // I-022: the arrival scroll is for a page that ARRIVES on Calibrate. Opening the tab by hand
+    // must not scroll, beyond any clamp the browser applies if the shorter Calibrate content
+    // leaves the page shorter than the reading. So the expected scrollY is min(before, new max).
+    await page.waitForTimeout(600);
+    const after = await page.evaluate(() => ({
+      y: Math.round(window.scrollY),
+      max: Math.max(0, Math.round(document.documentElement.scrollHeight - window.innerHeight)),
+    }));
+    const expectedY = Math.min(yBeforeTab, after.max);
+    check(
+      `${tag} opening Calibrate by hand does not scroll (${id})`,
+      Math.abs(after.y - expectedY) <= 2,
+      `scrollY ${yBeforeTab} -> ${after.y} (clamp ${after.max}, expected ${expectedY})`,
+    );
+  }
+
+  // I-022 (2026-10-04): the way in FROM a cycle page. On 10-04 production had no such link; the
+  // only one ("Open in the chart") sat 7.6 screens down a 390x664 page and landed on Facets, with
+  // the curve 1,096px below the screen. Three legs per cycle: the link is within the first three
+  // screens; one tap lands on that cycle's chip; the curve's top and r's bottom are both on screen.
+  // The on-screen leg reads the viewport against two boxes in the landed facet. It never reads a
+  // scroll target the page computes for itself, so a landing aimed at the wrong element fails.
+  for (const slug of ["schlesinger-jr", "kondratiev"]) {
+    const id = slug.replace(/-/g, "_");
+    await page.goto(`${origin}/cycles/${slug}`, { waitUntil: "load" });
+    const link = page.locator('a[href*="tab=calibrate"]').first();
+    const linkY = (await link.count())
+      ? await link.evaluate((a) => Math.round(a.getBoundingClientRect().top + window.scrollY))
+      : null;
+    check(
+      `${tag} ${slug}: a Calibrate link within 3 screens`,
+      linkY !== null && linkY <= 3 * h,
+      linkY === null ? "no link" : `at ${linkY}px (${(linkY / h).toFixed(1)} screens)`,
+    );
+    if (linkY === null) continue;
+    await link.scrollIntoViewIfNeeded();
+    await link.click();
+    await page.waitForURL(/tab=calibrate/, { timeout: 10000 }).catch(() => {});
+    await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
+    await page.waitForTimeout(1200);
+    const pressed = await page.locator('button[data-chip-id][aria-pressed="true"]').evaluateAll((bs) => bs.map((b) => b.getAttribute("data-chip-id")));
+    check(
+      `${tag} ${slug}: one tap lands on its Calibrate chip`,
+      pressed.length === 1 && pressed[0] === id,
+      `chip pressed: ${pressed.join(", ") || "none"}`,
+    );
+    const boxes = await page.evaluate(() => {
+      const facet = document.querySelector("[data-facet-id]");
+      const chart = facet?.querySelector('svg[role="img"]')?.getBoundingClientRect();
+      const r = facet?.querySelector('[aria-live="polite"]')?.getBoundingClientRect();
+      return chart && r ? { top: Math.round(chart.top), bottom: Math.round(r.bottom) } : null;
+    });
+    check(
+      `${tag} ${slug}: curve and r on one screen after the tap`,
+      boxes !== null && boxes.top >= 0 && boxes.bottom <= h,
+      boxes ? `curve top ${boxes.top}, r bottom ${boxes.bottom} of ${h}` : "no facet",
+    );
+    // Once per arrival, by decision (2026-10-04, manager review): a reload of the landed entry
+    // leaves the reader where they were. Scroll to the top, reload, and the page must NOT jump
+    // back down to the curve.
+    if (boxes) {
+      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.waitForTimeout(400);
+      await page.reload({ waitUntil: "load" });
+      await svg.first().waitFor({ timeout: 10000 }).catch(() => {});
+      await page.waitForTimeout(1200);
+      const yReload = await page.evaluate(() => Math.round(window.scrollY));
+      check(`${tag} ${slug}: a reload does not scroll again`, yReload < 50, `scrollY after reload ${yReload}`);
+    }
   }
   await page.close();
 }

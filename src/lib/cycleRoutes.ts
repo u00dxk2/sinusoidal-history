@@ -41,6 +41,15 @@ export function cycleChartPath(cycle: Cycle): string {
 }
 
 /**
+ * Deep link into the chart's Calibrate tab, open on this cycle. The chart
+ * scrolls its curve into view on that arrival (`Viz.tsx`). Only cycles with a
+ * paired series have a Calibrate view; the caller checks.
+ */
+export function cycleCalibratePath(cycle: Cycle): string {
+  return `/?tab=calibrate&focus=${encodeURIComponent(cycle.id)}`;
+}
+
+/**
  * Resolves a route segment to a cycle. Normalizes hyphens to underscores so
  * internal callers can pass either form — but note the route itself sets
  * `dynamicParams = false`, so only the hyphenated slugs are live URLs;
