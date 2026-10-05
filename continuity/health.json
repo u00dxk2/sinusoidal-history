@@ -1,41 +1,209 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-09T03:22:40.588Z",
+  "generatedAt": "2026-10-04T18:53:59.802Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
-  "itemCount": 1,
-  "knownPatternCount": 3,
-  "commitCount": 0,
+  "itemCount": 31,
+  "knownPatternCount": 5,
+  "commitCount": 29,
   "findings": [
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "W-001",
+      "title": "sinusoidal-history is measured at last — indexed, 59 impressions, and converting at 0%",
+      "message": "W-001 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"A Google Search Console property is verified for the site's canonical domain (sinusoidalhistory.com after the cutover; the old subdomain only if the cutover is abandoned) AND /sitemap.xml has been submitted through it — at which point impressions/clicks become observable and this converts to a measurement watch. Alternatively closes as 'declined' if David decides the site should stay uninstrumented.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-006",
+      "title": "Cycle counts are written as literals in user-facing copy on surfaces that already import the data, and only SITE_DESCRIPTION is test-pinned",
+      "message": "I-006 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"The four ranked surfaces derive their count from cycles.length (or are deliberately exempted in one line each), and a test pins at least the OG standfirst the way siteConfig.test.ts pins SITE_DESCRIPTION.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-009",
+      "title": "A searcher who lands on a /cycles/<slug> page by the theorist's name cannot find where the cycle puts this year without reading it off the extrema row",
+      "message": "I-009 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"W-003's cold walk (2026-10-03) opens /cycles/dalio at 390 wide and records whether the reader finds 'where are we now' and how far they scrolled to find it; and the W-001 Search Console read (2026-10-07) reports /cycles/dalio's position on the Dalio queries against 49.5-60. A walk that finds the sentence but only after scrolling is a finding about placement (move it up only if a fold can pay for it), not a reason to reopen the wording.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-017",
+      "title": "The spectral-verdict figure could not be read on a phone, and a tap on it did nothing; the /cycles result sentence said \"each record below\" over ten rows, one with no record",
+      "message": "I-017 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"check-verdict-landing reads 283/283 on production (met 2026-10-02 after d341757), AND W-003's cold walk on 2026-10-03 passes both I-017 questions.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-020",
+      "title": "On a phone, tapping the spectral figure opens it smaller, on a page with no way back but Back",
+      "message": "I-020 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"A cold walk on a phone taps the figure and does not land somewhere smaller or without a way back.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-021",
+      "title": "The spectral figure's first view and cue mislead: on phones the target and band arrive cut off; from 768 to 1023 wide a mouse reader is told to Swipe",
+      "message": "I-021 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"A cold walk at 390 wide and at about 900 wide with a mouse reads the target and the band, and says the cue told it what to do.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-022",
+      "title": "From a cycle page the way into Calibrate is one link about seven screens down, landing below the tabs, with curve and r not on one phone screen",
+      "message": "I-022 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"From a cycle page a cold phone walker reaches that cycle's Calibrate view in one tap and sees the curve and r change together.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-023",
+      "title": "The confidence-tag jump lands with an unrelated, larger paragraph filling the top of the screen",
+      "message": "I-023 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"check-confidence-tag-taps reads the definition sentence within the first screen after the tap, on production.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-024",
+      "title": "Kondratiev's pairing is called \"US TFP growth (5-yr rolling)\" on /cycles and in the citation, but \"annual, unsmoothed\" in the verdict and figure",
+      "message": "I-024 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"A cold reader of /cycles/kondratiev can say which series was tested and why the chart's label differs.\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "W-004",
+      "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
+      "message": "W-004 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"(a) All three read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-021, I-022).\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
+      "id": "I-026",
+      "title": "Switch Render's deploy trigger for sinusoidal-history from `commit` to `checksPass`, so a red CI run stops shipping",
+      "message": "I-026 signal due in 3d (2026-10-07)",
+      "suggested": "Prepare to evaluate: \"GET /v1/services/srv-d7mcat7lk1mc73bidim0 reads autoDeployTrigger=checksPass, and the next push's deploy row is created only after its ci.yml run completes green.\""
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "W-001",
+      "title": "sinusoidal-history is measured at last — indexed, 59 impressions, and converting at 0%",
+      "message": "Item W-001 notes modified in last 24h (diff hash c7124e98); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "I-022",
+      "title": "From a cycle page the way into Calibrate is one link about seven screens down, landing below the tabs, with curve and r not on one phone screen",
+      "message": "Item I-022 notes modified in last 24h (diff hash b70b054e); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "W-004",
+      "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
+      "message": "Item W-004 notes modified in last 24h (diff hash fcb5be6c); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "I-025",
+      "title": "Revisit the Rising/Peaking band (±3% of a period) before the 2027 State of the Cycles edition",
+      "message": "Item I-025 title/closeWhen modified in last 24h (diff hash 5b82e647); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "I-026",
+      "title": "Switch Render's deploy trigger for sinusoidal-history from `commit` to `checksPass`, so a red CI run stops shipping",
+      "message": "Item I-026 title/closeWhen modified in last 24h (diff hash 1ab047ac); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "bulk-ae8ec3f7",
+      "message": "Commit ae8ec3f7 modified 1 CLOSED row(s) in one write — bulk-collapsed (e.g. I-013). Open rows, if any, are itemized above. One compaction/bulk edit is one event, not 1 findings.",
+      "suggested": "git show ae8ec3f7 --stat — confirm the bulk write was the intended one."
+    },
+    {
+      "check": "UNTRACKED_COMMITS",
+      "severity": "info",
+      "count": 2,
+      "message": "2 commit(s) in last 48h not in any item's linkedCommits[] (mentions in prose fields like explanation/notes don't count by design)",
+      "commits": [
+        {
+          "hash": "e670a91",
+          "subject": "fix(cycles): keep the figure's place on hash-jump entries; never save onto another entry (Codex r3-1)",
+          "date": "2026-10-02"
+        },
+        {
+          "hash": "a0c1f8d",
+          "subject": "fix(cycles): a fresh visit starts the phone figure at its left edge; Back still keeps the place (I-018)",
+          "date": "2026-10-02"
+        }
+      ],
+      "suggested": "Verify each is reflected in changelog/shipped log, or link via item.linkedCommits[], or add to items.json.meta.untrackedCommits with a rationale."
+    },
+    {
+      "check": "DUE_DATE_CONCENTRATION",
+      "severity": "warn",
+      "id": "11/12 on 2026-10-07",
+      "message": "11 of 12 dated open items land on ONE day (2026-10-07): W-001, I-006, I-009, I-017, I-020, I-021, I-022, I-023, +3 more. Individually reasonable, collectively a wall (reels 2026-07-18: 23/30 — no single day absorbs that). Stagger deliberately: re-date by real signal-arrival, not by habit-copying one date."
+    },
+    {
+      "check": "LINKED_COMMIT_UNRESOLVED",
+      "severity": "warn",
+      "id": "I-003",
+      "title": "check-next-primer-exists resolves this repo to the workspace id 'sinusoidal' and finds no REPORT_CONFIGS row under it, so P5's primer-exists check cannot judge this lane",
+      "message": "linkedCommits SHA \"789cd926c\" does not resolve in this repo's object store — the closure cites a commit that does not exist here (verify-sha semantics at the continuity layer, 2026-07-25).",
+      "suggested": "Fix the SHA (wrong repo? typo? unpushed?), or waive with linkedCommitsWaived: {reason}."
+    },
     {
       "check": "STALE_HOLD_WAIVED",
       "severity": "info",
-      "count": 0,
-      "message": "population: 1 ledger rows, 3 hold-shaped fields scanned across 13 field names; 0 holds whose holder is dead. blindTo: David board card ids, bus msgIds and other lanes' row ids (this ledger holds no status for them); a dated freeze phrase with no row id behind it (a date passing is not a retraction); rulings carried only in prose; and any citation living in a doc unless that doc was passed with --hold-doc."
+      "count": 3,
+      "message": "population: 31 ledger rows, 86 hold-shaped fields scanned across 13 field names. 3 stale-hold finding(s) SUPPRESSED by staleHoldWaived — I-001.onTrigger (\"Deliberate: the order (do not edit cc-workspace.json from this lane; it is skylark-site's file) still holds after the row closed.\", since 2026-10-04); I-003.onTrigger (\"Deliberate: the order (do not edit skylark-site from this lane) still holds after the row closed.\", since 2026-10-04); I-019.onTrigger (\"Deliberate: the spectral SVGs stay frozen (AGENTS.md, spectral-verdict manifest) whatever this closed row says.\", since 2026-10-04). blindTo: David board card ids, bus msgIds and other lanes' row ids (this ledger holds no status for them); a dated freeze phrase with no row id behind it (a date passing is not a retraction); rulings carried only in prose; and any citation living in a doc unless that doc was passed with --hold-doc."
     }
   ],
   "counts": {
     "critical": 0,
-    "warn": 0,
-    "info": 1
+    "warn": 2,
+    "info": 19
   },
   "suppressedCount": 0,
   "actionsOnlyMode": false,
   "clockReconciliation": {
-    "multiClockItems": 0,
-    "scanned": 1,
+    "multiClockItems": 12,
+    "scanned": 12,
     "byType": {},
     "lines": [],
     "rows": [],
-    "summary": "CLOCK-RECONCILIATION: 0 item(s) with ≥2 clocks of 1 scanned — nothing to reconcile.",
-    "liveScanned": 1,
+    "summary": "CLOCK-RECONCILIATION: 12 item(s) with ≥2 clocks of 12 scanned, 0 finding(s).",
+    "liveScanned": 12,
     "noClockItems": 0,
     "noClockExempt": 0,
     "noClockUnexplained": 0,
     "noClockRed": false,
     "declaration": {
-      "population": "1 live (open/monitoring) row(s) of 1 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
+      "population": "12 live (open/monitoring) row(s) of 12 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
       "blindTo": "terminal rows (owed no due date); whether a PRESENT due date is correct or honest — PRESENCE only; the dated count here counts upcoming-triggers-only fields (dueDate/fireDate/onDate) that SIGNAL_DATE_MISSING's own floor does not, so the two floors can differ by a row."
     }
   },
-  "status": "ok"
+  "status": "warn"
 }

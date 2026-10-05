@@ -1,5 +1,23 @@
 # Changelog
 
+## Security fix round: share card, deploy blueprint, a checker's bad input (2026-10-05)
+
+- **The `/og` share card cleans its overrides the way the page does** (SIN-S1). A link
+  carrying `peak.<id>=abc` drew a broken bar, and `period.<id>=0` divided by zero. Both
+  params are now parsed and clamped by `src/lib/cycleOverrides.ts`, the rule the page
+  already used, so one URL draws one picture on both. The cards without overrides (the home
+  snapshot and the per-cycle cards) are now rendered once per process per UTC day and served
+  from memory (`src/lib/ogCardCache.ts`). The edge does not cache this route
+  (`cf-cache-status: DYNAMIC`), so every request used to pay a full render. Production after:
+  a bad-peak link returns the default card's exact bytes, `period=0` returns the 90-year
+  clamped card, and a repeat default request takes 345ms against 2203ms for the first.
+- **`render.yaml` declares `autoDeployTrigger: checksPass`** (SIN-S2), matching the live
+  service. `repo-health.json` now records deploys as CI-gated, and
+  `src/lib/renderBlueprint.test.ts` pins the blueprint.
+- **`scripts/check-year-position.mjs` refuses bad input with exit 2**, before the browser
+  starts: a non-URL origin, or an `/api/v1/state` answer with no year and cycles list. It
+  used to crash with exit 1. CI now runs it, spawned, including its own `--selftest`.
+
 ## The spectral figure's labels can be read on a desktop too (2026-10-03)
 
 - **From 1024px wide up, the figure draws at its native 900px** (I-019). It used to be held
