@@ -2,7 +2,7 @@
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
 //   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
-//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always|column-figure|swap-link]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always|column-figure|swap-link|slow-link]
 //
 // Round 5 (2026-10-05, I-020; cold walk 2026-10-03 P12) INVERTS round 2's touch tap leg. A tap
 // on the figure used to open the bare SVG, which a phone browser lays out at 980px and zooms out
@@ -14,7 +14,14 @@
 // draws the figure twice (a link for a fine pointer, plain for a coarse one) and hides one, so
 // every figure read here takes the VISIBLE img. Red arm: production before the change fails
 // both touch legs at all nine pages. Mutation swap-link puts the link back on touch and takes
-// it away with a mouse: every new leg must FAIL. Branch read in Chromium emulation only: every
+// it away with a mouse: every new leg must FAIL. Codex r1 (MED, STATIC): the tap leg read the
+// address after 1500ms, which a slow navigation has not yet changed. Measured with mutation
+// slow-link (the link back, its navigation response held 4s): the address read did not pass
+// falsely in Chromium; it threw "Execution context was destroyed" as the navigation committed,
+// which crashed the run (exit 1). The leg now fails on any main-frame navigation REQUEST after
+// the tap, and reads a destroyed context as a navigation. With that: slow-link 436/490, all 27
+// tap legs red; with the request listener removed, still 27 red, by the destroyed-context path
+// alone. Branch read in Chromium emulation only: every
 // touch context, iPad presets and a 1024x768 touch screen included, matches (pointer: coarse);
 // a real iPad with a trackpad is NOT seen.
 //
@@ -392,7 +399,15 @@ async function checkFigure(page, s, path) {
 
   // I-020: on a touch screen the figure is not a link, and a tap on it goes nowhere. Swipe
   // partway first, so the tap is also asked to leave the sideways place alone.
-  if (mutate === "swap-link") await swapLink(page, true);
+  if (mutate === "swap-link" || mutate === "slow-link") await swapLink(page, true);
+  if (mutate === "slow-link") {
+    // Codex r1's case: the link is back AND its navigation response takes 4s, longer than the
+    // tap leg's wait. The tap leg must still FAIL (it reads the request, not the address).
+    await page.route("**/data/spectral/*.svg", async (route) => {
+      if (route.request().isNavigationRequest()) await new Promise((r) => setTimeout(r, 4000));
+      await route.continue();
+    });
+  }
   const linkedOnTouch = await img.evaluate((el) => el.closest("a[href]")?.getAttribute("href") ?? null);
   check(
     `${s.name}: ${path} the figure is not a link on a touch screen`,
@@ -411,17 +426,35 @@ async function checkFigure(page, s, path) {
     return { x: (l + r) / 2, y: (t + btm) / 2 };
   });
   const beforeHref = page.url();
+  // A navigation is caught by its REQUEST, which the browser sends at the tap, not by the
+  // address: until a slow response commits, the old document still reads its own location
+  // (Codex r1, 2026-10-05). Any main-frame navigation request after the tap fails the leg.
+  const navRequests = [];
+  const onRequest = (r) => {
+    if (r.isNavigationRequest() && r.frame() === page.mainFrame()) navRequests.push(r.url());
+  };
+  page.on("request", onRequest);
   await page.touchscreen.tap(tapAt.x, tapAt.y);
-  // Give a navigation time to start; then the address, the page and the place must be as they were.
   await page.waitForTimeout(1500);
-  const after = await page.evaluate(() => {
-    const r = document.querySelector('#spectral-verdict [role="region"]');
-    return { href: location.href, y: scrollY, x: r ? r.scrollLeft : -1, svgDoc: document.contentType === "image/svg+xml" };
-  });
-  if (after.svgDoc || after.href !== beforeHref) {
-    // The tap left the page: record it, and come back so the return legs below still run.
-    check(`${s.name}: ${path} a tap on the figure leaves the reader where they were`, false, `the tap went to ${after.href.replace(origin, "")}`);
-    await page.goBack();
+  page.off("request", onRequest);
+  // A navigation in flight can commit DURING this read and destroy its context; that is a
+  // navigation too, so read it as one rather than crash.
+  const after =
+    navRequests.length > 0
+      ? null
+      : await page
+          .evaluate(() => {
+            const r = document.querySelector('#spectral-verdict [role="region"]');
+            return { href: location.href, y: scrollY, x: r ? r.scrollLeft : -1, svgDoc: document.contentType === "image/svg+xml" };
+          })
+          .catch(() => null);
+  if (after === null || after.svgDoc || after.href !== beforeHref) {
+    // The tap started a navigation: record it, let it land, and come back so the return legs
+    // below still run.
+    const went = (navRequests[0] ?? after?.href ?? page.url()).replace(origin, "");
+    check(`${s.name}: ${path} a tap on the figure leaves the reader where they were`, false, `the tap navigated to ${went}`);
+    await page.waitForFunction((p) => location.pathname !== p, path, { timeout: 20000 }).catch(() => {});
+    if (page.url().split("#")[0] !== beforeHref.split("#")[0]) await page.goBack();
     await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
   } else {
     check(
