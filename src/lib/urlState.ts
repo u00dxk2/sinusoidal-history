@@ -12,6 +12,7 @@ import {
 import type { Cycle } from "@/data/types";
 import type { CycleOverride } from "@/components/CycleOverlay";
 import { PRESET_RANGES, type RangePresetName } from "@/lib/siteConfig";
+import { clampCycleOverride } from "@/lib/cycleOverrides";
 
 export type TabName = "facets" | "overlay" | "calibrate";
 
@@ -83,15 +84,6 @@ export function useRangeState() {
   return useQueryState("range", parseAsString);
 }
 
-function clampOverrideValue(
-  value: number | null,
-  min: number,
-  max: number
-): number | null {
-  if (value == null || !Number.isFinite(value)) return null;
-  return Math.min(max, Math.max(min, value));
-}
-
 /**
  * Returns [overrides, setOverride] where overrides is a plain JS dict keyed
  * by cycle id, and setOverride(id, partial) merges into the URL.
@@ -118,25 +110,13 @@ export function useOverridesState(cycles: Cycle[]): [
   const overrides = useMemo(() => {
     const out: Record<string, CycleOverride> = {};
     for (const c of cycles) {
-      // URL params are a trust boundary: clamp to the same bounds the
-      // calibration sliders enforce. Unclamped, ?period.<id>=0 divides by
-      // zero and NaNs the curve, correlation, and phase label.
-      const peak = clampOverrideValue(
+      // URL params are a trust boundary (see cycleOverrides.ts).
+      const ov = clampCycleOverride(
+        c,
         params[`peak.${c.id}`],
-        c.reference_peak_year - 30,
-        c.reference_peak_year + 30
+        params[`period.${c.id}`]
       );
-      const period = clampOverrideValue(
-        params[`period.${c.id}`],
-        Math.round(c.period_years * 0.75),
-        Math.round(c.period_years * 1.25)
-      );
-      if (peak != null || period != null) {
-        out[c.id] = {
-          reference_peak_year: peak ?? undefined,
-          period_years: period ?? undefined,
-        };
-      }
+      if (ov) out[c.id] = ov;
     }
     return out;
   }, [params, cycles]);

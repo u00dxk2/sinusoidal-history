@@ -6,6 +6,8 @@ import {
   phaseProgressPercent,
   sineAtYear,
 } from "@/lib/cycleMath";
+import { clampCycleOverride } from "@/lib/cycleOverrides";
+import { memoCard } from "@/lib/ogCardCache";
 import {
   confidenceLabel,
   cycleTheorist,
@@ -54,22 +56,29 @@ export async function GET(request: Request) {
   const cycleParam = url.searchParams.get("cycle");
   if (cycleParam) {
     const cycle = findCycleBySlug(cycleParam);
-    if (cycle) return cycleCard(cycle);
+    if (cycle) return memoCard(`cycle:${cycle.id}`, () => cycleCard(cycle));
   }
 
+  // Parsed and clamped exactly as the page does (nuqs parseAsInteger, then
+  // the sliders' bounds), so `abc` falls back to the default and `0` cannot
+  // divide by zero (SIN-S1, 2026-10-05).
+  const intParam = (key: string) => {
+    const raw = url.searchParams.get(key);
+    if (raw == null) return null;
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) ? n : null;
+  };
   const overrides: Record<
     string,
     { period_years?: number; reference_peak_year?: number }
   > = {};
   for (const c of cycles) {
-    const peak = url.searchParams.get(`peak.${c.id}`);
-    const period = url.searchParams.get(`period.${c.id}`);
-    if (peak || period) {
-      overrides[c.id] = {
-        reference_peak_year: peak ? Number(peak) : undefined,
-        period_years: period ? Number(period) : undefined,
-      };
-    }
+    const ov = clampCycleOverride(
+      c,
+      intParam(`peak.${c.id}`),
+      intParam(`period.${c.id}`)
+    );
+    if (ov) overrides[c.id] = ov;
   }
 
   const effective = cycles.map((c) => {
@@ -83,6 +92,13 @@ export async function GET(request: Request) {
     };
   });
 
+  if (Object.keys(overrides).length === 0) {
+    return memoCard("snapshot", () => snapshotCard(effective));
+  }
+  return snapshotCard(effective);
+}
+
+function snapshotCard(effective: Cycle[]) {
   const now = new Date();
   const headline = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
   const currentYear = now.getUTCFullYear();
