@@ -182,3 +182,47 @@ hygiene helper: DISPATCHED 2026-10-05 ~15:05Z · draft tmp/hygiene-draft-sinusoi
 
 - W-004's cold walk on 2026-10-07 is I-020's encounter and closeWhen read, and I-022's.
 - I-021, I-023 and I-024 stay on their 2026-10-07 lane date.
+
+## Close
+
+ACTION: COMPLETED · item I-020 · P3 131bc1c7
+
+The acceptance in force was the P1 packet as approved (manager review `397a08e9`), and every leg of it was met on production:
+- `check-verdict-landing.mjs` reads 490/490 against 429/482 before the change.
+- `swap-link` goes red on exactly the 72 new legs, and `slow-link` on the 27 tap legs.
+- Touch `inLink=false` with no navigation; the mouse click still opens the SVG.
+
+The manager's P3 review (`8a76370b`) read it COMPLETED with no defects.
+
+**Changed since the P3 post:**
+- The doc-only commit `59c1217` deployed too. The orchestrator's drift read says in-sync, live `59c1217c` = head.
+- Nothing user-facing has changed since.
+
+**Ledger delta:** committed in `693b4cc` and `59c1217`, edited in `items.json` directly during P3 rather than through `continuity-edit.mjs`. Both ledger checks below pass on the result.
+- **I-020:** open → `monitoring`. readCommand `check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only`. linkedCommits 693b4cc, 53cdfac, 577eb14, 2e00ce7. The wait was re-pointed to W-004's walk.
+- **I-026:** CLOSED. Both halves of closeWhen were read: the trigger is `checksPass` (lane re-read, exit 0), and the deploy row for `2e00ce7` was created 2s after its CI run completed.
+- **W-004:** onTrigger gains I-020's encounter question, and closeWhen names I-020.
+
+**I-020's encounter read, named for the walker. 2026-10-07, W-004:**
+- In the 390x664 phone leg: open `/cycles/perez`, swipe the spectral figure partway, and ask cold, "tap the figure: what happened?" Record whether anything opened or moved, and whether the walker expected a tap to do something.
+- In the 1440x900 mouse leg: click the figure once and record what opened.
+- A walker who taps and stays put closes I-020. Anything else goes to I-020's notes.
+
+**Hygiene draft:** 0 lines, 0 accepted · 0 amended · 0 rejected. READ-MUTATED: none, because no `--run` was executed.
+
+**Checks at close:**
+- `check-due-gates-dispositioned`: "verdict: CLEAR", with the snapshot CURRENT (taken 2026-10-05) and 0 gates due at Phase 0.
+- `check-wait-justification`, re-run because I-020's wait was touched after the helper: PASS, 21 of 31 rows carry `waitJustification`, 0 warn. The 1 info line clusters I-021, I-023 and I-024 on one cause, and I-020 has left the cluster.
+- `check-engineering-zero --project sinusoidal-cycles`: PASS, 0 findings, 0 unreadable (no Sentry, no Dependabot).
+
+**Receipt:** unchanged from P3, still true. No bracket has moved.
+
+**Pending reads:**
+- 2026-10-07: W-004 cold walk, covering I-020 and I-022.
+- 2026-10-07: W-001 Search Console read; the freeze on titles, meta, H1s and URLs holds till then.
+- 2026-10-07: I-021, I-023 and I-024 product candidates.
+- 2026-12-01: I-025, the band question for David.
+
+**UNRESOLVED:** none.
+
+codexCalls: 3 (r1, r2, r3, all review)
