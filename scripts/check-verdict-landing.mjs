@@ -2,7 +2,21 @@
 // which cycle it is? And does the list itself state its result where the header link lands?
 //
 //   node scripts/check-verdict-landing.mjs [origin] [--fails-only]
-//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always|column-figure]
+//        [--mutate hide-name|wrong-sentence|dead-link|flat-figure|clip-figure|lose-place|literal-case|restore-always|column-figure|swap-link]
+//
+// Round 5 (2026-10-05, I-020; cold walk 2026-10-03 P12) INVERTS round 2's touch tap leg. A tap
+// on the figure used to open the bare SVG, which a phone browser lays out at 980px and zooms out
+// to 0.36-0.43x: smaller than the inline copy, on a page with no way back. Now, at the touch
+// sizes, the figure the reader sees is not inside a link, and a tap on it leaves the address,
+// scrollY and the sideways place unchanged. With a mouse (1440 and 1024 wide) a click still opens
+// the SVG on its own. Round 2's "Back from the opened figure keeps the reader's place" leg went
+// with the tap; the in-app Back leg (round 3) still carries the place on a return. The page
+// draws the figure twice (a link for a fine pointer, plain for a coarse one) and hides one, so
+// every figure read here takes the VISIBLE img. Red arm: production before the change fails
+// both touch legs at all nine pages. Mutation swap-link puts the link back on touch and takes
+// it away with a mouse: every new leg must FAIL. Branch read in Chromium emulation only: every
+// touch context, iPad presets and a 1024x768 touch screen included, matches (pointer: coarse);
+// a real iPad with a trackpad is NOT seen.
 //
 // Round 4 (2026-10-03, I-019) added the desktop figure legs, on each of the nine paired pages
 // with a mouse: at 1440 and 1024 wide the 10-unit labels draw at >=10px, the "target:" label at
@@ -162,8 +176,30 @@ async function fontsOf(src) {
 // lg it sits in the same sideways scroller a phone gets. Read at the two extremes of the breakout
 // (1440 and 1024 wide) and one pixel under it (1023, where it must be swipeable instead).
 const DESKTOP_WIDTHS = [1440, 1024, 1023];
+// swap-link (I-020): inverts the pointer branch on the loaded page. On touch it wraps the visible
+// figure in a link to its SVG again; with a mouse it lifts the visible figure out of its link.
+async function swapLink(page, touch) {
+  await page.evaluate((touch) => {
+    const img = [...document.querySelectorAll('#spectral-verdict figure img[src^="/data/spectral/"]')].find((el) => el.checkVisibility());
+    if (!img) return;
+    const a = img.closest("a[href]");
+    if (touch && !a) {
+      const link = document.createElement("a");
+      link.href = img.getAttribute("src");
+      link.style.display = "block";
+      img.replaceWith(link);
+      link.append(img);
+    } else if (!touch && a) {
+      a.replaceWith(img);
+    }
+  }, touch);
+}
+
+// The figure a reader can see: the page draws it twice and hides one (I-020).
+const FIGURE_IMG = '#spectral-verdict figure img[src^="/data/spectral/"]:visible';
+
 async function checkDesktopFigure(page, s, path) {
-  const img = page.locator('#spectral-verdict figure img[src^="/data/spectral/"]');
+  const img = page.locator(FIGURE_IMG);
   const f = await fontsOf(await img.getAttribute("src"));
   for (const w of DESKTOP_WIDTHS) {
     await page.setViewportSize({ width: w, height: s.ctx.viewport.height });
@@ -224,6 +260,32 @@ async function checkDesktopFigure(page, s, path) {
       `figure ${Math.round(g.left)}…${Math.round(g.right)} of ${g.vw}px${g.fits ? "" : g.swipeable ? " (swipeable)" : " (CUT OFF)"} · page overflow ${g.pageOverflow}px`,
     );
   }
+  // I-020: with a mouse the figure stays a link, and a click opens the SVG on its own. Read at
+  // both breakout extremes; each click leaves the page, so come Back before the next.
+  for (const w of [1440, 1024]) {
+    await page.setViewportSize({ width: w, height: s.ctx.viewport.height });
+    if (mutate === "swap-link") await swapLink(page, false);
+    const src = await img.getAttribute("src");
+    await img.scrollIntoViewIfNeeded();
+    const linked = await img.evaluate((el) => Boolean(el.closest("a[href]")));
+    await img.click({ timeout: 5000 });
+    const opened = await page
+      .waitForFunction(
+        (src) => location.pathname === src && document.contentType === "image/svg+xml" && document.documentElement.localName === "svg",
+        src,
+        { timeout: 5000 },
+      )
+      .then(() => true, () => false);
+    check(
+      `${w}x${s.ctx.viewport.height}: ${path} a click on the figure opens it on its own`,
+      linked && opened,
+      `${linked ? "in a link" : "NOT in a link"} · ${opened ? `${src} (image/svg+xml)` : "the click did not open the SVG"}`,
+    );
+    if (opened) {
+      await page.goBack();
+      await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
+    }
+  }
   await page.setViewportSize(s.ctx.viewport);
 }
 
@@ -281,7 +343,7 @@ async function checkFigure(page, s, path) {
     check(`${s.name}: ${path} the box link reaches the figure`, false, "the box link could not be tapped");
     return;
   }
-  const img = page.locator('#spectral-verdict figure img[src^="/data/spectral/"]');
+  const img = page.locator(FIGURE_IMG);
   const src = await img.getAttribute("src");
   const f = await fontsOf(src);
   await img.scrollIntoViewIfNeeded();
@@ -328,8 +390,15 @@ async function checkFigure(page, s, path) {
     g.reachable ? `clip ${g.clipOverflow}` : `wider than the screen and its clip is overflow-x: ${g.clipOverflow}`,
   );
 
-  // Swipe partway first, so Back is asked to keep the sideways place as well as the page's
-  // (Codex r1 #3).
+  // I-020: on a touch screen the figure is not a link, and a tap on it goes nowhere. Swipe
+  // partway first, so the tap is also asked to leave the sideways place alone.
+  if (mutate === "swap-link") await swapLink(page, true);
+  const linkedOnTouch = await img.evaluate((el) => el.closest("a[href]")?.getAttribute("href") ?? null);
+  check(
+    `${s.name}: ${path} the figure is not a link on a touch screen`,
+    linkedOnTouch === null,
+    linkedOnTouch === null ? "no link around the visible figure" : `inside a link to ${linkedOnTouch}`,
+  );
   const before = await page.evaluate(() => {
     const r = document.querySelector('#spectral-verdict [role="region"]');
     if (r && r.scrollWidth > r.clientWidth) r.scrollLeft = 200;
@@ -341,48 +410,26 @@ async function checkFigure(page, s, path) {
     const t = Math.max(b.top, 0), btm = Math.min(b.bottom, innerHeight);
     return { x: (l + r) / 2, y: (t + btm) / 2 };
   });
+  const beforeHref = page.url();
   await page.touchscreen.tap(tapAt.x, tapAt.y);
-  // Opened means the browser is showing an SVG document at the figure's address, not an error
-  // page or a pushed history entry at the same path (Codex r1 #2).
-  const opened = await page
-    .waitForFunction(
-      (src) => location.pathname === src && document.contentType === "image/svg+xml" && document.documentElement.localName === "svg",
-      src,
-      { timeout: 5000 },
-    )
-    .then(() => true, () => false);
-  check(`${s.name}: ${path} a tap on the figure opens it on its own`, opened, opened ? `${src} (image/svg+xml)` : "the tap did not open the SVG");
-  if (!opened) {
-    check(`${s.name}: ${path} Back from the opened figure keeps the reader's place`, false, "nothing to go back from");
-    return;
+  // Give a navigation time to start; then the address, the page and the place must be as they were.
+  await page.waitForTimeout(1500);
+  const after = await page.evaluate(() => {
+    const r = document.querySelector('#spectral-verdict [role="region"]');
+    return { href: location.href, y: scrollY, x: r ? r.scrollLeft : -1, svgDoc: document.contentType === "image/svg+xml" };
+  });
+  if (after.svgDoc || after.href !== beforeHref) {
+    // The tap left the page: record it, and come back so the return legs below still run.
+    check(`${s.name}: ${path} a tap on the figure leaves the reader where they were`, false, `the tap went to ${after.href.replace(origin, "")}`);
+    await page.goBack();
+    await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
+  } else {
+    check(
+      `${s.name}: ${path} a tap on the figure leaves the reader where they were`,
+      Math.abs(after.y - before.y) <= 2 && Math.abs(after.x - before.x) <= 2,
+      `same address · scrollY ${Math.round(before.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)}`,
+    );
   }
-  await page.goBack();
-  await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
-  // Settled = the same place across two frames AND again 600ms later (Codex r1 #3: a late
-  // scroll after two quiet frames would otherwise pass).
-  const place = () =>
-    page.evaluate(() => {
-      const r = document.querySelector('#spectral-verdict [role="region"]');
-      return { y: scrollY, x: r ? r.scrollLeft : 0 };
-    });
-  await page.waitForFunction(() => new Promise((r) => { const y = scrollY; requestAnimationFrame(() => requestAnimationFrame(() => r(scrollY === y))); }), null, { timeout: 5000 });
-  const first = await place();
-  await page.waitForTimeout(600);
-  if (mutate === "lose-place") {
-    await page.evaluate(() => {
-      const r = document.querySelector('#spectral-verdict [role="region"]');
-      if (r) r.scrollLeft = 0;
-    });
-  }
-  const after = await place();
-  // The first-settled read and the address's fragment ride the line so a miss explains itself:
-  // the one miss on record (2026-10-03, see the header) printed only before and after.
-  const hashNow = await page.evaluate(() => location.hash || "(no fragment)");
-  check(
-    `${s.name}: ${path} Back from the opened figure keeps the reader's place`,
-    Math.abs(after.y - before.y) <= 2 && Math.abs(after.x - before.x) <= 2 && Math.abs(after.y - first.y) <= 2,
-    `scrollY ${Math.round(before.y)} → first settled ${Math.round(first.y)} → ${Math.round(after.y)} · figure scrollLeft ${Math.round(before.x)} → ${Math.round(after.x)} · address ${hashNow}`,
-  );
 
   // Round 3 (I-018; cold walk 2026-10-02 r2, finding 1): the place is kept for a RETURN only.
   // This page was just reached by a document Back, so its navigation entry reads back_forward,

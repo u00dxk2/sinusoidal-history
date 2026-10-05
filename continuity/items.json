@@ -895,8 +895,8 @@
       "identified": "2026-10-03",
       "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
       "hypothesis": "Probably yes: the labels draw at 10px from 1024 wide up (check-verdict-landing 472/472 on production) and Calibrate opens on the focused cycle (check-calibrate-tab 36/36 on production). Not established: whether a reader with a mouse at about 900 wide follows the scroller's cue, and whether the way into Calibrate (I-022) still loses them. The 2026-10-03 walk read the OLD build.",
-      "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.\n\n ADDED 2026-10-03 round 2 (I-013 shipped 12c21f3): also open /state/2026 on a phone and ask, before any hint, \"Huntington says Rising and Kondratiev says Peaking, both near the top. Why?\" Record whether the walker answers from the sentence under the word (the band is 3% of the period either side, so it is wider in years for a longer cycle), and whether Perez's \"at 2027.5 (shown as 2028)\" reads as an explanation or as noise. The answer is evidence for I-025.",
-      "closeWhen": "(a) All three read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-021, I-022).",
+      "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.\n\n ADDED 2026-10-03 round 2 (I-013 shipped 12c21f3): also open /state/2026 on a phone and ask, before any hint, \"Huntington says Rising and Kondratiev says Peaking, both near the top. Why?\" Record whether the walker answers from the sentence under the word (the band is 3% of the period either side, so it is wider in years for a longer cycle), and whether Perez's \"at 2027.5 (shown as 2028)\" reads as an explanation or as noise. The answer is evidence for I-025.\n\n ADDED 2026-10-05 (I-020, manager review 397a08e9): in the 390x664 phone leg, also open /cycles/perez, swipe the spectral figure partway, and ask: \"tap the figure: what happened?\" Record whether anything opened or moved, and whether the walker expected a tap to do something. With a mouse in step (1), click the figure once and record what opened. This is I-020's encounter read.",
+      "closeWhen": "(a) All steps read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-020, I-021, I-022).",
       "nextEvaluation": "2026-10-07",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only",
       "readCommandTimeoutMs": 420000,
@@ -913,7 +913,7 @@
         "25c90b2"
       ],
       "created": "2026-10-03",
-      "updated": "2026-10-04",
+      "updated": "2026-10-05",
       "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022."
     },
     {
@@ -972,7 +972,8 @@
         "f50e237"
       ],
       "created": "2026-10-04",
-      "updated": "2026-10-04"
+      "updated": "2026-10-05",
+      "notes": "2026-10-05: David approved the flip in the orchestrator's session (~09:10 MT; bus 71e9eb24, which cites no source row). The orchestrator set autoDeployTrigger=checksPass via the Render API. Lane re-read ~15:35Z UTC with this row's readCommand: \"autoDeploy yes, autoDeployTrigger checksPass\", exit 0. check-deployed-sha-drift --service sinusoidal-history now judges the service (in-sync, live 7eb39bff = head) where it printed NOT-APPLICABLE-BY-REGISTRY before. AGENTS.md and docs/daily-config.md corrected. closeWhen's second half (the next push deploys only after its ci.yml run is green) is read on today's I-020 push; the row closes then. The lane's board card for this (bus 9b944320) is superseded."
     }
   ],
   "knownPatterns": [

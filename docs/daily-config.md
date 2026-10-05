@@ -52,9 +52,11 @@ to `main`. Read it for a commit with:
 node ../skylark-site/scripts/check-ci-status.mjs --workflow ci.yml
 ```
 
-**Render deploys on every push and does NOT wait for CI** (`autoDeploy: true`, not
-checksPass). A red CI run therefore means a broken build may already be live — check
-CI *before* claiming a ship is safe, not after. Locally, run only the gate you touched
+**Since 2026-10-05 Render deploys only after CI passes** (`autoDeployTrigger: checksPass`,
+set by the orchestrator on David's approval; I-026). Re-read it with
+`node scripts/read-render-deploy-trigger.mjs` (exit 0 = checksPass, 3 = anything else). A
+red CI run now holds the deploy rather than shipping behind it, so a push is delivered only
+when its CI is green AND its deploy row reads live. Locally, run only the gate you touched
 and let CI be the full gate (fleet capacity rule: heavy jobs one at a time).
 
 A `pre-commit` hook (`.githooks/`, armed by `npm install`'s `prepare`) runs the
@@ -76,8 +78,9 @@ Flags task-completes citing commits absent from origin >3h; exit 3 = findings.
 node ../skylark-site/scripts/check-deployed-sha-drift.mjs --service sinusoidal-history
 ```
 
-It prints NOT-APPLICABLE-BY-REGISTRY (this is a commit-trigger service, `srv-d7mcat7lk1mc73bidim0`),
-so read the live sha from the Render deploys API instead and compare it to HEAD.
+Since the trigger moved to checksPass (2026-10-05) it judges this service directly
+(`srv-d7mcat7lk1mc73bidim0`; first read: in-sync, live 7eb39bff = head). Before that it
+printed NOT-APPLICABLE-BY-REGISTRY for a commit-trigger service.
 `--service sinusoidal-cycles` matches nothing (2026-09-29).
 
 ## The instruments

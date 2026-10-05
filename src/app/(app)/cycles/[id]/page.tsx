@@ -545,9 +545,13 @@ export default async function CyclePage({ params }: Params) {
               labels drew at ~4px (cold walk 2026-10-02 r1, finding 1). From lg
               up it breaks out of the 704px text column by 98px a side: held to
               the column the labels drew at 7.8px (I-019).
-              A tap still opens the SVG on its own, for pinch-zoom, but the cue
-              no longer promises it: opened on a phone it is fitted to the
-              screen and smaller than inline (cold walk 2026-10-02 r2, finding 3). */}
+              With a mouse a click opens the SVG on its own, at native size or
+              larger. With a coarse pointer (phones, tablets) the figure is not
+              a link at all: a phone browser opened the bare SVG in a 980px
+              layout and zoomed it out to 0.36-0.43x, smaller than the inline
+              copy, on a page with no way back (I-020; cold walk 2026-10-03
+              P12). The SVG and PNG downloads below stay for every pointer.
+              The hidden copy is display:none and lazy, so it is not fetched. */}
           <figure className="border-t border-rule/30 pt-4">
             <p className="lg:hidden font-mono text-[12px] text-ink-soft mb-2">
               Swipe sideways for the whole figure
@@ -557,19 +561,15 @@ export default async function CyclePage({ params }: Params) {
               label="Spectral-verdict figure, scrolls sideways"
               className="overflow-x-auto lg:overflow-visible lg:-mx-[98px]"
             >
-              <a href={`/data/spectral/${cycle.id}.svg`} className="block w-max">
-                {/* Static committed output of scripts/spectral_verdict.py; next/image
-                    adds nothing to a same-origin SVG. */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/data/spectral/${cycle.id}.svg`}
-                  alt={`Spectral-verdict figure for ${cycle.name}: the paired series with the reference cosine, and its multitaper spectrum with a marker at the ${cycle.period_years}-year target period. Verdict: ${SPECTRAL_STATE_LABELS[verdict.state]}.`}
-                  width={900}
-                  height={500}
-                  loading="lazy"
-                  className="block w-[900px] max-w-none h-auto"
-                />
+              <a
+                href={`/data/spectral/${cycle.id}.svg`}
+                className="block w-max pointer-coarse:hidden"
+              >
+                <SpectralFigureImg cycle={cycle} state={verdict.state} />
               </a>
+              <div className="hidden w-max pointer-coarse:block">
+                <SpectralFigureImg cycle={cycle} state={verdict.state} />
+              </div>
             </FigureScroller>
           </figure>
           <FigureDownloads
@@ -686,6 +686,34 @@ function BoxLabel({ name }: { name: string }) {
       <span className="text-ink">{name}</span>
       {" · Does it hold up?"}
     </h2>
+  );
+}
+
+/**
+ * The spectral-verdict figure, drawn once as a link (fine pointers) and once
+ * plain (coarse pointers); see the comment where it is placed (I-020).
+ */
+function SpectralFigureImg({
+  cycle,
+  state,
+}: {
+  cycle: Cycle;
+  state: keyof typeof SPECTRAL_STATE_LABELS;
+}) {
+  return (
+    <>
+      {/* Static committed output of scripts/spectral_verdict.py; next/image
+          adds nothing to a same-origin SVG. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/data/spectral/${cycle.id}.svg`}
+        alt={`Spectral-verdict figure for ${cycle.name}: the paired series with the reference cosine, and its multitaper spectrum with a marker at the ${cycle.period_years}-year target period. Verdict: ${SPECTRAL_STATE_LABELS[state]}.`}
+        width={900}
+        height={500}
+        loading="lazy"
+        className="block w-[900px] max-w-none h-auto"
+      />
+    </>
   );
 }
 

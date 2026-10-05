@@ -22,9 +22,11 @@ this repo needs to keep goes below the END marker.
 # CI, the commit hook, and where the traffic numbers come from (all new 2026-09-16)
 
 `.github/workflows/ci.yml` runs lint, typecheck, test and build on every push and PR
-to `main`. **Render deploys on every push and does NOT wait for CI**, so a red run can
-sit behind a live build — read CI before claiming a ship is safe. Run only the gate you
-touched locally and let CI be the full battery.
+to `main`. **Since 2026-10-05 Render deploys only after CI passes** (`autoDeployTrigger:
+checksPass`, I-026; read it with `scripts/read-render-deploy-trigger.mjs`, exit 0). A red
+run therefore holds the deploy: a push is not live until its CI is green AND its deploy row
+reads live, so read both before calling a ship delivered. Run only the gate you touched
+locally and let CI be the full battery.
 
 **Test files are excluded from the BUILD tsconfig, and that is deliberate** (2026-09-17, with
 the 16.3.5 bump). This Next type-checks whatever is in scope during `next build`, and test files
