@@ -8,7 +8,9 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "22"
-    autoDeploy: true
+    # Deploy only after CI passes. Mirrors the live service setting (2026-10-05,
+    # I-026); src/lib/renderBlueprint.test.ts pins it (SIN-S2).
+    autoDeployTrigger: checksPass
     healthCheckPath: /
     # Canonical domain: sinusoidalhistory.com (since 2026-08-20; the older
     # sinusoidal-history.skylarkcreations.com subdomain 301s to it)

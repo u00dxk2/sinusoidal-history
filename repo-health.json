@@ -15,7 +15,7 @@
   "deploy": {
     "target": "render",
     "config": "render.yaml",
-    "trigger": "auto-deploy on every push to main. The deploy is NOT gated on CI, so a push is a release whether or not CI goes green.",
+    "trigger": "auto-deploy on push to main, gated on CI: since 2026-10-05 the service's autoDeployTrigger is checksPass, so a push deploys only after its ci.yml run goes green. render.yaml declares the same (re-attested 2026-10-05; src/lib/renderBlueprint.test.ts pins it). Read the live setting with scripts/read-render-deploy-trigger.mjs.",
     "rollback": "git revert + push"
   },
   "datastores": [
