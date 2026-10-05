@@ -753,29 +753,35 @@
     },
     {
       "id": "I-020",
-      "readCommandWaived": {
-        "reason": "Lane product work queued for a round on or after 2026-10-07; the gate is picking it up, not a measurement. Its fix gets a measured check when it ships.",
-        "since": "2026-10-04"
-      },
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only",
+      "readCommandTimeoutMs": 900000,
+      "_readCommandNote": "Proves the shipped behaviour still holds on production (touch: figure not a link, a tap goes nowhere; mouse: a click opens the SVG). closeWhen is a cold walk, which this cannot answer: that is W-004's phone leg on 2026-10-07.",
       "title": "On a phone, tapping the spectral figure opens it smaller, on a page with no way back but Back",
       "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P12 (N = 1, synthetic, iPhone 15 390x664): the tap opens the bare /data/spectral/<id>.svg fitted to the screen, labels about 4-6px, no site header and no control back. The walker: \"The tap looks like enlarge and does the opposite.\" Ranked 2nd of 5. Round 2 dropped the cue that promised it; the link itself remains.",
       "onTrigger": "Decide by measurement: (a) on phones the figure is not a link (the SVG and PNG downloads stay); (b) the link opens a site page that shows the SVG at native size inside a scroller, with a way back. The spectral SVGs stay frozen.",
       "closeWhen": "A cold walk on a phone taps the figure and does not land somewhere smaller or without a way back.",
-      "status": "open",
+      "status": "monitoring",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-03",
       "nextEvaluation": "2026-10-07",
-      "waitingFor": "Nothing and nobody. Lane work for a later round.",
+      "waitingFor": "W-004's cold walk on 2026-10-07 (its phone leg now asks \"on /cycles/perez, tap the figure: what happened?\").",
       "waitJustification": {
         "until": "2026-10-07",
-        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
-        "unWait": "pick it up in a product round on or after 2026-10-07",
+        "loadBearing": "closeWhen is a cold walk; the dated walk that carries it is W-004 on 2026-10-07, and there is no client analytics to see a real tap",
+        "unWait": "on 2026-10-07 run the readCommand, then W-004's phone leg; close on a walker who taps and stays put",
         "owner": "sinusoidal-cycles"
       },
+      "linkedCommits": [
+        "693b4cc",
+        "53cdfac",
+        "577eb14",
+        "2e00ce7"
+      ],
       "created": "2026-10-03",
-      "updated": "2026-10-03"
+      "updated": "2026-10-05",
+      "notes": "2026-10-05 SHIPPED, option (a), live 2e00ce7 at 16:33:03Z UTC. With pointer: coarse the figure is drawn without a link (pointer-coarse:hidden on the link copy, hidden pointer-coarse:block on a plain copy); with a mouse the link stays. Before (production, tmp/measure-figure-tap.mjs, /cycles/perez): touch 390x664 and 320x568 inLink=true, a tap went to /data/spectral/perez.svg at on-screen scale 0.43 and 0.36, no header, 0 links. After (same read, production 2e00ce7): touch inLink=false, a tap does not navigate; mouse 900 and 1440 still open the SVG (1.0x, 1.6x). Tablet branch (manager review hypothesis): in Chromium emulation every touch context, including iPad presets and a 1024x768 touch screen, matches pointer: coarse, so tablets get the no-link branch; a real iPad with a trackpad is not measured. check-verdict-landing round 5: production before 429/482 (52 new touch legs red), local 490/490, swap-link 418/490 (exactly the 72 new legs red), slow-link 436/490 (27 tap legs red). Codex r1-r3 (read-only): r1 MED plausible-not-reproduced, fixed 53cdfac; r2 MED+LOW false-red only, contract cut 577eb14; r3 cold 6/7 invariants HOLD, the 7th declared as a ceiling 2e00ce7."
     },
     {
       "id": "I-021",
@@ -953,7 +959,10 @@
       "hypothesis": "Read live 2026-10-04 ~18:40Z UTC (GET /v1/services/srv-d7mcat7lk1mc73bidim0): autoDeploy=yes, autoDeployTrigger=commit, branch=main. So every push to main deploys whether or not .github/workflows/ci.yml passes; the repo-health matrix of 2026-10-04 (C:/dev/skylark/skylark-site/docs/rollups/repo-health-matrix-2026-10-04.md, finding 4, R28) lists it beside ba-api/ba-web, while every other roster web service reads checksPass. Made concrete the same day: the GHSA-vcvr-r3jv-pc5j bump f50e237 went live at 18:41:51Z before anything waited on its CI run (CI did go GREEN).",
       "onTrigger": "A service-config change, not code. The lane CANNOT do it through the vetted path: skylark-site scripts/render-put-secret.mjs (the ruled Render entry point) covers env vars, secret files, --resume and --deploy-latest only, and has no deploy-trigger flag; a hand-written PATCH to the Render API would be improvising, which the global rules forbid. So: David flips it in the Render dashboard (Service → Settings → Build & Deploy → Auto-Deploy: \"After CI Checks Pass\"), OR skylark-site adds a ruled flag to the mover for it and this lane runs that. After either, re-read autoDeployTrigger via the API and update docs/daily-config.md § CI and AGENTS.md (both say Render does NOT wait for CI).",
       "closeWhen": "GET /v1/services/srv-d7mcat7lk1mc73bidim0 reads autoDeployTrigger=checksPass, and the next push's deploy row is created only after its ci.yml run completes green.",
-      "status": "open",
+      "status": "closed",
+      "closed": "2026-10-05",
+      "readCommandLastRun": "2026-10-05T15:35:00Z",
+      "readCommandLastExit": 0,
       "type": "issue",
       "priority": "P2",
       "owner": "sinusoidal-cycles",
@@ -973,7 +982,7 @@
       ],
       "created": "2026-10-04",
       "updated": "2026-10-05",
-      "notes": "2026-10-05: David approved the flip in the orchestrator's session (~09:10 MT; bus 71e9eb24, which cites no source row). The orchestrator set autoDeployTrigger=checksPass via the Render API. Lane re-read ~15:35Z UTC with this row's readCommand: \"autoDeploy yes, autoDeployTrigger checksPass\", exit 0. check-deployed-sha-drift --service sinusoidal-history now judges the service (in-sync, live 7eb39bff = head) where it printed NOT-APPLICABLE-BY-REGISTRY before. AGENTS.md and docs/daily-config.md corrected. closeWhen's second half (the next push deploys only after its ci.yml run is green) is read on today's I-020 push; the row closes then. The lane's board card for this (bus 9b944320) is superseded."
+      "notes": "2026-10-05: David approved the flip in the orchestrator's session (~09:10 MT; bus 71e9eb24, which cites no source row). The orchestrator set autoDeployTrigger=checksPass via the Render API. Lane re-read ~15:35Z UTC with this row's readCommand: \"autoDeploy yes, autoDeployTrigger checksPass\", exit 0. check-deployed-sha-drift --service sinusoidal-history now judges the service (in-sync, live 7eb39bff = head) where it printed NOT-APPLICABLE-BY-REGISTRY before. AGENTS.md and docs/daily-config.md corrected. closeWhen's second half (the next push deploys only after its ci.yml run is green) is read on today's I-020 push; the row closes then. The lane's board card for this (bus 9b944320) is superseded.\n\n2026-10-05 CLOSED, both halves of closeWhen met. Second half read on the I-020 push 2e00ce7: ci.yml created 16:30:57Z, completed success 16:31:55Z (gh run list --commit <full sha>); the Render deploy row for 2e00ce7 was absent at 16:31:04Z (read just after the push), created 16:31:57Z (2s after CI completed), live 16:33:03Z. Under the old commit trigger the row would have been created at the push."
     }
   ],
   "knownPatterns": [
