@@ -19,9 +19,15 @@
 // slow-link (the link back, its navigation response held 4s): the address read did not pass
 // falsely in Chromium; it threw "Execution context was destroyed" as the navigation committed,
 // which crashed the run (exit 1). The leg now fails on any main-frame navigation REQUEST after
-// the tap, and reads a destroyed context as a navigation. With that: slow-link 436/490, all 27
-// tap legs red; with the request listener removed, still 27 red, by the destroyed-context path
-// alone. Branch read in Chromium emulation only: every
+// the tap. Codex r2 (same mechanism, second round): a blanket catch read every failed page
+// read as "navigated". Rather than patch it again the leg's contract was CUT: it is red only on
+// direct evidence (a main-frame navigation request after the tap, a changed address, a moved
+// scrollY or scrollLeft); any other failure, and a requested navigation that has not landed
+// after 20s, is a REFUSAL that throws. CEILING, declared, not to be patched further: the leg does
+// not see a navigation that starts more than 1500ms after the tap, a client-router transition
+// that has not changed the address by then, a popup or new tab, a change that returns to the
+// same address and place before the read, or which input caused a navigation (timing only).
+// Branch read in Chromium emulation only: every
 // touch context, iPad presets and a 1024x768 touch screen included, matches (pointer: coarse);
 // a real iPad with a trackpad is NOT seen.
 //
@@ -437,24 +443,29 @@ async function checkFigure(page, s, path) {
   await page.touchscreen.tap(tapAt.x, tapAt.y);
   await page.waitForTimeout(1500);
   page.off("request", onRequest);
-  // A navigation in flight can commit DURING this read and destroy its context; that is a
-  // navigation too, so read it as one rather than crash.
+  // RED only on direct evidence: a navigation request, a changed address, a moved place. Any
+  // other failure is a REFUSAL (the run throws), never read as "navigated" (Codex r2, after
+  // two rounds on this mechanism: the contract was cut to this instead of patched again).
   const after =
     navRequests.length > 0
       ? null
-      : await page
-          .evaluate(() => {
-            const r = document.querySelector('#spectral-verdict [role="region"]');
-            return { href: location.href, y: scrollY, x: r ? r.scrollLeft : -1, svgDoc: document.contentType === "image/svg+xml" };
-          })
-          .catch(() => null);
+      : await page.evaluate(() => {
+          const r = document.querySelector('#spectral-verdict [role="region"]');
+          return { href: location.href, y: scrollY, x: r ? r.scrollLeft : -1, svgDoc: document.contentType === "image/svg+xml" };
+        });
   if (after === null || after.svgDoc || after.href !== beforeHref) {
-    // The tap started a navigation: record it, let it land, and come back so the return legs
-    // below still run.
-    const went = (navRequests[0] ?? after?.href ?? page.url()).replace(origin, "");
+    const went = (navRequests[0] ?? after.href).replace(origin, "");
     check(`${s.name}: ${path} a tap on the figure leaves the reader where they were`, false, `the tap navigated to ${went}`);
-    await page.waitForFunction((p) => location.pathname !== p, path, { timeout: 20000 }).catch(() => {});
-    if (page.url().split("#")[0] !== beforeHref.split("#")[0]) await page.goBack();
+    // Come back so the return legs below start from the cycle page. A document navigation that
+    // was requested must land first; one that never lands is a refusal, not a state to build on.
+    if (navRequests.length > 0) {
+      await page.waitForFunction((p) => location.pathname !== p, path, { timeout: 20000 }).catch(() => {
+        throw new Error(`refusing to continue: the tap requested ${went} and it had not landed after 20s`);
+      });
+      await page.goBack();
+    } else if (after.href.split("#")[0] !== beforeHref.split("#")[0]) {
+      await page.goBack();
+    }
     await page.waitForFunction((p) => location.pathname === p && Boolean(document.getElementById("spectral-verdict")), path, { timeout: 20000 });
   } else {
     check(
