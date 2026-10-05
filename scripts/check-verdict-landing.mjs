@@ -27,6 +27,12 @@
 // not see a navigation that starts more than 1500ms after the tap, a client-router transition
 // that has not changed the address by then, a popup or new tab, a change that returns to the
 // same address and place before the read, or which input caused a navigation (timing only).
+// Codex r3 (cold, invariant by invariant at 577eb14: 6 of 7 HOLD) found the seventh weaker than
+// stated, and it is declared here rather than patched, a third round on one mechanism: after a
+// RED, the "requested navigation has landed" wait reads only that the pathname changed, which a
+// same-document pushState to another path also satisfies, so a pushState followed by a hung
+// document navigation would let recovery continue instead of refusing. Nothing on these pages
+// pushes a path on a figure tap, and it can only follow a RED, never produce a GREEN.
 // Branch read in Chromium emulation only: every
 // touch context, iPad presets and a 1024x768 touch screen included, matches (pointer: coarse);
 // a real iPad with a trackpad is NOT seen.
