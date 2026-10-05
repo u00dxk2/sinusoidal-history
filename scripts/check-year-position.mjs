@@ -122,7 +122,25 @@ if (process.argv.includes("--selftest")) {
   process.exit(bad ? 3 : 0);
 }
 
-const state = await (await fetch(`${origin}/api/v1/state`)).json();
+// Bad input is a stated refusal (exit 2), checked BEFORE the browser starts: an unchecked `{}`
+// from the API used to throw inside the page loop with Chromium already up, and the process
+// hung instead of exiting (src/lib/check-year-position.test.ts, 2026-10-05).
+const refuse = (why) => {
+  console.log(`REFUSED  ${why}`);
+  process.exit(2);
+};
+if (!/^https?:\/\/[^/\s]+$/.test(origin)) refuse(`origin must be an http(s) URL with no path, got "${origin}"`);
+let state;
+try {
+  const res = await fetch(`${origin}/api/v1/state`);
+  if (!res.ok) refuse(`${origin}/api/v1/state answered HTTP ${res.status}`);
+  state = await res.json();
+} catch {
+  refuse(`${origin}/api/v1/state could not be read as JSON`);
+}
+if (!Number.isInteger(state?.year) || !Array.isArray(state?.cycles) || state.cycles.length === 0) {
+  refuse(`${origin}/api/v1/state has no year and cycles list`);
+}
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 390, height: 664 } });
 
