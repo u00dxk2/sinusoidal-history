@@ -1,5 +1,23 @@
 # Changelog
 
+## Second review round: share-card budget, range presets, pinned CI (2026-10-05 evening)
+
+- **Hand-made `/og` share-card links can no longer render without limit** (SIN-R1). A link
+  whose overrides only restate a cycle's defaults (`?peak.khaldun=1789`) now gets the cached
+  plain card. Genuinely custom cards go through `src/lib/renderGate.ts`: the 32 most recent
+  finished cards are kept for up to an hour, at most 2 render at once and 20 start per minute,
+  and past that the route answers 429 with `Retry-After: 60`, or serves that card's expired copy
+  if it has one. A request for a card already rendering joins that render. Nothing on the site
+  links to a custom card, so readers see no change. Production after: 20 renders, then 429, 429;
+  a cached card still answers 200 in 171ms.
+- **A crafted `?range=` link no longer blanks the chart** (SIN-R2). `parseRange` accepted
+  names inherited from `Object.prototype` (`constructor`, `toString`) as presets with no
+  bounds. It now takes only the five real presets. (`__proto__` is refused earlier, with a
+  403, by the site's edge firewall.)
+- **CI runs `actions/checkout` and `actions/setup-node` from pinned commits** (SIN-R3), not
+  the movable `v5` tag. Same versions as before (v5.1.0, v5.0.0). `src/lib/workflowPins.test.ts`
+  fails on any unpinned workflow action, and its header lists the forms it cannot see.
+
 ## Security fix round: share card, deploy blueprint, a checker's bad input (2026-10-05)
 
 - **The `/og` share card cleans its overrides the way the page does** (SIN-S1). A link
