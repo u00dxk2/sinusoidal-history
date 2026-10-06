@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { cycles } from "@/data/cycles";
-import { cardRenderCount } from "@/lib/ogCardCache";
+import { cardRenderCount, customRenderCount } from "@/lib/ogCardCache";
 import { GET } from "./route";
 
 // SIN-S1 (security review 2026-10-05): /og read `peak.<id>` / `period.<id>`
@@ -52,5 +52,29 @@ describe("/og renders a card without overrides once, not per request", () => {
     const moved = await png(`?peak.${id}=${cycles[0].reference_peak_year + 10}`);
     expect(moved.bytes.equals(base.bytes)).toBe(false);
     expect(cardRenderCount() - before).toBe(0);
+  }, 30000);
+});
+
+// SIN-R1 (Astra review 2026-10-05): an override equal to the default still
+// bypassed the memo, and every custom URL rendered afresh without limit.
+describe("/og custom overrides are bounded", () => {
+  it("a default-equivalent override is served as the plain snapshot", async () => {
+    const base = await png("");
+    const before = cardRenderCount() + customRenderCount();
+    const same = await png(
+      `?peak.${id}=${cycles[0].reference_peak_year}&period.${id}=${cycles[0].period_years}`
+    );
+    expect(same.bytes.equals(base.bytes)).toBe(true);
+    expect(cardRenderCount() + customRenderCount() - before).toBe(0);
+  }, 30000);
+
+  it("a repeated custom override renders once", async () => {
+    const before = customRenderCount();
+    const q = `?peak.${id}=${cycles[0].reference_peak_year - 7}`;
+    const a = await png(q);
+    const b = await png(`${q}&utm_source=x`);
+    expect(a.res.status).toBe(200);
+    expect(b.bytes.equals(a.bytes)).toBe(true);
+    expect(customRenderCount() - before).toBe(1);
   }, 30000);
 });

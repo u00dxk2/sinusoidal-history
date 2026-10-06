@@ -7,7 +7,7 @@ import {
   sineAtYear,
 } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
-import { memoCard } from "@/lib/ogCardCache";
+import { customCard, memoCard } from "@/lib/ogCardCache";
 import {
   confidenceLabel,
   cycleTheorist,
@@ -78,7 +78,15 @@ export async function GET(request: Request) {
       intParam(`peak.${c.id}`),
       intParam(`period.${c.id}`)
     );
-    if (ov) overrides[c.id] = ov;
+    // An override equal to the default draws the default picture, so it is
+    // dropped: `peak.khaldun=1789` must not bypass the memo (SIN-R1).
+    if (ov?.reference_peak_year === c.reference_peak_year) {
+      delete ov.reference_peak_year;
+    }
+    if (ov?.period_years === c.period_years) delete ov.period_years;
+    if (ov && (ov.reference_peak_year != null || ov.period_years != null)) {
+      overrides[c.id] = ov;
+    }
   }
 
   const effective = cycles.map((c) => {
@@ -95,7 +103,9 @@ export async function GET(request: Request) {
   if (Object.keys(overrides).length === 0) {
     return memoCard("snapshot", () => snapshotCard(effective));
   }
-  return snapshotCard(effective);
+  // Bounded memo + render budget; past it, 429 (SIN-R1). The key is built in
+  // cycles.json order, so param order in the URL does not split variants.
+  return customCard(JSON.stringify(overrides), () => snapshotCard(effective));
 }
 
 function snapshotCard(effective: Cycle[]) {
