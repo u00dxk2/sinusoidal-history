@@ -23,7 +23,9 @@ export function parseRange(
   fallback: { start: number; end: number }
 ): { start: number; end: number; preset: string | null } {
   if (!value) return { ...fallback, preset: null };
-  if (value in PRESET_RANGES) {
+  // Own keys only: `in` also matched `constructor`, `__proto__` and the rest
+  // of Object.prototype, whose undefined bounds blanked the chart (SIN-R2).
+  if (Object.prototype.hasOwnProperty.call(PRESET_RANGES, value)) {
     const preset = PRESET_RANGES[value as RangePresetName];
     return { start: preset.start, end: preset.end, preset: value };
   }

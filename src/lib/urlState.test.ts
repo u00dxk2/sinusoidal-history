@@ -31,6 +31,15 @@ describe("parseRange", () => {
     });
   });
 
+  // SIN-R2 (Astra review 2026-10-05): `in` accepted inherited names, so
+  // `?range=constructor` gave undefined bounds and blanked the facets.
+  it.each(["constructor", "toString", "__proto__", "hasOwnProperty"])(
+    "does not take inherited name %s as a preset",
+    (name) => {
+      expect(parseRange(name, fallback)).toEqual({ ...fallback, preset: null });
+    }
+  );
+
   it("falls back for malformed or reversed ranges", () => {
     expect(parseRange("tomorrow", fallback)).toEqual({
       ...fallback,
