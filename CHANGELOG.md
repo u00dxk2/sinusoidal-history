@@ -1,5 +1,16 @@
 # Changelog
 
+## A confidence tag opens on its own definition (2026-10-05 overnight)
+
+- **Tapping a confidence tag on /cycles now lands on the definition itself** (I-023). The
+  2026-10-03 cold walk tapped NARRATIVE and landed on the glossary's first paragraph, "Each
+  theory is drawn as a pure sinusoid…", in larger type; the definition began about 280px
+  further down and the walker read the wrong paragraph first. The jump target moved from
+  the section onto the definition paragraph, so it is now the first text on screen
+  (production at 390x664: definition top 16px, was 278px), and keyboard focus lands on it
+  too. `scripts/check-confidence-tag-taps.mjs` gained a leg that fails unless the definition
+  leads the screen; its old "in view" leg had passed on the bad landing.
+
 ## Second review round: share-card budget, range presets, pinned CI (2026-10-05 evening)
 
 - **Hand-made `/og` share-card links can no longer render without limit** (SIN-R1). A link

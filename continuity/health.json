@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-06T01:40:58.320Z",
+  "generatedAt": "2026-10-06T04:53:53.196Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
   "itemCount": 31,
   "knownPatternCount": 5,
-  "commitCount": 27,
+  "commitCount": 29,
   "findings": [
     {
       "check": "PARKED_SIGNAL_APPROACHING",
@@ -65,14 +65,6 @@
     {
       "check": "PARKED_SIGNAL_APPROACHING",
       "severity": "info",
-      "id": "I-023",
-      "title": "The confidence-tag jump lands with an unrelated, larger paragraph filling the top of the screen",
-      "message": "I-023 signal due in 2d (2026-10-07)",
-      "suggested": "Prepare to evaluate: \"check-confidence-tag-taps reads the definition sentence within the first screen after the tap, on production.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
       "id": "I-024",
       "title": "Kondratiev's pairing is called \"US TFP growth (5-yr rolling)\" on /cycles and in the citation, but \"annual, unsmoothed\" in the verdict and figure",
       "message": "I-024 signal due in 2d (2026-10-07)",
@@ -97,6 +89,14 @@
     {
       "check": "MODIFIED_ITEM_LAST_24H",
       "severity": "info",
+      "id": "I-023",
+      "title": "The confidence-tag jump lands with an unrelated, larger paragraph filling the top of the screen",
+      "message": "Item I-023 notes modified in last 24h (diff hash e7487b90); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
       "id": "W-004",
       "title": "After 6330855 and 25c90b2, can a cold reader read the desktop spectral figure, and reach Calibrate on the cycle they came from?",
       "message": "Item W-004 closeWhen modified in last 24h (diff hash a3aac59b); investigate before per-day judgment.",
@@ -113,14 +113,14 @@
     {
       "check": "DUE_DATE_CONCENTRATION",
       "severity": "warn",
-      "id": "10/11 on 2026-10-07",
-      "message": "10 of 11 dated open items land on ONE day (2026-10-07): W-001, I-006, I-009, I-017, I-020, I-021, I-022, I-023, +2 more. Individually reasonable, collectively a wall (reels 2026-07-18: 23/30 — no single day absorbs that). Stagger deliberately: re-date by real signal-arrival, not by habit-copying one date."
+      "id": "9/10 on 2026-10-07",
+      "message": "9 of 10 dated open items land on ONE day (2026-10-07): W-001, I-006, I-009, I-017, I-020, I-021, I-022, I-024, +1 more. Individually reasonable, collectively a wall (reels 2026-07-18: 23/30 — no single day absorbs that). Stagger deliberately: re-date by real signal-arrival, not by habit-copying one date."
     },
     {
       "check": "STALE_HOLD_WAIVED",
       "severity": "info",
       "count": 3,
-      "message": "population: 31 ledger rows, 86 hold-shaped fields scanned across 13 field names. 3 stale-hold finding(s) SUPPRESSED by staleHoldWaived — I-001.onTrigger (\"Deliberate: the order (do not edit cc-workspace.json from this lane; it is skylark-site's file) still holds after the row closed.\", since 2026-10-04); I-003.onTrigger (\"Deliberate: the order (do not edit skylark-site from this lane) still holds after the row closed.\", since 2026-10-04); I-019.onTrigger (\"Deliberate: the spectral SVGs stay frozen (AGENTS.md, spectral-verdict manifest) whatever this closed row says.\", since 2026-10-04). blindTo: David board card ids, bus msgIds and other lanes' row ids (this ledger holds no status for them); a dated freeze phrase with no row id behind it (a date passing is not a retraction); rulings carried only in prose; and any citation living in a doc unless that doc was passed with --hold-doc."
+      "message": "population: 31 ledger rows, 85 hold-shaped fields scanned across 13 field names. 3 stale-hold finding(s) SUPPRESSED by staleHoldWaived — I-001.onTrigger (\"Deliberate: the order (do not edit cc-workspace.json from this lane; it is skylark-site's file) still holds after the row closed.\", since 2026-10-04); I-003.onTrigger (\"Deliberate: the order (do not edit skylark-site from this lane) still holds after the row closed.\", since 2026-10-04); I-019.onTrigger (\"Deliberate: the spectral SVGs stay frozen (AGENTS.md, spectral-verdict manifest) whatever this closed row says.\", since 2026-10-04). blindTo: David board card ids, bus msgIds and other lanes' row ids (this ledger holds no status for them); a dated freeze phrase with no row id behind it (a date passing is not a retraction); rulings carried only in prose; and any citation living in a doc unless that doc was passed with --hold-doc."
     }
   ],
   "counts": {
@@ -131,19 +131,19 @@
   "suppressedCount": 0,
   "actionsOnlyMode": false,
   "clockReconciliation": {
-    "multiClockItems": 11,
-    "scanned": 11,
+    "multiClockItems": 10,
+    "scanned": 10,
     "byType": {},
     "lines": [],
     "rows": [],
-    "summary": "CLOCK-RECONCILIATION: 11 item(s) with ≥2 clocks of 11 scanned, 0 finding(s).",
-    "liveScanned": 11,
+    "summary": "CLOCK-RECONCILIATION: 10 item(s) with ≥2 clocks of 10 scanned, 0 finding(s).",
+    "liveScanned": 10,
     "noClockItems": 0,
     "noClockExempt": 0,
     "noClockUnexplained": 0,
     "noClockRed": false,
     "declaration": {
-      "population": "11 live (open/monitoring) row(s) of 11 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
+      "population": "10 live (open/monitoring) row(s) of 10 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
       "blindTo": "terminal rows (owed no due date); whether a PRESENT due date is correct or honest — PRESENCE only; the dated count here counts upcoming-triggers-only fields (dueDate/fireDate/onDate) that SIGNAL_DATE_MISSING's own floor does not, so the two floors can differ by a row."
     }
   },

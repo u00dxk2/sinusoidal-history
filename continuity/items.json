@@ -842,29 +842,26 @@
     },
     {
       "id": "I-023",
-      "readCommandWaived": {
-        "reason": "Lane product work queued for a round on or after 2026-10-07; the gate is picking it up, not a measurement.",
-        "since": "2026-10-04"
-      },
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-confidence-tag-taps.mjs https://sinusoidalhistory.com",
+      "_readCommandNote": "Since 616cffc this reads the closeWhen directly: its leg 'the definition sentence leads the screen' needs the definition's top in the top quarter of a 390x664 screen and the curves paragraph scrolled past. Exit 0 = all 8 legs PASS.",
       "title": "The confidence-tag jump lands with an unrelated, larger paragraph filling the top of the screen",
       "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P1 (N = 1, synthetic, 390x664): after the tap the top 40% of the screen is \"Each theory is drawn as a pure sinusoid…\" at 16px; the definition starts about 280px down at 13px, nothing is highlighted, and the walker read the wrong paragraph first. scripts/check-confidence-tag-taps.mjs only checks that #confidence-tags is in view (top=24).",
       "onTrigger": "Put the definition itself at the jump target (move the id, or give the definition its own heading), and tighten check-confidence-tag-taps to require the definition sentence near the top of the screen.",
       "closeWhen": "check-confidence-tag-taps reads the definition sentence within the first screen after the tap, on production.",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-03",
-      "nextEvaluation": "2026-10-07",
-      "waitingFor": "Nothing and nobody. Lane work for a later round.",
-      "waitJustification": {
-        "until": "2026-10-07",
-        "loadBearing": "lane product work for a later round; nothing outside the lane blocks it",
-        "unWait": "pick it up in a product round on or after 2026-10-07",
-        "owner": "sinusoidal-cycles"
-      },
+      "linkedCommits": [
+        "616cffc"
+      ],
+      "notes": "CLOSED 2026-10-05 (MT, overnight brief 5aff66da), shipped 616cffc, CI run 37415450990 green, Render deploy dep-db27rmjncjis73cb51lg live 2026-10-06T04:50:52Z. The id moved from the glossary <section> onto the definition <p> (scroll-mt-4 = its mt-4); HashLink focuses it with tabindex -1. Red/green: cyclesIndexTag.test.ts 'the jump target opens with the definition sentence' failed before ('Each theory is drawn…' first), 17/17 after. check-confidence-tag-taps gained the leg that reads closeWhen: production BEFORE the deploy FAIL, definition top=278 (≤166), curves paragraph bottom=262 (≤1), while the old 'in view' leg read PASS on the same tap; production AFTER 8/8 PASS, definition top=16, curves bottom=0. Landed frame at 390x664: the definition paragraph is the first text on screen. Encounter: blind (synthetic walk only); the next cold read of /cycles is W-004 on 2026-10-07, which does not ask about the tag.",
       "created": "2026-10-03",
-      "updated": "2026-10-03"
+      "updated": "2026-10-05",
+      "lastEvaluated": "2026-10-05",
+      "closed": "2026-10-05",
+      "closedAt": "2026-10-05"
     },
     {
       "id": "I-024",
