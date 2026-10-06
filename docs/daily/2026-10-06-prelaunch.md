@@ -156,3 +156,51 @@ hygiene helper: DISPATCHED ~15:45Z · draft tmp/hygiene-draft-sinusoidal-cycles-
 - **P5:** re-read engineering-zero against the cache, and disposition the npm-audit count.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-024 · P3 33c561ef
+
+The acceptance condition in force was the P1 packet's plus the review's added check. It was met. On production, /cycles/kondratiev names "US TFP growth (annual, unsmoothed)" and carries the "Why two labels" paragraph. 0 lines match a test-ran pattern, "No test was run" is still present, and the turchin and perez text is unchanged. The manager review (f5b53394) read production independently: COMPLETED.
+
+hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected. Its drafts section read "none — no input rows".
+- READ-MUTATED: none (0 reads guarded).
+- The helper's two checks: wait-justification PASS (20 of 31 rows); engineering-zero RED on Dependabot #55, which was posted as b7947eee and fixed in b7b9207.
+
+### Changed since the P3 post
+
+- **engineering-zero disagreement: RESOLVED, cache lag.** At ~17:45Z, `check-engineering-zero --project sinusoidal-cycles` read RED on #56 while GitHub said fixed (17:35:18Z). Re-run at ~17:55Z, it reads `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)`, and `gh api …/dependabot/alerts?state=open` returns `[]`. The checker reads the /api/cc panel cache, which lagged GitHub by ~10-20 minutes. No open alert and no row: the cache cleared itself, and the lesson is in tomorrow's primer.
+- **npm audit, dispositioned as I-027 (monitoring, re-check 2026-10-20).** The full `npm audit` now reads 5 high, 0 critical (it was 6; the sixth was source-map-js, fixed in b7b9207). All 5 are one advisory, GHSA-vfj7-8cjw-p6xm (braces ≤3.0.3), reached only through dev-only lint tooling: eslint-config-next → @next/eslint-plugin-next → fast-glob → micromatch → braces. `npm view braces versions` tops out at 3.0.3, so no patched release exists. npm's offered fix is a major downgrade of eslint-config-next to 14.2.35, rejected. `npm audit --omit=dev` reads 0 of 175 prod deps. This is NOT folded into engineering-zero: they are different instruments.
+
+### Ledger delta (continuity-edit)
+
+- **I-024:** stays `monitoring`. Appended note: the pending read is the W-004 walk on 2026-10-07, step (1), which asks the closeWhen question. It is synthetic, so it reads comprehension, not an encounter; the encounter stays blind. The walk also carries the manager's /cycles list-label hypothesis ("US TFP growth (5-yr rolling)").
+- **I-027 minted:** npm audit dev-only braces chain. `waitJustification` until 2026-10-20; `readCommand` = `npm --prefix C:/dev/skylark/sinusoidal-cycles audit --audit-level=high`.
+- **I-028 minted:** Turchin's same two-cut box, a candidate by analogy (no reader report), `open`, gated on W-004's notes. `waitJustification` until 2026-10-08.
+- **Earlier today, already committed (b46ce75):** I-024 open → monitoring; the W-001 freeze log; the W-004 walk questions.
+
+### Verify
+
+- `check-due-gates-dispositioned` (no flag): `verdict: CLEAR — every gate due at Phase 0 was dispositioned.` The snapshot is CURRENT (taken 2026-10-06), with 0 due.
+- `check-wait-justification` re-run after the two new waits: `RESULT: PASS — 22 of 33 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+- engineering-zero: PASS (above). Dependabot: 0 open. Sentry: 0 for this lane per the same read.
+
+### Receipt
+
+P3's receipt (33c561ef) is still true and unchanged: the exposure is still blind, and there is no outcome read yet. Nothing new is written.
+
+### Pending reads
+
+- **2026-10-07:** the W-004 cold walk (I-024 closeWhen, the I-020 and I-022 reads, and the list-label hypothesis).
+- **2026-10-07:** W-001's Search Console read.
+- **2026-10-08:** I-028, after W-004's notes.
+- **2026-10-20:** I-027, npm audit.
+- **2026-12-01:** I-025, the band question to David.
+
+UNRESOLVED: none.
+
+codexCalls: 0 at P5 (`probed-declined`: a close with no code diff; today's two review runs were counted on P3, 33c561ef).
+
+[standing-rules-hash: 88cc2dc9]

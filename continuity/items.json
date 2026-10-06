@@ -888,7 +888,7 @@
       },
       "created": "2026-10-03",
       "updated": "2026-10-06",
-      "notes": "2026-10-06 (P3, shipped; live 4741fe7, CI green, check-deployed-sha-drift in-sync): /cycles/kondratiev's \"Does it hold up?\" box now reads \"The record this verdict is judged on, US TFP growth (annual, unsmoothed), runs 77 years: …\" (was \"a different cut … named in the verdict below\"). One paragraph under the verdict's lay_text: \"Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.\" Commits 2fe5047 (copy + src/lib/testedSeries.ts + test), 52a1926 (Codex r1 folds: MED the page's curve is the sine, not the rolled data), 4741fe7 (Codex r2 LOW: reader-text scan). Production rendered text: kondratiev 95 -> 96 lines, 1 replaced + 1 added; turchin and perez identical; 0 lines match the \"a test ran\" pattern while \"No test was run\" is present. Turchin keeps the generic sentence by scope (manager review a4da274a: \"Don't widen today's cut\"). closeWhen is a cold-reader read: W-004 2026-10-07 step (1) asks it. Encounter: blind (no client analytics)."
+      "notes": "2026-10-06 (P3, shipped; live 4741fe7, CI green, check-deployed-sha-drift in-sync): /cycles/kondratiev's \"Does it hold up?\" box now reads \"The record this verdict is judged on, US TFP growth (annual, unsmoothed), runs 77 years: …\" (was \"a different cut … named in the verdict below\"). One paragraph under the verdict's lay_text: \"Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.\" Commits 2fe5047 (copy + src/lib/testedSeries.ts + test), 52a1926 (Codex r1 folds: MED the page's curve is the sine, not the rolled data), 4741fe7 (Codex r2 LOW: reader-text scan). Production rendered text: kondratiev 95 -> 96 lines, 1 replaced + 1 added; turchin and perez identical; 0 lines match the \"a test ran\" pattern while \"No test was run\" is present. Turchin keeps the generic sentence by scope (manager review a4da274a: \"Don't widen today's cut\"). closeWhen is a cold-reader read: W-004 2026-10-07 step (1) asks it. Encounter: blind (no client analytics).\n\n | 2026-10-06 (P5): stays `monitoring`. Pending read: the W-004 cold walk on 2026-10-07 asks the closeWhen question at step (1) on /cycles/kondratiev at 1440. That walk is synthetic, so it reads COMPREHENSION, not an encounter: encounter stays `blind — no client analytics · bug row W-004`. The walk also carries the manager's HYPOTHESIS (f5b53394) that the /cycles list label \"US TFP growth (5-yr rolling)\" still misleads once the page explains it. Manager review f5b53394: COMPLETED, read production itself (0 test-ran matches, both new sentences present). Turchin's same two-cut shape is carried as I-028, gated on this walk."
     },
     {
       "id": "W-004",
@@ -981,6 +981,57 @@
       "created": "2026-10-04",
       "updated": "2026-10-05",
       "notes": "2026-10-05: David approved the flip in the orchestrator's session (~09:10 MT; bus 71e9eb24, which cites no source row). The orchestrator set autoDeployTrigger=checksPass via the Render API. Lane re-read ~15:35Z UTC with this row's readCommand: \"autoDeploy yes, autoDeployTrigger checksPass\", exit 0. check-deployed-sha-drift --service sinusoidal-history now judges the service (in-sync, live 7eb39bff = head) where it printed NOT-APPLICABLE-BY-REGISTRY before. AGENTS.md and docs/daily-config.md corrected. closeWhen's second half (the next push deploys only after its ci.yml run is green) is read on today's I-020 push; the row closes then. The lane's board card for this (bus 9b944320) is superseded.\n\n2026-10-05 CLOSED, both halves of closeWhen met. Second half read on the I-020 push 2e00ce7: ci.yml created 16:30:57Z, completed success 16:31:55Z (gh run list --commit <full sha>); the Render deploy row for 2e00ce7 was absent at 16:31:04Z (read just after the push), created 16:31:57Z (2s after CI completed), live 16:33:03Z. Under the old commit trigger the row would have been created at the push."
+    },
+    {
+      "id": "I-027",
+      "title": "npm audit: 5 high in dev-only lint tooling (braces <=3.0.3 via eslint-config-next), no upstream fix published",
+      "status": "monitoring",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-06",
+      "hypothesis": "OBSERVED 2026-10-06 ~18:00Z: `npm audit --json` reads 5 high, 0 critical, all one advisory, GHSA-vfj7-8cjw-p6xm (braces <=3.0.3, stack-exhaustion DoS through deeply nested brace patterns). Chain: eslint-config-next@16.3.6 -> @next/eslint-plugin-next@16.3.6 -> fast-glob@3.3.1 -> micromatch@4.0.8 -> braces@3.0.3. `npm view braces versions` tops out at 3.0.3, so no patched braces exists. npm's offered fix is a MAJOR DOWNGRADE to eslint-config-next 14.2.35, rejected. `npm audit --omit=dev` reads 0 of 175 prod deps: nothing users are served depends on it. It runs at lint time over globs this repo writes, not user input. This is a different instrument from Dependabot, which reads 0 open alerts for this repo (gh api .../dependabot/alerts?state=open -> [] at ~17:50Z); the 6th high seen mid-day was source-map-js, fixed in b7b9207.",
+      "onTrigger": "On or after 2026-10-20, run the readCommand. If braces has a patched release, or eslint-config-next / fast-glob have moved off the vulnerable chain, bump inside the existing ranges (lockfile only), run gates, and close this row with the sha. If prod deps ever read nonzero, this row is superseded by a real finding: triage it the same day.",
+      "closeWhen": "`npm audit` (full, including dev) reads 0 high and 0 critical, or the advisory is withdrawn.",
+      "readCommand": "npm --prefix C:/dev/skylark/sinusoidal-cycles audit --audit-level=high",
+      "nextEvaluation": "2026-10-20",
+      "waitingFor": "An upstream release: braces > 3.0.3, or a fast-glob / micromatch / @next/eslint-plugin-next that no longer pulls braces <=3.0.3.",
+      "waitJustification": {
+        "until": "2026-10-20",
+        "loadBearing": "no patched braces is published (npm view braces versions tops out at 3.0.3); the only offered fix is a major downgrade of eslint-config-next",
+        "unWait": "a braces release above 3.0.3, or an eslint-config-next chain without it, appears on npm",
+        "owner": "sinusoidal-cycles"
+      },
+      "notes": "2026-10-06 (P5): minted at the close on the manager review's instruction (f5b53394) to carry npm audit as its own dated row and not fold it into engineering-zero green.",
+      "created": "2026-10-06",
+      "updated": "2026-10-06"
+    },
+    {
+      "id": "I-028",
+      "title": "Turchin's cycle page has the same two-cut shape as Kondratiev before I-024: the verdict's series is not named in the 'Does it hold up?' box",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-06",
+      "hypothesis": "OBSERVED in the tree 2026-10-06: verdicts.json judges Turchin on wid_top1_wealth_1913 (the 1913+ cut) while the page draws a different series, so /cycles/turchin keeps the generic box sentence 'The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — …'. That is the sentence I-024 replaced on Kondratiev because a cold reader could not tell which series was judged (W-003 D2). No reader has reported it on Turchin: this is a HYPOTHESIS by analogy, not an observed failure. Deliberately out of scope on 2026-10-06 (manager review a4da274a: 'Don't widen today's cut').",
+      "onTrigger": "After W-004 (2026-10-07) reads whether I-024's wording works on Kondratiev: if it does, add a testedSeriesNote entry for wid_top1_wealth_1913 in src/lib/testedSeries.ts, with its own 'why two labels' reason taken from the series' source.md (check the reason, do not reuse the TFP smoothing one), and extend src/lib/testedSeries.test.ts. Body copy only.",
+      "closeWhen": "/cycles/turchin's box names the series its verdict is judged on, and a cold reader can say why it differs from the drawn series.",
+      "nextEvaluation": "2026-10-08",
+      "waitingFor": "W-004's 2026-10-07 read of the I-024 wording on Kondratiev.",
+      "waitJustification": {
+        "until": "2026-10-08",
+        "loadBearing": "the same wording pattern is being read on Kondratiev by W-004 on 2026-10-07; copying it before that read would spread an unread pattern",
+        "unWait": "W-004's notes record whether the walker could say which series Kondratiev's verdict is judged on",
+        "owner": "sinusoidal-cycles"
+      },
+      "readCommandWaived": {
+        "reason": "Lane product work gated on W-004's walk notes; the gate is picking it up, not a measurement.",
+        "since": "2026-10-06"
+      },
+      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'",
+      "created": "2026-10-06",
+      "updated": "2026-10-06"
     }
   ],
   "knownPatterns": [
