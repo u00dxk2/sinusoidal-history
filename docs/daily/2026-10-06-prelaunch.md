@@ -82,3 +82,77 @@ Paths: `src/app/(app)/cycles/[id]/page.tsx` (what users get), a new or extended 
 - (a) Due rows not bearing on the choice: **none**. `dated gates due today` read 0 at compose and this morning's `--snapshot` read 0.
 - (b) Owed child rows in the orchestrator's ledger: **none**. 0 of 747 considered at compose.
 - (c) State reads marked CROSSED: **none**. None of the kickoff's reads printed a crossed threshold. The prior-day retro carries 10 still-on-discipline findings, listed for the close and not dispositioned here.
+
+## P3 — Product-work loop
+
+[P3 — Product-work loop]
+
+**Action (improve the product):** I-024. /cycles/kondratiev now names the series its verdict is judged on and says why the page carries two labels. This followed the manager review's APPROVE (a4da274a), including its one wording fix: no sentence says a test ran.
+
+**What a reader sees, live:**
+- The "Does it hold up?" box now reads "The record this verdict is judged on, US TFP growth (annual, unsmoothed), runs 77 years: …". It used to read "a different cut … named in the verdict below".
+- One paragraph under the verdict reads: "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against."
+
+### The four states
+
+1. **Implementation:** four commits on main.
+   - `2fe5047`: the copy, a new `src/lib/testedSeries.ts` keyed by the verdict's series_id, and a test that renders the real page.
+   - `52a1926`: Codex r1 folds.
+   - `4741fe7`: the Codex r2 fold.
+   - Red arms, both recorded: renaming the map key failed 4 of 7 tests. Injecting the manager-rejected sentence ("The test uses the annual figures.") failed the whole-page scan. Dropping attributes from the reader-text scan failed the `alt` control. Each was restored, and the restored runs passed (8 of 8).
+   - Gates at `b46ce75`: tests 22 files / 167 passed (verify-with-receipt), lint 0 errors, typecheck clean, build green.
+   - **CI: GREEN on 4741fe7 and on b46ce75.**
+   - One gate run at `b7b9207` read RED: 3 timeouts in files this change does not touch. I had run lint, typecheck and the suite concurrently. Re-run alone at the same commit, it was GREEN 167/167, and the receipt tool recorded the flip.
+2. **Delivery:** `check-deployed-sha-drift --service sinusoidal-history` reported in-sync, live `4741fe75`, and later live `b46ce75a` = head. Surface read on production (`check-rendered-text snap`):
+   - /cycles/kondratiev went from 95 to 96 lines: 1 replaced + 1 added, every other line identical.
+   - /cycles/turchin (93) and /cycles/perez (93) are GREEN, identical.
+   - 0 of 96 Kondratiev lines match the "a test ran" pattern. The same text carries the verdict's "No test was run", which is the positive control on the search space.
+   - No title, meta, H1, URL or JSON-LD changed (W-001 freeze held).
+3. **Encounter:** `blind — no client analytics on this site (a standing choice), so a reader of the Kondratiev page leaves no trace · bug row W-004`. W-004's cold walk on 2026-10-07 now asks I-024's closeWhen question at step (1). It is synthetic, not a real-user read.
+4. **Outcome:** open. I-024 is `monitoring`, and its closeWhen ("a cold reader … can say which series was tested and why the chart's label differs") is read on that walk.
+
+USER-VISIBLE: /cycles/kondratiev now names the series its verdict is judged on, US TFP growth (annual, unsmoothed), and says in one paragraph why the page also shows a 5-year rolling average — 4741fe7 [proof: box sentence "a different cut … named in the verdict below" → "The record this verdict is judged on, US TFP growth (annual, unsmoothed), runs 77 years" plus one "Why two labels" paragraph; check-rendered-text snap of https://sinusoidalhistory.com/cycles/kondratiev after deploy reads 95 → 96 lines, 1 replaced + 1 added, turchin and perez identical, live sha 4741fe75 then b46ce75a per check-deployed-sha-drift] [coverage: none — the site has no client analytics · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader of the Kondratiev page leaves no trace · bug row W-004]
+
+### Reviews
+
+codexCalls: 2 — both foreground `codex exec --sandbox read-only` review runs. The probe was GREEN at 14:53:10Z. Banner workdir was `C:\dev\skylark\sinusoidal-cycles` on both runs.
+
+adversarialReviews: 2 — EXECUTED.
+
+**r1 on 2fe5047:** HIGH 0, MED 1, LOW 3, all STATIC and all CONFIRMED.
+- MED: the note called the page's sine curve a rolling average. Fixed in 52a1926.
+- LOW: "easier to read" went beyond the source. Fixed in 52a1926.
+- LOW: the "a test ran" guard missed the rejected sentence and read only the note. Fixed in 52a1926.
+- LOW: the report said "the verdict tested". Fixed in 52a1926.
+- Also folded: the note now shows only when the judged and drawn series differ.
+
+**r2 on 52a1926:** HIGH 0, MED 0, LOW 1, STATIC, CONFIRMED.
+- The tag-strip scan missed split words and attribute text. Fixed in 4741fe7.
+- r2 also confirmed, STATIC: the note's three references exist on the page, and the chart at / draws `tfp_growth_5yr_avg_pct`.
+
+**Not reviewed adversarially:** the two lockfile bumps (b7b9207, c208e62), BY-INSPECTION. There is no code diff; each lockfile diff was read whole and touches only the alerted package and its platform binaries.
+
+**Sibling sweep** for the r1 MED class (copy that points at something the page does not draw): `curve earlier|chart above|drawn on the chart|the chart shows|shown on the chart` over src/ and public/*.md|txt gave 5 hits. All 5 correctly name the interactive chart, so 0 further defects.
+
+### Corrective work: engineering-zero (fleet Dependabot batch)
+
+Corrective work, not progress on the outcome. The orchestrator's ordering (90900f60) was product first, then bump, and that's what happened.
+- **#55** source-map-js 1.2.1 → 1.2.2 (`b7b9207`): fixed_at 16:55:40Z.
+- **#56** sharp 0.35.4 → 0.35.5 (`c208e62`, inside next's `^0.35.4`): opened 16:55:41Z and fixed_at 17:35:18Z.
+- `gh api …/dependabot/alerts?state=open` now returns `[]`, against 1 open alert on the same query at ~17:00Z.
+
+**DISAGREEMENT, named:** `check-engineering-zero --project sinusoidal-cycles` at ~17:45Z still reads RED on [#56]. Its population is the /api/cc panel cache, and GitHub's own alert API says fixed. I read this as cache lag, not an open alert, and expect P5's re-run to clear it. If it doesn't, the cache is the finding.
+
+`npm audit` still printed "6 high severity vulnerabilities" during the bumps. That is a different instrument from Dependabot and is not dispositioned here; it is carried to the close.
+
+### Hygiene helper
+
+hygiene helper: DISPATCHED ~15:45Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-06.md PRESENT. Its one production-shaped finding (engineering-zero RED, #55) was posted as status b7947eee.
+
+### What remains
+
+- **W-004 (2026-10-07):** the cold walk reads I-024's closeWhen, plus the manager's hypothesis about the /cycles list label "US TFP growth (5-yr rolling)". The list was not changed today.
+- **Turchin:** same two-cut shape, deliberately out of scope ("Don't widen today's cut"). It's a candidate.
+- **P5:** re-read engineering-zero against the cache, and disposition the npm-audit count.
+
+[standing-rules-hash: 88cc2dc9]
