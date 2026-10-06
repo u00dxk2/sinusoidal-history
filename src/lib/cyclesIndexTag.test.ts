@@ -56,6 +56,19 @@ describe("/cycles confidence tag is a tappable link to its definition (W-002)", 
     expect(glossary).toMatch(/paired data series[^.]*this site added/);
   });
 
+  // I-023 (W-003 cold walk 2026-10-03): the tap landed on the section's first paragraph,
+  // "Each theory is drawn as a pure sinusoid…" at 16px, and the definition began about 280px
+  // down. The jump target now IS the definition, so the first words at it are the definition's.
+  it("the jump target opens with the definition sentence, not the curves paragraph", () => {
+    const afterTarget = html
+      .slice(html.indexOf('id="confidence-tags"'))
+      .replace(/^[^>]*>/, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&#x27;|&apos;/g, "'")
+      .trimStart();
+    expect(afterTarget).toMatch(/^The confidence tag on each entry is this site's rough grading/);
+  });
+
   it("positive control: the nesting walker does see a nested anchor", () => {
     expect(maxAnchorDepth('<a href="/x"><span><a href="#y">t</a></span></a>')).toBe(2);
   });

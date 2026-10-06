@@ -389,12 +389,12 @@ export default function CyclesIndex() {
           reaching this definition. The ordering is the 2026-09-20 P3 cut and the
           fold defect it fixes is worse, but the cost is live: if a cold walk
           reports the tags reading as unexplained, the fix is an affordance that
-          points here (this section carries an id for exactly that), NOT moving
-          the glossary back above the roster. */}
+          points here (the definition paragraph below carries an id for exactly
+          that; it moved off this section for I-023), NOT moving the glossary
+          back above the roster. */}
       <section
-        id="confidence-tags"
         aria-label="How the cycles are drawn, and what the confidence tags mean"
-        className="mt-14 scroll-mt-6"
+        className="mt-14"
       >
         <p className="text-[16px] leading-[1.65] text-ink/85">
           Each theory is drawn as a pure sinusoid from its own stated period and
@@ -411,7 +411,14 @@ export default function CyclesIndex() {
           </Link>
           .
         </p>
-        <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
+        {/* The tag links land HERE, on the definition itself (I-023): with the id on the
+            section, a tap opened on the curves paragraph above at 16px and the definition
+            began ~280px down (W-003 walk, 2026-10-03). scroll-mt-4 equals this paragraph's
+            mt-4, so the curves paragraph ends exactly at the screen's top edge. */}
+        <p
+          id="confidence-tags"
+          className="mt-4 scroll-mt-4 text-[13px] leading-relaxed text-ink-soft"
+        >
           The confidence tag on each entry is this site&apos;s rough grading
           of the theory&apos;s evidence base:{" "}
           <em>narrative</em>

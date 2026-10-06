@@ -3,7 +3,9 @@
 //   node scripts/check-confidence-tag-taps.mjs [origin] [landed-frame.png]
 //
 // origin defaults to https://sinusoidalhistory.com. Touch taps at 390x664. Exit 0 all PASS, 3 any FAIL.
-// Seven legs: the /cycles tag is a link and lands on #confidence-tags in view; the description and
+// Seven legs (eight since I-023, 2026-10-05: the tag's tap must put the definition sentence at the
+// top of the screen, not merely the section in view): the /cycles tag is a link and lands on
+// #confidence-tags in view; the description and
 // the metadata line still open the cycle page (the stretched name link); "The longer story" still
 // toggles; no <a> nests inside another; a cycle page's masthead tag lands on #confidence.
 // Written for W-002 (2026-09-27, commit 8e144cb). Production read 7/7 that day, and 2 of 7 before
@@ -35,9 +37,25 @@ if (tagCount) await tag.tap();
 await page.waitForTimeout(800);
 const inView = await page.evaluate(() => {
   const r = document.getElementById("confidence-tags").getBoundingClientRect();
-  return { top: Math.round(r.top), vh: innerHeight };
+  // I-023: "in view" was not enough. The W-003 walk (2026-10-03) landed with the curves
+  // paragraph filling the top 40% and the definition ~280px down, and this leg read PASS.
+  const para = (start) =>
+    [...document.querySelectorAll("p")].find((p) => p.textContent.trim().startsWith(start))?.getBoundingClientRect();
+  const def = para("The confidence tag on each entry");
+  const curves = para("Each theory is drawn");
+  return {
+    top: Math.round(r.top),
+    vh: innerHeight,
+    defTop: def ? Math.round(def.top) : null,
+    curvesBottom: curves ? Math.round(curves.bottom) : null,
+  };
 });
 check("tap tag -> #confidence-tags in view", page.url().endsWith("/cycles#confidence-tags") && inView.top >= 0 && inView.top < inView.vh, `${page.url()} top=${inView.top}`);
+check(
+  "tap tag -> the definition sentence leads the screen (top quarter, curves paragraph scrolled past)",
+  inView.defTop != null && inView.defTop >= 0 && inView.defTop <= inView.vh / 4 && inView.curvesBottom != null && inView.curvesBottom <= 1,
+  `definition top=${inView.defTop} (≤ ${inView.vh / 4}); curves paragraph bottom=${inView.curvesBottom} (≤ 1)`
+);
 if (frameOut) await page.screenshot({ path: frameOut });
 
 // 2. Tap the description (the stretched overlay, not the name itself).
