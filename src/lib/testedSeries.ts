@@ -22,7 +22,7 @@ const NOTES: Record<string, TestedSeriesNote> = {
   us_tfp_growth_annual: {
     name: "US TFP growth (annual, unsmoothed)",
     whyTwoLabels:
-      "Why two labels: the curve earlier on this page, its paired-data note and the citation at the end use the 5-year rolling average of this series, which is easier to read. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.",
+      "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.",
   },
 };
 

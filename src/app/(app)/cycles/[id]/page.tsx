@@ -99,7 +99,12 @@ export default async function CyclePage({ params }: Params) {
 
   const series = seriesForCycle(cycle);
   const verdict = spectralVerdictForCycle(cycle.id);
-  const tested = verdict ? testedSeriesNote(verdict.series_id) : undefined;
+  // Only when the judged cut differs from the drawn series: a note on a matching
+  // pair would explain a difference that is not there (Codex r1, 2026-10-06).
+  const tested =
+    verdict && series?.id !== verdict.series_id
+      ? testedSeriesNote(verdict.series_id)
+      : undefined;
   const index = cycles.findIndex((c) => c.id === cycle.id);
   const peaks = peakYearsInRange(cycle);
   const troughs = troughYearsInRange(cycle);

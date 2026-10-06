@@ -4,11 +4,11 @@
 
 [P1 — Evidence and choice]
 
-**Outcome:** a reader of /cycles/kondratiev can tell which TFP series the verdict tested and why the chart is labelled differently. **Item:** I-024 (open, P3, lane-owned).
+**Outcome:** a reader of /cycles/kondratiev can tell which TFP series the verdict is judged on (no test ran: the record is too short) and why the chart is labelled differently. **Item:** I-024 (open, P3, lane-owned).
 
 **The user problem, in the walker's words** (W-003 cold walk, 2026-10-03, synthetic, N = 1, `docs/walks/2026-10-03-w003.md:191`, D2): "The list on /cycles calls this pairing 'US TFP growth (5-yr rolling)' while the verdict text and figure say 'US TFP growth (annual, unsmoothed)', and the citation under the figure says '5-yr rolling' again; I could not tell from the page which series was tested without reading on." This is a synthetic walker's quote, not a real user's.
 
-**What a user will see differently:** on /cycles/kondratiev the "Does it hold up?" box names the tested series ("annual, unsmoothed") instead of "a different cut… named in the verdict below". One sentence under the verdict's plain-English paragraph says why there are two labels: the test runs on the annual series, and the chart and citation show its 5-year rolling average for display only.
+**What a user will see differently:** on /cycles/kondratiev the "Does it hold up?" box names the series the verdict is judged on ("annual, unsmoothed") instead of "a different cut… named in the verdict below". One sentence under the verdict's plain-English paragraph says why there are two labels: the site measures the record's length on the annual series, and would run any test on it, while the page's "Paired data" labels and the citation name its 5-year rolling average. (Corrected at P3; the P1 wording said "the test runs", which contradicts the verdict's "No test was run" — manager review a4da274a and Codex r1.)
 
 ### Section 0
 
@@ -30,7 +30,7 @@
 
 - **OBSERVED, W-003 D2** (2026-10-03, synthetic, N = 1, 1440x900): the quote above.
 - **OBSERVED, production text today** (`check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev`, 95 lines, server-rendered text only). "5-yr rolling" appears three times: the chart legend "TFP growth · 5-yr" (line 31), the paired-data block "US TFP growth (5-yr rolling)" (55), and the citation (81). "annual, unsmoothed" appears once, in the verdict paragraph (69), which comes from the frozen `verdicts.json` `lay_text`. The box (21) says the tested record is "a different cut… named in the verdict below" but never says which label is which, or why.
-- **OBSERVED, in the tree:** the mismatch is deliberate. `verdicts.json` tests `us_tfp_growth_annual`; `series.json` draws `us_tfp_growth` (rolled). `us_tfp_growth.source.md:22` says "The rolled CSV remains the display series on the chart", and AGENTS.md bans the rolled CSV from inference. So the fix is copy, not data.
+- **OBSERVED, in the tree:** the mismatch is deliberate. `verdicts.json` judges the record of `us_tfp_growth_annual` (Kondratiev's is too short, so no test ran); `series.json` draws `us_tfp_growth` (rolled). `us_tfp_growth.source.md:22` says "The rolled CSV remains the display series on the chart", and AGENTS.md bans the rolled CSV from inference. So the fix is copy, not data.
 - **OBSERVED, adjacent but not selected:** Turchin's page has the same shape (`wid_top1_wealth_1913` tested, a different series drawn). I-024 names Kondratiev only, so Turchin stays as it is today and is carried as a candidate.
 - **MISSING:** real-user evidence. There's no client analytics (a standing choice), and the lane has no evangelism-bar or evangelism-evidence file, so there is no bar metric to read.
 

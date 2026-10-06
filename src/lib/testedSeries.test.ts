@@ -20,7 +20,7 @@ async function pageText(slug: string): Promise<string> {
 
 // A sentence claiming a test RAN. Kondratiev's verdict says "No test was run", so nothing this
 // note adds may say otherwise (manager review a4da274a, 2026-10-06).
-const TEST_RAN = /\b(test (was )?ran|tests? (was|were) run on|was tested|is tested|tested on)\b/i;
+const TEST_RAN = /\b(test (was )?ran|test uses|tests? (was|were) run on|was tested|is tested|tested on)\b/i;
 
 describe("I-024: the Kondratiev page names the series its verdict is judged on", () => {
   const verdict = spectralVerdictForCycle("kondratiev");
@@ -46,12 +46,23 @@ describe("I-024: the Kondratiev page names the series its verdict is judged on",
     expect(html).toContain("5-year rolling average of this series");
   });
 
-  it("the added copy never says a test ran on Kondratiev", () => {
+  it("no sentence on the Kondratiev page says a test ran", async () => {
     expect(verdict!.eligible).toBe(false);
-    // Positive control: the pattern catches the sentence the review flagged.
-    expect("The test uses the annual figures, and a test ran on them.").toMatch(TEST_RAN);
-    expect(note!.whyTwoLabels).not.toMatch(TEST_RAN);
+    // Positive control: the exact sentence the manager review rejected (a4da274a).
+    expect("The test uses the annual figures.").toMatch(TEST_RAN);
+    // The whole rendered page, not only the note, so copy added anywhere is caught.
+    const text = (await pageText("kondratiev")).replace(/<[^>]+>/g, " ");
+    expect(text).not.toMatch(TEST_RAN);
     expect(note!.whyTwoLabels).toContain("would run any test");
+  });
+
+  it("the note names the page's own labels, not a curve the page does not draw", () => {
+    // Codex r1 (2026-10-06): this page's curve is the theoretical sine (sineAtYear); the
+    // rolling average is named under "Paired data" and in the citation, and drawn only on
+    // the interactive chart.
+    expect(note!.whyTwoLabels).toContain("“Paired data” line and section");
+    expect(note!.whyTwoLabels).toContain("the interactive chart draws");
+    expect(note!.whyTwoLabels).not.toMatch(/curve earlier/);
   });
 
   it("a cut with no note keeps the generic sentence (Turchin)", async () => {
