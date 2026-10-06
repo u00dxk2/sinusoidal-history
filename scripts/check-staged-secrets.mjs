@@ -9,7 +9,12 @@
  *                             it blocks NEW leaks without tripping on pre-existing
  *                             content. Born from the 2026-07-07 portfolio security
  *                             review (3 of 4 criticals were secrets-in-git).
- *                             exit 0 clean · 1 hits
+ *                             exit 0 clean · 1 hits OR the diff could not be read
+ *                             (only "git is not installed" passes unscanned)
+ *   --range <base>            EVERY commit in <base>..HEAD, each against its first
+ *                             parent — CI's pushed-range scan (a credential added
+ *                             and removed inside one push is still refused).
+ *                             exit 0 clean · 1 hits · 2 range unreadable / no base
  *   --message-file <path>     a COMMIT MESSAGE (the commit-msg hook's $1).
  *                             exit 0 clean · 1 hits
  *   --history <days>          every ADDED line of every hunk in REACHABLE history
@@ -51,7 +56,7 @@ import { fileURLToPath } from "node:url";
 // ERR_MODULE_NOT_FOUND, and the hook BLOCKED the commit instead of scanning it (agentic-news B-71).
 // The two helpers are inlined below with the same names and contracts (unknown flag → exit 2, nothing
 // scanned; RESULT line = result-line.mjs's format, kept in step by hand — one greppable line).
-const KNOWN_FLAGS = new Set(["help", "message-file", "history", "repo", "selftest"]);
+const KNOWN_FLAGS = new Set(["help", "message-file", "history", "repo", "selftest", "range"]);
 function refuseUnknownFlags(args) {
   const unknown = args.filter((a) => a.startsWith("--")).map((a) => a.slice(2).split("=")[0]).filter((f) => !KNOWN_FLAGS.has(f));
   if (unknown.length === 0) return;
@@ -85,7 +90,13 @@ function armResultLine(map) {
 // (check-secret-scan-coverage can compare it to skylark-site's).
 // 2026-10-05.3: no PATTERNS change, but the URI placeholder judgement moved
 // from the whole line to the matched token — a stale copy misses real URIs.
-const SCANNER_SHAPES_VERSION = "2026-10-05.3";
+// 2026-10-06.1: no PATTERNS change, but the staged READ changed (dreamflyer port,
+// bus 5fd47cb2): --no-renames, --text --no-textconv --no-ext-diff, no --diff-filter,
+// a position-based diff parser, refuse on any failed read but "git not installed",
+// and --range <base> for CI. A stale copy passes a renamed-and-edited file, a `-diff`
+// attribute, an added line beginning `++`, a failed `git diff`, a symlink→file type
+// change, and an add-then-remove inside a push.
+const SCANNER_SHAPES_VERSION = "2026-10-06.1";
 
 // Shapes added 2026-10-05 (secreview SUB-1): the fleet's ACTUAL credentials —
 // Render, Anthropic, OpenAI, Doppler, SendGrid, Stripe webhook/restricted,
@@ -214,7 +225,9 @@ if (argv.includes("--help")) {
   console.log(`${SCRIPT}.mjs — the fleet's shared secret scanner (one PATTERNS list, three callers)
   shapes version ${SCANNER_SHAPES_VERSION} · ${PATTERNS.length} patterns: ${PATTERNS.map((p) => p.name).join(", ")}
 
-  node scripts/${SCRIPT}.mjs                        staged ADDED lines (pre-commit hook)    exit 0 clean · 1 hits
+  node scripts/${SCRIPT}.mjs                        staged ADDED lines (pre-commit hook)    exit 0 clean · 1 hits or unreadable diff
+        (renames off, --text, no textconv/ext-diff; only "git not installed" passes unscanned)
+  node scripts/${SCRIPT}.mjs --range <base>         every commit in <base>..HEAD (CI)        exit 0 clean · 1 hits · 2 unreadable range
   node scripts/${SCRIPT}.mjs --message-file <path>  a commit message (commit-msg hook's $1) exit 0 clean · 1 hits
   node scripts/${SCRIPT}.mjs --history <days> [--repo <path>]
         every ADDED line of every hunk in REACHABLE history for the window
@@ -243,6 +256,26 @@ Allowlist (all modes, same semantics): a trailing \`pragma: allowlist secret\`
 }
 
 refuseUnknownFlags(argv);
+
+// --range is a mode of its OWN, stated as one rule whose failure is a refusal
+// (Codex round 2, 2026-10-06, reproduced): `--range` appears EXACTLY ONCE, written
+// `--range <base>`, and with no other mode flag. Before this, `--message-file` or
+// `--history` ran first and exited 0 without reading the range, a second `--range`
+// was silently ignored, and `--range=<base>` fell through to a staged scan of an
+// empty CI index. Any deviation now exits 2 with nothing scanned.
+{
+  const rangeArgs = argv.filter((a) => a === "--range" || a.startsWith("--range="));
+  if (rangeArgs.length > 0) {
+    const others = ["--message-file", "--history", "--repo", "--selftest"].filter((f) => argv.some((a) => a === f || a.startsWith(`${f}=`)));
+    if (rangeArgs.length !== 1 || rangeArgs[0] !== "--range" || others.length > 0) {
+      console.error(
+        `✗ secret scan: --range must appear exactly once, as \`--range <base>\`, with no other mode flag` +
+          `${others.length ? ` (also given: ${others.join(", ")})` : ""} — refused, nothing was scanned`,
+      );
+      process.exit(2);
+    }
+  }
+}
 
 // --message-file <path>: scan a COMMIT MESSAGE instead of the staged diff, with
 // the SAME pattern list (one list, no divergent copy — guard by mechanism).
@@ -594,33 +627,145 @@ function selftestHistory(days) {
   return failed === 0 ? 0 : 1;
 }
 
-// ---------------------------------------------------------------- staged (default)
+// ------------------------------------------------- staged (default) + --range
+// THE READING HALF below was ported 2026-10-06 from dreamflyer's copy (its commits
+// bf14842, 52eec7c, ad5e0dd, e2d49de, 623b274; reported on the bus as 5fd47cb2),
+// each one barred by a red-proven test in scripts/__tests__/check-staged-secrets-reading.test.ts.
+// The JUDGEMENT above (PATTERNS, firstPatternHit, the per-token placeholder rule)
+// is untouched by it.
+//
+// Two modes.
+//   (default)       the STAGED diff — the pre-commit hook.
+//   --range <base>  EVERY commit in <base>..HEAD — CI. Scanning one net diff (the
+//                   old `git reset --soft <base>` route) misses a credential added
+//                   in one pushed commit and removed in the next: it is gone from
+//                   the net diff and still in history (dreamflyer DF-R2). Merges are
+//                   read against their first parent, so a credential a merge
+//                   introduces itself is seen too.
+// --no-renames in both: with rename detection on (git's default), a file renamed
+// AND edited is status R, which the old ACM filter dropped — the scanner saw no patch for a
+// credential added in a renamed file (dreamflyer DF-R1). Without renames the
+// destination is an A and every line of it is scanned.
+// --text --no-textconv --no-ext-diff: a `-diff`/`binary` attribute or a textconv
+// driver (any of which a commit can add in .gitattributes) otherwise makes git print
+// "Binary files differ" or a transformed view instead of the lines, and the scan read
+// nothing and passed.
+// NO --diff-filter (2026-10-06, found while porting; dreamflyer's copy still has it):
+// `ACM` also dropped status T, so a symlink turned into a regular file carrying a
+// credential passed. Filtering only ever removed coverage — a deletion prints no `+`
+// lines — so every status is read.
+// CEILING, declared: this reads ADDED LINES against a fixed pattern list. It does not
+// see a credential that matches no pattern, one split across lines, or one encoded.
+// CEILING, declared (Codex round 2; same object-view class as replace refs, so
+// declared rather than patched): `--range` walks the graph git presents. Local
+// grafts (`info/grafts`) or a shallow boundary can shorten that graph so that both
+// the count and the patch read agree and a commit is never visited. CI's fresh
+// `fetch-depth: 0` checkout carries neither; a local `--range` run on a repo with
+// either is not a complete read.
+// The output indicators are PINNED to what the parser assumes (`+`, `-`, space):
+// the parser keys on them, so they are stated here rather than left to defaults.
+const DIFF_OPTS = [
+  "--unified=0", "--no-color", "--no-renames", "--text", "--no-textconv", "--no-ext-diff",
+  "--output-indicator-new=+", "--output-indicator-old=-", "--output-indicator-context= ",
+];
+// log.showRoot forced on: a root commit in the range is read as a creation patch
+// whatever the runner's config says.
+// SECRET_SCAN_MAX_BUFFER exists only so a test can reach the overflow path with a
+// small fixture. It may only LOWER the limit: anything but a positive integer at or
+// under the default is ignored (a negative value made Node throw before git ran,
+// which a pass-on-error catch read as a pass).
+const DEFAULT_MAX_BUFFER = 256 * 1024 * 1024;
+const askedBuffer = Number(process.env.SECRET_SCAN_MAX_BUFFER);
+const MAX_BUFFER = Number.isInteger(askedBuffer) && askedBuffer > 0 && askedBuffer <= DEFAULT_MAX_BUFFER ? askedBuffer : DEFAULT_MAX_BUFFER;
+// --no-replace-objects (Codex round 1, 2026-10-06, reproduced): a local
+// `refs/replace/<blob>` made git's object reader show a clean REPLACEMENT while the
+// index — and so the commit — still named the credential-bearing original, and the
+// scan judged the wrong bytes and passed. The scan reads the original objects.
+const readGit = (args) => execFileSync("git", ["--no-replace-objects", "-c", "log.showRoot=true", ...args], { encoding: "utf8", maxBuffer: MAX_BUFFER, stdio: ["ignore", "pipe", "pipe"] });
+
+// (`--range` arity, form and exclusivity are refused up front, next to the flag check.)
+const rangeAt = argv.indexOf("--range");
+const rangeBase = rangeAt >= 0 ? argv[rangeAt + 1] : null;
 let diff = "";
-try {
-  diff = execFileSync(
-    "git",
-    ["diff", "--cached", "--unified=0", "--no-color", "--diff-filter=ACM"],
-    { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
-  );
-} catch {
-  process.exit(0); // no staged changes / git unavailable → never block
+let scope = "";
+if (rangeAt >= 0) {
+  // A range that cannot be read is a REFUSAL (exit 2), never a pass: in CI an
+  // empty read would otherwise report "no secrets" for a scan that never ran.
+  if (!rangeBase || rangeBase.startsWith("-")) {
+    console.error("✗ secret scan: --range needs a base commit");
+    process.exit(2);
+  }
+  try {
+    // The base is RESOLVED ONCE to a canonical commit id, its type checked, and only
+    // that id is used afterwards (Codex round 2: the argument used to be re-parsed by
+    // each later command, so a `<rev>:<path>` spelling could validate as one object
+    // and walk as another). Anything that is not a commit refuses.
+    const baseSha = readGit(["rev-parse", "--verify", "--quiet", "--end-of-options", `${rangeBase}^{commit}`]).trim();
+    if (!/^[0-9a-f]{40}(?:[0-9a-f]{24})?$/.test(baseSha) || readGit(["cat-file", "-t", baseSha]).trim() !== "commit") {
+      throw new Error("base is not a commit");
+    }
+    const count = Number(readGit(["rev-list", "--count", `${baseSha}..HEAD`]).trim());
+    diff = readGit(["log", "-p", ...DIFF_OPTS, "--diff-merges=first-parent", "--format=%x00commit %h", `${baseSha}..HEAD`]);
+    scope = `${count} commit(s) in ${baseSha.slice(0, 12)}..HEAD, each against its first parent`;
+  } catch {
+    console.error(`✗ secret scan: could not read the range ${rangeBase.slice(0, 12)}..HEAD — refusing rather than reporting it clean`);
+    process.exit(2);
+  }
+} else {
+  try {
+    diff = readGit(["diff", "--cached", ...DIFF_OPTS]);
+  } catch (err) {
+    // An overflowed read is a REFUSAL: --text expands binaries, so a large staged
+    // change can exceed the buffer. Only the error CODE is inspected, never its text.
+    // ONE pass case, stated rather than matched: git is not installed at all (spawn
+    // ENOENT), where blocking would make the repo uncommittable for a reason unrelated
+    // to its content. Every other failure (not a repo, a corrupt index, an overflow,
+    // a bad option) is a refusal — it used to be `catch { exit 0 }`.
+    if (err && err.code === "ENOENT") process.exit(0);
+    if (err && err.code === "ENOBUFS") {
+      console.error(`\n✗ pre-commit: the staged diff is too large to scan (over ${MAX_BUFFER} bytes) — commit it in smaller pieces.\n`);
+    } else {
+      console.error("\n✗ pre-commit: the staged diff could not be read, so it was not scanned — refusing the commit.\n");
+    }
+    process.exit(1);
+  }
 }
 
 const findings = [];
 let file = "?";
+let commit = "";
+// Headers and content are told apart by POSITION, never by prefix: a file's
+// `---`/`+++` headers come before its first `@@`, and inside a hunk every line
+// starting `+` is added content — including content that itself begins `++`, which
+// the patch shows as `+++…` and the old prefix test skipped as a header. A
+// `diff --git` line (or a range commit marker) ends the hunk.
+let inHunk = false;
 for (const line of diff.split("\n")) {
-  if (line.startsWith("+++ b/")) { file = line.slice(6); continue; }
-  if (line.startsWith("+++") || line.startsWith("---")) continue;
+  if (line.startsWith("\0commit ")) { commit = line.slice(8); file = "?"; inHunk = false; continue; }
+  if (line.startsWith("diff --git ")) { inHunk = false; file = "?"; continue; }
+  if (!inHunk) {
+    if (line.startsWith("+++ b/")) file = line.slice(6);
+    else if (line.startsWith('+++ "b/')) file = line.slice(7, -1); // git quotes unusual names
+    else if (line.startsWith("@@")) inHunk = true;
+    continue;
+  }
+  if (line.startsWith("@@")) continue;
   if (!line.startsWith("+")) continue;
   const pattern = firstPatternHit(line.slice(1));
-  if (pattern) findings.push({ file: printablePath(file), pattern });
+  if (pattern) findings.push({ file: printablePath(file), commit, pattern });
 }
 
 if (findings.length) {
-  console.error("\n✗ pre-commit: possible secret(s) in staged changes:\n");
-  for (const f of findings) console.error(`  [${f.pattern}]  ${f.file}`);
+  console.error(`\n✗ ${scope ? "secret scan" : "pre-commit"}: possible secret(s) in ${scope || "staged changes"}:\n`);
+  for (const f of findings) console.error(`  [${f.pattern}]  ${f.file}${f.commit ? `  (commit ${f.commit})` : ""}`);
   console.error("\n  Move the secret to Doppler or an OS-level env var — never a committed file (.env.local is retired).");
-  console.error("  False positive? append a trailing `pragma: allowlist secret` to the line, then re-commit.\n");
+  if (scope) {
+    console.error("  It is in HISTORY even if a later commit removed it: rotate the credential, then rewrite the commit.");
+    console.error("  False positive? The allowlist comment must be on the line IN the commit named above, so that commit is rewritten too.\n");
+  } else {
+    console.error("  False positive? append a trailing `pragma: allowlist secret` to the line, then re-commit.\n");
+  }
   process.exit(1);
 }
+if (scope) console.log(`secret scan: clean — ${scope}`);
 process.exit(0);
