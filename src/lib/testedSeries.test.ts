@@ -20,7 +20,16 @@ async function pageText(slug: string): Promise<string> {
 
 // A sentence claiming a test RAN. Kondratiev's verdict says "No test was run", so nothing this
 // note adds may say otherwise (manager review a4da274a, 2026-10-06).
-const TEST_RAN = /\b(test (was )?ran|test uses|tests? (was|were) run on|was tested|is tested|tested on)\b/i;
+const TEST_RAN =
+  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on)\b/i;
+
+// What a reader (or a screen reader) gets: visible text plus the reader-facing attributes,
+// tags dropped, whitespace collapsed. Codex r2: a bare tag strip left "test  uses" (two
+// spaces) when a word was wrapped in <em>, and dropped alt/aria-label/title entirely.
+function readerText(html: string): string {
+  const attrs = [...html.matchAll(/\s(?:alt|aria-label|title)="([^"]*)"/g)].map((m) => m[1]);
+  return [html.replace(/<[^>]+>/g, " "), ...attrs].join(" ").replace(/\s+/g, " ");
+}
 
 describe("I-024: the Kondratiev page names the series its verdict is judged on", () => {
   const verdict = spectralVerdictForCycle("kondratiev");
@@ -50,9 +59,12 @@ describe("I-024: the Kondratiev page names the series its verdict is judged on",
     expect(verdict!.eligible).toBe(false);
     // Positive control: the exact sentence the manager review rejected (a4da274a).
     expect("The test uses the annual figures.").toMatch(TEST_RAN);
+    // Positive controls for the two escapes Codex r2 named: a word wrapped in an element,
+    // and a claim carried only in an attribute.
+    expect(readerText("<p>The <em>test</em> uses the annual figures.</p>")).toMatch(TEST_RAN);
+    expect(readerText('<img alt="A test ran on the annual figures">')).toMatch(TEST_RAN);
     // The whole rendered page, not only the note, so copy added anywhere is caught.
-    const text = (await pageText("kondratiev")).replace(/<[^>]+>/g, " ");
-    expect(text).not.toMatch(TEST_RAN);
+    expect(readerText(await pageText("kondratiev"))).not.toMatch(TEST_RAN);
     expect(note!.whyTwoLabels).toContain("would run any test");
   });
 
