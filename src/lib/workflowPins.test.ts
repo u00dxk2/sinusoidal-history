@@ -6,6 +6,14 @@ import { describe, expect, it } from "vitest";
 // (`actions/checkout@v5`), so a moved upstream tag changed the code CI
 // executes with no change in this repo. Every external action is pinned to a
 // full commit SHA; the trailing `# vX.Y.Z` comment is for readers only.
+//
+// Blind to (Codex r1, 2026-10-05; none of these forms is used here today):
+// quoted keys (`"uses": …`) and flow mappings (`- { uses: … }`); the contents
+// of a referenced reusable workflow; local actions and composite action.yml
+// files (local refs are exempt, and action.yml is not scanned); `docker://`
+// image tags (exempt); and whether a SHA exists or is the release it claims.
+// It is a line check of block-form `uses:` in .github/workflows, not a YAML
+// or supply-chain audit.
 const dir = path.resolve(__dirname, "../../.github/workflows");
 const files = readdirSync(dir).filter((f) => /\.ya?ml$/.test(f));
 
