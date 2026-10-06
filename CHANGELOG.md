@@ -1,5 +1,20 @@
 # Changelog
 
+## The Kondratiev page says which record its verdict is judged on (2026-10-06)
+
+- **/cycles/kondratiev names the series its verdict is judged on** (I-024). The page called
+  its TFP series "5-yr rolling" under Paired data and in the citation, and "annual, unsmoothed"
+  in the verdict, and never said which was which; a cold walk could not tell. The "Does it
+  hold up?" box now reads "The record this verdict is judged on, US TFP growth (annual,
+  unsmoothed), runs 77 years", and one paragraph under the verdict says why the page carries
+  two labels. Nothing on the page says a test ran: the record covers 1.4 of the 3.0 periods a
+  test needs. The copy lives in `src/lib/testedSeries.ts`, keyed by the verdict's series, and
+  `src/lib/testedSeries.test.ts` renders the real page and fails on any "a test ran" sentence.
+  Production text: 95 → 96 lines, 1 replaced and 1 added; Turchin and Perez unchanged.
+  Commits `2fe5047`, `52a1926`, `4741fe7` (two Codex review rounds folded).
+- **Two Dependabot alerts fixed with lockfile-only patch bumps:** `source-map-js` 1.2.1 → 1.2.2
+  (#55, `b7b9207`) and `sharp` 0.35.4 → 0.35.5 (#56, `c208e62`).
+
 ## A confidence tag opens on its own definition (2026-10-05 overnight)
 
 - **Tapping a confidence tag on /cycles now lands on the definition itself** (I-023). The
