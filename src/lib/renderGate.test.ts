@@ -86,6 +86,35 @@ describe("createRenderGate", () => {
     expect(calls).toBe(4);
   });
 
+  // Codex r1 (2026-10-05): a pending render sat in the LRU, so eviction could
+  // drop it and a repeat request for the same URL rendered it a second time.
+  it("never evicts a pending render; a repeat request joins it", async () => {
+    const gate = createRenderGate({ maxEntries: 1, maxInFlight: 2, maxPerWindow: 100, windowMs: 60_000 });
+    const releases: (() => void)[] = [];
+    let aCalls = 0;
+    const slowA = () => {
+      aCalls += 1;
+      return new Response(
+        new ReadableStream({
+          start(ctrl) {
+            releases.push(() => {
+              ctrl.enqueue(new TextEncoder().encode("A"));
+              ctrl.close();
+            });
+          },
+        })
+      );
+    };
+    await gate.serve("x", okRender("x"), {});
+    const first = gate.serve("A", slowA, {});
+    await gate.serve("B", okRender("B"), {}); // fills the one LRU slot
+    const repeat = gate.serve("A", slowA, {});
+    for (const r of releases) r();
+    expect(await body(await first)).toBe("A");
+    expect(await body(await repeat)).toBe("A");
+    expect(aCalls).toBe(1);
+  });
+
   it("renders a variant again once it is older than maxAgeMs", async () => {
     let t = 0;
     const gate = createRenderGate({ maxEntries: 4, maxInFlight: 2, maxPerWindow: 10, windowMs: 1, maxAgeMs: 1000, now: () => t });

@@ -1,9 +1,14 @@
 // A bounded memo in front of an expensive renderer (SIN-R1, Astra review
 // 2026-10-05). Custom /og override cards are ~2.5 s renders on one Starter
 // instance and the override space is far too large to memoize whole, so:
-// keep the most recent `maxEntries` variants, and refuse a fresh render with
-// 429 when `maxInFlight` are already running or `maxPerWindow` have started in
-// the last `windowMs`. A cached variant is always served, budget or not.
+// keep the most recent `maxEntries` finished variants, and refuse a fresh
+// render with 429 when `maxInFlight` are already running or `maxPerWindow`
+// have started in the last `windowMs`. A cached variant is always served,
+// budget or not, and a request for a variant already rendering joins it.
+//
+// Renders in progress live in `pending`, never in the LRU, so eviction cannot
+// drop one and let the same URL render twice (Codex r1, 2026-10-05). The
+// pending map is bounded by `maxInFlight`, the LRU by `maxEntries`.
 
 export function createRenderGate(opts: {
   maxEntries: number;
@@ -16,9 +21,9 @@ export function createRenderGate(opts: {
 }) {
   const now = opts.now ?? Date.now;
   const maxAgeMs = opts.maxAgeMs ?? Infinity;
-  const cache = new Map<string, { bytes: Promise<ArrayBuffer>; at: number }>();
+  const cache = new Map<string, { bytes: ArrayBuffer; at: number }>();
+  const pending = new Map<string, Promise<ArrayBuffer>>();
   let starts: number[] = [];
-  let inFlight = 0;
   let renders = 0;
 
   const refuse = () =>
@@ -45,38 +50,34 @@ export function createRenderGate(opts: {
         // Refresh recency: Map iteration order is insertion order.
         cache.delete(key);
         cache.set(key, hit);
-        return new Response(await hit.bytes, { headers });
+        return new Response(hit.bytes, { headers });
       }
 
+      const running = pending.get(key);
+      if (running) return new Response(await running, { headers });
+
       starts = starts.filter((s) => t - s < opts.windowMs);
-      if (inFlight >= opts.maxInFlight || starts.length >= opts.maxPerWindow) {
+      if (pending.size >= opts.maxInFlight || starts.length >= opts.maxPerWindow) {
         // Out of budget: a stale copy beats a refusal.
-        return hit ? new Response(await hit.bytes, { headers }) : refuse();
+        return hit ? new Response(hit.bytes, { headers }) : refuse();
       }
 
       starts.push(t);
-      inFlight += 1;
       renders += 1;
-      let entry: { bytes: Promise<ArrayBuffer>; at: number };
+      // A synchronous throw here leaves nothing to undo: nothing is pending yet.
+      const job = render().arrayBuffer();
+      pending.set(key, job);
       try {
-        entry = { bytes: render().arrayBuffer(), at: t };
-      } catch (err) {
-        inFlight -= 1;
-        throw err;
-      }
-      cache.delete(key);
-      cache.set(key, entry);
-      while (cache.size > opts.maxEntries) {
-        cache.delete(cache.keys().next().value as string);
-      }
-      try {
-        return new Response(await entry.bytes, { headers });
-      } catch (err) {
-        // A failed render must not be served from memory.
-        if (cache.get(key) === entry) cache.delete(key);
-        throw err;
+        const bytes = await job;
+        cache.delete(key);
+        cache.set(key, { bytes, at: t });
+        while (cache.size > opts.maxEntries) {
+          cache.delete(cache.keys().next().value as string);
+        }
+        return new Response(bytes, { headers });
       } finally {
-        inFlight -= 1;
+        // A failed render is never cached; the next request may try again.
+        pending.delete(key);
       }
     },
   };
