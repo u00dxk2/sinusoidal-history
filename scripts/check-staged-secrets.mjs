@@ -80,38 +80,131 @@ function armResultLine(map) {
   });
 }
 
+// SCANNER_SHAPES_VERSION — bump on ANY change to PATTERNS. A vendoring lane's
+// copy carries this line, so a stale vendored scanner is a one-grep finding
+// (check-secret-scan-coverage can compare it to skylark-site's).
+// 2026-10-05.3: no PATTERNS change, but the URI placeholder judgement moved
+// from the whole line to the matched token — a stale copy misses real URIs.
+const SCANNER_SHAPES_VERSION = "2026-10-05.3";
+
+// Shapes added 2026-10-05 (secreview SUB-1): the fleet's ACTUAL credentials —
+// Render, Anthropic, OpenAI, Doppler, SendGrid, Stripe webhook/restricted,
+// Supabase (PAT, secret key, service_role JWT), PostHog personal, Sentry,
+// rediss://, gh[ousr]_ and Slack webhooks. Anchored forms follow
+// agent-ops-patterns lib/snippet-redact.mjs SHAPES; generic base64/hex runs
+// are deliberately NOT here (a pre-commit gate that fires on every hash
+// teaches people to allowlist).
+// Every new quantifier is BOUNDED ({m,n}): an unbounded run whose charset
+// contains its own prefix (`sk-sk-sk-…`, `eyJa-eyJa-…`) rescans to end of line
+// from every start, which is quadratic on a long minified line (Codex review
+// 2026-10-05 reproduced >1.5 s on 48 KB). Bounds sit far above real key lengths.
 const PATTERNS = [
   { name: "private-key-block", re: /-----BEGIN (?:RSA |EC |DSA |OPENSSH |PGP )?PRIVATE KEY-----/ },
-  { name: "mongodb-uri-with-creds", re: /mongodb(?:\+srv)?:\/\/[^\s:/@]+:[^\s@]+@/ },
-  { name: "postgres-uri-with-creds", re: /postgres(?:ql)?:\/\/[^\s:/@]+:[^\s@]+@/ },
-  { name: "mysql-uri-with-creds", re: /mysql:\/\/[^\s:/@]+:[^\s@]+@/ },
-  { name: "redis-uri-with-creds", re: /redis:\/\/[^\s:/@]*:[^\s@]+@/ },
-  { name: "amqp-uri-with-creds", re: /amqps?:\/\/[^\s:/@]+:[^\s@]+@/ },
+  // URI user/password runs bounded too (Codex round 2: `rediss://:x` repeated, no `@`, was quadratic).
+  { name: "mongodb-uri-with-creds", re: /mongodb(?:\+srv)?:\/\/[^\s:/@]{1,256}:[^\s@]{1,512}@/ },
+  { name: "postgres-uri-with-creds", re: /postgres(?:ql)?:\/\/[^\s:/@]{1,256}:[^\s@]{1,512}@/ },
+  { name: "mysql-uri-with-creds", re: /mysql:\/\/[^\s:/@]{1,256}:[^\s@]{1,512}@/ },
+  { name: "redis-uri-with-creds", re: /rediss?:\/\/[^\s:/@]{0,256}:[^\s@]{1,512}@/ },
+  { name: "amqp-uri-with-creds", re: /amqps?:\/\/[^\s:/@]{1,256}:[^\s@]{1,512}@/ },
   { name: "aws-access-key", re: /\bAKIA[0-9A-Z]{16}\b/ },
   { name: "stripe-live-secret", re: /\bsk_live_[0-9a-zA-Z]{16,}\b/ },
-  { name: "github-pat", re: /\b(?:ghp_[0-9A-Za-z]{36}|github_pat_[0-9A-Za-z_]{40,})\b/ },
-  { name: "google-api-key", re: /\bAIza[0-9A-Za-z\-_]{35}\b/ },
+  { name: "stripe-restricted-live", re: /\brk_live_[0-9a-zA-Z]{16,256}/ },
+  { name: "stripe-webhook-secret", re: /\bwhsec_[0-9a-zA-Z+/=]{24,256}/ },
+  { name: "github-pat", re: /\b(?:ghp_[0-9A-Za-z]{36}|gh[ousr]_[0-9A-Za-z]{36,255}|github_pat_[0-9A-Za-z_]{40,})\b/ },
+  // Trailing `(?![A-Za-z0-9_-])`, not `\b` (2026-10-05.2): the body is FIXED-length
+  // and may end in `-`, and `\b` between that `-` and a space, quote or end of line
+  // never holds, so a key ending in `-` passed whole. Same fix as the redactor's
+  // copy in src/lib/cc-snippet-redact.mjs (SUB-4 Codex round 1).
+  { name: "google-api-key", re: /\bAIza[0-9A-Za-z\-_]{35}(?![A-Za-z0-9_-])/ },
   { name: "slack-token", re: /\bxox[baprs]-[0-9A-Za-z-]{10,}\b/ },
+  { name: "slack-webhook", re: /\bhttps:\/\/hooks\.slack\.com\/services\/[A-Za-z0-9]{1,64}\/[A-Za-z0-9]{1,64}\/[A-Za-z0-9]{16,64}/ },
+  { name: "render-api-key", re: /\brnd_[A-Za-z0-9]{24,128}/ },
+  // Anthropic: sk-ant-<kind><2 digits>- then the ~90-char body (api03, admin01, …).
+  // Checked BEFORE OpenAI. A prose word like `sk-ant-api03-generated-admin-keys` is too short.
+  // `(?<![A-Za-z0-9_-])`, not `\b`: `-sk-` INSIDE a base64url blob is not a key start
+  // (fleet sweep 2026-10-05: a Google Places photo name in frolic's QA fixtures fired).
+  { name: "anthropic-key", re: /(?<![A-Za-z0-9_-])sk-ant-[a-z]{2,10}\d{2}-[A-Za-z0-9_-]{40,300}/ },
+  // OpenAI: a typed prefix + a long body, or the legacy form = an unbroken 40+ alnum run
+  // (no hyphens, so kebab-case identifiers like `sk-Button-primary-size-2` never match).
+  { name: "openai-key", re: /(?<![A-Za-z0-9_-])sk-(?:(?:proj|svcacct|admin|None)-[A-Za-z0-9_-]{40,300}|[A-Za-z0-9]{40,300}(?![A-Za-z0-9]))/ },
+  { name: "doppler-token", re: /\bdp\.(?:st|ct|pt|sa|scim|audit)\.[A-Za-z0-9._-]{20,256}/ },
+  { name: "sendgrid-key", re: /\bSG\.[A-Za-z0-9_-]{16,64}\.[A-Za-z0-9_-]{30,128}/ },
+  { name: "supabase-access-token", re: /\bsbp_[A-Za-z0-9]{32,128}/ },
+  { name: "supabase-secret-key", re: /\bsb_secret_[A-Za-z0-9_-]{20,256}/ },
+  // Anon keys are public by design: flag ONLY a JWT whose decoded payload says role service_role.
+  { name: "supabase-service-role-jwt", test: hasServiceRoleJwt },
+  { name: "posthog-personal-key", re: /\bphx_[A-Za-z0-9]{30,128}/ },
+  { name: "sentry-token", re: /\bsntry[su]_[A-Za-z0-9+/=_-]{30,512}/ },
 ];
+
+// Supabase-issued JWTs are compact JSON, so both header and payload start `eyJ`
+// (base64url of `{"`); a whitespace-padded JSON encoding is not a shape Supabase mints.
+const JWT_RE = /\beyJ[A-Za-z0-9_-]{8,2048}\.(eyJ[A-Za-z0-9_-]{8,4096})\.[A-Za-z0-9_-]{8,1024}/g;
+/** True when any JWT on the line decodes to a payload with top-level role "service_role". */
+function hasServiceRoleJwt(content) {
+  for (const m of content.matchAll(JWT_RE)) {
+    try {
+      const payload = JSON.parse(Buffer.from(m[1], "base64url").toString("utf8"));
+      if (payload && typeof payload === "object" && payload.role === "service_role") return true;
+    } catch {
+      // not a JSON payload → not a Supabase key; stay silent
+    }
+  }
+  return false;
+}
 
 // Markers that void a connection-string match (placeholders, not real secrets).
 const PLACEHOLDER =
   /(localhost|127\.0\.0\.1|example\.com|<[^>]*>|:password@|:pass@|:changeme@|:your[-_]|:xxx+@|REDACTED|\*\*\*)/i;
 const ALLOW = /(pragma:\s*allowlist secret|gitleaks:allow|secret-scan:ignore)/i;
+// The host/path tail of a URI after its `user:pass@` match: up to the first
+// delimiter a URI does not contain in practice. Bounded like every other run.
+const URI_TAIL = /^[^\s"'`<>()[\]{},;]{0,1024}/;
+
+/**
+ * True when at least one match of a URI pattern on the line is NOT a
+ * placeholder. PLACEHOLDER is tested against each matched URI TOKEN (the
+ * `scheme://user:pass@` match plus its host/path tail), never the whole line
+ * (2026-10-05.3, urban-beaver report: a real credential-bearing URI on a line
+ * that also said `example.com` or `<password>` anywhere else was let through).
+ * Every match is judged, so a placeholder URI earlier on the line cannot
+ * shield a real one of the same scheme later on it.
+ */
+function hasRealUriMatch(re, content) {
+  const g = new RegExp(re.source, re.flags.includes("g") ? re.flags : `${re.flags}g`);
+  for (const m of content.matchAll(g)) {
+    const tail = URI_TAIL.exec(content.slice(m.index + m[0].length))?.[0] ?? "";
+    if (!PLACEHOLDER.test(m[0] + tail)) return true;
+  }
+  return false;
+}
 
 /**
  * The one judgement every caller makes about one line: the FIRST pattern that
- * fires, or null. An allowlisted line never fires; a connection-string match on
- * a placeholder voids the line (break, not continue — the original semantics).
+ * fires, or null. An allowlisted line never fires; a connection-string match
+ * that is itself a placeholder voids THAT match and the scan CONTINUES (it used
+ * to void the whole line, so a placeholder URI shielded a real token later on
+ * the same line — Codex review reproduced it once `rediss://` joined the list).
  */
 function firstPatternHit(content) {
   if (ALLOW.test(content)) return null;
   for (const p of PATTERNS) {
-    if (!p.re.test(content)) continue;
-    if (p.name.endsWith("uri-with-creds") && PLACEHOLDER.test(content)) return null;
+    if (!(p.test ? p.test(content) : p.re.test(content))) continue;
+    if (p.name.endsWith("uri-with-creds") && !hasRealUriMatch(p.re, content)) continue;
     return p.name;
   }
   return null;
+}
+
+/**
+ * A path is printed only when it is not itself secret-shaped (Codex review
+ * 2026-10-05, round 3): an ADDED content line reading `++ b/<token>` appears
+ * in the diff as `+++ b/<token>`, the line-oriented parsers below take it for a
+ * file header, and the next finding would print the token as its PATH.
+ * Redacting at print time closes the leak whatever the parser believes.
+ */
+function printablePath(p) {
+  return firstPatternHit(String(p)) ? "<path redacted: secret-shaped>" : p;
 }
 
 const argv = process.argv.slice(2);
@@ -119,6 +212,7 @@ const SCRIPT = "check-staged-secrets";
 
 if (argv.includes("--help")) {
   console.log(`${SCRIPT}.mjs — the fleet's shared secret scanner (one PATTERNS list, three callers)
+  shapes version ${SCANNER_SHAPES_VERSION} · ${PATTERNS.length} patterns: ${PATTERNS.map((p) => p.name).join(", ")}
 
   node scripts/${SCRIPT}.mjs                        staged ADDED lines (pre-commit hook)    exit 0 clean · 1 hits
   node scripts/${SCRIPT}.mjs --message-file <path>  a commit message (commit-msg hook's $1) exit 0 clean · 1 hits
@@ -138,7 +232,8 @@ if (argv.includes("--help")) {
           RED    a commit tripping EVERY pattern → exit 3, every pattern named, no value printed
           GREEN  realistic content + an allowlisted line → exit 0
           EMPTY  the only commit is outside the window → NOTHING SWEPT, exit 2
-          plus staged / --message-file regression arms (exit 1 on a fixture, 0 on clean).
+          plus staged / --message-file regression arms (exit 1 on a fixture, 0 on clean)
+          and a TOKEN-SCOPED PLACEHOLDER arm (a placeholder word elsewhere on a line never voids a real URI).
         exit 0 all arms pass · 1 an arm failed
   --help  this text
 
@@ -169,14 +264,19 @@ if (msgFlagIdx !== -1) {
     process.exit(0); // unreadable message file → never block (the diff hook already ran)
   }
   const msgFindings = [];
-  for (const line of msg.split("\n")) {
+  // SUB-10 (secreview 2026-10-05): REDACTED like --history — pattern, line
+  // number and length only. The old 60-char excerpt printed whole tokens into
+  // stderr, i.e. into the agent transcript this scanner exists to protect.
+  const msgLines = msg.split("\n");
+  for (let i = 0; i < msgLines.length; i++) {
+    const line = msgLines[i].endsWith("\r") ? msgLines[i].slice(0, -1) : msgLines[i];
     if (line.startsWith("#")) continue; // comment lines are stripped by git anyway
     const pattern = firstPatternHit(line);
-    if (pattern) msgFindings.push({ pattern, line: line.slice(0, 60) });
+    if (pattern) msgFindings.push({ pattern, lineNo: i + 1, length: line.length });
   }
   if (msgFindings.length) {
-    console.error("\n✗ commit-msg: possible secret(s) in the COMMIT MESSAGE itself:\n");
-    for (const f of msgFindings) console.error(`  [${f.pattern}]  ${f.line}…`);
+    console.error("\n✗ commit-msg: possible secret(s) in the COMMIT MESSAGE itself (REDACTED — the value is never printed):\n");
+    for (const f of msgFindings) console.error(`  [${f.pattern}]  line ${f.lineNo} · ${f.length} chars`);
     console.error("\n  A remediation write-up must never quote the removed value (bounds-ledger 2026-08-08).");
     console.error("  Reword the message; false positive? append `pragma: allowlist secret` to the line.\n");
     process.exit(1);
@@ -285,7 +385,7 @@ function sweepHistory({ days, repo }) {
       added++;
       const n = newLine++;
       const pattern = firstPatternHit(line.slice(1));
-      if (pattern) hits.push({ pattern, sha, file, line: n });
+      if (pattern) hits.push({ pattern, sha, file: printablePath(file), line: n });
       continue;
     }
     if (line.startsWith(" ")) newLine++; // context (none under --unified=0; kept for correctness)
@@ -308,6 +408,9 @@ function diffPath(s) {
 // git repo and runs THIS script as a child process — the whole scan, exit code
 // and printed output included — never the predicate alone.
 function selftestHistory(days) {
+  const fx = (n) => "Fx7kQ2mZ9p".repeat(Math.ceil(n / 10)).slice(0, n);
+  const b64u = (o) => Buffer.from(JSON.stringify(o), "utf8").toString("base64url");
+  const fxJwt = (role) => [b64u({ alg: "HS256", typ: "JWT" }), b64u({ iss: "supabase", ref: "fixtureref", role }), fx(43)].join(".");
   // One obviously-fake value per pattern. The trailing comment on each SOURCE
   // line is what lets this file commit through its own staged scan; the STRING
   // carries no allowlist marker, so it fires when committed to the fixture repo.
@@ -321,8 +424,24 @@ function selftestHistory(days) {
     ["aws-access-key", "aws_access_key_id = AKIAFIXTUREFIXTURE00"], // pragma: allowlist secret gitleaks:allow
     ["stripe-live-secret", "STRIPE=sk_live_FIXTUREFIXTUREFIXTURE0"], // pragma: allowlist secret gitleaks:allow
     ["github-pat", "GITHUB_TOKEN=ghp_FIXTUREFIXTUREFIXTUREFIXTUREFIXTURE0"], // pragma: allowlist secret gitleaks:allow
-    ["google-api-key", "GOOGLE=AIzaFIXTUREFIXTUREFIXTUREFIXTUREFIXTURE"], // pragma: allowlist secret gitleaks:allow
+    // Ends in `-` on purpose (2026-10-05.2): the old trailing `\b` never matched this shape.
+    ["google-api-key", "GOOGLE=AIzaFIXTUREFIXTUREFIXTUREFIXTUREFIXTUR-"], // pragma: allowlist secret gitleaks:allow
     ["slack-token", "SLACK=xoxb-FIXTUREFIXTURE0"], // pragma: allowlist secret gitleaks:allow
+    // 2026-10-05 shapes: BUILT AT RUNTIME by concatenation, so no source line
+    // here is itself key-shaped (this file is scanned by its own hook and CI).
+    ["stripe-restricted-live", "STRIPE_RK=" + "rk" + "_live_" + fx(24)],
+    ["stripe-webhook-secret", "STRIPE_WEBHOOK_SECRET=" + "whsec" + "_" + fx(32)],
+    ["slack-webhook", "SLACK_WEBHOOK=" + "https://hooks.slack.com/serv" + "ices/" + "T0FIXTURE/B0FIXTURE/" + fx(24)],
+    ["render-api-key", "RENDER_API_KEY=" + "rnd" + "_" + fx(32)],
+    ["anthropic-key", "ANTHROPIC_API_KEY=" + "sk" + "-ant-" + "api03-" + fx(93)],
+    ["openai-key", "OPENAI_API_KEY=" + "sk" + "-proj-" + fx(120)],
+    ["doppler-token", "DOPPLER_TOKEN=" + "dp" + ".st." + "prd." + fx(43)],
+    ["sendgrid-key", "SENDGRID_API_KEY=" + "SG" + "." + fx(22) + "." + fx(43)],
+    ["supabase-access-token", "SUPABASE_ACCESS_TOKEN=" + "sbp" + "_" + fx(40)],
+    ["supabase-secret-key", "SUPABASE_SECRET=" + "sb" + "_secret_" + fx(32)],
+    ["supabase-service-role-jwt", "SUPABASE_SERVICE_ROLE_KEY=" + fxJwt("service" + "_role")],
+    ["posthog-personal-key", "POSTHOG_API_KEY=" + "phx" + "_" + fx(43)],
+    ["sentry-token", "SENTRY_AUTH_TOKEN=" + "sntry" + "s_" + fx(60)],
   ];
   // Realistic repo content that must stay silent — URLs, base64-looking text,
   // placeholder connection strings, a CI secret reference, and ONE line that
@@ -336,6 +455,10 @@ function selftestHistory(days) {
     "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}",
     "The scanner keys on the xoxb prefix and the AKIA prefix; neither word alone is a token.",
     "aws_access_key_id = AKIAFIXTUREFIXTURE01  # pragma: allowlist secret",
+    // A Supabase ANON key is public by design and must stay silent.
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY=" + fxJwt("anon"),
+    "an Admin API key (sk-ant-admin01-…), the rnd_ prefix, a dp.ct.* token, phx_… and sntr… keys",
+    "see sk-learn-is-a-python-library-name-here; rediss://cache.internal:6380/0",
   ];
 
   let failed = 0;
@@ -442,6 +565,21 @@ function selftestHistory(days) {
       `fixture exit ${r6.status}, clean exit ${r7.status}`,
     );
 
+    // TOKEN-SCOPED PLACEHOLDER (2026-10-05.3) — a placeholder word elsewhere on the
+    // line must not void a real URI; a URI whose OWN password is a placeholder stays silent.
+    const pgReal = "postgres" + "://appuser:" + fx(20) + "@db.fixture.internal/app";
+    const tokBad = join(base, "msg-tok-bad.txt");
+    const tokOk = join(base, "msg-tok-ok.txt");
+    writeFileSync(tokBad, `fix: db\n\nDATABASE_URL=${pgReal}  # format: see example.com, password goes in <password>\n`);
+    writeFileSync(tokOk, `fix: db\n\nDATABASE_URL=${"postgres" + "://appuser:changeme@db.fixture.internal/app"} and ${"postgres" + "://user:<password>@host/db"}\n`);
+    const rT1 = runSelf(["--message-file", tokBad], base);
+    const rT2 = runSelf(["--message-file", tokOk], base);
+    arm(
+      "TOKEN-SCOPED PLACEHOLDER — real URI + placeholder word elsewhere → exit 1; URI's own placeholder password → exit 0",
+      rT1.status === 1 && rT1.out.includes("[postgres-uri-with-creds]") && !rT1.out.includes(fx(20)) && rT2.status === 0,
+      `mixed-line exit ${rT1.status}, own-placeholder exit ${rT2.status}`,
+    );
+
     // USAGE — bad args and an unknown flag refuse with 2, never scan.
     const r8 = runSelf(["--history", "zero", "--repo", red]);
     const r9 = runSelf(["--history", String(days), "--repo", red, "--histroy"]);
@@ -452,7 +590,7 @@ function selftestHistory(days) {
   } finally {
     try { rmSync(base, { recursive: true, force: true }); } catch { /* temp dir; best effort */ }
   }
-  console.log(failed === 0 ? `selftest: PASS (${FIRE.length} patterns, ${SILENT.length} silent lines, 7 arms)` : `selftest: FAIL — ${failed} arm(s) failed`);
+  console.log(failed === 0 ? `selftest: PASS (${FIRE.length} patterns, ${SILENT.length} silent lines, 8 arms)` : `selftest: FAIL — ${failed} arm(s) failed`);
   return failed === 0 ? 0 : 1;
 }
 
@@ -475,7 +613,7 @@ for (const line of diff.split("\n")) {
   if (line.startsWith("+++") || line.startsWith("---")) continue;
   if (!line.startsWith("+")) continue;
   const pattern = firstPatternHit(line.slice(1));
-  if (pattern) findings.push({ file, pattern });
+  if (pattern) findings.push({ file: printablePath(file), pattern });
 }
 
 if (findings.length) {
