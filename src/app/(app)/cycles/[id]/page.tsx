@@ -35,6 +35,7 @@ import {
   spectralHeadline,
   spectralVerdictForCycle,
 } from "@/lib/spectral";
+import { testedSeriesNote } from "@/lib/testedSeries";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -98,6 +99,7 @@ export default async function CyclePage({ params }: Params) {
 
   const series = seriesForCycle(cycle);
   const verdict = spectralVerdictForCycle(cycle.id);
+  const tested = verdict ? testedSeriesNote(verdict.series_id) : undefined;
   const index = cycles.findIndex((c) => c.id === cycle.id);
   const peaks = peakYearsInRange(cycle);
   const troughs = troughYearsInRange(cycle);
@@ -225,10 +227,13 @@ export default async function CyclePage({ params }: Params) {
                 TFP, Turchin's 1913+ wealth), and calling those by the chart's label
                 would contradict the verdict paragraph below. Shortfall is computed
                 from the exact span, never from the rounded cycles_covered — that
-                rounding overstates it by a year on four of the nine rows. */}
+                rounding overstates it by a year on four of the nine rows.
+                A cut with a testedSeriesNote is named here outright (I-024). */}
             {series && series.id === verdict.series_id
               ? `The paired record (${series.name}) runs ${verdict.span_years} years: `
-              : `The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
+              : tested
+                ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
+                : `The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
             {`${verdict.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
             {!verdict.eligible &&
               ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
@@ -531,6 +536,11 @@ export default async function CyclePage({ params }: Params) {
           <p className="text-[15px] leading-[1.6] text-ink/85 mb-3">
             {verdict.lay_text}
           </p>
+          {tested && (
+            <p className="text-[15px] leading-[1.6] text-ink/85 mb-3">
+              {tested.whyTwoLabels}
+            </p>
+          )}
           {!verdict.eligible && (
             <p className="text-[13px] leading-relaxed text-ink-soft mb-4">
               &ldquo;Insufficient data&rdquo; is an eligibility outcome under the
