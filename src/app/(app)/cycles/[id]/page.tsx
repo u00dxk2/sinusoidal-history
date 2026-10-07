@@ -36,6 +36,7 @@ import {
   spectralVerdictForCycle,
 } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
+import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -567,10 +568,21 @@ export default async function CyclePage({ params }: Params) {
               copy, on a page with no way back (I-020; cold walk 2026-10-03
               P12). The SVG and PNG downloads below stay for every pointer.
               The hidden copy is display:none and lazy, so it is not fetched. */}
+          {/* Below lg the scroller cuts the drawn subtitle and band off on
+              arrival, so the target and band are also said in words here, and
+              the cue names the gesture for the pointer in hand: a mouse at
+              768-1023 was told to swipe (I-021; cold walk 2026-10-07, step 2). */}
           <figure className="border-t border-rule/30 pt-4">
-            <p className="lg:hidden font-mono text-[12px] text-ink-soft mb-2">
-              Swipe sideways for the whole figure
-            </p>
+            <div className="lg:hidden font-mono text-[12px] mb-2">
+              <p className="text-ink/85 mb-1">{figureTargetBandLine(verdict)}</p>
+              <p className="hidden pointer-coarse:block text-ink-soft">
+                Swipe sideways for the whole figure
+              </p>
+              <p className="pointer-coarse:hidden text-ink-soft">
+                Scroll sideways for the whole figure, or click it to open it
+                full size
+              </p>
+            </div>
             <FigureScroller
               storageKey={cycle.id}
               label="Spectral-verdict figure, scrolls sideways"
@@ -592,10 +604,8 @@ export default async function CyclePage({ params }: Params) {
             slug={cycleSlug(cycle)}
           />
           <p className="mt-4 text-[13px] leading-relaxed text-ink-soft">
-            Pre-registered harmonic-regression test at the exact stated period
-            against an AR(1) red-noise null ({spectralDraws.toLocaleString("en-US")}{" "}
-            bootstrap draws), gated on the record covering at least 3.0 full
-            periods. Read the protocol under{" "}
+            {protocolCaptionLead(verdict, spectralDraws)}{" "}Read the protocol
+            under{" "}
             <Link
               href="/methods#spectral-testing"
               className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
