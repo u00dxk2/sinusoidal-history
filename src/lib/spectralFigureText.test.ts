@@ -14,7 +14,7 @@ describe("spectral figure text", () => {
   it("never describes a test as run on a record too short to test", () => {
     for (const v of spectralPrimary.filter((r) => !r.eligible)) {
       const lead = protocolCaptionLead(v, spectralDraws);
-      expect(lead.startsWith("No test was run on this record")).toBe(true);
+      expect(lead.startsWith("No test was run: this record covers")).toBe(true);
       expect(lead).toContain(`${v.cycles_covered.toFixed(1)} of the 3.0 full periods`);
       expect(lead).not.toMatch(/^Pre-registered/);
     }

@@ -78,7 +78,7 @@ try {
     if (v.eligible) {
       check(`caption ${slug} (eligible): keeps the test description`, caption.startsWith("Pre-registered harmonic-regression test"), caption.slice(0, 80));
     } else {
-      const want = `No test was run on this record: it covers ${v.cycles_covered.toFixed(1)} of the 3.0 full periods`;
+      const want = `No test was run: this record covers ${v.cycles_covered.toFixed(1)} of the 3.0 full periods`;
       check(`caption ${slug} (ineligible): says no test was run`, caption.startsWith(want), caption.slice(0, 90));
       check(`caption ${slug} (ineligible): does not open as a test`, !!caption && !caption.startsWith("Pre-registered"));
     }

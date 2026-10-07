@@ -32,5 +32,7 @@ export function protocolCaptionLead(v: SpectralVerdictRow, draws: number): strin
   if (v.eligible) {
     return `Pre-registered harmonic-regression test at the exact stated period against an AR(1) red-noise null (${drawsText} bootstrap draws), gated on the record covering at least 3.0 full periods.`;
   }
-  return `No test was run on this record: it covers ${v.cycles_covered.toFixed(1)} of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only. Had the record qualified, the test would be a harmonic regression at the exact stated period against an AR(1) red-noise null (${drawsText} bootstrap draws).`;
+  // Worded so that testedSeries.test.ts's "a test ran" guard (which matches "test was run on")
+  // keeps its full strength: this sentence is a negation, and the guard reads no negations.
+  return `No test was run: this record covers ${v.cycles_covered.toFixed(1)} of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only. Had the record qualified, the test would be a harmonic regression at the exact stated period against an AR(1) red-noise null (${drawsText} bootstrap draws).`;
 }
