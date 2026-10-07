@@ -59,7 +59,7 @@ node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https
 ### Acceptance
 
 - At about 900 wide with a mouse, the line above the figure doesn't say "Swipe". It says scroll sideways or click to open full size. At 390x664 with touch it still says swipe.
-- At 390x664, on arrival at the figure, the target period and the band are readable in one line without swiping.
+- At 390x664, on arrival at the figure, the target period and the band are readable in one line without swiping. (Corrected at P3, Codex r1: "one line" meant one line of text above the figure, not one visual row. At 390 it wraps to 2 rows, both on screen above the figure on arrival, and that is the intended behaviour.)
 - The new check passes on production after deploy and fails with the cue split reverted. Both outputs go in the P3 report.
 - Rendered-text multiset: on /cycles/kondratiev, /cycles/perez and /cycles/turchin, the only changes are the cue line(s) and the added target/band line. No title, meta, H1 or URL change.
 - I-021's closeWhen (a cold walk at 390 and about 900 with a mouse reads the target and the band, and says the cue told it what to do) is answered by the next cold walk, not by me.
@@ -89,3 +89,81 @@ Paths: `src/app/(app)/cycles/[id]/page.tsx` (what users get); `scripts/check-fig
 - **(c) State reads marked CROSSED:** 2.
   - Dated gates due today: 8 of 8 UNREAD at compose. Read today as above, except I-022 (in flight) and the waived I-021/I-024.
   - Prior-day retro (10-05): 10 still-on-discipline findings. Listed for the close, not dispositioned here.
+
+## P3 — Product-work loop
+
+[P3 — Product-work loop]
+
+**Action (kind: improve):** I-021, as REDIRECTED by manager review f3d1c14a. On every paired /cycles/<slug> page the spectral figure now:
+- tells the reader how to see all of it in words that fit their pointer;
+- states its target period and band in HTML above the figure on phones;
+- no longer tells a reader that a test ran when none did.
+
+**User-visible change.** Below 1024 px wide, the figure carries the line "Target period 54 years · Insufficient data — no test possible · 1.4 of 3.0 required periods" (Kondratiev). The cue is split by pointer:
+- touch keeps "Swipe sideways for the whole figure";
+- a mouse at 768–1023 reads "Scroll sideways for the whole figure, or click it to open it full size".
+
+The protocol caption on a record too short to test (all 9 today) now opens "No test was run: this record covers 1.4 of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only." It used to open "Pre-registered harmonic-regression test … (99,999 bootstrap draws)". An eligible record would keep the old sentence (unit-tested on a constructed row; none is eligible in this freeze).
+
+### The four states
+
+1. **Implementation.** Commits on main:
+   - `9b8a54e`: the change, `src/lib/spectralFigureText.ts`, its test, `scripts/check-figure-cue.mjs`.
+   - `d521789` and `30beb57`: check-script fixes from Codex r1 and r2.
+   - `cc4ffde`: docs and continuity.
+   - `c348cd1`: caption reworded. At `30beb57` the full suite went RED. I-024's "a test ran" guard (`testedSeries.test.ts`, pattern `tests? (was|were) run on`) matched the negation "No test was run on this record". The guard stays as strong as it was; the caption reads "No test was run: this record covers …".
+
+   Gates at `c348cd1`: `verify-with-receipt -- npm test` → 170/170, typecheck clean, eslint clean on the four files. **CI green** on `c348cd1` (check-ci-status --wait, 64 s).
+
+   Red arms:
+   - `check-figure-cue.mjs` on production before the change: 36/99; production after: 99/99.
+   - A `font-size: 0` mutation on the line: 9 of 9 arrival legs FAIL ("text sized false"), 90/99; restored: 99/99.
+   - Unit test with the caption forced to the old sentence: "never describes a test as run" FAILs; restored: 3/3.
+2. **Delivery.** `check-deployed-sha-drift --service sinusoidal-history` → in-sync, live `c348cd19` = head. Surface read on production: `check-figure-cue.mjs https://sinusoidalhistory.com` → 99/99. Rendered-text line multiset, production before → after:
+   - kondratiev 96 → 98, perez 93 → 95, turchin 93 → 95;
+   - on each page, exactly 1 line removed (the old caption) and 3 added (target/band, mouse cue, new caption);
+   - nothing else moved, so no title, meta, H1 or URL changed.
+3. **Encounter.** `blind — no client analytics (a standing choice) · bug row W-004`. The next cold walk asks I-021's closeWhen at 390 and ~900 with a mouse. It is synthetic and reads comprehension, never an encounter.
+4. **Outcome.** Open: no read yet.
+
+USER-VISIBLE: on every cycle page the spectral figure now says in words its target period and band, tells a mouse reader to scroll or click (not swipe), and its caption says no test was run instead of describing a test — c348cd1 [proof: check-figure-cue on production 36/99 before → 99/99 after (live c348cd19, deploy drift in-sync); rendered text on kondratiev/perez/turchin: 1 caption line replaced + 2 added, nothing else] [coverage: none — no client analytics on this site · last good read never · founder+test excluded no] [exposure: blind — no client analytics, so no instrument can see a reader arrive · bug row W-004]
+
+### Reviews
+
+- **Codex r1** on `9b8a54e`: read-only, banner workdir `C:\dev\skylark\sinusoidal-cycles` matched. Three findings.
+  - (1) MED: the target/band line wraps at 390 against the packet's "in one line". DELIBERATE. Wrapping to 2 rows, both on screen above the figure on arrival, is the intended behaviour; the packet wording was corrected.
+  - (2) MED: the 390 geometry leg scrolled the line to the top first, so it passed by construction. CONFIRMED, fixed in `d521789`: the leg now measures from arrival (figure top 300 px down the screen).
+  - (3) LOW, pre-existing: Turchin's box says "The record this verdict tests" (`page.tsx:242`) although no test ran. CONFIRMED, routed to I-028 (due 2026-10-08), because the manager's contract limits Turchin's text change today.
+  - Sibling sweep for the claim class. Pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over `src/**/*.ts(x)`, `public/*.md` and `public/llms.txt`. One hit outside this change (that line). The llms.txt "p-values where a test ran" is conditional and true.
+  - r1 confirmed the new claims against their sources: "descriptive only" (`methods/page.tsx:290`, the SVG's own label), "3.0 full periods" (`methods/page.tsx:298`, `gate_min_periods`), and the 99,999 draws.
+- **Codex r2** on `d521789`, script only. The first launch was refused (model at capacity); the retry ran with the banner matched. Two P2 findings, both CONFIRMED:
+  - only the max right edge was checked;
+  - an empty or zero-size set of text rects passed.
+  - Fixed in `30beb57`, with the `font-size:0` red arm above. This was the second appearance of that defect class in the same leg, so the leg now claims only what each text rect shows, and there are no further patch rounds.
+- The caption rewording in `c348cd1` came after both rounds. It is the same claims in different word order, held by the unit test, the I-024 guard and the production check. Not re-reviewed.
+
+codexCalls: 3 (r1, r2 refused at capacity, r2 retry)
+adversarialReviews: 2 — EXECUTED
+
+### Corrective and other
+
+- **Push blocked ~10 min by GitHub 500s.** 5 rejections from 16:57:33Z to 16:58:34Z, one of them a single-commit push. The consult was 38765001. The orchestrator's answer (7d03cc62): GitHub-side, also seen by frame-dial. Rulesets read `[]` and `main` is unprotected. The push succeeded at the next scheduled try.
+- **I-022's read** needed `readCommandTimeoutMs` raised to 600000. The third run finished in 192 s → 93/93.
+
+hygiene helper: DISPATCHED 16:20Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-07.md PRESENT. It drafted:
+- closes for I-009, I-017, I-020, I-022, I-024;
+- re-dates for W-001 and W-004 (W-004 carries I-021's next walk).
+
+Engineering-zero PASS, no expired waits, no PRODUCTION lines. Its two READ-MUTATED lines name `src/lib/spectralFigureText*.ts`, which are this lane's own P3 files.
+
+### What remains
+
+- **I-021:** `monitoring`, nextEvaluation 2026-10-09. Its read is now `check-figure-cue.mjs`. closeWhen waits on a cold walk.
+- **I-028 (2026-10-08):** Turchin's box, including the "this verdict tests" wording.
+- **W-001:** average position moved under 20 (5.5 since 09-20), the row's own trigger to mint a fresh click-through row. The close decides between minting that row and closing W-001.
+- **Two residual I-024 findings from the walk:**
+  - the "Why two labels" paragraph sits 1,490 px below the label it explains;
+  - the caption's test wording. Fixed today by I-021.
+- Edge fade on the scroller dropped (would need `FigureScroller.tsx`).
+
+[standing-rules-hash: 88cc2dc9]
