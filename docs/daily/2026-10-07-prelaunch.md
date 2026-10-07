@@ -167,3 +167,55 @@ Engineering-zero PASS, no expired waits, no PRODUCTION lines. Its two READ-MUTAT
 - Edge fade on the scroller dropped (would need `FigureScroller.tsx`).
 
 [standing-rules-hash: 88cc2dc9]
+
+## Close
+
+[P5 — Delta-only close]
+ACTION: COMPLETED · item I-021 · P3 639164c1
+
+The acceptance in force was the manager REDIRECT f3d1c14a, and it is met:
+- **Cue.** It fits the pointer: a mouse at 900 is not told to swipe, and touch at 390 is.
+- **Target/band line.** It is on screen above the figure on arrival at 390.
+- **Caption.** It says no test was run, gated on `verdict.eligible`.
+- **Rendered text.** On kondratiev, perez and turchin only the caption, the target/band line and the mouse cue changed.
+- **Checks.** `check-figure-cue` reads 99/99 on production (36/99 before). The manager review 4b7d2bc1 read it on the surface: COMPLETED, no defects.
+
+hygiene draft: 8 lines — 5 accepted · 3 amended · 0 rejected
+- ACCEPTED: close I-009, I-017, I-020 and I-022, plus the owed-child-rows line "none" (0 of 747; nothing runs).
+- AMENDED:
+  - I-024: closed, with a note that the caption residual was fixed today by I-021.
+  - W-001: closed instead of re-dated; its own trigger fired (position under 20), and W-005 is minted for the click-through question.
+  - W-004: re-dated to 2026-10-09 instead of the 10-10 placeholder, to carry I-021's cold walk.
+- READ-MUTATED, verbatim:
+  - "READ-MUTATED W-001 src/lib/spectralFigureText.ts — NOT named in the readCommand: may be the lane's own concurrent P3 edit; lane checks"
+  - "READ-MUTATED W-001 src/lib/spectralFigureText.test.ts — NOT named in the readCommand: may be the lane's own concurrent P3 edit; lane checks"
+  - Both are this lane's own P3 files, and neither touches what `gsc-read` reads.
+- check-wait-justification: helper PASS (0 findings). Re-run at close after I touched waits on I-021, I-028 and W-005: PASS, 23 of 34 rows carry `waitJustification`, 0 warn.
+- check-engineering-zero: helper PASS, 0 findings, 0 unreadable. No lockfile changed since.
+
+**Verify.** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned." The snapshot is CURRENT (taken 2026-10-07), covering 8 rows.
+
+**Ledger delta (continuity-edit), each with its evidence:**
+- **Closed:** I-009, I-017, I-020, I-022, I-024, W-001.
+- **Minted:** W-005, click-through at a held position under 20. readCommand `gsc-read --start 2026-09-20`, nextEvaluation 2026-11-04.
+- **Re-dated:** I-021 to 2026-10-09 (monitoring; readCommand `check-figure-cue.mjs`; waiver removed; `waitJustification` until 2026-10-09) and W-004 to 2026-10-09.
+- **Notes and fields:**
+  - I-028 notes carry the Turchin "this verdict tests" line from Codex r1, and its `waitingFor` now reads that the gate is met.
+  - W-001 notes log the body strings that changed.
+  - I-022 `readCommandTimeoutMs` is 600000.
+
+**Deliberate, not an omission (manager HYPOTHESIS):** the caption rewording in `c348cd1` came after both Codex rounds and was not re-reviewed. It is the same claims in a new order, in prose that touches no money, auth or data. Three things hold it: the unit test, I-024's TEST_RAN guard, and `check-figure-cue` on production.
+
+**Receipt:** P3's receipt (639164c1) still holds; no bracket changed.
+
+**Pending reads:**
+- **I-028** on 2026-10-08: Turchin's box, the next honesty fix on this page.
+- **I-021 / W-004** on or after 2026-10-09: a cold walk at 390 touch and ~900 mouse answers I-021's closeWhen.
+- **I-027** on 2026-10-20.
+- **W-005** on 2026-11-04.
+- **I-025** on 2026-12-01.
+
+UNRESOLVED: none.
+
+codexCalls: 0 at close (3 today, all at P3)
+[standing-rules-hash: 88cc2dc9]
