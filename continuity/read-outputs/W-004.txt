@@ -1,8 +1,9 @@
-# read-output sidecar for I-017 — written by check-due-gates-dispositioned --run
+# read-output sidecar for W-004 — written by check-due-gates-dispositioned --run
 # readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only
 # ran: 2026-10-07T15:49:46.352Z · exit: 0
 # lines: 6 · sha256: bdf5dbad60abec93 (first 16 hex of the output below)
 # truncated: false
+# stampedVia: I-017 (one execution, shared byte-identical readCommand — this row was not spawned)
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
 iPhone 15 390x664: 10 of 10 landings name the cycle
   360x560: 10 of 10 landings name the cycle

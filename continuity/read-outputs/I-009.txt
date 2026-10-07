@@ -1,7 +1,7 @@
 # read-output sidecar for I-009 — written by check-due-gates-dispositioned --run
 # readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-year-position.mjs
-# ran: 2026-10-03T15:59:16.797Z · exit: 0
-# lines: 102 · sha256: 0b5579d722e575aa (first 16 hex of the output below)
+# ran: 2026-10-07T15:26:46.246Z · exit: 0
+# lines: 102 · sha256: 6aae78c8fb8520af (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
 PASS  schlesinger-jr sentence = API 2026 (rising, cos +0.67)
@@ -15,7 +15,7 @@ PASS  turchin-fathers-sons no "\$" on the page
 PASS  kondratiev sentence = API 2026 (peaking, cos +0.99)
 PASS  kondratiev links /state/2026  — /state/2026
 PASS  kondratiev no "\$" on the page
-      kondratiev at 390x664: sentence top 827px (first screen ends at 664)
+      kondratiev at 390x664: sentence top 803px (first screen ends at 664)
 PASS  perez sentence = API 2026 (troughing, cos −0.99)
 PASS  perez links /state/2026  — /state/2026
 PASS  perez no "\$" on the page

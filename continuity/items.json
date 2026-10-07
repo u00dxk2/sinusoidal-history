@@ -46,18 +46,19 @@
         "832f4d8",
         "f4a72ba"
       ],
-      "readCommandLastRun": "2026-09-09T03:17:00.460Z",
+      "readCommandLastRun": "2026-10-07T16:21:30.085Z",
       "readCommandLastExit": 0,
       "readCommandLastOutputRef": {
-        "lines": 937,
-        "sha256": "0961c79a6a20c4aa"
+        "lines": 12,
+        "sha256": "94d90f3daead6a76"
       },
       "waitJustification": {
         "until": "2026-10-07",
         "loadBearing": "Search Console needs about three weeks of the rewritten snippets before a CTR change is readable; a read sooner measures noise, and it lags about three days",
         "unWait": "on 2026-10-07 run this row's readCommand (node scripts/gsc-read.mjs --start 2026-09-10)",
         "owner": "sinusoidal-cycles"
-      }
+      },
+      "readCommandLastDurationMs": 3663
     },
     {
       "id": "D-001",
@@ -384,12 +385,12 @@
         "unWait": "on 2026-10-07 read W-001's Search Console result for /cycles/dalio, then close or carry",
         "owner": "sinusoidal-cycles"
       },
-      "readCommandLastRun": "2026-10-03T15:59:16.797Z",
+      "readCommandLastRun": "2026-10-07T15:26:46.246Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 7818,
+      "readCommandLastDurationMs": 52790,
       "readCommandLastOutputRef": {
         "lines": 102,
-        "sha256": "0b5579d722e575aa"
+        "sha256": "6aae78c8fb8520af"
       },
       "lastEvaluated": "2026-10-03"
     },
@@ -674,12 +675,12 @@
       "created": "2026-10-02",
       "updated": "2026-10-04",
       "readCommandTimeoutMs": 420000,
-      "readCommandLastRun": "2026-10-03T16:04:14.510Z",
+      "readCommandLastRun": "2026-10-07T15:49:46.352Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 211000,
+      "readCommandLastDurationMs": 322551,
       "readCommandLastOutputRef": {
         "lines": 6,
-        "sha256": "bd575eee90423a38"
+        "sha256": "bdf5dbad60abec93"
       },
       "lastEvaluated": "2026-10-03"
     },
@@ -781,7 +782,14 @@
       ],
       "created": "2026-10-03",
       "updated": "2026-10-05",
-      "notes": "2026-10-05 SHIPPED, option (a), live 2e00ce7 at 16:33:03Z UTC. With pointer: coarse the figure is drawn without a link (pointer-coarse:hidden on the link copy, hidden pointer-coarse:block on a plain copy); with a mouse the link stays. Before (production, tmp/measure-figure-tap.mjs, /cycles/perez): touch 390x664 and 320x568 inLink=true, a tap went to /data/spectral/perez.svg at on-screen scale 0.43 and 0.36, no header, 0 links. After (same read, production 2e00ce7): touch inLink=false, a tap does not navigate; mouse 900 and 1440 still open the SVG (1.0x, 1.6x). Tablet branch (manager review hypothesis): in Chromium emulation every touch context, including iPad presets and a 1024x768 touch screen, matches pointer: coarse, so tablets get the no-link branch; a real iPad with a trackpad is not measured. check-verdict-landing round 5: production before 429/482 (52 new touch legs red), local 490/490, swap-link 418/490 (exactly the 72 new legs red), slow-link 436/490 (27 tap legs red). Codex r1-r3 (read-only): r1 MED plausible-not-reproduced, fixed 53cdfac; r2 MED+LOW false-red only, contract cut 577eb14; r3 cold 6/7 invariants HOLD, the 7th declared as a ceiling 2e00ce7."
+      "notes": "2026-10-05 SHIPPED, option (a), live 2e00ce7 at 16:33:03Z UTC. With pointer: coarse the figure is drawn without a link (pointer-coarse:hidden on the link copy, hidden pointer-coarse:block on a plain copy); with a mouse the link stays. Before (production, tmp/measure-figure-tap.mjs, /cycles/perez): touch 390x664 and 320x568 inLink=true, a tap went to /data/spectral/perez.svg at on-screen scale 0.43 and 0.36, no header, 0 links. After (same read, production 2e00ce7): touch inLink=false, a tap does not navigate; mouse 900 and 1440 still open the SVG (1.0x, 1.6x). Tablet branch (manager review hypothesis): in Chromium emulation every touch context, including iPad presets and a 1024x768 touch screen, matches pointer: coarse, so tablets get the no-link branch; a real iPad with a trackpad is not measured. check-verdict-landing round 5: production before 429/482 (52 new touch legs red), local 490/490, swap-link 418/490 (exactly the 72 new legs red), slow-link 436/490 (27 tap legs red). Codex r1-r3 (read-only): r1 MED plausible-not-reproduced, fixed 53cdfac; r2 MED+LOW false-red only, contract cut 577eb14; r3 cold 6/7 invariants HOLD, the 7th declared as a ceiling 2e00ce7.",
+      "readCommandLastRun": "2026-10-07T15:49:46.352Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 322551,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bdf5dbad60abec93"
+      }
     },
     {
       "id": "I-021",
@@ -831,14 +839,22 @@
         "owner": "sinusoidal-cycles"
       },
       "created": "2026-10-03",
-      "updated": "2026-10-04",
+      "updated": "2026-10-07",
       "notes": "2026-10-04 (P3, SHIPPED, live 7b0b0bf at 17:07:53Z UTC). Each of the 9 paired cycle pages has \"Move the peak yourself: calibrate this cycle →\" directly under its \"Peak calibration\" heading, linking to /?tab=calibrate&focus=<id>&arrive=1. The chart strips arrive at mount and scrolls the curve, the peak slider and r onto one screen, once. BEFORE (production, 10-04): the only way in was \"Open in the chart\" 7.6 screens down at 390x664 (10.3 at 320x568), landing on Facets; the direct URL put the curve 1,096px down. AFTER (production): link at 1.8-1.9 screens (390x664) and 2.5 (320x568); landing curve top 84 / r bottom 631 of 664, and 12 / 560 of 568, with r loaded. check-calibrate-tab on production: 36/42 before -> 91/93 then 93/93 after. The 2 misses were the first run minutes after the deploy, both at 320x568 (landing at scrollY 0). Then 10/10 cold taps and 20/20 on a warm page at 320x568: 2 misses in 48 production landings, cause NOT established. A miss lands where the old path did: the top of the chart, Calibrate open on the right cycle. Reviews: Codex r1 (history.state marker wiped by nuqs's replaceState(null) on a slider move -> fixed b125ed7), r2 (an arrival cancelled inside its two frames left it armed -> consume at mount, 12120d8), r3 (a cold invariant round: a shared arrive URL lands its opener on the curve = the rule working, DELIBERATE; a Back within nuqs's deferred URL write leaves arrive for Forward = declared ceiling in Viz.tsx, 0d22a91). Every new leg was red-armed: 36/42 on old production, and mutations at 48/66 and 60/66. r1 and r2 were reproduced on their own commits at 66/78 and 87/93. Closes on W-004's 10-07 cold walk, step 3, which walks exactly this path.",
       "linkedCommits": [
         "117b2df",
         "b125ed7",
         "12120d8",
         "0d22a91"
-      ]
+      ],
+      "readCommandTimeoutMs": 600000,
+      "readCommandLastRun": "2026-10-07T16:01:23.887Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 192123,
+      "readCommandLastOutputRef": {
+        "lines": 94,
+        "sha256": "44159e3d2858bb3d"
+      }
     },
     {
       "id": "I-023",
@@ -923,7 +939,14 @@
       ],
       "created": "2026-10-03",
       "updated": "2026-10-06",
-      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user."
+      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.",
+      "readCommandLastRun": "2026-10-07T15:49:46.352Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 322551,
+      "readCommandLastOutputRef": {
+        "lines": 6,
+        "sha256": "bdf5dbad60abec93"
+      }
     },
     {
       "id": "I-025",
@@ -1034,9 +1057,9 @@
         "reason": "Lane product work gated on W-004's walk notes; the gate is picking it up, not a measurement.",
         "since": "2026-10-06"
       },
-      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'",
+      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'\n\n | 2026-10-07 (P3, I-021 Codex r1 on 9b8a54e, LOW, STATIC, CONFIRMED, pre-existing, ROUTED HERE): Turchin's opening box takes the generic fallback at src/app/(app)/cycles/[id]/page.tsx:242, \"The record this verdict tests — a different cut …\", although Turchin's frozen verdict is ineligible (\"No test was run and no p-value exists\", verdicts.json Turchin row). \"tests\" claims a test ran. The fix belongs in this row's change: a testedSeriesNote entry for wid_top1_wealth_1913 makes the page take line 241's \"is judged on\" branch; failing that, change the fallback verb to \"is judged on\". Sibling sweep 2026-10-07 (pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over src/**/*.ts(x), public/*.md, public/llms.txt): 1 hit outside I-021's own change (this line); the llms.txt \"p-values where a test ran\" is conditional and true. Not fixed today because the manager's I-021 contract (f3d1c14a) limits Turchin's rendered-text change to the cue, target/band line and caption. W-004 (2026-10-07) is read, so this row's gate is met.",
       "created": "2026-10-06",
-      "updated": "2026-10-06"
+      "updated": "2026-10-07"
     }
   ],
   "knownPatterns": [

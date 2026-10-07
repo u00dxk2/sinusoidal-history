@@ -1,0 +1,100 @@
+# read-output sidecar for I-022 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-calibrate-tab.mjs https://sinusoidalhistory.com
+# ran: 2026-10-07T16:01:23.887Z · exit: 0
+# lines: 94 · sha256: 44159e3d2858bb3d (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  390x664 exactly one facet mounted in Calibrate tab  — count=1
+PASS  390x664 chart svg present
+PASS  390x664 r states its scope  — full record 1800–2011 · n=212
+PASS  390x664 year axis inside the facet  — labels=5
+PASS  390x664 chart top + peak slider fit one screen  — span=351px of 664
+PASS  390x664 peak drag moves the drawn curve
+PASS  390x664 r changes with it
+PASS  390x664 reset restores the curve
+PASS  390x664 picker switches the facet  — khaldun -> kondratiev
+PASS  390x664 header opens Facets on that cycle  — focus=kondratiev
+PASS  390x664 Calibrate opens on the focused cycle (schlesinger_jr)  — facet=schlesinger_jr · chip pressed: schlesinger_jr
+PASS  390x664 opening Calibrate by hand does not scroll (schlesinger_jr)  — scrollY 348 -> 348 (clamp 3395, expected 348)
+PASS  390x664 Calibrate opens on the focused cycle (kondratiev)  — facet=kondratiev · chip pressed: kondratiev
+PASS  390x664 opening Calibrate by hand does not scroll (kondratiev)  — scrollY 348 -> 348 (clamp 3003, expected 348)
+PASS  390x664 schlesinger-jr: a Calibrate link within 3 screens  — at 1230px (1.9 screens)
+PASS  390x664 schlesinger-jr: one tap lands on its Calibrate chip  — chip pressed: schlesinger_jr
+PASS  390x664 schlesinger-jr: curve and a loaded r on one screen after the tap  — curve top 84, r bottom 631 of 664, r=0.123
+PASS  390x664 schlesinger-jr: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=schlesinger_jr
+PASS  390x664 schlesinger-jr: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 1012)
+PASS  390x664 schlesinger-jr: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 1012)
+PASS  390x664 schlesinger-jr: reopening Calibrate by hand after the arrival does not scroll  — scrollY 348 -> 348 (expected 348)
+PASS  390x664 kondratiev: a Calibrate link within 3 screens  — at 1201px (1.8 screens)
+PASS  390x664 kondratiev: one tap lands on its Calibrate chip  — chip pressed: kondratiev
+PASS  390x664 kondratiev: curve and a loaded r on one screen after the tap  — curve top 84, r bottom 631 of 664, r=-0.168
+PASS  390x664 kondratiev: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=kondratiev
+PASS  390x664 kondratiev: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 1012)
+PASS  390x664 kondratiev: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 1012)
+PASS  390x664 kondratiev: reopening Calibrate by hand after the arrival does not scroll  — scrollY 348 -> 348 (expected 348)
+PASS  390x664 a stray arrive=1 on Facets never scrolls a hand-opened Calibrate  — scrollY 348 -> 348 (expected 348) · ?tab=calibrate&focus=kondratiev
+PASS  390x664 the race harness cancelled the arrival before its scroll  — observer fired=true · selected tab=Facets
+PASS  390x664 a cancelled arrival never scrolls a hand-opened Calibrate later  — scrollY 348 -> 348 (expected 348) · ?focus=kondratiev&tab=calibrate
+PASS  1440x900 exactly one facet mounted in Calibrate tab  — count=1
+PASS  1440x900 chart svg present
+PASS  1440x900 r states its scope  — full record 1800–2011 · n=212
+PASS  1440x900 year axis inside the facet  — labels=10
+PASS  1440x900 chart top + peak slider fit one screen  — span=351px of 900
+PASS  1440x900 peak drag moves the drawn curve
+PASS  1440x900 r changes with it
+PASS  1440x900 reset restores the curve
+PASS  1440x900 picker switches the facet  — khaldun -> kondratiev
+PASS  1440x900 header opens Facets on that cycle  — focus=kondratiev
+PASS  1440x900 Calibrate opens on the focused cycle (schlesinger_jr)  — facet=schlesinger_jr · chip pressed: schlesinger_jr
+PASS  1440x900 opening Calibrate by hand does not scroll (schlesinger_jr)  — scrollY 0 -> 0 (clamp 1732, expected 0)
+PASS  1440x900 Calibrate opens on the focused cycle (kondratiev)  — facet=kondratiev · chip pressed: kondratiev
+PASS  1440x900 opening Calibrate by hand does not scroll (kondratiev)  — scrollY 0 -> 0 (clamp 1520, expected 0)
+PASS  1440x900 schlesinger-jr: a Calibrate link within 3 screens  — at 1221px (1.4 screens)
+PASS  1440x900 schlesinger-jr: one tap lands on its Calibrate chip  — chip pressed: schlesinger_jr
+PASS  1440x900 schlesinger-jr: curve and a loaded r on one screen after the tap  — curve top 88, r bottom 622 of 900, r=0.123
+PASS  1440x900 schlesinger-jr: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=schlesinger_jr
+PASS  1440x900 schlesinger-jr: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 579)
+PASS  1440x900 schlesinger-jr: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 579)
+PASS  1440x900 schlesinger-jr: reopening Calibrate by hand after the arrival does not scroll  — scrollY 200 -> 200 (expected 200)
+PASS  1440x900 kondratiev: a Calibrate link within 3 screens  — at 1170px (1.3 screens)
+PASS  1440x900 kondratiev: one tap lands on its Calibrate chip  — chip pressed: kondratiev
+PASS  1440x900 kondratiev: curve and a loaded r on one screen after the tap  — curve top 88, r bottom 622 of 900, r=-0.168
+PASS  1440x900 kondratiev: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=kondratiev
+PASS  1440x900 kondratiev: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 579)
+PASS  1440x900 kondratiev: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 579)
+PASS  1440x900 kondratiev: reopening Calibrate by hand after the arrival does not scroll  — scrollY 200 -> 200 (expected 200)
+PASS  1440x900 a stray arrive=1 on Facets never scrolls a hand-opened Calibrate  — scrollY 0 -> 0 (expected 0) · ?tab=calibrate&focus=kondratiev
+PASS  1440x900 the race harness cancelled the arrival before its scroll  — observer fired=true · selected tab=Facets
+PASS  1440x900 a cancelled arrival never scrolls a hand-opened Calibrate later  — scrollY 0 -> 0 (expected 0) · ?focus=kondratiev&tab=calibrate
+PASS  320x568 exactly one facet mounted in Calibrate tab  — count=1
+PASS  320x568 chart svg present
+PASS  320x568 r states its scope  — full record 1800–2011 · n=212
+PASS  320x568 year axis inside the facet  — labels=5
+PASS  320x568 chart top + peak slider fit one screen  — span=351px of 568
+PASS  320x568 peak drag moves the drawn curve
+PASS  320x568 r changes with it
+PASS  320x568 reset restores the curve
+PASS  320x568 picker switches the facet  — khaldun -> kondratiev
+PASS  320x568 header opens Facets on that cycle  — focus=kondratiev
+PASS  320x568 Calibrate opens on the focused cycle (schlesinger_jr)  — facet=schlesinger_jr · chip pressed: schlesinger_jr
+PASS  320x568 opening Calibrate by hand does not scroll (schlesinger_jr)  — scrollY 360 -> 360 (clamp 3987, expected 360)
+PASS  320x568 Calibrate opens on the focused cycle (kondratiev)  — facet=kondratiev · chip pressed: kondratiev
+PASS  320x568 opening Calibrate by hand does not scroll (kondratiev)  — scrollY 360 -> 360 (clamp 3516, expected 360)
+PASS  320x568 schlesinger-jr: a Calibrate link within 3 screens  — at 1420px (2.5 screens)
+PASS  320x568 schlesinger-jr: one tap lands on its Calibrate chip  — chip pressed: schlesinger_jr
+PASS  320x568 schlesinger-jr: curve and a loaded r on one screen after the tap  — curve top 13, r bottom 560 of 568, r=0.123
+PASS  320x568 schlesinger-jr: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=schlesinger_jr
+PASS  320x568 schlesinger-jr: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 1145)
+PASS  320x568 schlesinger-jr: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 1145)
+PASS  320x568 schlesinger-jr: reopening Calibrate by hand after the arrival does not scroll  — scrollY 360 -> 360 (expected 360)
+PASS  320x568 kondratiev: a Calibrate link within 3 screens  — at 1362px (2.4 screens)
+PASS  320x568 kondratiev: one tap lands on its Calibrate chip  — chip pressed: kondratiev
+PASS  320x568 kondratiev: curve and a loaded r on one screen after the tap  — curve top 12, r bottom 560 of 568, r=-0.168
+PASS  320x568 kondratiev: the one-shot arrive param is gone after the tap  — /?tab=calibrate&focus=kondratiev
+PASS  320x568 kondratiev: a reload after a slider move does not scroll again  — parked at 200, after reload 200 (the landing was 1166)
+PASS  320x568 kondratiev: Back to the chart does not scroll again  — parked at 200, after Back 200 (the landing was 1166)
+PASS  320x568 kondratiev: reopening Calibrate by hand after the arrival does not scroll  — scrollY 360 -> 360 (expected 360)
+PASS  320x568 a stray arrive=1 on Facets never scrolls a hand-opened Calibrate  — scrollY 360 -> 360 (expected 360) · ?tab=calibrate&focus=kondratiev
+PASS  320x568 the race harness cancelled the arrival before its scroll  — observer fired=true · selected tab=Facets
+PASS  320x568 a cancelled arrival never scrolls a hand-opened Calibrate later  — scrollY 360 -> 360 (expected 360) · ?focus=kondratiev&tab=calibrate
+93/93 PASS
