@@ -80,8 +80,10 @@ try {
     } else {
       const want = `No test was run on this record: it covers ${v.cycles_covered.toFixed(1)} of the 3.0 full periods`;
       check(`caption ${slug} (ineligible): says no test was run`, caption.startsWith(want), caption.slice(0, 90));
-      check(`caption ${slug} (ineligible): does not open as a test`, !caption.startsWith("Pre-registered"));
+      check(`caption ${slug} (ineligible): does not open as a test`, !!caption && !caption.startsWith("Pre-registered"));
     }
+    const draws = `(${verdicts.draws.toLocaleString("en-US")} bootstrap draws)`;
+    check(`caption ${slug}: draw count matches verdicts.json`, caption.includes(draws), draws);
     await p900.close();
 
     const pp = await phone.newPage();
@@ -90,28 +92,42 @@ try {
     check(`390 touch ${slug}: swipe cue shown`, tp.includes(SWIPE));
     check(`390 touch ${slug}: mouse cue hidden`, !tp.includes(MOUSE));
     check(`390 touch ${slug}: target/band line`, tp.includes(line));
+    // Arrival, not a manufactured position: scroll as a reader does until the figure's top sits
+    // 300px down the screen (the figure has just come into view), then ask whether the whole line
+    // is on screen above it. Codex r1 (2026-10-07): an earlier version scrolled the LINE to the top
+    // first, which passed by construction. The line may wrap; its row count is printed, not judged,
+    // and every row must sit inside the viewport's width.
     const geo = await pp.evaluate((want) => {
       const p = [...document.querySelectorAll("#spectral-verdict p")].find(
         (el) => el.innerText.replace(/\s+/g, " ").trim() === want,
       );
       const fig = document.querySelector("#spectral-verdict [role=region]");
       if (!p || !fig) return null;
-      p.scrollIntoView({ block: "start" });
+      window.scrollTo(0, fig.getBoundingClientRect().top + window.scrollY - 300);
       const pr = p.getBoundingClientRect();
       const fr = fig.getBoundingClientRect();
-      return { lineTop: Math.round(pr.top), lineRight: Math.round(pr.right), figTop: Math.round(fr.top), vw: innerWidth, vh: innerHeight };
+      const range = document.createRange();
+      range.selectNodeContents(p);
+      const rects = [...range.getClientRects()];
+      const rows = new Set(rects.map((r) => Math.round(r.top))).size;
+      const right = Math.max(...rects.map((r) => r.right));
+      return { lineTop: Math.round(pr.top), lineBottom: Math.round(pr.bottom), right: Math.round(right), rows, figTop: Math.round(fr.top), vw: innerWidth };
     }, line);
     check(
-      `390 touch ${slug}: line and figure top on one screen, line not cut off`,
-      !!geo && geo.lineTop >= 0 && geo.figTop < geo.vh && geo.lineRight <= geo.vw,
-      geo ? `line top ${geo.lineTop}, right ${geo.lineRight} of ${geo.vw}; figure top ${geo.figTop} of ${geo.vh}` : "line or figure missing",
+      `390 touch ${slug}: on arrival at the figure the whole line is on screen above it`,
+      !!geo && geo.lineTop >= 0 && geo.lineBottom <= geo.figTop && geo.right <= geo.vw,
+      geo ? `line ${geo.lineTop}-${geo.lineBottom}px in ${geo.rows} row(s), right edge ${geo.right} of ${geo.vw}; figure top ${geo.figTop}` : "line or figure missing",
     );
     await pp.close();
 
     const p1440 = await mouse1440.newPage();
     await p1440.goto(url, { waitUntil: "networkidle" });
     const t1440 = await visibleTexts(p1440);
-    check(`1440 mouse ${slug}: cue block hidden`, !t1440.includes(MOUSE) && !t1440.includes(SWIPE) && !t1440.includes(line));
+    check(
+      `1440 mouse ${slug}: cue block hidden, caption still shown`,
+      !t1440.includes(MOUSE) && !t1440.includes(SWIPE) && !t1440.includes(line) &&
+        t1440.some((t) => t.includes("Read the protocol under")),
+    );
     await p1440.close();
   }
 } finally {
