@@ -108,15 +108,18 @@ try {
       const fr = fig.getBoundingClientRect();
       const range = document.createRange();
       range.selectNodeContents(p);
+      // Codex r2: judge the TEXT boxes, every one of them, on both edges, and refuse an empty
+      // or zero-sized set (font-size:0 keeps the paragraph's box and its innerText).
       const rects = [...range.getClientRects()];
+      const sized = rects.length > 0 && rects.every((r) => r.width > 0 && r.height > 0);
+      const inside = rects.every((r) => r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= fr.top);
       const rows = new Set(rects.map((r) => Math.round(r.top))).size;
-      const right = Math.max(...rects.map((r) => r.right));
-      return { lineTop: Math.round(pr.top), lineBottom: Math.round(pr.bottom), right: Math.round(right), rows, figTop: Math.round(fr.top), vw: innerWidth };
+      return { sized, inside, lineTop: Math.round(pr.top), lineBottom: Math.round(pr.bottom), rows, figTop: Math.round(fr.top), vw: innerWidth };
     }, line);
     check(
       `390 touch ${slug}: on arrival at the figure the whole line is on screen above it`,
-      !!geo && geo.lineTop >= 0 && geo.lineBottom <= geo.figTop && geo.right <= geo.vw,
-      geo ? `line ${geo.lineTop}-${geo.lineBottom}px in ${geo.rows} row(s), right edge ${geo.right} of ${geo.vw}; figure top ${geo.figTop}` : "line or figure missing",
+      !!geo && geo.sized && geo.inside,
+      geo ? `line ${geo.lineTop}-${geo.lineBottom}px in ${geo.rows} row(s) of ${geo.vw} wide; text sized ${geo.sized}, inside ${geo.inside}; figure top ${geo.figTop}` : "line or figure missing",
     );
     await pp.close();
 
