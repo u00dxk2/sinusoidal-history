@@ -5,9 +5,10 @@
 //
 // An entry here names the judged series in the "Does it hold up?" box and says, under
 // the verdict, why the page carries two labels. Keyed by the verdict's series_id. A
-// verdict with no entry (Turchin's 1913+ wealth cut today) keeps the generic sentence.
+// verdict with no entry keeps the generic sentence (none today: Kondratiev and Turchin are
+// the only cuts that differ from the drawn series, and both have one).
 //
-// No test was run on Kondratiev (its record covers 1.4 of the 3.0 periods), so this copy
+// No test was run on either (Kondratiev covers 1.4 of the 3.0 periods, Turchin 0.7), so this copy
 // must never say one was: the site MEASURES the record on these figures and WOULD run a
 // test on them. The reason is us_tfp_growth.source.md:19-22, in plain words.
 
@@ -23,6 +24,14 @@ const NOTES: Record<string, TestedSeriesNote> = {
     name: "US TFP growth (annual, unsmoothed)",
     whyTwoLabels:
       "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.",
+  },
+  // I-028 (2026-10-08). Reason from wid_top1_wealth.source.md:6 and the CSV itself (5 points
+  // before 1913, then every year). The chart joins all 117 points into one line
+  // (CycleFacet's curveMonotoneX); the data hold no filled-in years.
+  wid_top1_wealth_1913: {
+    name: "US top 1% wealth share (1913 onward)",
+    whyTwoLabels:
+      "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the whole US Top 1% Wealth Share series, which the interactive chart draws from 1820. The verdict counts only the yearly record, which starts in 1913 with the Saez–Zucman series. Before 1913 there are just five points (1820, 1850, 1880, 1900 and 1910), rougher estimates from earlier historical sources that the chart joins into one line. So the site measures the record's length from 1913, and would run any test on those yearly figures only.",
   },
 };
 

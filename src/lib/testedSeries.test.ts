@@ -20,8 +20,14 @@ async function pageText(slug: string): Promise<string> {
 
 // A sentence claiming a test RAN. Kondratiev's verdict says "No test was run", so nothing this
 // note adds may say otherwise (manager review a4da274a, 2026-10-06).
+// I-028 (2026-10-08): "verdict tests" added. Turchin's live box read "The record this verdict
+// tests — …" for weeks while this guard passed, because it was written from Kondratiev's wording.
 const TEST_RAN =
-  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on)\b/i;
+  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on|verdict\s+tests)\b/i;
+
+// Production /cycles/turchin, 2026-10-08, before I-028: the sentence the guard must catch.
+const TURCHIN_LIVE_BEFORE =
+  "The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs 111 years";
 
 // What a reader (or a screen reader) gets: visible text plus the reader-facing attributes,
 // tags dropped, whitespace collapsed. Codex r2: a bare tag strip left "test  uses" (two
@@ -77,12 +83,6 @@ describe("I-024: the Kondratiev page names the series its verdict is judged on",
     expect(note!.whyTwoLabels).not.toMatch(/curve earlier/);
   });
 
-  it("a cut with no note keeps the generic sentence (Turchin)", async () => {
-    const html = await pageText("turchin");
-    expect(html).toContain("named in the verdict below");
-    expect(html).not.toContain("Why two labels:");
-  });
-
   it("a page whose judged and drawn series match is unchanged (Perez)", async () => {
     const html = await pageText("perez");
     expect(html).toContain("The paired record (");
@@ -92,5 +92,40 @@ describe("I-024: the Kondratiev page names the series its verdict is judged on",
   it("an unknown or inherited key returns no note", () => {
     expect(testedSeriesNote("constructor")).toBeUndefined();
     expect(testedSeriesNote("nope")).toBeUndefined();
+  });
+});
+
+describe("I-028: the Turchin page names the series its verdict is judged on", () => {
+  const verdict = spectralVerdictForCycle("turchin");
+  const note = testedSeriesNote(verdict!.series_id);
+
+  it("has a note for Turchin's judged series, spelled as the verdict spells it", () => {
+    expect(verdict!.series_id).toBe("wid_top1_wealth_1913");
+    expect(note).toBeDefined();
+    expect(verdict!.lay_text).toContain(note!.name);
+  });
+
+  it("the box names the judged series instead of pointing below", async () => {
+    const html = await pageText("turchin");
+    expect(html).toContain(
+      `The record this verdict is judged on, US top 1% wealth share (1913 onward), runs ${verdict!.span_years} years:`,
+    );
+    expect(html).not.toContain("named in the verdict below");
+    expect(html.split("Why two labels:").length - 1).toBe(1);
+  });
+
+  it("no sentence on the Turchin page says a test ran", async () => {
+    expect(verdict!.eligible).toBe(false);
+    // Positive control: the sentence production served before this change.
+    expect(TURCHIN_LIVE_BEFORE).toMatch(TEST_RAN);
+    expect(readerText(await pageText("turchin"))).not.toMatch(TEST_RAN);
+  });
+
+  it("the reason is Turchin's own, not Kondratiev's smoothing one", () => {
+    expect(note!.whyTwoLabels).toContain("1913");
+    expect(note!.whyTwoLabels).not.toMatch(/rolling average|smooth/i);
+    // Manager review 77265f70: name the chart's own label so the two are visibly matched.
+    expect(note!.whyTwoLabels).toContain("US Top 1% Wealth Share");
+    expect(note!.whyTwoLabels).toContain("“Paired data” line and section");
   });
 });

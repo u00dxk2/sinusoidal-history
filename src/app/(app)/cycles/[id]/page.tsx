@@ -239,7 +239,7 @@ export default async function CyclePage({ params }: Params) {
               ? `The paired record (${series.name}) runs ${verdict.span_years} years: `
               : tested
                 ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
-                : `The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
+                : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
             {`${verdict.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
             {!verdict.eligible &&
               ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
