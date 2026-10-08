@@ -8,7 +8,7 @@
 
 **In brief.** This site draws 10 historical cycle theories as pure sinusoids on one shared time axis, with a real data series overlaid on 9 of them. [See the chart](https://sinusoidalhistory.com/).
 
-The result to read first: a pre-registered spectral test finds that 0 of the 9 pairings have a record long enough (three full periods) to be tested at the theory's own period. [How the test works](#spectral-testing).
+The result to read first: under a pre-registered spectral protocol, 0 of the 9 pairings have a record long enough (three full periods) to be tested at the theory's own period. [How the test works](#spectral-testing).
 
 ## Data sources
 
@@ -156,7 +156,7 @@ Every verdict, one row per pairing. A pairing is testable only when its record s
 | [Peter Turchin](https://sinusoidalhistory.com/cycles/turchin#does-it-hold-up) | 150y | 111y | 0.7 | +339 | Insufficient data — no test possible |
 | [Turchin (50y)](https://sinusoidalhistory.com/cycles/turchin-fathers-sons) | 50y | — | — | — | Not tested — no paired series |
 
-*Record is the span of the series each verdict actually tests — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.*
+*Record is the span of the series each verdict is judged on — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.*
 
 Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidalhistory.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at the theory's exact stated period, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at the rhythm the theory names, more strongly than slow-drifting noise would produce by chance? Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
 

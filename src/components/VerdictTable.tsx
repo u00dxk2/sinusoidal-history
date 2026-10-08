@@ -161,7 +161,7 @@ export default function VerdictTable() {
         </table>
       </div>
       <p className="text-[13px] leading-relaxed text-ink-soft">
-        {`Record is the span of the series each verdict actually tests — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.`}
+        {`Record is the span of the series each verdict is judged on — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.`}
       </p>
     </>
   );

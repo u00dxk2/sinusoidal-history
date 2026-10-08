@@ -3,9 +3,13 @@
 // said which was judged or why. A cold reader "could not tell from the page which series was
 // tested" (W-003 D2). These assertions run on the SERVER-RENDERED page, so they read what a
 // reader gets, not the source.
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
+import CyclesIndex from "@/app/(app)/cycles/page";
+import Methods from "@/app/(app)/methods/page";
 import { cycles } from "@/data/cycles";
 import { cycleSlug } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
@@ -27,7 +31,7 @@ async function pageText(slug: string): Promise<string> {
 // data" while this guard passed, because it was written from Kondratiev's wording and only ever
 // read Kondratiev's page. It now reads every cycle page (below).
 const TEST_RAN =
-  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on|(verdict|pairing)\s+tests|ran\s+an?\s+(\w+\s+)?test)\b/i;
+  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on|(verdicts?|pairing)\s+(\w+\s+)?tests|ran\s+an?\s+(\w+\s+)?test|spectral\s+test\s+finds)\b/i;
 
 // Production /cycles/turchin, 2026-10-08, before I-028: the sentence the guard must catch.
 const TURCHIN_LIVE_BEFORE =
@@ -151,5 +155,57 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
 
   it.each(ineligible.map((c) => cycleSlug(c)))("%s", async (slug) => {
     expect(readerText(await pageText(slug))).not.toMatch(TEST_RAN);
+  });
+});
+
+// Codex r2 (2026-10-08) found the same claim on two surfaces no cycle page renders: the
+// verdict table's footnote ("each verdict actually tests", /cycles and /methods) and the
+// /methods headline ("a pre-registered spectral test finds"). So the guard reads those pages
+// and every published Markdown file too. While no primary verdict is eligible, none of these
+// may say a test ran.
+const PUBLIC = join(process.cwd(), "public");
+// True sentences the pattern also matches, by exact text (never a looser rule):
+// llms.txt's API field description is conditional; spectral.source.md:47 is a negation in the
+// frozen spectral directory (AGENTS.md: that directory is written by the script).
+const ALLOWED = ["p-values where a test ran", "so no test ran"];
+
+function staticText(element: unknown): string {
+  return readerText(
+    renderToStaticMarkup(element as Parameters<typeof renderToStaticMarkup>[0])
+      .replace(/<!-- -->/g, "")
+      .replace(/&#x27;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, "&"),
+  );
+}
+
+describe("I-028: the shared surfaces do not say a test ran", () => {
+  it("the guard catches the two r2 shapes", () => {
+    expect("the series each verdict actually tests").toMatch(TEST_RAN);
+    expect("a pre-registered spectral test finds that 0 of the 9 pairings").toMatch(TEST_RAN);
+  });
+
+  it("/cycles", () => {
+    expect(staticText(CyclesIndex())).not.toMatch(TEST_RAN);
+  });
+
+  it("/methods", () => {
+    expect(staticText(Methods())).not.toMatch(TEST_RAN);
+  });
+
+  const published = [
+    ...readdirSync(PUBLIC).filter((f) => f.endsWith(".md") || f === "llms.txt"),
+    ...readdirSync(join(PUBLIC, "data")).filter((f) => f.endsWith(".md")).map((f) => join("data", f)),
+    ...readdirSync(join(PUBLIC, "data", "spectral")).filter((f) => f.endsWith(".md")).map((f) => join("data", "spectral", f)),
+  ];
+
+  it("reads more than the three prose mirrors", () => {
+    expect(published.length).toBeGreaterThan(3);
+  });
+
+  it.each(published)("public/%s", (file) => {
+    let text = readFileSync(join(PUBLIC, file), "utf8");
+    for (const ok of ALLOWED) text = text.split(ok).join("");
+    expect(text).not.toMatch(TEST_RAN);
   });
 });

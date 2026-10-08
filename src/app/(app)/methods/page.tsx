@@ -69,7 +69,7 @@ export default function Methods() {
           </Link>
         </p>
         <p>
-          {`The result to read first: a pre-registered spectral test finds that ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the theory's own period.`}{" "}
+          {`The result to read first: under a pre-registered spectral protocol, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the theory's own period.`}{" "}
           <HashLink href="#spectral-testing" className={link}>
             How the test works →
           </HashLink>
