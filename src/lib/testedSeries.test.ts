@@ -6,6 +6,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
+import { cycles } from "@/data/cycles";
+import { cycleSlug } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
@@ -20,10 +22,12 @@ async function pageText(slug: string): Promise<string> {
 
 // A sentence claiming a test RAN. Kondratiev's verdict says "No test was run", so nothing this
 // note adds may say otherwise (manager review a4da274a, 2026-10-06).
-// I-028 (2026-10-08): "verdict tests" added. Turchin's live box read "The record this verdict
-// tests — …" for weeks while this guard passed, because it was written from Kondratiev's wording.
+// I-028 (2026-10-08): "verdict tests", "pairing tests" and "ran a … test" added. Turchin's live
+// box read "The record this verdict tests — …" and Schlesinger's page "the pairing tests his
+// data" while this guard passed, because it was written from Kondratiev's wording and only ever
+// read Kondratiev's page. It now reads every cycle page (below).
 const TEST_RAN =
-  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on|verdict\s+tests)\b/i;
+  /\b(test\s+(was\s+)?ran|test\s+uses|tests?\s+(was|were)\s+run\s+on|was\s+tested|is\s+tested|tested\s+on|(verdict|pairing)\s+tests|ran\s+an?\s+(\w+\s+)?test)\b/i;
 
 // Production /cycles/turchin, 2026-10-08, before I-028: the sentence the guard must catch.
 const TURCHIN_LIVE_BEFORE =
@@ -127,5 +131,25 @@ describe("I-028: the Turchin page names the series its verdict is judged on", ()
     // Manager review 77265f70: name the chart's own label so the two are visibly matched.
     expect(note!.whyTwoLabels).toContain("US Top 1% Wealth Share");
     expect(note!.whyTwoLabels).toContain("“Paired data” line and section");
+  });
+});
+
+describe("I-028: no cycle page whose verdict is ineligible says a test ran", () => {
+  it("the guard catches the shapes Codex r1 (2026-10-08) named as escapes", () => {
+    expect("the pairing tests his data against Schlesinger's period").toMatch(TEST_RAN);
+    expect("We ran a spectral test on the 1913–2024 record.").toMatch(TEST_RAN);
+    // Negations the site writes on purpose stay clear of it.
+    expect("No test was run: this record covers 0.7 of the 3.0 full periods").not.toMatch(TEST_RAN);
+    expect("No test was run and no p-value exists").not.toMatch(TEST_RAN);
+  });
+
+  const ineligible = cycles.filter((c) => spectralVerdictForCycle(c.id)?.eligible === false);
+
+  it("covers more than the two pages the guard was written from", () => {
+    expect(ineligible.length).toBeGreaterThan(2);
+  });
+
+  it.each(ineligible.map((c) => cycleSlug(c)))("%s", async (slug) => {
+    expect(readerText(await pageText(slug))).not.toMatch(TEST_RAN);
   });
 });

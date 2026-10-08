@@ -90,7 +90,7 @@ Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because
 
 Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, estimated from ~150 repeated survey items via the dyad-ratios algorithm; annual, 1952–2024
 
-The closest thing on this site to a direct measurement: an independently constructed index of mass preferences over the scope of domestic government, which is one component of Schlesinger Jr.'s public-purpose vs. private-interest rhythm, not the whole of it. Stimson's own reading of the series stresses shorter, thermostatic swings rather than a fixed ~30-year cycle; the pairing tests his data against Schlesinger's period, it does not report his endorsement of it. Coverage starts 1952.
+The closest thing on this site to a direct measurement: an independently constructed index of mass preferences over the scope of domestic government, which is one component of Schlesinger Jr.'s public-purpose vs. private-interest rhythm, not the whole of it. Stimson's own reading of the series stresses shorter, thermostatic swings rather than a fixed ~30-year cycle; the pairing sets his data against Schlesinger's period, it does not report his endorsement of it. Coverage starts 1952.
 
 - Source: James A. Stimson, Policy Mood data series (UNC), via *Public Opinion in America* (Westview, 2nd ed., 1999) and ongoing updates, https://stimson.web.unc.edu/data/
 - License: freely shared by author; no explicit reuse license.
