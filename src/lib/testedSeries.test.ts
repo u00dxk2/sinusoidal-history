@@ -164,10 +164,14 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
 // and every published Markdown file too. While no primary verdict is eligible, none of these
 // may say a test ran.
 const PUBLIC = join(process.cwd(), "public");
-// True sentences the pattern also matches, by exact text (never a looser rule):
-// llms.txt's API field description is conditional; spectral.source.md:47 is a negation in the
-// frozen spectral directory (AGENTS.md: that directory is written by the script).
-const ALLOWED = ["p-values where a test ran", "so no test ran"];
+// True sentences the pattern also matches, each scoped to ONE file and a whole passage (Codex
+// r3: a bare phrase allowed everywhere would also hide "All nine pairings have p-values where
+// a test ran." added to about.md). llms.txt's field list is conditional; spectral.source.md is
+// a negation in the frozen spectral directory (AGENTS.md: only the script writes there).
+const ALLOWED: Record<string, string> = {
+  "llms.txt": "eligibility gate (span / period ≥ 3.0), verdict state, p-values where a test ran, Holm family",
+  [join("data", "spectral", "spectral.source.md")]: "the gate this round (2.87 of 3.0 periods), so no test ran;",
+};
 
 function staticText(element: unknown): string {
   return readerText(
@@ -205,7 +209,18 @@ describe("I-028: the shared surfaces do not say a test ran", () => {
 
   it.each(published)("public/%s", (file) => {
     let text = readFileSync(join(PUBLIC, file), "utf8");
-    for (const ok of ALLOWED) text = text.split(ok).join("");
+    const ok = ALLOWED[file];
+    if (ok) {
+      // The allowed passage must still be there verbatim, so an edit to it is re-checked.
+      expect(text).toContain(ok);
+      text = text.replace(ok, "");
+    }
     expect(text).not.toMatch(TEST_RAN);
+  });
+
+  it("an allowed passage is exempt only in its own file", () => {
+    const planted = `All nine pairings have ${ALLOWED["llms.txt"]}.`;
+    expect(ALLOWED["about.md"]).toBeUndefined();
+    expect(planted).toMatch(TEST_RAN);
   });
 });
