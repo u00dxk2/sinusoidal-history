@@ -132,3 +132,37 @@ Paths: `src/lib/testedSeries.ts`, `src/app/(app)/cycles/[id]/page.tsx` (one verb
 USER-VISIBLE: /cycles/turchin's "Does it hold up?" box names the record its verdict is judged on and says why the page carries two labels, and Schlesinger's pairing note, the verdict-table footnote and the /methods headline no longer say a test ran — 12f5fb2 [proof: production /cycles/turchin text before → after: 1 line removed ("The record this verdict tests …"), 2 added (named box sentence, "Why two labels"); old test-ran strings 0 hits across live turchin, schlesinger-jr, kondratiev and /methods vs 1 in the morning snapshot; check-deployed-sha-drift in-sync, live 61bd1f82] [coverage: Search Console via scripts/gsc-read.mjs (impressions only, cannot see a reader of a sentence) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics, so no instrument can see a reader meet this sentence · bug row W-004]
 
 **What remains:** I-028's ledger row (close at P5, linking the 5 SHAs); the W-004 wait fix (helper draft, at P5); I-021's cold walk 10-09 can read Turchin's box in the same pass.
+
+## Close
+
+ACTION: COMPLETED · item I-028 · P3 9800a13b
+
+Manager review 0f4df2ec: COMPLETED, no defects, one acceptance gap.
+
+**The gap, now read.** The P1 control was "Kondratiev's page multiset is unchanged". There was no production Kondratiev snapshot from this morning. The baseline used is the 10-07 11:22 MT production snapshot from session 5f34bd08 (`kondratiev-prod-after.txt`). It postdates `c348cd1`, and `git diff --stat c348cd1 1d13876 -- src public` is empty, so it shows what production served this morning. That snapshot vs production now: 98 lines / 90 distinct on both sides, 0 removed, 0 added. The control HOLDS.
+
+**State changed since P3:** none. Production is still live `61bd1f82` (plus the report commit `21dba3f`, docs only).
+
+**Hygiene draft:** 1 line — 0 accepted · 1 amended · 0 rejected.
+- W-004 `waitJustification`: AMENDED. Until 2026-10-09 as drafted, plus the manager's trigger: the same walk reads Turchin's box and its "Why two labels" paragraph.
+- READ-MUTATED: none (0 reads guarded).
+- Checks: check-wait-justification FAIL exit 3 at the helper, then **PASS** after the fix ("23 of 34 row(s) carry `waitJustification`; 0 warn / 0 info"). check-engineering-zero **PASS** for this lane, re-run after the lockfile change ("lane sinusoidal-cycles: 0 findings, 0 unreadable").
+
+**Ledger delta** (`continuity-edit.mjs`, `continuity/items.json`):
+- **I-028 → `monitoring`, not closed.** Its closeWhen has two halves. The first ("names the series") is met on production. The second ("a cold reader can say why it differs") needs W-004's walk, and the P5 rule keeps a shipped change that still owes an encounter read on `monitoring`. This departs from the manager's literal "close"; the reason is the rule plus the review's own last line naming the walk as the earliest read.
+  - nextEvaluation 2026-10-08 → 2026-10-09; linkedCommits = 12f5fb2, 8c90fc1, bc47408, 05df21a, 61bd1f8.
+  - readCommand = a live `check-rendered-text snap` of /cycles/turchin; the stale `readCommandWaived` was removed.
+  - waitJustification until 2026-10-09 names the walk; the note quotes the round-4 fact-check line on "WID interpolations".
+- **W-004:** waitJustification re-justified as above.
+
+**Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", "snapshot CURRENT: taken today (2026-10-08)"; I-028 re-dated to 2026-10-09.
+
+**Receipt:** P3's line still holds; no bracket changed.
+
+**Pending reads:**
+- 2026-10-09: W-004 walk → I-021 and I-028 closeWhen.
+- 2026-10-20: I-027.
+- 2026-11-04: W-005.
+- 2026-12-01: I-025.
+
+**UNRESOLVED:** none.

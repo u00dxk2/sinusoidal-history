@@ -936,9 +936,9 @@
       "_readCommandNote": "Proves the desktop figure still draws at 10px on production before the walk. The walk is the read; this is its precondition.",
       "waitingFor": "Nothing and nobody. A dated self-read.",
       "waitJustification": {
-        "until": "2026-10-07",
-        "loadBearing": "the only encounter read for the two 2026-10-03 fixes; no client analytics on this site",
-        "unWait": "on 2026-10-07 run the readCommand, then the three-step cold walk in onTrigger",
+        "until": "2026-10-09",
+        "loadBearing": "the only encounter read for I-021 (c348cd1), the 2026-10-03 fixes and I-028 (12f5fb2..61bd1f8); this site has no client analytics",
+        "unWait": "on 2026-10-09 run the readCommand, then the cold walk asking I-021's closeWhen (390 touch + ~900 mouse: target period, band, cue; caption does not read as a test having run) and, in the same pass, read Turchin's 'Does it hold up?' box and 'Why two labels' paragraph (I-028)",
         "owner": "sinusoidal-cycles"
       },
       "linkedCommits": [
@@ -946,7 +946,7 @@
         "25c90b2"
       ],
       "created": "2026-10-03",
-      "updated": "2026-10-07",
+      "updated": "2026-10-08",
       "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).",
       "readCommandLastRun": "2026-10-07T15:49:46.352Z",
       "readCommandLastExit": 0,
@@ -1046,7 +1046,7 @@
     {
       "id": "I-028",
       "title": "Turchin's cycle page has the same two-cut shape as Kondratiev before I-024: the verdict's series is not named in the 'Does it hold up?' box",
-      "status": "open",
+      "status": "monitoring",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1054,21 +1054,26 @@
       "hypothesis": "OBSERVED in the tree 2026-10-06: verdicts.json judges Turchin on wid_top1_wealth_1913 (the 1913+ cut) while the page draws a different series, so /cycles/turchin keeps the generic box sentence 'The record this verdict tests — a different cut of the paired series from the one drawn on the chart, named in the verdict below — …'. That is the sentence I-024 replaced on Kondratiev because a cold reader could not tell which series was judged (W-003 D2). No reader has reported it on Turchin: this is a HYPOTHESIS by analogy, not an observed failure. Deliberately out of scope on 2026-10-06 (manager review a4da274a: 'Don't widen today's cut').",
       "onTrigger": "After W-004 (2026-10-07) reads whether I-024's wording works on Kondratiev: if it does, add a testedSeriesNote entry for wid_top1_wealth_1913 in src/lib/testedSeries.ts, with its own 'why two labels' reason taken from the series' source.md (check the reason, do not reuse the TFP smoothing one), and extend src/lib/testedSeries.test.ts. Body copy only.",
       "closeWhen": "/cycles/turchin's box names the series its verdict is judged on, and a cold reader can say why it differs from the drawn series.",
-      "nextEvaluation": "2026-10-08",
+      "nextEvaluation": "2026-10-09",
       "waitingFor": "Nothing: W-004 read the I-024 wording on 2026-10-07 and the walker named Kondratiev's judged series (step 1a). Lane product work for 2026-10-08.",
       "waitJustification": {
-        "until": "2026-10-08",
-        "loadBearing": "the same wording pattern is being read on Kondratiev by W-004 on 2026-10-07; copying it before that read would spread an unread pattern",
-        "unWait": "W-004's notes record whether the walker could say which series Kondratiev's verdict is judged on",
+        "until": "2026-10-09",
+        "loadBearing": "closeWhen's second half needs a cold reader; the site has no client analytics, so W-004's walk is the only read",
+        "unWait": "on 2026-10-09 the cold walk reads Turchin's 'Does it hold up?' box and 'Why two labels' paragraph and records whether the walker can say why the judged and drawn series differ",
         "owner": "sinusoidal-cycles"
       },
-      "readCommandWaived": {
-        "reason": "Lane product work gated on W-004's walk notes; the gate is picking it up, not a measurement.",
-        "since": "2026-10-06"
-      },
-      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'\n\n | 2026-10-07 (P3, I-021 Codex r1 on 9b8a54e, LOW, STATIC, CONFIRMED, pre-existing, ROUTED HERE): Turchin's opening box takes the generic fallback at src/app/(app)/cycles/[id]/page.tsx:242, \"The record this verdict tests — a different cut …\", although Turchin's frozen verdict is ineligible (\"No test was run and no p-value exists\", verdicts.json Turchin row). \"tests\" claims a test ran. The fix belongs in this row's change: a testedSeriesNote entry for wid_top1_wealth_1913 makes the page take line 241's \"is judged on\" branch; failing that, change the fallback verb to \"is judged on\". Sibling sweep 2026-10-07 (pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over src/**/*.ts(x), public/*.md, public/llms.txt): 1 hit outside I-021's own change (this line); the llms.txt \"p-values where a test ran\" is conditional and true. Not fixed today because the manager's I-021 contract (f3d1c14a) limits Turchin's rendered-text change to the cue, target/band line and caption. W-004 (2026-10-07) is read, so this row's gate is met.",
+      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'\n\n | 2026-10-07 (P3, I-021 Codex r1 on 9b8a54e, LOW, STATIC, CONFIRMED, pre-existing, ROUTED HERE): Turchin's opening box takes the generic fallback at src/app/(app)/cycles/[id]/page.tsx:242, \"The record this verdict tests — a different cut …\", although Turchin's frozen verdict is ineligible (\"No test was run and no p-value exists\", verdicts.json Turchin row). \"tests\" claims a test ran. The fix belongs in this row's change: a testedSeriesNote entry for wid_top1_wealth_1913 makes the page take line 241's \"is judged on\" branch; failing that, change the fallback verb to \"is judged on\". Sibling sweep 2026-10-07 (pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over src/**/*.ts(x), public/*.md, public/llms.txt): 1 hit outside I-021's own change (this line); the llms.txt \"p-values where a test ran\" is conditional and true. Not fixed today because the manager's I-021 contract (f3d1c14a) limits Turchin's rendered-text change to the cue, target/band line and caption. W-004 (2026-10-07) is read, so this row's gate is met.\n\n2026-10-08 (P5): SHIPPED and live; status -> monitoring, not closed, because closeWhen's second half (\"a cold reader can say why it differs from the drawn series\") needs the 2026-10-09 cold walk (W-004). Commits 12f5fb2 (Turchin box + \"Why two labels\" + generic verb), 8c90fc1 (Schlesinger \"pairing tests\" -> \"sets\"), bc47408 (next 16.3.8, security), 05df21a (VerdictTable footnote + /methods headline), 61bd1f8 (guard allowlist scoped per file). CI green on 61bd1f8; check-deployed-sha-drift in-sync live 61bd1f82. Production /cycles/turchin text multiset, morning -> after: 1 removed (\"The record this verdict tests ...\"), 2 added (named box sentence; \"Why two labels\"). Old strings 0 hits across live turchin/schlesinger-jr/kondratiev/methods vs 1 in the morning snapshot. Control: production /cycles/kondratiev multiset, 10-07 11:22 MT snapshot (session 5f34bd08, after c348cd1; no src/public change c348cd1..1d13876) vs now: 98/90 vs 98/90, 0 removed, 0 added. Codex 4 read-only rounds (gpt-6-astra): r1 Schlesinger CONFIRMED fixed; \"WID interpolations\" (series.json:39) REFUTED on docs/fact-check-2026-04-26-round-4.md:106 (\"The pre-1913 points in WID's US wealth series are interpolations/extrapolations sourced from earlier US wealth-distribution literature (e.g., Lindert 2000; Wolff; Sutch)\"), do not re-raise; r2 two CONFIRMED fixed; r3 one CONFIRMED fixed; r4 no defects. Encounter blind (no client analytics, bug row W-004). P3 9800a13b.",
       "created": "2026-10-06",
-      "updated": "2026-10-07"
+      "updated": "2026-10-08",
+      "lastEvaluated": "2026-10-08",
+      "linkedCommits": [
+        "12f5fb2",
+        "8c90fc1",
+        "bc47408",
+        "05df21a",
+        "61bd1f8"
+      ],
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt"
     },
     {
       "id": "W-005",
