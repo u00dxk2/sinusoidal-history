@@ -55,6 +55,7 @@ export function spectralVerdictForCycle(
 }
 
 export const spectralPrimary = verdicts.primary;
+export const spectralCrossGrid = verdicts.cross_grid;
 export const spectralHeadline = verdicts.headline;
 export const spectralGenerated = verdicts.generated;
 export const spectralDraws = verdicts.draws;

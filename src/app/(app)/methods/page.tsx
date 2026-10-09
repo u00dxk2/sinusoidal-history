@@ -4,6 +4,7 @@ import { dataSeries } from "@/data/series";
 import { cycles } from "@/data/cycles";
 import { spectralHeadline } from "@/lib/spectral";
 import VerdictTable from "@/components/VerdictTable";
+import CrossGridList, { CROSS_GRID_LOWEST_P, CROSS_GRID_ROWS } from "@/components/CrossGridList";
 
 // /methods is the site's highest-impression page in search, so for many readers it is
 // the FRONT door, not an exit from the chart. Section ids back the "On this page" list;
@@ -316,14 +317,24 @@ export default function Methods() {
           run its test below three periods - not evidence that the data
           contain no information about the cycle. A secondary cross-grid
           panel re-pairs each period with every series long enough to clear
-          the gate (19 cells, labelled as re-pairings, not the site&apos;s
-          claims). A 54- and a 55-year period differ by 0.000337 cycles per
+          the gate:{" "}{CROSS_GRID_ROWS.length}{" "}re-pairings, not the site&apos;s
+          claims. Under either null, none reaches p &lt; 0.05 even before any
+          correction (lowest unadjusted p{" "}{CROSS_GRID_LOWEST_P}), so none
+          survives Holm correction. They are listed below, and in{" "}
+          <a
+            href="/data/spectral/verdicts.json"
+            className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+          >
+            the full table (machine-readable)
+          </a>
+          . A 54- and a 55-year period differ by 0.000337 cycles per
           year - separating them would take a ~3,000-year record under the
           Rayleigh resolution criterion, a spectral-resolution heuristic
           rather than a bound on every parametric method - so no verdict text
           distinguishes Kondratiev from Perez; every result in that band is
           one ~54–55-year statement.
         </p>
+        <CrossGridList />
         <p>
           The failed-detection precedents that shaped this design: Korotayev
           &amp; Tsirel (2010) report a significant Kondratiev wave only after
