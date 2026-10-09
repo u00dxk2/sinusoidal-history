@@ -102,3 +102,77 @@ USER-FACING: yes — `src/app/(app)/methods/page.tsx`, `public/methods.md`, `src
   - `dated gates due today`: 4 of 34 ledger rows.
   - `HEAD CI`: UNKNOWN at compose (gh timeout). The live read is GREEN.
   - `missingLinkedCommits`: NOTHING SWEPT (0 of 0). This is not a finding.
+
+## P3 — Product-work loop (posted acf6e71a)
+
+[P3 — Product-work loop]
+
+**Action (improve):** /methods says what the 19 cross-grid re-pairings found, and lists them (I-029, new row). Manager review 6103ce43 APPROVE. All three copy instructions were followed: the result is stated on raw p ("none reaches p < 0.05 even before any correction (lowest unadjusted p 0.094), so none survives Holm correction"), "labelled as re-pairings" is gone, and a list shows the cells on the page. The link reads "the full table (machine-readable)".
+
+**1. Implementation.** Commits `d6b6973` (change), `fa9a77b`, `a534ef6`, `8b12658` (Codex fixes) and `7d42482` (docs and stamps), on main. Files: `src/app/(app)/methods/page.tsx`, `src/components/CrossGridList.tsx` (new), `src/lib/spectral.ts` (one export), `public/methods.md` (mirror), `src/lib/methodsCrossGrid.test.ts` (new). The full suite passes with a receipt on `8b12658`: 24 files, 213 tests. Typecheck and lint are clean. **CI green on 8b126583a9** (`check-ci-status --workflow ci.yml --wait`: 1 success, 0 failures).
+- The failing run came first: on the old text the new test failed 2 of 3 on both surfaces.
+- Red arms: 11 named escapes (Codex r1 ×5, r2 ×4, r3 ×2), each applied as a mutation and each RED, with the files restored after. Logs are in this session's scratchpad (`red-arm2.mjs`, `red-arm3.mjs`).
+- Sibling sweep for the `<summary>` display:flex defect: `<summary` across `src/**`, 3 hits. Apart from this one, one is the test and one is /cycles' "The longer story" (`src/app/(app)/cycles/page.tsx:306`), which hides the native marker on purpose and draws its own ▾. That makes 0 other defects.
+
+**Independent review.** Three foreground `codex exec --sandbox read-only` rounds. Each banner's workdir was `C:\dev\skylark\sinusoidal-cycles`, checked before any finding was read.
+- **r1 on `d6b6973`:** all reader-facing claims HOLD (REPRODUCED: 19 eligible cells, min p 0.09377, min p_ar2 0.11949, Holm rerun gives 0 rejections). The mirror test was loose: CONFIRMED, fixed in `fa9a77b`. The summary lost its disclosure marker under flex: CONFIRMED, fixed in `fa9a77b`. "Worth a look" was UNVERIFIABLE and was replaced by Codex's narrower sentence.
+- **r2 on `fa9a77b`:** the marker fix holds and the new sentence HOLDS. The same matcher class came back (4 escapes, CONFIRMED). The shape changed in `a534ef6`: whole bounded blocks compared exactly.
+- **r3 on `a534ef6`:** circular row expectations and an md row above the list: CONFIRMED, fixed in `8b12658` (an independent oracle built from the three JSON files; md bounded at the page's anchors). This was the third round of one class, so I **stopped patching** (global rule 2). Three escapes are DECLARED as the test's ceiling, in its header: new false prose elsewhere on the page, a `hidden` attribute on the rows, an edited number in the next sentence. Review and the live rendered-text diff own those.
+
+**2. Delivery.** `check-deployed-sha-drift --service sinusoidal-history` → **in-sync, live 8b126583 = head**. The surface was read as well:
+- Live /methods text multiset, this morning (308 lines) against now (350): 1 removed (the old paragraph) and 43 added. Those are the rewritten paragraph, the link text, the following sentence (now its own line because of the link split), the summary, the lead and 19×2 row lines. Nothing else moved.
+- Live /methods and /methods.md each contain the exact sentence "none reaches p < 0.05 even before any correction (lowest unadjusted p 0.094), so none survives Holm correction" (1 hit each).
+- At the extremes, live: at 320x568 touch and at 1440x900 mouse, one `<details>`, summary `display: list-item` (the triangle is drawn; screenshot checked at 320), summary height 64 px and 44 px. Opened, it shows 19 of 19 rows visible, 0 past the right edge, 0 px page overflow, and the smallest row text at 12 px.
+
+**3. Encounter.** blind. The site carries no client analytics by standing choice, so no instrument can see a reader open /methods (bug row W-004). The next cold walk (W-004, re-dated to 2026-10-13 in the hygiene draft) asks step 5 again: "what did the re-pairings show?"
+
+**4. Outcome.** Open; no read exists yet. I-029 closes on that walk.
+
+USER-VISIBLE: /methods and /methods.md now say what the 19 cross-grid re-pairings found (none reaches p < 0.05 even before correction, lowest unadjusted p 0.094, so none survives Holm) and list every cell with its record and both p-values — 8b12658 [proof: live /methods 308 → 350 lines, 1 removed + 43 added and nothing else; check-deployed-sha-drift in-sync live 8b126583; the sentence present once on live /methods and /methods.md; list read live at 320x568 and 1440x900, 19/19 rows visible, 0 px overflow] [coverage: Search Console page-only (scripts/gsc-read.mjs) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on the site by standing choice, so no instrument sees a reader reach /methods · bug row W-004]
+
+codexCalls: 3 (three foreground read-only review rounds; probe GREEN 15:13Z)
+adversarialReviews: 3 — EXECUTED (r1 d6b6973, r2 fa9a77b, r3 a534ef6; dispositions above)
+hygiene helper: DISPATCHED 2026-10-09 ~10:10 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-09.md PRESENT. It reported no production findings; check-wait-justification PASS, check-engineering-zero PASS; I-021's read timed out at the 60 s default, with a timeout bump drafted. Its 4 READ-MUTATED lines were my own /methods edits; the `.bak` was a mutation backup, since deleted.
+
+**Remains for the close:**
+- Apply the hygiene draft: I-028 close, W-004 re-date, I-006 re-date, and I-021 timeout plus re-run, then close.
+- Set I-029 to monitoring.
+- Commit this report's P3 section.
+
+[standing-rules-hash: 88cc2dc9]
+
+## Close
+
+ACTION: COMPLETED · item I-029 · P3 acf6e71a
+
+The acceptance condition was met, and the manager review (5865e98b) read it as COMPLETED. Live /methods and /methods.md state "19 re-pairings" and "none survives Holm correction", and link the full table. The live text multiset moved 308 → 350 lines: 1 removed, 43 added, nothing else. The new test failed on the old text and passes on the new one. CI is green and drift is in-sync at `8b126583`. No state has changed since the P3 post.
+
+**Hygiene draft:** 5 lines. 4 accepted, 1 amended, 0 rejected.
+- **I-006: ACCEPT.** `--extend` to 2026-10-16, plus `waitJustification.until` set to 2026-10-16.
+- **I-028: ACCEPT.** `--close` with its own note file.
+- **W-004: ACCEPT.** `--extend` to 2026-10-13, `waitJustification.until` set to 2026-10-13, `unWait` re-pointed at the I-029 re-ask, and today's walk appended to notes.
+- **Owed child rows: ACCEPT** ("none").
+- **I-021: AMEND.** `readCommandTimeoutMs` raised to 300000, then `--run I-021` printed "99/99 PASS" (exit 0, 41.9 s, stamped). I closed it with a note carrying the 900 wheel and clip finding. It does not get its own row, because the fix needs `FigureScroller.tsx`, which is on the do-not-touch list.
+
+**READ-MUTATED, quoted from the draft.** All four are my own P3 edits, and the `.bak` was a mutation backup, since deleted.
+- "READ-MUTATED I-006 src/app/(app)/methods/page.tsx — NOT named in the readCommand: may be the lane's own concurrent P3 edit; lane checks"
+- "READ-MUTATED I-021 public/methods.md — …"
+- "READ-MUTATED W-004 public/methods.md — …"
+- "READ-MUTATED W-004 public/methods.md.bak (new untracked) — …"
+
+**Checks:**
+- **Wait justification** (re-run after my wait edits): "RESULT: PASS — 24 of 35 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)".
+- **Engineering zero** (from the helper): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)".
+- **Due gates:** "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-10-09).
+
+**Ledger delta, beyond the draft:**
+- **I-029** minted at P3, then set to `monitoring` with `waitJustification` {until 2026-10-13, unWait: W-004 walk step 5}. It closes on that walk's answer and on nothing else.
+
+**Pending reads:**
+- **2026-10-13:** the W-004 cold walk, which carries I-029's closeWhen.
+- **2026-10-16:** I-006.
+- **2026-10-20:** I-027.
+- **2026-11-04:** W-005.
+- **2026-12-01:** I-025.
+
+**Receipt:** P3's receipt still holds, so I wrote nothing new.

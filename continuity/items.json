@@ -254,13 +254,13 @@
       "notes": "OPENED 2026-09-22 at P5, from the sibling sweep owed by that day's 'All ten' -> 'Every cycle' fix (the hard-coded-count half). SWEPT with the Grep tool over src/ (48 hits) and public/**/*.{md,txt} (13 hits) against src/data/cycles.json = 10 and src/data/series.json = 9, so every 'nine of the ten' is arithmetically right today. RANKED, strongest first: src/app/og/route.tsx:164 'Ten long-wave cycles of history, on one shared axis.' — the route already imports cycles and this is the same surface CLASS that shipped 'Eight'; src/components/Poster.tsx:169 (its masthead derives No. NN from cycles.length two blocks above, the standfirst does not) plus the hand-typed ten-name roster at :199-200; src/components/TimeRangeBrush.tsx:283 'the mean of all ten cycle sinusoids' three lines from `sum / cycles.length`; src/app/(app)/page.tsx:47-55 (desktop dek roster, 'nine of the ten', and the phone dek) and :86 '0 of the 9'. DERIVED ALREADY, leave alone: methods/page.tsx:60, NowSummaryPanel.tsx:75, Poster.tsx:125, embed/docs/page.tsx:101. DELIBERATE, leave alone: the H1 'Ten cycles, one axis.' and SITE_DESCRIPTION (literal by design, test-pinned). ALSO FOUND, not this row: two stale comments describing an eight-cycle site (og/route.tsx:53, page.tsx:9) — comments only, no user impact. PROSE PAGES (about, cycles, state, methods, colophon and their public/*.md mirrors) are a judgement call rather than a mechanical fix: they read as editorial sentences, and AGENTS.md already couples each page to its mirror, so any change there is a two-file edit by rule.",
       "closeWhen": "The four ranked surfaces derive their count from cycles.length (or are deliberately exempted in one line each), and a test pins at least the OG standfirst the way siteConfig.test.ts pins SITE_DESCRIPTION.",
       "onTrigger": "Start with og/route.tsx — it is the highest-consequence line and the route already has the data. Prose pages are NOT in scope unless the count is actually wrong; the point is the surfaces where the number is a claim, not the ones where it is a sentence. Any page edited here drags its public/*.md mirror with it (AGENTS.md).",
-      "nextEvaluation": "2026-10-09",
+      "nextEvaluation": "2026-10-16",
       "_nextEvaluationNote": "Set 2026-09-22 at row creation, the same date as W-002, I-004 and I-005 so this lane carries ONE gate date. Nothing is wrong on the site today — all counts are arithmetically correct against ten cycles and nine series — so this is a robustness row, not a defect row; it comes due when the roster next changes or on 09-27, whichever is first.",
       "readCommand": "node -e \"const fs=require('fs');const t=p=>fs.readFileSync(p,'utf8');console.log('og:',t('C:/dev/skylark/sinusoidal-cycles/src/app/og/route.tsx').includes('Ten long-wave'),'poster:',t('C:/dev/skylark/sinusoidal-cycles/src/components/Poster.tsx').includes('Ten long-wave'),'brush:',t('C:/dev/skylark/sinusoidal-cycles/src/components/TimeRangeBrush.tsx').includes('all ten'))\"",
       "waitingFor": "Nothing and nobody — this lane's own files.",
-      "updated": "2026-10-06",
+      "updated": "2026-10-09",
       "waitJustification": {
-        "until": "2026-10-09",
+        "until": "2026-10-16",
         "loadBearing": "a robustness row, not a live defect: its read on 2026-09-27 (og: true poster: true brush: true) shows all three literals still present, and every count is correct against ten cycles, so it waits for the lane's one gate date or the next roster change",
         "unWait": "on 2026-10-07 (the lane's gate date, matching nextEvaluation), or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger. Re-justified 2026-10-04 P5: the 10-03 until expired while the lane spent 10-03 and 10-04 on user-facing rows (I-013, I-022); every count is still correct against ten cycles and nine series, so nothing user-visible is wrong while it waits.\n\n Re-dated 2026-10-06 close: 10-07 -> 10-09, because continuity-check flagged 9 of 12 dated rows on 10-07 (DUE_DATE_CONCENTRATION) and this row is the one that does not read the W-004 walk or the W-001 Search Console read; its 10-07 was copied from the lane gate date, not from a signal. Counts are still correct against ten cycles and nine series.",
         "owner": "sinusoidal-cycles"
@@ -272,7 +272,7 @@
         "lines": 1,
         "sha256": "d886dd7e22c27e21"
       },
-      "lastEvaluated": "2026-10-06"
+      "lastEvaluated": "2026-10-09"
     },
     {
       "id": "I-007",
@@ -802,7 +802,7 @@
       "hypothesis": "OBSERVED, cold walk docs/walks/2026-10-03-w003.md P11 (N = 1, synthetic, 390x664): on arrival the subtitle reads \"target pe\" and the band \"INSUFFI\"; the band is nearly as wide as the window and was never seen whole in one position; the only cue is one 12px line. Ranked 4th of 5. Also OBSERVED (6330855, a deliberate trade, manager review b4b27df0): from 768 to 1023 wide the figure sits in the scroller under \"Swipe sideways for the whole figure\", the wrong verb for a mouse.",
       "onTrigger": "Options to measure, not taste: a cue worded for both pointers; a visible edge fade or scrollbar on the scroller. The HTML verdict line above the figure already carries the band's words (10-02 round 3). The spectral SVGs stay frozen.",
       "closeWhen": "A cold walk at 390 wide and at about 900 wide with a mouse reads the target and the band, and says the cue told it what to do.",
-      "status": "monitoring",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -816,20 +816,19 @@
         "owner": "sinusoidal-cycles"
       },
       "created": "2026-10-03",
-      "updated": "2026-10-07",
-      "notes": " | 2026-10-07 (P3, shipped; live c348cd1, CI green, check-deployed-sha-drift in-sync): below lg the figure carries \"Target period N years · <state label> · X of 3.0 required periods\" (built from the frozen verdict row, src/lib/spectralFigureText.ts) and a pointer-split cue: touch \"Swipe sideways for the whole figure\", mouse \"Scroll sideways for the whole figure, or click it to open it full size\". The protocol caption on an ineligible record (all 9 today) now reads \"No test was run: this record covers X of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only. Had the record qualified, …\" (manager REDIRECT f3d1c14a added the caption). Commits 9b8a54e, d521789 (Codex r1 check fix), 30beb57 (Codex r2 check fix), c348cd1 (caption reworded so I-024's TEST_RAN guard keeps full strength). check-figure-cue.mjs on production: before 36/99, after 99/99; red arms: production-before, a font-size:0 mutation (9/9 arrival legs FAIL), unit-test mutation. Rendered-text multiset on kondratiev/perez/turchin, production before -> after: 1 removed (old caption) + 3 added (target/band, mouse cue, new caption), nothing else. Edge fade dropped (needs FigureScroller). At 390 the target/band line wraps to 2 rows, both on screen above the figure on arrival. closeWhen is a cold walk at 390 and ~900 with a mouse; encounter blind (no client analytics, bug row W-004).",
+      "updated": "2026-10-09",
+      "notes": " | 2026-10-07 (P3, shipped; live c348cd1, CI green, check-deployed-sha-drift in-sync): below lg the figure carries \"Target period N years · <state label> · X of 3.0 required periods\" (built from the frozen verdict row, src/lib/spectralFigureText.ts) and a pointer-split cue: touch \"Swipe sideways for the whole figure\", mouse \"Scroll sideways for the whole figure, or click it to open it full size\". The protocol caption on an ineligible record (all 9 today) now reads \"No test was run: this record covers X of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only. Had the record qualified, …\" (manager REDIRECT f3d1c14a added the caption). Commits 9b8a54e, d521789 (Codex r1 check fix), 30beb57 (Codex r2 check fix), c348cd1 (caption reworded so I-024's TEST_RAN guard keeps full strength). check-figure-cue.mjs on production: before 36/99, after 99/99; red arms: production-before, a font-size:0 mutation (9/9 arrival legs FAIL), unit-test mutation. Rendered-text multiset on kondratiev/perez/turchin, production before -> after: 1 removed (old caption) + 3 added (target/band, mouse cue, new caption), nothing else. Edge fade dropped (needs FigureScroller). At 390 the target/band line wraps to 2 rows, both on screen above the figure on arrival. closeWhen is a cold walk at 390 and ~900 with a mouse; encounter blind (no client analytics, bug row W-004). | 2026-10-09 (P5): closeWhen met. check-figure-cue 99/99 stamped through the gate (--run I-021, readCommandTimeoutMs raised to 300000 after the default 60 s cap killed the first gate run; this run took 41.9 s). W-004 cold walk docs/walks/2026-10-09-w004.md: step 1 (390 touch) the walker read the target period and band (\"Target period 54 years · Insufficient data — no test possible · 1.4 of 3.0 required periods\", 66 px above the figure top) and the swipe cue fit; step 2 (900 mouse) the cue told it to scroll sideways or click for full size, and the caption did not read as a test having run. Carried, not fixed: at 900 a plain mouse wheel scrolls the page, not the figure; 196 of 900 px are clipped with no edge cue; a click leaves the site for the bare SVG. The edge cue needs FigureScroller.tsx, which is on the do-not-touch list (primer 10-08), so this is a note for the next figure change, not a row.",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-figure-cue.mjs https://sinusoidalhistory.com",
-      "lastEvaluated": "2026-10-07",
-      "readCommandLastTimeout": {
-        "at": "2026-10-09T16:13:27.800Z",
-        "capMs": 60000,
-        "bytesBeforeKill": 3362,
-        "command": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-figure-cue.mjs https://sinusoidalhistory.com"
+      "lastEvaluated": "2026-10-09",
+      "readCommandTimeoutMs": 300000,
+      "readCommandLastRun": "2026-10-09T17:30:40.759Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 41934,
+      "readCommandLastOutputRef": {
+        "lines": 102,
+        "sha256": "b6eb9ea9045f377a"
       },
-      "readCommandUnstampable": {
-        "at": "2026-10-09T16:13:27.800Z",
-        "reason": "over-cap 60137ms vs 60000ms — the child was KILLED at the cap after 60137ms with 3362 byte(s) of partial output. A partial capture is an UNFINISHED read, not a short one. Raise readCommandTimeoutMs (cap 600000ms), split the command, or make it cheaper."
-      }
+      "closedAt": "2026-10-09"
     },
     {
       "id": "I-022",
@@ -940,15 +939,15 @@
       "hypothesis": "Probably yes: the labels draw at 10px from 1024 wide up (check-verdict-landing 472/472 on production) and Calibrate opens on the focused cycle (check-calibrate-tab 36/36 on production). Not established: whether a reader with a mouse at about 900 wide follows the scroller's cue, and whether the way into Calibrate (I-022) still loses them. The 2026-10-03 walk read the OLD build.",
       "onTrigger": "On 2026-10-07, cold, Chromium, live site. (1) 1440x900 with a mouse, /cycles/kondratiev: read the figure's title, target label, period ticks and band; say which are comfortable. (2) About 900x900 with a mouse, the same figure: what did the cue tell you to do, and could you see the whole figure? (3) 390x664 phone: open /cycles/schlesinger-jr, reach its Calibrate view from that page, drag the peak: which cycle moved, and did curve and r change together? Record the answers in notes; never quote them as a user.\n\n ADDED 2026-10-03 round 2 (I-013 shipped 12c21f3): also open /state/2026 on a phone and ask, before any hint, \"Huntington says Rising and Kondratiev says Peaking, both near the top. Why?\" Record whether the walker answers from the sentence under the word (the band is 3% of the period either side, so it is wider in years for a longer cycle), and whether Perez's \"at 2027.5 (shown as 2028)\" reads as an explanation or as noise. The answer is evidence for I-025.\n\n ADDED 2026-10-05 (I-020, manager review 397a08e9): in the 390x664 phone leg, also open /cycles/perez, swipe the spectral figure partway, and ask: \"tap the figure: what happened?\" Record whether anything opened or moved, and whether the walker expected a tap to do something. With a mouse in step (1), click the figure once and record what opened. This is I-020's encounter read.",
       "closeWhen": "(a) All steps read cleanly: close as confirmed. (b) Any step fails: name it in notes and extend or mint its fix row (I-020, I-021, I-022).",
-      "nextEvaluation": "2026-10-09",
+      "nextEvaluation": "2026-10-13",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-verdict-landing.mjs https://sinusoidalhistory.com --fails-only",
       "readCommandTimeoutMs": 420000,
       "_readCommandNote": "Proves the desktop figure still draws at 10px on production before the walk. The walk is the read; this is its precondition.",
       "waitingFor": "Nothing and nobody. A dated self-read.",
       "waitJustification": {
-        "until": "2026-10-09",
+        "until": "2026-10-13",
         "loadBearing": "the only encounter read for I-021 (c348cd1), the 2026-10-03 fixes and I-028 (12f5fb2..61bd1f8); this site has no client analytics",
-        "unWait": "on 2026-10-09 run the readCommand, then the cold walk asking I-021's closeWhen (390 touch + ~900 mouse: target period, band, cue; caption does not read as a test having run) and, in the same pass, read Turchin's 'Does it hold up?' box and 'Why two labels' paragraph (I-028)",
+        "unWait": "on 2026-10-13 a cold walk re-asks step 5 on /methods after I-029 shipped (8b12658): 'what did the cross-grid re-pairings show?', answered from the page; this row's readCommand is its precondition",
         "owner": "sinusoidal-cycles"
       },
       "linkedCommits": [
@@ -956,8 +955,8 @@
         "25c90b2"
       ],
       "created": "2026-10-03",
-      "updated": "2026-10-08",
-      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).",
+      "updated": "2026-10-09",
+      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).\n\n | 2026-10-09 (P5): walk read today, docs/walks/2026-10-09-w004.md (synthetic N=1). readCommand 490/490 (--run, 258 s). Step 1 PASS (390 touch, target/band read). Steps 2-4 MIXED: 900 mouse cue fits but wheel scrolls the page and 196 px is clipped (carried on I-021's close note); Turchin's reason sits far from its label (carried on I-028's close note). Step 5 FAILED: /methods cross-grid sentence, fixed today as I-029 (8b12658, live). Next walk 2026-10-13 re-asks step 5. Steps 1, 3a/c, 4 confirm I-021 and I-028, both closed today.",
       "readCommandLastRun": "2026-10-09T16:18:27.481Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 258492,
@@ -965,7 +964,7 @@
         "lines": 6,
         "sha256": "bdf5dbad60abec93"
       },
-      "lastEvaluated": "2026-10-07"
+      "lastEvaluated": "2026-10-09"
     },
     {
       "id": "I-025",
@@ -1056,7 +1055,7 @@
     {
       "id": "I-028",
       "title": "Turchin's cycle page has the same two-cut shape as Kondratiev before I-024: the verdict's series is not named in the 'Does it hold up?' box",
-      "status": "monitoring",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1072,10 +1071,10 @@
         "unWait": "on 2026-10-09 the cold walk reads Turchin's 'Does it hold up?' box and 'Why two labels' paragraph and records whether the walker can say why the judged and drawn series differ",
         "owner": "sinusoidal-cycles"
       },
-      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'\n\n | 2026-10-07 (P3, I-021 Codex r1 on 9b8a54e, LOW, STATIC, CONFIRMED, pre-existing, ROUTED HERE): Turchin's opening box takes the generic fallback at src/app/(app)/cycles/[id]/page.tsx:242, \"The record this verdict tests — a different cut …\", although Turchin's frozen verdict is ineligible (\"No test was run and no p-value exists\", verdicts.json Turchin row). \"tests\" claims a test ran. The fix belongs in this row's change: a testedSeriesNote entry for wid_top1_wealth_1913 makes the page take line 241's \"is judged on\" branch; failing that, change the fallback verb to \"is judged on\". Sibling sweep 2026-10-07 (pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over src/**/*.ts(x), public/*.md, public/llms.txt): 1 hit outside I-021's own change (this line); the llms.txt \"p-values where a test ran\" is conditional and true. Not fixed today because the manager's I-021 contract (f3d1c14a) limits Turchin's rendered-text change to the cue, target/band line and caption. W-004 (2026-10-07) is read, so this row's gate is met.\n\n2026-10-08 (P5): SHIPPED and live; status -> monitoring, not closed, because closeWhen's second half (\"a cold reader can say why it differs from the drawn series\") needs the 2026-10-09 cold walk (W-004). Commits 12f5fb2 (Turchin box + \"Why two labels\" + generic verb), 8c90fc1 (Schlesinger \"pairing tests\" -> \"sets\"), bc47408 (next 16.3.8, security), 05df21a (VerdictTable footnote + /methods headline), 61bd1f8 (guard allowlist scoped per file). CI green on 61bd1f8; check-deployed-sha-drift in-sync live 61bd1f82. Production /cycles/turchin text multiset, morning -> after: 1 removed (\"The record this verdict tests ...\"), 2 added (named box sentence; \"Why two labels\"). Old strings 0 hits across live turchin/schlesinger-jr/kondratiev/methods vs 1 in the morning snapshot. Control: production /cycles/kondratiev multiset, 10-07 11:22 MT snapshot (session 5f34bd08, after c348cd1; no src/public change c348cd1..1d13876) vs now: 98/90 vs 98/90, 0 removed, 0 added. Codex 4 read-only rounds (gpt-6-astra): r1 Schlesinger CONFIRMED fixed; \"WID interpolations\" (series.json:39) REFUTED on docs/fact-check-2026-04-26-round-4.md:106 (\"The pre-1913 points in WID's US wealth series are interpolations/extrapolations sourced from earlier US wealth-distribution literature (e.g., Lindert 2000; Wolff; Sutch)\"), do not re-raise; r2 two CONFIRMED fixed; r3 one CONFIRMED fixed; r4 no defects. Encounter blind (no client analytics, bug row W-004). P3 9800a13b.",
+      "notes": "2026-10-06 (P5): carried as a candidate row per the manager review (f5b53394): 'Turchin's same two-cut shape is a candidate, not today's work. If you want it kept, carry it as a row.'\n\n | 2026-10-07 (P3, I-021 Codex r1 on 9b8a54e, LOW, STATIC, CONFIRMED, pre-existing, ROUTED HERE): Turchin's opening box takes the generic fallback at src/app/(app)/cycles/[id]/page.tsx:242, \"The record this verdict tests — a different cut …\", although Turchin's frozen verdict is ineligible (\"No test was run and no p-value exists\", verdicts.json Turchin row). \"tests\" claims a test ran. The fix belongs in this row's change: a testedSeriesNote entry for wid_top1_wealth_1913 makes the page take line 241's \"is judged on\" branch; failing that, change the fallback verb to \"is judged on\". Sibling sweep 2026-10-07 (pattern `verdict tests|this test|was tested|tests? (ran|run on)|the test (runs|ran)` over src/**/*.ts(x), public/*.md, public/llms.txt): 1 hit outside I-021's own change (this line); the llms.txt \"p-values where a test ran\" is conditional and true. Not fixed today because the manager's I-021 contract (f3d1c14a) limits Turchin's rendered-text change to the cue, target/band line and caption. W-004 (2026-10-07) is read, so this row's gate is met.\n\n2026-10-08 (P5): SHIPPED and live; status -> monitoring, not closed, because closeWhen's second half (\"a cold reader can say why it differs from the drawn series\") needs the 2026-10-09 cold walk (W-004). Commits 12f5fb2 (Turchin box + \"Why two labels\" + generic verb), 8c90fc1 (Schlesinger \"pairing tests\" -> \"sets\"), bc47408 (next 16.3.8, security), 05df21a (VerdictTable footnote + /methods headline), 61bd1f8 (guard allowlist scoped per file). CI green on 61bd1f8; check-deployed-sha-drift in-sync live 61bd1f82. Production /cycles/turchin text multiset, morning -> after: 1 removed (\"The record this verdict tests ...\"), 2 added (named box sentence; \"Why two labels\"). Old strings 0 hits across live turchin/schlesinger-jr/kondratiev/methods vs 1 in the morning snapshot. Control: production /cycles/kondratiev multiset, 10-07 11:22 MT snapshot (session 5f34bd08, after c348cd1; no src/public change c348cd1..1d13876) vs now: 98/90 vs 98/90, 0 removed, 0 added. Codex 4 read-only rounds (gpt-6-astra): r1 Schlesinger CONFIRMED fixed; \"WID interpolations\" (series.json:39) REFUTED on docs/fact-check-2026-04-26-round-4.md:106 (\"The pre-1913 points in WID's US wealth series are interpolations/extrapolations sourced from earlier US wealth-distribution literature (e.g., Lindert 2000; Wolff; Sutch)\"), do not re-raise; r2 two CONFIRMED fixed; r3 one CONFIRMED fixed; r4 no defects. Encounter blind (no client analytics, bug row W-004). P3 9800a13b. | 2026-10-09 (P5): closeWhen met. --run I-028 snap of live /cycles/turchin (96 lines) names the judged series: \"The record this verdict is judged on, US top 1% wealth share (1913 onward), runs 111 years\". W-004 cold walk docs/walks/2026-10-09-w004.md steps 3b (1440) and 4b (390): the walker said why the judged series differs from the drawn one, from the \"Why two labels\" paragraph. Carried: that reason sits 1,593 px below the Paired data line on desktop and about 3.3 screens below it on a phone, with nothing pointing down to it (Kondratiev's same shape); the walker said a cold reader would probably not ask the question. Retro 10-08 Q6 (vitest failure dumps) folded in: today's runs used --reporter=dot --silent and a mutation harness that prints one line per arm.",
       "created": "2026-10-06",
-      "updated": "2026-10-08",
-      "lastEvaluated": "2026-10-08",
+      "updated": "2026-10-09",
+      "lastEvaluated": "2026-10-09",
       "linkedCommits": [
         "12f5fb2",
         "8c90fc1",
@@ -1090,7 +1089,8 @@
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "d72e4f094daf5cce"
-      }
+      },
+      "closedAt": "2026-10-09"
     },
     {
       "id": "W-005",
@@ -1115,6 +1115,35 @@
       "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.",
       "created": "2026-10-07",
       "updated": "2026-10-07"
+    },
+    {
+      "id": "I-029",
+      "title": "/methods named a cross-grid panel of 19 re-pairings that no page showed, and never said what it found",
+      "status": "monitoring",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-09",
+      "hypothesis": "OBSERVED (synthetic, N=1): the W-004 cold walk 2026-10-09 (docs/walks/2026-10-09-w004.md step 5) rated the /methods sentence 'A secondary cross-grid panel re-pairs each period with every series long enough to clear the gate (19 cells, labelled as re-pairings, not the site's claims).' the single worst thing on the walk: the walker could not find the panel and read the sentence as hinting at a result it never gave. OBSERVED in the tree: no component rendered verdicts.json cross_grid; its 19 rows are all eligible, all NO_SIGNIFICANT_TARGET_POWER, 0 Holm-significant under either null, lowest unadjusted p 0.094.",
+      "onTrigger": "Shipped 2026-10-09 P3 (manager review 6103ce43 APPROVE): the sentence states the outcome (none reaches p < 0.05 before correction, so none survives Holm), links 'the full table (machine-readable)', and a collapsed list on /methods and in public/methods.md shows all 19 cells. src/lib/methodsCrossGrid.test.ts pins both surfaces to an oracle built from the JSON.",
+      "closeWhen": "Live /methods and /methods.md state the cross-grid result and list the 19 cells, and a cold reader asked 'what did the re-pairings show?' answers from the page.",
+      "nextEvaluation": "2026-10-13",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/methods C:/dev/skylark/sinusoidal-cycles/tmp/methods-read.txt",
+      "linkedCommits": [
+        "d6b6973",
+        "fa9a77b",
+        "a534ef6",
+        "8b12658"
+      ],
+      "notes": "2026-10-09 (P3): minted at build time per the P1 packet (b2be4428). Codex 3 read-only rounds: r1 two CONFIRMED (loose mirror test; summary display:flex dropped the disclosure marker) + one editorial sentence replaced, fixed fa9a77b; r2 the same matcher class again (extra li, extra paragraph, second disclosure, md row in another format), shape changed a534ef6; r3 the third round of that class, so stopped patching: independent oracle + md bounded at the page's anchors 8b12658, and the test declares its ceiling (new prose elsewhere, a hidden attribute, an edited number in the next sentence are review's and the rendered-text diff's job). All 11 named escapes RED by mutation run.",
+      "created": "2026-10-09",
+      "updated": "2026-10-09",
+      "waitJustification": {
+        "until": "2026-10-13",
+        "loadBearing": "closeWhen needs a cold reader's answer; the site has no client analytics, so W-004's walk is the only read",
+        "unWait": "on 2026-10-13 W-004's cold walk step 5 asks 'what did the re-pairings show?' on live /methods; I-029 closes on that answer and nothing else",
+        "owner": "sinusoidal-cycles"
+      }
     }
   ],
   "knownPatterns": [
