@@ -9,10 +9,11 @@
 // check below compares a WHOLE block, in order, against what the JSON says it must be.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import Methods from "@/app/(app)/methods/page";
-import {
+import CrossGridList, {
   CROSS_GRID_LEAD,
   CROSS_GRID_ROWS,
   CROSS_GRID_SUMMARY,
@@ -64,17 +65,29 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     );
   });
 
-  it("/methods renders the list's summary, lead and every row, in order, once", () => {
-    const block = html.match(/<details[^>]*>([\s\S]*?)<\/details>/);
-    expect(block).not.toBeNull();
-    const summary = visible(block![1].match(/<summary[^>]*>([\s\S]*?)<\/summary>/)![1]).trim();
-    const lead = visible(block![1].match(/<\/summary>\s*<p[^>]*>([\s\S]*?)<\/p>/)![1]).trim();
-    const rows = [...block![1].matchAll(/<li[^>]*>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<p[^>]*>([\s\S]*?)<\/p>\s*<\/li>/g)].map(
-      (m) => [visible(m[1]).trim(), visible(m[2]).trim()],
+  // Codex r2: extracting the first <details>, the first lead and the rows that matched one
+  // shape let a 20th plain <li>, an extra paragraph and a second disclosure through. So the
+  // claim is now about the WHOLE stretch of page between the two paragraphs that bound it:
+  // it is exactly the component, and the component's text is exactly summary + lead + rows.
+  it("/methods renders exactly the list between its bounding paragraphs, once", () => {
+    const list = renderToStaticMarkup(createElement(CrossGridList));
+    const start = html.indexOf("one ~54–55-year statement.</p>");
+    const end = html.indexOf("<p>The failed-detection precedents");
+    expect(start).toBeGreaterThan(-1);
+    expect(end).toBeGreaterThan(start);
+    expect(html.slice(start + "one ~54–55-year statement.</p>".length, end)).toBe(list);
+    expect(html.split("<details").length - 1).toBe(1);
+  });
+
+  it("the list's text is the summary, the lead and every row in order, and nothing else", () => {
+    const list = renderToStaticMarkup(createElement(CrossGridList));
+    expect(visible(list)).toBe(
+      CROSS_GRID_SUMMARY +
+        CROSS_GRID_LEAD +
+        CROSS_GRID_ROWS.map((r) => r.pair + r.detail).join(""),
     );
-    expect(summary).toBe(CROSS_GRID_SUMMARY);
-    expect(lead).toBe(CROSS_GRID_LEAD);
-    expect(rows).toEqual(CROSS_GRID_ROWS.map((r) => [r.pair, r.detail]));
+    expect(list.split("<li").length - 1).toBe(grid.length);
+    expect(list.split("<p").length - 1).toBe(1 + 2 * grid.length);
   });
 
   it("public/methods.md carries the same sentence, link included", () => {
@@ -86,13 +99,18 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     );
   });
 
-  it("public/methods.md carries the same list, in order, and no other row", () => {
+  // Codex r2: a row counter keyed to one number format missed an extra row written "144
+  // years record". The whole bounded section must equal what the JSON says, byte for byte.
+  it("public/methods.md carries exactly the same list, between its bounding paragraphs, once", () => {
     const expected =
       `**${CROSS_GRID_SUMMARY}.** ${CROSS_GRID_LEAD}\n\n` +
       CROSS_GRID_ROWS.map((r) => `- ${r.pair} — ${r.detail}`).join("\n");
-    expect(md).toContain(expected);
-    const rowLines = md.split("\n").filter((l) => / × .+ — \d+y record · /.test(l));
-    expect(rowLines.length).toBe(CROSS_GRID_ROWS.length);
+    const start = md.indexOf(`**${CROSS_GRID_SUMMARY}.**`);
+    const end = md.indexOf("\n\nThe failed-detection precedents");
+    expect(start).toBeGreaterThan(-1);
+    expect(end).toBeGreaterThan(start);
+    expect(md.slice(start, end)).toBe(expected);
+    expect(md.split(CROSS_GRID_SUMMARY).length - 1).toBe(1);
   });
 
   it("no surface still points at a label no page shows", () => {
