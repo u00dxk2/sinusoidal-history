@@ -19,6 +19,33 @@ import CrossGridList, {
   CROSS_GRID_SUMMARY,
 } from "@/components/CrossGridList";
 import verdicts from "../../public/data/spectral/verdicts.json";
+import cyclesJson from "../data/cycles.json";
+import seriesJson from "../data/series.json";
+
+// CEILING (Codex r3, 2026-10-09, after three rounds found matcher gaps): this test proves the
+// cross-grid sentence and list equal what the frozen JSON says, inside the stretch of page
+// and mirror they occupy. It does NOT prove the rest of /methods is true: a new false
+// sentence elsewhere, a `hidden` attribute on the rows, or an edited number in the next
+// sentence all pass it. Those belong to review and to the live rendered-text diff.
+//
+// The expected rows are built HERE from the three JSON files, sharing no code with
+// CrossGridList (Codex r3: taking them from CROSS_GRID_ROWS let the same wrong value on both
+// surfaces pass).
+const ORACLE_SERIES_NAMES: Record<string, string> = {
+  // The verdict's own lay_name for the 1913-onward cut (verdicts.json lay_text).
+  wid_top1_wealth_1913: "US top 1% wealth share (1913 onward)",
+};
+const ORACLE_ROWS = verdicts.cross_grid.map((r) => {
+  const cycle = (cyclesJson as { id: string; name: string }[]).find((c) => c.id === r.period_source_cycle_id)!;
+  const who = cycle.name.split("—")[0].trim().replace(/\s*\(.*\)$/, "");
+  const series =
+    (seriesJson as { id: string; name: string }[]).find((s) => s.id === r.series_id)?.name ??
+    ORACLE_SERIES_NAMES[r.series_id];
+  return {
+    pair: `${who}'s ${r.period_years}-year period × ${series}`,
+    detail: `${r.span_years}y record · ${r.cycles_covered.toFixed(1)} periods · p ${(r.p as number).toFixed(3)} (AR(2) null: ${(r.p_ar2 as number).toFixed(3)})`,
+  };
+});
 
 const grid = verdicts.cross_grid;
 const significant = grid.filter((r) => r.holm_significant || r.holm_significant_ar2).length;
@@ -53,6 +80,9 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     expect(significant).toBe(0);
     expect(Number(lowestP)).toBeGreaterThanOrEqual(0.05);
     expect(CROSS_GRID_ROWS.length).toBe(grid.length);
+    expect(CROSS_GRID_SUMMARY).toBe(`The ${grid.length} re-pairings, cell by cell`);
+    // Every oracle name resolved: a series id with no name would render "undefined".
+    expect(ORACLE_ROWS.every((r) => !r.pair.includes("undefined"))).toBe(true);
   });
 
   it("/methods renders the sentence exactly", () => {
@@ -82,9 +112,9 @@ describe("/methods says what the cross-grid re-pairings found", () => {
   it("the list's text is the summary, the lead and every row in order, and nothing else", () => {
     const list = renderToStaticMarkup(createElement(CrossGridList));
     expect(visible(list)).toBe(
-      CROSS_GRID_SUMMARY +
+      `The ${grid.length} re-pairings, cell by cell` +
         CROSS_GRID_LEAD +
-        CROSS_GRID_ROWS.map((r) => r.pair + r.detail).join(""),
+        ORACLE_ROWS.map((r) => r.pair + r.detail).join(""),
     );
     expect(list.split("<li").length - 1).toBe(grid.length);
     expect(list.split("<p").length - 1).toBe(1 + 2 * grid.length);
@@ -102,14 +132,17 @@ describe("/methods says what the cross-grid re-pairings found", () => {
   // Codex r2: a row counter keyed to one number format missed an extra row written "144
   // years record". The whole bounded section must equal what the JSON says, byte for byte.
   it("public/methods.md carries exactly the same list, between its bounding paragraphs, once", () => {
+    // Bounded at the same two places as the page (Codex r3: a summary-anchored start let an
+    // invented row ABOVE the list pass).
     const expected =
-      `**${CROSS_GRID_SUMMARY}.** ${CROSS_GRID_LEAD}\n\n` +
-      CROSS_GRID_ROWS.map((r) => `- ${r.pair} — ${r.detail}`).join("\n");
-    const start = md.indexOf(`**${CROSS_GRID_SUMMARY}.**`);
+      `\n\n**The ${grid.length} re-pairings, cell by cell.** ${CROSS_GRID_LEAD}\n\n` +
+      ORACLE_ROWS.map((r) => `- ${r.pair} — ${r.detail}`).join("\n");
+    const anchor = "one ~54–55-year statement.";
+    const start = md.indexOf(anchor);
     const end = md.indexOf("\n\nThe failed-detection precedents");
     expect(start).toBeGreaterThan(-1);
     expect(end).toBeGreaterThan(start);
-    expect(md.slice(start, end)).toBe(expected);
+    expect(md.slice(start + anchor.length, end)).toBe(expected);
     expect(md.split(CROSS_GRID_SUMMARY).length - 1).toBe(1);
   });
 
