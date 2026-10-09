@@ -27,17 +27,23 @@ export const CROSS_GRID_LOWEST_P = Math.min(
   ...spectralCrossGrid.flatMap((v) => [v.p!, v.p_ar2!]),
 ).toFixed(3);
 
+export const CROSS_GRID_SUMMARY = `The ${CROSS_GRID_ROWS.length} re-pairings, cell by cell`;
+
+// One string, so public/methods.md can be checked against it word for word (Codex r1:
+// a fragment check passed with this lead edited).
+export const CROSS_GRID_LEAD =
+  "Each row borrows one theory's period and sets it against a series that theory is not paired with. The p is the bootstrap p against the AR(1) red-noise null, before any correction; the AR(2) null's p follows it. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
+
 export default function CrossGridList() {
   return (
     <details className="border-t border-b border-rule/30 py-2">
-      <summary className="cursor-pointer min-h-11 flex items-center font-mono text-[12px] uppercase tracking-[0.16em] text-ink-soft hover:text-ink">
-        {`The ${CROSS_GRID_ROWS.length} re-pairings, cell by cell`}
+      {/* No display:flex here: it replaces summary's list-item display and drops the native
+          disclosure triangle, the only cue on a phone that this opens (Codex r1). py-3 keeps
+          the tap target at 44px. */}
+      <summary className="cursor-pointer py-3 font-mono text-[12px] uppercase tracking-[0.16em] text-ink-soft hover:text-ink">
+        {CROSS_GRID_SUMMARY}
       </summary>
-      <p className="mt-2 text-[14px] leading-relaxed text-ink-soft">
-        Each row borrows one theory&apos;s period and sets it against a series that theory is
-        not paired with. The p is the bootstrap p against the AR(1) red-noise null, before any
-        correction; the AR(2) null&apos;s p follows it. Below 0.05 would be worth a look.
-      </p>
+      <p className="mt-2 text-[14px] leading-relaxed text-ink-soft">{CROSS_GRID_LEAD}</p>
       {/* role="list": Safari drops list semantics once list-style is none (Tailwind Preflight). */}
       <ol role="list" className="mt-2">
         {CROSS_GRID_ROWS.map((r) => (
