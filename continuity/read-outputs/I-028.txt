@@ -1,0 +1,7 @@
+# read-output sidecar for I-028 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt
+# ran: 2026-10-09T16:19:21.367Z · exit: 0
+# lines: 1 · sha256: d72e4f094daf5cce (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+snap: https://sinusoidalhistory.com/cycles/turchin -> C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt (96 lines)

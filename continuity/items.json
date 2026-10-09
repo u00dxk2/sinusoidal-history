@@ -265,9 +265,9 @@
         "unWait": "on 2026-10-07 (the lane's gate date, matching nextEvaluation), or when src/data/cycles.json changes, start with src/app/og/route.tsx per onTrigger. Re-justified 2026-10-04 P5: the 10-03 until expired while the lane spent 10-03 and 10-04 on user-facing rows (I-013, I-022); every count is still correct against ten cycles and nine series, so nothing user-visible is wrong while it waits.\n\n Re-dated 2026-10-06 close: 10-07 -> 10-09, because continuity-check flagged 9 of 12 dated rows on 10-07 (DUE_DATE_CONCENTRATION) and this row is the one that does not read the W-004 walk or the W-001 Search Console read; its 10-07 was copied from the lane gate date, not from a signal. Counts are still correct against ten cycles and nine series.",
         "owner": "sinusoidal-cycles"
       },
-      "readCommandLastRun": "2026-10-03T15:58:40.316Z",
+      "readCommandLastRun": "2026-10-09T16:12:03.045Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 62,
+      "readCommandLastDurationMs": 3132,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "d886dd7e22c27e21"
@@ -819,7 +819,17 @@
       "updated": "2026-10-07",
       "notes": " | 2026-10-07 (P3, shipped; live c348cd1, CI green, check-deployed-sha-drift in-sync): below lg the figure carries \"Target period N years · <state label> · X of 3.0 required periods\" (built from the frozen verdict row, src/lib/spectralFigureText.ts) and a pointer-split cue: touch \"Swipe sideways for the whole figure\", mouse \"Scroll sideways for the whole figure, or click it to open it full size\". The protocol caption on an ineligible record (all 9 today) now reads \"No test was run: this record covers X of the 3.0 full periods the pre-registered test requires, so the spectrum in the figure is descriptive only. Had the record qualified, …\" (manager REDIRECT f3d1c14a added the caption). Commits 9b8a54e, d521789 (Codex r1 check fix), 30beb57 (Codex r2 check fix), c348cd1 (caption reworded so I-024's TEST_RAN guard keeps full strength). check-figure-cue.mjs on production: before 36/99, after 99/99; red arms: production-before, a font-size:0 mutation (9/9 arrival legs FAIL), unit-test mutation. Rendered-text multiset on kondratiev/perez/turchin, production before -> after: 1 removed (old caption) + 3 added (target/band, mouse cue, new caption), nothing else. Edge fade dropped (needs FigureScroller). At 390 the target/band line wraps to 2 rows, both on screen above the figure on arrival. closeWhen is a cold walk at 390 and ~900 with a mouse; encounter blind (no client analytics, bug row W-004).",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-figure-cue.mjs https://sinusoidalhistory.com",
-      "lastEvaluated": "2026-10-07"
+      "lastEvaluated": "2026-10-07",
+      "readCommandLastTimeout": {
+        "at": "2026-10-09T16:13:27.800Z",
+        "capMs": 60000,
+        "bytesBeforeKill": 3362,
+        "command": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-figure-cue.mjs https://sinusoidalhistory.com"
+      },
+      "readCommandUnstampable": {
+        "at": "2026-10-09T16:13:27.800Z",
+        "reason": "over-cap 60137ms vs 60000ms — the child was KILLED at the cap after 60137ms with 3362 byte(s) of partial output. A partial capture is an UNFINISHED read, not a short one. Raise readCommandTimeoutMs (cap 600000ms), split the command, or make it cheaper."
+      }
     },
     {
       "id": "I-022",
@@ -948,9 +958,9 @@
       "created": "2026-10-03",
       "updated": "2026-10-08",
       "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).",
-      "readCommandLastRun": "2026-10-07T15:49:46.352Z",
+      "readCommandLastRun": "2026-10-09T16:18:27.481Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 322551,
+      "readCommandLastDurationMs": 258492,
       "readCommandLastOutputRef": {
         "lines": 6,
         "sha256": "bdf5dbad60abec93"
@@ -1073,7 +1083,14 @@
         "05df21a",
         "61bd1f8"
       ],
-      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt"
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt",
+      "readCommandLastRun": "2026-10-09T16:19:21.367Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 3686,
+      "readCommandLastOutputRef": {
+        "lines": 1,
+        "sha256": "d72e4f094daf5cce"
+      }
     },
     {
       "id": "W-005",

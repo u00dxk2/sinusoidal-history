@@ -1,0 +1,48 @@
+# PARTIAL read-output capture for I-021 — written by check-due-gates-dispositioned --run
+# ⚠ PARTIAL: the child was KILLED at its timeout cap. These bytes are NOT a reading and NOT an answer.
+#   The row was deliberately NOT stamped (no readCommandLastRun, no readCommandLastExit, no ref).
+#   This file exists so a human can see how far the command got; nothing resolves it.
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-figure-cue.mjs https://sinusoidalhistory.com
+# attempted: 2026-10-09T16:13:27.800Z · killed at cap: 60000ms · elapsed: 60137ms
+# bytesBeforeKill: 3362
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+9 paired verdicts (0 eligible) from https://sinusoidalhistory.com
+PASS  900 mouse schlesinger-jr: no "Swipe" cue
+PASS  900 mouse schlesinger-jr: mouse cue shown
+PASS  900 mouse schlesinger-jr: target/band line  — Target period 30 years · Insufficient data — no test possible · 2.4 of 3.0 required periods
+PASS  caption schlesinger-jr (ineligible): says no test was run  — No test was run: this record covers 2.4 of the 3.0 full periods the pre-registered test re
+PASS  caption schlesinger-jr (ineligible): does not open as a test
+PASS  caption schlesinger-jr: draw count matches verdicts.json  — (99,999 bootstrap draws)
+PASS  390 touch schlesinger-jr: swipe cue shown
+PASS  390 touch schlesinger-jr: mouse cue hidden
+PASS  390 touch schlesinger-jr: target/band line
+PASS  390 touch schlesinger-jr: on arrival at the figure the whole line is on screen above it  — line 234-270px in 2 row(s) of 390 wide; text sized true, inside true; figure top 300
+PASS  1440 mouse schlesinger-jr: cue block hidden, caption still shown
+PASS  900 mouse kondratiev: no "Swipe" cue
+PASS  900 mouse kondratiev: mouse cue shown
+PASS  900 mouse kondratiev: target/band line  — Target period 54 years · Insufficient data — no test possible · 1.4 of 3.0 required periods
+PASS  caption kondratiev (ineligible): says no test was run  — No test was run: this record covers 1.4 of the 3.0 full periods the pre-registered test re
+PASS  caption kondratiev (ineligible): does not open as a test
+PASS  caption kondratiev: draw count matches verdicts.json  — (99,999 bootstrap draws)
+PASS  390 touch kondratiev: swipe cue shown
+PASS  390 touch kondratiev: mouse cue hidden
+PASS  390 touch kondratiev: target/band line
+PASS  390 touch kondratiev: on arrival at the figure the whole line is on screen above it  — line 234-270px in 2 row(s) of 390 wide; text sized true, inside true; figure top 300
+PASS  1440 mouse kondratiev: cue block hidden, caption still shown
+PASS  900 mouse perez: no "Swipe" cue
+PASS  900 mouse perez: mouse cue shown
+PASS  900 mouse perez: target/band line  — Target period 55 years · Insufficient data — no test possible · 2.9 of 3.0 required periods
+PASS  caption perez (ineligible): says no test was run  — No test was run: this record covers 2.9 of the 3.0 full periods the pre-registered test re
+PASS  caption perez (ineligible): does not open as a test
+PASS  caption perez: draw count matches verdicts.json  — (99,999 bootstrap draws)
+PASS  390 touch perez: swipe cue shown
+PASS  390 touch perez: mouse cue hidden
+PASS  390 touch perez: target/band line
+PASS  390 touch perez: on arrival at the figure the whole line is on screen above it  — line 234-270px in 2 row(s) of 390 wide; text sized true, inside true; figure top 300
+PASS  1440 mouse perez: cue block hidden, caption still shown
+PASS  900 mouse huntington: no "Swipe" cue
+PASS  900 mouse huntington: mouse cue shown
+PASS  900 mouse huntington: target/band line  — Target period 60 years · Insufficient data — no test possible · 2.4 of 3.0 required periods
+PASS  caption huntington (ineligible): says no test was run  — No test was run: this record covers 2.4 of the 3.0 full periods the pre-registered test re
+PASS  caption huntington (ineligible): does not open as a test
+PASS  caption huntington: draw count matches verdicts.json  — (99,999 bootstrap draws)
