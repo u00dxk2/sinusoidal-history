@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { cycles } from "@/data/cycles";
 import type { Cycle, DataSeries } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
+import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import {
   confidenceGloss,
   confidenceLabel,
@@ -139,7 +140,7 @@ export default async function CyclePage({ params }: Params) {
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(cycleJsonLd(cycle)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(cycleJsonLd(cycle)) }}
       />
 
       <nav

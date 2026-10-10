@@ -8,6 +8,7 @@ import {
   cycleRoutePath,
   seriesForCycle,
 } from "@/lib/cycleRoutes";
+import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
 import VerdictTable from "@/components/VerdictTable";
@@ -175,7 +176,7 @@ export default function CyclesIndex() {
     <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-6 sm:py-16">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(jsonLd) }}
       />
 
       {/* Order is load-bearing, 2026-09-20: a 390x664 production frame showed the

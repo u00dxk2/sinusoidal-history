@@ -11,6 +11,7 @@ import {
   stateOfCycles,
   stateYears,
 } from "@/lib/stateOfCycles";
+import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_MAKER, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 
 type Params = { params: Promise<{ year: string }> };
@@ -120,7 +121,7 @@ export default async function StatePage({ params }: Params) {
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json-derived values, never user input.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(stateJsonLd(year)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(stateJsonLd(year)) }}
       />
 
       <nav
