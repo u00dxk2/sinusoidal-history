@@ -35,7 +35,7 @@
   },
   "requiredChecks": {
     "enforcement": "GitHub Actions (.github/workflows/ci.yml) on push and pull request to main",
-    "ci": "npm ci, then lint, typecheck (tsc --noEmit), vitest, next build — the same four gates this repo previously ran only by hand",
+    "ci": "npm audit (runtime dependencies, critical only; added 2026-10-10), npm ci, then lint, typecheck (tsc --noEmit), vitest, next build",
     "preCommit": ["node scripts/check-staged-secrets.mjs — refuses a commit whose staged added lines carry secret-shaped content"],
     "additional": [
       "python scripts/audit_cycle_rationales.py before shipping any prose that names a year and a cycle phase (a human-read table, not a CI gate)",
@@ -46,7 +46,7 @@
     "preCommit": "present — core.hooksPath is .githooks (set by npm install's prepare script) and the hook runs scripts/check-staged-secrets.mjs, a byte-exact copy of the fleet scanner. A fresh clone that never runs npm install has no hook.",
     "pushProtection": "enabled 2026-09-16 — GitHub refuses a push carrying a detected secret, covering what the local hook cannot see: a clone that never ran npm install, another machine, an edit made in the web UI",
     "githubSecretScanning": "enabled 2026-09-16",
-    "dependabotAlerts": "disabled — so this repo cannot report a dependency-risk count at all; check-engineering-zero reads it as unreadable, never as zero. 27 direct dependencies, 638 resolved packages in the lockfile.",
+    "dependabotAlerts": "enabled (read 2026-10-10: `gh api repos/u00dxk2/sinusoidal-history/vulnerability-alerts` returns 204). This field read 'disabled' until that date.",
     "dependabotSecurityUpdates": "disabled (no automatic update PRs)",
     "verifiedHistorySweep": "never run"
   },

@@ -22,6 +22,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # Dependency audit, added 2026-10-10. Reads package-lock.json against the registry
+      # advisory feed, so it needs no install and runs before `npm ci`. Deliberately narrow:
+      # runtime dependencies only (--omit=dev), critical severity only. Do not raise it to
+      # --audit-level=high: the dev toolchain carries highs with no upstream fix, and a gate
+      # that is red on day one gets ignored. Unlike the gates below, this one can go red with
+      # no change to the repo: a new critical advisory against a runtime dependency holds the
+      # deploy until the lockfile is bumped. That is its job.
+      - name: dependency audit (runtime, critical)
+        working-directory: .
+        run: npm audit --omit=dev --audit-level=critical
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
