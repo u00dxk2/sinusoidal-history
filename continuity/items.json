@@ -955,8 +955,8 @@
         "25c90b2"
       ],
       "created": "2026-10-03",
-      "updated": "2026-10-09",
-      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).\n\n | 2026-10-09 (P5): walk read today, docs/walks/2026-10-09-w004.md (synthetic N=1). readCommand 490/490 (--run, 258 s). Step 1 PASS (390 touch, target/band read). Steps 2-4 MIXED: 900 mouse cue fits but wheel scrolls the page and 196 px is clipped (carried on I-021's close note); Turchin's reason sits far from its label (carried on I-028's close note). Step 5 FAILED: /methods cross-grid sentence, fixed today as I-029 (8b12658, live). Next walk 2026-10-13 re-asks step 5. Steps 1, 3a/c, 4 confirm I-021 and I-028, both closed today.",
+      "updated": "2026-10-10",
+      "notes": "2026-10-04: step (3)'s path CHANGED before the walk (I-022 shipped 7b0b0bf, live 17:07:53Z UTC). On /cycles/schlesinger-jr the way in is now \"Move the peak yourself: calibrate this cycle →\" directly under \"Peak calibration\" (about 2 screens down at 390x664). It opens Calibrate on that cycle with the curve and r on one screen. Ask step (3) cold, without naming the link. Record: did the walker find it, did it land on the curve, and did curve and r move together in one view. Also record whether the page jumped anywhere unasked (reload, Back, opening the tab by hand). A no on any of these goes to I-022.\n\n2026-10-06 ADDED (I-024 shipped 4741fe7, manager review a4da274a): in step (1) at 1440 on /cycles/kondratiev, before any hint, ask: \"Which TFP series was the verdict judged on, and why does the 'Paired data' line say 5-yr?\" Record whether the walker answers from the box sentence (\"judged on, US TFP growth (annual, unsmoothed)\") or the \"Why two labels\" paragraph, and whether anything on the page reads as a test having run (none should: the record is too short). This is I-024's closeWhen read. Then, on /cycles (the list, unchanged), ask whether its \"US TFP growth (5-yr rolling)\" label still misleads once the page has explained it (the manager's HYPOTHESIS; evidence for a later list change, not for I-024). Record the answers in notes; never quote them as a user.\n\n | 2026-10-07 (P5, hygiene draft AMENDED to 2026-10-09): walk read today, docs/walks/2026-10-07-w004.md. Step 2 failed (900x900 mouse told to Swipe, 22% of the figure clipped), fixed by I-021 (live c348cd1). The next cold walk, on or after 2026-10-09, asks I-021's closeWhen: at 390 touch and ~900 with a mouse, does the walker read the target period and band, and say the cue told it what to do? It also asks whether the caption reads as a test having run (it should not). Steps 1a, 1d, 3, 4, 5 read cleanly today (I-024, I-022, I-020 closed).\n\n | 2026-10-09 (P5): walk read today, docs/walks/2026-10-09-w004.md (synthetic N=1). readCommand 490/490 (--run, 258 s). Step 1 PASS (390 touch, target/band read). Steps 2-4 MIXED: 900 mouse cue fits but wheel scrolls the page and 196 px is clipped (carried on I-021's close note); Turchin's reason sits far from its label (carried on I-028's close note). Step 5 FAILED: /methods cross-grid sentence, fixed today as I-029 (8b12658, live). Next walk 2026-10-13 re-asks step 5. Steps 1, 3a/c, 4 confirm I-021 and I-028, both closed today.\n\n2026-10-10: the 10-13 walk adds one step for I-030, on /cycles/turchin at 390x664 and 1440x900, cold: \"What was this verdict judged on, and why does it differ from the Paired data line?\" Record where on the page the answer was found and whether the \"Judged on\" entry was used. I-030 closes on that answer.",
       "readCommandLastRun": "2026-10-09T16:18:27.481Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 258492,
@@ -1148,7 +1148,7 @@
     {
       "id": "I-030",
       "title": "On Turchin and Kondratiev the \"Paired data\" line raised the two-labels question and the answer sat 1,593px (desktop) / 2,204px (phone) below it, with nothing pointing down",
-      "status": "open",
+      "status": "monitoring",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1158,10 +1158,19 @@
       "closeWhen": "Live /cycles/turchin and /cycles/kondratiev carry the entry within one line of Paired data at 1440x900 and 390x664, the link lands the reason paragraph in view and Back returns, the other eight cycle pages are text-identical, and the 2026-10-13 cold walk answers 'what was this verdict judged on, and why does it differ from the Paired data line?' from the page.",
       "nextEvaluation": "2026-10-13",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt",
-      "linkedCommits": [],
-      "notes": "2026-10-10 (P3): minted at build time.",
+      "linkedCommits": [
+        "cd8d788",
+        "5828786"
+      ],
+      "notes": "2026-10-10 (P3): minted at build time.\n\n2026-10-10 (P3): shipped cd8d788 + 5828786, CI green, Render live 5828786a. Live Playwright read at 1440/900/390/320: Judged on sits 24-25px below Paired data, one line, 44px tap box; the jump lands Why two labels 24px from the top with focus, Back restores the stats line. Other eight cycle pages text-identical to production. Folds 13/13 at 390x664 and 320x568. Codex r1 (cd8d788): one LOW (link's accessible name lacked context) and the test ceiling (moved or doubled entry would pass), both CONFIRMED and fixed in 5828786 (aria-label opening with the visible text; the entry pinned once, right after Paired data; red-armed by mutation, 2 of 54). Codex r2 (5828786): no findings. Encounter read: W-004's 10-13 walk adds a Turchin step.",
       "created": "2026-10-10",
-      "updated": "2026-10-10"
+      "updated": "2026-10-10",
+      "waitJustification": {
+        "until": "2026-10-13",
+        "loadBearing": "delivery is proven on production (live 5828786a, Playwright read at four widths 2026-10-10); closeWhen needs a cold reader's answer and the site has no client analytics, so W-004's walk is the only encounter read",
+        "unWait": "on 2026-10-13 W-004's cold walk asks the Turchin judged-on question; I-030 closes on that answer",
+        "owner": "sinusoidal-cycles"
+      }
     },
     {
       "id": "I-031",

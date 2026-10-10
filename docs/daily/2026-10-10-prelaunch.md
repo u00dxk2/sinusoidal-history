@@ -62,3 +62,54 @@ Paths: `src/app/(app)/cycles/[id]/page.tsx` (the stats dl plus an id on the reas
 - CI: GREEN, `check-ci-status --workflow ci.yml` on `2db901fd` (exit 0). Drift: `sinusoidal-history` in-sync, live `2db901fd` = head (exit 0).
 - Rotation: `check-cycle-rotation` exit 0, so no product-love pass is due on this lane today.
 - Yesterday's recs: the 10-09 primer carries no Recommendations block, only first action and dated reads. Both are dispositioned above (first action executed; dated reads not yet due).
+
+## P3 — Product-work loop
+
+[P3 — Product-work loop]
+
+**Action (kind: improve).** On /cycles/turchin and /cycles/kondratiev, the stats line now carries "Judged on: 1913 onward · why? ↓" and "Judged on: Annual figures · why? ↓" right after Paired data. Each links (HashLink) to `#why-two-labels`, the reason paragraph, which has `scroll-mt-6`. Manager review: APPROVE. All three suggestions were taken:
+- Measured, the review's wrap worry was right: "Yearly record from 1913" and "Annual figures, unsmoothed" each wrapped to two lines at 390, so both labels were shortened.
+- `scroll-mt-6` added to the reason paragraph.
+- The Kondratiev phone gap was read (25 px).
+
+**1. Implementation.**
+- Commits: `cd8d788` (the entry, tests, rows I-030 and I-031, the P1 packet) and `5828786` (the Codex r1 fixes).
+- Tests: the full suite is GREEN at `5828786` under `verify-with-receipt` (`tmp/.verify-receipt.json`). At `cd8d788`, one receipted run went RED on `check-year-position.test.ts:41`, a spawned `--selftest` in a file this change does not touch. That run took 92 s, against ~30 s for each of the next runs; three re-runs were GREEN, 224/224 each. The RED receipt is kept at `tmp/.verify-receipt.prev.json`.
+- Typecheck and lint: green. Lint has 0 errors; its 3 warnings are all in gitignored `tmp/` scripts.
+- Red-armed:
+  - With the page change stashed, the two positive cases failed (2 of 54).
+  - Mutation (a): a spacer item between Paired data and Judged on failed the Kondratiev and Turchin cases (2 of 54).
+  - Mutation (b): removing the aria-label failed the same 2 of 54.
+  - Restored: 54/54.
+  - Not red-armed: the eight "no entry" negative cases.
+
+**2. Delivery.**
+- CI: GREEN on `5828786` (`check-ci-status --workflow ci.yml --wait`).
+- Deploy: `check-deployed-sha-drift --service sinusoidal-history` reads in-sync, live `5828786a` = head.
+- Live Playwright read on sinusoidalhistory.com at 1440x900, 900x900, 390x664 and 320x568:
+  - Judged on sits 24–25 px below Paired data.
+  - The entry is one line at every width (tap box 44 px).
+  - The jump lands the reason paragraph 24 px from the top, with focus.
+  - Back restores the same scrollY with the entry in view.
+  - Perez has no entry.
+  - Nothing scrolls sideways.
+- Live rendered text of the other eight cycle pages is identical to this morning's production snapshots (`tmp/rt-prod-*.txt`).
+- Live folds: 13 of 13 at 390x664 and at 320x568.
+
+**3. Encounter.** Blind. The site has no client analytics by standing choice, so a reader who uses the link leaves no trace. Bug row W-004: its 10-13 cold walk now asks the Turchin question (note added to W-004).
+
+**4. Outcome.** Open. I-030 is `monitoring` until the 10-13 walk.
+
+**Review.**
+- Codex r1, read-only, on `cd8d788`; banner workdir matched; tags STATIC:
+  - (1) LOW: the link's accessible name "1913 onward · why?" lacked context. CONFIRMED; fixed in `5828786` with an aria-label that opens with the visible text and names the judged series.
+  - (2) The tests matched anywhere on the page, so a moved or doubled entry would pass. CONFIRMED; fixed in `5828786` (exactly one entry, the item right after Paired data).
+- Codex r2, on `5828786`: no findings. It checked both rendered accessible names against `TEST_RAN` and label-in-name, and the adjacency regex against the installed renderer.
+- Sibling sweep for the r1 defect class (in-page HashLinks with a context-free name), searching `<HashLink` in `src/**/*.tsx` (Grep): 8 call sites in all, 7 besides this one.
+  - 5 read whole on their own: "How the test works →" and the "On this page" section names on /methods; "See which ones, and how short ↓" on /cycles; "The full verdict, the figure and the protocol →" and "Why there is none, in the caveat →" on cycle pages.
+  - The 2 confidence-tag links already carry an aria-label.
+  - 0 further hits.
+
+**Ledger.** I-030 is minted and set to `monitoring` (commits linked; waitJustification until 2026-10-13). I-031 is minted: walk finding 1, the 900 px figure clip, `open`, next evaluation 2026-10-16. W-004 note: the Turchin step added for 10-13.
+
+USER-VISIBLE: On /cycles/turchin and /cycles/kondratiev a "Judged on" entry beside Paired data now says what the verdict counts ("1913 onward" / "Annual figures · why? ↓") and jumps to the reason — 5828786 [proof: before the reason sat 1,593px (desktop) / 2,204px (phone) below Paired data with nothing pointing to it → after the entry sits 25px below Paired data at 1440/900/390/320, one line, and its jump lands the reason 24px from the top with Back restoring; Playwright read on sinusoidalhistory.com after Render live 5828786a] [coverage: Search Console (who is shown a page; cannot see on-page use) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who uses the link leaves no trace · bug row W-004]
