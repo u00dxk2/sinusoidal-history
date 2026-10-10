@@ -346,6 +346,7 @@ export default async function CyclePage({ params }: Params) {
             <dd className="text-ink">
               <HashLink
                 href="#why-two-labels"
+                aria-label={`${tested.judgedOn} · why? The verdict is judged on ${tested.name}; jump to why this page carries two labels`}
                 className="py-[15px] underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
               >
                 {tested.judgedOn} · why? <span aria-hidden>↓</span>

@@ -157,6 +157,16 @@ describe("I-030: the stats line says what the verdict is judged on, and links to
     const entry = html.match(/<dt[^>]*>Judged on<\/dt><dd[^>]*><a[^>]*href="#why-two-labels"[^>]*>([^<]*)/);
     expect(entry).not.toBeNull();
     expect(entry![1]).toBe(`${note.judgedOn} · why? `);
+    // Codex r1 (2026-10-10): a whole-page match would also pass with the entry moved below
+    // the figure or rendered twice. It must appear once, as the stats item right after
+    // Paired data. (Its on-screen position, wrap, tap size and Back are Playwright reads,
+    // not this test's: tmp measurement in the P3 report.)
+    expect(html.split(">Judged on<").length - 1).toBe(1);
+    expect(html).toMatch(/>Paired data<\/dt><dd[^>]*>[^<]*<\/dd><\/div><div[^>]*><dt[^>]*>Judged on<\/dt>/);
+    // The link's accessible name opens with its visible text and names the judged series.
+    expect(html).toContain(
+      `aria-label="${note.judgedOn} · why? The verdict is judged on ${note.name}; jump to why this page carries two labels"`,
+    );
     // The anchor exists once, on the paragraph that carries the reason.
     expect(html.split('id="why-two-labels"').length - 1).toBe(1);
     expect(html).toMatch(/<p id="why-two-labels"[^>]*>Why two labels:/);
