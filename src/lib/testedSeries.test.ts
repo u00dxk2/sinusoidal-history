@@ -11,7 +11,7 @@ import CyclePage from "@/app/(app)/cycles/[id]/page";
 import CyclesIndex from "@/app/(app)/cycles/page";
 import Methods from "@/app/(app)/methods/page";
 import { cycles } from "@/data/cycles";
-import { cycleSlug } from "@/lib/cycleRoutes";
+import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
@@ -136,6 +136,40 @@ describe("I-028: the Turchin page names the series its verdict is judged on", ()
     expect(note!.whyTwoLabels).toContain("US Top 1% Wealth Share");
     expect(note!.whyTwoLabels).toContain("“Paired data” line and section");
   });
+});
+
+// I-030 (2026-10-10): the reason sat 1,593px (desktop) / 2,204px (phone) below the "Paired
+// data" line that raises the question, and nothing there pointed to it (W-004 finding 2).
+// The stats line now carries a "Judged on" entry linking to the reason.
+describe("I-030: the stats line says what the verdict is judged on, and links to why", () => {
+  const withNote = cycles.filter((c) => {
+    const v = spectralVerdictForCycle(c.id);
+    return v && testedSeriesNote(v.series_id) && seriesForCycle(c)?.id !== v.series_id;
+  });
+
+  it("applies to exactly Kondratiev and Turchin", () => {
+    expect(withNote.map((c) => c.id).sort()).toEqual(["kondratiev", "turchin"]);
+  });
+
+  it.each(["kondratiev", "turchin"])("%s: entry links to the one reason paragraph", async (slug) => {
+    const html = await pageText(slug);
+    const note = testedSeriesNote(spectralVerdictForCycle(slug)!.series_id)!;
+    const entry = html.match(/<dt[^>]*>Judged on<\/dt><dd[^>]*><a[^>]*href="#why-two-labels"[^>]*>([^<]*)/);
+    expect(entry).not.toBeNull();
+    expect(entry![1]).toBe(`${note.judgedOn} · why? `);
+    // The anchor exists once, on the paragraph that carries the reason.
+    expect(html.split('id="why-two-labels"').length - 1).toBe(1);
+    expect(html).toMatch(/<p id="why-two-labels"[^>]*>Why two labels:/);
+  });
+
+  it.each(cycles.filter((c) => !["kondratiev", "turchin"].includes(c.id)).map((c) => cycleSlug(c)))(
+    "%s: no Judged on entry and no anchor",
+    async (slug) => {
+      const html = await pageText(slug);
+      expect(html).not.toContain(">Judged on<");
+      expect(html).not.toContain("why-two-labels");
+    },
+  );
 });
 
 describe("I-028: no cycle page whose verdict is ineligible says a test ran", () => {

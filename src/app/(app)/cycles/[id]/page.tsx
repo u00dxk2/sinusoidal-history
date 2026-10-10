@@ -333,6 +333,26 @@ export default async function CyclePage({ params }: Params) {
             {series ? (series.legend_short ?? series.name) : "None this round"}
           </dd>
         </div>
+        {/* Where the verdict is judged on a different cut of the paired series,
+            say so here, where the doubt starts. The reason sat 1,593px below
+            this line on desktop and 2,204px on a phone, and nothing pointed to
+            it (W-004 cold walk 2026-10-09, finding 2; I-030). py-[15px] grows
+            the 11px text's tap box to 44px without growing the line (vertical
+            padding on an inline box, as on /cycles, I-015; py-[14px] measured
+            42px). */}
+        {tested && (
+          <div className="flex gap-2">
+            <dt className="text-ink-soft/70">Judged on</dt>
+            <dd className="text-ink">
+              <HashLink
+                href="#why-two-labels"
+                className="py-[15px] underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+              >
+                {tested.judgedOn} · why? <span aria-hidden>↓</span>
+              </HashLink>
+            </dd>
+          </div>
+        )}
       </dl>
 
       <CurveFigure cycle={cycle} year={year} />
@@ -543,7 +563,10 @@ export default async function CyclePage({ params }: Params) {
             {verdict.lay_text}
           </p>
           {tested && (
-            <p className="text-[15px] leading-[1.6] text-ink/85 mb-3">
+            <p
+              id="why-two-labels"
+              className="scroll-mt-6 text-[15px] leading-[1.6] text-ink/85 mb-3"
+            >
               {tested.whyTwoLabels}
             </p>
           )}

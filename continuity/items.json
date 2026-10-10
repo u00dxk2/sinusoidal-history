@@ -1144,6 +1144,42 @@
         "unWait": "on 2026-10-13 W-004's cold walk step 5 asks 'what did the re-pairings show?' on live /methods; I-029 closes on that answer and nothing else",
         "owner": "sinusoidal-cycles"
       }
+    },
+    {
+      "id": "I-030",
+      "title": "On Turchin and Kondratiev the \"Paired data\" line raised the two-labels question and the answer sat 1,593px (desktop) / 2,204px (phone) below it, with nothing pointing down",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-10",
+      "hypothesis": "W-004 cold walk 2026-10-09, ranked finding 2 (docs/walks/2026-10-09-w004.md:83, :106): the Paired data line names the whole series the chart draws, the verdict counts a different cut (Turchin: yearly record from 1913; Kondratiev: annual, unsmoothed), and the reason ('Why two labels') sits in the verdict section far below. N=1 synthetic; the walker said they would probably not have asked the question, so this is a reach fix, not a misread fix.",
+      "onTrigger": "Minted at build time per the P1 packet (39ef135d, review APPROVE). Build: a 'Judged on' entry in the stats dl beside Paired data, shown only where testedSeriesNote applies, linking with HashLink to id='why-two-labels' (scroll-mt-6) on the reason paragraph. Labels 'Annual figures' / '1913 onward' (the longer drafts wrapped to two lines at 390, measured).",
+      "closeWhen": "Live /cycles/turchin and /cycles/kondratiev carry the entry within one line of Paired data at 1440x900 and 390x664, the link lands the reason paragraph in view and Back returns, the other eight cycle pages are text-identical, and the 2026-10-13 cold walk answers 'what was this verdict judged on, and why does it differ from the Paired data line?' from the page.",
+      "nextEvaluation": "2026-10-13",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/dev/skylark/sinusoidal-cycles/tmp/turchin-read.txt",
+      "linkedCommits": [],
+      "notes": "2026-10-10 (P3): minted at build time.",
+      "created": "2026-10-10",
+      "updated": "2026-10-10"
+    },
+    {
+      "id": "I-031",
+      "title": "At 900px with a mouse the Kondratiev spectral figure is clipped 196px with no edge cue, and a plain wheel scrolls the page, not the figure, though the cue says 'Scroll sideways'",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-10",
+      "hypothesis": "W-004 cold walk 2026-10-09, ranked finding 1 (docs/walks/2026-10-09-w004.md:44-66, :149): figure 900px wide in a 704px window, legend cut mid-phrase, no fade or arrow; plain wheel moved the page 200px and the figure 0 (Shift+wheel and horizontal wheel work); click opens the bare SVG in the same tab. Headless Chromium drew no scrollbar track, so whether a Windows desktop user sees a horizontal scrollbar is UNREAD. N=1 synthetic.",
+      "onTrigger": "First: a HEADED browser read at 900x900 on Windows (is the horizontal scrollbar visible?). Then decide between an edge cue (fade/arrow) and cue wording that names Shift+wheel. The fix lives in src/components/FigureScroller.tsx, which the 10-09 primer listed as don't-touch for that day; the click-to-SVG is deliberate (FigureScroller.tsx:16-23, manager review 2026-10-10) and is not in scope.",
+      "closeWhen": "At 900x900 with a mouse, a cold reader can tell the figure continues past its right edge without reading the legend cut, and the cue's scroll instruction works as written for a mouse.",
+      "nextEvaluation": "2026-10-16",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev C:/dev/skylark/sinusoidal-cycles/tmp/kondratiev-read.txt",
+      "waitingFor": "Nothing and nobody: this lane's own files. Scheduled after I-030 so one change ships per day.",
+      "notes": "2026-10-10: minted on the manager review's suggestion (keep walk finding 1 visible). Carried until now only in the closed I-021/I-028 notes and the 10-09 primer.",
+      "created": "2026-10-10",
+      "updated": "2026-10-10"
     }
   ],
   "knownPatterns": [

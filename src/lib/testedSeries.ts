@@ -17,6 +17,12 @@ export type TestedSeriesNote = {
   name: string;
   /** One paragraph: why the chart and the verdict carry different labels. */
   whyTwoLabels: string;
+  /** A few words for the stats line beside "Paired data", where the question starts. The
+   *  reason sat 1,593px below that line on desktop and 2,204px on a phone, with nothing
+   *  pointing to it (W-004 cold walk 2026-10-09, finding 2; I-030). Kept short so the entry
+   *  fits on one line down to a 320px phone: "Annual figures, unsmoothed" and "Yearly record
+   *  from 1913" each wrapped to two lines at 390 (measured 2026-10-10). */
+  judgedOn: string;
 };
 
 const NOTES: Record<string, TestedSeriesNote> = {
@@ -24,6 +30,7 @@ const NOTES: Record<string, TestedSeriesNote> = {
     name: "US TFP growth (annual, unsmoothed)",
     whyTwoLabels:
       "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.",
+    judgedOn: "Annual figures",
   },
   // I-028 (2026-10-08). Reason from wid_top1_wealth.source.md:6 and the CSV itself (5 points
   // before 1913, then every year). The chart joins all 117 points into one line
@@ -32,6 +39,7 @@ const NOTES: Record<string, TestedSeriesNote> = {
     name: "US top 1% wealth share (1913 onward)",
     whyTwoLabels:
       "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the whole US Top 1% Wealth Share series, which the interactive chart draws from 1820. The verdict counts only the yearly record, which starts in 1913 with the Saez–Zucman series. Before 1913 there are just five points (1820, 1850, 1880, 1900 and 1910), rougher estimates from earlier historical sources that the chart joins into one line. So the site measures the record's length from 1913, and would run any test on those yearly figures only.",
+    judgedOn: "1913 onward",
   },
 };
 
