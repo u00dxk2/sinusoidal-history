@@ -113,3 +113,27 @@ Paths: `src/app/(app)/cycles/[id]/page.tsx` (the stats dl plus an id on the reas
 **Ledger.** I-030 is minted and set to `monitoring` (commits linked; waitJustification until 2026-10-13). I-031 is minted: walk finding 1, the 900 px figure clip, `open`, next evaluation 2026-10-16. W-004 note: the Turchin step added for 10-13.
 
 USER-VISIBLE: On /cycles/turchin and /cycles/kondratiev a "Judged on" entry beside Paired data now says what the verdict counts ("1913 onward" / "Annual figures · why? ↓") and jumps to the reason — 5828786 [proof: before the reason sat 1,593px (desktop) / 2,204px (phone) below Paired data with nothing pointing to it → after the entry sits 25px below Paired data at 1440/900/390/320, one line, and its jump lands the reason 24px from the top with Back restoring; Playwright read on sinusoidalhistory.com after Render live 5828786a] [coverage: Search Console (who is shown a page; cannot see on-page use) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who uses the link leaves no trace · bug row W-004]
+## Close
+
+ACTION: COMPLETED · item I-030 · P3 15a8c309
+
+- **Acceptance record vs what shipped.** Acceptance item 1 said "Judged on" plus the judged-series name. What shipped shows the short form ("1913 onward", "Annual figures"), with the full series name in the link's aria-label only. The P1 review allowed this ("Use the short form in testedSeries.ts if the full name wraps"), and the full names wrapped to two lines at 390 (measured 2026-10-10).
+- **State since P3.** The manager review (P5 prompt, 16:50Z) reads COMPLETED, with no defects found. It names one open gap, already in P3: the eight "no entry" negative cases were not red-armed. Live: `check-deployed-sha-drift` reads sinusoidal-history in-sync at `cc24c089`. That commit touches only continuity/ and docs/daily/, so the live build still carries `5828786`.
+- **Ledger delta today:**
+  - I-030 minted and set to `monitoring` (linkedCommits cd8d788, 5828786; waitJustification until 2026-10-13).
+  - I-031 minted, `open`, nextEvaluation 2026-10-16.
+  - W-004 note: the Turchin step was added to the 10-13 walk.
+  - No row closed, re-dated or held.
+- **Hygiene draft:** 0 lines, so 0 accepted, 0 amended, 0 rejected. Its checks:
+  - READ-MUTATED: none.
+  - check-wait-justification: PASS, 24 of 35 rows carry it, 0 warn, no expired `until`.
+  - check-engineering-zero: PASS, 0 findings, 0 unreadable.
+- **Due-gate verification:** `check-due-gates-dispositioned` (no flag) reads "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-10-10, 0 rows).
+- **Receipt:** P3's receipt (15a8c309) still holds. Nothing new is written.
+- **Pending reads:**
+  - 2026-10-13: W-004 cold walk. Step 5 on /methods (I-029), plus the Turchin step ("what was this verdict judged on, and why does it differ from the Paired data line?"). I-030 closes or reopens on that answer.
+  - 2026-10-16: I-031 (headed scrollbar read first) and I-006.
+  - 2026-10-20: I-027.
+  - 2026-11-04: W-005.
+  - 2026-12-01: I-025.
+- **UNRESOLVED:** none.
