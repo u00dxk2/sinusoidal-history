@@ -368,3 +368,152 @@ ACTION: COMPLETED · item I-031 · P3 370f16f6
 codexCalls: 0 (this phase; cycle 7's six review runs are counted on the P3 post)
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Day session (round 1) — P1 selection packet
+
+**Outcome:** the poster, the time-range control's caption and the home page's headline and intro state the cycle count, the paired-series count and the "0 of N reach the gate" count from the data, the way the main share card has since `18e79a4`.
+**Item:** I-006 (count surfaces derive from the data), due 2026-10-16. The og part is done; this is the rest.
+
+**The user problem (HYPOTHESIS, from the row, not a reader):** a reader on the poster or the home page is told "Ten long-wave cycles", "all ten", "nine of the ten" and "0 of the 9". Each is typed by hand. When a cycle is added, these pages will state a wrong number while the chart beside them draws the right one. That is the overclaim that breaks the bar's "someone actually checked". I-006 opened because the og card once shipped "Eight".
+
+**Honest scope: the served text does not change today.** There are still 10 cycles, 9 pairings and 0 of 9 at the gate, so every derived string renders the same as today's literal. What changes is that the number can no longer go stale. The P3 receipt will therefore most likely be `USER-VISIBLE: none — …` (byte-identical rendered text, by design), unless the review wants this framed otherwise.
+
+### Evidence
+
+- OBSERVED: I-006's readCommand at ~16:05Z printed `og: false poster: true brush: true`, so the og literal is gone and the poster and brush literals remain.
+- OBSERVED: a source grep of `src/**/*.tsx` found the hand-typed counts at `src/components/Poster.tsx:169` ("Ten long-wave cycles of history…"), `src/components/TimeRangeBrush.tsx:283` ("the mean of all ten cycle sinusoids"), `src/app/(app)/page.tsx:44` (the H1 "Ten cycles,"), `:55-56` (the desktop dek "nine of the ten carry a paired empirical series") and `:95` ("0 of the 9 reach its 3.0-period evidence gate").
+  - **Finding:** the row's cited lines, page.tsx:47-55 and :86, have drifted to :44-56 and :95. The packet names the current lines.
+- OBSERVED: the dek also names every cycle by hand ("Khaldun, Kondratiev, … Modelski"). It is a list, not a count. I propose a test that every cycle in `cycles.json` appears in it (a stale list fails CI), rather than generating the prose.
+- OBSERVED, out of scope per I-006's onTrigger ("surfaces where the number is a claim, not … a sentence"): prose "ten" in /about, /cycles (TITLE "The ten cycles" and its description), /methods, /colophon and /state/[year]. These are named here, not changed. If the review wants /cycles TITLE counted as a claim, it moves in, and its metadata comes with it.
+- OBSERVED: `Poster` and `TimeRangeBrush` already hold the data (`cycles` props; Poster prints `No. ${cycles.length}` at :125). `/poster` server-renders Poster, so `check-rendered-text` sees it. TimeRangeBrush sits inside `Viz`, which renders client-side, so `snap` is blind to it (AGENTS.md); its proof is the `main` innerText line multiset in Playwright.
+- MISSING: any real reader. The bar reads UNMEASURED (`docs/evangelism-bar.md:30`, no client analytics by standing choice).
+- Rotation: `check-cycle-rotation --lane sinusoidal-cycles` → exit 0, "no product-love cycle picks this lane today".
+- Due gates: `check-due-gates-dispositioned --print` → "0 gate(s) due on/before 2026-10-11" (41 swept). The morning snapshot was already taken at ~00:40 MT in cycle 6 and is not re-taken.
+- Answered cards: `answered-cards --project sinusoidal-cycles` → none.
+
+### Section 0
+
+- Primer: read (`docs/cold-starts/2026-10-11.md`). Its first action is done: `check-figure-cue` on production → **189/189 PASS** (~15:58Z), so I-031 holds until the 10-13 walk.
+- Listener: 🟢 SSE alive (hello 15:35:45Z, pid 39516) + loop ticking (ScheduleWakeup), waker ladder ranks 1-3 armed.
+- Codex: GREEN (this prompt's probe line, 15:38Z).
+- CI: `check-ci-status` → GREEN for e4cd69a4 (exit 0). Drift: `check-deployed-sha-drift --service sinusoidal-history` → in-sync, live e4cd69a4 = head (exit 0).
+- Harness: running 2.1.296 · fleet UNIFORM (27/27) · installed 2.1.296 (SAME).
+- Recs from the last close (cycle 7): the rest of I-006 → carrying today → P3 (this packet). The 10-13 walk is dated, not today.
+- Retro recurrence that bears on this choice: "a check written from a measurement inherits its looseness". The new test reads source, the same ceiling Codex named on the og part, so it is declared, and the rendered-text multiset is the proof rather than the test.
+
+### Permission
+
+Lane-owned copy and components. No data, no manifest, no verdict and no `public/data/` change. No mirror: `/`, `/poster` and the brush are not among the three prose pages with a `.md` mirror. I-006 is `open` (not parked or waiting), and no card is open.
+
+### Next action
+
+**Kind:** improve. Derive each count via `src/lib/countWords.ts`:
+1. Poster standfirst: `countWord(cycles.length)`.
+2. Brush caption: "the mean of all {n} cycle sinusoids", from `cycles.length` (lowercase word form; a `countWordLower` helper).
+3. Home H1: `countWord(cycles.length)` cycles. Desktop dek: "{paired} of the {n}", from `dataSeries.length`. ":95": "0 of the 9" from `verdicts.json` (count reaching the gate, and the pairing count).
+4. Every JSX junction keeps the explicit `{" "}` (AGENTS.md).
+5. Extend `src/lib/countWords.test.ts`: helper outputs for 9, 10 and 11, plus a source read that no literal remains, plus the dek-name-list test. Red-arm by restoring each literal.
+
+First command (the baseline, before any edit):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/poster C:/dev/skylark/sinusoidal-cycles/tmp/i006-poster-before.txt
+```
+
+(plus the same for `/`, and a Playwright `main` innerText capture of `/` for the client-rendered brush caption)
+
+### Acceptance condition (observable)
+
+1. The `/poster` and `/` server text and the `/` `main` innerText multiset are **identical** to production before the change (no reader-visible text moves).
+2. The test goes red on each restored literal (mutation shown) and green after. Helpers give "Eleven"/"eleven" for 11.
+3. `node -e` I-006 readCommand → `og: false poster: false brush: false` (the row's readCommand is updated to also check page.tsx).
+4. CI green, and the deploy row live at the new head. The same text multisets are read against production after deploy.
+
+### Delivery and encounter checks
+
+- Delivery: the post-deploy multiset reads above, built vs production.
+- Encounter: none possible by design, because the visible text is unchanged. The guard's value appears the day a cycle is added, when the count updates with no hand edit. I-006 closes on the acceptance reads, not on an encounter.
+
+### USER-FACING: yes
+
+Paths: `src/components/Poster.tsx`, `src/components/TimeRangeBrush.tsx`, `src/app/(app)/page.tsx`, `src/lib/countWords.ts`, `src/lib/countWords.test.ts`, `continuity/items.json` (I-006 note and readCommand). The rendered text is intended byte-identical.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none — read: `check-due-gates-dispositioned --print` ~16:05Z, "0 gate(s) due on/before 2026-10-11" (41 swept).
+- (b) Owed child rows in the orchestrator's ledger: none — read: kickoff "rows owed to you", 0 of 749 (15:57:40Z).
+- (c) State reads marked CROSSED: one, re-read live and cleared. The kickoff's HEAD CI was UNKNOWN (gh timeout 10 s, 15:51Z); `check-ci-status` re-read it GREEN at ~16:03Z. Queued rows: 1 (4a1d5c6a, the dup-phase body-fallback, already absorbed). Not measured, not clean: missingLinkedCommits 0 of 0; key-metrics has no list.
+
+---
+
+[P3 — Product-work loop]
+
+## Day session (round 1) — P3 product-work loop
+
+### Action 1 — I-006, the rest of it (kind: improve). CLOSED.
+
+Approved P1 packet 4b40fb3e, with manager review 6edfdb02's three additions.
+
+These surfaces now take their counts from the data via `src/lib/countWords.ts`:
+- the poster standfirst
+- the time-range brush caption
+- the home H1, desktop dek and spectral sentence
+- the /cycles title and meta description
+
+The home sentence's "none of these records is long enough to test, which is itself the finding" stays only while `eligible_primary` = 0 (review item 1). The three hand-written name lists (home dek, /cycles description, poster "Drawn from" roster) fail CI if any cycle id has no name. The check uses an id-to-name map, so "Turchin (twice)" works (review item 2).
+
+Readers see no change today, by design.
+
+The four states:
+- **Implementation:** 450170f, 0b588ae, ddcf5c6, 18a747f.
+  - countWords.test.ts 13/13, red-armed by 6 mutations: poster literal restored; clause kept for eligible > 0; Dalio dropped from the dek; `homeGateLine(0, 9)` in page.tsx; verb forced to "reaches"; Dalio dropped from the poster roster.
+  - Codex r1 on 0b588ae: 3 LOW, all CONFIRMED and fixed in ddcf5c6 (H1 `{" "}` junction; test pins both gate-line arguments; whole sentences, so "reaches" cannot pass as "reach"). Codex r2 on ddcf5c6: no findings.
+  - The I-006 row's readCommand now covers all five surfaces: `og: false poster: false brush: false home: false index: false`.
+- **Delivery:** CI green on ddcf5c6; `check-deployed-sha-drift` in-sync, live ddcf5c69 at 10:37 MT. Production:
+  - / and /cycles visible text identical to the pre-change snapshot (GREEN, 25 and 314 lines)
+  - head title/description/og/twitter identical on / /cycles /poster
+  - browser innerText multiset identical at 1440x900 and 390x664 on all three (built vs prod)
+  - the 7 derived strings PRESENT on production (the positive control)
+- **Encounter:** none possible by design; the visible text did not move.
+- **Outcome:** n/a. The value appears the day a cycle is added.
+- **Deviation, recorded on the row:** its 09-22 note marked the H1 "literal by design". The approved packet listed it, so it now derives too. It renders byte-identical.
+
+### Action 2 — cycle pages name the curve height (kind: improve), I-036, minted at build time
+
+This is the review's "best visible change for a cold phone reader on a /cycles page".
+
+Evidence (OBSERVED, synthetic, N=1): the 2026-10-03 W-003 walk said "'cos +0.67' means nothing to me without the footnote" (`docs/walks/2026-10-03-w003.md:97`). /state has that footnote. The cycle pages printed the same number bare, on all ten.
+
+Change in 0196b40: the "where this year sits" sentence reads "(the curve bottoms out in 2028; curve height −0.99, from −1 at a low to +1 at a peak)". Same value, same derivation. /state and the API keep "cos".
+
+The four states:
+- **Implementation:** 0196b40.
+  - `scripts/check-year-position.mjs` (the independent oracle, built from /api/v1/state) moved with it. Selftest 11/11, its numeric sign arm intact.
+  - Red-armed:
+    - the updated oracle against production's old sentence → 71/81, exactly the 10 sentence legs FAIL
+    - bare "cos" restored in `yearPositionSentence` → 2 unit tests FAIL
+  - Full suite 293/293 (verify-with-receipt on 0196b40). Codex r3: no findings.
+- **Delivery:** CI green on 0196b40; drift in-sync, live 0196b40c at 11:01 MT. Production:
+  - check-year-position 81/81
+  - fold gate 13/13 at 320x568
+  - before the deploy, built vs production on all 10 cycle pages: exactly 1 line removed and 1 added each
+- **Encounter:** blind. No client analytics, so a reader meeting the sentence leaves no trace. Bug row I-036. The 2026-10-13 W-004 walk adds the step (synthetic).
+- **Outcome:** open, read on the 10-13 walk.
+
+USER-VISIBLE: every /cycles/<slug> page's "where this year sits" sentence names its number ("curve height −0.99, from −1 at a low to +1 at a peak") instead of a bare "cos −0.99" — 0196b40 [proof: "…bottoms out in 2028; cos −0.99)" → "…bottoms out in 2028; curve height −0.99, from −1 at a low to +1 at a peak)"; live 0196b40c in-sync 11:01 MT; check-year-position 81/81 on https://sinusoidalhistory.com] [coverage: Search Console page-level (scripts/gsc-read.mjs) · last good read 2026-10-07 · founder+test excluded no] [exposure: blind — no client analytics on this site, so a reader's reading of the sentence leaves no trace · bug row I-036]
+
+codexCalls: 3
+adversarialReviews: 3 — EXECUTED (r1 0b588ae: 3 LOW fixed in ddcf5c6; r2 ddcf5c6: none; r3 0196b40: none; 18a747f test-only, by inspection)
+hygiene helper: DISPATCHED 16:13Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-day.md PRESENT. Inputs all `none`; check-wait-justification PASS (I-034 info only); check-engineering-zero PASS (0 findings).
+
+### Remains
+
+- 2026-10-13: the W-004 walk reads I-036 (new step), I-031, I-033, I-035, I-029 and I-030.
+- I-006: closed.
+- Nothing waits on David.
+
+[standing-rules-hash: 88cc2dc9]

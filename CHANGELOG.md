@@ -1,5 +1,19 @@
 # Changelog
 
+## Cycle pages name the curve height; every count derives from the data (2026-10-11 day)
+
+- **The "where this year sits" sentence on every /cycles/<slug> page names its number** (I-036).
+  It printed "cos −0.99" with no footnote; the 2026-10-03 cold walk said "cos +0.67" meant
+  nothing without one. It now reads "curve height −0.99, from −1 at a low to +1 at a peak".
+  Same value; /state and the API keep "cos". `scripts/check-year-position.mjs` moved with it.
+  Commit `0196b40` (Codex r3: no findings).
+- **The poster, the time-range brush caption, the home H1, dek and spectral sentence, and the
+  /cycles title and meta description take their counts from the data** (I-006, closed). The
+  visible text is unchanged today (ten cycles, nine paired, 0 of 9 at the gate). The home
+  sentence's "none of these records is long enough to test" is dropped automatically once a
+  pairing reaches the gate. The three hand-written name lists fail CI if a cycle is left out.
+  Commits `450170f`, `0b588ae`, `ddcf5c6`, `18a747f` (Codex r1: 3 LOW fixed; r2: no findings).
+
 ## The Kondratiev page says which record its verdict is judged on (2026-10-06)
 
 - **/cycles/kondratiev names the series its verdict is judged on** (I-024). The page called
