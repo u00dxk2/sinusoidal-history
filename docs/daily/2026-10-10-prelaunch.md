@@ -449,3 +449,38 @@ hygiene helper: DISPATCHED 2026-10-10 ~22:45 MT · draft tmp/hygiene-draft-sinus
 **Finding outside the change:** the local full suite is no longer a reliable gate under fleet load. Two spawned-selftest tests with fixed timeouts (5 s and 60 s) failed at 2–5x normal runtime, then passed in CI. This is the same class as `check-year-position.test.ts:41` on 10-10 morning; not fixed here.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Close (cycle 5)
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-033 · P3 b9710ce4
+
+- **State since P3.** Manager review 7447a3fb reads COMPLETED, defects none. The manager read the live frames independently: the curve at y 243–302 (Perez 273–331) and the verdict headline ending at y 489 (Perez 518) at both 390x664 and 390x844. CI is GREEN on `e9b98de` and `dd48de4`; Render is in sync with `e9b98dea` live, a doc-only descendant of `dd48de4` (the manager's reads). Nothing else changed.
+- **Ledger delta (cycle 5):**
+  - I-033 minted (`continuity-edit --mint`) and set to `monitoring`, with linkedCommits bf57b1c and dd48de4 and waitJustification until 2026-10-13.
+  - W-004 gains two questions for the 10-13 walk:
+    - Turchin phone: "what is the grey line, and does this cycle hold up?"
+    - Kondratiev 390x844, the manager's HYPOTHESIS: is the drawn line read as the judged record?
+  - I-006: note appended, carried into cycle 6, still due 2026-10-16 (`og/route.tsx:191` by Grep).
+  - I-034 minted, `open`, nextEvaluation 2026-10-20: under fleet load the local full suite fails on spawned-selftest tests with fixed timeouts (three times on 10-10, each green in CI). Carried on the manager's instruction; no fix today.
+  - No row closed, re-dated or held.
+- hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-10.md`, cycle 5; inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification, re-run after the I-033 wait was written: "RESULT: PASS — 27 of 39 row(s) carry `waitJustification`; 0 warn / 1 info". The info line is I-031's structural `waitingFor` (shadow arm, not a finding). I-034 was minted after this read, so it is not counted; it is an `open` issue with no wait.
+  - check-engineering-zero (helper's run, ~22:46 MT): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed since.
+- **Due-gate verification:** this close ran after MT midnight, so `check-due-gates-dispositioned` (no flag) judged 2026-10-11 and called the snapshot STALE: "verdict: CLEAR — every gate due at Phase 0 was dispositioned. ⚠ "Phase 0" here means 2026-10-10". The verdict covers cycle 5's rail day (10-10, 0 rows). It was not re-snapshotted, per the rule. The read-only `--print` for 10-11: "0 gate(s) due on/before 2026-10-11 (read-only; no snapshot written)", 39 rows swept. So nothing is owed on either day. The 10-11 Phase-0 snapshot belongs to cycle 6's P1.
+- **Receipt:** P3's receipt (b9710ce4) still holds. Nothing new is written.
+- **Pending reads:**
+  - 2026-10-13: W-004 cold walk (closes I-029, I-030; reads I-033).
+  - 2026-10-16: I-031 and I-006.
+  - 2026-10-20: I-027 and I-034.
+  - 2026-11-04: W-005, and I-032's encounter read with it.
+  - 2026-12-01: I-025 (David).
+- **Today panel:** written for 2026-10-10, the rail day (`update-daily-brief --date 2026-10-10`).
+- **Primer:** `docs/cold-starts/2026-10-11.md` (new; `check-next-primer-exists` named it).
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; cycle 5's two review runs are counted on the P3 post)
+
+[standing-rules-hash: 88cc2dc9]
