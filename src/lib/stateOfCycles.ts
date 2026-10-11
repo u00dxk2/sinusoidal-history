@@ -152,10 +152,16 @@ export function yearPosition(
   }
 }
 
-/** yearPosition as the /cycles/<slug> page prints it, one bracket per sentence. */
+/**
+ * yearPosition as the /cycles/<slug> page prints it, one bracket per sentence. The value is
+ * the same cos /state prints, but named for a reader with no footnote under it: "cos +0.67
+ * means nothing to me without the footnote" (W-003 cold walk, 2026-10-03), and the cycle page
+ * has no footnote. 2026-10-11 day session.
+ */
 export function yearPositionSentence(cycle: Cycle, year: number): string {
   const { where, note, cos, next } = yearPosition(cycle, year);
-  const bracket = note ? `${note}; cos ${cos}` : `cos ${cos}`;
+  const height = `curve height ${cos}, from −1 at a low to +1 at a peak`;
+  const bracket = note ? `${note}; ${height}` : height;
   return `By this page's curve, ${year} sits ${where} (${bracket}). ${next}`;
 }
 

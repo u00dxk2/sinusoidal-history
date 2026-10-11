@@ -46,15 +46,15 @@ function expectedSentence(e, year) {
   const lead = `By this page's curve, ${year} sits`;
   switch (e.phase) {
     case "peaking":
-      return `${lead} at a peak (the curve tops out in ${nearest(0)}; cos ${cos}). The next low falls around ${e.next_trough_year}.`;
+      return `${lead} at a peak (the curve tops out in ${nearest(0)}; curve height ${cos}, from −1 at a low to +1 at a peak). The next low falls around ${e.next_trough_year}.`;
     case "troughing":
-      return `${lead} at a low (the curve bottoms out in ${nearest(e.period_years / 2)}; cos ${cos}). The next high falls around ${e.next_peak_year}.`;
+      return `${lead} at a low (the curve bottoms out in ${nearest(e.period_years / 2)}; curve height ${cos}, from −1 at a low to +1 at a peak). The next high falls around ${e.next_peak_year}.`;
     case "rising":
-      return `${lead} on the rising arm (cos ${cos}). ${both}`;
+      return `${lead} on the rising arm (curve height ${cos}, from −1 at a low to +1 at a peak). ${both}`;
     case "falling":
-      return `${lead} on the falling arm (cos ${cos}). ${both}`;
+      return `${lead} on the falling arm (curve height ${cos}, from −1 at a low to +1 at a peak). ${both}`;
     case "crossing":
-      return `${lead} at the midline, on the way ${peakFirst ? "up" : "down"} (cos ${cos}). ${both}`;
+      return `${lead} at the midline, on the way ${peakFirst ? "up" : "down"} (curve height ${cos}, from −1 at a low to +1 at a peak). ${both}`;
     default:
       return `unknown phase ${e.phase}`;
   }
@@ -84,8 +84,8 @@ if (process.argv.includes("--selftest")) {
   const tail = " That is a position of this construction, not the theorist's forecast. Every cycle in 2026 →";
   const modelski = { period_years: 110, reference_peak_year: 1945, cos: -0.09, phase: "crossing", next_peak_year: 2055, next_trough_year: 2110 };
   const dalio = { period_years: 75, reference_peak_year: 1950, cos: 1, phase: "peaking", next_peak_year: 2100, next_trough_year: 2063 };
-  const m = `By this page's curve, 2026 sits at the midline, on the way up (cos −0.09). The next high falls around 2055, and the next low around 2110.${tail}`;
-  const d = `By this page's curve, 2026 sits at a peak (the curve tops out in 2025; cos +1.00). The next low falls around 2063.${tail}`;
+  const m = `By this page's curve, 2026 sits at the midline, on the way up (curve height −0.09, from −1 at a low to +1 at a peak). The next high falls around 2055, and the next low around 2110.${tail}`;
+  const d = `By this page's curve, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063.${tail}`;
   const cases = [
     ["modelski as printed", m, modelski, true],
     ["dalio as printed", d, dalio, true],

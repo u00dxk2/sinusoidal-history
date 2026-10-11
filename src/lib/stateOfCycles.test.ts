@@ -101,7 +101,7 @@ describe("yearPosition", () => {
   it("reads Dalio 2026 as the page's worked example", () => {
     const dalio = cycles.find((c) => c.id === "dalio")!;
     expect(yearPositionSentence(dalio, 2026)).toBe(
-      "By this page's curve, 2026 sits at a peak (the curve tops out in 2025; cos +1.00). The next low falls around 2063."
+      "By this page's curve, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063."
     );
   });
 
@@ -110,7 +110,9 @@ describe("yearPosition", () => {
       for (let year = 2000; year < 2100; year += 1) {
         const s = yearPositionSentence(cycle, year);
         expect(s.match(/\(/g)).toHaveLength(1);
-        expect(s).toMatch(/cos [+−]?\d\.\d\d\)/);
+        // The value is named for the reader, never a bare "cos" (W-003 2026-10-03).
+        expect(s).toMatch(/curve height [+−]?\d\.\d\d, from −1 at a low to \+1 at a peak\)/);
+        expect(s).not.toMatch(/\bcos\b/);
       }
     }
   });
