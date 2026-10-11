@@ -8,6 +8,7 @@ import {
 } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
 import { holdsUpCard } from "@/lib/holdsUp";
+import { ogMainStandfirst } from "@/lib/countWords";
 import { customCard, memoCard } from "@/lib/ogCardCache";
 import {
   confidenceLabel,
@@ -53,7 +54,7 @@ export async function GET(request: Request) {
 
   // `?cycle=<id>` renders the single-cycle card used by /cycles/<slug>, so
   // each per-cycle route gets its own share image rather than the shared
-  // eight-row snapshot.
+  // all-cycles snapshot.
   const cycleParam = url.searchParams.get("cycle");
   if (cycleParam) {
     const cycle = findCycleBySlug(cycleParam);
@@ -188,7 +189,7 @@ function snapshotCard(effective: Cycle[]) {
               fontStyle: "italic",
             }}
           >
-            Ten long-wave cycles of history, on one shared axis.
+            {ogMainStandfirst(cycles.length)}
           </div>
           <div
             style={{
