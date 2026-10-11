@@ -304,3 +304,74 @@ ACTION: COMPLETED · item I-032 · P3 c8470349
 codexCalls: 0 (this phase; cycle 4's two review runs are counted on the P3 post)
 
 [standing-rules-hash: 88cc2dc9]
+
+## Cycle 5 — P1 selection packet
+
+[P1 — Evidence and choice]
+
+**Outcome:** on a phone's first screen, every cycle page shows its curve, the measured series it is paired with, and the plain verdict. Today nine of ten show the verdict and no curve, and no cycle page draws the measured series at all.
+**Item:** the cycle-5 lead (20b140e7). No ledger row exists; **I-033 is minted at build time**.
+
+**The user problem, in the bar's words (HYPOTHESIS, `docs/evangelism-bar.md`):** "On one screen they see its curve drawn against a real measured series, and they get a plain verdict on whether the record can even test it."
+
+### Evidence
+
+- OBSERVED (live, Playwright, tonight): ten first screens of `https://sinusoidalhistory.com/cycles/<slug>` at 390x844, saved as frames (`tmp/c5-frames/*-390x844.png`) with page positions (`tmp/c5-first-screens.mjs`). Population: all ten cycle pages.
+  - Verdict headline: on the first screen on 10 of 10 (bottoms y 434 to 504).
+  - Curve: below the fold on 9 of 10 (top y 1012 to 1106 on the nine). Only fathers-and-sons fits (781-840).
+  - "Paired data" line: below the fold on the same 9 (y 979 to 1049).
+  - Two frames read by eye: Turchin's first screen is header, title, a five-line description and the verdict box; it ends inside the box, with no curve. Fathers-and-sons shows the verdict, the position sentence, the stats line and the top of its curve.
+- OBSERVED (same script at 390x664, the real visible area of an iPhone 14 in Safari): the curve is below the fold on 10 of 10; the verdict headline is still visible on 10 of 10. **The lead names 390x844. That is the CSS viewport; this repo's fold gate uses 390x664 because 844 "cleared it and hid the problem" on 2026-09-19 (`page.tsx:327-333`, `scripts/check-entry-folds.mjs:15-16`). I propose to accept on 390x664, which is stricter, and to read 390x844 as well.**
+- OBSERVED (source read): the lead's "measured series beside the curve" is a larger gap than a fold. `CurveFigure` (`cycles/[id]/page.tsx:791`) draws the sinusoid, the reference peak and "now" only. No cycle page draws its paired series anywhere; a reader meets it only as the name on the "Paired data" line, or by leaving for the chart. So the bar's "drawn against a real measured series" is unmet on every cycle page at every width, not only on phones.
+- OBSERVED (source read): the pieces to draw it exist and are what the home chart uses: `parseCsvSeries` (`src/lib/csvSeries.ts`) and `normalizeSeries` (`src/lib/seriesMath.ts`, min-max to [-1, 1]). A server-rendered overlay can reuse them, so the page and the chart cannot disagree about the line's shape.
+- OBSERVED (source read): the first screen spends about 130 px at 390 on `short_description` (five lines on Turchin) before the verdict. The stats line and curve were moved below the verdict on 2026-09-19 because under the H1 they pushed the verdict 17 px below the 664 fold. So the room has to come from the description, not from the verdict.
+- HYPOTHESIS: moving the description below the verdict box frees more height than a compact stats line plus curve costs, at 390x664 and at 320x568 (where Turchin had 12 px spare). P3 measures both before it ships; if 320x568 cannot hold all three, the packet's order of sacrifice is description first, then the curve's height, never the verdict headline.
+- MISSING: any real reader. Bar UNMEASURED, no client analytics by standing choice, GSC last whole read 2026-09-09 (59 impressions, 0 clicks). This is craft grounded in the bar.
+- Rotation: `check-cycle-rotation --lane sinusoidal-cycles` exit **3** again at ~22:35 MT, "lastRun 2026-09-20", straight after cycle 4's pass. That confirms the stamping gap named in cycle 4's close (orchestrator-side). This cycle is bar-anchored product work either way.
+- Prior-retro finding that bears: "a check written from a measurement inherits its looseness." Acceptance is read from frames and live positions, and the fold gate's own selector, not from numbers typed in tonight.
+
+### Permission
+
+Lane-owned layout and a derived figure on the ten cycle pages. No row parked, waiting or frozen; answered-cards none (kickoff 02:24Z). It reads `public/data/*.csv` (not `public/data/spectral/`) and writes none. It does not touch `HashLink.tsx`, the /state bands, `FigureScroller.tsx`, or `judgedOn` (not lengthened). The verdict box's words stay exactly as the share card quotes them (`src/lib/holdsUp.ts`, untouched).
+
+One judgement to flag for the review: Turchin and Kondratiev are judged on a different cut from the series the chart draws. The overlay draws the series the chart draws, and is labelled with the "Paired data" name; the "Judged on … why?" entry stays right beside it (I-030). I will not draw the judged cut as a second line.
+
+### Next action
+
+**Kind:** improve. In `cycles/[id]/page.tsx`:
+1. Draw the paired series over the sinusoid in `CurveFigure`, min-max normalised with the chart's own `normalizeSeries`, with a two-item key under the figure ("curve: <period>-year sinusoid" and "line: <Paired data name>"). The no-series cycle draws the sinusoid alone, as now.
+2. Re-order the first screen: title, then the stats line and figure, then the verdict box; the description and the position sentence follow the box.
+
+```
+node C:/dev/skylark/sinusoidal-cycles/tmp/c5-first-screens.mjs http://localhost:3917 C:/dev/skylark/sinusoidal-cycles/tmp/c5-frames-after 390 664
+```
+
+(Run against a local build after the edit; the same script already produced tonight's "before" numbers against production.)
+
+### Acceptance condition (observable, live)
+
+1. After deploy, ten frames at 390x664 and ten at 390x844, read as frames: on each, the curve, the measured series drawn on it (nine pages) with its name, and the verdict headline are all visible without scrolling.
+2. `scripts/check-entry-folds.mjs` still reads 13 of 13 at 390x664 and at 320x568 on production (the verdict must not lose its place to make room).
+3. The verdict box's text is unchanged: the line MULTISET of each page's rendered text is identical to production before the change (this is a re-order, so the ordered diff goes RED by design; AGENTS.md).
+4. The drawn line is the chart's: a test pins the overlay's points to `normalizeSeries(parseCsvSeries(...))` for every paired cycle, read from the CSV on disk. One page's overlay is compared by eye with the same cycle's facet on the home chart.
+5. I-030's "Judged on" entry still sits right after "Paired data" (its tests stay green); `judgedOn` strings unchanged.
+6. Typecheck, lint, test green; CI green; deploy row live on the pushed sha.
+
+### Delivery and encounter checks
+
+- Delivery: the frames and the fold gate against production after the deploy row reads live.
+- Encounter: blind (no client analytics). The 10-13 W-004 cold walk already opens /cycles/turchin on a phone; its first-screen answer is the nearest read, N=1 synthetic. Real-reader read: W-005 on 2026-11-04.
+
+### USER-FACING: yes
+
+Paths: `src/app/(app)/cycles/[id]/page.tsx` (order and `CurveFigure`), possibly a small `src/lib/` helper for the overlay points, tests (new file; `testedSeries.test.ts` and `holdsUp.test.ts` must stay green untouched), `scripts/check-entry-folds.mjs` only if a leg is added for the curve. No `public/*.md` mirror carries cycle-page layout.
+
+**Second item, if time:** I-006 (the og route's hard-coded "Ten long-wave cycles of history"), same file family, effort S, due 10-16. Not started unless the first is live.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none — read: `check-due-gates-dispositioned` (no flag) at ~22:15 MT, "0 gate(s) were due at Phase 0", snapshot CURRENT (taken 2026-10-10). Not re-snapshotted.
+- (b) Owed child rows in the orchestrator's ledger: none — read: kickoff "rows owed to you", 0 of 749 (02:24Z; not re-read).
+- (c) State reads marked CROSSED: none — read: the kickoff state block. Not measured, not clean: missingLinkedCommits 0 of 0; key-metrics has no list.
+
+[standing-rules-hash: 88cc2dc9]

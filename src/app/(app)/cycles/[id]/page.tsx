@@ -37,6 +37,8 @@ import {
   spectralVerdictForCycle,
 } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
+import { chartLinePoints, seriesKeyName } from "@/lib/seriesOverlay";
+import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
   NO_SERIES_HEADLINE,
   NO_SERIES_REASON,
@@ -127,6 +129,16 @@ export default async function CyclePage({ params }: Params) {
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
   const year = new Date().getUTCFullYear();
+  // The paired series as the home chart draws it. A read that fails leaves the
+  // figure as the sinusoid alone, with no key naming a line that is not drawn.
+  let overlay: NormalizedPoint[] = [];
+  if (series) {
+    try {
+      overlay = chartLinePoints(series, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end);
+    } catch {
+      overlay = [];
+    }
+  }
   const positionSentence = yearPositionSentence(cycle, year);
 
   return (
@@ -219,10 +231,16 @@ export default async function CyclePage({ params }: Params) {
           className="mt-3 sm:mt-5 h-[3px] w-16"
           style={{ backgroundColor: cycle.color }}
         />
-        <p className="mt-3 sm:mt-6 text-[15px] leading-[1.55] sm:text-[17px] sm:leading-[1.6] text-ink/85">
-          {cycle.short_description}
-        </p>
       </header>
+
+      {/* The curve, the measured series drawn on it, and (next) the verdict: the
+          three things the first phone screen owes a reader. Until I-033
+          (2026-10-10) a five-line description sat here and the curve was 1.6
+          screens down at 390x664 on all ten pages, with no series drawn on any.
+          The description now follows the verdict. The figure reads its own
+          period and peak in its caption, so the stats line stays below with the
+          "Paired data" and "Judged on" entries. */}
+      <CurveFigure cycle={cycle} year={year} series={series} overlay={overlay} />
 
       {/* The question a stranger arrives with is "is this real, and how would I
           know?" — and until 2026-09-16 the answer sat ~4 sections down, after the
@@ -304,6 +322,10 @@ export default async function CyclePage({ params }: Params) {
         </section>
       )}
 
+      <p className="mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.55] sm:text-[17px] sm:leading-[1.6] text-ink/85">
+        {cycle.short_description}
+      </p>
+
       {/* "Where are we now?" — the question a searcher who lands here on the
           theorist's name arrives with. Until 2026-09-29 the page never said it:
           the reader had to find the current decade in the extrema row further
@@ -368,8 +390,6 @@ export default async function CyclePage({ params }: Params) {
           </div>
         )}
       </dl>
-
-      <CurveFigure cycle={cycle} year={year} />
 
       <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
@@ -788,7 +808,18 @@ function cycleTheoristSentence(cycle: Cycle): string {
  * from the same `sineAtYear` the interactive chart uses, so the figure can't
  * drift from the curve it illustrates.
  */
-function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
+function CurveFigure({
+  cycle,
+  year,
+  series,
+  overlay,
+}: {
+  cycle: Cycle;
+  year: number;
+  series: DataSeries | undefined;
+  /** The paired series as the home chart normalises it; empty draws no line and no key. */
+  overlay: NormalizedPoint[];
+}) {
   const { start, end } = DEFAULT_YEAR_RANGE;
   const width = 900;
   const height = 150;
@@ -802,6 +833,14 @@ function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
   for (let year = start; year <= end; year += 1) {
     points.push(`${x(year).toFixed(2)},${y(sineAtYear(cycle, year)).toFixed(2)}`);
   }
+
+  // The measured series, on the curve's own axes. Straight segments between the
+  // CSV's points: no smoothing invents a shape between sparse early points
+  // (Turchin's five before 1913).
+  const drawnSeries = series && overlay.length > 1 ? series : undefined;
+  const seriesPoints = drawnSeries
+    ? overlay.map((p) => `${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`)
+    : [];
 
   const centuryTicks: number[] = [];
   for (let year = Math.ceil(start / 100) * 100; year <= end; year += 100) {
@@ -839,7 +878,7 @@ function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.name}, rescaled to the curve's height.` : ""}`}
           className="block w-full h-auto"
         >
           <line
@@ -891,6 +930,18 @@ function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
               strokeOpacity="0.55"
               vectorEffect="non-scaling-stroke"
               className="text-ink"
+            />
+          )}
+          {drawnSeries && (
+            <polyline
+              data-mark="paired-series"
+              points={seriesPoints.join(" ")}
+              fill="none"
+              stroke={drawnSeries.color}
+              strokeWidth="1.5"
+              strokeOpacity="0.65"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
             />
           )}
           <polyline
@@ -960,6 +1011,29 @@ function CurveFigure({ cycle, year }: { cycle: Cycle; year: number }) {
         </span>
         <span>{end}</span>
       </figcaption>
+      {/* The key for the second line. "Rescaled to the curve's height" is there
+          because a stretched series sitting on a sinusoid reads as a fit, and on
+          a page whose verdict is "not testable" that would contradict the box
+          right below (manager review 2026-10-10). */}
+      {drawnSeries && (
+        <p
+          data-key="paired-series"
+          className="mt-1.5 text-[12px] leading-[1.45] text-ink-soft"
+        >
+          <span
+            aria-hidden
+            className="inline-block w-4 h-[2px] mr-1.5 align-middle"
+            style={{ backgroundColor: cycle.color }}
+          />
+          {`${cycle.period_years}-year sinusoid`}{" "}
+          <span
+            aria-hidden
+            className="inline-block w-4 h-[1.5px] ml-3 mr-1.5 align-middle opacity-65"
+            style={{ backgroundColor: drawnSeries.color }}
+          />
+          {`${seriesKeyName(drawnSeries)}, rescaled to the curve's height`}
+        </p>
+      )}
     </figure>
   );
 }

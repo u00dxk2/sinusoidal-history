@@ -1217,6 +1217,24 @@
         "unWait": "on 2026-11-04 W-005's read (and that month's crawl-read) says whether any share or referral arrived; I-032 closes or re-dates on that",
         "owner": "sinusoidal-cycles"
       }
+    },
+    {
+      "id": "I-033",
+      "title": "No cycle page drew its measured series, and on a phone the curve sat 1.6 screens down, so the first screen showed a verdict with nothing to look at",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-10",
+      "hypothesis": "Cycle 5 lead (20b140e7), P1 94f99ece, manager review APPROVE b20802e2. The bar: 'On one screen they see its curve drawn against a real measured series, and they get a plain verdict.' Measured live 2026-10-10 on all ten cycle pages: at 390x664 the curve was below the fold on 10 of 10 (top y 1012 to 1106 on the nine paired pages) and the verdict headline visible on 10 of 10; CurveFigure drew the sinusoid alone, so no page drew its paired series at any width. No real reader observed: craft grounded in the bar.",
+      "onTrigger": "Minted at build time per the P1 packet. Build: CurveFigure draws the paired series over the sinusoid through src/lib/seriesOverlay.ts (the home chart's pipeline: transform, then the 1600-2050 window, then min-max), with a key line naming it by the page's Paired data label and saying 'rescaled to the curve's height'. The figure moved above the verdict box; the description moved below it. The stats line stays where it was. judgedOn untouched; the verdict box text untouched.",
+      "closeWhen": "Live: ten frames at 390x664 and ten at 390x844 each show curve, drawn series with its name (nine pages) and the verdict headline without scrolling; check-entry-folds 13 of 13 at 390x664 and 320x568; each page's rendered-text line multiset equals the pre-change one plus only the two key lines. And a cold reader on a phone says what the grey line is and whether the cycle holds up, from the first screen (the 2026-10-13 W-004 walk opens /cycles/turchin on a phone).",
+      "nextEvaluation": "2026-10-13",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 390 --height 664",
+      "waitingFor": "Nothing and nobody to build; the encounter read is the 10-13 cold walk.",
+      "notes": "2026-10-10 (P3 cycle 5): minted at build time.",
+      "created": "2026-10-10",
+      "updated": "2026-10-10"
     }
   ],
   "knownPatterns": [
