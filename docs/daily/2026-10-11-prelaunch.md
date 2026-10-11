@@ -68,3 +68,80 @@ Paths: `src/lib/seriesOverlay.ts`, `src/lib/testedSeries.ts` (the judged-record 
 - (c) State reads marked CROSSED: none — read: the last kickoff state block. Not measured, not clean: missingLinkedCommits 0 of 0; key-metrics has no list.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Cycle 6 — P3 product-work loop
+
+[P3 — Product-work loop]
+
+**Action (kind: improve).** On every cycle page, the line drawn on the curve is now the record the verdict right below it is judged on, and the key says so: "<record>: the record the verdict counts, rescaled to the curve's height". The two pages that differed now draw the judged record:
+- Kondratiev draws the annual, unsmoothed TFP figures, not the 5-year average.
+- Turchin draws the wealth share from 1913, not from 1820.
+
+The verdict wording and `judgedOn` are untouched. Link to the core experience: "someone actually checked" holds only if the picture shows what was checked.
+
+**The manager review (9b068bd8), checked:**
+- HYPOTHESIS, measured and right. Read cold, Kondratiev's "Why two labels" sentence ("…the version the interactive chart draws") sat under a figure that now draws something else. Turchin's "rougher estimates … that the chart joins into one line" described a line the page's figure no longer draws. Both are rewritten to name which figure draws what; every phrase the I-024/I-028 tests pin is kept. The before and after text, as the review asked:
+  - Kondratiev, added after "…which is the version the interactive chart draws.": "The figure at the top of this page draws the annual figures instead, because those are what the verdict counts."
+  - Turchin, "…which starts in 1913 with the Saez–Zucman series." became "…which starts in 1913 with the Saez–Zucman series, and that is what the figure at the top of this page draws."; and "…that the chart joins into one line" became "…that the interactive chart joins into one line".
+- SUGGESTION taken: acceptance item 4 widened to "only key lines and the two Why-two-labels paragraphs change"; this held live (below).
+
+**1. Implementation.**
+- Commits `f5cb55b` (the judged record, key, paragraphs, manifest-oracle test, I-035) and `d4ea3e4` (Codex r1 fix).
+- `judgedCut()` in `src/lib/testedSeries.ts` is now the one decision for "is this page's verdict judged on a cut", used by the figure, the meta description and the page's notes.
+- The test oracle is the frozen manifest: `seriesOverlay.test.ts` parses `analysis-manifest.yaml` (9 series, 9 primary pairings), rebuilds each judged line with its own parser, and compares it with the points the server-rendered page draws.
+- Gates: CI ran the full suite on `d4ea3e4`, GREEN. Locally, the four touched test files passed 122/122 at `d4ea3e4`. The local full suite was not re-run: it is load-sensitive (I-034), so CI is the full gate. Typecheck green. Lint: 0 errors (3 warnings in gitignored `tmp/` scripts).
+- Red-armed, each restored afterwards:
+  - Kondratiev pointed back at the 5-yr file failed 2 of 15.
+  - Drawing Turchin without its 1913 start failed Turchin (117 points vs the 112 the verdict counts).
+  - The meta description reverted to `series.name` failed the description test.
+- Declared ceilings:
+  - The manifest parse is format-specific, not a YAML validator; its counts plus the per-pair assertions prevent a vacuous pass (Codex r1 read this).
+  - The fold gate measures the verdict headline, not the line or key; frames cover those.
+  - The tests do not see whether a reader takes the line for the judged record (that is the W-004 question).
+
+**2. Delivery.**
+- CI: GREEN on `d4ea3e4` (`check-ci-status --workflow ci.yml --wait`: "1 completed non-scheduled success(es) for HEAD, 0 failures, 0 pending").
+- Deploy: `check-deployed-sha-drift --service sinusoidal-history`: "in-sync · live d4ea3e4f → head d4ea3e4f".
+- Live positions (Playwright, sinusoidalhistory.com): verdict headline on the first screen 10/10 at 390x664 and 390x844; curve 243–331; key 352–416.
+- Fold gate on production: "OK: 13 of 13" at 390x664 and at 320x568. The tightest legs are Perez and Modelski at 320x568, with 6 px to spare (23 px before; the longer key takes one more line at 320).
+- Live text multiset against the pre-change production snapshots: on each of the nine paired pages, only the key line changed, plus the Why-two-labels paragraph on Kondratiev and Turchin. All other lines are identical, and fathers-and-sons is unchanged.
+- Live meta descriptions:
+  - Kondratiev: "A 54-year sinusoid anchored to a 1973 peak, plotted against US TFP growth (annual, unsmoothed). The paired record is too short to test the period."
+  - Turchin: "A 150-year sinusoid anchored to a 2020 peak, plotted against US top 1% wealth share (1913 onward). The paired record is too short to test the period."
+  - Logged on W-005 before its click-through read.
+- Frames read live:
+  - Kondratiev 390x844: the noisy annual TFP line, keyed "US TFP growth (annual, unsmoothed): the record the verdict counts, rescaled to the curve's height", directly above "The record this verdict is judged on, US TFP growth (annual, unsmoothed), runs 77 years".
+  - Turchin 390x664: the line begins at 1913, keyed "US top 1% wealth share (1913 onward): the record the verdict counts…".
+  - Strauss–Howe 390x664: a same-series key, "V-Dem libdem index: the record the verdict counts…".
+
+**3. Encounter.** Blind: the site has no client analytics by standing choice. The nearest read is the 2026-10-13 W-004 walk, whose Kondratiev step already asks "is the drawn line the record the verdict is judged on?" (N=1, synthetic). Bug row I-035.
+
+**4. Outcome.** Open. No real reader observed.
+
+**Review.**
+- Codex r1, read-only, on `f5cb55b`; banner workdir matched.
+  - One P2, CONFIRMED against `cycleRoutes.ts:140` and fixed in `d4ea3e4`: the meta, og, twitter and JSON-LD WebPage descriptions still said "plotted against US TFP growth (5-yr rolling)" (and the whole wealth series on Turchin).
+  - Claims: the key, the aria-label and both rewritten paragraphs HOLD.
+  - Fidelity: all nine records match the manifest (file, column, transform, start year).
+  - Nothing now says a test ran.
+- Codex r2, read-only, on `d4ea3e4`; banner workdir matched. No findings: `judgedCut()` behaves the same for all ten cycles, there is no import cycle, the descriptions are 146 and 149 characters, and no remaining surface contradicts the figure.
+- Sibling sweep for the r1 class (a surface naming a record separately from the figure's decision): Grep `testedSeriesNote\(|series_id !==|series\.id === verdict|\.series_id\)` over `src/` (non-test).
+  - 5 call sites: 3 now go through `judgedCut`.
+  - `holdsUp.ts:62-65` makes the equivalent decision inline. Left unchanged on purpose: it is correct, and I-032 is reviewed and live.
+  - `CrossGridList.tsx:14` names each cross-grid verdict's own series, which is correct.
+
+USER-VISIBLE: On Kondratiev and Turchin the line drawn on the curve is now the record the verdict below it is judged on (annual TFP figures; the wealth share from 1913), and every paired page's key says "the record the verdict counts" — d4ea3e4 [proof: before Kondratiev drew the 5-year average and Turchin the series from 1820 while each verdict counted a different record → after the drawn line, the key and the verdict name the same record; live frames, fold gate 13/13 at 390x664 and 320x568, and the text multiset read on sinusoidalhistory.com after Render live d4ea3e4f] [coverage: Search Console (who is shown a page; cannot see on-page reading) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on this site, so a reader's reading of the figure leaves no trace · bug row I-035]
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-11 ~00:55 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-11.md PRESENT (0 draft lines; check-wait-justification PASS with 2 info lines, I-031 and I-034; check-engineering-zero PASS for this lane)
+
+**Ledger.**
+- I-035 minted (`continuity-edit --mint`) and set to `monitoring`: linkedCommits f5cb55b and d4ea3e4; waitJustification until 2026-10-13.
+- W-005: the meta-description change logged with before and after text.
+
+**What remains.**
+- On this outcome, nothing eligible today: the encounter read is the 10-13 walk.
+- The lead's second items were not started: I-031 (Kondratiev figure at 900 px, headed browser first) and I-006 (the og card's hard-coded "Ten long-wave cycles", `og/route.tsx:191`). Both are due 10-16 and carried to the next cycle; this one ran to ~01:50 MT on a loaded machine.
+
+[standing-rules-hash: 88cc2dc9]

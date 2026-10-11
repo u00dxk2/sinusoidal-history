@@ -1267,7 +1267,7 @@
     {
       "id": "I-035",
       "title": "On Kondratiev and Turchin the line drawn on the curve was a different record from the one the verdict right below it is judged on",
-      "status": "open",
+      "status": "monitoring",
       "type": "issue",
       "priority": "P2",
       "owner": "sinusoidal-cycles",
@@ -1278,9 +1278,19 @@
       "nextEvaluation": "2026-10-13",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
       "waitingFor": "Nothing and nobody to build; the encounter read is the 10-13 cold walk.",
-      "notes": "2026-10-11 (P3 cycle 6): minted at build time.",
+      "notes": "2026-10-11 (P3 cycle 6): minted at build time.\n\n | 2026-10-11 (P3 cycle 6): shipped f5cb55b + d4ea3e4, CI green on d4ea3e4 (full suite), Render live d4ea3e4f = head. Live: fold gate 13/13 at 390x664 and 320x568 (tightest Perez/Modelski 6 px at 320x568); verdict headline on the first screen 10/10 at 390x664 and 390x844; text multiset changed only in the key lines and the two Why-two-labels paragraphs, 0 other lines; Kondratiev and Turchin meta descriptions read live as \"plotted against US TFP growth (annual, unsmoothed).\" and \"plotted against US top 1% wealth share (1913 onward).\" (logged on W-005). Frames read live: Kondratiev 390x844, Turchin 390x664, Strauss-Howe 390x664. Codex r1 (f5cb55b): one P2 (stale meta description), CONFIRMED and fixed in d4ea3e4; r2: no findings. Red-armed: Kondratiev on the 5-yr file failed 2; Turchin without its 1913 start failed (117 vs 112 points); description reverted to series.name failed. Encounter: the 10-13 W-004 walk's Kondratiev step.",
       "created": "2026-10-11",
-      "updated": "2026-10-11"
+      "updated": "2026-10-11",
+      "linkedCommits": [
+        "f5cb55b",
+        "d4ea3e4"
+      ],
+      "waitJustification": {
+        "until": "2026-10-13",
+        "owner": "sinusoidal-cycles",
+        "loadBearing": "delivery is proven on production (live d4ea3e4f; frames, fold gate and text multiset read 2026-10-11); closeWhen needs a cold reader's answer to whether the drawn line is the judged record, and the site has no client analytics, so W-004's walk is the only encounter read",
+        "unWait": "on 2026-10-13 W-004's cold walk asks on /cycles/kondratiev whether the drawn line is the record the verdict is judged on; I-035 closes or reopens on that answer"
+      }
     }
   ],
   "knownPatterns": [
