@@ -94,16 +94,28 @@ try {
 
     check(`900 mouse ${slug}: on arrival the right arrow is available and the left is shown disabled`, (await on(right)) && (await off(left)));
 
-    // A disabled arrow does nothing, and does not leave the page.
+    // A disabled arrow does nothing, and does not leave the page. Codex r4: an unchanged scrollLeft
+    // cannot prove that at 0, because the browser clamps a negative scroll there anyway. So count
+    // the region's scrollBy calls: a disabled arrow must make none.
+    await region.evaluate((el) => {
+      el.__scrollCalls = 0;
+      const orig = el.scrollBy.bind(el);
+      el.scrollBy = (...a) => {
+        el.__scrollCalls++;
+        return orig(...a);
+      };
+    });
+    const calls = () => region.evaluate((el) => el.__scrollCalls);
     // force: Playwright will not click an aria-disabled element on its own, but a reader's mouse
     // does, and that click is what this leg is about.
     if (await left.isVisible()) await left.click({ force: true });
     await p900.waitForTimeout(300);
     const afterDisabled = await place();
+    const disabledCalls = await calls();
     check(
       `900 mouse ${slug}: the disabled left arrow does nothing`,
-      (await left.isVisible()) && afterDisabled.left === 0 && p900.url() === urlBefore,
-      `scrollLeft ${afterDisabled.left}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}`,
+      (await left.isVisible()) && disabledCalls === 0 && afterDisabled.left === 0 && p900.url() === urlBefore,
+      `scrollBy calls ${disabledCalls}; scrollLeft ${afterDisabled.left}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}`,
     );
 
     const rightOn = await on(right);
@@ -154,6 +166,31 @@ try {
       focusNote = `scrollLeft ${s.left} of ${s.max}; right arrow ${rightOff ? "disabled" : "not disabled"}; focus on ${where}`;
     }
     check(`900 keyboard ${slug}: at the end focus is still on the arrow that was pressed`, focusKept, focusNote);
+    // Codex r4: activate the now-disabled arrow by keyboard too. It must make no scrollBy call.
+    let kbNote = "the right arrow is not focused and disabled";
+    let kbInert = false;
+    if (focusKept) {
+      const before = await calls();
+      await p900.keyboard.press("Enter");
+      await p900.keyboard.press(" ");
+      await p900.waitForTimeout(300);
+      const after = await calls();
+      kbInert = after === before;
+      kbNote = `scrollBy calls ${before} → ${after}`;
+    }
+    check(`900 keyboard ${slug}: Enter and Space on the disabled arrow do nothing`, kbInert, kbNote);
+    // Focus visibility (Codex r4): the disabled, focused arrow's outline is drawn at full opacity.
+    let ringNote = "no focused disabled arrow";
+    let ringOk = false;
+    if (focusKept) {
+      const st = await right.evaluate((el) => {
+        const cs = getComputedStyle(el);
+        return { opacity: cs.opacity, outline: cs.outlineStyle, width: cs.outlineWidth };
+      });
+      ringOk = st.opacity === "1" && st.outline !== "none" && st.width !== "0px";
+      ringNote = `button opacity ${st.opacity}; outline ${st.outline} ${st.width}`;
+    }
+    check(`900 keyboard ${slug}: the focused disabled arrow keeps a full-strength focus ring`, ringOk, ringNote);
 
     const caption = t900.find((t) => t.includes("Read the protocol under")) ?? "";
     if (v.eligible) {

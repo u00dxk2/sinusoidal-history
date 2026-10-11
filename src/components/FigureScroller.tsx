@@ -179,7 +179,9 @@ export default function FigureScroller({
   const button =
     "absolute top-2 z-10 flex items-center justify-center w-11 h-11 rounded-full border border-rule/50 bg-paper/95 text-ink text-[18px] leading-none shadow-sm hover:border-ink/60 focus-visible:outline-2 focus-visible:outline-ink";
   // The arrow with nothing beyond it: still there and still focusable, visibly not available.
-  const dimmed = "opacity-35 cursor-default hover:border-rule/50";
+  // Only the glyph and the border dim, never the whole button: opacity on the button also
+  // faded its focus outline to ~2.2:1 (Codex r4, 2026-10-11).
+  const dimmed = "border-rule/25 cursor-default hover:border-rule/25";
 
   return (
     <div className="relative">
@@ -213,7 +215,7 @@ export default function FigureScroller({
             onClick={() => step(-1)}
             className={`${button} left-1 ${edges.left ? "" : dimmed}`}
           >
-            <span aria-hidden>←</span>
+            <span aria-hidden className={edges.left ? "" : "opacity-35"}>←</span>
           </button>
           <button
             type="button"
@@ -224,7 +226,7 @@ export default function FigureScroller({
             onClick={() => step(1)}
             className={`${button} right-1 ${edges.right ? "" : dimmed}`}
           >
-            <span aria-hidden>→</span>
+            <span aria-hidden className={edges.right ? "" : "opacity-35"}>→</span>
           </button>
         </>
       )}
