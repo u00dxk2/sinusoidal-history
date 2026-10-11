@@ -252,3 +252,85 @@ Paths: `src/components/FigureScroller.tsx`, `src/app/(app)/cycles/[id]/page.tsx`
 - (c) State reads marked CROSSED: none. Read: the last kickoff state block. Not measured, not clean: missingLinkedCommits 0 of 0; key-metrics has no list.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Cycle 7 — P3 product-work loop
+
+[P3 — Product-work loop]
+
+**Action (kind: improve).** On the nine paired cycle pages, a spectral figure cut by a narrow window now shows that it goes on. Each clipped side has a fade and an arrow button near the top, where the cut legend is; a plain mouse can click it. The arrows sit outside the figure's link, so a click never opens the SVG. Both arrows stay on screen while the figure overflows, and the unavailable one is dimmed, aria-disabled and inert. Nothing shows where the figure fits (lg+). The mouse cue reads "Wider than this window: use the arrows at its edges to see the rest, or click it to open it full size"; the touch cue and the click-to-SVG are unchanged. Link to the core experience: the figure is where a reader checks a claim against its record, and a reader who cannot tell it is cut misses the half that holds the target period.
+
+**Second item, shipped during the CI wait:** I-006's og part. The main share card's "Ten long-wave cycles of history, on one shared axis." now derives from `cycles.length` (`src/lib/countWords.ts`), pinned by a test. The served text is unchanged.
+
+**The manager review's points (cc219970), each checked:**
+- HYPOTHESIS, right: the scroller root is the scroll box, so the fade and arrows sit in a non-scrolling wrapper. `overflow-x-auto lg:overflow-visible lg:-mx-[98px]` stay on the scroller.
+- HYPOTHESIS, right: overflow is measured with a ResizeObserver (on the scroller and its children) plus the scroll event, not once at mount.
+- HYPOTHESIS, measured: the cue block stays `lg:hidden`, and the arrows track measured overflow. At 1000x900 (between 768 and 1023) the cue shows on 9/9; at 1440 overflow is 0 and nothing shows on 9/9.
+- SUGGESTION taken: "the arrows at its edges", never "the right edge".
+- SUGGESTION taken: the arrows sit at the top, beside the cut legend.
+- "Keep the wheel off the figure": kept. A plain wheel still moves the page (200 px) and the figure 0 px.
+
+**1. Implementation.**
+- I-031 commits: `88914e2` (edge cue, cue words, check legs, unit test), `9b41736` (r1), `d31f301` (r2), `03e74e9` (shape change, r3), `8d2aa3f` (r4), `356214b` (r5).
+- I-006 commit: `18e79a4`.
+- Gates:
+  - CI GREEN on `356214b` and on `18e79a4` (full suite).
+  - Locally: typecheck green; lint 0 errors (3 warnings in gitignored `tmp/` scripts); the touched unit tests pass.
+  - The local full suite was not re-run for these commits: it is load-sensitive (I-034), so CI is the full gate.
+- The checks, run locally on the final build:
+  - `check-figure-cue` 189/189.
+  - `check-verdict-landing` 490/490: Back still restores the figure's place (I-018).
+- Red-armed:
+  - **The updated check against production before the deploy:** 108/144, with the 36 new-behaviour legs failing on all 9 pages.
+  - **Refocus disabled (r1):** focus fell to BODY on 9/9.
+  - **"Arrows only focus the region" (r2's escape):** "scrollLeft 0 of 196; right arrow still shown; focus on region".
+  - **The old remove-at-edge shape restored (r3):** "focus on BODY" on 9/9.
+  - **No guard plus a dimmed button (r4):** "scrollBy calls 1", "4 → 6", "button opacity 0.35".
+  - **The shared border class put back (r5):** both borders at alpha 0.5.
+  - **I-006 literal count restored:** the source test failed.
+- Declared ceilings:
+  - The checks run in headless Chromium plus one headed read on Windows. Safari, Firefox and macOS overlay scrollbars are unread.
+  - The overflow-ends handoff (resize to lg+ with an arrow focused) is reasoned (Codex r4), not exercised by a check.
+  - The I-006 test reads the route source, not the rendered card.
+
+**2. Delivery.**
+- I-031:
+  - CI GREEN on `356214b`.
+  - Render's deploy row: `356214bb` live, finished 10:19:56Z. The drift checker had read red-drift just before, from its committer-date anchor, the same false RED named in the 10-11 retro.
+  - Production, headed 900x900, before → after: on 9/9 pages overflow stays 196 px and the 15 px scrollbar stays; the edge cue goes from no to yes.
+  - Production checks: `check-figure-cue` 189/189 and `check-verdict-landing` 490/490.
+  - Frame read live (Kondratiev 900x900): a dimmed "←" at the top-left margin, an active "→" at the top right beside the cut legend, and the new cue above the figure.
+  - Frames committed: `docs/evidence/2026-10-11-i031/kondratiev-900x900-{before,after-live}.png`.
+- I-006:
+  - CI GREEN on `18e79a4`.
+  - Render's deploy row: `18e79a47` live, finished 10:27:41Z. `check-deployed-sha-drift` reads "in-sync · live 18e79a47 → head 18e79a47".
+  - The live main `/og` card is byte-identical to the pre-change copy, and the 10 per-cycle cards are byte-identical to their cycle-4 copies.
+
+**3. Encounter.** Blind: the site has no client analytics by standing choice. The nearest read is the 2026-10-13 W-004 cold walk. Its step (2), ~900x900 with a mouse on Kondratiev, now notes the arrows and asks whether the walker saw that the figure goes on and could see all of it (N=1, synthetic). Bug row I-031.
+
+**4. Outcome.** Open.
+
+**Review.** Cross-family, read-only, with the banner workdir matched on every round.
+- **r1 on `88914e2`:** P2, a focused arrow was removed at its end and focus fell to <body>. Fixed in `9b41736`. Click routing, place restoration, hydration, layout, the words ("HOLDS at 768–1023") and accessible names all held.
+- **r2 on `9b41736`:** P2, the deferred refocus could override the reader. P3, the keyboard leg could pass without reaching the end. Both fixed in `d31f301`.
+- **r3 on `d31f301`, asked as a shape question** (the second appearance of the same class): P2, the repair could target an arrow about to unmount. It recommended "the `aria-disabled` shape", which removes the destruction-and-repair entirely. Done in `03e74e9`.
+- **r4 on `03e74e9`:** focus class confirmed closed. P2, opacity faded the focus ring to ~2.2:1. P3, the inert-arrow leg could not tell the guard from clamping. Both fixed in `8d2aa3f`.
+- **r5 on `8d2aa3f`:** confirmed (focus outline 16.63:1 light, 15.15:1 dark). P3, the disabled border never dimmed (Tailwind rule order). Fixed in `356214b`, proven by a computed-style leg and its red arm, with no further round.
+- **I-006, r1 on `18e79a4`:** no defects. Coverage limit declared.
+- Sibling sweep for the r5 class (a variant class on the same property as a base class, where rule order decides): Grep `border-rule/\d+.*border-rule/\d+` over `src/` found 1 other hit, `CycleFacet.tsx:101` (`border-rule/20` with `hover:border-rule/35`). A base colour and a `hover:` variant do not conflict, so: 0 defects.
+
+USER-VISIBLE: On a laptop-width window the cut spectral figure on every paired cycle page now shows arrows at its edges that a mouse can click to see the rest, and its cue says so — 356214b [proof: before the figure was cut 196px on 9/9 pages with no edge cue and a cue a plain wheel could not follow → after a fade and arrows show at the cut on 9/9, the right arrow moves the figure and never opens the SVG, nothing shows at lg+; headed 900x900 read and check-figure-cue 189/189 on sinusoidalhistory.com after Render live 356214bb] [coverage: Search Console (who is shown a page; cannot see on-page interaction) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on this site, so a reader's use of the arrows leaves no trace · bug row I-031]
+
+codexCalls: 6
+adversarialReviews: 6 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-11 ~02:40 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-11.md PRESENT (cycle 7; 0 draft lines; check-wait-justification PASS with 2 info lines; check-engineering-zero PASS for this lane)
+
+**Ledger.**
+- I-031 set to `monitoring`: linkedCommits are the six above; nextEvaluation 2026-10-13; waitJustification until 2026-10-13, owner this lane.
+- I-006 note: the og part shipped. Poster, TimeRangeBrush and the home dek remain, in the row's rank order. It stays `open`, due 2026-10-16.
+- W-004 notes that step (2) now reads I-031.
+
+**What remains.**
+- On I-031: the encounter read on 2026-10-13. Safari and Firefox are unread.
+- On I-006: the next three surfaces by 2026-10-16.
+
+[standing-rules-hash: 88cc2dc9]
