@@ -89,7 +89,7 @@ The verdict wording and `judgedOn` are untouched. Link to the core experience: "
 - Commits `f5cb55b` (the judged record, key, paragraphs, manifest-oracle test, I-035) and `d4ea3e4` (Codex r1 fix).
 - `judgedCut()` in `src/lib/testedSeries.ts` is now the one decision for "is this page's verdict judged on a cut", used by the figure, the meta description and the page's notes.
 - The test oracle is the frozen manifest: `seriesOverlay.test.ts` parses `analysis-manifest.yaml` (9 series, 9 primary pairings), rebuilds each judged line with its own parser, and compares it with the points the server-rendered page draws.
-- Gates: CI ran the full suite on `d4ea3e4`, GREEN. Locally, the four touched test files passed 122/122 at `d4ea3e4`. The local full suite was not re-run: it is load-sensitive (I-034), so CI is the full gate. Typecheck green. Lint: 0 errors (3 warnings in gitignored `tmp/` scripts).
+- Gates: CI ran the full suite on `d4ea3e4`, GREEN. Locally, the four touched test files passed 122/122 at `d4ea3e4`. Once fleet load eased (CPU 58%, from 100%), the local full suite passed 275/275 at HEAD `914bfb8` (docs-only past `d4ea3e4`) under `verify-with-receipt` in 27.7 s. That bears out I-034: the earlier red runs were load. Typecheck green. Lint: 0 errors (3 warnings in gitignored `tmp/` scripts).
 - Red-armed, each restored afterwards:
   - Kondratiev pointed back at the 5-yr file failed 2 of 15.
   - Drawing Turchin without its 1913 start failed Turchin (117 points vs the 112 the verdict counts).
@@ -143,5 +143,39 @@ hygiene helper: DISPATCHED 2026-10-11 ~00:55 MT · draft tmp/hygiene-draft-sinus
 **What remains.**
 - On this outcome, nothing eligible today: the encounter read is the 10-13 walk.
 - The lead's second items were not started: I-031 (Kondratiev figure at 900 px, headed browser first) and I-006 (the og card's hard-coded "Ten long-wave cycles", `og/route.tsx:191`). Both are due 10-16 and carried to the next cycle; this one ran to ~01:50 MT on a loaded machine.
+
+[standing-rules-hash: 88cc2dc9]
+
+## Close (cycle 6)
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-035 · P3 86d8a122
+
+- **State since P3.** Manager review c7ccc6bb reads COMPLETED, defects none. The manager read the live Kondratiev page and the Turchin frame independently; deploy is in sync at `914bfb89` (docs-only past `d4ea3e4`). After the P3 post, the local full suite was run once more at low load: 275/275 at `914bfb8` under verify-with-receipt; P3 was posted with that receipt.
+- **Ledger delta (cycle 6):**
+  - I-035 minted and set to `monitoring`, with linkedCommits f5cb55b and d4ea3e4 and waitJustification until 2026-10-13.
+  - W-005 has the two-page meta-description change logged, with before and after text, ahead of its 11-04 read.
+  - W-004 notes that its Kondratiev step now reads I-035; the expected answer is yes.
+  - I-031 and I-006 got carry notes. Both were named as second items, not started this cycle, and are still due 2026-10-16.
+  - No row closed, re-dated or held.
+- hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-11.md`; inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification, re-run after I-035's wait was written: "RESULT: PASS — 28 of 41 row(s) carry `waitJustification`; 0 warn / 2 info". The two info lines are I-031 and I-034, structural `waitingFor` fields with no wait contract (shadow arm, not findings).
+  - check-engineering-zero (helper's run, ~00:51 MT): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed since.
+- **Due-gate verification:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-11, 0 rows).
+- **Receipt:** P3's receipt (86d8a122) still holds. Nothing new is written.
+- **Evidence frames** are machine-local in gitignored `tmp/`: `tmp/c6-frames-before/`, `tmp/c6-frames-after/` and `tmp/c6-frames-live/`. To re-capture: `node tmp/c5-first-screens.mjs <origin> <outDir> <w> <h>` (named on the manager's note).
+- **Pending reads:**
+  - 2026-10-13: W-004 cold walk (closes I-029, I-030; reads I-033 and I-035).
+  - 2026-10-16: I-031 and I-006 (carried, not started).
+  - 2026-10-20: I-027 and I-034.
+  - 2026-11-04: W-005 and I-032's encounter read.
+  - 2026-12-01: I-025 (David).
+- **Today panel:** written with `--date 2026-10-10`, per the orchestrator's standing rule tonight.
+- **Primer:** `docs/cold-starts/2026-10-11.md`, banner rewritten in place for cycle 6.
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; cycle 6's two review runs are counted on the P3 post)
 
 [standing-rules-hash: 88cc2dc9]
