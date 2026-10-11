@@ -7,6 +7,7 @@ import {
   sineAtYear,
 } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
+import { holdsUpCard } from "@/lib/holdsUp";
 import { customCard, memoCard } from "@/lib/ogCardCache";
 import {
   confidenceLabel,
@@ -302,6 +303,7 @@ function cycleCard(cycle: Cycle) {
     ? (cycle.name.split("—")[1]?.trim() ?? "")
     : "";
   const idx = cycles.findIndex((c) => c.id === cycle.id) + 1;
+  const holdsUp = holdsUpCard(cycle);
 
   const stats: [string, string][] = [
     ["Period", `${cycle.period_years} years`],
@@ -408,7 +410,7 @@ function cycleCard(cycle: Cycle) {
           style={{
             display: "flex",
             gap: 44,
-            marginTop: 18,
+            marginTop: holdsUp ? 14 : 18,
             alignItems: "flex-start",
           }}
         >
@@ -437,21 +439,64 @@ function cycleCard(cycle: Cycle) {
           ))}
         </div>
 
-        {/* Lede */}
-        <div
-          style={{
-            display: "flex",
-            flex: 1,
-            alignItems: "flex-start",
-            marginTop: 16,
-            fontSize: 19,
-            lineHeight: 1.4,
-            color: INK_SOFT,
-            fontStyle: "italic",
-          }}
-        >
-          {truncate(cycle.short_description, 150)}
-        </div>
+        {/* Does it hold up? The friend a page is sent to sees this card first,
+            and until I-032 (2026-10-10) it said nothing about whether anyone
+            had checked. It replaces the truncated description: the subtitle
+            already says what the cycle is. Same words as the page's box. */}
+        {holdsUp ? (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              flexDirection: "column",
+              marginTop: 14,
+              gap: 2,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                fontSize: 12,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: INK_SOFT,
+                fontFamily: "system-ui, -apple-system, sans-serif",
+                fontWeight: 500,
+              }}
+            >
+              Does it hold up?
+            </div>
+            <div style={{ display: "flex", fontSize: 25, color: INK }}>
+              {holdsUp.headline}.
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 18,
+                lineHeight: 1.3,
+                color: INK_SOFT,
+                fontStyle: "italic",
+              }}
+            >
+              {holdsUp.detail}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              alignItems: "flex-start",
+              marginTop: 16,
+              fontSize: 19,
+              lineHeight: 1.4,
+              color: INK_SOFT,
+              fontStyle: "italic",
+            }}
+          >
+            {truncate(cycle.short_description, 150)}
+          </div>
+        )}
 
         {/* Footer */}
         <div

@@ -37,6 +37,14 @@ import {
   spectralVerdictForCycle,
 } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
+import {
+  NO_SERIES_HEADLINE,
+  NO_SERIES_REASON,
+  NOT_TESTABLE_HEADLINE,
+  holdsUpAlt,
+  periodsCovered,
+  testedHeadline,
+} from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
 
 type Params = { params: Promise<{ id: string }> };
@@ -81,7 +89,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${cycle.name} — period ${cycle.period_years} years, reference peak ${cycle.reference_peak_year}`,
+          alt: [
+            `${cycle.name} — period ${cycle.period_years} years, reference peak ${cycle.reference_peak_year}.`,
+            holdsUpAlt(cycle),
+          ]
+            .filter(Boolean)
+            .join(" "),
         },
       ],
     },
@@ -225,8 +238,8 @@ export default async function CyclePage({ params }: Params) {
           <BoxLabel name={cycleTheorist(cycle)} />
           <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
             {verdict.eligible
-              ? `Tested — ${SPECTRAL_STATE_LABELS[verdict.state]}.`
-              : "Not testable on the record that exists — and that is the finding, not a dodge."}
+              ? `${testedHeadline(verdict)}.`
+              : `${NOT_TESTABLE_HEADLINE} — and that is the finding, not a dodge.`}
           </p>
           <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
             {/* Name the series ONLY when the tested record IS the displayed one:
@@ -241,7 +254,7 @@ export default async function CyclePage({ params }: Params) {
               : tested
                 ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
                 : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
-            {`${verdict.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
+            {`${periodsCovered(verdict)} this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
             {!verdict.eligible &&
               ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
           </p>
@@ -276,8 +289,7 @@ export default async function CyclePage({ params }: Params) {
         >
           <BoxLabel name={cycleTheorist(cycle)} />
           <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
-            Not tested — this cycle has no paired data series on this site, so
-            there is no record to test it against.
+            {`${NO_SERIES_HEADLINE} — ${NO_SERIES_REASON}`}
           </p>
           {cycle.caveat && (
             <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">

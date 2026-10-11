@@ -1189,6 +1189,24 @@
       "notes": "2026-10-10: minted on the manager review's suggestion (keep walk finding 1 visible). Carried until now only in the closed I-021/I-028 notes and the 10-09 primer.",
       "created": "2026-10-10",
       "updated": "2026-10-10"
+    },
+    {
+      "id": "I-032",
+      "title": "A cycle page's share card says nothing about whether the cycle holds up, so the friend a page is sent to never sees that anyone checked",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-10",
+      "hypothesis": "Evangelism pass 2026-10-10 cycle 4 (P1 ab42b970, manager review APPROVE 91c502f9). The bar's moment ends with a reader sending a /cycles page to a friend: 'look, someone actually checked'. The friend's first sight is the link preview, mostly the og:image, and cycleCard() (src/app/og/route.tsx) showed period, reference peak and paired data only. The meta description already carried the verdict tail; the image did not. No real user observed: craft, grounded in the bar, not in user evidence.",
+      "onTrigger": "Minted at build time per the P1 packet. Build: a 'Does it hold up?' block on each per-cycle card, replacing the truncated description, from src/lib/holdsUp.ts, the helper the page's own box now uses (headline 'Not testable on the record that exists', the page's one-decimal 'N of the 3.0 full periods'). Where the verdict is judged on a different cut (Kondratiev, Turchin) the line names the judged record, never the drawn series. The og:image alt carries the same clause.",
+      "closeWhen": "Live /og?cycle=<id> for all ten cycles shows the verdict line with the page's number, read as frames; and an encounter read exists (a share or a referral from a messaging host), or W-005's read on 2026-11-04 says none can be had at current traffic.",
+      "nextEvaluation": "2026-11-04",
+      "readCommand": "node -e \"fetch('https://sinusoidalhistory.com/og?cycle=turchin').then(async r=>{require('fs').writeFileSync('C:/dev/skylark/sinusoidal-cycles/tmp/og-turchin-read.png',Buffer.from(await r.arrayBuffer()));console.log(r.status,r.headers.get('content-type'))})\"",
+      "waitingFor": "Nothing and nobody to build; the encounter read waits on a real share, which this site cannot see without one arriving.",
+      "notes": "2026-10-10 (P3 cycle 4): minted at build time.",
+      "created": "2026-10-10",
+      "updated": "2026-10-10"
     }
   ],
   "knownPatterns": [

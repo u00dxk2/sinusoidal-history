@@ -14,6 +14,7 @@ import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
+import { holdsUpAlt, holdsUpCard } from "@/lib/holdsUp";
 
 async function pageText(slug: string): Promise<string> {
   const element = await CyclePage({ params: Promise.resolve({ id: slug }) });
@@ -199,6 +200,15 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
 
   it.each(ineligible.map((c) => cycleSlug(c)))("%s", async (slug) => {
     expect(readerText(await pageText(slug))).not.toMatch(TEST_RAN);
+  });
+
+  // I-032 (2026-10-10): the share card and its og:image alt are published text too, and live
+  // outside the page body this guard reads above.
+  it.each(cycles.map((c) => [cycleSlug(c), c] as const))("%s share card and alt", (_slug, cycle) => {
+    const card = holdsUpCard(cycle);
+    expect(card).not.toBeNull();
+    expect(`${card!.headline}. ${card!.detail}`).not.toMatch(TEST_RAN);
+    expect(holdsUpAlt(cycle)).not.toMatch(TEST_RAN);
   });
 });
 

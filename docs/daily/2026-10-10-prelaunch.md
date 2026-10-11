@@ -137,3 +137,70 @@ ACTION: COMPLETED · item I-030 · P3 15a8c309
   - 2026-11-04: W-005.
   - 2026-12-01: I-025.
 - **UNRESOLVED:** none.
+
+## Cycle 4 — P1 selection packet
+
+[P1 — Evidence and choice]
+
+**Outcome:** a cycle page's share card says what the site found. Today it shows the curve, period, peak and paired series, and nothing about whether the cycle holds up.
+**Item:** the evangelism pass (rotation exit 3, below). No ledger row exists for this; **I-032 is minted at build time** (the I-029/I-030 pattern).
+
+**The user problem, in the bar's words (HYPOTHESIS, `docs/evangelism-bar.md`):** "I can't tell whether any of it holds up or is just a good story." The would-tell-a-friend moment ends with the reader sending the page to a friend: "look, someone actually checked." The friend's first sight of that is the link preview. On iMessage, WhatsApp and Slack that preview is mostly the og:image, and the image carries no verdict.
+
+### Evidence
+
+- OBSERVED (source read, now): `src/app/og/route.tsx:298-313`. `cycleCard()` renders its stats as Period, Reference peak and Paired data, plus the confidence label and `short_description`. There is no verdict anywhere on the card. The og:image alt (`cycles/[id]/page.tsx:84`) names only the period and peak.
+- OBSERVED (source read, now): the text meta description already carries the verdict tail (`cycleRoutes.ts:135-163`, `spectralMetaClause`). So the SERP snippet says "too short to test" and the share image does not. The two surfaces disagree about what a page is for.
+- OBSERVED (frozen data, now): `public/data/spectral/verdicts.json` primary has 9 rows, all `INSUFFICIENT_DATA`, with `cycles_covered` from 0.74 (Turchin) to 2.87 (Perez) against a 3.0 floor. The tenth cycle has no paired series and so no row. So every card's line will be a "not testable yet" sentence with its own number. That is the honest-verdict mechanic the bar names, and it is the one thing no other result for these queries says.
+- MISSING: any share, mention or real reader. The bar reads UNMEASURED: there are no client analytics by standing choice, and the last whole GSC read is 2026-09-09 (59 impressions, 0 clicks). No user has been observed failing at this; the change is best-judgment craft, grounded in the bar and not in user evidence (evangelism-pass step 4).
+- MISSING: a shareability playbook in `docs/research-library/playbooks/` was not read in this P1. P3 reads it, or names it absent, before it builds.
+- Disagreement, recorded as a finding: `check-cycle-rotation --lane sinusoidal-cycles` exited **3** now ("evangelism-pass DUE — P3 IS the pass; fleet cycle 20d since 2026-09-20 (lastRun 2026-09-20)"). This morning's packet recorded exit **0**, and the 10-08 pass (I-028 plus the bar) evidently did not move `lastRun` off 09-20. That is a stamping gap in the orchestrator's rotation store, not this lane's to fix; it goes to the P1 post.
+- Prior-retro finding that bears on this: "a check written from a measurement inherits its looseness" (10-09, still on discipline). The card test derives its expected sentences from `verdicts.json` with an independent oracle; it does not match the strings the card happens to print.
+
+### Permission
+
+This is lane-owned product work: share-card copy and layout derived from frozen data. No row is parked, waiting or frozen, and answered-cards is none (kickoff, 02:24Z). It reads `public/data/spectral/verdicts.json` and does not write it (the primer's don't-touch list). It does not touch `HashLink.tsx`, the /state bands or `FigureScroller.tsx`. The main (non-cycle) card in the same file belongs to I-006 (due 10-16) and is left alone.
+
+The sentence is published text, a factual claim about each cycle. So P3 runs a cross-family Codex claims pass (read-only, foreground pipe, banner workdir checked), per global rule 6, alongside the code review.
+
+### Next action
+
+**Kind:** improve. Add a "Does it hold up?" line to `cycleCard()`, derived from the cycle's primary verdict row. The reading is "Not testable yet — the record covers 0.74 of the 3 periods a test needs". The no-series cycle gets its own line saying there is no paired record to judge. The sentence comes from one helper shared with `spectralMetaClause`, so card and snippet cannot drift. The I-028 no-test-ran guard applies to the new sentence. The og:image alt gains the same clause. Baseline first: fetch the live cards before any edit.
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/perez C:/dev/skylark/sinusoidal-cycles/tmp/perez-before.txt
+```
+
+(Also: save the live `/og?cycle=<id>` PNGs for all ten cycles into `tmp/og-before/` and view them, so before → after is a picture rather than a description.)
+
+### Acceptance condition (observable, live)
+
+1. For each of the ten cycles, live `https://sinusoidalhistory.com/og?cycle=<id>` returns 200 `image/png`, 1200x630. The image, viewed, shows a verdict line whose number equals that row's `cycles_covered` in `verdicts.json` (with the 3.0 floor). The no-series cycle shows its no-record line.
+2. Nothing on any card clips or overflows: the longest theorist name, the longest series label and the new line all sit inside the frame. Read on the PNGs.
+3. Each page's `og:image:alt` (live HTML) carries the same verdict clause. The card sentence and the meta-description tail come from one helper (tests pin it). The I-028 guard passes over the new text.
+4. The main `/og` card (no `?cycle=`) is byte-identical to production. The rendered text of all ten cycle pages is identical to production except the alt attribute, which the text gate does not read.
+5. Typecheck, lint and test are green; CI is green; the deploy row reads live on the pushed sha.
+
+### Delivery and encounter checks
+
+- Delivery: the live PNG fetch plus a view of all ten cards after the deploy row reads live. The result goes in the P3 receipt.
+- Encounter: blind. A share leaves no trace on this site: no client analytics, and preview scrapers are not readers. The readable event would be a non-crawler referral from a messaging or social host in the Render request logs (`scripts/crawl-read.mjs`). It is readable at N ≥ 1, and the next monthly crawl read is the date. Exposure will read `blind`.
+
+### USER-FACING: yes
+
+Paths: `src/app/og/route.tsx` (`cycleCard` only), `src/lib/cycleRoutes.ts` (the shared verdict sentence), `src/app/(app)/cycles/[id]/page.tsx` (og:image alt only), and tests (a new `src/lib/` test file, plus an extended no-test-ran guard if it does not already reach the og route). No `public/*.md` mirror carries the share card. `public/llms.txt` describes pages, not cards; P3 confirms that with a Grep.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none. Read: `check-due-gates-dispositioned --snapshot` at 2026-10-10 ~20:45 MT, "0 gate(s) due on/before 2026-10-10" (37 swept). The re-snapshot was identical to the morning file, and nothing was dropped.
+- (b) Owed child rows in the orchestrator's ledger: none. Read: kickoff "rows owed to you", 0 of 749.
+- (c) State reads marked CROSSED: none. Read: the kickoff state block, which printed no crossed threshold. Not measured, not clean: missingLinkedCommits swept 0 of 0, and key-metrics has no `docs/key-metrics.json`.
+
+### Section 0 (cycle 4)
+
+- Primer: `docs/cold-starts/2026-10-10.md`. First action run: live /cycles/turchin snap read 99 lines (10-10: 99), and "Judged on · 1913 onward · why?" is present.
+- Listener: SSE alive (hello 02:16:24Z). Waker ladder: three rungs armed; rank 1 relaunched after a wake-shorten fire. Loop armed by tool call.
+- Codex: GREEN per this prompt's `[codex-probe:]` line (15:08Z). Not used in P1.
+- CI: GREEN on `3aede241` (kickoff read, run 38095865503). HEAD `3aede24` (`8988b30` JSON-LD helper, `3aede24` CI audit step) came from another session at 17:40 MT. Its deploy row is unread by this pane, so P3 reads drift before building.
+- Rotation: exit 3, an evangelism pass DUE (above). P3 is that pass.
+- Yesterday's recs: the 10-10 primer carries a first action (run) and dated reads (none due yet).
