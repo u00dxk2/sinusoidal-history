@@ -1112,9 +1112,9 @@
         "unWait": "the 2026-11-04 page-only read reaches ~100 impressions, or position moves back over 20",
         "owner": "sinusoidal-cycles"
       },
-      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.",
+      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.\n\n | 2026-10-10 (cycle 4 close): the 2026-11-04 read also carries I-032's encounter read: in the Render request logs (scripts/crawl-read.mjs), look for a non-crawler referral to a /cycles page from a messaging or social host. One such request is readable at N >= 1; a link-preview fetch is a scraper and does not count. I-032 closes or re-dates on that read (manager review dd90ef3f).",
       "created": "2026-10-07",
-      "updated": "2026-10-07"
+      "updated": "2026-10-10"
     },
     {
       "id": "I-029",

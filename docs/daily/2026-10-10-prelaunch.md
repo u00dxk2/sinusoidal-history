@@ -272,3 +272,35 @@ hygiene helper: DISPATCHED 2026-10-10 ~21:00 MT · draft tmp/hygiene-draft-sinus
 **What remains.** Nothing eligible on this outcome today: the encounter read needs a real share, which nobody on this lane can produce (never David as the channel). Next read: 2026-11-04. Carries unchanged: 10-13 W-004 walk (I-029, I-030); 10-16 I-031, I-006; 10-20 I-027.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Close (cycle 4)
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-032 · P3 c8470349
+
+- **State since P3.** Manager review dd90ef3f reads COMPLETED, defects none. The manager read the live Turchin and no-series cards as frames independently; both match their pages. Live: Render sinusoidal-history in-sync at `69e6f953`, a doc-only descendant of `6014bb1` (manager's read, 04:11Z). Nothing else changed.
+- **Ledger delta (cycle 4):**
+  - I-032 minted and set to `monitoring` (linkedCommits 1974846, 6014bb1; waitJustification until 2026-11-04; nextEvaluation 2026-11-04).
+  - W-005: note appended. Its 2026-11-04 read also carries I-032's encounter read: a non-crawler referral to a /cycles page from a messaging or social host in the Render request logs (`scripts/crawl-read.mjs`).
+  - No row closed, re-dated or held.
+- hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-10.md`, inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification, re-run after the I-032 wait was written: "RESULT: PASS — 26 of 38 row(s) carry `waitJustification`; 0 warn / 1 info". The info line is I-031's structural `waitingFor` with no waitJustification (shadow arm, not a finding).
+  - check-engineering-zero (helper's run, ~21:00 MT): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed since.
+- **Due-gate verification:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-10, 0 rows).
+- **Receipt:** P3's receipt (c8470349) still holds. Nothing new is written.
+- **Orchestrator-side item, not this lane's to fix:** `check-cycle-rotation --lane sinusoidal-cycles` exited 3 at ~20:42 MT with "lastRun 2026-09-20", though an evangelism pass ran on 2026-10-08, and this morning's read was exit 0. The rotation store looks unstamped. Cycle 4 was itself a pass, so a DUE reading straight after it would confirm the gap.
+- **Pending reads:**
+  - 2026-10-13: W-004 cold walk (closes I-029, I-030).
+  - 2026-10-16: I-031 (headed scrollbar read first) and I-006.
+  - 2026-10-20: I-027.
+  - 2026-11-04: W-005, and I-032's encounter read with it.
+  - 2026-12-01: I-025 (David).
+- **Today panel:** written for 2026-10-10 (`update-daily-brief`, commit 752fa499 in skylark-site).
+- **Primer:** `docs/cold-starts/2026-10-10.md`, banner rewritten in place for cycle 4.
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; cycle 4's two review runs are counted on the P3 post)
+
+[standing-rules-hash: 88cc2dc9]
