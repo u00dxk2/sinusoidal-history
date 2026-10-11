@@ -517,3 +517,41 @@ hygiene helper: DISPATCHED 16:13Z · draft tmp/hygiene-draft-sinusoidal-cycles-2
 - Nothing waits on David.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-006 · P3 c905be47
+
+Manager review 67f9bb6f confirmed both acceptances against origin/main and production.
+
+## Close (day session, 2026-10-11)
+
+- **State changed since P3 (c905be47):**
+  - The manager review found residue: the Turchin and Strauss–Howe rationale prose still prints a bare "cos ≈ …".
+    - `src/data/cycles.json:70`: "(cos ≈ +0.91 at 1860)" and "(cos ≈ −0.81 at 1780)".
+    - `src/data/cycles.json:94`: "(cos ≈ +0.15)". The same claim also appears at `about/page.tsx:185` and in `public/about.md`.
+  - It is recorded on I-036, not fixed today. Any edit is editorial rationale, and owes the cos-math audit and the about.md mirror.
+- **Ledger delta (today, day session):**
+  - I-006 CLOSED. linkedCommits 18e79a4, 450170f, 0b588ae, ddcf5c6, 18a747f; readCommand widened to all five surfaces.
+  - I-036 MINTED, `monitoring`, nextEvaluation 2026-10-13. Note added at the close: the bare-cos residue.
+  - W-004: two notes. The I-036 curve-height step on /cycles/perez; widened at the close to read the whole page on /cycles/turchin and /cycles/strauss-howe.
+- **Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-day.md`; inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification: "RESULT: PASS — 29 of 41 row(s) carry `waitJustification`; 0 warn / 1 info (exit 0)". The info line is I-034. I-036 was minted after that run with its own waitJustification.
+  - check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)". No lockfile changed since.
+- **Due-gate verification:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-11, 0 rows; 42 swept).
+- **Receipt:** P3's receipt (c905be47) still holds. Nothing new.
+- **Today panel:** written with `--date 2026-10-11`.
+- **Primer:** `docs/cold-starts/2026-10-11.md`, banner rewritten in place (1,236 chars). The first action for 2026-10-12 is check-year-position on production.
+- **Pending reads:**
+  - 2026-10-13: the W-004 walk. It closes I-029 and I-030. It reads I-031, I-033, I-035, and I-036 (the curve-height wording, plus the bare-cos residue on turchin and strauss-howe).
+  - 2026-10-20: I-027, I-034.
+  - 2026-11-04: W-005, I-032.
+  - 2026-12-01: I-025 (David).
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the day's three review runs are counted on the P3 post c905be47) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
