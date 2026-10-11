@@ -204,3 +204,71 @@ Paths: `src/app/og/route.tsx` (`cycleCard` only), `src/lib/cycleRoutes.ts` (the 
 - CI: GREEN on `3aede241` (kickoff read, run 38095865503). HEAD `3aede24` (`8988b30` JSON-LD helper, `3aede24` CI audit step) came from another session at 17:40 MT. Its deploy row is unread by this pane, so P3 reads drift before building.
 - Rotation: exit 3, an evangelism pass DUE (above). P3 is that pass.
 - Yesterday's recs: the 10-10 primer carries a first action (run) and dated reads (none due yet).
+
+## Cycle 4 — P3 product-work loop
+
+[P3 — Product-work loop]
+
+**Action (kind: improve; this is the evangelism pass the rotation named).** Each cycle's share card (`/og?cycle=<id>`) now carries a "Does it hold up?" block in place of the truncated description. It uses the page box's own headline and the page's one-decimal number. Link to the core experience: the reader's "someone actually checked" is now the first thing the friend sees in the link preview, before they open the page.
+
+**The manager review's four corrections (91c502f9), each checked:**
+1. Number matches the page: done. The card prints `cycles_covered.toFixed(1)` through the same helper the page box uses. Turchin reads 0.7 on the card and 0.7 in the live page box.
+2. Headline echoes the page: done. "Not testable on the record that exists", pinned by a test against the server-rendered box.
+3. Helper shared with the page box: done. `src/lib/holdsUp.ts` (`NOT_TESTABLE_HEADLINE`, `periodsCovered`, the no-series sentence) feeds both `page.tsx` and the card. `spectralMetaClause` is left alone: it is SERP-tuned and test-pinned.
+4. HYPOTHESIS, measured and RIGHT: Kondratiev's card shows "Paired data: TFP growth · 5-yr" and Turchin's "Top 1% wealth share", while both verdicts count a different cut. The line on those two cards therefore names the judged record ("Judged on US TFP growth (annual, unsmoothed): 1.4 …", "Judged on US top 1% wealth share (1913 onward): 0.7 …"). The other seven say "Its paired record covers …".
+
+**1. Implementation.**
+- Commits `1974846` (the block, helper, tests, I-032, the P1 packet) and `6014bb1` (Codex r1 fixes).
+- Full suite GREEN, 260/260 at `6014bb1` under `verify-with-receipt`. Typecheck green. Lint: 0 errors; its 3 warnings are in gitignored `tmp/` scripts.
+- Red-armed by three mutations, each restored afterwards:
+  - (a) Crediting the number to the drawn series failed Kondratiev and Turchin, 2 of 22.
+  - (b) The raw two-decimal number failed 7 of 22.
+  - (c) "A test ran on its paired record" failed the extended no-test-ran guard on 7 of 10 (the mutated branch).
+- Declared ceilings:
+  - The tests do not render the PNG. Frames are read by eye, below.
+  - No fixtures exist for the eligible, unnamed-cut or series-without-verdict branches (none in the frozen data).
+  - Huntington and Schlesinger cannot tell raw from one-decimal (2.4 exactly), which is why (b) is 7, not 9.
+
+**2. Delivery.**
+- CI: GREEN on `6014bb1` (`check-ci-status --workflow ci.yml --wait`: "1 completed non-scheduled success(es) for HEAD, 0 failures, 0 pending").
+- Deploy: `check-deployed-sha-drift --service sinusoidal-history`: "in-sync · live 6014bb12 → head 6014bb12".
+- Live cards: all ten `https://sinusoidalhistory.com/og?cycle=<id>` return 200 `image/png`. Each is byte-identical (SHA-256) to the local build, whose ten frames I viewed, and different from the pre-change production card.
+- Frames read live, next to the page text (the manager's added acceptance):
+  - Turchin card: "DOES IT HOLD UP? / Not testable on the record that exists. / Judged on US top 1% wealth share (1913 onward): 0.7 of the 3.0 full periods this site requires before testing." Page box, live: "Not testable on the record that exists — and that is the finding, not a dodge. The record this verdict is judged on, US top 1% wealth share (1913 onward), runs 111 years: 0.7 of the 3.0 full periods this site requires before it will run a test on a 150-year claim."
+  - No-series card (Turchin 50y): "Not tested. / This cycle has no paired data series on this site, so there is no record to test it against." Page box, live: "Not tested — this cycle has no paired data series on this site, so there is no record to test it against."
+- Nothing clips. The longest line (Turchin's) is one line ending near x 950 of 1144, with about 16 px above the footer rule on subtitle cards.
+- Each live page's `og:image:alt` carries the clause (read from the live HTML, ten of ten).
+- The visible text of all ten live cycle pages is identical to the production snapshots taken before the change (`check-rendered-text diff`, GREEN ×10).
+- The main `/og` card is byte-identical to before.
+- One limit: a preview a messaging app or shared cache already holds can show the old card for up to a day (existing cache headers, `ogCardCache`; Codex r2 noted it). New shares get the new card.
+
+**3. Encounter.** Blind. The site has no client analytics by standing choice, and a link-preview fetch is a scraper, not a reader. The readable event would be a non-crawler referral from a messaging or social host in the Render request logs. Bug row I-032 carries it to 2026-11-04 (W-005 plus that month's crawl read).
+
+**4. Outcome.** Open. No user evidence grounds this change (bar UNMEASURED); it ships as best-judgment craft and is not claimed to have closed the gap.
+
+**Review.**
+- Codex r1, read-only, on `1974846`; banner workdir matched; all tags STATIC.
+  - (1) MED: "a test requires" read as a general requirement, where the page and /methods scope the 3.0 floor to this site. CONFIRMED against page.tsx and methods; fixed in `6014bb1` ("this site requires before testing").
+  - (2) The unreached unnamed-cut fallback asserted a cut relationship. CONFIRMED; fixed in `6014bb1`.
+  - (3) The judged-cut test did not assert the exact record name. CONFIRMED; fixed in `6014bb1`.
+  - (4) The headline assertion assumed ineligibility. CONFIRMED (dormant); fixed in `6014bb1`.
+  - Claims pass: headline, judged-cut and no-series sentences HOLD; the eligible sentence HOLDS conditionally (none exists today).
+- Codex r2, read-only, on `6014bb1`; banner workdir matched: no findings. It read the Satori JSX (every added div is flex), the cache (process-local, does not survive a deploy), `?cycle=` handling (only repository-defined cycles reach the helper) and the page strings character by character.
+- Sibling sweep for the r1 defect class (the 3.0 floor stated without "this site"): Grep `3\.0 full periods` in `src/` non-test files (run before the change), 4 hits besides the new helper. The page box says "this site requires"; methods:265 "testable only when its record spans at least 3.0 full periods" sits under the section that calls it a site rule; spectralFigureText.ts:33/:37 say "the pre-registered test requires" (the protocol's own gate, named as such). 0 further fixes.
+
+**Findings outside the change.**
+- Rotation stamp gap (orchestrator's): `check-cycle-rotation` read exit 3 tonight with lastRun 2026-09-20, though a pass ran 10-08, and this morning's read was exit 0. This pass should move lastRun; if it does not, the store is not being stamped.
+- No shareability playbook exists (`skylark-site/docs/research-library/playbooks/*share*`: 0 files). A `deep-research` candidate, not built here.
+- Port incident while rendering locally: after I stopped my dev server on 3123, another lane's server (bank-see) took the port before my restart. I left it alone and moved to 3917. All three of my own orphaned `next` processes were stopped by PID, after a command-line read that named this checkout.
+
+USER-VISIBLE: Each cycle page's share card now says whether the cycle holds up ("Does it hold up? Not testable on the record that exists. … 0.7 of the 3.0 full periods this site requires before testing.") where it showed only a cut-off description — 6014bb1 [proof: before the ten /og?cycle=<id> cards carried period, peak, paired data and a truncated description with no verdict → after each carries the page's headline and one-decimal number, Kondratiev and Turchin naming the judged record; ten live PNGs 200 and byte-identical to the viewed build, Turchin and no-series frames read live against the page text, after Render live 6014bb12] [coverage: Search Console (who is shown a page; cannot see a share or a preview) · last good read 2026-09-16 · founder+test excluded no] [exposure: blind — no client analytics on this site and a link preview is fetched by a scraper, so a share leaves no trace · bug row I-032]
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-10 ~21:00 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-10.md PRESENT (0 draft lines; check-wait-justification PASS with one info line on I-031; check-engineering-zero PASS for this lane)
+
+**Ledger.** I-032 minted, `monitoring`, linkedCommits 1974846 + 6014bb1, waitJustification until 2026-11-04.
+
+**What remains.** Nothing eligible on this outcome today: the encounter read needs a real share, which nobody on this lane can produce (never David as the channel). Next read: 2026-11-04. Carries unchanged: 10-13 W-004 walk (I-029, I-030); 10-16 I-031, I-006; 10-20 I-027.
+
+[standing-rules-hash: 88cc2dc9]

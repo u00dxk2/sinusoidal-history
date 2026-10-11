@@ -1193,7 +1193,7 @@
     {
       "id": "I-032",
       "title": "A cycle page's share card says nothing about whether the cycle holds up, so the friend a page is sent to never sees that anyone checked",
-      "status": "open",
+      "status": "monitoring",
       "type": "issue",
       "priority": "P2",
       "owner": "sinusoidal-cycles",
@@ -1204,9 +1204,19 @@
       "nextEvaluation": "2026-11-04",
       "readCommand": "node -e \"fetch('https://sinusoidalhistory.com/og?cycle=turchin').then(async r=>{require('fs').writeFileSync('C:/dev/skylark/sinusoidal-cycles/tmp/og-turchin-read.png',Buffer.from(await r.arrayBuffer()));console.log(r.status,r.headers.get('content-type'))})\"",
       "waitingFor": "Nothing and nobody to build; the encounter read waits on a real share, which this site cannot see without one arriving.",
-      "notes": "2026-10-10 (P3 cycle 4): minted at build time.",
+      "linkedCommits": [
+        "1974846",
+        "6014bb1"
+      ],
+      "notes": "2026-10-10 (P3 cycle 4): minted at build time. Shipped 1974846 + 6014bb1, CI green, Render live 6014bb12 = head. Live read: all ten /og?cycle=<id> return 200 image/png and are byte-identical to the local build whose ten frames were viewed; Turchin frame reads 'Not testable on the record that exists. Judged on US top 1% wealth share (1913 onward): 0.7 of the 3.0 full periods this site requires before testing.' and the no-series frame 'Not tested. This cycle has no paired data series on this site, so there is no record to test it against.'; each page's og:image:alt carries the clause; visible text of all ten cycle pages identical to the pre-change production snaps; main /og card byte-identical. Codex r1 (1974846): one MED ('a test requires' overstated the floor's scope), CONFIRMED, fixed in 6014bb1, plus an unreached fallback sentence and two test gaps, fixed. Codex r2 (6014bb1): no findings. Red-armed by three mutations (2 of 22, 7 of 22, 7 of 10). Ceilings: tests do not render the PNG; no fixtures for eligible / unnamed-cut branches (none in the frozen data); Huntington and Schlesinger cannot tell raw from one-decimal (2.4 exactly). Previews already cached by a messaging app or a shared cache can show the old card for up to a day (existing cache headers). Encounter: blind, a share leaves no trace on this site.",
       "created": "2026-10-10",
-      "updated": "2026-10-10"
+      "updated": "2026-10-10",
+      "waitJustification": {
+        "until": "2026-11-04",
+        "loadBearing": "delivery is proven on production (live 6014bb12, ten card frames and alts read 2026-10-10); closeWhen needs an encounter read and the site has no client analytics, so a share is invisible until a referral from a messaging host shows in the request logs or W-005 reads click-through",
+        "unWait": "on 2026-11-04 W-005's read (and that month's crawl-read) says whether any share or referral arrived; I-032 closes or re-dates on that",
+        "owner": "sinusoidal-cycles"
+      }
     }
   ],
   "knownPatterns": [
