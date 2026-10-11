@@ -149,10 +149,23 @@ const INDEX_NAME: Record<string, string> = {
   modelski: "Modelski",
 };
 
+// The poster footer's "Drawn from Khaldun · Kondratiev · …" roster (I-006's own list, Poster.tsx),
+// read from the source between "Drawn from" and its closing </div>, whitespace collapsed.
+const posterRoster = (() => {
+  const s = src("components", "Poster.tsx");
+  const from = s.indexOf("Drawn from");
+  return s.slice(from, s.indexOf("</div>", from)).replace(/\s+/g, " ");
+})();
+
 describe("the hand-written name lists cover every cycle", () => {
+  it("the poster roster was found", () => {
+    expect(posterRoster).toMatch(/^Drawn from .*Khaldun · Kondratiev/);
+  });
+
   for (const [label, map, text] of [
     ["home dek", HOME_DEK_NAME, homeDek(cycles.length, dataSeries.length)],
     ["/cycles description", INDEX_NAME, cyclesIndexDescription(cycles.length)],
+    ["poster roster", HOME_DEK_NAME, posterRoster],
   ] as const) {
     it(`${label} names each cycle id`, () => {
       for (const c of cycles) {
