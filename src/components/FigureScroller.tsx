@@ -177,11 +177,15 @@ export default function FigureScroller({
   }, [storageKey]);
 
   const button =
-    "absolute top-2 z-10 flex items-center justify-center w-11 h-11 rounded-full border border-rule/50 bg-paper/95 text-ink text-[18px] leading-none shadow-sm hover:border-ink/60 focus-visible:outline-2 focus-visible:outline-ink";
+    "absolute top-2 z-10 flex items-center justify-center w-11 h-11 rounded-full border bg-paper/95 text-ink text-[18px] leading-none shadow-sm focus-visible:outline-2 focus-visible:outline-ink";
+  // Enabled and disabled border colours are mutually exclusive: with both classes on the
+  // button, Tailwind's rule order (not the JSX order) picked /50, so the disabled border never
+  // dimmed (Codex r5, 2026-10-11).
+  const available = "border-rule/50 hover:border-ink/60";
   // The arrow with nothing beyond it: still there and still focusable, visibly not available.
   // Only the glyph and the border dim, never the whole button: opacity on the button also
   // faded its focus outline to ~2.2:1 (Codex r4, 2026-10-11).
-  const dimmed = "border-rule/25 cursor-default hover:border-rule/25";
+  const dimmed = "border-rule/25 cursor-default";
 
   return (
     <div className="relative">
@@ -213,7 +217,7 @@ export default function FigureScroller({
             aria-label="Show the left part of the figure"
             aria-disabled={!edges.left}
             onClick={() => step(-1)}
-            className={`${button} left-1 ${edges.left ? "" : dimmed}`}
+            className={`${button} left-1 ${edges.left ? available : dimmed}`}
           >
             <span aria-hidden className={edges.left ? "" : "opacity-35"}>←</span>
           </button>
@@ -224,7 +228,7 @@ export default function FigureScroller({
             aria-label="Show the right part of the figure"
             aria-disabled={!edges.right}
             onClick={() => step(1)}
-            className={`${button} right-1 ${edges.right ? "" : dimmed}`}
+            className={`${button} right-1 ${edges.right ? available : dimmed}`}
           >
             <span aria-hidden className={edges.right ? "" : "opacity-35"}>→</span>
           </button>

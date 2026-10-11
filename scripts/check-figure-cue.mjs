@@ -93,6 +93,9 @@ try {
     const urlBefore = p900.url();
 
     check(`900 mouse ${slug}: on arrival the right arrow is available and the left is shown disabled`, (await on(right)) && (await off(left)));
+    // Codex r5: the disabled arrow's border must actually read dimmer than the available one's.
+    const borders = await Promise.all([left, right].map((a) => a.evaluate((el) => getComputedStyle(el).borderTopColor)));
+    check(`900 mouse ${slug}: the disabled arrow's border is dimmer than the available one's`, borders[0] !== borders[1], `disabled ${borders[0]} · available ${borders[1]}`);
 
     // A disabled arrow does nothing, and does not leave the page. Codex r4: an unchanged scrollLeft
     // cannot prove that at 0, because the browser clamps a negative scroll there anyway. So count
