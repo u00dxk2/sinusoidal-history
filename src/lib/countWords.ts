@@ -59,7 +59,8 @@ export function homeDek(cycleCount: number, pairedCount: number): string {
  * the count beside it, so it is dropped rather than left standing (manager review 6edfdb02).
  */
 export function homeGateLine(eligible: number, total: number): string {
-  const count = `Each pairing also faces a pre-registered spectral test: ${eligible} of the ${total} reach its 3.0-period evidence gate`;
+  const verb = eligible === 1 ? "reaches" : "reach";
+  const count = `Each pairing also faces a pre-registered spectral test: ${eligible} of the ${total} ${verb} its 3.0-period evidence gate`;
   return eligible === 0
     ? `${count} — none of these records is long enough to test, which is itself the finding.`
     : `${count}.`;

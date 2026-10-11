@@ -108,6 +108,7 @@ describe("the home spectral sentence", () => {
   });
 
   it("drops the 'none … is long enough' clause the moment one does", () => {
+    expect(homeGateLine(1, 9)).toContain("1 of the 9 reaches its");
     for (const eligible of [1, 2, 9]) {
       const line = homeGateLine(eligible, 9);
       expect(line).toContain(`${eligible} of the 9 reach`);
