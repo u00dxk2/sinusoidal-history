@@ -37,7 +37,7 @@ import {
   spectralVerdictForCycle,
 } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
-import { chartLinePoints, seriesKeyName } from "@/lib/seriesOverlay";
+import { chartLinePoints, judgedRecord, type JudgedRecord } from "@/lib/seriesOverlay";
 import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
   NO_SERIES_HEADLINE,
@@ -129,13 +129,14 @@ export default async function CyclePage({ params }: Params) {
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
   const year = new Date().getUTCFullYear();
-  // The paired series as the home chart draws it. Not caught on purpose: the CSV
-  // is a committed file, so a failed read is a bug. Thrown, it fails the build,
-  // and on an ISR revalidation Next keeps serving the last good page; caught, a
-  // revalidation would quietly replace that page with one that has no line
-  // (Codex review 2026-10-10).
-  const overlay: NormalizedPoint[] = series
-    ? chartLinePoints(series, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end)
+  // The record the verdict is judged on, drawn the way the home chart draws a
+  // series (I-035). Not caught on purpose: the CSV is a committed file, so a failed
+  // read is a bug. Thrown, it fails the build, and on an ISR revalidation Next
+  // keeps serving the last good page; caught, a revalidation would quietly
+  // replace that page with one that has no line (Codex review 2026-10-10).
+  const judged = judgedRecord(cycle);
+  const overlay: NormalizedPoint[] = judged
+    ? chartLinePoints(judged, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end)
     : [];
   const positionSentence = yearPositionSentence(cycle, year);
 
@@ -238,7 +239,7 @@ export default async function CyclePage({ params }: Params) {
           The description now follows the verdict. The figure reads its own
           period and peak in its caption, so the stats line stays below with the
           "Paired data" and "Judged on" entries. */}
-      <CurveFigure cycle={cycle} year={year} series={series} overlay={overlay} />
+      <CurveFigure cycle={cycle} year={year} judged={judged} overlay={overlay} />
 
       {/* The question a stranger arrives with is "is this real, and how would I
           know?" — and until 2026-09-16 the answer sat ~4 sections down, after the
@@ -811,13 +812,14 @@ function cycleTheoristSentence(cycle: Cycle): string {
 function CurveFigure({
   cycle,
   year,
-  series,
+  judged,
   overlay,
 }: {
   cycle: Cycle;
   year: number;
-  series: DataSeries | undefined;
-  /** The paired series as the home chart normalises it; empty draws no line and no key. */
+  /** The record the verdict is judged on; null draws no line and no key. */
+  judged: JudgedRecord | null;
+  /** That record as the home chart normalises a series; empty draws no line and no key. */
   overlay: NormalizedPoint[];
 }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
@@ -834,10 +836,9 @@ function CurveFigure({
     points.push(`${x(year).toFixed(2)},${y(sineAtYear(cycle, year)).toFixed(2)}`);
   }
 
-  // The measured series, on the curve's own axes. Straight segments between the
-  // CSV's points: no smoothing invents a shape between sparse early points
-  // (Turchin's five before 1913).
-  const drawnSeries = series && overlay.length > 1 ? series : undefined;
+  // The judged record, on the curve's own axes. Straight segments between the
+  // CSV's points: no smoothing invents a shape between points.
+  const drawnSeries = judged && overlay.length > 1 ? judged : undefined;
   const seriesPoints = drawnSeries
     ? overlay.map((p) => `${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`)
     : [];
@@ -878,7 +879,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.name}, rescaled to the curve's height.` : ""}`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.fullName}, the record the verdict counts, rescaled to the curve's height.` : ""}`}
           className="block w-full h-auto"
         >
           <line
@@ -1014,7 +1015,8 @@ function CurveFigure({
       {/* The key for the second line. "Rescaled to the curve's height" is there
           because a stretched series sitting on a sinusoid reads as a fit, and on
           a page whose verdict is "not testable" that would contradict the box
-          right below (manager review 2026-10-10). */}
+          right below (manager review 2026-10-10). "The record the verdict
+          counts" says the line is what the box below is about (I-035). */}
       {drawnSeries && (
         <p
           data-key="paired-series"
@@ -1031,7 +1033,7 @@ function CurveFigure({
             className="inline-block w-4 h-[1.5px] ml-3 mr-1.5 align-middle opacity-65"
             style={{ backgroundColor: drawnSeries.color }}
           />
-          {`${seriesKeyName(drawnSeries)}, rescaled to the curve's height`}
+          {`${drawnSeries.keyName}: the record the verdict counts, rescaled to the curve's height`}
         </p>
       )}
     </figure>

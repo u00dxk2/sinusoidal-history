@@ -1,17 +1,19 @@
-// I-033 (2026-10-10): each cycle page draws its paired series on its curve, above the verdict.
-// The expected line is rebuilt here from the CSV on disk with its own parser and arithmetic, in
-// the home chart's order (CycleFacet.tsx: the series' transform, then the year window, then
-// min-max to [-1, 1]), and compared with what the SERVER-RENDERED page actually draws.
+// I-033 (2026-10-10) drew each cycle page's paired series on its curve. I-035 (2026-10-11): the
+// line drawn is the record the verdict is JUDGED on. The oracle here is the frozen analysis
+// manifest itself (scripts/spectral/analysis-manifest.yaml): for every primary pairing it names
+// the csv, column, transform and first year the verdict counts. The expected line is rebuilt
+// from that with its own parser and arithmetic, in the chart's order (transform, then the year
+// window, then min-max to [-1, 1]), and compared with the points the SERVER-RENDERED page draws.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
 import { cycles } from "@/data/cycles";
-import type { DataSeries } from "@/data/types";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
-import { chartLineFromCsv, chartLinePoints, seriesKeyName } from "@/lib/seriesOverlay";
+import { chartLineFromCsv, judgedRecord } from "@/lib/seriesOverlay";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
+import { testedSeriesNote } from "@/lib/testedSeries";
 
 const { start, end } = DEFAULT_YEAR_RANGE;
 // CurveFigure's own geometry (page.tsx): a 900x150 viewBox with 14 units of vertical padding.
@@ -19,16 +21,53 @@ const W = 900;
 const H = 150;
 const PAD = 14;
 
+type ManifestSeries = {
+  id: string;
+  csv: string;
+  year_column: string;
+  value_column: string;
+  transform: string;
+  truncate_min_year: number | null;
+};
+
+/** The manifest's series block and primary pairings, read as text (no YAML library here). */
+function readManifest(): { series: Map<string, ManifestSeries>; primary: Map<string, string> } {
+  const text = readFileSync(
+    join(process.cwd(), "scripts", "spectral", "analysis-manifest.yaml"),
+    "utf8",
+  );
+  const series = new Map<string, ManifestSeries>();
+  const block = text.split(/^series:\s*$/m)[1].split(/^primary:/m)[0];
+  for (const chunk of block.split(/^\s*-\s+id:\s*/m).slice(1)) {
+    const field = (k: string) => chunk.match(new RegExp(`^\\s*${k}:\\s*(.+?)\\s*$`, "m"))?.[1];
+    const id = chunk.split(/\r?\n/)[0].trim();
+    const trunc = field("truncate_min_year");
+    series.set(id, {
+      id,
+      csv: field("csv")!,
+      year_column: field("year_column")!,
+      value_column: field("value_column")!,
+      transform: field("transform")!,
+      truncate_min_year: trunc === "null" ? null : Number(trunc),
+    });
+  }
+  const primary = new Map<string, string>();
+  const primaryBlock = text.split(/^primary:.*$/m)[1].split(/^\w/m)[0];
+  for (const m of primaryBlock.matchAll(/cycle_id:\s*(\w+),\s*period_years:\s*\d+,\s*series_id:\s*(\w+)/g)) {
+    primary.set(m[1], m[2]);
+  }
+  return { series, primary };
+}
+
 /** The oracle: no parseCsvSeries, no normalizeSeries. */
-function oracle(series: DataSeries): { year: number; value: number }[] {
-  const [head, ...rows] = readFileSync(join(process.cwd(), "public", series.data_file), "utf8")
-    .trim()
-    .split(/\r?\n/);
+function oracle(m: ManifestSeries): { year: number; value: number }[] {
+  const [head, ...rows] = readFileSync(join(process.cwd(), m.csv), "utf8").trim().split(/\r?\n/);
   const cols = head.split(",");
-  const yi = cols.indexOf(series.year_column);
-  const vi = cols.indexOf(series.value_column);
-  expect(yi, `${series.id}: year column`).toBeGreaterThanOrEqual(0);
-  expect(vi, `${series.id}: value column`).toBeGreaterThanOrEqual(0);
+  const yi = cols.indexOf(m.year_column);
+  const vi = cols.indexOf(m.value_column);
+  expect(yi, `${m.id}: year column`).toBeGreaterThanOrEqual(0);
+  expect(vi, `${m.id}: value column`).toBeGreaterThanOrEqual(0);
+  const from = Math.max(start, m.truncate_min_year ?? start);
   const pts = rows
     .map((r) => r.split(","))
     .filter((c) => c[yi] !== "" && c[vi] !== "" && c[vi] !== undefined)
@@ -36,9 +75,9 @@ function oracle(series: DataSeries): { year: number; value: number }[] {
     .filter((p) => Number.isFinite(p.year) && Number.isFinite(p.raw))
     .map((p) => ({
       year: p.year,
-      value: series.transform === "log1p" ? Math.log1p(Math.max(0, p.raw)) : p.raw,
+      value: m.transform === "log1p" ? Math.log1p(Math.max(0, p.raw)) : p.raw,
     }))
-    .filter((p) => p.year >= start && p.year <= end)
+    .filter((p) => p.year >= from && p.year <= end)
     .sort((a, b) => a.year - b.year);
   const min = Math.min(...pts.map((p) => p.value));
   const max = Math.max(...pts.map((p) => p.value));
@@ -53,22 +92,30 @@ async function pageHtml(slug: string): Promise<string> {
     .replace(/&amp;/g, "&");
 }
 
+const manifest = readManifest();
 const paired = cycles.filter((c) => seriesForCycle(c));
 const unpaired = cycles.filter((c) => !seriesForCycle(c));
 
-describe("I-033: the cycle page draws the paired series as the home chart does", () => {
-  it("covers nine paired cycles and one without a series", () => {
+describe("I-035: the cycle page draws the record its verdict is judged on", () => {
+  it("the manifest parse found nine series and nine primary pairings", () => {
+    expect(manifest.series.size).toBe(9);
+    expect(manifest.primary.size).toBe(9);
+  });
+
+  it("covers nine paired cycles and one without a series, each paired one in the manifest", () => {
     expect(paired.length).toBe(9);
     expect(unpaired.length).toBe(1);
+    for (const c of paired) expect(manifest.primary.has(c.id), c.id).toBe(true);
   });
 
-  it("at least one series carries a transform, so that leg of the pipeline is exercised", () => {
-    expect(paired.some((c) => seriesForCycle(c)!.transform === "log1p")).toBe(true);
+  it("the pipeline legs the real data exercise: a transform, and a start-year cut", () => {
+    expect([...manifest.series.values()].some((s) => s.transform === "log1p")).toBe(true);
+    expect([...manifest.series.values()].some((s) => s.truncate_min_year !== null)).toBe(true);
   });
 
-  // No real series has a point outside 1600–2050 today, so on the real CSVs "window, then
+  // No real series has a point outside 1600–2050, so on the real CSVs "window, then
   // normalise" and "normalise, then window" draw the same line (measured by mutation,
-  // 2026-10-10: the swap passed all nine). This fixture has an extreme outside the window.
+  // 2026-10-10). This fixture has an extreme outside the window.
   it("normalises AFTER the year window, as the chart does", () => {
     const csv = "year,v\n1500,1000\n1700,0\n1800,5\n1900,10\n";
     const got = chartLineFromCsv(csv, { year_column: "year", value_column: "v" }, start, end);
@@ -80,14 +127,17 @@ describe("I-033: the cycle page draws the paired series as the home chart does",
   });
 
   it.each(paired.map((c) => [cycleSlug(c), c] as const))("%s", async (slug, cycle) => {
-    const series = seriesForCycle(cycle)!;
-    const want = oracle(series);
+    const m = manifest.series.get(manifest.primary.get(cycle.id)!)!;
+    const want = oracle(m);
     expect(want.length).toBeGreaterThan(1);
 
-    // The helper is the chart's pipeline.
-    const got = chartLinePoints(series, start, end);
-    expect(got.map((p) => p.year)).toEqual(want.map((p) => p.year));
-    got.forEach((p, i) => expect(p.value).toBeCloseTo(want[i].value, 9));
+    // The record the page picks is the manifest's: same file, column, transform, start year.
+    const record = judgedRecord(cycle)!;
+    expect(record, `${slug}: no judged record`).not.toBeNull();
+    expect(`public${record.data_file}`).toBe(m.csv);
+    expect(record.value_column).toBe(m.value_column);
+    expect(record.transform ?? "none").toBe(m.transform);
+    expect(record.min_year ?? null).toBe(m.truncate_min_year);
 
     // The page draws exactly those points, once, on the curve's axes.
     const html = await pageHtml(slug);
@@ -100,37 +150,47 @@ describe("I-033: the cycle page draws the paired series as the home chart does",
       expect(y).toBeCloseTo(H / 2 - want[i].value * (H / 2 - PAD), 1);
     });
 
-    // The key names this series by the page's own "Paired data" label, and says the line is
-    // rescaled; the figure's accessible name carries the series' full name.
+    // The key names that record and says what it is. Where the verdict counts the paired
+    // series unchanged, the name is the page's "Paired data" label; where it counts a cut,
+    // the name is the cut's own (the same one the verdict box uses).
+    const series = seriesForCycle(cycle)!;
+    const note = testedSeriesNote(m.id);
+    const keyName =
+      series.id === m.id ? (series.legend_short ?? series.name) : note!.name;
     const key = html.match(/<p data-key="paired-series"[^>]*>([\s\S]*?)<\/p>/);
     expect(key, `${slug}: no key`).not.toBeNull();
     const keyText = key![1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
     expect(keyText).toBe(
-      `${cycle.period_years}-year sinusoid ${seriesKeyName(series)}, rescaled to the curve's height`,
+      `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, rescaled to the curve's height`,
     );
-    expect(seriesKeyName(series)).toBe(series.legend_short ?? series.name);
-    expect(html).toContain(`Drawn over it: ${series.name}, rescaled to the curve's height.`);
+    expect(html).toContain(
+      `Drawn over it: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts, rescaled to the curve's height.`,
+    );
 
     // Curve first, then the verdict, then the description.
     const figureAt = html.indexOf('data-mark="paired-series"');
     const verdictAt = html.indexOf('id="does-it-hold-up"');
-    // The visible paragraph, not the JSON-LD copy of the description in the page's head.
     const descriptionAt = html.indexOf(`>${cycle.short_description}</p>`);
     expect(descriptionAt, `${slug}: no description paragraph`).toBeGreaterThan(-1);
-    expect(figureAt).toBeGreaterThan(-1);
     expect(verdictAt).toBeGreaterThan(figureAt);
     expect(descriptionAt).toBeGreaterThan(verdictAt);
+  });
+
+  it("the two cuts draw their own record, not the chart's series", () => {
+    const k = judgedRecord(cycles.find((c) => c.id === "kondratiev")!)!;
+    expect(k.data_file).toBe("/data/us_tfp_growth_annual.csv");
+    const t = judgedRecord(cycles.find((c) => c.id === "turchin")!)!;
+    expect(t.min_year).toBe(1913);
   });
 
   it.each(unpaired.map((c) => [cycleSlug(c), c] as const))(
     "%s draws no series line and no key",
     async (slug, cycle) => {
+      expect(judgedRecord(cycle)).toBeNull();
       const html = await pageHtml(slug);
       expect(html).not.toContain('data-mark="paired-series"');
       expect(html).not.toContain('data-key="paired-series"');
       expect(html).not.toContain("Drawn over it:");
-      // Its curve still comes before its verdict box.
-      expect(html.indexOf('role="img"')).toBeGreaterThan(-1);
       expect(html.indexOf('id="does-it-hold-up"')).toBeGreaterThan(html.indexOf('role="img"'));
       expect(html.indexOf(`>${cycle.short_description}</p>`)).toBeGreaterThan(
         html.indexOf('id="does-it-hold-up"'),

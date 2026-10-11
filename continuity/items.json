@@ -1263,6 +1263,24 @@
       "notes": "2026-10-11 (cycle 5 close): minted on the manager review's instruction (7447a3fb) to carry the finding.",
       "created": "2026-10-11",
       "updated": "2026-10-11"
+    },
+    {
+      "id": "I-035",
+      "title": "On Kondratiev and Turchin the line drawn on the curve was a different record from the one the verdict right below it is judged on",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-11",
+      "hypothesis": "Cycle 6 lead (7add25c3), P1 bc733098, manager review APPROVE 9b068bd8. The cycle-5 review (7447a3fb) flagged Kondratiev. Measured against the frozen analysis manifest (scripts/spectral/analysis-manifest.yaml:23-105): 7 of 9 paired pages draw exactly the judged record; Kondratiev drew the 5-year rolling TFP while the verdict counts the annual unsmoothed figures, and Turchin drew the wealth share from 1820 while the verdict counts from 1913. No real reader observed.",
+      "onTrigger": "Minted at build time. Build: src/lib/seriesOverlay.ts judgedRecord() picks the record the verdict counts (the paired series where they match; testedSeries.ts judgedLine for the two cuts); the key on all nine reads '<name>: the record the verdict counts, rescaled to the curve's height'; the Why-two-labels paragraph on the two pages names which figure draws what. seriesOverlay.test.ts builds every expected line from the manifest itself.",
+      "closeWhen": "Live: the nine first screens read as frames show the judged record's line with a key naming it; check-entry-folds 13/13 at 390x664 and 320x568; the text multiset changes only in the key lines and the two Why-two-labels paragraphs. And the 2026-10-13 W-004 walk's Kondratiev step answers 'is the drawn line the record the verdict is judged on?' with yes, from the page.",
+      "nextEvaluation": "2026-10-13",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
+      "waitingFor": "Nothing and nobody to build; the encounter read is the 10-13 cold walk.",
+      "notes": "2026-10-11 (P3 cycle 6): minted at build time.",
+      "created": "2026-10-11",
+      "updated": "2026-10-11"
     }
   ],
   "knownPatterns": [
