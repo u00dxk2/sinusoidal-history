@@ -56,7 +56,9 @@ export function holdsUpCard(cycle: Cycle): HoldsUpCard | null {
     };
   }
   const headline = verdict.eligible ? testedHeadline(verdict) : NOT_TESTABLE_HEADLINE;
-  const covered = `${periodsCovered(verdict)} a test requires.`;
+  // "this site requires": the 3.0 floor is the site's deliberately conservative rule, not a
+  // general requirement for testing a cycle (/methods; Codex r1 2026-10-10, MED).
+  const covered = `${periodsCovered(verdict)} this site requires before testing.`;
   if (series && series.id === verdict.series_id) {
     return { headline, detail: `Its paired record covers ${covered}` };
   }
@@ -65,7 +67,7 @@ export function holdsUpCard(cycle: Cycle): HoldsUpCard | null {
     headline,
     detail: tested
       ? `Judged on ${tested.name}: ${covered}`
-      : `Judged on a different cut of the paired series: ${covered}`,
+      : `The record used for this verdict covers ${covered}`,
   };
 }
 

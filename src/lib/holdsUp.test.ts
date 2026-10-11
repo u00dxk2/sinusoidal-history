@@ -10,6 +10,7 @@ import CyclePage, { generateMetadata } from "@/app/(app)/cycles/[id]/page";
 import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { holdsUpAlt, holdsUpCard } from "@/lib/holdsUp";
+import { testedSeriesNote } from "@/lib/testedSeries";
 
 type Row = { cycle_id?: string; series_id: string; cycles_covered: number; eligible: boolean };
 const primary: Row[] = JSON.parse(
@@ -39,8 +40,9 @@ describe("I-032: the share card carries the page's verdict", () => {
     const box = await boxText(slug);
     const row = primary.find((r) => r.cycle_id === cycle.id);
 
-    // The card's headline opens the page box's answer sentence.
-    expect(box).toContain(`${card.headline} — `);
+    // The card's headline opens the page box's answer sentence (an eligible headline ends
+    // the sentence there; the others run on into a dash clause).
+    expect(box).toContain(row?.eligible ? `${card.headline}.` : `${card.headline} — `);
 
     if (!row) {
       expect(seriesForCycle(cycle)).toBeUndefined();
@@ -59,7 +61,7 @@ describe("I-032: the share card carries the page's verdict", () => {
     if (series.id === row.series_id) {
       expect(card.detail.startsWith("Its paired record covers")).toBe(true);
     } else {
-      expect(card.detail.startsWith("Judged on ")).toBe(true);
+      expect(card.detail.startsWith(`Judged on ${testedSeriesNote(row.series_id)!.name}: `)).toBe(true);
       expect(card.detail).not.toContain(series.legend_short ?? series.name);
       expect(card.detail).not.toContain("Its paired record");
     }
