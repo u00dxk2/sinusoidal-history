@@ -81,6 +81,20 @@ export default function FigureScroller({
   // the figure's link, so a click on them never opens the SVG. Driven by measured overflow,
   // not a breakpoint: from lg up the figure is drawn whole and nothing shows.
   const [edges, setEdges] = useState<Edges>({ left: false, right: false, bar: 0 });
+  const leftRef = useRef<HTMLButtonElement>(null);
+  const rightRef = useRef<HTMLButtonElement>(null);
+  // Where focus goes when the focused arrow is about to disappear. A keyboard reader who
+  // presses the right arrow to the end would otherwise lose focus to <body> when React
+  // removes that button (Codex r1, 2026-10-11): it goes to the other arrow, or the region.
+  const refocus = useRef<"left" | "right" | "region" | null>(null);
+
+  useEffect(() => {
+    const target = refocus.current;
+    if (!target) return;
+    refocus.current = null;
+    const next = target === "left" ? leftRef.current : target === "right" ? rightRef.current : ref.current;
+    (next ?? ref.current)?.focus({ preventScroll: true });
+  }, [edges]);
 
   useEffect(() => {
     const el = ref.current;
@@ -88,6 +102,9 @@ export default function FigureScroller({
     const measure = () => {
       const next = hiddenEdges(el.scrollLeft, el.scrollWidth, el.clientWidth);
       const bar = el.offsetHeight - el.clientHeight;
+      const active = document.activeElement;
+      if (active === rightRef.current && !next.right) refocus.current = next.left ? "left" : "region";
+      else if (active === leftRef.current && !next.left) refocus.current = next.right ? "right" : "region";
       setEdges((prev) =>
         prev.left === next.left && prev.right === next.right && prev.bar === bar
           ? prev
@@ -175,6 +192,7 @@ export default function FigureScroller({
           />
           <button
             type="button"
+            ref={leftRef}
             data-edge-cue="left"
             aria-label="Show the left part of the figure"
             onClick={() => step(-1)}
@@ -194,6 +212,7 @@ export default function FigureScroller({
           />
           <button
             type="button"
+            ref={rightRef}
             data-edge-cue="right"
             aria-label="Show the right part of the figure"
             onClick={() => step(1)}

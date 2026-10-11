@@ -105,10 +105,42 @@ try {
     );
     await region.evaluate((el) => (el.scrollLeft = el.scrollWidth));
     await p900.waitForTimeout(300);
+    const leftShown = await left.isVisible();
     check(
       `900 mouse ${slug}: at the right end only the left arrow shows`,
-      !(await right.isVisible()) && (await left.isVisible()),
+      !(await right.isVisible()) && leftShown,
     );
+    // Codex r1 (2026-10-11): the left arrow was never activated, and a keyboard reader pressing
+    // the right arrow to the end lost focus when React removed it.
+    const endLeft = await region.evaluate((el) => el.scrollLeft);
+    if (leftShown) {
+      await left.click();
+      await p900.waitForTimeout(700);
+    }
+    const backLeft = await region.evaluate((el) => el.scrollLeft);
+    check(
+      `900 mouse ${slug}: left arrow moves the figure back`,
+      leftShown && backLeft < endLeft,
+      `scrollLeft ${endLeft} → ${backLeft}`,
+    );
+    await region.evaluate((el) => (el.scrollLeft = 0));
+    await p900.waitForTimeout(300);
+    let focusNote = "no right arrow to focus";
+    let focusKept = false;
+    if (await right.isVisible()) {
+      await right.focus();
+      for (let i = 0; i < 4 && (await right.isVisible()); i++) {
+        await p900.keyboard.press("Enter");
+        await p900.waitForTimeout(700);
+      }
+      const where = await p900.evaluate(() => {
+        const a = document.activeElement;
+        return a ? a.getAttribute("data-edge-cue") ?? a.getAttribute("role") ?? a.tagName : "none";
+      });
+      focusKept = where === "left" || where === "region";
+      focusNote = `focus after the right arrow left: ${where}`;
+    }
+    check(`900 keyboard ${slug}: focus stays on the figure's controls at the end`, focusKept, focusNote);
 
     const caption = t900.find((t) => t.includes("Read the protocol under")) ?? "";
     if (v.eligible) {
