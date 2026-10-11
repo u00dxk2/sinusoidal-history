@@ -85,9 +85,12 @@ describe("the count surfaces derive from the data", () => {
     expect(poster).not.toMatch(new RegExp(`${COUNT_WORD} long-wave cycles`));
     expect(brush).toContain("brushCaption(cycles.length)");
     expect(brush).not.toMatch(new RegExp(`all ${COUNT_WORD} cycle`));
-    expect(home).toContain("{countWord(cycles.length)} cycles,");
+    expect(home).toContain('{countWord(cycles.length)}{" "}cycles,');
     expect(home).toContain("homeDek(cycles.length, dataSeries.length)");
-    expect(home).toContain("homeGateLine(");
+    // Both arguments, so a frozen homeGateLine(0, 9) fails (Codex r1).
+    expect(home).toMatch(
+      /homeGateLine\(\s*spectralHeadline\.eligible_primary,\s*spectralHeadline\.total_primary,?\s*\)/,
+    );
     expect(home).not.toMatch(new RegExp(`${COUNT_WORD} cycles,|${COUNT_WORD} of the ${COUNT_WORD}|\\d+ of the \\d+`));
     expect(index).toContain("cyclesIndexTitle(cycles.length)");
     expect(index).toContain("cyclesIndexDescription(cycles.length)");
@@ -108,11 +111,12 @@ describe("the home spectral sentence", () => {
   });
 
   it("drops the 'none … is long enough' clause the moment one does", () => {
-    expect(homeGateLine(1, 9)).toContain("1 of the 9 reaches its");
+    // Whole sentences, so "2 of the 9 reaches" cannot pass as "reach" (Codex r1).
     for (const eligible of [1, 2, 9]) {
-      const line = homeGateLine(eligible, 9);
-      expect(line).toContain(`${eligible} of the 9 reach`);
-      expect(line).not.toMatch(/none of these records|itself the finding/);
+      const verb = eligible === 1 ? "reaches" : "reach";
+      expect(homeGateLine(eligible, 9)).toBe(
+        `Each pairing also faces a pre-registered spectral test: ${eligible} of the 9 ${verb} its 3.0-period evidence gate.`,
+      );
     }
   });
 });

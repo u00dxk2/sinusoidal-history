@@ -43,7 +43,7 @@ export default function Home() {
             Vol. I · An editorial chart-room
           </p>
           <h1 className="font-display text-[44px] sm:text-[68px] lg:text-[84px] leading-[0.95] tracking-tight text-ink">
-            {countWord(cycles.length)} cycles,
+            {countWord(cycles.length)}{" "}cycles,
             <span className="block italic font-display-italic text-ink-soft">
               one axis.
             </span>
