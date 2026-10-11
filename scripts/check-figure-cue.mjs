@@ -133,12 +133,18 @@ try {
         await p900.keyboard.press("Enter");
         await p900.waitForTimeout(700);
       }
+      // Codex r2: judge the END, not just where focus sits. The figure must have reached its right
+      // end, the right arrow must be gone, and focus must be on the left arrow (the one control
+      // left), so a regression that only parks focus on the region cannot pass.
+      const s = await region.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth }));
       const where = await p900.evaluate(() => {
         const a = document.activeElement;
         return a ? a.getAttribute("data-edge-cue") ?? a.getAttribute("role") ?? a.tagName : "none";
       });
-      focusKept = where === "left" || where === "region";
-      focusNote = `focus after the right arrow left: ${where}`;
+      const atEnd = s.left >= s.max - 1;
+      const rightGone = !(await right.isVisible());
+      focusKept = atEnd && rightGone && where === "left";
+      focusNote = `scrollLeft ${s.left} of ${s.max}; right arrow ${rightGone ? "gone" : "still shown"}; focus on ${where}`;
     }
     check(`900 keyboard ${slug}: focus stays on the figure's controls at the end`, focusKept, focusNote);
 

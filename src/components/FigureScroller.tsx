@@ -92,6 +92,10 @@ export default function FigureScroller({
     const target = refocus.current;
     if (!target) return;
     refocus.current = null;
+    // Only when focus was actually lost with the removed button. If the reader tabbed or clicked
+    // somewhere else in the meantime, that choice stands (Codex r2, 2026-10-11).
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
     const next = target === "left" ? leftRef.current : target === "right" ? rightRef.current : ref.current;
     (next ?? ref.current)?.focus({ preventScroll: true });
   }, [edges]);
