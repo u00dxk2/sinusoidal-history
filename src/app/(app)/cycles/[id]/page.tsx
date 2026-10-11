@@ -36,7 +36,7 @@ import {
   spectralHeadline,
   spectralVerdictForCycle,
 } from "@/lib/spectral";
-import { testedSeriesNote } from "@/lib/testedSeries";
+import { judgedCut } from "@/lib/testedSeries";
 import { chartLinePoints, judgedRecord, type JudgedRecord } from "@/lib/seriesOverlay";
 import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
@@ -118,10 +118,7 @@ export default async function CyclePage({ params }: Params) {
   const verdict = spectralVerdictForCycle(cycle.id);
   // Only when the judged cut differs from the drawn series: a note on a matching
   // pair would explain a difference that is not there (Codex r1, 2026-10-06).
-  const tested =
-    verdict && series?.id !== verdict.series_id
-      ? testedSeriesNote(verdict.series_id)
-      : undefined;
+  const tested = judgedCut(series?.id, verdict?.series_id);
   const index = cycles.findIndex((c) => c.id === cycle.id);
   const peaks = peakYearsInRange(cycle);
   const troughs = troughYearsInRange(cycle);

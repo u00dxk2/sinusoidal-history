@@ -3,6 +3,7 @@ import { dataSeries } from "@/data/series";
 import type { ConfidenceLevel, Cycle, DataSeries } from "@/data/types";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralVerdictForCycle } from "@/lib/spectral";
+import { judgedCut } from "@/lib/testedSeries";
 
 /**
  * Static per-cycle routes.
@@ -131,13 +132,17 @@ export function cycleMetaTitle(cycle: Cycle): string {
  *   one thing on the page no competing result for these queries will say.
  *   Phrasing is derived from the frozen state, never authored per cycle;
  *   `lay_text` is the body-copy form and is far too long for a snippet.
+ * - "Plotted against" names what the page's figure draws: the record the
+ *   verdict counts (I-035, 2026-10-11). On Kondratiev and Turchin that is a
+ *   cut of the paired series, named as the verdict names it (Codex review).
  */
 export function cycleMetaDescription(cycle: Cycle): string {
   const series = seriesForCycle(cycle);
   const article = indefiniteArticle(cycle.period_years);
   const lead = `${article.charAt(0).toUpperCase()}${article.slice(1)} ${cycle.period_years}-year sinusoid anchored to a ${cycle.reference_peak_year} peak`;
+  const cut = judgedCut(series?.id, spectralVerdictForCycle(cycle.id)?.series_id);
   const paired = series
-    ? `plotted against ${series.name}`
+    ? `plotted against ${cut?.name ?? series.name}`
     : "with no paired data series in this version";
   const verdict = spectralMetaClause(cycle);
   return `${lead}, ${paired}.${verdict}`;

@@ -56,3 +56,17 @@ const NOTES: Record<string, TestedSeriesNote> = {
 export function testedSeriesNote(seriesId: string): TestedSeriesNote | undefined {
   return Object.hasOwn(NOTES, seriesId) ? NOTES[seriesId] : undefined;
 }
+
+/**
+ * The judged cut, only when the verdict counts a different record from the paired series a
+ * page names. One decision for every surface that says which record a cycle is shown against
+ * (the figure, the meta description, the page's notes): Codex review 2026-10-11 found the meta
+ * description still naming the 5-year series after the figure had moved to the annual one.
+ */
+export function judgedCut(
+  pairedSeriesId: string | undefined,
+  verdictSeriesId: string | undefined,
+): TestedSeriesNote | undefined {
+  if (!pairedSeriesId || !verdictSeriesId || pairedSeriesId === verdictSeriesId) return undefined;
+  return testedSeriesNote(verdictSeriesId);
+}

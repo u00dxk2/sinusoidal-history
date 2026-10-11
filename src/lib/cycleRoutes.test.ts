@@ -104,8 +104,19 @@ describe("cycle route metadata", () => {
   });
 
   it("names the paired series in prose form, not its chart-legend label", () => {
+    // I-035 (2026-10-11): "plotted against" names what the figure draws, the record the
+    // verdict counts. On the two cuts that is the cut, as the verdict names it.
     const turchin = cycles.find((c) => c.id === "turchin")!;
-    expect(cycleMetaDescription(turchin)).toContain("US Top 1% Wealth Share");
+    expect(cycleMetaDescription(turchin)).toContain(
+      "plotted against US top 1% wealth share (1913 onward).",
+    );
+    const kondratievCut = cycles.find((c) => c.id === "kondratiev")!;
+    expect(cycleMetaDescription(kondratievCut)).toContain(
+      "plotted against US TFP growth (annual, unsmoothed).",
+    );
+    expect(cycleMetaDescription(kondratievCut)).not.toContain("5-yr");
+    const dalio = cycles.find((c) => c.id === "dalio")!;
+    expect(cycleMetaDescription(dalio)).toContain(`plotted against ${seriesForCycle(dalio)!.name}.`);
 
     // `legend_short` carries chart qualifiers ("· site-derived", "· log",
     // "· 5-yr"). Perez shipped "Paired with Tech diffusion · site-derived"

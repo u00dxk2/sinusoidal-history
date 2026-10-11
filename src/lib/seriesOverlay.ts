@@ -19,7 +19,7 @@ import { parseCsvSeries } from "@/lib/csvSeries";
 import { seriesForCycle } from "@/lib/cycleRoutes";
 import { normalizeSeries, type NormalizedPoint } from "@/lib/seriesMath";
 import { spectralVerdictForCycle } from "@/lib/spectral";
-import { testedSeriesNote } from "@/lib/testedSeries";
+import { judgedCut } from "@/lib/testedSeries";
 
 export type JudgedRecord = Pick<
   DataSeries,
@@ -52,7 +52,7 @@ export function judgedRecord(cycle: Cycle): JudgedRecord | null {
       fullName: series.name,
     };
   }
-  const note = testedSeriesNote(verdict.series_id);
+  const note = judgedCut(series.id, verdict.series_id);
   if (!note) return null;
   return {
     data_file: note.judgedLine.data_file,

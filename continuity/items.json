@@ -1112,9 +1112,9 @@
         "unWait": "the 2026-11-04 page-only read reaches ~100 impressions, or position moves back over 20",
         "owner": "sinusoidal-cycles"
       },
-      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.\n\n | 2026-10-10 (cycle 4 close): the 2026-11-04 read also carries I-032's encounter read: in the Render request logs (scripts/crawl-read.mjs), look for a non-crawler referral to a /cycles page from a messaging or social host. One such request is readable at N >= 1; a link-preview fetch is a scraper and does not count. I-032 closes or re-dates on that read (manager review dd90ef3f).",
+      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.\n\n | 2026-10-10 (cycle 4 close): the 2026-11-04 read also carries I-032's encounter read: in the Render request logs (scripts/crawl-read.mjs), look for a non-crawler referral to a /cycles page from a messaging or social host. One such request is readable at N >= 1; a link-preview fetch is a scraper and does not count. I-032 closes or re-dates on that read (manager review dd90ef3f).\n\n | 2026-10-11 (cycle 6, I-035): META DESCRIPTION CHANGE on two pages, logged before the 11-04 read. /cycles/kondratiev: \"plotted against US TFP growth (5-yr rolling).\" became \"plotted against US TFP growth (annual, unsmoothed).\"; /cycles/turchin: \"plotted against US Top 1% Wealth Share.\" became \"plotted against US top 1% wealth share (1913 onward).\". The same text feeds og:description, twitter:description and the JSON-LD WebPage description. Titles unchanged; the other eight descriptions unchanged. Reason: the page figure now draws the record the verdict counts (Codex review of f5cb55b). Read click-through on these two pages with this date in mind.",
       "created": "2026-10-07",
-      "updated": "2026-10-10"
+      "updated": "2026-10-11"
     },
     {
       "id": "I-029",
