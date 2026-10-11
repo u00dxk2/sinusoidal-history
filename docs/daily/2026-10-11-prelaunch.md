@@ -275,7 +275,7 @@ Paths: `src/components/FigureScroller.tsx`, `src/app/(app)/cycles/[id]/page.tsx`
 - Gates:
   - CI GREEN on `356214b` and on `18e79a4` (full suite).
   - Locally: typecheck green; lint 0 errors (3 warnings in gitignored `tmp/` scripts); the touched unit tests pass.
-  - The local full suite was not re-run for these commits: it is load-sensitive (I-034), so CI is the full gate.
+  - The local full suite passed 283/283 at HEAD `b6a0d2e` (docs-only past `18e79a4`) under `verify-with-receipt`, in 5.1 s at CPU 4% (I-034: the load decides, not the code).
 - The checks, run locally on the final build:
   - `check-figure-cue` 189/189.
   - `check-verdict-landing` 490/490: Back still restores the figure's place (I-018).
@@ -332,5 +332,39 @@ hygiene helper: DISPATCHED 2026-10-11 ~02:40 MT · draft tmp/hygiene-draft-sinus
 **What remains.**
 - On I-031: the encounter read on 2026-10-13. Safari and Firefox are unread.
 - On I-006: the next three surfaces by 2026-10-16.
+
+[standing-rules-hash: 88cc2dc9]
+
+## Close (cycle 7)
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-031 · P3 370f16f6
+
+- **State since P3.** Manager review d3adc79d reads COMPLETED. The manager independently confirmed all eight commits on origin/main, deploy in sync at `b6a0d2e3`, the live cue text, and the committed after-live frame. No state changed on the site since the P3 post.
+- **A deliberate change to the acceptance wording, recorded as the review asked.** The packet said the arrow disappears at its end. As shipped, both arrows stay on screen while the figure overflows, and the unavailable one is dimmed, aria-disabled and inert. Removing the arrow and then repairing focus failed three Codex rounds running (r1 focus fell to <body>; r2 the repair overrode the reader; r3 the repair targeted an arrow already scheduled to unmount). Codex r3 recommended the aria-disabled shape. The 10-13 walk judges this shape.
+- **The review's HYPOTHESIS on `snapshotCard`, checked:** `effective` is built as `cycles.map(...)` (`src/app/og/route.tsx:94`), so an override changes a cycle's values but can never drop one, and `effective.length === cycles.length` by construction. No change made.
+- **Ledger delta (cycle 7):**
+  - I-031 set to `monitoring` at P3 (linkedCommits 88914e2, 9b41736, d31f301, 03e74e9, 8d2aa3f, 356214b; waitJustification until 2026-10-13). At this close it gets a note recording the acceptance-wording change above.
+  - I-006 note at P3: the og part shipped (`18e79a4`); Poster, TimeRangeBrush and the home dek remain. It stays `open`, due 2026-10-16.
+  - W-004 note: step (2) now reads I-031.
+  - No row closed, re-dated or held. I-031 waits on its 10-13 encounter read, and I-006 has three surfaces left, so neither met its closeWhen.
+- hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-11.md`, cycle 7; inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification, re-run at this close: "RESULT: PASS — 29 of 41 row(s) carry `waitJustification`; 0 warn / 1 info". The info line is I-034 (a structural `waitingFor` with no wait contract; shadow arm). I-031's info line from the draft is gone because its wait contract was written at P3.
+  - check-engineering-zero (helper's run, ~02:35 MT): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed since.
+- **Due-gate verification:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-11, 0 rows).
+- **Receipt:** P3's receipt (370f16f6) still holds. Nothing new is written.
+- **Pending reads:**
+  - 2026-10-13: the W-004 cold walk (closes I-029 and I-030; reads I-033, I-035 and I-031).
+  - 2026-10-16: the rest of I-006.
+  - 2026-10-20: I-027 and I-034.
+  - 2026-11-04: W-005 and I-032's encounter read.
+  - 2026-12-01: I-025 (David).
+- **Today panel:** written with `--date 2026-10-10`.
+- **Primer:** `docs/cold-starts/2026-10-11.md`, banner rewritten in place for cycle 7.
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; cycle 7's six review runs are counted on the P3 post)
 
 [standing-rules-hash: 88cc2dc9]
