@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import HashLink from "@/components/HashLink";
 import { cycles } from "@/data/cycles";
+import { cyclesIndexDescription, cyclesIndexTitle } from "@/lib/countWords";
 import {
   confidenceGloss,
   confidenceLabel,
@@ -16,9 +17,8 @@ import VerdictTable from "@/components/VerdictTable";
 // The verdict list's rows with no record: the same rule as VerdictTable's UNPAIRED.
 const unpairedCount = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id === c.id)).length;
 
-const TITLE = "The ten cycles";
-const DESCRIPTION =
-  "Ten long-wave cycles of history - Schlesinger Jr., Turchin's fathers-and-sons, Kondratiev, Perez, Huntington, Dalio, Strauss-Howe, Modelski, Khaldun, Turchin's secular cycle - each with its period, reference peak, sourcing, and paired data series.";
+const TITLE = cyclesIndexTitle(cycles.length);
+const DESCRIPTION = cyclesIndexDescription(cycles.length);
 
 export const metadata: Metadata = {
   title: TITLE,

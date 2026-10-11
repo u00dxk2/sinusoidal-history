@@ -9,6 +9,7 @@ import {
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
 import { confidenceLabel } from "@/lib/cycleRoutes";
+import { posterStandfirst } from "@/lib/countWords";
 import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
 import { useOverridesState } from "@/lib/urlState";
 
@@ -166,9 +167,7 @@ export default function Poster({ cycles }: PosterProps) {
               className="font-display-italic text-ink/80 leading-snug"
               style={{ fontSize: 19 }}
             >
-              Ten long-wave cycles of history, each calibrated to a single
-              documented peak. Drawn together to ask whose curve fits whose
-              century — and where every cycle&apos;s reach exceeds its grasp.
+              {posterStandfirst(cycles.length)}
             </p>
           </div>
         </div>

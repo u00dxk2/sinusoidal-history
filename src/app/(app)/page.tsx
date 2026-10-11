@@ -3,6 +3,8 @@ import Viz from "@/components/Viz";
 import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import { annotations } from "@/data/annotations";
+import { countWord, homeDek, homeGateLine } from "@/lib/countWords";
+import { spectralHeadline } from "@/lib/spectral";
 
 // The overlay is the canonical home. `?focus=<id>` variants are the same page
 // with one curve highlighted, so they resolve here rather than competing with
@@ -41,7 +43,7 @@ export default function Home() {
             Vol. I · An editorial chart-room
           </p>
           <h1 className="font-display text-[44px] sm:text-[68px] lg:text-[84px] leading-[0.95] tracking-tight text-ink">
-            Ten cycles,
+            {countWord(cycles.length)} cycles,
             <span className="block italic font-display-italic text-ink-soft">
               one axis.
             </span>
@@ -50,10 +52,7 @@ export default function Home() {
         <div className="sm:col-span-5 sm:pt-3 sm:border-l sm:border-rule/30 sm:pl-6 flex flex-col justify-end">
           <p className="text-[15px] sm:text-base leading-relaxed text-ink/85 sm:max-w-sm">
             <span className="hidden sm:inline">
-              Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin
-              (twice), Dalio, Strauss-Howe, Modelski — drawn over 1600–2050.
-              Each a pure sinusoid pinned to one documented peak; nine of the
-              ten carry a paired empirical series for stress-testing.
+              {homeDek(cycles.length, dataSeries.length)}
             </span>
             {/* The tap instruction moved to the caption under the phone
                 overview: said here, it sat directly above ten rows that
@@ -92,10 +91,11 @@ export default function Home() {
             /methods — a cold reader never met it. One sentence here, linked
             to the protocol. Journey-walk 2026-08-24, J7. */}
         <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
-          Each pairing also faces a pre-registered spectral test: 0 of the 9
-          reach its 3.0-period evidence gate — none of these records is long
-          enough to test, which is itself the finding. The protocol lives
-          under{" "}
+          {homeGateLine(
+            spectralHeadline.eligible_primary,
+            spectralHeadline.total_primary,
+          )}{" "}
+          The protocol lives under{" "}
           <a
             href="/methods#spectral-testing"
             className="text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"

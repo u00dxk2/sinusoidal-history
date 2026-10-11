@@ -6,6 +6,7 @@ import { select } from "d3-selection";
 import { line as d3Line, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
+import { brushCaption } from "@/lib/countWords";
 import { sineAtYear } from "@/lib/cycleMath";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
@@ -280,8 +281,7 @@ export default function TimeRangeBrush({
         {/* The grey composite curve carried no explanation anywhere.
             Journey-walk 2026-08-24, J17. */}
         <p className="mt-1.5 text-[11px] text-ink-soft/75 italic font-display-italic">
-          The grey curve is the mean of all ten cycle sinusoids — drag across
-          it to zoom the chart above.
+          {brushCaption(cycles.length)}
         </p>
       </div>
     </div>
