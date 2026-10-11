@@ -12,8 +12,9 @@
 //     covered, rebuilt here from the served verdicts.json (never from the site's helper). At 390 it
 //     sits on the same screen as the figure's top.
 //   - 1440x900: the cue block is hidden (the figure is drawn whole there), and no edge arrow.
-//   - 900x900 (I-031, 2026-10-11): the right edge arrow shows on arrival and the left does not; a
-//     click on it moves the figure and leaves the URL alone; at the right end only the left shows.
+//   - 900x900 (I-031, 2026-10-11): both edge arrows are on screen while the figure overflows; the
+//     one with nothing beyond it is aria-disabled and does nothing. The available one moves the
+//     figure and leaves the URL alone. Pressing it to the end by keyboard keeps focus on it.
 //   - the caption: on a record too short to test it says no test was run on this record and does
 //     not open with the test's description; on an eligible record it keeps that description.
 // Red arm: production before I-021 shows "Swipe sideways" to a mouse at 900, has no target/band
@@ -78,75 +79,81 @@ try {
     check(`900 mouse ${slug}: mouse cue shown`, t900.includes(MOUSE));
     check(`900 mouse ${slug}: target/band line`, t900.includes(line), line);
 
-    // I-031 edge cue: at arrival the figure is cut on the right, so the right arrow shows and the
-    // left does not; a click on it moves the figure and does not leave the page; at the right end
-    // the right arrow is gone and the left one shows.
+    // I-031 edge cue. While the figure overflows, BOTH arrows are on screen; the one with nothing
+    // beyond it is aria-disabled and does nothing (Codex r3, 2026-10-11: the arrows used to be
+    // removed at their edge, and three rounds found a focus defect in that shape). An arrow that
+    // is missing is a FAIL of its leg, never a crash of the run.
     const region = p900.locator("#spectral-verdict [role=region]");
     await region.scrollIntoViewIfNeeded();
     const right = p900.locator('[data-edge-cue="right"]');
     const left = p900.locator('[data-edge-cue="left"]');
-    const rightShown = await right.isVisible();
-    check(`900 mouse ${slug}: right edge arrow shown on arrival`, rightShown);
-    check(`900 mouse ${slug}: no left edge arrow on arrival`, !(await left.isVisible()));
+    const place = () => region.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth }));
+    const off = async (arrow) => (await arrow.isVisible()) && (await arrow.getAttribute("aria-disabled")) === "true";
+    const on = async (arrow) => (await arrow.isVisible()) && (await arrow.getAttribute("aria-disabled")) !== "true";
     const urlBefore = p900.url();
-    const leftBefore = await region.evaluate((el) => el.scrollLeft);
-    // No arrow to click is a FAIL of this leg, not a crash of the whole run.
-    if (rightShown) {
+
+    check(`900 mouse ${slug}: on arrival the right arrow is available and the left is shown disabled`, (await on(right)) && (await off(left)));
+
+    // A disabled arrow does nothing, and does not leave the page.
+    // force: Playwright will not click an aria-disabled element on its own, but a reader's mouse
+    // does, and that click is what this leg is about.
+    if (await left.isVisible()) await left.click({ force: true });
+    await p900.waitForTimeout(300);
+    const afterDisabled = await place();
+    check(
+      `900 mouse ${slug}: the disabled left arrow does nothing`,
+      (await left.isVisible()) && afterDisabled.left === 0 && p900.url() === urlBefore,
+      `scrollLeft ${afterDisabled.left}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}`,
+    );
+
+    const rightOn = await on(right);
+    if (rightOn) {
       await right.click();
       await p900.waitForTimeout(700);
     }
-    const leftAfter = await region.evaluate((el) => el.scrollLeft);
+    const moved = await place();
     check(
       `900 mouse ${slug}: right arrow moves the figure, not the page`,
-      rightShown && leftAfter > leftBefore && p900.url() === urlBefore,
-      rightShown
-        ? `scrollLeft ${leftBefore} → ${leftAfter}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}`
-        : "no right arrow to click",
+      rightOn && moved.left > 0 && p900.url() === urlBefore,
+      rightOn ? `scrollLeft 0 → ${moved.left}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}` : "no available right arrow",
     );
+
     await region.evaluate((el) => (el.scrollLeft = el.scrollWidth));
     await p900.waitForTimeout(300);
-    const leftShown = await left.isVisible();
-    check(
-      `900 mouse ${slug}: at the right end only the left arrow shows`,
-      !(await right.isVisible()) && leftShown,
-    );
-    // Codex r1 (2026-10-11): the left arrow was never activated, and a keyboard reader pressing
-    // the right arrow to the end lost focus when React removed it.
-    const endLeft = await region.evaluate((el) => el.scrollLeft);
-    if (leftShown) {
+    const leftOn = await on(left);
+    check(`900 mouse ${slug}: at the right end the right arrow is disabled and the left available`, (await off(right)) && leftOn);
+    const end = await place();
+    if (leftOn) {
       await left.click();
       await p900.waitForTimeout(700);
     }
-    const backLeft = await region.evaluate((el) => el.scrollLeft);
-    check(
-      `900 mouse ${slug}: left arrow moves the figure back`,
-      leftShown && backLeft < endLeft,
-      `scrollLeft ${endLeft} → ${backLeft}`,
-    );
+    const back = await place();
+    check(`900 mouse ${slug}: left arrow moves the figure back`, leftOn && back.left < end.left, `scrollLeft ${end.left} → ${back.left}`);
+
+    // Keyboard: press the right arrow to the end. The figure must reach its right end, the right
+    // arrow must read disabled, and focus must still be on that same arrow (Codex r2: judge the
+    // END, so parking focus somewhere without scrolling cannot pass).
     await region.evaluate((el) => (el.scrollLeft = 0));
     await p900.waitForTimeout(300);
-    let focusNote = "no right arrow to focus";
     let focusKept = false;
-    if (await right.isVisible()) {
+    let focusNote = "no available right arrow to focus";
+    if (await on(right)) {
       await right.focus();
-      for (let i = 0; i < 4 && (await right.isVisible()); i++) {
+      for (let i = 0; i < 4 && (await on(right)); i++) {
         await p900.keyboard.press("Enter");
         await p900.waitForTimeout(700);
       }
-      // Codex r2: judge the END, not just where focus sits. The figure must have reached its right
-      // end, the right arrow must be gone, and focus must be on the left arrow (the one control
-      // left), so a regression that only parks focus on the region cannot pass.
-      const s = await region.evaluate((el) => ({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth }));
+      const s = await place();
       const where = await p900.evaluate(() => {
         const a = document.activeElement;
         return a ? a.getAttribute("data-edge-cue") ?? a.getAttribute("role") ?? a.tagName : "none";
       });
       const atEnd = s.left >= s.max - 1;
-      const rightGone = !(await right.isVisible());
-      focusKept = atEnd && rightGone && where === "left";
-      focusNote = `scrollLeft ${s.left} of ${s.max}; right arrow ${rightGone ? "gone" : "still shown"}; focus on ${where}`;
+      const rightOff = await off(right);
+      focusKept = atEnd && rightOff && where === "right";
+      focusNote = `scrollLeft ${s.left} of ${s.max}; right arrow ${rightOff ? "disabled" : "not disabled"}; focus on ${where}`;
     }
-    check(`900 keyboard ${slug}: focus stays on the figure's controls at the end`, focusKept, focusNote);
+    check(`900 keyboard ${slug}: at the end focus is still on the arrow that was pressed`, focusKept, focusNote);
 
     const caption = t900.find((t) => t.includes("Read the protocol under")) ?? "";
     if (v.eligible) {

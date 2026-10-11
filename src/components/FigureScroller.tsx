@@ -80,25 +80,18 @@ export default function FigureScroller({
   // the cut legend is. They sit OUTSIDE the scroller, so they do not scroll away, and outside
   // the figure's link, so a click on them never opens the SVG. Driven by measured overflow,
   // not a breakpoint: from lg up the figure is drawn whole and nothing shows.
+  //
+  // BOTH arrows stay mounted for as long as the figure overflows at all; the one with nothing
+  // beyond it is aria-disabled and dimmed, never removed. Three review rounds each found a
+  // focus defect in "remove the arrow at its edge, then repair focus" (focus lost to <body>;
+  // the repair overriding the reader; the repair targeting an arrow about to go), so the shape
+  // changed: an arrow that is never removed at an edge needs no repair (Codex r3, 2026-10-11).
+  // aria-disabled, not `disabled`: a focused button that becomes natively disabled loses focus
+  // in every engine. The one removal left is the pair going when overflow ends (a resize to
+  // lg+); that hands focus to the scroll region synchronously, before React removes anything.
   const [edges, setEdges] = useState<Edges>({ left: false, right: false, bar: 0 });
   const leftRef = useRef<HTMLButtonElement>(null);
   const rightRef = useRef<HTMLButtonElement>(null);
-  // Where focus goes when the focused arrow is about to disappear. A keyboard reader who
-  // presses the right arrow to the end would otherwise lose focus to <body> when React
-  // removes that button (Codex r1, 2026-10-11): it goes to the other arrow, or the region.
-  const refocus = useRef<"left" | "right" | "region" | null>(null);
-
-  useEffect(() => {
-    const target = refocus.current;
-    if (!target) return;
-    refocus.current = null;
-    // Only when focus was actually lost with the removed button. If the reader tabbed or clicked
-    // somewhere else in the meantime, that choice stands (Codex r2, 2026-10-11).
-    const active = document.activeElement;
-    if (active && active !== document.body) return;
-    const next = target === "left" ? leftRef.current : target === "right" ? rightRef.current : ref.current;
-    (next ?? ref.current)?.focus({ preventScroll: true });
-  }, [edges]);
 
   useEffect(() => {
     const el = ref.current;
@@ -107,8 +100,9 @@ export default function FigureScroller({
       const next = hiddenEdges(el.scrollLeft, el.scrollWidth, el.clientWidth);
       const bar = el.offsetHeight - el.clientHeight;
       const active = document.activeElement;
-      if (active === rightRef.current && !next.right) refocus.current = next.left ? "left" : "region";
-      else if (active === leftRef.current && !next.left) refocus.current = next.right ? "right" : "region";
+      if (!next.left && !next.right && (active === leftRef.current || active === rightRef.current)) {
+        el.focus({ preventScroll: true });
+      }
       setEdges((prev) =>
         prev.left === next.left && prev.right === next.right && prev.bar === bar
           ? prev
@@ -130,6 +124,10 @@ export default function FigureScroller({
   const step = (dir: 1 | -1) => {
     const el = ref.current;
     if (!el) return;
+    // aria-disabled does not stop activation by itself: an arrow with nothing beyond it does
+    // nothing. Read live, so a stale render cannot scroll past an edge.
+    const now = hiddenEdges(el.scrollLeft, el.scrollWidth, el.clientWidth);
+    if (dir === 1 ? !now.right : !now.left) return;
     el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: "smooth" });
   };
 
@@ -180,6 +178,8 @@ export default function FigureScroller({
 
   const button =
     "absolute top-2 z-10 flex items-center justify-center w-11 h-11 rounded-full border border-rule/50 bg-paper/95 text-ink text-[18px] leading-none shadow-sm hover:border-ink/60 focus-visible:outline-2 focus-visible:outline-ink";
+  // The arrow with nothing beyond it: still there and still focusable, visibly not available.
+  const dimmed = "opacity-35 cursor-default hover:border-rule/50";
 
   return (
     <div className="relative">
@@ -187,40 +187,42 @@ export default function FigureScroller({
         {children}
       </div>
       {edges.left && (
+        <div
+          aria-hidden
+          data-edge-fade="left"
+          className="pointer-events-none absolute left-0 top-0 w-12 bg-gradient-to-r from-paper to-transparent"
+          style={{ bottom: edges.bar }}
+        />
+      )}
+      {edges.right && (
+        <div
+          aria-hidden
+          data-edge-fade="right"
+          className="pointer-events-none absolute right-0 top-0 w-12 bg-gradient-to-l from-paper to-transparent"
+          style={{ bottom: edges.bar }}
+        />
+      )}
+      {(edges.left || edges.right) && (
         <>
-          <div
-            aria-hidden
-            data-edge-fade="left"
-            className="pointer-events-none absolute left-0 top-0 w-12 bg-gradient-to-r from-paper to-transparent"
-            style={{ bottom: edges.bar }}
-          />
           <button
             type="button"
             ref={leftRef}
             data-edge-cue="left"
             aria-label="Show the left part of the figure"
+            aria-disabled={!edges.left}
             onClick={() => step(-1)}
-            className={`${button} left-1`}
+            className={`${button} left-1 ${edges.left ? "" : dimmed}`}
           >
             <span aria-hidden>←</span>
           </button>
-        </>
-      )}
-      {edges.right && (
-        <>
-          <div
-            aria-hidden
-            data-edge-fade="right"
-            className="pointer-events-none absolute right-0 top-0 w-12 bg-gradient-to-l from-paper to-transparent"
-            style={{ bottom: edges.bar }}
-          />
           <button
             type="button"
             ref={rightRef}
             data-edge-cue="right"
             aria-label="Show the right part of the figure"
+            aria-disabled={!edges.right}
             onClick={() => step(1)}
-            className={`${button} right-1`}
+            className={`${button} right-1 ${edges.right ? "" : dimmed}`}
           >
             <span aria-hidden>→</span>
           </button>
