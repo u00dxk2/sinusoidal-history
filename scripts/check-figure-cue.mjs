@@ -11,7 +11,9 @@
 //   - both: the target/band line is visible and reads the verdict's own period, state and periods
 //     covered, rebuilt here from the served verdicts.json (never from the site's helper). At 390 it
 //     sits on the same screen as the figure's top.
-//   - 1440x900: the cue block is hidden (the figure is drawn whole there).
+//   - 1440x900: the cue block is hidden (the figure is drawn whole there), and no edge arrow.
+//   - 900x900 (I-031, 2026-10-11): the right edge arrow shows on arrival and the left does not; a
+//     click on it moves the figure and leaves the URL alone; at the right end only the left shows.
 //   - the caption: on a record too short to test it says no test was run on this record and does
 //     not open with the test's description; on an eligible record it keeps that description.
 // Red arm: production before I-021 shows "Swipe sideways" to a mouse at 900, has no target/band
@@ -42,7 +44,9 @@ const rows = verdicts.primary;
 console.log(`${rows.length} paired verdicts (${rows.filter((r) => r.eligible).length} eligible) from ${origin}`);
 
 const SWIPE = "Swipe sideways for the whole figure";
-const MOUSE = "Scroll sideways for the whole figure, or click it to open it full size";
+// I-031 (2026-10-11): a plain wheel moves the page, not the figure, so the mouse cue names the
+// arrows at the figure's edges instead of "scroll". The edge legs below check those arrows.
+const MOUSE = "Wider than this window: use the arrows at its edges to see the rest, or click it to open it full size";
 
 // Visible <p> texts inside the verdict section, in order.
 async function visibleTexts(page) {
@@ -73,6 +77,38 @@ try {
     check(`900 mouse ${slug}: no "Swipe" cue`, !t900.some((t) => t.includes("Swipe")), t900.find((t) => t.includes("Swipe")) ?? "");
     check(`900 mouse ${slug}: mouse cue shown`, t900.includes(MOUSE));
     check(`900 mouse ${slug}: target/band line`, t900.includes(line), line);
+
+    // I-031 edge cue: at arrival the figure is cut on the right, so the right arrow shows and the
+    // left does not; a click on it moves the figure and does not leave the page; at the right end
+    // the right arrow is gone and the left one shows.
+    const region = p900.locator("#spectral-verdict [role=region]");
+    await region.scrollIntoViewIfNeeded();
+    const right = p900.locator('[data-edge-cue="right"]');
+    const left = p900.locator('[data-edge-cue="left"]');
+    const rightShown = await right.isVisible();
+    check(`900 mouse ${slug}: right edge arrow shown on arrival`, rightShown);
+    check(`900 mouse ${slug}: no left edge arrow on arrival`, !(await left.isVisible()));
+    const urlBefore = p900.url();
+    const leftBefore = await region.evaluate((el) => el.scrollLeft);
+    // No arrow to click is a FAIL of this leg, not a crash of the whole run.
+    if (rightShown) {
+      await right.click();
+      await p900.waitForTimeout(700);
+    }
+    const leftAfter = await region.evaluate((el) => el.scrollLeft);
+    check(
+      `900 mouse ${slug}: right arrow moves the figure, not the page`,
+      rightShown && leftAfter > leftBefore && p900.url() === urlBefore,
+      rightShown
+        ? `scrollLeft ${leftBefore} → ${leftAfter}; url ${p900.url() === urlBefore ? "unchanged" : p900.url()}`
+        : "no right arrow to click",
+    );
+    await region.evaluate((el) => (el.scrollLeft = el.scrollWidth));
+    await p900.waitForTimeout(300);
+    check(
+      `900 mouse ${slug}: at the right end only the left arrow shows`,
+      !(await right.isVisible()) && (await left.isVisible()),
+    );
 
     const caption = t900.find((t) => t.includes("Read the protocol under")) ?? "";
     if (v.eligible) {
@@ -130,6 +166,10 @@ try {
       `1440 mouse ${slug}: cue block hidden, caption still shown`,
       !t1440.includes(MOUSE) && !t1440.includes(SWIPE) && !t1440.includes(line) &&
         t1440.some((t) => t.includes("Read the protocol under")),
+    );
+    check(
+      `1440 mouse ${slug}: no edge arrows (the figure is drawn whole)`,
+      (await p1440.locator("[data-edge-cue]").count()) === 0,
     );
     await p1440.close();
   }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /**
  * The sideways scroller the spectral figure sits in below md, which keeps the
@@ -43,6 +43,24 @@ function savePlace(key: string, left: number) {
   } catch {}
 }
 
+/**
+ * Which edges of a sideways scroller have more figure beyond them. A pixel of slack absorbs
+ * sub-pixel scroll positions (a zoomed page can stop at scrollLeft 195.6 of 196). No overflow
+ * at all, as at lg+ where the figure is drawn whole, means no edge cue anywhere.
+ */
+export function hiddenEdges(
+  scrollLeft: number,
+  scrollWidth: number,
+  clientWidth: number,
+): { left: boolean; right: boolean } {
+  const slack = 1;
+  const max = scrollWidth - clientWidth;
+  if (max <= slack) return { left: false, right: false };
+  return { left: scrollLeft > slack, right: scrollLeft < max - slack };
+}
+
+type Edges = { left: boolean; right: boolean; bar: number };
+
 export default function FigureScroller({
   storageKey,
   label,
@@ -55,6 +73,44 @@ export default function FigureScroller({
   children: ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  // The edge cue (I-031, 2026-10-11). At 900px with a mouse the figure was cut 196px with
+  // nothing marking the cut, and a plain wheel moves the page, not the figure (W-004 walk
+  // 2026-10-09; headed read 2026-10-11: a 15px scrollbar IS drawn, but ~480px below the cut).
+  // So each clipped side gets a fade and a button a mouse can click, placed near the top where
+  // the cut legend is. They sit OUTSIDE the scroller, so they do not scroll away, and outside
+  // the figure's link, so a click on them never opens the SVG. Driven by measured overflow,
+  // not a breakpoint: from lg up the figure is drawn whole and nothing shows.
+  const [edges, setEdges] = useState<Edges>({ left: false, right: false, bar: 0 });
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => {
+      const next = hiddenEdges(el.scrollLeft, el.scrollWidth, el.clientWidth);
+      const bar = el.offsetHeight - el.clientHeight;
+      setEdges((prev) =>
+        prev.left === next.left && prev.right === next.right && prev.bar === bar
+          ? prev
+          : { ...next, bar },
+      );
+    };
+    measure();
+    // The image may not have its width at mount, and the window can change size.
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    for (const child of Array.from(el.children)) ro.observe(child);
+    el.addEventListener("scroll", measure, { passive: true });
+    return () => {
+      ro.disconnect();
+      el.removeEventListener("scroll", measure);
+    };
+  }, []);
+
+  const step = (dir: 1 | -1) => {
+    const el = ref.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * Math.round(el.clientWidth * 0.8), behavior: "smooth" });
+  };
 
   useEffect(() => {
     const el = ref.current;
@@ -101,9 +157,52 @@ export default function FigureScroller({
     };
   }, [storageKey]);
 
+  const button =
+    "absolute top-2 z-10 flex items-center justify-center w-11 h-11 rounded-full border border-rule/50 bg-paper/95 text-ink text-[18px] leading-none shadow-sm hover:border-ink/60 focus-visible:outline-2 focus-visible:outline-ink";
+
   return (
-    <div ref={ref} tabIndex={0} role="region" aria-label={label} className={className}>
-      {children}
+    <div className="relative">
+      <div ref={ref} tabIndex={0} role="region" aria-label={label} className={className}>
+        {children}
+      </div>
+      {edges.left && (
+        <>
+          <div
+            aria-hidden
+            data-edge-fade="left"
+            className="pointer-events-none absolute left-0 top-0 w-12 bg-gradient-to-r from-paper to-transparent"
+            style={{ bottom: edges.bar }}
+          />
+          <button
+            type="button"
+            data-edge-cue="left"
+            aria-label="Show the left part of the figure"
+            onClick={() => step(-1)}
+            className={`${button} left-1`}
+          >
+            <span aria-hidden>←</span>
+          </button>
+        </>
+      )}
+      {edges.right && (
+        <>
+          <div
+            aria-hidden
+            data-edge-fade="right"
+            className="pointer-events-none absolute right-0 top-0 w-12 bg-gradient-to-l from-paper to-transparent"
+            style={{ bottom: edges.bar }}
+          />
+          <button
+            type="button"
+            data-edge-cue="right"
+            aria-label="Show the right part of the figure"
+            onClick={() => step(1)}
+            className={`${button} right-1`}
+          >
+            <span aria-hidden>→</span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

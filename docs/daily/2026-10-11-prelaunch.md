@@ -179,3 +179,76 @@ ACTION: COMPLETED · item I-035 · P3 86d8a122
 codexCalls: 0 (this phase; cycle 6's two review runs are counted on the P3 post)
 
 [standing-rules-hash: 88cc2dc9]
+
+## Cycle 7 — P1 selection packet
+
+[P1 — Evidence and choice]
+
+**Outcome:** on a laptop-width window, the spectral figure shows at its cut edge that it goes on, and offers a way to see the rest that works with a plain mouse. The words above it say only what is true for the pointer in hand.
+**Item:** I-031 (open, due 2026-10-16), the cycle-7 lead (bc6c5881).
+
+**The user problem, in the walker's words (W-004, 2026-10-09, `docs/walks/2026-10-09-w004.md:44, :149`):** "196 px of the Kondratiev figure is cut off with no visual edge cue. 'Scroll sideways' with a plain wheel scrolls the page, not the figure (Shift+wheel works)."
+
+### Evidence
+
+- OBSERVED (headed Chromium on this Windows machine, 900x900, live sinusoidalhistory.com, tonight; `tmp/c7-figure-900.mjs`, frames in `tmp/c7-frames-before/`). Population: every page that renders a FigureScroller, i.e. the nine paired cycle pages (`page.tsx:641` is the only call site; fathers-and-sons renders none).
+  - **Overflow:** 196 px on 9 of 9 (704 of 900 visible).
+  - **Scrollbar:** **a 15 px horizontal scrollbar IS drawn on 9 of 9**, with arrow buttons, along the figure's bottom edge. The walk's "no scrollbar" was a headless artifact; the walk itself flagged that as UNREAD. In the Kondratiev frame the bar sits ~480 px below the figure's top. It is on screen once the whole figure is in view, but not where the cut is (the top-right legend).
+  - **Edge cue:** none on 9 of 9.
+  - **Plain wheel:** a 200 px wheel over the figure moved the page 200 px and the figure 0 px on 9 of 9.
+  - **Cue shown:** "Scroll sideways for the whole figure, or click it to open it full size" on 9 of 9. It is true for the scrollbar, Shift+wheel and a trackpad, and not for a plain wheel, which is what most mouse users try first.
+  - **Kondratiev frame, read as an image:** the legend reads "series (solid) · 54y" at the cut; the right ~22% of the figure is out of view with nothing marking the cut.
+- OBSERVED (source): the scroll instruction is stated on ONE source surface, `page.tsx:634-643` (touch cue, mouse cue, and the scroller's aria-label "Spectral-verdict figure, scrolls sideways"). One script pins its text: `scripts/check-figure-cue.mjs:44-45`.
+  - Grep for `Scroll sideways|Swipe sideways|scrolls sideways` over `src/` found those 3 lines plus a code comment.
+  - The same grep over `public/*.md` and `public/llms.txt` found 0 matches, so no prose mirror states it. The retro's "move every surface together" therefore covers the cue, the aria-label and the check script.
+- HYPOTHESIS: an edge cue (a fade on the clipped side plus a visible arrow button that scrolls the figure) is the version that works for every pointer. A plain-mouse reader gets a clickable target exactly where the cut is. Touch keeps the swipe. The wheel keeps scrolling the page, which is deliberate: hijacking the wheel would trap a reader scrolling past the figure.
+- MISSING: any real reader (no client analytics; GSC last whole read 2026-09-09: 59 impressions, 0 clicks). The 10-13 W-004 walk's 900 px step is the nearest read, and this lands before it.
+- Rotation: exit 0 for 2026-10-11 (no pass due). Due gates: 0 on/before 2026-10-11 (`--print`, 41 swept; this morning's snapshot stands, not retaken). Answered cards: none (00:40 MT read).
+- Prior-retro finding that bears on this: "a claim … lived on more than one surface, and the fix reached only one" (10-11, sweep shipped for the record name). It applies to the cue and its aria-label here.
+
+### Permission
+
+Lane-owned component and copy. I-031 is `open`, nothing is parked, and no card is open. FigureScroller was "don't-touch" only for 10-09; the 10-10 manager review scoped the click-to-SVG as deliberate and out of scope, and it stays as is. Not touched: `public/data/spectral/`, `HashLink.tsx`, the /state bands, `judgedOn`, verdict wording. FigureScroller reaches every reader of the nine pages, so P3 runs a cross-family Codex review.
+
+### Next action
+
+**Kind:** improve. In `src/components/FigureScroller.tsx`:
+- **Measure.** Read overflow (`scrollWidth > clientWidth`) and the scroll position. Show the cue only while the figure actually overflows, so at lg+ (where the figure is drawn whole) nothing shows: data-driven, not a breakpoint.
+- **Edge cue.** A fade on each clipped side, plus a 44 px arrow button on that side that scrolls the figure by most of its visible width. The buttons sit outside the figure's link, so a click on them never opens the SVG, and they disappear at the end they point to.
+- **Mouse cue words.** Replace "Scroll sideways for the whole figure, or click it to open it full size" with words true for a mouse, naming the arrow at the edge and keeping the click. The touch cue ("Swipe sideways…") stays.
+- **Aria-label.** "Spectral-verdict figure, scrolls sideways" stays true; the buttons get their own labels.
+- **Check script.** `check-figure-cue.mjs` moves with the words, in the same commit.
+
+```
+node C:/dev/skylark/sinusoidal-cycles/tmp/c7-figure-900.mjs https://sinusoidalhistory.com C:/dev/skylark/sinusoidal-cycles/tmp/c7-frames-before 900 900
+```
+
+(Already run: that is tonight's "before". The same script reads the "after".)
+
+### Acceptance condition (observable)
+
+1. Headed at 900x900 on all nine pages, before and after: overflow (unchanged, 196 px), scrollbar (unchanged), and **edge cue visible at the cut: no → yes**. A click on the right arrow moves the figure and does not open the SVG. At the right end the right arrow is gone and the left one shows.
+2. Every cue line shown to a mouse is true for a plain mouse; the frame is read as an image. The touch cue at 390 is unchanged.
+3. At 1440x900 (figure drawn whole, no overflow) no edge cue and no cue line show, on all nine.
+4. At 390x664 (touch) the swipe still moves the figure. The edge cue shows at the cut, and the Back-restores-place behaviour (I-018) still holds: `check-verdict-landing` stays green on production.
+5. `check-figure-cue` and `check-entry-folds` pass on production after deploy. The rendered-text multiset changes only in the cue line(s) and the new button labels.
+6. Typecheck, lint, the touched tests and CI are green; the deploy row reads live; then live frames.
+
+### Delivery and encounter checks
+
+- Delivery: the headed 900x900 read and the 390 and 1440 reads against production after the deploy row reads live; frames named in the close.
+- Encounter: blind. The 10-13 W-004 walk's step (2) ("About 900x900 with a mouse … what did the cue tell you to do, and could you see the whole figure?") reads it, N=1 synthetic.
+
+### USER-FACING: yes
+
+Paths: `src/components/FigureScroller.tsx`, `src/app/(app)/cycles/[id]/page.tsx` (cue words), `scripts/check-figure-cue.mjs`, and a test for the overflow/arrow logic. No `public/*.md` mirror states the instruction (grep above).
+
+**Second, if time:** I-006 (the og card's "Ten long-wave cycles of history", `src/app/og/route.tsx:191`), derived from `cycles.length` and pinned by a test, taken between the I-031 push and its CI read.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none. Read: `check-due-gates-dispositioned --print` at ~02:30 MT 2026-10-11, "0 gate(s) due on/before 2026-10-11" (41 swept). Today's snapshot (taken ~00:40 MT) is CURRENT and was not retaken.
+- (b) Owed child rows in the orchestrator's ledger: none. Read: last kickoff "rows owed to you", 0 of 749 (2026-10-11T02:24Z).
+- (c) State reads marked CROSSED: none. Read: the last kickoff state block. Not measured, not clean: missingLinkedCommits 0 of 0; key-metrics has no list.
+
+[standing-rules-hash: 88cc2dc9]

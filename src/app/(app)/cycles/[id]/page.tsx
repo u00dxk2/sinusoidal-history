@@ -633,9 +633,13 @@ export default async function CyclePage({ params }: Params) {
               <p className="hidden pointer-coarse:block text-ink-soft">
                 Swipe sideways for the whole figure
               </p>
+              {/* True for a plain mouse (I-031): the arrows at the figure's
+                  edges move it; a plain wheel moves the page, so the cue no
+                  longer says "scroll". It names "edges", not "the right edge",
+                  because at the right end the right arrow is gone and the
+                  left one shows (manager review 2026-10-11). */}
               <p className="pointer-coarse:hidden text-ink-soft">
-                Scroll sideways for the whole figure, or click it to open it
-                full size
+                {"Wider than this window: use the arrows at its edges to see the rest, or click it to open it full size"}
               </p>
             </div>
             <FigureScroller
