@@ -129,16 +129,14 @@ export default async function CyclePage({ params }: Params) {
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
   const year = new Date().getUTCFullYear();
-  // The paired series as the home chart draws it. A read that fails leaves the
-  // figure as the sinusoid alone, with no key naming a line that is not drawn.
-  let overlay: NormalizedPoint[] = [];
-  if (series) {
-    try {
-      overlay = chartLinePoints(series, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end);
-    } catch {
-      overlay = [];
-    }
-  }
+  // The paired series as the home chart draws it. Not caught on purpose: the CSV
+  // is a committed file, so a failed read is a bug. Thrown, it fails the build,
+  // and on an ISR revalidation Next keeps serving the last good page; caught, a
+  // revalidation would quietly replace that page with one that has no line
+  // (Codex review 2026-10-10).
+  const overlay: NormalizedPoint[] = series
+    ? chartLinePoints(series, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end)
+    : [];
   const positionSentence = yearPositionSentence(cycle, year);
 
   return (
@@ -351,8 +349,10 @@ export default async function CyclePage({ params }: Params) {
           below a real phone's visible viewport (390x664 — an iPhone 14 in
           Safari, not the 844px CSS viewport, which cleared it and hid the
           problem). It is reference data a stranger reads AFTER deciding the
-          page is worth reading, and it belongs against the curve that plots
-          it. Measured: tmp/measure-fold.mjs, and the committed 390 frames. */}
+          page is worth reading. Since I-033 (2026-10-10) the curve is drawn
+          right under the title, above the verdict; the figure's own caption
+          carries the period and peak there, so this list stays down here.
+          Measured: tmp/measure-fold.mjs, and the committed 390 frames. */}
       <dl className="mt-8 flex flex-wrap gap-x-7 gap-y-2 font-mono text-[11px] uppercase tracking-[0.16em] text-ink-soft">
         <div className="flex gap-2">
           <dt className="text-ink-soft/70">Period</dt>
@@ -867,8 +867,8 @@ function CurveFigure({
     nowPct > 80 ? "-translate-x-full" : nowPct < 20 ? "" : "-translate-x-1/2";
 
   return (
-    // mt-4, not mt-8: the metadata list now sits directly above and reads as
-    // this figure's lead-in rather than as a free-floating block.
+    // mt-4: since I-033 the figure sits directly under the title's rule, above
+    // the verdict box.
     <figure className="mt-4">
       <div className="relative">
         <svg
