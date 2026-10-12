@@ -70,17 +70,26 @@ function expectedSentence(e, year) {
 const matches = (text, e, year) => text.startsWith(`${expectedSentence(e, year)} That is a position`);
 
 // The figure's "now" dot, read back from pixels into (year, value) — the inverse of the page's
-// x()/y() in CurveFigure (viewBox 900x150, padY 14), so the page's own numbers are never trusted:
-// only where the dot actually landed on the drawn SVG. start/end come from the figcaption's
-// first and last labels. Added 2026-09-29 (round 2): until then the only marked point on the
-// curve was the reference peak.
-function dotReading(svg, dot, start, end) {
+// x()/y() in CurveFigure, so the page's own numbers are never trusted: only where the dot actually
+// landed on the drawn SVG. start/end come from the figcaption's first and last labels. Added
+// 2026-09-29 (round 2): until then the only marked point on the curve was the reference peak.
+//
+// Since I-033 shape (a) (2026-10-12) the curve has two geometries, chosen by the drawn SVG's
+// viewBox height: a page with no record keeps one 150-unit band (padY 14); a page with a record
+// draws a 164-unit figure whose curve band is the top 104 units (padY 10), the record in a
+// strip below. Written out here so this script stands alone. An unknown viewBox reads NaN, which
+// never agrees: a new geometry is a refusal to judge, not a guess.
+const CURVE_GEOMETRY = { 150: { band: 150, pad: 14 }, 164: { band: 104, pad: 10 } };
+function dotReading(svg, dot, start, end, viewBoxHeight) {
+  const g = CURVE_GEOMETRY[viewBoxHeight];
   const cx = dot.x + dot.width / 2 - svg.x;
   const cy = dot.y + dot.height / 2 - svg.y;
-  const pad = (14 / 150) * svg.height;
+  const scale = svg.height / viewBoxHeight;
+  const band = g ? g.band * scale : NaN;
+  const pad = g ? g.pad * scale : NaN;
   return {
     year: start + (cx / svg.width) * (end - start),
-    value: (svg.height / 2 - cy) / (svg.height / 2 - pad),
+    value: (band / 2 - cy) / (band / 2 - pad),
   };
 }
 // At 1280 wide the figure is ~700px across: ~0.6 years and ~0.02 of cos per pixel.
@@ -122,19 +131,26 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "match" : "no match"}`);
   }
-  // Dot arms: a 700x116.67 svg at the origin, window 1600-2050. Dalio 2026 (cos +1.00) sits at
-  // x = 426/450·700 = 662.7, y = pad = 10.89; a 10px dot is centred there.
-  const svg = { x: 0, y: 0, width: 700, height: 700 * 150 / 900 };
+  // Dot arms, window 1600-2050. Dalio 2026 (cos +1.00) sits at x = 426/450·700 = 662.7, at the
+  // top of the curve band (y = pad); a 10px dot is centred there. Unpaired: a 700x116.67 svg,
+  // pad 14·(700/900) = 10.89. Paired: a 700x127.56 svg, pad 10·(700/900) = 7.78, curve band
+  // 104·(700/900) = 80.89 tall, so its midline is 40.44 — NOT the svg's own middle.
   const at = (cx, cy) => ({ x: cx - 5, y: cy - 5, width: 10, height: 10 });
-  const pad = (14 / 150) * svg.height;
+  const s = 700 / 900;
+  const one = { x: 0, y: 0, width: 700, height: 150 * s };
+  const two = { x: 0, y: 0, width: 700, height: 164 * s };
   const dots = [
-    ["dot on dalio 2026", at(662.7, pad), true],
-    ["dot 4px right (a later year)", at(666.7, pad), false],
-    ["dot on the midline (cos 0)", at(662.7, svg.height / 2), false],
-    ["dot at the reference peak 1950", at((350 / 450) * 700, pad), false],
+    ["unpaired: dot on dalio 2026", one, 150, at(662.7, 14 * s), true],
+    ["unpaired: dot 4px right (a later year)", one, 150, at(666.7, 14 * s), false],
+    ["unpaired: dot on the midline (cos 0)", one, 150, at(662.7, one.height / 2), false],
+    ["unpaired: dot at the reference peak 1950", one, 150, at((350 / 450) * 700, 14 * s), false],
+    ["paired: dot on dalio 2026", two, 164, at(662.7, 10 * s), true],
+    ["paired: dot on the curve band's midline (cos 0)", two, 164, at(662.7, 52 * s), false],
+    ["paired: read with the unpaired geometry", two, 150, at(662.7, 10 * s), false],
+    ["unknown viewBox height", two, 170, at(662.7, 10 * s), false],
   ];
-  for (const [name, dot, want] of dots) {
-    const got = dotAgrees(dotReading(svg, dot, 1600, 2050), 2026, 1);
+  for (const [name, svg, vbh, dot, want] of dots) {
+    const got = dotAgrees(dotReading(svg, dot, 1600, 2050, vbh), 2026, 1);
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "agrees" : "disagrees"}`);
   }
@@ -238,15 +254,17 @@ for (const entry of state.cycles) {
     continue;
   }
   const fig = wide.locator("figure", { has: dot });
-  const svgBox = await fig.locator("svg").first().boundingBox();
+  const svgEl = fig.locator("svg").first();
+  const svgBox = await svgEl.boundingBox();
+  const viewBoxHeight = Number((await svgEl.getAttribute("viewBox"))?.split(/\s+/)[3]);
   const caps = await fig.locator("figcaption > span").allInnerTexts();
   const start = Number(caps[0]);
   const end = Number(caps[caps.length - 1]);
-  const r = dotReading(svgBox, await dot.boundingBox(), start, end);
+  const r = dotReading(svgBox, await dot.boundingBox(), start, end, viewBoxHeight);
   check(
     `${tag} figure's dot = API ${state.year} (cos ${fmtCos(entry.cos)})`,
     dotAgrees(r, state.year, entry.cos),
-    `read year ${r.year.toFixed(1)}, value ${r.value.toFixed(2)} (window ${start}-${end})`
+    `read year ${r.year.toFixed(1)}, value ${r.value.toFixed(2)} (window ${start}-${end}, viewBox height ${viewBoxHeight})`
   );
   // How close the now-line sits to the reference-peak marker (Turchin: 2020 vs 2026).
   const peak = await fig.locator('[data-mark="ref-peak"]').boundingBox();
