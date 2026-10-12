@@ -23,11 +23,16 @@
 //   3. FIT: a frame that is not a multi-cycle facet stack shows its whole document and its own
 //      attribution link ("via Sinusoidal History") is visible. The multi-cycle facet stack is the one
 //      declared scroller; the overlay is declared wide-only (in a frame under 640px its legend stacks
-//      above the chart, so it may scroll there), and the docs page must SAY so, visibly, in the
-//      overlay snippet's own block. A state-only frame shows every cycle's row (the API's count);
-//   4. a single-cycle embed draws THAT cycle's curve (its aria-label names the cycle, and its
-//      path[data-curve="theory"] — never the data series beside it — is stroked and spans at least
-//      half the chart's height) at least 180px tall, visible;
+//      above the chart, so it may scroll there), and the docs page must carry that note in the
+//      overlay snippet's own block, not display/visibility/opacity-hidden. NARROWED after Codex r3:
+//      that leg proves the note is PRESENT there, not that it is readable (ancestor clipping is not
+//      judged on the docs page). A state-only frame shows every cycle's row (the API's count);
+//   4. a single-cycle embed's chart is THAT cycle's (its aria-label names the cycle), at least 180px
+//      tall and visible, and its marked path[data-curve="theory"] — never the data series beside
+//      it — has a stroke colour, non-zero opacity and a geometry spanning at least half the chart.
+//      NARROWED after Codex r3 (third appearance of the hidden-curve class): this leg does NOT
+//      certify the line is painted — stroke width, dash and paint are not judged; a reviewer or a
+//      frame owns "can a reader see the line";
 //   5. a snippet with a peak./period. override calibrates something (the value differs from the
 //      published one in /api/v1/cycles), and that cycle's own [data-calibration-for] clause, visible,
 //      reads EXACTLY "<name>, <clauses>" as rebuilt here from the API — the override beside the
@@ -236,7 +241,7 @@ try {
       const p = [...block.querySelectorAll("p")].find((n) => /wider than 640px/.test(n.innerText));
       return !!p && p.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && p.getBoundingClientRect().height > 0;
     });
-    check("docs tell the writer, visibly, that the overlay wants a column wider than 640px", note === true);
+    check("docs carry the overlay's 'wider than 640px' note in its own block (presence, not readability)", note === true);
     await docs.close();
   }
   for (const vp of [{ w: 390, h: 844, mobile: true }, { w: 1440, h: 900, mobile: false }]) {
@@ -332,7 +337,7 @@ try {
           `${m.rowsSeen} of ${m.rows} rows visible, the API has ${published.length}`);
       }
       if (single) {
-        check(`${tag} ${single.id} curve ≥${MIN_CURVE_PX}px, painted and visible`, curveOk(m.curve, single.name),
+        check(`${tag} ${single.id} chart ≥${MIN_CURVE_PX}px, visible, with its marked theory path (paint not judged)`, curveOk(m.curve, single.name),
           m.curve ? `${m.curve.h}px (path ${m.curve.pathH}px), ${m.curve.visible ? "visible" : "not visible"}, "${m.curve.label.slice(0, 50)}"` : "no curve");
       }
       const ids = [...new Set(s.overrides.map((o) => o.id))];
