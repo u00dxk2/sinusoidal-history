@@ -9,6 +9,7 @@ import CycleFacet from "./CycleFacet";
 import FacetTimeAxis from "./FacetTimeAxis";
 import CycleOverlay from "./CycleOverlay";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
+import { calibrationClauses } from "@/lib/embedCalibration";
 import { useOverridesState, useRangeState, parseRange } from "@/lib/urlState";
 
 type EmbedViewName = "facets" | "overlay" | "state-only";
@@ -76,22 +77,7 @@ export default function EmbedView({
   // and not the site's. The facet's own "cal" tag is md+ only, and an iframe
   // is usually narrower than that (I-037).
   const calibrated = filteredCycles.flatMap((c) => {
-    const ov = overrides[c.id];
-    if (!ov) return [];
-    const parts: string[] = [];
-    if (
-      ov.reference_peak_year !== undefined &&
-      ov.reference_peak_year !== c.reference_peak_year
-    ) {
-      parts.push(
-        `peak ${ov.reference_peak_year} (the site's reference peak is ${c.reference_peak_year})`
-      );
-    }
-    if (ov.period_years !== undefined && ov.period_years !== c.period_years) {
-      parts.push(
-        `period ${ov.period_years}y (the site's is ${c.period_years}y)`
-      );
-    }
+    const parts = calibrationClauses(c, overrides[c.id]);
     return parts.length > 0 ? [{ id: c.id, name: c.name, parts }] : [];
   });
 

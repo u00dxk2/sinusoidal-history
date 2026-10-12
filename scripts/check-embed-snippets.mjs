@@ -5,30 +5,40 @@
 //   node scripts/check-embed-snippets.mjs --selftest   (red arms, no network)
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 2 REFUSED, 3 any FAIL.
-// Flow 3 (docs/key-user-flows.md), written for I-037 (2026-10-11 round 4). The snippets are copied
-// off the served docs page, byte for byte, the way a writer copies them; their src host is pointed
-// at the origin under test so a local build can be judged before it ships. Each is pasted into a
-// blank page served from 127.0.0.1 and rendered at 390x844 (touch) and 1440x900. Stated rules, per
-// snippet and width — none of them is a pixel count measured today:
+// Flow 3 (docs/key-user-flows.md), written for I-037 (2026-10-11 round 4). Each snippet is the
+// served <pre> text, decoded and pasted AS SERVED — only its production host is pointed at the
+// origin under test, so a local build can be judged before it ships (Codex r1: an earlier version
+// rebuilt the iframe and dropped the served attributes). It goes into a blank page served from
+// 127.0.0.1 and is rendered at 390x844 (touch) and 1440x900. "Visible" below always means: the
+// element has a positive box, passes checkVisibility (display, visibility, opacity), and lies
+// inside the frame's viewport. Stated rules — none is a pixel count measured today:
+//   0. POPULATION: the docs serve a state-only snippet and a single-cycle snippet that overrides
+//      something. A rule cannot pass by its snippet being deleted.
 //   1. the src answers 200 with frame-ancestors * and no X-Frame-Options value, and the frame loads;
 //   2. no horizontal overflow inside the frame;
-//   3. FIT: a frame that is not a multi-cycle facet stack shows its whole document, so its own
-//      attribution link ("via Sinusoidal History") is inside the visible frame. A multi-cycle facet
-//      stack is the one declared scroller (ten charts do not fit a paragraph's worth of page), and
-//      the overlay is declared wide-only: in a frame under 640px its legend stacks above the chart,
-//      so it may scroll there, and the docs page must say so (its own leg);
-//   4. a single-cycle embed draws its curve at least 180px tall, wholly inside the visible frame;
+//   3. FIT: a frame that is not a multi-cycle facet stack shows its whole document and its own
+//      attribution link ("via Sinusoidal History") is visible. The multi-cycle facet stack is the one
+//      declared scroller; the overlay is declared wide-only (in a frame under 640px its legend stacks
+//      above the chart, so it may scroll there), and the docs page must SAY so, visibly, in the
+//      overlay snippet's own block. A state-only frame shows every cycle's row (the API's count);
+//   4. a single-cycle embed draws THAT cycle's curve (its aria-label names the cycle, its path is
+//      painted across at least half the chart's height) at least 180px tall, visible;
 //   5. a snippet with a peak./period. override calibrates something (the value differs from the
-//      published one in /api/v1/cycles), and the frame says so in visible text that names the
-//      override and the published value;
-//   6. no tap target does nothing: every enabled button in the frame changes the frame's DOM when
-//      clicked, and every link has a real href.
-// Red arm: production before I-037 fails 3 on state-only, Huntington and the overlay at 1440 (and
-// the overlay's docs note is absent), 4 on Huntington (a 60px curve), 5 on Huntington (1968 IS the
+//      published one in /api/v1/cycles), and the frame's visible calibration line carries the cycle's
+//      name and the exact clause rebuilt here from the API — the override beside the site's value,
+//      and the site's reference peak always named (the review's contract);
+//   6. no tap target does nothing: each enabled button, clicked with a real pointer, changes the
+//      frame's DOM; every link has a real href.
+// Red arm (measured 2026-10-12: 25/42 PASS, 17 legs FAIL): production before I-037 fails 3 on state-only, Huntington and the overlay at 1440 (and the
+// overlay's docs note is absent), 4 on Huntington (a 60px curve), 5 on Huntington (1968 IS the
 // published peak, so the "calibration" example calibrated nothing) and 6 on every facet header.
-// Blind to: snippets a writer composes by hand from the query-param list (only the four served
-// snippets are pasted), widths other than the two named, and real hosts' CSS (the paste page is
-// bare, like a Substack body).
+// Blind to (its ceiling, stated so nobody adds matchers to chase it): snippets a writer composes by
+// hand from the query-param list; widths other than the two sampled (a 358px and a 680px column —
+// nothing here proves a continuous range, and a column under 358px wraps text the fixed heights
+// do not cover); real hosts' CSS (the paste page is bare, like a Substack body); whether a button
+// does what its label says (rule 6 proves it does SOMETHING), and click targets that are not
+// buttons (the overlay's pin-year area); the curve's shape against the math (check-year-position
+// and the unit tests own that).
 import http from "node:http";
 import { chromium } from "playwright";
 
@@ -54,23 +64,38 @@ const parseSnippet = (code) => {
     if (m) overrides.push({ kind: m[1], id: m[2], value: Number(v) });
   }
   return {
-    src, height, view, ids, overrides,
+    code, src, height, view, ids, overrides,
     single: view === "facets" && ids.length === 1,
     scroller: view === "facets" && ids.length !== 1,
     wideOnly: view === "overlay",
   };
 };
+const populationGaps = (snips) => {
+  const gaps = [];
+  if (!snips.some((s) => s.view === "state-only")) gaps.push("no state-only snippet");
+  if (!snips.some((s) => s.single && s.overrides.length > 0)) gaps.push("no single-cycle snippet with an override");
+  return gaps;
+};
 const frameHeaders = (status, csp, xfo) =>
   status === 200 && /frame-ancestors \*/.test(csp ?? "") && !(xfo ?? "").trim();
 const fits = (m) => m.sh <= m.ch + 1 && m.footerVisible;
-const curveOk = (c) => !!c && c.h >= MIN_CURVE_PX && c.top >= 0 && c.bottom <= c.frameH + 1;
+const curveOk = (c, name) =>
+  !!c && c.label.startsWith(`${name} curve from`) && c.visible && c.h >= MIN_CURVE_PX && c.pathH >= c.h / 2;
 const overrideCalibrates = (ov, published) =>
   published !== undefined && ov.value !== (ov.kind === "peak" ? published.reference_peak_year : published.period_years);
-const disclosed = (text, ov, published) => {
-  if (!text) return false;
-  const want = ov.kind === "peak" ? published.reference_peak_year : published.period_years;
-  return text.includes(String(ov.value)) && text.includes(String(want));
+// Every override on one cycle, as the clauses the page must print — rebuilt from the API, never by
+// importing src/lib/embedCalibration.ts, so a bug there cannot pass itself.
+const expectedClauses = (ovs, pub) => {
+  const peak = ovs.find((o) => o.kind === "peak" && o.value !== pub.reference_peak_year);
+  const period = ovs.find((o) => o.kind === "period" && o.value !== pub.period_years);
+  const out = [];
+  if (peak) out.push(`peak ${peak.value} (the site's reference peak is ${pub.reference_peak_year})`);
+  if (period) out.push(`period ${period.value}y (the site's is ${pub.period_years}y)`);
+  if (!peak && period) out.push(`the site's reference peak ${pub.reference_peak_year}`);
+  return out;
 };
+const disclosed = (text, pub, clauses) =>
+  !!text && clauses.length > 0 && text.includes(`${pub.name}, ${clauses.join(", ")}`);
 
 if (process.argv.includes("--selftest")) {
   let bad = 0;
@@ -80,18 +105,21 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got}`);
   };
-  const pre = (src, h) => `<pre class="x">&lt;iframe\n  src=&quot;${src}&quot;\n  height=&quot;${h}&quot;\n&gt;&lt;/iframe&gt;</pre>`;
+  const pre = (src, h) => `<pre class="x">&lt;iframe\n  src=&quot;${src}&quot;\n  height=&quot;${h}&quot;\n  loading=&quot;lazy&quot;\n&gt;&lt;/iframe&gt;</pre>`;
   const docs = `<p>x</p>${pre(`${PROD}/embed?view=state-only`, 360)}${pre(`${PROD}/embed?view=facets&amp;cycles=huntington&amp;peak.huntington=1968`, 280)}<pre>not a snippet</pre>`;
   const sn = snippetsFrom(docs);
   t("two snippets parsed off docs HTML", sn.length, 2);
   const hun = parseSnippet(sn[1]);
+  t("served attributes kept for the paste", /loading="lazy"/.test(hun.code), true);
   t("huntington is single", hun.single, true);
   t("huntington override parsed", `${hun.overrides[0]?.kind}.${hun.overrides[0]?.id}=${hun.overrides[0]?.value}`, "peak.huntington=1968");
   t("state-only is not a scroller", parseSnippet(sn[0]).scroller, false);
   t("all-cycle facets is a scroller", parseSnippet(`<iframe src="${PROD}/embed?view=facets&range=modern" height="900">`).scroller, true);
-  t("overlay is not a scroller", parseSnippet(`<iframe src="${PROD}/embed?view=overlay" height="620">`).scroller, false);
   t("overlay is wide-only", parseSnippet(`<iframe src="${PROD}/embed?view=overlay" height="620">`).wideOnly, true);
   t("single-cycle is not wide-only", hun.wideOnly, false);
+  t("population: both present → no gap", populationGaps([parseSnippet(sn[0]), hun]).length, 0);
+  t("population: huntington deleted → gap", populationGaps([parseSnippet(sn[0])]).join(), "no single-cycle snippet with an override");
+  t("population: state-only deleted → gap", populationGaps([hun]).join(), "no state-only snippet");
   t("headers ok", frameHeaders(200, "frame-ancestors *", ""), true);
   t("headers: XFO set → red", frameHeaders(200, "frame-ancestors *", "DENY"), false);
   t("headers: no CSP → red", frameHeaders(200, null, null), false);
@@ -99,17 +127,26 @@ if (process.argv.includes("--selftest")) {
   t("fit: production state-only (666 in 360) → red", fits({ sh: 666, ch: 360, footerVisible: false }), false);
   t("fit: content inside, footer seen → green", fits({ sh: 700, ch: 700, footerVisible: true }), true);
   t("fit: content fits but footer hidden → red", fits({ sh: 700, ch: 700, footerVisible: false }), false);
-  t("curve: production 60px → red", curveOk({ h: 60, top: 200, bottom: 260, frameH: 280 }), false);
-  t("curve: 200px inside → green", curveOk({ h: 200, top: 90, bottom: 290, frameH: 480 }), true);
-  t("curve: 200px but cut by the frame → red", curveOk({ h: 200, top: 200, bottom: 400, frameH: 280 }), false);
-  t("curve: none drawn → red", curveOk(null), false);
-  const pub = { reference_peak_year: 1968, period_years: 60 };
+  const H = "Huntington — creedal passion";
+  const curve = (o) => ({ label: `${H} curve from 1600 to 2050`, visible: true, h: 200, pathH: 160, ...o });
+  t("curve: production 60px → red", curveOk(curve({ h: 60, pathH: 48 }), H), false);
+  t("curve: 200px painted, visible → green", curveOk(curve(), H), true);
+  t("curve: 200px but cut by the frame → red", curveOk(curve({ visible: false }), H), false);
+  t("curve: empty svg (no painted path) → red", curveOk(curve({ pathH: 0 }), H), false);
+  t("curve: another cycle's curve → red", curveOk(curve({ label: "Kondratiev wave curve from 1600 to 2050" }), H), false);
+  t("curve: none drawn → red", curveOk(null, H), false);
+  const pub = { name: H, reference_peak_year: 1968, period_years: 60 };
   t("override 1968 = published → red", overrideCalibrates({ kind: "peak", value: 1968 }, pub), false);
   t("override 1972 → green", overrideCalibrates({ kind: "peak", value: 1972 }, pub), true);
   t("override for unknown cycle → red", overrideCalibrates({ kind: "peak", value: 1972 }, undefined), false);
-  t("disclosed names both → green", disclosed("peak 1972 (the site's reference peak is 1968)", { kind: "peak", value: 1972 }, pub), true);
-  t("disclosed missing published → red", disclosed("peak 1972", { kind: "peak", value: 1972 }, pub), false);
-  t("no disclosure line → red", disclosed(null, { kind: "peak", value: 1972 }, pub), false);
+  const peakOnly = expectedClauses([{ kind: "peak", value: 1972 }], pub);
+  const periodOnly = expectedClauses([{ kind: "period", value: 58 }], pub);
+  t("period-only override still names the reference peak", periodOnly.join(", "), "period 58y (the site's is 60y), the site's reference peak 1968");
+  t("disclosed: exact clause → green", disclosed(`Calibrated for this page, not the site's published values: ${H}, peak 1972 (the site's reference peak is 1968).`, pub, peakOnly), true);
+  t("disclosed: reversed attribution → red", disclosed(`${H}: the site's peak is 1972; this page uses 1968`, pub, peakOnly), false);
+  t("disclosed: period without the reference peak → red", disclosed(`${H}, period 58y (the site's is 60y).`, pub, periodOnly), false);
+  t("disclosed: no cycle name → red", disclosed("peak 1972 (the site's reference peak is 1968)", pub, peakOnly), false);
+  t("no disclosure line → red", disclosed(null, pub, peakOnly), false);
   console.log(`selftest: ${total - bad}/${total} ${bad ? "FAIL" : "PASS"}`);
   process.exit(bad ? 3 : 0);
 }
@@ -145,10 +182,8 @@ const check = (name, ok, detail = "") => {
   console.log(`${ok ? "PASS" : "FAIL"}  ${name}${detail ? "  — " + detail : ""}`);
 };
 console.log(`${snippets.length} snippets on ${origin}/embed/docs`);
-// The overlay's exemption below 640px is only honest if the writer is told before pasting it.
-if (snippets.some((s) => s.wideOnly)) {
-  check("docs tell the writer the overlay wants a column wider than 640px", /wider than 640px/.test(docsHtml));
-}
+const gaps = populationGaps(snippets);
+check("docs serve the state-only and the calibrated single-cycle snippet", gaps.length === 0, gaps.join("; "));
 
 for (const s of snippets) {
   const tag = s.src.replace(origin, "");
@@ -168,12 +203,26 @@ const server = http.createServer((req, res) => {
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const host = `http://127.0.0.1:${server.address().port}/`;
-// The writer's page: a bare essay column, the snippet pasted between two paragraphs.
+// The writer's page: a bare essay column, the served snippet pasted between two paragraphs.
 const pageFor = (s) =>
-  `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>a writer's page</title><style>body{font-family:Georgia,serif;max-width:680px;margin:0 auto;padding:16px}</style></head><body><p>Before the chart.</p><iframe src="${s.src}" width="100%" height="${s.height}" style="border:1px solid #e5e7eb;border-radius:8px"></iframe><p>After the chart.</p></body></html>`;
+  `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>a writer's page</title><style>body{font-family:Georgia,serif;max-width:680px;margin:0 auto;padding:16px}</style></head><body><p>Before the chart.</p>${s.code}<p>After the chart.</p></body></html>`;
 
 const browser = await chromium.launch();
 try {
+  // Rule 3's overlay exemption is only honest if the writer can READ the note, in that snippet's block.
+  if (snippets.some((s) => s.wideOnly)) {
+    const docs = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await docs.goto(`${origin}/embed/docs`, { waitUntil: "load" });
+    const note = await docs.evaluate(() => {
+      const pre = [...document.querySelectorAll("pre")].find((p) => /view=overlay/.test(p.textContent));
+      const block = pre?.parentElement;
+      if (!block) return null;
+      const p = [...block.querySelectorAll("p")].find((n) => /wider than 640px/.test(n.innerText));
+      return !!p && p.checkVisibility({ opacityProperty: true, visibilityProperty: true }) && p.getBoundingClientRect().height > 0;
+    });
+    check("docs tell the writer, visibly, that the overlay wants a column wider than 640px", note === true);
+    await docs.close();
+  }
   for (const vp of [{ w: 390, h: 844, mobile: true }, { w: 1440, h: 900, mobile: false }]) {
     for (const s of snippets) {
       const tag = `${vp.w} ${s.src.replace(origin, "")}`;
@@ -182,7 +231,12 @@ try {
       const page = await ctx.newPage();
       await page.goto(host, { waitUntil: "load" });
       await page.locator("iframe").scrollIntoViewIfNeeded();
-      const frame = page.frames().find((f) => f.url().startsWith(origin));
+      await page.waitForFunction((o) => [...document.querySelectorAll("iframe")].some((f) => f.src.startsWith(o)), origin);
+      let frame = null;
+      for (let i = 0; i < 40 && !frame; i++) {
+        frame = page.frames().find((f) => f.url().startsWith(origin)) ?? null;
+        if (!frame) await page.waitForTimeout(250);
+      }
       if (!frame) {
         check(`${tag} frame loads`, false, "no frame document");
         await ctx.close();
@@ -191,58 +245,86 @@ try {
       // Hydrated: the Suspense fallback is gone and every chart has measured its width.
       await frame.waitForFunction(() => !/loading…/.test(document.body.innerText) && document.querySelector("footer"), null, { timeout: 20000 }).catch(() => {});
       await page.waitForTimeout(1500);
-      const m = await frame.evaluate(() => {
+      const single = s.single ? byId[s.ids[0]] : null;
+      const m = await frame.evaluate((singleName) => {
         const d = document.documentElement;
         const vh = window.innerHeight;
+        const seen = (el) => {
+          if (!el) return false;
+          const b = el.getBoundingClientRect();
+          return b.width > 0 && b.height > 0 && b.top >= 0 && b.bottom <= vh + 1 &&
+            el.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+        };
         const via = [...document.querySelectorAll("footer a")].find((a) => /Sinusoidal History/.test(a.textContent));
-        const vb = via?.getBoundingClientRect();
-        const curves = [...document.querySelectorAll('svg[role="img"]')]
-          .filter((n) => /curve from/.test(n.getAttribute("aria-label") ?? ""))
-          .map((n) => n.getBoundingClientRect());
-        const big = curves.sort((a, b) => b.height - a.height)[0];
+        const rows = [...document.querySelectorAll('section[aria-label="State of the cycles summary"] li')];
+        let curve = null;
+        if (singleName) {
+          const svgs = [...document.querySelectorAll('svg[role="img"]')]
+            .filter((n) => /curve from/.test(n.getAttribute("aria-label") ?? ""));
+          const svg = svgs.sort((a, b) => b.getBoundingClientRect().height - a.getBoundingClientRect().height)[0];
+          if (svg) {
+            const painted = [...svg.querySelectorAll("path")].filter((p) => (p.getAttribute("d") ?? "").length > 20);
+            curve = {
+              label: svg.getAttribute("aria-label") ?? "",
+              visible: seen(svg),
+              h: Math.round(svg.getBoundingClientRect().height),
+              pathH: Math.round(Math.max(0, ...painted.map((p) => p.getBoundingClientRect().height))),
+            };
+          }
+        }
         const cal = document.querySelector("[data-embed-calibration]");
-        const cb = cal?.getBoundingClientRect();
         return {
           sw: d.scrollWidth, cw: d.clientWidth, sh: d.scrollHeight, ch: vh,
-          footerVisible: !!vb && vb.top >= 0 && vb.bottom <= vh + 1,
-          curve: big ? { h: Math.round(big.height), top: Math.round(big.top), bottom: Math.round(big.bottom), frameH: vh } : null,
-          calText: cal && cb.top >= 0 && cb.bottom <= vh + 1 && cb.height > 0 ? cal.textContent : null,
+          footerVisible: seen(via),
+          rows: rows.length, rowsSeen: rows.filter(seen).length,
+          curve,
+          calText: seen(cal) ? cal.textContent.replace(/\s+/g, " ") : null,
         };
-      });
+      }, single?.name ?? null);
       check(`${tag} frame loads`, true);
       check(`${tag} no horizontal overflow`, m.sw <= m.cw, `scrollWidth ${m.sw} / ${m.cw}`);
       if (s.wideOnly && m.cw < 640) {
-        console.log(`      ${tag}: declared wide-only (the docs say so), content ${m.sh}px in ${m.ch}px`);
+        console.log(`      ${tag}: declared wide-only (the docs-note leg above judges whether the writer is told), content ${m.sh}px in ${m.ch}px`);
       } else if (!s.scroller) {
         check(`${tag} fits its frame, attribution visible`, fits(m), `content ${m.sh}px in ${m.ch}px, footer ${m.footerVisible ? "seen" : "hidden"}`);
       } else {
         console.log(`      ${tag}: declared scroller, content ${m.sh}px in ${m.ch}px`);
       }
-      if (s.single) {
-        check(`${tag} curve ≥${MIN_CURVE_PX}px and in view`, curveOk(m.curve), m.curve ? `${m.curve.h}px, ${m.curve.top}-${m.curve.bottom} of ${m.curve.frameH}` : "no curve");
+      if (s.view === "state-only") {
+        check(`${tag} shows every cycle's row`, m.rows === published.length && m.rowsSeen === published.length,
+          `${m.rowsSeen} of ${m.rows} rows visible, the API has ${published.length}`);
       }
-      for (const ov of s.overrides) {
-        const pub = byId[ov.id];
-        check(`${tag} discloses ${ov.kind}.${ov.id}=${ov.value} beside the published value`, !!pub && disclosed(m.calText, ov, pub),
-          m.calText ? `"${m.calText.slice(0, 120)}"` : "no visible calibration line");
+      if (single) {
+        check(`${tag} ${single.id} curve ≥${MIN_CURVE_PX}px, painted and visible`, curveOk(m.curve, single.name),
+          m.curve ? `${m.curve.h}px (path ${m.curve.pathH}px), ${m.curve.visible ? "visible" : "not visible"}, "${m.curve.label.slice(0, 50)}"` : "no curve");
       }
-      // Rule 6: every enabled button changes the frame's DOM when clicked; every link has a real href.
-      const dead = await frame.evaluate(async () => {
-        const out = [];
-        for (const a of document.querySelectorAll("a")) {
-          const h = a.getAttribute("href");
-          if (!h || h === "#" || h.startsWith("javascript:")) out.push(`link "${a.textContent.trim().slice(0, 30)}" has no href`);
+      const ids = [...new Set(s.overrides.map((o) => o.id))];
+      for (const id of ids) {
+        const pub = byId[id];
+        const clauses = pub ? expectedClauses(s.overrides.filter((o) => o.id === id), pub) : [];
+        check(`${tag} discloses ${id}'s calibration beside the site's reference peak`, !!pub && disclosed(m.calText, pub, clauses),
+          m.calText ? `"${m.calText.slice(0, 140)}"` : "no visible calibration line");
+      }
+      // Rule 6: every link has a real href; every enabled button, pointer-clicked, changes the DOM.
+      const badLinks = await frame.evaluate(() =>
+        [...document.querySelectorAll("a")]
+          .filter((a) => { const h = a.getAttribute("href"); return !h || h === "#" || h.startsWith("javascript:"); })
+          .map((a) => `link "${a.textContent.trim().slice(0, 30)}" has no href`));
+      const buttons = frame.locator('button:not([disabled]), [role="button"]');
+      const n = await buttons.count();
+      const dead = [...badLinks];
+      for (let i = 0; i < n; i++) {
+        const b = buttons.nth(i);
+        const before = await frame.evaluate(() => document.body.innerHTML);
+        const ok = await b.click({ timeout: 3000 }).then(() => true, () => false);
+        await page.waitForTimeout(150);
+        const after = await frame.evaluate(() => document.body.innerHTML);
+        if (!ok || after === before) {
+          const label = ((await b.textContent()) || (await b.getAttribute("aria-label")) || "").trim().slice(0, 40);
+          dead.push(`button "${label}" ${ok ? "does nothing" : "cannot be clicked"}`);
         }
-        const buttons = [...document.querySelectorAll('button, [role="button"]')].filter((b) => !b.disabled);
-        for (const b of buttons) {
-          const before = document.body.innerHTML;
-          b.click();
-          await new Promise((r) => setTimeout(r, 150));
-          if (document.body.innerHTML === before) out.push(`button "${(b.textContent || b.getAttribute("aria-label") || "").trim().slice(0, 40)}" does nothing`);
-        }
-        return { out, buttons: buttons.length };
-      });
-      check(`${tag} no dead tap targets (${dead.buttons} buttons)`, dead.out.length === 0, dead.out.slice(0, 3).join("; "));
+      }
+      check(`${tag} no dead tap targets (${n} buttons)`, dead.length === 0, dead.slice(0, 3).join("; "));
       await ctx.close();
     }
   }
