@@ -701,3 +701,40 @@ hygiene helper: DISPATCHED ~01:20Z · draft tmp/hygiene-draft-sinusoidal-cycles-
 - Nothing waits on David.
 
 [standing-rules-hash: 88cc2dc9]
+---
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-036 · P3 ed86d258
+
+Manager review a833ef75 confirmed the acceptance against origin/main and production: 0 bare-cos matches, and /api/v1/cycles carries 3 "curve height ≈" and 0 "cos ≈".
+
+## Close (day session round 3, 2026-10-11)
+
+- **State changed since P3 (ed86d258):** none for readers. Docs commit 8aa16ee pushed.
+- **Ledger delta:**
+  - I-036 stays `monitoring`, nextEvaluation 2026-10-13. Its onTrigger now names the walk's three answers and the move for each:
+    1. perez "curve height"
+    2. turchin and strauss-howe rationale wording
+    3. the /state "cos +0.67" question, which decides a NEW row and leaves this one alone
+  - I-036 closeWhen: 95/95 on production (met) plus answers 1 and 2.
+  - I-036 linkedCommits: 0196b40, 62b69f1, 2466307. Its waitJustification.unWait now names the three answers.
+  - W-004: one note adds the /state step and points the turchin and strauss-howe step at the new wording.
+- **Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-r3.md`; inputs all `none`).
+  - READ-MUTATED: none, 0 reads guarded.
+  - check-wait-justification, re-run after the I-036 edits: "RESULT: PASS — 30 of 42 row(s) carry `waitJustification`; 0 warn / 1 info (exit 0)". The info line is I-034.
+  - check-engineering-zero (helper): "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed since.
+- **Due-gate verification:** "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-11, 0 rows; 42 swept).
+- **Receipt:** P3's receipt (ed86d258) still holds. Nothing new.
+- **Today panel:** written with `--date 2026-10-11`.
+- **Primer:** `docs/cold-starts/2026-10-11.md`, banner rewritten in place (1,314 chars). The first action for 2026-10-12 is check-year-position on production.
+- **Pending reads:**
+  - 2026-10-13: the W-004 walk (synthetic: a reading, not an encounter). It reads I-036's three answers, closes I-029 and I-030, and reads I-031, I-033 and I-035.
+  - 2026-10-20: I-027, I-034.
+  - 2026-11-04: W-005, I-032.
+  - 2026-12-01: I-025 (David).
+- **UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's two review runs are counted on P3 ed86d258) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
