@@ -345,3 +345,46 @@ hygiene helper: DISPATCHED 2026-10-12 ~19:06Z · draft tmp/hygiene-draft-sinusoi
 - Pending dated reads are unchanged: 10-20 I-027/I-034, 11-01 I-037, 11-04 W-005/I-032, 12-01 I-025.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+ACTION: COMPLETED · item I-033 · P3 5ed634be
+
+## Close (afternoon session round 2, 2026-10-12)
+
+The manager review bc014388 rated the action COMPLETED against the pre-registered pass. Its own live read: /cycles/turchin returns 200 with "drawn below on its own scale" and the 900x164 viewBox, and Render is live ca3ee657, which descends from 48a9320.
+
+**State changed since P3 (5ed634be):** none for readers. `ca3ee65` (report and walk notes, docs only) is pushed and live.
+
+**Ledger delta** (every write via `continuity-edit`, each printing "wrote 1 change(s)"):
+- **I-033:** linkedCommits + `5d5031a`, `375fc1f`, `48a9320`.
+- **I-033 → closed** on its closeWhen. The close note records the pass as HELD at 390x664 (synthetic N=1, w004-r3.md:11), with two ceilings written as ceilings:
+  - (1) on a long look, the small trace could be paired with the curve (w004-r3.md:25);
+  - (2) 320 legibility is measured as geometry only (strip 15.4px, record 12.2px) and was not walked. This is the manager's HYPOTHESIS, accepted: the walk ruled out a pass by invisibility at 390, not at 320.
+- **I-038 minted** (open, P3, nextEvaluation 2026-10-20, readCommand `check-entry-folds … --width 320 --height 568`). It covers:
+  - the hatch key's direction in time (two walks flagged it; box wording is don't-touch);
+  - a 320 glance walk on Turchin and Perez.
+
+**Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-12.md`, inputs none).
+- READ-MUTATED: "none: 0 reads guarded (no --run was executed)".
+- check-wait-justification (helper): "RESULT: PASS — 31 of 43 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)". Re-run after my edits: "RESULT: PASS — 31 of 44 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)".
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed today.
+
+**Due-gate verification:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-12, 0 rows, 44 swept).
+
+**Receipt:** P3's receipt (5ed634be) still holds. Nothing new.
+
+**Primer:** `docs/cold-starts/2026-10-12.md`, banner rewritten in place (1,341 chars). First action: `check-entry-folds` at 320x568 (nothing is due on 10-13).
+
+**Pending reads:**
+- 2026-10-20: I-027, I-034, I-038.
+- 2026-11-01: I-037.
+- 2026-11-04: W-005 (GSC click-through at ~100 impressions, the next meaningful read for the figure), I-032.
+- 2026-12-01: I-025 (David).
+
+**UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's two review runs are counted on P3 5ed634be) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
