@@ -1283,9 +1283,9 @@
       "nextEvaluation": "2026-10-20",
       "readCommand": "npm --prefix C:/dev/skylark/sinusoidal-cycles test",
       "waitingFor": "Nothing and nobody: this lane's own tests. Dated with I-027 so it is not a fresh substrate ship on a product day.",
-      "notes": "2026-10-11 (cycle 5 close): minted on the manager review's instruction (7447a3fb) to carry the finding.",
+      "notes": "2026-10-11 (cycle 5 close): minted on the manager review's instruction (7447a3fb) to carry the finding.\n\n | 2026-10-12 (round 4 night, evidence for this row): two more local full-suite reds under fleet memory pressure, both timeouts and both clean on their own. bareCos.test.ts \"no file in it has one\" took 6.1s against the 5s limit at 28bbb07; alone it passed with the tests taking 642ms, and the full re-run at the same commit was green 304/304. checkStagedSecrets.test.ts \"passes its own selftest\" took 68s against the 60s limit at 3d9541a, with 8.7 GB free and vitest's import phase at 206s. CI was GREEN on 8bb4dd4, the same code.",
       "created": "2026-10-11",
-      "updated": "2026-10-11"
+      "updated": "2026-10-12"
     },
     {
       "id": "I-035",

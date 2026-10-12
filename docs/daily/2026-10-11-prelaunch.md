@@ -913,3 +913,50 @@ hygiene helper: DISPATCHED 2026-10-12 ~05:10Z · draft `tmp/hygiene-draft-sinuso
 - **The 2026-10-13 W-004 walk** is untouched by this work. It touched no surface the walk judges: EmbedView is its own route, and the CycleFacet/FacetView props default to the old behaviour. `check-year-position` reads 95/95.
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+ACTION: COMPLETED · item I-037 · P3 330323f0
+
+## Close (night session round 4, 2026-10-11 rail day, closed 2026-10-12 ~04:00 MT)
+
+The manager review rated the action COMPLETED against the REDIRECT's six conditions.
+
+- **Delivery:** `check-embed-snippets` on production 42/42 (25/42 before the deploy). Live `8bb4dd43` = head per `check-deployed-sha-drift`. CI GREEN on `8bb4dd4`.
+- **Gate disclosure:** the local suite at `3d9541a` exited 1. `checkStagedSecrets` selftest timed out at 68s against a 60s limit while memory was tight. `3d9541a` is docs and ledger only over `8bb4dd4`. This is recorded as disclosed, not as green.
+
+**State changed since P3 (330323f0):** none for readers. The P5 prompt (inbox 4bc9f5d0, queued ~08:00Z) was marked surfaced in this session at 08:02Z but never reached the pane. My 08:16Z "P5 not queued +30m" (5e74f75e) was posted in that gap. The orchestrator re-sent the pointer at 09:42Z.
+
+**Ledger delta:**
+- **I-037:** `monitoring` (set at P3). linkedCommits f5a2e8e, 28bbb07, 69d5c94, 8bb4dd4. readCommand last run 2026-10-12, exit 0. waitJustification until 2026-11-01. closeWhen names the 11-01 read.
+- **I-034:** one note appended. Tonight's two local timeouts under memory pressure (`bareCos` 6.1s, `checkStagedSecrets` 68s) are more evidence for this row. Command: `continuity-edit --set I-034 --field notes --append-value-file tmp/i034-note.md`, which printed "wrote 1 change(s)".
+
+**Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected. `tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-r4.md`; inputs all `none`.
+- READ-MUTATED: "none — 0 reads guarded".
+- check-wait-justification: "RESULT: PASS — 30 of 42 row(s) carry `waitJustification`; 0 warn / 1 info (exit 0)". The info line is I-034. I-037 was given its waitJustification after the helper ran, so there are now 31 of 43.
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)". No lockfile changed since.
+
+**Due-gate verification:** "verdict: CLEAR — every gate due at Phase 0 was dispositioned" against the rail day's snapshot (taken 2026-10-11, 0 rows, 43 swept). The tool also prints "snapshot STALE · 1 MT day(s) old". That is because the close ran after MT midnight: the snapshot IS the rail day's (2026-10-11), and the rule is never to re-snapshot at close. Today's (10-12) snapshot belongs to the 10-12 day session's Phase 0.
+
+**Receipt:** P3's receipt (330323f0) still holds. Nothing new.
+
+**Today panel — and a clobber I caused and repaired:**
+- What happened: I ran `update-daily-brief --date 2026-10-11` as the P5 prompt says ("pass --date explicitly, always"). The server's brief had already rolled to 2026-10-12, with rows from agentic-news, quickbite and sound-shapes. "A different --date starts a fresh day", so my write reset the brief and dropped those three rows (commit b97fff19b; the file before it was 287ed15c0, 3 rows).
+- Repair: I restored the three rows verbatim from 287ed15c0 with `--file … --date 2026-10-12` (commit 9bc4a5deb: inserted 3, preserved dreamflyer, `reset: false`, 4 rows). Then I wrote this lane's row as a 10-12 row (commit e1439cd2a, 5 rows, all preserved). The ship landed 10-12 MT ~01:45.
+- Finding for the orchestrator: the P5 "--date = rail day" rule clobbers the next day's rows whenever a close runs after MT midnight and another lane has already written the new day.
+
+**Primer:** `docs/cold-starts/2026-10-12.md`, banner 1,153 chars. First action: `check-embed-snippets` on production.
+
+**Pending reads:**
+- 2026-10-13: the W-004 walk (I-029, I-030, I-031, I-033, I-035, I-036's three questions).
+- 2026-10-20: I-027, I-034.
+- 2026-11-01: I-037. One Render log line for /embed. Referer present → add a crawl-read leg; absent → close as delivered, encounter blind by construction.
+- 2026-11-04: W-005, I-032.
+- 2026-12-01: I-025 (David).
+
+**UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's three review runs are counted on P3 330323f0) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
