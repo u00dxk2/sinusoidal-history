@@ -11,7 +11,8 @@ import { describe, expect, it } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
 import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
-import { chartLineFromCsv, judgedRecord } from "@/lib/seriesOverlay";
+import { chartLineFromCsv, judgedRecord, missingYears } from "@/lib/seriesOverlay";
+import { spectralVerdictForCycle } from "@/lib/spectral";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
@@ -160,9 +161,32 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     const key = html.match(/<p data-key="paired-series"[^>]*>([\s\S]*?)<\/p>/);
     expect(key, `${slug}: no key`).not.toBeNull();
     const keyText = key![1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    // Every primary verdict is "not testable" today (verdicts.json), so every key also carries
+    // the clause that the resemblance is not a test (I-033, cold walk 2026-10-12).
+    const verdict = spectralVerdictForCycle(cycle.id)!;
+    expect(verdict.eligible).toBe(false);
     expect(keyText).toBe(
-      `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, rescaled to the curve's height`,
+      `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, rescaled to the curve's height. A shape that looks alike is not a test.`,
     );
+
+    // The hatch: the years a test would still need, just before the record. Its oracle is the
+    // record rebuilt from the manifest above and the cycle's own period, not missingYears():
+    // it ends where the record's first point is, and starts 3 periods before the record's
+    // last point, clipped to the window.
+    const hatch = html.match(
+      /<rect data-mark="missing-years" data-from="(-?\d+)" data-to="(-?\d+)" x="([^"]+)" y="0" width="([^"]+)"/,
+    );
+    expect(hatch, `${slug}: no hatch`).not.toBeNull();
+    const [, from, to, hx, hw] = hatch!.map(Number);
+    const first = want[0].year;
+    const last = want[want.length - 1].year;
+    expect(to).toBe(first);
+    expect(from).toBe(last - 3 * cycle.period_years);
+    expect(hx).toBeCloseTo(((Math.max(start, from) - start) / (end - start)) * W, 1);
+    expect(hx + hw).toBeCloseTo(((first - start) / (end - start)) * W, 1);
+    expect(hw).toBeGreaterThan(0);
+    expect(html).toContain('<span data-key="missing-years"');
+    expect(html).toContain("Hatched before it: the years a test still needs. A shape that looks alike is not a test.");
     expect(html).toContain(
       `Drawn over it: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts, rescaled to the curve's height.`,
     );
@@ -174,6 +198,16 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(descriptionAt, `${slug}: no description paragraph`).toBeGreaterThan(-1);
     expect(verdictAt).toBeGreaterThan(figureAt);
     expect(descriptionAt).toBeGreaterThan(verdictAt);
+  });
+
+  // No real verdict is eligible, so these arms are fixtures.
+  it("hatches nothing on an eligible verdict, or when the record already spans 3 periods", () => {
+    expect(missingYears({ eligible: true, period_years: 50, span_years: 100 }, 2020)).toBeNull();
+    expect(missingYears({ eligible: false, period_years: 50, span_years: 150 }, 2020)).toBeNull();
+    expect(missingYears({ eligible: false, period_years: 50, span_years: 100 }, 2020)).toEqual({
+      from: 1870,
+      to: 1920,
+    });
   });
 
   it("the two cuts draw their own record, not the chart's series", () => {
@@ -191,6 +225,8 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
       expect(html).not.toContain('data-mark="paired-series"');
       expect(html).not.toContain('data-key="paired-series"');
       expect(html).not.toContain("Drawn over it:");
+      expect(html).not.toContain('data-mark="missing-years"');
+      expect(html).not.toContain('data-key="missing-years"');
       expect(html.indexOf('id="does-it-hold-up"')).toBeGreaterThan(html.indexOf('role="img"'));
       expect(html.indexOf(`>${cycle.short_description}</p>`)).toBeGreaterThan(
         html.indexOf('id="does-it-hold-up"'),

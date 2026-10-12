@@ -35,9 +35,16 @@ import {
   spectralDraws,
   spectralHeadline,
   spectralVerdictForCycle,
+  type SpectralVerdictRow,
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
-import { chartLinePoints, judgedRecord, type JudgedRecord } from "@/lib/seriesOverlay";
+import {
+  chartLinePoints,
+  judgedRecord,
+  MISSING_CLAUSE,
+  missingYears,
+  type JudgedRecord,
+} from "@/lib/seriesOverlay";
 import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
   NO_SERIES_HEADLINE,
@@ -236,7 +243,13 @@ export default async function CyclePage({ params }: Params) {
           The description now follows the verdict. The figure reads its own
           period and peak in its caption, so the stats line stays below with the
           "Paired data" and "Judged on" entries. */}
-      <CurveFigure cycle={cycle} year={year} judged={judged} overlay={overlay} />
+      <CurveFigure
+        cycle={cycle}
+        year={year}
+        judged={judged}
+        overlay={overlay}
+        verdict={verdict}
+      />
 
       {/* The question a stranger arrives with is "is this real, and how would I
           know?" — and until 2026-09-16 the answer sat ~4 sections down, after the
@@ -815,6 +828,7 @@ function CurveFigure({
   year,
   judged,
   overlay,
+  verdict,
 }: {
   cycle: Cycle;
   year: number;
@@ -822,6 +836,8 @@ function CurveFigure({
   judged: JudgedRecord | null;
   /** That record as the home chart normalises a series; empty draws no line and no key. */
   overlay: NormalizedPoint[];
+  /** The pairing's verdict; a not-testable one hatches the years a test still needs. */
+  verdict: SpectralVerdictRow | null;
 }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
   const width = 900;
@@ -843,6 +859,19 @@ function CurveFigure({
   const seriesPoints = drawnSeries
     ? overlay.map((p) => `${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`)
     : [];
+
+  // The years a test would still need, hatched just before the record (I-033, cold walk
+  // 2026-10-12). A reader who looked at the line without reading the key took its swing
+  // for the cycle fitting; the hatch puts the shortfall in the picture itself. Only on a
+  // not-testable verdict, and clipped to the window (Turchin's runs off its left edge).
+  const missing =
+    drawnSeries && verdict
+      ? missingYears(verdict, overlay[overlay.length - 1].year)
+      : null;
+  const hatch =
+    missing && missing.to > start
+      ? { x1: x(Math.max(start, missing.from)), x2: x(Math.min(end, missing.to)) }
+      : null;
 
   const centuryTicks: number[] = [];
   for (let year = Math.ceil(start / 100) * 100; year <= end; year += 100) {
@@ -880,9 +909,38 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.fullName}, the record the verdict counts, rescaled to the curve's height.` : ""}`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.fullName}, the record the verdict counts, rescaled to the curve's height.` : ""}${hatch ? ` Hatched before it: the years a test still needs. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
+          {hatch && (
+            <>
+              {/* Stripes 4 units wide every 12, so a phone's ~0.35 scale still
+                  draws them at about 1.4px. */}
+              <defs>
+                <pattern
+                  id={`missing-${cycle.id}`}
+                  width="12"
+                  height="12"
+                  patternUnits="userSpaceOnUse"
+                  patternTransform="rotate(45)"
+                >
+                  <line x1="0" y1="0" x2="0" y2="12" stroke="currentColor" strokeWidth="4" />
+                </pattern>
+              </defs>
+              <rect
+                data-mark="missing-years"
+                data-from={missing!.from}
+                data-to={missing!.to}
+                x={hatch.x1}
+                y={0}
+                width={hatch.x2 - hatch.x1}
+                height={height}
+                fill={`url(#missing-${cycle.id})`}
+                className="text-ink"
+                opacity="0.16"
+              />
+            </>
+          )}
           <line
             x1="0"
             y1={height / 2}
@@ -987,15 +1045,42 @@ function CurveFigure({
           />
         )}
       </div>
-      {showNow && (
+      {(showNow || hatch) && (
         <div aria-hidden className="relative h-4 mt-1">
-          <span
-            data-mark="now-label"
-            className={`absolute top-0 ${nowLabelShift} whitespace-nowrap font-mono text-[11px] leading-4 tabular-nums font-medium text-ink`}
-            style={{ left: `${nowPct}%` }}
-          >
-            {`now · ${year}`}
-          </span>
+          {/* The hatch's key, in the row's empty left side: "now · <year>" sits at
+              ~95% and is end-anchored, so the two never meet from 320px up. */}
+          {hatch && (
+            <span
+              data-key="missing-years"
+              className="absolute top-0 left-0 whitespace-nowrap text-[11px] leading-4 italic text-ink-soft"
+            >
+              {/* Its own stripes, not the figure's pattern: that pattern is laid
+                  out in the figure's units, and in a 12-unit swatch its stripes
+                  fell on the corners and the swatch read as empty. */}
+              <svg
+                aria-hidden
+                viewBox="0 0 12 12"
+                className="inline-block w-3 h-3 mr-1.5 align-[-2px] text-ink"
+              >
+                <path
+                  d="M-2 4 L4 -2 M-2 10 L10 -2 M2 14 L14 2 M8 14 L14 8"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  opacity="0.45"
+                />
+              </svg>
+              years a test still needs
+            </span>
+          )}
+          {showNow && (
+            <span
+              data-mark="now-label"
+              className={`absolute top-0 ${nowLabelShift} whitespace-nowrap font-mono text-[11px] leading-4 tabular-nums font-medium text-ink`}
+              style={{ left: `${nowPct}%` }}
+            >
+              {`now · ${year}`}
+            </span>
+          )}
         </div>
       )}
       <figcaption className="mt-2 flex flex-wrap justify-between gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-[0.18em] text-ink-soft/75">
@@ -1008,7 +1093,12 @@ function CurveFigure({
             className="inline-block w-2 h-2 rounded-full border-[1.5px] mr-1.5 align-[-1px]"
             style={{ borderColor: cycle.color }}
           />
-          Reference peak {cycle.reference_peak_year} · period{" "}
+          {/* Below 360px the word "Reference" goes: with it this caption wrapped to
+              two lines at 320x568, and the hatch's clause in the key below needed
+              that line to keep the verdict on the first screen (I-033, 2026-10-12).
+              The ring still reads as the peak. */}
+          <span className="max-[360px]:hidden">Reference </span>peak{" "}
+          {cycle.reference_peak_year} · period{" "}
           {cycle.period_years}{" "}years
         </span>
         <span>{end}</span>
@@ -1035,6 +1125,7 @@ function CurveFigure({
             style={{ backgroundColor: drawnSeries.color }}
           />
           {`${drawnSeries.keyName}: the record the verdict counts, rescaled to the curve's height`}
+          {hatch && `. ${MISSING_CLAUSE}`}
         </p>
       )}
     </figure>

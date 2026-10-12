@@ -66,6 +66,35 @@ export function judgedRecord(cycle: Cycle): JudgedRecord | null {
   };
 }
 
+/**
+ * The clause the key adds beside the hatch. It says what the resemblance is not; it never
+ * says a test ran (the I-028 guard reads every page for that).
+ */
+export const MISSING_CLAUSE = "A shape that looks alike is not a test.";
+
+/** The span a test needs: this site's pre-registered floor, in full periods of the claim. */
+export const REQUIRED_PERIODS = 3;
+
+/**
+ * The years a test would still need, as the figure hatches them: the stretch just before the
+ * judged record that would bring it to REQUIRED_PERIODS full periods. Null on an eligible
+ * verdict, where nothing is missing.
+ *
+ * Measured from the verdict's own span_years (last year minus first, as verdicts.json counts
+ * it), never from the drawn points: the window can cut a record's start, and the hatch must
+ * sit where the record really begins (I-033, cold walk 2026-10-12: the drawn line read as a
+ * fit to a reader who looked and did not read).
+ */
+export function missingYears(
+  verdict: { eligible: boolean; period_years: number; span_years: number },
+  recordEnd: number,
+): { from: number; to: number } | null {
+  if (verdict.eligible) return null;
+  const to = recordEnd - verdict.span_years;
+  const from = recordEnd - REQUIRED_PERIODS * verdict.period_years;
+  return from < to ? { from, to } : null;
+}
+
 /** The judged record's points inside [start, end], normalised as the chart normalises. */
 export function chartLinePoints(
   record: JudgedRecord,
