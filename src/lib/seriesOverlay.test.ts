@@ -17,10 +17,14 @@ import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
 const { start, end } = DEFAULT_YEAR_RANGE;
-// CurveFigure's own geometry (page.tsx): a 900x150 viewBox with 14 units of vertical padding.
+// CurveFigure's own geometry (page.tsx), I-033 shape (a): on a page with a record, a 900x164
+// viewBox, the curve in y 0–104, the record in its own strip at y 116–164 with 5 units of
+// padding inside it. The two bands share only x.
 const W = 900;
-const H = 150;
-const PAD = 14;
+const CURVE_BOTTOM = 104;
+const STRIP_TOP = 116;
+const STRIP_BOTTOM = 164;
+const STRIP_PAD = 5;
 
 type ManifestSeries = {
   id: string;
@@ -140,16 +144,35 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(record.transform ?? "none").toBe(m.transform);
     expect(record.min_year ?? null).toBe(m.truncate_min_year);
 
-    // The page draws exactly those points, once, on the curve's axes.
+    // The page draws exactly those points, once: on the curve's time axis, but in the
+    // record's own strip, on the strip's own scale.
     const html = await pageHtml(slug);
+    expect(html).toContain(`viewBox="0 0 ${W} ${STRIP_BOTTOM}"`);
     const lines = [...html.matchAll(/<polyline data-mark="paired-series" points="([^"]*)"/g)];
     expect(lines.length).toBe(1);
     const drawn = lines[0][1].split(" ").map((xy) => xy.split(",").map(Number));
     expect(drawn.length).toBe(want.length);
+    const mid = (STRIP_TOP + STRIP_BOTTOM) / 2;
+    const half = (STRIP_BOTTOM - STRIP_TOP) / 2 - STRIP_PAD;
     drawn.forEach(([x, y], i) => {
       expect(x).toBeCloseTo(((want[i].year - start) / (end - start)) * W, 1);
-      expect(y).toBeCloseTo(H / 2 - want[i].value * (H / 2 - PAD), 1);
+      expect(y).toBeCloseTo(mid - want[i].value * half, 1);
     });
+
+    // The shape change itself: no record point in the curve's band, no curve point in the
+    // record's strip. The record's full swing fills its strip (min-max), so it reads on its
+    // own height, not the curve's.
+    const curve = html.match(/<polyline points="([^"]*)"/);
+    expect(curve, `${slug}: no curve`).not.toBeNull();
+    const curveYs = curve![1].split(" ").map((xy) => Number(xy.split(",")[1]));
+    expect(Math.max(...curveYs)).toBeLessThanOrEqual(CURVE_BOTTOM);
+    const drawnYs = drawn.map(([, y]) => y);
+    expect(Math.min(...drawnYs)).toBeGreaterThan(Math.max(...curveYs));
+    expect(Math.min(...drawnYs)).toBeCloseTo(STRIP_TOP + STRIP_PAD, 1);
+    expect(Math.max(...drawnYs)).toBeCloseTo(STRIP_BOTTOM - STRIP_PAD, 1);
+    expect(html).toMatch(
+      new RegExp(`<rect data-mark="record-strip" x="0" y="${STRIP_TOP}" width="${W}" height="${STRIP_BOTTOM - STRIP_TOP}"`),
+    );
 
     // The key names that record and says what it is. Where the verdict counts the paired
     // series unchanged, the name is the page's "Paired data" label; where it counts a cut,
@@ -166,18 +189,20 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     const verdict = spectralVerdictForCycle(cycle.id)!;
     expect(verdict.eligible).toBe(false);
     expect(keyText).toBe(
-      `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, rescaled to the curve's height. A shape that looks alike is not a test.`,
+      `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, drawn below on its own scale. A shape that looks alike is not a test.`,
     );
 
-    // The hatch: the years a test would still need, just before the record. Its oracle is the
-    // record rebuilt from the manifest above and the cycle's own period, not missingYears():
-    // it ends where the record's first point is, and starts 3 periods before the record's
-    // last point, clipped to the window.
+    // The hatch: the years a test would still need, just before the record, inside the
+    // record's strip only. Its oracle is the record rebuilt from the manifest above and the
+    // cycle's own period, not missingYears(): it ends where the record's first point is, and
+    // starts 3 periods before the record's last point, clipped to the window.
     const hatch = html.match(
-      /<rect data-mark="missing-years" data-from="(-?\d+)" data-to="(-?\d+)" x="([^"]+)" y="0" width="([^"]+)"/,
+      /<rect data-mark="missing-years" data-from="(-?\d+)" data-to="(-?\d+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"/,
     );
     expect(hatch, `${slug}: no hatch`).not.toBeNull();
-    const [, from, to, hx, hw] = hatch!.map(Number);
+    const [, from, to, hx, hy, hw, hh] = hatch!.map(Number);
+    expect(hy).toBe(STRIP_TOP);
+    expect(hh).toBe(STRIP_BOTTOM - STRIP_TOP);
     const first = want[0].year;
     const last = want[want.length - 1].year;
     expect(to).toBe(first);
@@ -188,8 +213,9 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(html).toContain('<span data-key="missing-years"');
     expect(html).toContain("Hatched before it: the years a test still needs. A shape that looks alike is not a test.");
     expect(html).toContain(
-      `Drawn over it: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts, rescaled to the curve's height.`,
+      `Drawn below it, in its own strip on its own scale: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts.`,
     );
+    expect(html).not.toContain("rescaled to the curve's height");
 
     // Curve first, then the verdict, then the description.
     const figureAt = html.indexOf('data-mark="paired-series"');
@@ -224,7 +250,9 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
       const html = await pageHtml(slug);
       expect(html).not.toContain('data-mark="paired-series"');
       expect(html).not.toContain('data-key="paired-series"');
-      expect(html).not.toContain("Drawn over it:");
+      expect(html).not.toContain("Drawn below it");
+      expect(html).not.toContain('data-mark="record-strip"');
+      expect(html).toContain('viewBox="0 0 900 150"');
       expect(html).not.toContain('data-mark="missing-years"');
       expect(html).not.toContain('data-key="missing-years"');
       expect(html.indexOf('id="does-it-hold-up"')).toBeGreaterThan(html.indexOf('role="img"'));

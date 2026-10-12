@@ -823,6 +823,14 @@ function cycleTheoristSentence(cycle: Cycle): string {
  * from the same `sineAtYear` the interactive chart uses, so the figure can't
  * drift from the curve it illustrates.
  */
+// The curve's band and the record's strip, in viewBox units of a 900-wide
+// figure. 164 against the old 150 costs 4px at 320x568, where the tightest
+// first screen (Perez) went from 9px to spare to 5 (measured 2026-10-12). The
+// strip draws 15px tall at 320 and 19px at 390; the record fills all but its
+// 5-unit padding.
+const CURVE_BAND = 104;
+const STRIP = { top: 116, bottom: 164, pad: 5 } as const;
+
 function CurveFigure({
   cycle,
   year,
@@ -841,23 +849,37 @@ function CurveFigure({
 }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
   const width = 900;
-  const height = 150;
-  const padY = 14;
+
+  // The judged record gets its own strip under the curve, on its own scale,
+  // sharing only the time axis (I-033 shape (a), 2026-10-12). Drawn on the
+  // curve's axes, a rescaled record sat on the sinusoid by construction, and a
+  // reader who glanced and did not read took its swing for the cycle fitting:
+  // a key (10-10) and a hatch (10-12) did not undo that. With nothing to draw
+  // the figure keeps its single 150-unit band.
+  const drawnSeries = judged && overlay.length > 1 ? judged : undefined;
+  const strip = drawnSeries ? STRIP : null;
+  const curveHeight = strip ? CURVE_BAND : 150;
+  const height = strip ? strip.bottom : curveHeight;
+  const padY = strip ? 10 : 14;
 
   const x = (year: number) => ((year - start) / (end - start)) * width;
   const y = (value: number) =>
-    height / 2 - value * (height / 2 - padY);
+    curveHeight / 2 - value * (curveHeight / 2 - padY);
 
   const points: string[] = [];
   for (let year = start; year <= end; year += 1) {
     points.push(`${x(year).toFixed(2)},${y(sineAtYear(cycle, year)).toFixed(2)}`);
   }
 
-  // The judged record, on the curve's own axes. Straight segments between the
-  // CSV's points: no smoothing invents a shape between points.
-  const drawnSeries = judged && overlay.length > 1 ? judged : undefined;
+  // The record, in its strip. Straight segments between the CSV's points: no
+  // smoothing invents a shape between points.
+  const sy = (value: number) =>
+    strip
+      ? (strip.top + strip.bottom) / 2 -
+        value * ((strip.bottom - strip.top) / 2 - strip.pad)
+      : 0;
   const seriesPoints = drawnSeries
-    ? overlay.map((p) => `${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`)
+    ? overlay.map((p) => `${x(p.year).toFixed(2)},${sy(p.value).toFixed(2)}`)
     : [];
 
   // The years a test would still need, hatched just before the record (I-033, cold walk
@@ -909,7 +931,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn over it: ${drawnSeries.fullName}, the record the verdict counts, rescaled to the curve's height.` : ""}${hatch ? ` Hatched before it: the years a test still needs. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the years a test still needs. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (
@@ -932,9 +954,9 @@ function CurveFigure({
                 data-from={missing!.from}
                 data-to={missing!.to}
                 x={hatch.x1}
-                y={0}
+                y={strip!.top}
                 width={hatch.x2 - hatch.x1}
-                height={height}
+                height={strip!.bottom - strip!.top}
                 fill={`url(#missing-${cycle.id})`}
                 className="text-ink"
                 opacity="0.16"
@@ -943,14 +965,29 @@ function CurveFigure({
           )}
           <line
             x1="0"
-            y1={height / 2}
+            y1={curveHeight / 2}
             x2={width}
-            y2={height / 2}
+            y2={curveHeight / 2}
             stroke="currentColor"
             strokeWidth="1"
             className="text-rule"
             opacity="0.2"
           />
+          {strip && (
+            <rect
+              data-mark="record-strip"
+              x={0}
+              y={strip.top}
+              width={width}
+              height={strip.bottom - strip.top}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              vectorEffect="non-scaling-stroke"
+              className="text-rule"
+              opacity="0.35"
+            />
+          )}
           {centuryTicks.map((tick) => (
             <line
               key={tick}
@@ -970,7 +1007,7 @@ function CurveFigure({
                 x1={peakX}
                 y1={padY / 2}
                 x2={peakX}
-                y2={height - padY / 2}
+                y2={curveHeight - padY / 2}
                 stroke={cycle.color}
                 strokeWidth="1"
                 strokeDasharray="3 3"
@@ -1103,11 +1140,11 @@ function CurveFigure({
         </span>
         <span>{end}</span>
       </figcaption>
-      {/* The key for the second line. "Rescaled to the curve's height" is there
-          because a stretched series sitting on a sinusoid reads as a fit, and on
-          a page whose verdict is "not testable" that would contradict the box
-          right below (manager review 2026-10-10). "The record the verdict
-          counts" says the line is what the box below is about (I-035). */}
+      {/* The key for the second line. It says where the record is and that its
+          height is its own, because a record drawn on the curve's height read
+          as a fit, which on a page whose verdict is "not testable" contradicts
+          the box right below (I-033). "The record the verdict counts" says the
+          line is what the box below is about (I-035). */}
       {drawnSeries && (
         <p
           data-key="paired-series"
@@ -1124,7 +1161,7 @@ function CurveFigure({
             className="inline-block w-4 h-[1.5px] ml-3 mr-1.5 align-middle opacity-65"
             style={{ backgroundColor: drawnSeries.color }}
           />
-          {`${drawnSeries.keyName}: the record the verdict counts, rescaled to the curve's height`}
+          {`${drawnSeries.keyName}: the record the verdict counts, drawn below on its own scale`}
           {hatch && `. ${MISSING_CLAUSE}`}
         </p>
       )}
