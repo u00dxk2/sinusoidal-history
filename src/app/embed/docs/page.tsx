@@ -19,27 +19,34 @@ const SNIPPETS: ReadonlyArray<{
     description:
       "Just the summary panel. Small, scannable, shareable. Ideal for inline Substack embeds.",
     src: "/embed?view=state-only",
-    height: 360,
+    // Heights hold the whole embed, attribution line included, at a 358px
+    // and a 680px column (scripts/check-embed-snippets.mjs, I-037). They
+    // were 360 / 280 / 620, which cut off half the panel, the whole
+    // Huntington curve and the overlay chart.
+    height: 700,
   },
   {
     title: "Full facets, modern window",
     description:
-      "The facet stack zoomed to 1900+. Interactive where the iframe allows.",
+      "The facet stack zoomed to 1900+. Ten charts are taller than any frame, so this one scrolls inside its frame.",
     src: "/embed?view=facets&range=modern",
     height: 900,
   },
   {
     title: "Huntington only, with calibration",
     description:
-      "Filter to a single cycle and override its peak year — useful for arguing a specific claim in prose.",
-    src: "/embed?view=facets&cycles=huntington&peak.huntington=1968",
-    height: 280,
+      "Filter to a single cycle and override its peak year — useful for arguing a specific claim in prose. The embed says, above the curve, that the peak is yours and what the site's is.",
+    // 1972, not 1968: 1968 IS the published peak, so the old example
+    // calibrated nothing (I-037).
+    src: "/embed?view=facets&cycles=huntington&peak.huntington=1972",
+    height: 500,
   },
   {
     title: "Classic overlay",
-    description: "Phase 1 single-SVG view with every cycle and data series.",
+    description:
+      "Phase 1 single-SVG view with every cycle and data series. For a column wider than 640px: in a phone-width column the legend stacks above the chart and the frame scrolls.",
     src: "/embed?view=overlay&range=modern",
-    height: 620,
+    height: 1070,
   },
 ];
 
@@ -90,7 +97,9 @@ export default function EmbedDocs() {
             <code className="font-mono">peak.&lt;id&gt;</code> and{" "}
             <code className="font-mono">period.&lt;id&gt;</code>{" "}— per-cycle
             calibration overrides. E.g.{" "}
-            <code>peak.huntington=1968&amp;period.huntington=58</code>.
+            <code>peak.huntington=1972&amp;period.huntington=58</code>.
+            An embed with an override says so above the chart, with the
+            site&apos;s published value beside yours.
           </li>
         </ul>
         <p className="text-xs text-foreground/55">

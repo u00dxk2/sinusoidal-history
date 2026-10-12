@@ -5,6 +5,8 @@ import { parseAsStringEnum, parseAsString, useQueryState } from "nuqs";
 import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import NowSummaryPanel from "./NowSummaryPanel";
 import FacetView from "./FacetView";
+import CycleFacet from "./CycleFacet";
+import FacetTimeAxis from "./FacetTimeAxis";
 import CycleOverlay from "./CycleOverlay";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { useOverridesState, useRangeState, parseRange } from "@/lib/urlState";
@@ -69,8 +71,78 @@ export default function EmbedView({
 
   const currentYear = new Date().getUTCFullYear();
 
+  // An embed's peak/period overrides change the curve and the phase word it
+  // prints, so the reader has to be told the numbers are the page author's
+  // and not the site's. The facet's own "cal" tag is md+ only, and an iframe
+  // is usually narrower than that (I-037).
+  const calibrated = filteredCycles.flatMap((c) => {
+    const ov = overrides[c.id];
+    if (!ov) return [];
+    const parts: string[] = [];
+    if (
+      ov.reference_peak_year !== undefined &&
+      ov.reference_peak_year !== c.reference_peak_year
+    ) {
+      parts.push(
+        `peak ${ov.reference_peak_year} (the site's reference peak is ${c.reference_peak_year})`
+      );
+    }
+    if (ov.period_years !== undefined && ov.period_years !== c.period_years) {
+      parts.push(
+        `period ${ov.period_years}y (the site's is ${c.period_years}y)`
+      );
+    }
+    return parts.length > 0 ? [{ id: c.id, name: c.name, parts }] : [];
+  });
+
+  // One cycle in the facets view is the "argue a specific claim" embed: the
+  // curve is the point, so it gets a chart a reader can see (200px, not the
+  // stack's 60px) and no ten-row summary panel above it repeating the phase
+  // word the facet header already prints.
+  const single = view === "facets" && filteredCycles.length === 1;
+
   return (
     <div className="p-4 bg-background min-h-screen flex flex-col gap-4">
+      {calibrated.length > 0 && (
+        <p
+          data-embed-calibration
+          className="text-[12px] leading-snug text-ink border-l-2 border-ink/40 pl-2.5"
+        >
+          Calibrated for this page, not the site&apos;s published values:{" "}
+          {calibrated.map((c, i) => (
+            <span key={c.id}>
+              {i > 0 ? "; " : ""}
+              {c.name}, {c.parts.join(", ")}
+            </span>
+          ))}
+          .
+        </p>
+      )}
+      {single && (
+        <CycleFacet
+          cycle={filteredCycles[0]}
+          series={filteredSeries[0]}
+          mode="normal"
+          startYear={range.start}
+          endYear={range.end}
+          currentYear={currentYear}
+          override={overrides[filteredCycles[0].id] ?? {}}
+          onChangeOverride={() => {}}
+          onResetOverride={() => {}}
+          onFocus={() => {}}
+          onBlur={() => {}}
+          readOnly
+          chartHeight={200}
+          timeAxis={
+            <FacetTimeAxis
+              startYear={range.start}
+              endYear={range.end}
+              currentYear={currentYear}
+              annotations={annotations}
+            />
+          }
+        />
+      )}
       {view === "state-only" && (
         <NowSummaryPanel
           cycles={effectiveCycles}
@@ -78,7 +150,7 @@ export default function EmbedView({
           interactive={false}
         />
       )}
-      {view === "facets" && (
+      {view === "facets" && !single && (
         <>
           <NowSummaryPanel
             cycles={effectiveCycles}
@@ -96,6 +168,7 @@ export default function EmbedView({
             onChangeFocus={() => {}}
             overrides={overrides}
             onChangeOverrides={() => {}}
+            readOnly
           />
         </>
       )}

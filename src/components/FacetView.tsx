@@ -20,6 +20,8 @@ interface FacetViewProps {
     next: Record<string, CycleOverride>
   ) => void;
   annotations?: Annotation[];
+  /** Embeds: facet headers are labels, not focus buttons (I-037). */
+  readOnly?: boolean;
 }
 
 export default function FacetView({
@@ -33,6 +35,7 @@ export default function FacetView({
   overrides,
   onChangeOverrides,
   annotations,
+  readOnly = false,
 }: FacetViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -111,6 +114,7 @@ export default function FacetView({
             }}
             onFocus={() => onChangeFocus(cycle.id)}
             onBlur={() => onChangeFocus(null)}
+            readOnly={readOnly}
           />
           {/* When a facet is focused, the year axis moves up to sit directly
               under the expanded chart — it used to exist only below all ten

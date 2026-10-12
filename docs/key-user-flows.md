@@ -76,7 +76,18 @@ journey-walk); update when a surface is added or a flow's steps change.
 1. Footer "Embed" → `/embed/docs` (query params, copy-paste snippets,
    cross-origin notes).
 2. `/embed?view=…` variants (state-only / facets / overlay / single-cycle).
-   NowSummaryPanel renders non-interactive in embeds by design.
+   NowSummaryPanel renders non-interactive in embeds by design, and so do the
+   facet headers (labels, not buttons; since 2026-10-11). A single-cycle
+   facets embed (`cycles=<one id>`) is the chart alone: a 200px curve with its
+   year axis, no summary panel. Any `peak.`/`period.` override prints a line
+   above the chart naming it beside the site's published value.
+3. The writer's own page. Each snippet's `height` holds the whole embed,
+   attribution included, in a 358px and a 680px column; the full facet stack
+   scrolls inside its frame by design, and the overlay is for columns wider
+   than 640px (the docs say so). Walked 2026-10-11 (round 4); guarded by
+   `scripts/check-embed-snippets.mjs`, which pastes the served snippets into
+   a page on another origin. Before that the frames cut off half the panel,
+   the whole Huntington curve and the overlay chart (I-037).
 
 ## Known flow gaps (carried)
 

@@ -45,6 +45,14 @@ interface CycleFacetProps {
       axis beside the stack; a facet hosted alone (the Calibrate tab) has
       none unless it is passed here. */
   timeAxis?: ReactNode;
+  /** Embeds: the header is a label, not a button. In an iframe there is no
+      focus state to toggle, so a full-width button there did nothing when
+      tapped (manager review 2026-10-11 round 4, I-037). */
+  readOnly?: boolean;
+  /** Chart height in px, overriding the mode's default. The single-cycle
+      embed uses it: "normal" mode draws a 60px curve on a phone, too small
+      to argue a claim with. */
+  chartHeight?: number;
 }
 
 // Min-height in px per mode. Normal mode is shorter on mobile.
@@ -68,6 +76,8 @@ export default function CycleFacet({
   onBlur,
   onOpenInFacets,
   timeAxis,
+  readOnly = false,
+  chartHeight,
 }: CycleFacetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(containerRef, 800);
@@ -110,6 +120,7 @@ export default function CycleFacet({
         onFocus={onFocus}
         onBlur={onBlur}
         onOpenInFacets={onOpenInFacets}
+        readOnly={readOnly}
       />
 
       {mode !== "collapsed" && series && (
@@ -121,7 +132,9 @@ export default function CycleFacet({
           cycle={effective}
           series={series}
           width={width}
-          height={mode === "expanded" ? 220 : width < 640 ? 60 : 84}
+          height={
+            chartHeight ?? (mode === "expanded" ? 220 : width < 640 ? 60 : 84)
+          }
           startYear={startYear}
           endYear={endYear}
           currentYear={currentYear}
@@ -164,6 +177,7 @@ function FacetHeader({
   onFocus,
   onBlur,
   onOpenInFacets,
+  readOnly,
 }: {
   cycle: Cycle;
   effective: Cycle;
@@ -173,6 +187,7 @@ function FacetHeader({
   onFocus: () => void;
   onBlur: () => void;
   onOpenInFacets?: () => void;
+  readOnly: boolean;
 }) {
   // For mobile readability, take the bit before the em-dash if the name is
   // long. Khaldun → "Ibn Khaldun"; Carlota Perez → "Carlota Perez"; etc.
@@ -180,17 +195,8 @@ function FacetHeader({
     cycle.name.length > 22 && cycle.name.includes("—")
       ? cycle.name.split("—")[0].trim()
       : cycle.name;
-  return (
-    <div className="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
-      <button
-        type="button"
-        onClick={
-          onOpenInFacets ?? (mode === "expanded" ? onBlur : onFocus)
-        }
-        aria-expanded={onOpenInFacets ? undefined : mode === "expanded"}
-        title={onOpenInFacets ? "Open in the facets view" : undefined}
-        className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 min-h-11 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
-      >
+  const label = (
+    <>
         <span
           aria-hidden
           className="inline-block self-stretch w-[3px] flex-shrink-0 rounded-full"
@@ -220,7 +226,27 @@ function FacetHeader({
             )}
           </span>
         )}
-      </button>
+    </>
+  );
+  return (
+    <div className="flex items-center justify-between gap-2 sm:gap-3 min-w-0">
+      {readOnly ? (
+        <div className="flex items-center gap-2.5 min-w-0 flex-1 px-1 py-0.5 min-h-11">
+          {label}
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={
+            onOpenInFacets ?? (mode === "expanded" ? onBlur : onFocus)
+          }
+          aria-expanded={onOpenInFacets ? undefined : mode === "expanded"}
+          title={onOpenInFacets ? "Open in the facets view" : undefined}
+          className="flex items-center gap-2.5 min-w-0 flex-1 text-left rounded-sm px-1 py-0.5 min-h-11 hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04]"
+        >
+          {label}
+        </button>
+      )}
       <span
         className={cn(
           "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0",
