@@ -55,14 +55,24 @@ describe("no reader surface prints a bare cos number", () => {
     }
   });
 
+  // The whole file, never line by line: JSX and Markdown wrap prose, and "cos" at a line's end
+  // with its number on the next renders as one bare "cos +0.15" (Codex review of 62b69f1).
+  const hitsIn = (text: string) =>
+    [...text.matchAll(new RegExp(BARE_COS.source, "gu"))].map(
+      (m) => text.slice(0, m.index).split("\n").length
+    );
+
+  it("finds one that wraps across a line break", () => {
+    expect(hitsIn("sits on the rising arm (cos\n          ≈ +0.15), neither")).toEqual([1]);
+    expect(hitsIn("one\ntwo (cos ≈ −0.81 at 1780)")).toEqual([2]);
+  });
+
   it("no file in it has one", () => {
     const hits: string[] = [];
     for (const f of readerSources) {
-      readFileSync(join(root, f), "utf8")
-        .split("\n")
-        .forEach((line, i) => {
-          if (BARE_COS.test(line)) hits.push(`${relative(root, join(root, f))}:${i + 1}`);
-        });
+      for (const line of hitsIn(readFileSync(join(root, f), "utf8"))) {
+        hits.push(`${relative(root, join(root, f))}:${line}`);
+      }
     }
     expect(hits).toEqual([]);
   });

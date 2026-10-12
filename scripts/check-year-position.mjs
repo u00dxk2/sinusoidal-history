@@ -90,6 +90,16 @@ const dotAgrees = (r, year, cos) => Math.abs(r.year - year) <= 1 && Math.abs(r.v
 // rule as src/lib/bareCos.test.ts, written out here so this script stands alone.
 const BARE_COS = /\bcos\s*[≈=]?\s*[−+-]?\d/u;
 const bareCosAt = (text) => text.match(new RegExp(`.{0,40}${BARE_COS.source}.{0,20}`, "u"))?.[0];
+// A surface passes only if it answered 2xx, carries no bare cos, AND carries the reworded
+// "curve height ≈", so an empty body or an error page cannot pass for clean prose (Codex
+// review of 62b69f1).
+function bareCosVerdict(status, text) {
+  if (status < 200 || status > 299) return { ok: false, detail: `HTTP ${status}` };
+  const hit = bareCosAt(text);
+  if (hit) return { ok: false, detail: `"${hit}"` };
+  if (!text.includes("curve height ≈")) return { ok: false, detail: `no "curve height ≈" in ${text.length} chars — not the prose this leg reads` };
+  return { ok: true, detail: "" };
+}
 
 if (process.argv.includes("--selftest")) {
   const tail = " That is a position of this construction, not the theorist's forecast. Every cycle in 2026 →";
@@ -139,7 +149,18 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "bare cos" : "clean"}`);
   }
-  const total = cases.length + dots.length + prose.length;
+  const surfaces = [
+    ["reworded prose, 200", 200, "climax of ~1860 (curve height ≈ +0.91 at 1860, on a scale …)", true],
+    ["empty body, 200", 200, "", false],
+    ["error page, 503", 503, "Service Unavailable", false],
+    ["bare cos, 200", 200, "curve height ≈ +0.91 … near a trough (cos ≈ −0.81 at 1780)", false],
+  ];
+  for (const [name, status, text, want] of surfaces) {
+    const got = bareCosVerdict(status, text).ok;
+    if (got !== want) bad += 1;
+    console.log(`${got === want ? "PASS" : "FAIL"}  selftest surface ${name} → ${got ? "pass" : "fail"}`);
+  }
+  const total = cases.length + dots.length + prose.length + surfaces.length;
   console.log(`selftest: ${total - bad}/${total} ${bad ? "FAIL" : "PASS"}`);
   process.exit(bad ? 3 : 0);
 }
@@ -193,17 +214,15 @@ for (const entry of state.cycles) {
 
 // The same rule on /about (it repeats two rationales and the Strauss-Howe claim) and on the
 // three served text files that carried a bare cos before round 3.
-await page.goto(`${origin}/about`, { waitUntil: "domcontentloaded" });
-const aboutHit = bareCosAt(await page.locator("body").innerText());
-check(`/about no bare "cos <number>" on the page`, !aboutHit, aboutHit ? `"${aboutHit}"` : "");
+const bareCosLeg = (name, status, text) => {
+  const v = bareCosVerdict(status, text);
+  check(`${name} no bare "cos <number>"`, v.ok, v.detail);
+};
+const aboutRes = await page.goto(`${origin}/about`, { waitUntil: "domcontentloaded" });
+bareCosLeg("/about", aboutRes?.status() ?? 0, await page.locator("body").innerText());
 for (const file of ["/about.md", "/llms.txt", "/data/vdem_libdem.source.md"]) {
   const res = await fetch(`${origin}${file}`);
-  if (!res.ok) {
-    check(`${file} no bare "cos <number>"`, false, `HTTP ${res.status}`);
-    continue;
-  }
-  const hit = bareCosAt(await res.text());
-  check(`${file} no bare "cos <number>"`, !hit, hit ? `"${hit}"` : "");
+  bareCosLeg(file, res.status, res.ok ? await res.text() : "");
 }
 
 // The figure's now-mark. Geometry at 1280 wide (finest pixels); the label at the two phone
