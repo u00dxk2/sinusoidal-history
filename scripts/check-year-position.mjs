@@ -139,18 +139,24 @@ if (process.argv.includes("--selftest")) {
   const s = 700 / 900;
   const one = { x: 0, y: 0, width: 700, height: 150 * s };
   const two = { x: 0, y: 0, width: 700, height: 164 * s };
+  // Each arm: [name, svg, viewBox height, dot, the cos it is judged against, expected]. The
+  // midline-is-0 and trough-is-−1 arms are POSITIVE: a wrong band height (164 for 104) still
+  // reads the top as +1, so only an arm that must AGREE below the top catches it (Codex r2).
   const dots = [
-    ["unpaired: dot on dalio 2026", one, 150, at(662.7, 14 * s), true],
-    ["unpaired: dot 4px right (a later year)", one, 150, at(666.7, 14 * s), false],
-    ["unpaired: dot on the midline (cos 0)", one, 150, at(662.7, one.height / 2), false],
-    ["unpaired: dot at the reference peak 1950", one, 150, at((350 / 450) * 700, 14 * s), false],
-    ["paired: dot on dalio 2026", two, 164, at(662.7, 10 * s), true],
-    ["paired: dot on the curve band's midline (cos 0)", two, 164, at(662.7, 52 * s), false],
-    ["paired: read with the unpaired geometry", two, 150, at(662.7, 10 * s), false],
-    ["unknown viewBox height", two, 170, at(662.7, 10 * s), false],
+    ["unpaired: dot on dalio 2026", one, 150, at(662.7, 14 * s), 1, true],
+    ["unpaired: dot 4px right (a later year)", one, 150, at(666.7, 14 * s), 1, false],
+    ["unpaired: dot on the midline (cos 0)", one, 150, at(662.7, one.height / 2), 1, false],
+    ["unpaired: dot at the reference peak 1950", one, 150, at((350 / 450) * 700, 14 * s), 1, false],
+    ["unpaired: midline reads 0", one, 150, at(662.7, 75 * s), 0, true],
+    ["paired: dot on dalio 2026", two, 164, at(662.7, 10 * s), 1, true],
+    ["paired: dot on the curve band's midline (cos 0)", two, 164, at(662.7, 52 * s), 1, false],
+    ["paired: curve band's midline reads 0", two, 164, at(662.7, 52 * s), 0, true],
+    ["paired: curve band's trough reads −1", two, 164, at(662.7, 94 * s), -1, true],
+    ["paired: read with the unpaired geometry", two, 150, at(662.7, 10 * s), 1, false],
+    ["unknown viewBox height", two, 170, at(662.7, 10 * s), 1, false],
   ];
-  for (const [name, svg, vbh, dot, want] of dots) {
-    const got = dotAgrees(dotReading(svg, dot, 1600, 2050, vbh), 2026, 1);
+  for (const [name, svg, vbh, dot, cos, want] of dots) {
+    const got = dotAgrees(dotReading(svg, dot, 1600, 2050, vbh), 2026, cos);
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "agrees" : "disagrees"}`);
   }
