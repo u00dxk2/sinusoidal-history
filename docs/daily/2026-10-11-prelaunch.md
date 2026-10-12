@@ -555,3 +555,149 @@ Manager review 67f9bb6f confirmed both acceptances against origin/main and produ
 codexCalls: 0 (this phase; the day's three review runs are counted on the P3 post c905be47) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Day session (round 3, evening) — P1 selection packet
+
+**Outcome:** no page a reader opens prints a bare "cos ≈ …" number. The Turchin and Strauss–Howe calibration rationales, and the /about paragraph that repeats the Strauss–Howe claim, say "curve height", with the scale, the way the ten cycle pages have since `0196b40`.
+**Item:** I-036 (cycle pages name the curve height). This is the bare-cos residue its round-1 close recorded and left unfixed.
+
+**The user problem, in a reader's words (OBSERVED, synthetic, N=1):** "'cos +0.67' means nothing to me without the footnote" (`docs/walks/2026-10-03-w003.md:97`). The cycle-page sentence now explains itself. A paragraph further down the same page then prints "cos ≈ +0.91 at 1860" with no explanation.
+
+### Evidence
+
+- OBSERVED (source grep `\bcos\b` over `public/*.md`, `public/*.txt`, `src/data/cycles.json`, `src/app/**/*.tsx`, `src/components/**/*.tsx`, ~01:15Z). Bare numeric "cos ≈" on reader surfaces:
+  - `src/data/cycles.json:70` (Turchin rationale): "(cos ≈ +0.91 at 1860)", "(cos ≈ −0.81 at 1780)"
+  - `src/data/cycles.json:94` (Strauss–Howe rationale): "(cos ≈ +0.15)"
+  - `src/app/(app)/about/page.tsx:185`: "(cos ≈ +0.15)"
+  - `public/about.md:97`, `:121` (mirrors of the two rationales) and `:159` (mirror of about/page.tsx:185)
+  - `public/llms.txt:86`: "at cos ≈ +0.15" (round-4 correction history, read by crawlers)
+- OBSERVED: the rationale renders on four surfaces: `/cycles/<slug>` (`cycles/[id]/page.tsx:414`), the /about list (`about/page.tsx:144`), the home chart's Calibrate tab (`CycleFacet.tsx:482`, client-rendered) and `/api/v1/*`.
+- OBSERVED, deliberately kept: /state and /api/v1/state print "cos" with its footnote (`state/[year]/page.tsx:359`). The /methods `cos(Δφ)` is a formula, not a reading. `llms.txt:18`/`:58` describe the API's "cos value" field. None of these change.
+- OBSERVED: the math holds. Turchin (period 150, peak 1870): cos at 1860 = +0.913 and at 1780 = −0.809. Strauss–Howe (period 84, peak 1955): cos at 2020 = +0.149. `audit_cycle_rationales.py` matches on years, not the word "cos" (`YEAR_RE`, line 33), so rewording cannot blind it.
+- OBSERVED: production holds round 1's sentence. `check-year-position https://sinusoidalhistory.com --fails-only` → **81/81 PASS** (~01:12Z).
+- MISSING: any real reader. The bar reads UNMEASURED (`docs/evangelism-bar.md:30`).
+- **Ordering tension, stated plainly:** I-036's onTrigger defers the residue decision to the 2026-10-13 walk. The orchestrator's lead asks for the fix now. I follow the lead. The 10-13 step then reads the new wording on turchin and strauss-howe, not the old.
+
+### Section 0
+
+- Primer: read. Its first action ran: check-year-position on production 81/81.
+- Listener: 🟢 SSE alive (hello 00:59:25Z, pid 59384). Loop ticking via ScheduleWakeup. Waker ranks 1-3 armed.
+- Codex: GREEN (this prompt's probe line, 15:38Z).
+- CI: GREEN for 2a807d9f (kickoff). Drift: `check-deployed-sha-drift --service sinusoidal-history` → in-sync, live 2a807d9f = head (exit 0).
+- Due gates: `--snapshot` → "0 gate(s) due on/before 2026-10-11" (42 swept; identical to the existing snapshot).
+- Rotation: exit 0, "no product-love cycle picks this lane today". Answered cards: none.
+- Retro recurrence that bears on this choice: "a check written from a measurement inherits its looseness". The new guard is a stated rule (no `cos` followed by a number outside /state, the API and /methods), not a list of today's matches.
+
+### Permission
+
+Lane-owned editorial copy. `reference_peak_rationale` is prose, not a pairing, a period or an inference CSV, so the spectral manifest is untouched. No /state, verdict or `public/data/` change. I-036 is `monitoring` and lane-owned. No card is open.
+
+### Next action
+
+**Kind:** improve.
+
+1. Reword the four "cos ≈" claims. The first on each surface carries the scale, for example: "(curve height ≈ +0.91 at 1860, where +1 is a peak and −1 a trough)", then "(curve height ≈ −0.81 at 1780)". Strauss–Howe: "(curve height ≈ +0.15, where +1 is a peak and −1 a trough)".
+2. Make the same edits in `public/about.md` and `public/llms.txt` in the same commit (mirror rule).
+3. Add a guard test over `cycles.json`, `public/*.md`, `public/llms.txt` and the reader page sources. It fails on `\bcos\s*[≈=]?\s*[−+-]?\d` outside the allowlisted /state and /methods files. Red-arm it by restoring one "cos ≈".
+4. Add a leg to `check-year-position`: the whole innerText of each cycle page, and of /about, has no bare "cos <number>". It is red on production before the deploy (turchin, strauss-howe, about) and green after.
+5. Run `python scripts/audit_cycle_rationales.py`.
+
+First command (the baseline, before any edit):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/about C:/dev/skylark/sinusoidal-cycles/tmp/i036r-about-before.txt
+```
+
+(plus the same for /cycles/turchin and /cycles/strauss-howe)
+
+### Acceptance condition (observable)
+
+1. Built vs production rendered text: /about, /cycles/turchin and /cycles/strauss-howe differ only on the reworded lines. No other page differs.
+2. The guard test is red with one "cos ≈" restored and green after. The new check-year-position leg is red against production before the deploy and green after.
+3. The cos-math audit numbers are unchanged; the prose values still match them.
+4. CI green and the deploy row live at the new head. Then `check-year-position https://sinusoidalhistory.com` passes in full on production, including the new leg.
+
+### Delivery and encounter checks
+
+- Delivery: acceptance reads 1 and 4 after the deploy.
+- Encounter: blind (no client analytics; bug row I-036). The 2026-10-13 W-004 walk reads turchin and strauss-howe at 390x664: does any number on the page stop the reader?
+
+### USER-FACING: yes
+
+Paths:
+- `src/data/cycles.json` (rationales; also served by `/api/v1/*`)
+- `src/app/(app)/about/page.tsx`
+- `public/about.md`, `public/llms.txt`
+- `scripts/check-year-position.mjs`
+- a new guard test under `src/lib/`
+- `continuity/items.json` (the I-036 note)
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none — read `check-due-gates-dispositioned --snapshot` ~01:10Z, 0 due (42 swept).
+- (b) Owed child rows in the orchestrator's ledger: none — read kickoff "rows owed to you", 0 of 749 (01:04:50Z).
+- (c) State reads marked CROSSED: none — read the kickoff state block (01:04:50Z). Not measured, not clean: missingLinkedCommits 0 of 0 considered; key-metrics has no list.
+
+---
+
+[P3 — Product-work loop]
+
+## Day session (round 3) — P3 product-work loop
+
+### Action — no reader page prints a bare "cos" number (kind: improve), I-036 residue
+
+Approved P1 packet 9a114feb; manager review 03eb9f2c (APPROVE, two HYPOTHESIS checks, one suggestion).
+
+Change (62b69f1): wherever a reader page printed "cos ≈ X", it now says "curve height ≈ X". The first number on each surface adds "on a scale from −1 at a low to +1 at a peak", the same scale as the cycle-page sentence. Surfaces changed:
+- the Turchin and Strauss–Howe rationales in `cycles.json`
+- the /about paragraph (`about/page.tsx:185`)
+- `about.md` (3 places)
+- `llms.txt:86`
+- `vdem_libdem.source.md:22`, a sibling the P1 grep missed because it did not search `public/data/`
+
+The values are unchanged; `audit_cycle_rationales.py` gives +0.914, −0.809 and +0.149.
+
+<!-- findings:begin -->
+- The P1 evidence missed `public/data/vdem_libdem.source.md:22` ("cos ≈ −0.68"). /methods and the Strauss–Howe cycle page link to it. It was reworded in the same commit, and the guard's population names it.
+- Review HYPOTHESIS 1 CONFIRMED. The rationale also reaches `/api/v1/cycles` and the home chart's Calibrate tab. Both are expected diffs: the API now carries 3 "curve height ≈" and no "cos ≈".
+- Review HYPOTHESIS 2 CONFIRMED. The live check cannot open the client-rendered Calibrate tab. Its header now says it is blind to it, and `bareCos.test.ts` covers that surface from source.
+<!-- findings:end -->
+
+The four states:
+- **Implementation:** 62b69f1, 2466307.
+  - The guard `src/lib/bareCos.test.ts` matches the whole file over `cycles.json`, `src/app` and `src/components` `.tsx`, and `public` `.md`/`.txt`, and names its population.
+  - `check-year-position` gains a bare-cos leg on every cycle page, /about and the three served text files. Each passes only on 2xx, with no bare cos, and with "curve height ≈" present. Selftest 19/19.
+  - Red arms:
+    - "cos ≈" restored: unit test FAIL at `cycles.json:70`.
+    - A wrapped "cos\n ≈" in `about/page.tsx`: FAIL at `:185`.
+    - Production before the deploy: 89/95, exactly the 6 new legs.
+    - Selftest arms for an empty 200 and a 503 both fail.
+  - Full suite 297/297 on 2466307 (verify-with-receipt). Lint: 0 errors. Typecheck clean.
+  - Codex r1 on 62b69f1: 2 MEDIUM, both REPRODUCED and CONFIRMED, fixed in 2466307. (1) The line-by-line match missed a wrapped "cos". (2) An empty body or an error page passed the live legs. Codex r2 on 2466307: no findings.
+- **Delivery:**
+  - CI GREEN on 2466307.
+  - `check-deployed-sha-drift --service sinusoidal-history`: `in-sync · live 24663076 → head 24663076` (19:37:58 MT).
+  - `check-year-position https://sinusoidalhistory.com`: **95/95 PASS**.
+  - Built vs production visible text: identical on /about (87 lines), /cycles/turchin (101) and /cycles/strauss-howe (99).
+  - Before vs after, line multisets: /about 3 lines changed, turchin 1, strauss-howe 1. Nothing else moved; 0 bare "cos ≈" left.
+- **Encounter:** blind. The site has no client analytics, so a reader leaves no trace. Bug row I-036. The 2026-10-13 W-004 walk reads it (synthetic).
+- **Outcome:** open, read on the 10-13 walk. That walk now also asks the W-003 "what does cos +0.67 mean?" question on /state (review suggestion; W-004 note).
+
+USER-VISIBLE: the Turchin and Strauss–Howe calibration notes, /about and the served about.md, llms.txt and V-Dem source note say "curve height ≈ +0.91 at 1860, on a scale from −1 at a low to +1 at a peak" instead of a bare "cos ≈ +0.91" — 62b69f1 [proof: "(cos ≈ +0.91 at 1860)" → "(curve height ≈ +0.91 at 1860, on a scale from −1 at a low to +1 at a peak)" on /cycles/turchin, /cycles/strauss-howe and /about; live 24663076 in-sync 19:37 MT; check-year-position 95/95 on https://sinusoidalhistory.com, its 6 bare-cos legs RED on the pre-deploy build] [coverage: Search Console page-level (scripts/gsc-read.mjs) · last good read 2026-10-07 · founder+test excluded no] [exposure: blind — no client analytics on this site, so a reader's reading of the note leaves no trace · bug row I-036]
+
+[red-armed: one "(cos ≈ −0.81 at 1780)" restored in cycles.json, then npx vitest run src/lib/bareCos.test.ts -> AssertionError: expected [ 'src\data\cycles.json:70' ] to deeply equal []]
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED (r1 62b69f1: 2 MEDIUM fixed in 2466307; r2 2466307: none)
+hygiene helper: DISPATCHED ~01:20Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-r3.md PRESENT. Inputs all `none`. check-wait-justification PASS (30 of 42; I-034 info only). check-engineering-zero PASS (lane: 0 findings, 0 unreadable).
+
+### Remains
+
+- 2026-10-13: the W-004 walk reads I-036. It reads the new wording on turchin and strauss-howe, plus the /state "cos" question. It also reads I-029, I-030, I-031, I-033 and I-035.
+- Nothing waits on David.
+
+[standing-rules-hash: 88cc2dc9]
