@@ -738,3 +738,178 @@ Manager review a833ef75 confirmed the acceptance against origin/main and product
 codexCalls: 0 (this phase; the round's two review runs are counted on P3 ed86d258) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Night session (round 4) — P1 selection packet
+
+**Outcome:** a writer who pastes the "Huntington only, with calibration" snippet sees the Huntington curve inside the frame. A writer who pastes "State of the cycles" sees all ten rows. Neither has to scroll inside a 280px or 360px box to find what the snippet promised.
+**Item:** a new row, embed snippets show what they promise (Flow 3), minted at P3 build time as I-037. No existing row covers /embed.
+
+**The user problem, in a writer's words (OBSERVED, synthetic walk, N=1):** "I pasted the Huntington snippet to argue my 1968 claim, and my page shows a 'State of the cycles' header and the word RISING. There is no curve."
+
+### Why Flow 3, not Flow 2
+
+Flow 3 (Embed) was last walked on 2026-08-24 (journey-walk J9, a layout fix to /embed/docs at 390px). The 09-26 journey-walk says "Not re-walked: `/poster`, `/embed/docs`". Flow 2 surfaces (/state, cycle pages) were reworked on 09-29 (I-009, I-011), 10-03 (I-013) and 10-11 (I-036). Flow 3 is the stalest, so the lead's rotation holds.
+
+### Evidence
+
+- OBSERVED (Playwright walk, ~04:55Z). Script: `scratchpad/embed-walk.mjs`. It fetched live `/embed/docs`, took the four `<pre>` snippets verbatim and pasted each into a blank page served from `http://127.0.0.1:<port>`, a different origin. It rendered each at 390x844 (touch) and 1440x900, waited 4s, then read the frame's document.
+- OBSERVED, cross-origin works. All four `src` URLs return 200 with `content-security-policy: frame-ancestors *` and an empty `x-frame-options`. All four frames load, with 0 console errors and no horizontal overflow (frame scrollWidth = clientWidth: 358 at phone, 680 at desktop). The docs page's cross-origin note is accurate.
+- OBSERVED, the frames clip what they promise. Frame content height against the snippet's own `height`:
+
+  | snippet | height | phone content | desktop content | what shows in the frame |
+  |---|---|---|---|---|
+  | state-only ("most embeddable") | 360 | 666 | 679 | header + rows 01–05 of 10 |
+  | Huntington, with calibration | 280 | 489 | 501 | panel header + "Huntington RISING" + facet title. **No curve.** |
+  | overlay, modern | 620 | 1528 | 1044 | legend list first; chart below the cut on a phone |
+  | facets, modern | 900 | 2294 | 2370 | a scrolling stack; expected for 10 facets |
+
+  Screenshots: `scratchpad/shot-390-2.png` and `shot-1440-2.png` show the Huntington frame with no curve at both widths.
+- OBSERVED: the attribution footer ("via Sinusoidal History · methods & sources", `EmbedView.tsx:112`) sits below the cut in all four frames at both widths. The docs page promises "All embeds link back to the main site". The links exist, but the reader cannot see them without scrolling inside the frame.
+- OBSERVED, cause: `/embed/docs/page.tsx:16-43` hard-codes heights (360/900/280/620) that are smaller than the content. In the facets view, `EmbedView.tsx:81-100` puts the NowSummaryPanel above the facet, so a single-cycle embed spends its first ~300px on a one-row summary table.
+- MISSING: any real embedder. There are no referrer reads for /embed in this session. `crawl-read` is tier-2 monthly and was not re-run.
+- Retro recurrence that bears on this choice ("a check written from a measurement inherits its looseness"): the guard asserts a stated rule, not today's pixel numbers. "Each non-scrolling snippet's frame contains its whole content, including the footer, at 390 and 1440." It does not assert "height ≥ 501".
+
+### Section 0
+
+- Primer `docs/cold-starts/2026-10-11.md`: banner read. Its first action is dated 2026-10-12 and is not run yet. It runs at the 10-12 morning start.
+- Listener: 🟢 SSE alive (pid 25884, hello 04:21:12Z, replay-complete). Loop: ScheduleWakeup thin tick. Waker ranks 1–3 armed. Rank 1 fired wake-shorten at ~04:44Z and was relaunched.
+- Codex: GREEN (the probe line on this prompt, 04:34:53Z).
+- CI: `check-ci-status --workflow ci.yml` → GREEN for 29cb8df28a (exit 0). Drift: `check-deployed-sha-drift --service sinusoidal-history` → in-sync, live 29cb8df2 = head (exit 0).
+- Due gates: `--snapshot` → "0 gate(s) due on/before 2026-10-11" (42 swept; identical to the existing snapshot).
+- Rotation: exit 0, "no product-love cycle picks this lane today". Answered cards: none.
+- Recs yesterday: the round-3 close carried pending reads only. All are dated 10-13 or later. None is due.
+
+### Permission
+
+Lane-owned product surface: /embed docs copy, snippet heights and the EmbedView layout. No pairing, period, inference CSV, verdict, /state or API wording changes. The surfaces the 10-13 W-004 walk judges (cycle pages, /state, /methods, the home Calibrate tab) are not touched: EmbedView is its own route. No open card.
+
+### Next action
+
+**Kind:** improve.
+
+1. Make each snippet show what it promises at both widths:
+   - single-cycle facets: drop the one-row summary panel above the facet (it repeats the facet's own phase label), or move it below the chart;
+   - set each snippet's `height` from its measured content at 390 and 1440, whichever is taller, plus the footer;
+   - overlay: either a phone-safe height or a docs line saying the overlay is a desktop embed.
+   The overlay choice is P3's, made after measuring both options.
+2. Add a live leg, `scripts/check-embed-snippets.mjs`, the same shape as check-year-position. It reads `/embed/docs`, pastes each snippet into a cross-origin page and checks at 390 and 1440 that:
+   - the frame loads with `frame-ancestors *`;
+   - there is no horizontal overflow;
+   - for every snippet not declared scrolling, frame scrollHeight ≤ the snippet's height and the "via Sinusoidal History" link is inside the frame;
+   - the single-cycle frame has a curve path inside its visible box.
+3. Red arm: run the leg against production before the deploy. It must fail on state-only and Huntington.
+4. Spawn-shape unit test for the leg's `--selftest` (pre-flight shape (a)). Run root lint on the new script.
+
+First command (the baseline, before any edit):
+
+```
+node C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/7aa515a4-2c6a-4ba5-be1a-826f8df69b48/scratchpad/embed-walk.mjs https://sinusoidalhistory.com
+```
+
+### Acceptance condition (observable)
+
+1. Pasted cross-origin at 390x844 and 1440x900, the Huntington snippet's frame shows the Huntington curve. The state-only frame shows all ten rows. Both frames show the via-footer without inner scrolling.
+2. `check-embed-snippets` against production: RED before the deploy (state-only, Huntington), GREEN after. CI green and the deploy row live at the new head.
+3. Rendered-text diff of `/embed/docs`, built against production: only the changed heights/notes differ. No other page's server-rendered text changes.
+
+### Delivery and encounter checks
+
+- Delivery: acceptance reads 1 and 2 on https://sinusoidalhistory.com after the deploy.
+- Encounter: blind. There are no client analytics and no embed referrer read. A real encounter would appear as a non-sinusoidalhistory.com `Referer` on `/embed?…` requests in the monthly `crawl-read`. One such request is readable.
+
+### USER-FACING: yes
+
+Paths:
+- `src/app/embed/docs/page.tsx` (snippet heights, notes)
+- `src/components/EmbedView.tsx` (single-cycle layout)
+- `scripts/check-embed-snippets.mjs` (new) + `src/lib/checkEmbedSnippets.test.ts` (new, spawn shape)
+- `docs/key-user-flows.md` (Flow 3)
+- `continuity/items.json` (I-037)
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none — read `check-due-gates-dispositioned --snapshot` ~04:50Z, 0 due (42 swept).
+- (b) Owed child rows in the orchestrator's ledger: none — read kickoff "rows owed to you", 0 of 749 (04:41:49Z).
+- (c) State reads marked CROSSED: none — read the kickoff state block (04:41:49Z). Not measured, not clean: missingLinkedCommits 0 of 0 considered; key-metrics has no list.
+
+codexCalls: 0 (P1 is a read and a selection) — probed-declined
+
+<!-- findings:begin -->
+Correction to the round-4 P1 packet (2026-10-12, P3): the packet said an embed encounter would appear as a non-sinusoidalhistory.com Referer on /embed requests in the monthly crawl-read. scripts/crawl-read.mjs has no Referer field (Grep: 0 matches), so it cannot. The encounter is blind; I-037's closeWhen names the 2026-11-01 read that decides whether it can ever be seen. Also measured in P3: Huntington's published peak is 1968, so the docs' 'with calibration' snippet (peak.huntington=1968) calibrated nothing; the manager review's 'undisclosed peak 1968' hypothesis did not apply to it, and the example now overrides to 1972.
+<!-- findings:end -->
+
+---
+
+[P3 — Product-work loop]
+
+## Night session (round 4) — P3 product-work loop
+
+### Action — embed snippets show what they promise; the single-cycle embed shows a readable, disclosed curve (kind: improve), I-037
+
+Built to the manager review's REDIRECT (3e286b33). Its acceptance condition replaced the packet's.
+
+### What changed for a writer
+
+- **Snippet heights now hold the whole embed**, attribution included, in a 358px and a 680px column:
+  - state-only 360 → 700;
+  - Huntington 280 → 500;
+  - overlay 620 → 1070.
+  The full facet stack scrolls inside its frame, and the docs say so. The docs also say the overlay is for columns wider than 640px.
+- **A single-cycle facets embed is the chart alone:** a 200px curve (it was 60px) with its year axis, and no ten-row summary panel above it.
+- **Any `peak.`/`period.` override prints a visible line above the chart.** The line names the override beside the site's published value and always names the site's reference peak. For example: "Calibrated for this page, not the site's published values: Huntington — creedal passion, peak 1972 (the site's reference peak is 1968)." The wording lives in `src/lib/embedCalibration.ts`.
+- **Facet headers in embeds are labels, not buttons that did nothing when tapped.**
+- **The docs' "with calibration" example now overrides to 1972.** Huntington's published peak IS 1968, so the old example calibrated nothing (measured in P3; not in the P1 packet).
+
+### Four states
+
+1. **Implementation.** Commits on main: `f5a2e8e`, `28bbb07`, `69d5c94`, `8bb4dd4`.
+   - Gate: 304/304 tests at `69d5c94`; receipt `tmp/.verify-receipt.json`. `8bb4dd4` changes only comments, labels and the ledger.
+   - One run at `28bbb07` was RED: the `bareCos` test timed out at 6.1s against a 5s limit while the machine was under load. Alone it passed in 642ms, and the re-run was green 304/304.
+   - Typecheck clean. Lint clean on the changed files; CI ran the full lint.
+   - New guard: `scripts/check-embed-snippets.mjs`. It pastes the SERVED snippets into a page on another origin and judges rules 0–6 at 390 and 1440. Selftest 38/38, spawned by `src/lib/check-embed-snippets.test.ts`. `src/lib/embedCalibration.test.ts` adds 4 cases.
+   - Rendered text of /embed/docs, production → built: exactly 10 lines changed, all intended. No other server-rendered page changed; the component edits are client-side and default to the old behaviour.
+2. **Delivery.**
+   - `check-ci-status --wait`: GREEN for `8bb4dd43c5`.
+   - `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live `8bb4dd43` = head.
+   - `check-embed-snippets https://sinusoidalhistory.com`: **42/42 PASS** (25/42 before the deploy, the red arm).
+   - `check-year-position https://sinusoidalhistory.com`: 95/95, so the unchanged surfaces still hold. This is also the primer's 10-12 first action.
+3. **Encounter: blind.** No client analytics, and no instrument can see a third-party page that embeds the chart. The P1 packet said a non-sinusoidalhistory.com Referer would show in the monthly crawl-read. **That was wrong:** `scripts/crawl-read.mjs` has no Referer field (0 matches). I-037's closeWhen now names the 2026-11-01 read that decides whether one can ever be seen. Bug row: I-037.
+4. **Outcome:** open. No read exists.
+
+USER-VISIBLE: a writer who pastes an /embed/docs snippet gets the whole embed in its frame — all ten state rows, a 200px Huntington curve instead of none, and a visible line saying the 1972 peak is the writer's, not the site's (1968) — 8bb4dd4 [proof: check-embed-snippets on https://sinusoidalhistory.com 25/42 before the deploy → 42/42 after (2026-10-12 ~01:45 MT), live 8bb4dd43 = head per check-deployed-sha-drift] [coverage: crawl-read (Render request logs, crawlers only, no Referer) · last good read 2026-09-08 · founder+test excluded no] [exposure: blind — no client analytics and no instrument sees a page that embeds the chart; crawl-read has no Referer field · bug row I-037]
+[red-armed: node scripts/check-embed-snippets.mjs https://sinusoidalhistory.com (before the deploy) -> 25/42 FAIL: state-only "4 of 10 rows visible"; Huntington "60px (path 0px), not visible", "no visible calibration clause", "peak.huntington=1968 calibrates something — published 1968"; facet headers "is not a toggle (no aria-pressed)"]
+
+### Review
+
+Three Codex rounds, all read-only. Each round's banner showed `workdir: C:\dev\skylark\sinusoidal-cycles`.
+
+- **r1 on `f5a2e8e`:** 7 findings, all CONFIRMED, fixed in `28bbb07`.
+  - 1 product defect: a period-only override did not name the site's reference peak, so contract (5) was unmet.
+  - 6 check weaknesses: it rebuilt the iframe instead of pasting it; it had no population, row or painted-curve check; visibility was geometry only; the disclosure match was loose; clicks were programmatic; the docs note was read from raw HTML.
+- **r2 on `28bbb07`:** 4 findings, CONFIRMED. Three were SECOND appearances of r1 classes: an empty curve passing via the data path; visibility missing clipped rows and hidden spans; a fallback-stuck frame passing. The fourth was hover effects certifying a dead click. Per the stop-patching rule, I changed the check's shape in `69d5c94`:
+  - structural marks set by the components (`path[data-curve=theory]`, `span[data-calibration-for]`);
+  - centre hit-tests for visibility;
+  - an exact clause match;
+  - rule 6 as "every embed button is a toggle whose aria-pressed flips";
+  - a frame that never hydrates fails.
+- **r3 on `69d5c94`:** 2 findings, each a THIRD appearance: a zero-width stroke passes the curve leg, and the docs-note leg skipped the hit-test. No third matcher: I narrowed both legs' claims in `8bb4dd4`. The curve leg now says "paint not judged" and the docs-note leg says "presence, not readability". The painted line is evidenced by a frame instead (the 200px Huntington curve with its calibration line). The review loop stopped there.
+
+codexCalls: 3
+adversarialReviews: 3 — EXECUTED (r1 f5a2e8e, r2 28bbb07, r3 69d5c94; foreground `codex exec --sandbox read-only`, banner workdir checked each round)
+hygiene helper: DISPATCHED 2026-10-12 ~05:10Z · draft `tmp/hygiene-draft-sinusoidal-cycles-2026-10-11-r4.md` PRESENT (inputs all none; check-wait-justification PASS 30/42 with 1 info (I-034); check-engineering-zero PASS 0 findings)
+
+### Machine events this phase
+
+- **Low-memory reap ~06:40Z:** it stopped the waker ranks, my local server and a lint run. Free memory read 11.6 GB, so I relaunched ranks 1–3 under the standing go-ahead and posted status f187d892.
+- **Orchestrator memory notice 00:45 MT:** I read free memory before each heavy job (17.2, 12.0, 8.4, 15.3, 13.3 GB) and ran builds, tests and Codex one at a time. Local `next start` servers were stopped by their own PIDs.
+
+### What remains
+
+- **2026-11-01, I-037:** read one Render log line for /embed. Referer present → add a crawl-read leg. Absent → close as delivered, with the encounter blind by construction.
+- **The 2026-10-13 W-004 walk** is untouched by this work. It touched no surface the walk judges: EmbedView is its own route, and the CycleFacet/FacetView props default to the old behaviour. `check-year-position` reads 95/95.
+
+[standing-rules-hash: 88cc2dc9]
