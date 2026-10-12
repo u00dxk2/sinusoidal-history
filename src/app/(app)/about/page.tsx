@@ -182,7 +182,8 @@ export default function About() {
           peak to anchor (we use the post-WWII High at ~1955). With period
           84, the trough of this construction lands at 1997 and the next
           peak at 2039; their predicted Fourth-Turning Crisis climax around
-          2020 sits on the rising arm of the sinusoid (cos ≈ +0.15), neither
+          2020 sits on the rising arm of the sinusoid (curve height ≈ +0.15,
+          on a scale from −1 at a low to +1 at a peak), neither
           at a trough nor a peak - there is no peak-year anchor that lines
           their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
           interpretive periodization formalizing his father&apos;s alternating

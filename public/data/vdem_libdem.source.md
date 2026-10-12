@@ -19,7 +19,7 @@ Source CSV has all countries × 1789–2025. We kept only `entity == "United Sta
 
 The Phase 2 spec called for V-Dem to be a secondary pairing for Huntington. We instead paired it with Strauss-Howe so every cycle has exactly one data series — that lines up better with the new small-multiples layout (one cycle, one paired series per facet).
 
-The Strauss-Howe pairing is defensible: their saeculum predicts a "Fourth Turning" of crisis and institutional rupture roughly every 80–90 years — an era Howe dates from 2008 onward. Note that the Crisis is a qualitative era in their framework, not this site's sinusoid trough: with period 84 and peak 1955 the construction's trough is 1997, and 2008 sits on the rising arm (cos ≈ −0.68). V-Dem's recent US drop captures the kind of liberal-democratic stress the framework predicts during a Crisis era. It is *not* a measurement of generational psychology — that, the framework's main causal mechanism, isn't directly observable.
+The Strauss-Howe pairing is defensible: their saeculum predicts a "Fourth Turning" of crisis and institutional rupture roughly every 80–90 years — an era Howe dates from 2008 onward. Note that the Crisis is a qualitative era in their framework, not this site's sinusoid trough: with period 84 and peak 1955 the construction's trough is 1997, and 2008 sits on the rising arm (curve height ≈ −0.68, on a scale from −1 at a low to +1 at a peak). V-Dem's recent US drop captures the kind of liberal-democratic stress the framework predicts during a Crisis era. It is *not* a measurement of generational psychology — that, the framework's main causal mechanism, isn't directly observable.
 
 ## Caveats
 

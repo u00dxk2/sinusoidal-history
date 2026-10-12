@@ -18,6 +18,12 @@
 // Round 2 (2026-09-29) added the figure's now-mark legs: the dot, read back from pixels at 1280
 // wide, lands on the API's year and cos; and the "now · <year>" label is ≥11px and fully on
 // screen at 390 and 320 wide. Red arm: production before it has no [data-mark="now"].
+// Round 3 (2026-10-11, I-036) added the bare-cos legs: no cycle page's visible text, nor /about's,
+// nor the served about.md, llms.txt and vdem_libdem.source.md, prints "cos <number>". Red arm:
+// production before it printed "cos ≈ …" on turchin, strauss-howe, /about and all three files.
+// Blind to: the home chart's Calibrate tab (client-rendered behind a tab, never opened here) and
+// every page not named above. src/lib/bareCos.test.ts reads the sources and covers that surface.
+// /state keeps "cos" on purpose, with its footnote, and is not read.
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
@@ -80,6 +86,11 @@ function dotReading(svg, dot, start, end) {
 // At 1280 wide the figure is ~700px across: ~0.6 years and ~0.02 of cos per pixel.
 const dotAgrees = (r, year, cos) => Math.abs(r.year - year) <= 1 && Math.abs(r.value - cos) <= 0.03;
 
+// "cos", optionally "≈" or "=", then a signed number: the shape a reader cannot read. The same
+// rule as src/lib/bareCos.test.ts, written out here so this script stands alone.
+const BARE_COS = /\bcos\s*[≈=]?\s*[−+-]?\d/u;
+const bareCosAt = (text) => text.match(new RegExp(`.{0,40}${BARE_COS.source}.{0,20}`, "u"))?.[0];
+
 if (process.argv.includes("--selftest")) {
   const tail = " That is a position of this construction, not the theorist's forecast. Every cycle in 2026 →";
   const modelski = { period_years: 110, reference_peak_year: 1945, cos: -0.09, phase: "crossing", next_peak_year: 2055, next_trough_year: 2110 };
@@ -117,7 +128,18 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "agrees" : "disagrees"}`);
   }
-  const total = cases.length + dots.length;
+  const prose = [
+    ["bare cos ≈ in a rationale", "near a trough (cos ≈ −0.81 at 1780)", true],
+    ["bare cos in a sentence", "on the rising arm (cos +0.67)", true],
+    ["curve height with its scale", "(curve height ≈ +0.15, on a scale from −1 at a low to +1 at a peak)", false],
+    ["a formula", "r reduces to cos(Δφ)", false],
+  ];
+  for (const [name, text, want] of prose) {
+    const got = Boolean(bareCosAt(text));
+    if (got !== want) bad += 1;
+    console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "bare cos" : "clean"}`);
+  }
+  const total = cases.length + dots.length + prose.length;
   console.log(`selftest: ${total - bad}/${total} ${bad ? "FAIL" : "PASS"}`);
   process.exit(bad ? 3 : 0);
 }
@@ -163,8 +185,25 @@ for (const entry of state.cycles) {
   check(`${tag} links /state/${state.year}`, href === `/state/${state.year}`, href ?? "no link");
   const body = await page.locator("body").innerText();
   check(`${tag} no "\\$" on the page`, !body.includes("\\$"));
+  const cosHit = bareCosAt(body);
+  check(`${tag} no bare "cos <number>" on the page`, !cosHit, cosHit ? `"${cosHit}"` : "");
   const box = await el.boundingBox();
   console.log(`      ${tag} at 390x664: sentence top ${Math.round(box.y)}px (first screen ends at 664)`);
+}
+
+// The same rule on /about (it repeats two rationales and the Strauss-Howe claim) and on the
+// three served text files that carried a bare cos before round 3.
+await page.goto(`${origin}/about`, { waitUntil: "domcontentloaded" });
+const aboutHit = bareCosAt(await page.locator("body").innerText());
+check(`/about no bare "cos <number>" on the page`, !aboutHit, aboutHit ? `"${aboutHit}"` : "");
+for (const file of ["/about.md", "/llms.txt", "/data/vdem_libdem.source.md"]) {
+  const res = await fetch(`${origin}${file}`);
+  if (!res.ok) {
+    check(`${file} no bare "cos <number>"`, false, `HTTP ${res.status}`);
+    continue;
+  }
+  const hit = bareCosAt(await res.text());
+  check(`${file} no bare "cos <number>"`, !hit, hit ? `"${hit}"` : "");
 }
 
 // The figure's now-mark. Geometry at 1280 wide (finest pixels); the label at the two phone
