@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { parseAsStringEnum, parseAsString, useQueryState } from "nuqs";
 import type { Annotation, Cycle, DataSeries } from "@/data/types";
 import NowSummaryPanel from "./NowSummaryPanel";
@@ -96,10 +96,14 @@ export default function EmbedView({
         >
           Calibrated for this page, not the site&apos;s published values:{" "}
           {calibrated.map((c, i) => (
-            <span key={c.id}>
+            <Fragment key={c.id}>
               {i > 0 ? "; " : ""}
-              {c.name}, {c.parts.join(", ")}
-            </span>
+              {/* One span per cycle, marked, so check-embed-snippets can
+                  hit-test exactly the clause it judges (Codex r2). */}
+              <span data-calibration-for={c.id}>
+                {c.name}, {c.parts.join(", ")}
+              </span>
+            </Fragment>
           ))}
           .
         </p>

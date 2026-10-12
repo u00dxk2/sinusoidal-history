@@ -364,6 +364,7 @@ function FacetChart({
       />
       <g transform="translate(4,0)">
         <path
+          data-curve="theory"
           d={cyclePath}
           fill="none"
           stroke={cycle.color}

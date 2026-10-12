@@ -9,26 +9,32 @@
 // served <pre> text, decoded and pasted AS SERVED — only its production host is pointed at the
 // origin under test, so a local build can be judged before it ships (Codex r1: an earlier version
 // rebuilt the iframe and dropped the served attributes). It goes into a blank page served from
-// 127.0.0.1 and is rendered at 390x844 (touch) and 1440x900. "Visible" below always means: the
-// element has a positive box, passes checkVisibility (display, visibility, opacity), and lies
-// inside the frame's viewport. Stated rules — none is a pixel count measured today:
+// 127.0.0.1 and is rendered at 390x844 (touch) and 1440x900. "Visible" below always means: every
+// line box of the element lies inside the frame's viewport and a hit-test at its centre lands on the
+// element (so clipping, covering, display/visibility/opacity and zero size all fail it). Codex r2
+// found three round-1 defect classes again; the answer was this change of SHAPE — structural marks
+// the components set (data-curve="theory", data-calibration-for) and hit-tests — not more matchers.
+// Stated rules — none is a pixel count measured today:
 //   0. POPULATION: the docs serve a state-only snippet and a single-cycle snippet that overrides
 //      something. A rule cannot pass by its snippet being deleted.
-//   1. the src answers 200 with frame-ancestors * and no X-Frame-Options value, and the frame loads;
+//   1. the src answers 200 with frame-ancestors * and no X-Frame-Options value, and the frame
+//      hydrates (leaves its "loading…" fallback and renders its footer) — else nothing more is judged;
 //   2. no horizontal overflow inside the frame;
 //   3. FIT: a frame that is not a multi-cycle facet stack shows its whole document and its own
 //      attribution link ("via Sinusoidal History") is visible. The multi-cycle facet stack is the one
 //      declared scroller; the overlay is declared wide-only (in a frame under 640px its legend stacks
 //      above the chart, so it may scroll there), and the docs page must SAY so, visibly, in the
 //      overlay snippet's own block. A state-only frame shows every cycle's row (the API's count);
-//   4. a single-cycle embed draws THAT cycle's curve (its aria-label names the cycle, its path is
-//      painted across at least half the chart's height) at least 180px tall, visible;
+//   4. a single-cycle embed draws THAT cycle's curve (its aria-label names the cycle, and its
+//      path[data-curve="theory"] — never the data series beside it — is stroked and spans at least
+//      half the chart's height) at least 180px tall, visible;
 //   5. a snippet with a peak./period. override calibrates something (the value differs from the
-//      published one in /api/v1/cycles), and the frame's visible calibration line carries the cycle's
-//      name and the exact clause rebuilt here from the API — the override beside the site's value,
-//      and the site's reference peak always named (the review's contract);
-//   6. no tap target does nothing: each enabled button, clicked with a real pointer, changes the
-//      frame's DOM; every link has a real href.
+//      published one in /api/v1/cycles), and that cycle's own [data-calibration-for] clause, visible,
+//      reads EXACTLY "<name>, <clauses>" as rebuilt here from the API — the override beside the
+//      site's value, and the site's reference peak always named (the review's contract);
+//   6. no tap target does nothing, stated structurally: an embed's only controls are toggles, so
+//      every enabled button carries aria-pressed and a real pointer click flips it (a button
+//      without aria-pressed fails by rule); every link has a real href.
 // Red arm (measured 2026-10-12: 25/42 PASS, 17 legs FAIL): production before I-037 fails 3 on state-only, Huntington and the overlay at 1440 (and the
 // overlay's docs note is absent), 4 on Huntington (a 60px curve), 5 on Huntington (1968 IS the
 // published peak, so the "calibration" example calibrated nothing) and 6 on every facet header.
@@ -94,8 +100,13 @@ const expectedClauses = (ovs, pub) => {
   if (!peak && period) out.push(`the site's reference peak ${pub.reference_peak_year}`);
   return out;
 };
+// Exact: the cycle's own marked clause span, as painted, equals the clause rebuilt here.
 const disclosed = (text, pub, clauses) =>
-  !!text && clauses.length > 0 && text.includes(`${pub.name}, ${clauses.join(", ")}`);
+  !!text && clauses.length > 0 && text === `${pub.name}, ${clauses.join(", ")}`;
+// Rule 6, stated structurally (Codex r2: a DOM diff around a click also caught hover effects): the
+// only controls an embed has are toggles, so every enabled button must carry aria-pressed and a
+// pointer click must flip it. A button without aria-pressed fails by rule.
+const toggleFlipped = (before, after) => (before === "true" || before === "false") && after !== before && (after === "true" || after === "false");
 
 if (process.argv.includes("--selftest")) {
   let bad = 0;
@@ -142,7 +153,12 @@ if (process.argv.includes("--selftest")) {
   const peakOnly = expectedClauses([{ kind: "peak", value: 1972 }], pub);
   const periodOnly = expectedClauses([{ kind: "period", value: 58 }], pub);
   t("period-only override still names the reference peak", periodOnly.join(", "), "period 58y (the site's is 60y), the site's reference peak 1968");
-  t("disclosed: exact clause → green", disclosed(`Calibrated for this page, not the site's published values: ${H}, peak 1972 (the site's reference peak is 1968).`, pub, peakOnly), true);
+  t("disclosed: exact clause → green", disclosed(`${H}, peak 1972 (the site's reference peak is 1968)`, pub, peakOnly), true);
+  t("disclosed: clause with extra words → red", disclosed(`${H}, peak 1972 (the site's reference peak is 1968) — not really`, pub, peakOnly), false);
+  t("disclosed: period-only exact → green", disclosed(`${H}, period 58y (the site's is 60y), the site's reference peak 1968`, pub, periodOnly), true);
+  t("toggle flips → green", toggleFlipped("true", "false"), true);
+  t("toggle unchanged → red", toggleFlipped("true", "true"), false);
+  t("not a toggle → red", toggleFlipped(null, null), false);
   t("disclosed: reversed attribution → red", disclosed(`${H}: the site's peak is 1972; this page uses 1968`, pub, peakOnly), false);
   t("disclosed: period without the reference peak → red", disclosed(`${H}, period 58y (the site's is 60y).`, pub, periodOnly), false);
   t("disclosed: no cycle name → red", disclosed("peak 1972 (the site's reference peak is 1968)", pub, peakOnly), false);
@@ -242,18 +258,31 @@ try {
         await ctx.close();
         continue;
       }
-      // Hydrated: the Suspense fallback is gone and every chart has measured its width.
-      await frame.waitForFunction(() => !/loading…/.test(document.body.innerText) && document.querySelector("footer"), null, { timeout: 20000 }).catch(() => {});
+      // Hydrated: the Suspense fallback is gone and the embed's footer exists. A frame stuck on its
+      // fallback FAILS here and is judged no further (Codex r2: it used to pass as "loads").
+      const hydrated = await frame.waitForFunction(() => !/loading…/.test(document.body.innerText) && document.querySelector("footer"), null, { timeout: 20000 }).then(() => true, () => false);
+      if (!hydrated) {
+        check(`${tag} frame loads`, false, "never left its loading fallback");
+        await ctx.close();
+        continue;
+      }
       await page.waitForTimeout(1500);
       const single = s.single ? byId[s.ids[0]] : null;
       const m = await frame.evaluate((singleName) => {
         const d = document.documentElement;
         const vh = window.innerHeight;
+        // Seen = painted where a reader looks: every line box of the element lies inside the frame and
+        // a hit-test at its centre lands on the element itself. A hit-test answers clipping by an
+        // overflow-hidden ancestor, covering, display/visibility and zero size in one question
+        // (Codex r2: checkVisibility on the container missed clipped rows and hidden children).
         const seen = (el) => {
-          if (!el) return false;
-          const b = el.getBoundingClientRect();
-          return b.width > 0 && b.height > 0 && b.top >= 0 && b.bottom <= vh + 1 &&
-            el.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+          if (!el || !el.checkVisibility({ opacityProperty: true, visibilityProperty: true })) return false;
+          const rects = [...el.getClientRects()].filter((r) => r.width > 0 && r.height > 0);
+          return rects.length > 0 && rects.every((r) => {
+            if (r.top < 0 || r.bottom > vh + 1) return false;
+            const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+            return !!hit && (hit === el || el.contains(hit));
+          });
         };
         const via = [...document.querySelectorAll("footer a")].find((a) => /Sinusoidal History/.test(a.textContent));
         const rows = [...document.querySelectorAll('section[aria-label="State of the cycles summary"] li')];
@@ -263,22 +292,30 @@ try {
             .filter((n) => /curve from/.test(n.getAttribute("aria-label") ?? ""));
           const svg = svgs.sort((a, b) => b.getBoundingClientRect().height - a.getBoundingClientRect().height)[0];
           if (svg) {
-            const painted = [...svg.querySelectorAll("path")].filter((p) => (p.getAttribute("d") ?? "").length > 20);
+            // The THEORY path only, as the component marks it — never the data series beside it
+            // (Codex r2: the series path stood in for a deleted theory curve).
+            const theory = svg.querySelector('path[data-curve="theory"]');
+            const cs = theory ? getComputedStyle(theory) : null;
+            const stroked = !!cs && cs.stroke !== "none" && Number(cs.strokeOpacity) > 0 && Number(cs.opacity) > 0 &&
+              (theory.getAttribute("d") ?? "").length > 20;
             curve = {
               label: svg.getAttribute("aria-label") ?? "",
               visible: seen(svg),
               h: Math.round(svg.getBoundingClientRect().height),
-              pathH: Math.round(Math.max(0, ...painted.map((p) => p.getBoundingClientRect().height))),
+              pathH: stroked ? Math.round(theory.getBoundingClientRect().height) : 0,
             };
           }
         }
-        const cal = document.querySelector("[data-embed-calibration]");
+        const calFor = {};
+        for (const span of document.querySelectorAll("[data-calibration-for]")) {
+          calFor[span.getAttribute("data-calibration-for")] = seen(span) ? span.innerText.replace(/\s+/g, " ").trim() : null;
+        }
         return {
           sw: d.scrollWidth, cw: d.clientWidth, sh: d.scrollHeight, ch: vh,
           footerVisible: seen(via),
           rows: rows.length, rowsSeen: rows.filter(seen).length,
           curve,
-          calText: seen(cal) ? cal.textContent.replace(/\s+/g, " ") : null,
+          calFor,
         };
       }, single?.name ?? null);
       check(`${tag} frame loads`, true);
@@ -302,8 +339,9 @@ try {
       for (const id of ids) {
         const pub = byId[id];
         const clauses = pub ? expectedClauses(s.overrides.filter((o) => o.id === id), pub) : [];
-        check(`${tag} discloses ${id}'s calibration beside the site's reference peak`, !!pub && disclosed(m.calText, pub, clauses),
-          m.calText ? `"${m.calText.slice(0, 140)}"` : "no visible calibration line");
+        const said = m.calFor[id] ?? null;
+        check(`${tag} discloses ${id}'s calibration beside the site's reference peak`, !!pub && disclosed(said, pub, clauses),
+          said ? `"${said.slice(0, 140)}"` : "no visible calibration clause for this cycle");
       }
       // Rule 6: every link has a real href; every enabled button, pointer-clicked, changes the DOM.
       const badLinks = await frame.evaluate(() =>
@@ -315,13 +353,17 @@ try {
       const dead = [...badLinks];
       for (let i = 0; i < n; i++) {
         const b = buttons.nth(i);
-        const before = await frame.evaluate(() => document.body.innerHTML);
+        const label = ((await b.textContent()) || (await b.getAttribute("aria-label")) || "").trim().slice(0, 40);
+        const before = await b.getAttribute("aria-pressed");
+        if (before === null) {
+          dead.push(`button "${label}" is not a toggle (no aria-pressed)`);
+          continue;
+        }
         const ok = await b.click({ timeout: 3000 }).then(() => true, () => false);
         await page.waitForTimeout(150);
-        const after = await frame.evaluate(() => document.body.innerHTML);
-        if (!ok || after === before) {
-          const label = ((await b.textContent()) || (await b.getAttribute("aria-label")) || "").trim().slice(0, 40);
-          dead.push(`button "${label}" ${ok ? "does nothing" : "cannot be clicked"}`);
+        const after = await b.getAttribute("aria-pressed");
+        if (!ok || !toggleFlipped(before, after)) {
+          dead.push(`button "${label}" ${ok ? `click left aria-pressed=${after}` : "cannot be clicked"}`);
         }
       }
       check(`${tag} no dead tap targets (${n} buttons)`, dead.length === 0, dead.slice(0, 3).join("; "));
