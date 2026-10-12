@@ -191,3 +191,157 @@ The manager review 90a11b2b rated the action COMPLETED against the REDIRECT's ac
 codexCalls: 0 (this phase; the day's one review run is counted on P3 018f447a) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Afternoon session (round 2) — P1 selection packet
+
+**Outcome:** a reader glancing at a cycle page whose record is too short to test does not take the drawn record as a fit to the curve. Item **I-033** (open; shape (a) approved by the orchestrator in e80c61d3, and recorded in the primer banner).
+
+**The user problem, in a reader's words (synthetic, N=1, `docs/walks/2026-10-12-w004-r2.md:16`):** "the brown line bottoms out where the sinusoid bottoms out and climbs where it climbs, up to the peak dot. At a glance it reads as a fit, and a fairly good one."
+
+### Evidence
+
+- **OBSERVED (synthetic, N=1)**, w004-r2, live site after `0aae5e6`, Turchin at 390x664, glance-first: the picture alone reads as a fit. Only text corrects it: the key's last clause (y 387) and the verdict box (y 459). Limits: one model reader, one page. It measures reading, not love.
+- **OBSERVED**, mechanism: the record is drawn on the curve's own axes. `CurveFigure` maps both through the same `y()` (`src/app/(app)/cycles/[id]/page.tsx:848-860`), so a rescaled series lies on top of the sinusoid by construction. Two annotations of that overlay have failed (10-10 key "rescaled to the curve's height"; 10-12 hatch plus "A shape that looks alike is not a test."). Under the stop-patching rule the next step changes the shape.
+- **OBSERVED**, the fold budget the strip must fit, production at HEAD `1c37dca`, read ~19:05Z:
+  - **320x568:** 13/13 OK. Tightest legs: Perez 9px, `/` 12px, Kondratiev 20px, Methods 25px. All other paired pages 26px or more.
+  - **390x664:** 13/13 OK. Tightest paired page is 129px.
+  - So at 320 the strip must be **height-neutral**: the figure is a 900x150 viewBox, about 48px tall at 320. The strip comes out of the curve's own height (for example curve 150 → ~100 units, strip ~50, same total). It cannot be added below it.
+- **HYPOTHESIS**, why (a) can work: on its own band with its own y-scale, the record's swing no longer occupies the sinusoid's y-range, so the eye cannot lay one on the other. **The risk, stated before the build:** the strip shares the time axis, so Turchin's trough near 1960–80 still sits directly under the curve's trough. A walker may still align them vertically. The pre-registered walk is the only instrument that answers this.
+- **MISSING:** any real reader on any /cycles page (no client analytics; the bar reads UNMEASURED). No `docs/evangelism-evidence.md`.
+- **Retro finding that recurred and bears on the choice:** "a check written from a measurement inherits its looseness." Folds, hatch geometry and multiset all passed on `0aae5e6` and could not see the misreading. The walk stays the outcome instrument. The checks only guard delivery.
+
+### Section 0
+
+- Primer `docs/cold-starts/2026-10-12.md` read. First action run (folds at 320x568, above), plus 390x664.
+- Listener: 🟢 SSE hello 18:53:57Z (pid 61828, slug match). `/loop-tick` armed by tool call. Waker ranks 1–3 running.
+- Codex: GREEN per the kickoff's `[codex-probe: …]` line (18:53Z, machine-level exec + write; pipe-backed stdio EPERM noted).
+- CI: `check-ci-status --workflow ci.yml` GREEN on `1c37dcaca8` (exit 0). Drift: `check-deployed-sha-drift --service sinusoidal-history` in-sync, live `1c37dcac` = head (exit 0).
+- Context budget: targeted reads only.
+- North Star: retention + word-of-mouth. The bar's "what breaks the moment" is an overclaim, and here it is a picture. Reported unmeasured.
+- Recs: round 1's "What remains" is the shape decision, now ruled (e80c61d3), which makes it today's action → P3.
+- Harness: running 2.1.296 · fleet UNIFORM (17/17) · installed 2.1.296 (SAME).
+- Rotation: `check-cycle-rotation --lane sinusoidal-cycles` exit 0, no product-love pass picks this lane today.
+- Due gates: `--print` "0 gate(s) due on/before 2026-10-12" (43 swept). The morning `--snapshot` stands (not re-taken).
+- Board: `answered-cards` "NO waiting/answered/pending-verify cards for sinusoidal-cycles".
+
+### Permission
+
+I-033 is this lane's own open row, not parked or frozen, with no card on it. The orchestrator approved shape (a) in e80c61d3. It is a figure layout change inside the lane's product authority. Untouched: `public/data/spectral/`, HashLink.tsx, /state bands, state-2026.csv, judgedOn lengths, verdict box wording. **Not authorised here:** (b), no record on the first screen. That is a bar change, and it goes to David as a card only if (a) fails its walk.
+
+### Next action
+
+Kind: **improve.** In `CurveFigure`, split the figure's existing height into two bands that share only the x axis:
+- **Top band:** the sinusoid, with now-dot, ring, peak line and century ticks.
+- **Bottom strip:** the judged record, min-max scaled to the strip's own height. The strip is empty (hatched) for the years a test still needs.
+- The key's "rescaled to the curve's height" becomes wording that is true of the strip (for example "drawn on its own scale below the curve"). The aria label and `seriesOverlay.test.ts` pins move with it.
+- fathers-and-sons (no record) keeps today's single band.
+
+First command (reproduce the reading to beat, Turchin's first screen as it is now):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568
+```
+
+### Acceptance condition (observable)
+
+- **Delivery:**
+  - Live at 390x664 and 320x568, each of the nine paired pages shows the curve band, the record strip beneath it (no record point inside the curve band's y-range), the key, and the verdict headline on the first screen.
+  - `check-entry-folds` 13/13 at both sizes, with Perez still ≥ 0px spare at 320.
+  - fathers-and-sons unchanged (line multiset 40 → 40).
+  - `check-embed-snippets` 42/42. `check-verdict-landing` 490/490.
+  - Tests pin: strip y-range disjoint from the curve band; strip x equals the curve's x for the same year; the oracle is the manifest-built record, not the drawing code.
+- **Outcome (pre-registered, written before any look):** a glance-first cold walk on /cycles/turchin at 390x664, same protocol as w004-r2, passes **only if** the walker's pre-read description does NOT say the line follows, tracks or fits the curve. Fails → no third iteration of the figure; post a P3 consult so (b) can go to David as a card.
+
+### Delivery and encounter checks
+
+- **Delivery:** CI green → deploy row live = head (`check-deployed-sha-drift --service sinusoidal-history`) → the fold, multiset, embed and verdict-landing reads on production.
+- **Encounter:** blind for real readers (no client analytics; bug row I-033). The synthetic glance walk is the read, the same day after deploy. W-005 reads click-through at ~100 impressions (11-04).
+
+### USER-FACING: yes
+
+Paths: `src/app/(app)/cycles/[id]/page.tsx` (`CurveFigure`, key, aria-label), `src/lib/seriesOverlay.ts` (strip scale, possibly key wording), `src/lib/seriesOverlay.test.ts`. To check: `public/llms.txt` and `/methods` (`page.tsx:161` says overlaid series are "rescaled to the interval [-1, 1]", which is about the home chart and may stay true), plus `public/methods.md` if that sentence changes.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none**. Read: `dated gates due today` (0, 43 swept) and `--print`.
+- (b) Owed child rows (skylark-site ledger): **none**. Read: `rows owed to you` (0 of 749).
+- (c) State reads marked CROSSED: **none**. Read: the kickoff state block (stale-actionable 0 of 7; missingLinkedCommits NOTHING SWEPT 0 of 0, not crossed; queued rows 0; HEAD CI GREEN; report artifact PRESENT).
+
+codexCalls: 0 (P1) — probed-declined
+
+---
+
+[P3 — Product-work loop]
+
+## Afternoon session (round 2) — P3 product-work loop
+
+### Action: improve (I-033), shape (a) as the manager review ca557cea APPROVED it
+
+This is a new session in the same lane: the 17:10Z close was round 1. On every cycle page that draws a record (9 of 9 paired pages), the figure now has two bands that share only the time axis:
+- **Top band:** the sinusoid, with its dots and peak line.
+- **Strip below it:** the judged record, min-max scaled to the strip's own height.
+
+The years a test still needs are hatched inside the strip only. The key now reads "the record the verdict counts, drawn below on its own scale. A shape that looks alike is not a test." fathers-and-sons (no record) is unchanged.
+
+### 1. Implementation
+
+- **`5d5031a`**, the figure: `src/app/(app)/cycles/[id]/page.tsx` (CURVE_BAND 104 and STRIP 116–164 in a 900x164 viewBox, `sy()`, the strip rect, the hatch confined to the strip, key and aria-label), plus `src/lib/seriesOverlay.test.ts`. The test's oracle is the frozen analysis manifest. It pins:
+  - each record point in the strip on the strip's scale;
+  - no record point in the curve band;
+  - the hatch y and height equal to the strip;
+  - fathers-and-sons keeps 900x150.
+  
+  **Red-armed:** drawing the record through the curve's `y()` again turned 9 of 16 RED. Restored.
+- **`375fc1f`**, a checker fix from Codex r1 (MED, STATIC, CONFIRMED and REPRODUCED). `scripts/check-year-position.mjs` inverted the now-dot with the old 150/14 geometry, so a local build read 86/95, with every paired dot leg a false RED (Perez read −0.17 for −0.99). It now reads the drawn SVG's viewBox height and inverts that band. An unknown height never agrees. Result: 95/95.
+  
+  **Sibling sweep:** pattern `900x150 | 150/900 | 14/150 | viewBox…150` over the repo excluding node_modules, .next, tmp, docs and continuity found 1 file (this one). No other consumer.
+- **`48a9320`**, selftest arms from Codex r2 (MED, STATIC, CONFIRMED): the old arms could not catch a wrong band height. Positive midline (0) and trough (−1) arms were added. **Red-armed:** band 104 → 164 gave 24/26 FAIL. Restored: 26/26.
+- **Gate:** `verify-with-receipt -- npm test` on `48a9320`, exit 0, 32 files / 305 tests. Lint 0 errors, typecheck clean.
+- **Codex r1** on `5d5031a` (foreground pipe, `--sandbox read-only`, banner `workdir: C:\dev\skylark\sinusoidal-cycles` checked): 1 MED, fixed in `375fc1f`. Everything else checked clean: record y 121–159 inside the strip, curve y 10–94, dots divided by 164, no other stale consumer, no test-ran copy, don't-touch list untouched.
+- **Codex r2** on `375fc1f` (same recipe, banner checked): 1 MED, fixed in `48a9320`. It confirmed the inverse is exact for both geometries and that `svg.first()` is the curve SVG.
+
+### 2. Delivery
+
+- CI GREEN on `48a9320c3a…` (46s).
+- `check-deployed-sha-drift --service sinusoidal-history`: "in-sync live 48a9320c → head 48a9320c".
+- Production reads after deploy:
+  - `check-entry-folds`: 13/13 at 320x568 (Perez 5px spare, was 9) and 13/13 at 390x664.
+  - Strip geometry (`tmp/p3-2026-10-12-r2/strip.mjs`): 10/10 at both sizes. At 320 the strip is 15.4px with the record drawn over 12.2px; at 390 it is 18.7px with 14.8px. The record sits 8.6 to 10.5px below the curve, the hatch is inside the strip, and the clause is in the key.
+  - Rendered `main` innerText line multiset at 390x664, production before vs after: each paired page removed 1 line and added 1 (the key line only). fathers-and-sons 40 → 40.
+  - `check-embed-snippets` 42/42, `check-verdict-landing` 490/490, `check-year-position` 95/95.
+
+### 3. Encounter
+
+blind for real readers: the site has no client analytics, so a reader's reading of the figure leaves no trace (bug row I-033). The synthetic stand-in is the pre-registered glance walk below.
+
+### 4. Outcome (synthetic, N=1): held against the pre-registered bar, with a stated ceiling
+
+<!-- findings:begin -->
+**Pass, as pre-registered.** A fresh cold walker (a new subagent with no repo reads and no earlier frames), using the w004-r2 protocol, looked at /cycles/turchin at 390x664 on production (19:30:48Z). Before reading, it wrote (`docs/walks/2026-10-12-w004-r3.md`, Step A): "that thin line does not look like it follows, fits, mirrors or moves with the wave: it reads as something separate, a small noisy trace in its own compartment … My eye did not line it up with the wave above it." The manager's wider fail list ("mirrors", "lines up with", "moves with") is explicitly negated in the same sentence.
+
+**The reviewer's height caution, checked.** The walker could still describe the record's shape ("mostly flat, dipping a little and drifting up slightly at the end"), so the record was legible, and this is not a pass by invisibility. The walker's own ceiling stands, though: "'separate' partly means 'too small to compare' … if I stare … a reader who looks longer could start pairing them." So this measures the glance and does not claim the record can't be paired on a long look.
+
+**Carried, not this change:**
+- **The hatch key's direction in time** came up again (B2): "years a test still needs" sits over past years, while the verdict box says "339 more years". The box wording is on the don't-touch list. This is the second walk to flag it.
+- **The aria label "falling arm"** vs a dot that reads as "cresting": 2026 is 6 years past Turchin's 2020 peak, so the label is right and the glance is coarse. Noted in two walks; no change proposed.
+<!-- findings:end -->
+
+### Receipt
+
+USER-VISIBLE: on every "not testable" cycle page the record is drawn in its own strip under the curve, on its own scale, sharing only the time axis, instead of on top of the sinusoid — 5d5031a [proof: before, the record was drawn through the curve's own y() in a 900x150 figure; after, 9 of 9 paired pages draw the curve in y 0–104 and the record in a separate 116–164 strip (strip.mjs 10/10 at 320x568 and 390x664 on production after Render live 48a9320c = head; check-entry-folds 13/13 at both; line multiset 1 key line changed per paired page; embed 42/42; verdict-landing 490/490; year-position 95/95)] [coverage: none, no client analytics on this site · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, so a reader's reading of the figure leaves no trace · bug row I-033] [outcome: held — pre-registered glance-first cold walk N=1 synthetic (docs/walks/2026-10-12-w004-r3.md Step A): the walker did not read the record as following or fitting the curve; ceiling: small trace, a long look could pair them] [next: continue — next meaningful read: W-005 GSC click-through at ~100 impressions (2026-11-04); no further figure change on a synthetic N=1]
+
+codexCalls: 2 (Codex r1 on 5d5031a, r2 on 375fc1f)
+adversarialReviews: 2 — EXECUTED (read-only foreground pipes, workdir verified both runs; 1 MED each, both fixed: 375fc1f, 48a9320)
+hygiene helper: DISPATCHED 2026-10-12 ~19:06Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-12.md PRESENT (0 disposition lines; wait-justification PASS 0 warn / 0 info; engineering-zero PASS 0 findings; no READ-MUTATED)
+
+### What remains
+
+- For P5: I-033 notes (shipped 5d5031a + 375fc1f + 48a9320, outcome held on the synthetic glance walk with its ceiling), linkedCommits, and closeWhen against the pre-registered pass. The walk notes `docs/walks/2026-10-12-w004-r3.md` are committed with this report.
+- **Option (b) is not needed:** the walk passed, so no David card is owed.
+- Pending dated reads are unchanged: 10-20 I-027/I-034, 11-01 I-037, 11-04 W-005/I-032, 12-01 I-025.
+
+[standing-rules-hash: 88cc2dc9]
