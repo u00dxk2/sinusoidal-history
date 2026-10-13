@@ -1455,6 +1455,22 @@
       "updated": "2026-10-13",
       "closedAt": "2026-10-13",
       "lastEvaluated": "2026-10-13"
+    },
+    {
+      "id": "I-041",
+      "title": "A cycle page says \"No test was run and no p-value exists\" while /methods shows that same cycle's period run against other records (Kondratiev: p 0.796, 0.814); a reader who reads both can take them as contradicting each other",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-12",
+      "hypothesis": "From the 10-12 cold walk (docs/walks/2026-10-12-w004.md:182 and :195, synthetic N=1, recorded then as residue on I-029): 'Kondratiev's 54-year period was tested twice here (p 0.796 and 0.814), and the cycle page does not mention it ... A reader who reads /methods first and a cycle page second may wonder which \"no test\" means.' Both pages are true; the gap is that no cycle page reads verdicts.json cross_grid (src/lib/spectral.ts:58 is read only by /methods). The frozen cross_grid has cells for 6 periods (by period_source_cycle_id): schlesinger_jr 7, turchin_fathers_sons 5, kondratiev 2, perez 2, huntington 2, dalio 1; khaldun, strauss_howe, modelski and turchin have none. Fathers-and-sons has no primary verdict and so no Spectral verdict section. Candidate fix: one derived paragraph in the Spectral verdict section of the 5 pages with cells, after the 'declined, not failed' note, naming the period, the count, the lowest p, 'not this theory's claim', and linking the cells on /methods. It must stay true and outside the TEST_RAN guard (src/lib/testedSeries.test.ts:34-35) with no allowlist entry; a Codex claims pass is owed.",
+      "closeWhen": "Live, the 5 cycle pages with cross-grid cells carry a paragraph whose numbers match verdicts.json cross_grid, the other 4 verdict pages do not, the TEST_RAN guard passes on every page with no new allowlist entry, and a fresh walker who reads /methods' cross-grid paragraph and then /cycles/kondratiev's Spectral verdict says, from the Kondratiev page, what 'No test was run' refers to and reports no contradiction; or a recorded decision that the pages are left as they are.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev C:/dev/skylark/sinusoidal-cycles/tmp/i041-kondratiev.txt",
+      "notes": "2026-10-13 (P1, day round): minted from the 10-12 walk's ranked finding #2, selected as the day's user-visible job in P1 49244252, ahead of Perez's 'sits at a low' ordering and Strauss-Howe's 'a 84-year' (half frozen in verdicts.json lay_text).",
+      "created": "2026-10-13",
+      "updated": "2026-10-13"
     }
   ],
   "knownPatterns": [
