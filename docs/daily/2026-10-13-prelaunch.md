@@ -763,3 +763,69 @@ adversarialReviews: 2 — EXECUTED (r1 on 5515178, r2 on a437d56)
 hygiene helper: DISPATCHED 2026-10-13 ~11:25 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (0 drafts; wait-justification PASS 31 of 47; engineering-zero PASS 0 findings)
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-041 · P3 f855b820
+
+## Close (day round, 2026-10-13)
+
+The manager review 091238b5 rated it COMPLETED against the REDIRECT's acceptance condition (d854b486).
+
+**State changed since P3 (f855b820):** one more reader-facing fix, `f9bb358`, made in the close as the review allowed.
+- **Before:**
+  - /cycles/strauss-howe said "a 84-year claim" in the "Does it hold up?" box (page.tsx:287), and the figure aria-label said "a 84-year sinusoid" (page.tsx:959).
+  - The /state reason line said "of a 84-year cycle" (stateOfCycles.ts; the API and CSV carry it too).
+  - Modelski's meta description said "An 110-year sinusoid". The old helper in cycleRoutes.ts took "an" for any number starting 11 or 18.
+- **After:** one helper, `src/lib/article.ts`, reads only the leading spoken group.
+- **Gates:**
+  - `verify-with-receipt` at f9bb358 TRUE, 150/150 in 7 suites.
+  - eslint exit 0; typecheck exit 0.
+  - CI GREEN (`check-ci-status --sha f9bb3586… --wait`).
+- **Red arm:** helper forced to "a" → 11 failed. Restored → 150/150.
+- **Live:**
+  - `check-deployed-sha-drift`: in-sync, live f9bb3586 = head.
+  - /cycles/strauss-howe HTML: "an 84-year" ×4. The only "a 84-year" left is the frozen lay_text sentence "a 84-year claim. No test was run …" (×2, HTML plus RSC payload).
+  - Modelski meta: "A 110-year sinusoid".
+  - The /state line is covered by the test, not read live.
+- **Review:** BY-INSPECTION (article choice only). Every cycle period and 14 boundary numbers are pinned, and the red arm failed on each "an" case.
+
+**Ledger delta** (every write via `continuity-edit`, each printing "wrote 1 change(s)"):
+- **I-041:** linkedCommits `5515178`, `7b57938`, `a437d56`, `de1fdb6`, `f9bb358`. Then **closed 2026-10-13** on its closeWhen (the walk form), with the receipt note.
+  - Encounter: blind by standing choice, so no read is pending.
+- **I-042 minted** (open, P4, nextEvaluation 2026-12-01): the frozen lay_text "a 84-year". Its waitJustification is `unWaitOn` the next spectral re-freeze, with the owner set to this lane.
+- **I-043 minted** (open, P4, nextEvaluation 2026-10-20): the /methods cross-grid lead opens with AR(1)/Holm jargon where a cycle-page link lands.
+
+**Residue dispositions** (review 091238b5, each owned):
+1. The lane-fixable "a 84-year" pair, page.tsx:287 and :959: **FIXED** in f9bb358. The sweep found two more siblings, the /state line and Modelski's "An 110-year", both fixed in the same commit.
+2. The frozen lay_text instance: **I-042**, waiting for the next re-freeze.
+3. Naming which run the lowest p comes from: **DROPPED**. Walk C called it "harmless", the doubt resolved in-paragraph, and the run is one tap away on the open list. The /methods landing jargon: **I-043**.
+
+**Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md`): 0 lines — 0 accepted · 0 amended · 0 rejected (inputs none).
+- READ-MUTATED: "none — 0 reads guarded (no --run executed)".
+- check-wait-justification: "RESULT: PASS — 31 of 47 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)". Re-run after I-042's wait was written: "RESULT: PASS — 32 of 49 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)".
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable". No lockfile changed.
+
+**Due-gate verification:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned". The snapshot is CURRENT (taken 2026-10-13, 0 due).
+
+**Receipt:** P3's receipt (f855b820) still holds, and its brackets have not changed. f9bb358 rides beside it:
+
+USER-VISIBLE: on /cycles/strauss-howe the verdict box and the figure's screen-reader label now say "an 84-year", the /state reason line says "of an 84-year cycle", and Modelski's search snippet says "A 110-year sinusoid" instead of "An 110-year" — f9bb358 [proof: live Strauss-Howe HTML "an 84-year" ×4 with "a 84-year" left only in the frozen verdict sentence (I-042); Modelski meta "An 110-year" → "A 110-year"; check-deployed-sha-drift in-sync live f9bb3586 = head] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30), Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none]
+
+**David's board:** nothing new. No needs-decision.
+
+**Primer:** `docs/cold-starts/2026-10-13.md`, banner rewritten in place.
+
+**Pending reads:**
+- 2026-10-20: I-027, I-034, I-043.
+- 2026-11-01: I-037.
+- 2026-11-04: W-005, I-032.
+- 2026-12-01: I-025 (David), I-042.
+
+**UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's two review runs are counted on P3 f855b820) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]

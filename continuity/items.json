@@ -1459,7 +1459,7 @@
     {
       "id": "I-041",
       "title": "A cycle page says \"No test was run and no p-value exists\" while /methods shows that same cycle's period run against other records (Kondratiev: p 0.796, 0.814); a reader who reads both can take them as contradicting each other",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1468,15 +1468,55 @@
       "closeWhen": "Live, the 5 cycle pages with cross-grid cells carry a paragraph whose numbers match verdicts.json cross_grid, the other 4 verdict pages do not, the TEST_RAN guard passes on every page with no new allowlist entry, and a fresh walker who reads /methods' cross-grid paragraph and then /cycles/kondratiev's Spectral verdict says, from the Kondratiev page, what 'No test was run' refers to and reports no contradiction; or a recorded decision that the pages are left as they are.",
       "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev C:/dev/skylark/sinusoidal-cycles/tmp/i041-kondratiev.txt",
-      "notes": "2026-10-13 (P1, day round): minted from the 10-12 walk's ranked finding #2, selected as the day's user-visible job in P1 49244252, ahead of Perez's 'sits at a low' ordering and Strauss-Howe's 'a 84-year' (half frozen in verdicts.json lay_text).",
+      "notes": "2026-10-13 (P1, day round): minted from the 10-12 walk's ranked finding #2, selected as the day's user-visible job in P1 49244252, ahead of Perez's 'sits at a low' ordering and Strauss-Howe's 'a 84-year' (half frozen in verdicts.json lay_text). | 2026-10-13 (P5 close, day round): CLOSED on its closeWhen (the walk form), per manager review 091238b5 (COMPLETED).\n\nShipped:\n- 5515178, 7b57938, a437d56, de1fdb6: each of the 9 verdict pages names its period cells and record cells separately, with counts and the lowest lead p.\n- OpenOnHash opens /methods#cross-grid on arrival.\n- CI green; live de1fdb63 = head.\n- Visible-text multiset: +2 lines and -0 on each of the 9 pages; fathers-and-sons 0.\n- Tap at 320x568 lands with the box open=true and 19 rows.\n- Folds 13/13; embeds 42/42.\n\nCodex: r1 found all 9 sentences HOLD and two test gaps, fixed in 7b57938. r2 found every revised sentence HOLDS; its follow-ups are in de1fdb6.\n\nWalks (docs/walks/2026-10-13-i041.md, synthetic N=1 each): A and B passed and tripped on the same four spots. One revision round followed. C on the revised page: no contradiction, the doubt resolved in-paragraph.\n\nEncounter: blind. There is no reader-arrival instrument, by standing choice, so no read is pending.\n\nResidue dispositions (review 091238b5):\n1. The lane-fixable 'a 84-year' pair (page.tsx:287 and :959) is FIXED in f9bb358, together with two siblings the sweep found: the /state reason line, and Modelski's meta 'An 110-year'.\n2. The frozen lay_text instance is tracked as I-042, waiting for the next re-freeze.\n3a. Naming which run gives the lowest p: DROPPED. Walk C called it 'harmless' and the doubt resolved inside the paragraph.\n3b. The /methods landing jargon is tracked as I-043 (2026-10-20).",
       "created": "2026-10-13",
       "updated": "2026-10-13",
       "linkedCommits": [
         "5515178",
         "7b57938",
         "a437d56",
-        "de1fdb6"
-      ]
+        "de1fdb6",
+        "f9bb358"
+      ],
+      "closedAt": "2026-10-13",
+      "lastEvaluated": "2026-10-13"
+    },
+    {
+      "id": "I-042",
+      "title": "The frozen spectral verdict text on /cycles/strauss-howe still reads \"before testing a 84-year claim\" (verdicts.json lay_text); every other place the site prints a period now takes the right article",
+      "status": "open",
+      "type": "issue",
+      "priority": "P4",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-13",
+      "hypothesis": "Found by two cold walkers on 2026-10-13 (docs/walks/2026-10-13-i041.md, walk B and walk C: 'a 84-year claim (y 512, y 3532) should be an 84-year claim'). The lane-fixable instances were fixed at the 2026-10-13 close with one shared helper (src/lib/article.ts): the 'Does it hold up?' box (page.tsx:287), the figure aria-label (page.tsx:959), the /state reason line (stateOfCycles.ts:219), and Modelski's meta description, which read 'An 110-year'. The remaining instance is generated text inside public/data/spectral/verdicts.json, which is manifest-frozen (AGENTS.md: never hand-edit verdicts.json). The fix is in scripts/spectral_verdict.py's lay_text template, and it ships only with the next re-freeze (--write-manifest, --selftest, --run, re-commit public/data/spectral/).",
+      "closeWhen": "A spectral re-freeze ships and live /cycles/strauss-howe has no 'a 84-year' anywhere in its rendered text; or a recorded decision that no re-freeze is coming and the slip stays.",
+      "nextEvaluation": "2026-12-01",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/strauss-howe C:/dev/skylark/sinusoidal-cycles/tmp/i042-strauss.txt",
+      "waitJustification": {
+        "unWaitOn": "the next spectral re-freeze (any cycle, pairing, period or inference-CSV change: AGENTS.md 'The spectral verdict is manifested')",
+        "loadBearing": "verdicts.json and its lay_text are manifest-frozen; a hand edit breaks the sha-pinned manifest the run enforces",
+        "owner": "sinusoidal-cycles"
+      },
+      "notes": "2026-10-13 (P5 close, day round): minted as residue disposition (2) of manager review 091238b5. Dated with I-025 (2026-12-01), the other row that waits on a /state or spectral freeze.",
+      "created": "2026-10-13",
+      "updated": "2026-10-13"
+    },
+    {
+      "id": "I-043",
+      "title": "A reader who follows a cycle page's 'All 19 re-pairings' link lands on /methods' cell list, whose first paragraph opens with 'bootstrap p against the AR(1) red-noise null … Holm correction'",
+      "status": "open",
+      "type": "issue",
+      "priority": "P4",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-13",
+      "hypothesis": "Walk C (docs/walks/2026-10-13-i041.md, round 2, 320x568, synthetic N=1) landed on /methods#cross-grid with the box open and found the number it was looking for. It also said: 'The first paragraph a reader sees after the jump uses bootstrap p against the AR(1) red-noise null, AR(2) null, Holm correction and unadjusted threshold … The cycle page's own sentence (borrows a theory's period and sets it against a record that theory is not paired with) is the clearer of the two.' Walk A said the same of the cross-grid wording generally. Candidate fix: CROSS_GRID_LEAD (src/components/CrossGridList.tsx) opens with its own plain first sentence ('Each row borrows one theory's period …') and moves the null and Holm wording after the rows' first look. It is mirrored word for word in public/methods.md and pinned by src/lib/methodsCrossGrid.test.ts, so both sides change in one commit. No walker failed a question on it.",
+      "closeWhen": "CROSS_GRID_LEAD leads with plain language on /methods and /methods.md, and a fresh walker landing from a cycle page's link reads the first screen without stalling on the null/Holm terms; or a recorded decision that the lead stays as written.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/methods C:/dev/skylark/sinusoidal-cycles/tmp/i043-methods.txt",
+      "notes": "2026-10-13 (P5 close, day round): minted as residue disposition (3b) of manager review 091238b5. Dated with I-027 and I-034 (2026-10-20). The other half of (3), naming which run gives the lowest p, was DROPPED: walk C called it 'harmless', the doubt resolved inside the same paragraph, and the run is one tap away on the open list.",
+      "created": "2026-10-13",
+      "updated": "2026-10-13"
     }
   ],
   "knownPatterns": [
