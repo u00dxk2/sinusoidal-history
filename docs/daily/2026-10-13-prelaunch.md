@@ -555,3 +555,118 @@ The manager review b289977f rated it COMPLETED and found no defects. Its own liv
 codexCalls: 0 (this phase; the round's one review run is counted on P3 f0d023e3) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Day round (2026-10-13) — P1 selection packet
+
+**Outcome:** on a cycle page whose period this site *did* run against other series, the Spectral verdict section says so, right under "No test was run and no p-value exists", with the numbers and a link to the cells. The two pages stop reading as contradicting each other. **Unminted:** this becomes I-041 at P3. The source is the 10-12 cold walk, residue on I-029 (closed), and no row carries it.
+
+**The user problem, in a reader's words (synthetic, N=1, `docs/walks/2026-10-12-w004.md:182`, /methods then /cycles/kondratiev, 1440x900):** "The Kondratiev page says 'No test was run and no p-value exists' for its own pairing, which is true. But Kondratiev's 54-year period was tested twice here (p 0.796 and 0.814), and the cycle page does not mention it … A reader who reads /methods first and a cycle page second may wonder which 'no test' means."
+
+**Why this beats the next two candidates:**
+- **Perez, "2026 sits at a low" before the page explains that its peak is a crash** (same walk, ranked #3). This is real but local. It is one sentence's order on one page, and the next paragraph resolves it.
+- **"a 84-year claim" on Strauss-Howe** (same walk). It is a grammar slip, and half of it lives in `public/data/spectral/verdicts.json` `lay_text`, which is manifest-frozen. A fix this round would leave the frozen half wrong on the same page.
+- **This one goes to the bar.** The bar breaks when a reader catches the site saying two things (`docs/evangelism-bar.md:24`). Here the site is honest on both pages and still reads as if it were hiding something. The fix also puts the "someone actually checked" evidence on 5 cycle pages. Today that evidence sits only 7 screens down /methods.
+
+### Evidence
+
+- **OBSERVED (synthetic, N=1):** the walk quote above. That walk ranked it #2 of its "up to three more" (`:195`).
+- **OBSERVED, data (frozen, read today):** `verdicts.json` `cross_grid` has 19 cells, keyed by `period_source_cycle_id`.
+  - Schlesinger Jr. (30y): 7 cells, lowest p 0.094.
+  - Fathers and sons (50y): 5.
+  - Kondratiev (54y): 2, p 0.796 and 0.814.
+  - Perez (55y): 2.
+  - Huntington (60y): 2.
+  - Dalio (75y): 1, p 0.149.
+  - Khaldun, Strauss-Howe, Modelski and Turchin (84-150y) have none.
+  - Every cell's state is NO_SIGNIFICANT_TARGET_POWER, and none is Holm-significant.
+- **OBSERVED, mechanism at source:**
+  - The Spectral verdict section (`src/app/(app)/cycles/[id]/page.tsx:605-629`) prints the frozen `lay_text` and the "declined, not failed" note.
+  - Nothing on a cycle page reads `spectralCrossGrid` (`src/lib/spectral.ts:58`). Its only reader is /methods.
+  - Fathers-and-sons has no primary verdict, so it has no such section. Its 5 cells are out of scope for this round, and the build says so.
+- **OBSERVED, constraint:** the no-test-ran guard `TEST_RAN` (`src/lib/testedSeries.test.ts:34-35`) reads every ineligible page.
+  - The new sentence must not say the cycle's own pairing was tested. It must also stay outside the guard's shapes ("was tested", "tested on", "test was run on" …), and it must be true.
+  - That makes it a claims question, so a Codex claims pass is owed (rule 6).
+- **HYPOTHESIS:** one derived line per page resolves the cross-page doubt where it starts. A draft of that line, to be checked against the guard and by Codex: "This site also set the {N}-year period against {k} other record(s) long enough for the 3.0-period rule. Those re-pairings are not this theory's claim, and none came near p < 0.05 (lowest p {x}). The {19} re-pairings, cell by cell →".
+- **MISSING:** any real reader on any page (no client analytics by standing choice, `docs/evangelism-bar.md:30`).
+
+### Section 0
+
+- **Primer:** `docs/cold-starts/2026-10-13.md`, read.
+- **Listener:** 🟢 SSE alive (restart 16:53:07Z, hello + replay-complete), `/loop-tick 2m` armed by a `ScheduleWakeup` call, waker ladder ranks 1-3 running.
+- **Codex:** GREEN per the probe line on this prompt (machine-level, 16:27Z).
+- **CI:** `check-ci-status --workflow ci.yml` GREEN on `7758e2503d`.
+- **Drift:** `check-deployed-sha-drift --service sinusoidal-history` in-sync, live `7758e250` = head.
+- **Due gates:** `--snapshot`, "0 gate(s) due on/before 2026-10-13" (46 swept; identical re-snapshot, nothing dropped).
+- **Board:** `answered-cards`, none.
+- **Rotation:** `check-cycle-rotation`, exit 0, "no product-love cycle picks this lane today".
+- **Harness:** running 2.1.296 · fleet UNIFORM (27/27) · installed 2.1.296 (SAME).
+- **North Star:** retention and word-of-mouth. The bar reads UNMEASURED, so this ship is reported unmeasured.
+- **Recs yesterday:** one, the I-040 copy-length note. Disposition: dropping. It was declined at the round-3 close, and the primer banner says re-open only on a reader stall.
+- **Prior-retro recurrence bearing on the choice:** "a check written from a measurement inherits its looseness". The guard pin for this line takes its oracle from `verdicts.json` `cross_grid`, never from the page's own rendering code.
+
+### Permission
+
+This is new reader-facing copy on cycle pages, derived from frozen data, so it sits inside the lane's own authority (the same class as I-030 and I-040).
+
+Untouched:
+- `public/data/spectral/` (read only);
+- the verdict box wording and `lay_text`;
+- the hatch key words;
+- the /state bands;
+- `HashLink.tsx` internals.
+
+No card, and no David decision.
+
+### Next action
+
+Kind: **improve.**
+
+1. A pure helper `crossGridForCycle(cycleId)` in `src/lib/spectral.ts` returns the cells whose `period_source_cycle_id` matches.
+2. The Spectral verdict section renders one paragraph after the "declined, not failed" note when the helper returns any cells. It names the period, the count, the lowest p, the series, and "not this theory's claim", and it links the /methods cells (an id on the 19-cell `<details>`, or `#spectral-testing`).
+3. A test pins the line on the 5 pages with cells and its absence on the 4 without. Its oracle is `verdicts.json`. The TEST_RAN guard stays green on every page, unchanged and with no allowlist entry.
+
+First command (the before-snapshot of one affected page):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/eb0afed0-eb14-4274-b2f3-3470972d3d10/scratchpad/before-kondratiev.txt
+```
+
+### Acceptance condition (observable)
+
+- **Delivery:**
+  - Live, the line appears in the Spectral verdict section on Schlesinger Jr., Kondratiev, Perez, Huntington and Dalio, with numbers that match `verdicts.json`. It does not appear on Khaldun, Strauss-Howe, Modelski or Turchin.
+  - The visible-text multiset changes by the new line only, on those 5 pages, and by 0 on the other 5.
+  - The link lands on the 19 cells on /methods.
+  - The TEST_RAN guard passes on every page with no new allowlist entry.
+  - `check-entry-folds` 13/13 at 320x568 (the section is far below every fold).
+  - `check-embed-snippets` 42/42.
+  - **One red arm:** remove the paragraph, and the new pin goes RED on the 5 pages. Restore it, and it goes GREEN.
+- **Outcome (pre-registered, written before any look):** a fresh walker reads /methods' cross-grid paragraph at 1440x900, then /cycles/kondratiev's Spectral verdict section, and answers: "Did this site test Kondratiev's 54-year idea? What does 'No test was run' on the Kondratiev page refer to?"
+  - **PASSES only if** the walker answers from the Kondratiev page itself. The answer has to say the theory's own pairing (US TFP growth) was not tested because its record is too short, and that the 54-year period was run against 2 other records, neither near significance. It also has to report no contradiction between the two pages.
+  - **If it fails:** no rewording this round. Record the failure on I-041 for the close.
+
+### Delivery and encounter checks
+
+- **Delivery:** CI green → deploy row live = head → the multiset, link, folds and embed reads on production.
+- **Encounter:** blind. No reader-arrival instrument exists, by standing choice, and no instrument row exists. The synthetic walk is the read.
+
+### USER-FACING: yes
+
+Paths:
+- `src/app/(app)/cycles/[id]/page.tsx`: Spectral verdict section, one conditional paragraph.
+- `src/lib/spectral.ts`: the helper.
+- `src/app/(app)/methods/page.tsx`: an `id` on the cross-grid `<details>`, only if `#spectral-testing` does not land on the cells. That is an anchor, with no visible text, so the `public/methods.md` mirror is unaffected.
+- A test: `src/lib/testedSeries.test.ts` or a new `src/lib/crossGridLine.test.ts`.
+
+### HYGIENE INPUTS
+
+- **(a) Due rows not bearing on the choice:** none. Read: `check-due-gates-dispositioned --snapshot` (0 due, 46 swept).
+- **(b) Owed child rows (skylark-site ledger):** none. Read: kickoff "rows owed to you" (0 of 749).
+- **(c) State reads marked CROSSED:** none. Read: the kickoff state block (dated gates 0, rows owed 0, cards 0, stale-actionable 0 of 6, queued 0, CI GREEN, report PRESENT).
+  - Two lines are not CROSSED but are noted: missingLinkedCommits reads NOTHING SWEPT (0 of 0), and key-metrics has "no list yet".
+
+codexCalls: 0 (P1) — probed-declined
