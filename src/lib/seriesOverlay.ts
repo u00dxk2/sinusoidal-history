@@ -76,14 +76,15 @@ export const MISSING_CLAUSE = "A shape that looks alike is not a test.";
 export const REQUIRED_PERIODS = 3;
 
 /**
- * The earlier years a test would need, as the figure hatches them: the stretch just before the
+ * The earlier years a test would need: the stretch just before the
  * judged record that would bring it to REQUIRED_PERIODS full periods. Null on an eligible
  * verdict, where nothing is missing.
  *
  * Measured from the verdict's own span_years (last year minus first, as verdicts.json counts
  * it), never from the drawn points: the window can cut a record's start, and the hatch must
- * sit where the record really begins (I-033, cold walk 2026-10-12: the drawn line read as a
- * fit to a reader who looked and did not read).
+ * end where the record really begins (I-033, cold walk 2026-10-12: the drawn line read as a
+ * fit to a reader who looked and did not read). The figure uses `to` as the hatch's end and
+ * hatches everything before it in the window, not just this span (I-039, 2026-10-13).
  */
 export function missingYears(
   verdict: { eligible: boolean; period_years: number; span_years: number },

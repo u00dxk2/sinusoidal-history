@@ -192,10 +192,11 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
       `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, drawn below on its own scale. A shape that looks alike is not a test.`,
     );
 
-    // The hatch: the earlier years a test would need, just before the record, inside the
-    // record's strip only. Its oracle is the record rebuilt from the manifest above and the
-    // cycle's own period, not missingYears(): it ends where the record's first point is, and
-    // starts 3 periods before the record's last point, clipped to the window.
+    // The hatch: every year before the record, from the window's start, inside the record's
+    // strip only (I-039: with the shortfall alone hatched, 8 of 9 pages left blank pre-record
+    // years beside a key reading "years missing from the record"). Its oracle is the record
+    // rebuilt from the manifest above, not missingYears(): it ends where the record's first
+    // point is, and starts at the window's left edge, so no pre-record year is left blank.
     const hatch = html.match(
       /<rect data-mark="missing-years" data-from="(-?\d+)" data-to="(-?\d+)" x="([^"]+)" y="([^"]+)" width="([^"]+)" height="([^"]+)"/,
     );
@@ -204,12 +205,18 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(hy).toBe(STRIP_TOP);
     expect(hh).toBe(STRIP_BOTTOM - STRIP_TOP);
     const first = want[0].year;
-    const last = want[want.length - 1].year;
     expect(to).toBe(first);
-    expect(from).toBe(last - 3 * cycle.period_years);
-    expect(hx).toBeCloseTo(((Math.max(start, from) - start) / (end - start)) * W, 1);
+    expect(from).toBe(start);
+    expect(hx).toBe(0);
     expect(hx + hw).toBeCloseTo(((first - start) / (end - start)) * W, 1);
     expect(hw).toBeGreaterThan(0);
+    // "The record" is the one the verdict counts. Turchin's file starts in 1820 (five rough
+    // points), but its judged record starts in 1913, and so does the end of its hatch.
+    if (slug === "turchin") {
+      const csv = readFileSync(join(process.cwd(), "public", "data", "wid_top1_wealth.csv"), "utf8");
+      expect(Number(csv.split(/\r?\n/)[1].split(",")[0])).toBe(1820);
+      expect(to).toBe(1913);
+    }
     expect(html).toContain('<span data-key="missing-years"');
     // The key names the hatch as record missing behind us, never a wait ahead (I-038).
     // The key span holds only its swatch svg and the words, so its first </span> is its own;
@@ -219,7 +226,7 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(keySpan![1].replace(/<svg[\s\S]*?<\/svg>/g, "")).toBe("years missing from the record");
     expect(html).not.toContain("years a test still needs");
     expect(html).toContain(
-      "Hatched before it: the earlier years a test would need, missing from this record. A shape that looks alike is not a test.",
+      "Hatched before it: the earlier years missing from this record. A shape that looks alike is not a test.",
     );
     expect(html).toContain(
       `Drawn below it, in its own strip on its own scale: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts.`,

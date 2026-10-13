@@ -844,7 +844,7 @@ function CurveFigure({
   judged: JudgedRecord | null;
   /** That record as the home chart normalises a series; empty draws no line and no key. */
   overlay: NormalizedPoint[];
-  /** The pairing's verdict; a not-testable one hatches the earlier years a test would need. */
+  /** The pairing's verdict; a not-testable one hatches every year before the record. */
   verdict: SpectralVerdictRow | null;
 }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
@@ -882,17 +882,20 @@ function CurveFigure({
     ? overlay.map((p) => `${x(p.year).toFixed(2)},${sy(p.value).toFixed(2)}`)
     : [];
 
-  // The earlier years a test would need, hatched just before the record (I-033, cold walk
-  // 2026-10-12). A reader who looked at the line without reading the key took its swing
-  // for the cycle fitting; the hatch puts the shortfall in the picture itself. Only on a
-  // not-testable verdict, and clipped to the window (Turchin's runs off its left edge).
+  // Every year before the record, hatched from the window's start (I-033, I-039). Only on a
+  // not-testable verdict. Until 2026-10-13 it hatched just the shortfall to the 3-period
+  // floor, so on 8 of 9 pages blank pre-record years sat beside a key reading "years missing
+  // from the record", and Perez's 7-year hatch was ~4px at 320 (cold walk 2026-10-13). The
+  // shortfall in years stays in the verdict box's words. "The record" is the one the verdict
+  // counts: Turchin's hatch ends at 1913 although its file starts in 1820, because the five
+  // rough points before 1913 are not part of that record (testedSeries.ts, whyTwoLabels).
   const missing =
     drawnSeries && verdict
       ? missingYears(verdict, overlay[overlay.length - 1].year)
       : null;
   const hatch =
     missing && missing.to > start
-      ? { x1: x(Math.max(start, missing.from)), x2: x(Math.min(end, missing.to)) }
+      ? { from: start, x1: x(start), x2: x(Math.min(end, missing.to)) }
       : null;
 
   const centuryTicks: number[] = [];
@@ -931,7 +934,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years a test would need, missing from this record. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (
@@ -951,7 +954,7 @@ function CurveFigure({
               </defs>
               <rect
                 data-mark="missing-years"
-                data-from={missing!.from}
+                data-from={hatch.from}
                 data-to={missing!.to}
                 x={hatch.x1}
                 y={strip!.top}
