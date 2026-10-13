@@ -36,9 +36,11 @@ const MEASURED: Record<string, [number, number]> = {
   turchin: [0, 1],
 };
 
-// The whole sentence each page carries, as Codex r1 derived it independently from the data files
-// (2026-10-13, every clause HOLDS). A literal oracle, so swapped minima, a wrong name-to-period
-// pairing or a reversed conclusion cannot pass on substrings (Codex r1, two coverage gaps).
+// The whole sentence each page carries, as a literal oracle, so swapped minima, a wrong
+// name-to-period pairing or a reversed conclusion cannot pass on substrings (Codex r1, two
+// coverage gaps). Provenance: round 1's text was Codex r1's independent derivation; the revised
+// wording and lead-p minima (after the 2026-10-13 walks) are the author's, re-derived
+// independently by Codex r2 against verdicts.json (every sentence HOLDS, every minimum matches).
 const LEAD =
   "This pairing has no p-value. Separately, this site's secondary cross-grid panel borrows a theory's period and sets it against a record that theory is not paired with, so none of its re-pairings is this theory's own claim.";
 const NONE = (n: number) =>
@@ -84,6 +86,24 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
       expect([period.length, record.length], v.cycle_id).toEqual(MEASURED[v.cycle_id]);
     }
     expect(Object.keys(MEASURED).sort()).toEqual(verdicts.primary.map((v) => v.cycle_id).sort());
+  });
+
+  // The two claims every paragraph opens with, checked on the data rather than as text (Codex r2).
+  it('"This pairing has no p-value": every primary row carries neither p', () => {
+    for (const v of verdicts.primary as (Primary & { p: unknown; p_ar2: unknown })[]) {
+      expect([v.p, v.p_ar2], v.cycle_id).toEqual([null, null]);
+    }
+  });
+
+  it('"none of its re-pairings is this theory\'s own claim": no cell equals any primary pairing', () => {
+    for (const c of verdicts.cross_grid) {
+      for (const v of verdicts.primary) {
+        expect(
+          c.period_years === v.period_years && c.series_id === v.series_id,
+          `${c.period_years}y × ${c.series_id} vs ${v.cycle_id}`,
+        ).toBe(false);
+      }
+    }
   });
 
   it.each(verdicts.primary.map((v) => [v.cycle_id.replace(/_/g, "-"), v] as const))(
