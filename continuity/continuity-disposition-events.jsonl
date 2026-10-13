@@ -297,3 +297,4 @@
 {"at":"2026-10-13T08:24:54.222Z","day":"2026-10-13","tool":"continuity-edit","id":"I-040","op":"set","field":"linkedCommits","from":"[]","to":"[\"534ad31\"]","changed":true,"opNoop":false}
 {"at":"2026-10-13T08:24:58.013Z","day":"2026-10-13","tool":"continuity-edit","id":"I-040","op":"close","field":"status","from":"\"open\"","to":"\"closed\"","changed":true,"opNoop":false}
 {"at":"2026-10-13T17:06:38.655Z","day":"2026-10-13","tool":"continuity-edit","id":"I-041","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
+{"at":"2026-10-13T19:10:58.097Z","day":"2026-10-13","tool":"continuity-edit","id":"I-041","op":"set","field":"linkedCommits","from":"null","to":"[\"5515178\",\"7b57938\",\"a437d56\",\"de1fdb6\"]","changed":true,"opNoop":false}

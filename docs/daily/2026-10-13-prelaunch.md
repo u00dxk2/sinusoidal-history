@@ -670,3 +670,96 @@ Paths:
   - Two lines are not CROSSED but are noted: missingLinkedCommits reads NOTHING SWEPT (0 of 0), and key-metrics has "no list yet".
 
 codexCalls: 0 (P1) — probed-declined
+
+---
+
+[P3 — Product-work loop]
+
+## Day round (2026-10-13): P3 product-work loop
+
+### Action: improve (I-041), as the manager review d854b486 REDIRECTED it
+
+I built the review's cut, both directions on all 9 verdict pages, not my packet's 5 period-only pages. The review's HYPOTHESIS checked out: the record direction reaches every page my cut left silent. Strauss-Howe has 6 record cells, Khaldun 5, Modelski 2 and Turchin 1, and Perez, Huntington and Dalio have cells in both directions. Kondratiev and Schlesinger have the period direction only.
+
+### 1. Implementation
+
+- **`5515178`**: `src/lib/crossGridLine.ts` (derives the sentence from the frozen `verdicts.json`), the paragraph in the Spectral verdict section of `src/app/(app)/cycles/[id]/page.tsx`, `id="cross-grid"` on the /methods cells (`CrossGridList.tsx`), and `src/lib/crossGridLine.test.ts`.
+- **`7b57938`**: test hardened after Codex r1. Each page's whole sentence is pinned as a literal oracle, with one paragraph per page, placed after `lay_text` and before the figure.
+- **`a437d56`**: revision after two walks (see 4).
+  - The scope comes first: "This pairing has no p-value. Separately, … so none of its re-pairings is this theory's own claim."
+  - /methods' plain wording replaces "re-pairs parts of this theory with other pages".
+  - Lowest **lead** (AR(1)) p, so the number matches the first p on the /methods row.
+  - The link reads "All 19 re-pairings".
+  - `src/components/OpenOnHash.tsx` opens the box on arrival.
+- **`de1fdb6`**: Codex r2 follow-ups. "No p-value" and "none is this theory's own claim" are now checked on the data, not as text. The oracle provenance comment and OpenOnHash's coverage comment are corrected.
+- **Gates:**
+  - `verify-with-receipt -- npx vitest run` (crossGridLine, testedSeries, methodsCrossGrid): 87/87, `[verify] TRUE exit 0`.
+  - eslint exit 0 on touched files, and `npm run typecheck` exit 0, at each commit.
+  - CI GREEN on `de1fdb63` (`check-ci-status --workflow ci.yml --sha … --wait`).
+- **TEST_RAN guard:** green on every ineligible page, no allowlist entry.
+- **Red arms:**
+  - Paragraph switched off → "12 tests | 9 failed", all 9 pages "paragraph present: expected null not to be null". Restored → 12/12.
+  - Swapped minima (Codex r1's counterexample) → 3 failed (perez, huntington, dalio). Restored → 12/12.
+  - A planted primary carrying a p, and a planted cell equal to a primary pairing (54y × us_tfp_growth_annual) → 2 failed. Restored → 14/14.
+- **Codex r1** on `5515178` (foreground pipe, read-only, banner workdir `C:\dev\skylark\sinusoidal-cycles`): all 9 sentences HOLD [REPRODUCED]. Two medium test-coverage gaps (swapped minima; reversed conclusion) were CONFIRMED and fixed in `7b57938`.
+- **Codex r2** on `a437d56` (same recipe, workdir checked): every new sentence HOLDS on all 9 pages, each minimum is the lead p on its /methods row, and source reading shows the cross-page arrival opens the box [REPRODUCED]. Dispositions:
+  - Same-page router push to the hash does not open: CONFIRMED and unreachable (no link does it). Documented in `de1fdb6`.
+  - Data-level checks for the opening claims: CONFIRMED, added in `de1fdb6`.
+  - Stale oracle comment: CONFIRMED, fixed in `de1fdb6`.
+  - No browser test of OpenOnHash: covered by the live read below and declared as a ceiling.
+- **Sibling sweep:** `crossGridSentence` has one consumer (the cycle page). No prose mirror describes cycle-page sections. `/methods`' server-rendered text is unchanged (only an `id` and a null-rendering client component).
+
+### 2. Delivery
+
+- `check-deployed-sha-drift --service sinusoidal-history`: **in-sync, live de1fdb63 = head**.
+- **Visible-text multiset, live, all 10 cycle pages, against snapshots taken before any I-041 build was served:**
+  - each of the 9 verdict pages: **+2 lines** (the paragraph and its link), **−0**;
+  - turchin-fathers-sons: +0 −0.
+- **Link, live, 320x568, touch tap** (Kondratiev, Strauss-Howe, Turchin): tap box 47px, lands on `/methods#cross-grid`, `DETAILS top 16px … open=true · VISIBLE`.
+- **Open-guard, live hard loads:**
+  - `/methods` open=false, 0 rows;
+  - `/methods#cross-grid` open=true, 19 rows;
+  - `/methods#spectral-testing` open=false.
+- `check-entry-folds … --width 320 --height 568`: **13 of 13 OK**, Perez 5px.
+- `check-embed-snippets`: **42/42 PASS**.
+
+### 3. Encounter
+
+**Blind.** The site has no reader-arrival instrument, by standing choice (`docs/evangelism-bar.md:30`). No instrument row exists, and none was minted.
+
+### 4. Outcome (synthetic, N=1 per walk): HELD
+
+Walk notes: `docs/walks/2026-10-13-i041.md`.
+
+- **Walk A** (round-1 text, /methods then /cycles/kondratiev, 1440x900): **PASS.**
+  - It explained the verdict from the Kondratiev page: "No test was run' means exactly that: no test of the 54-year period against the TFP record". The 54-year period "ran against two unrelated long records … p around 0.8".
+  - Contradiction: "No, not in substance … every number matches."
+- **Walk B** (round-1 text, /cycles/strauss-howe, 320x568): **PASS** on Q1, and "not strictly" a contradiction on Q2.
+- **Both walkers tripped on the same four spots.** I made one revision round (`a437d56`, see 1) and stopped there.
+- **Walk C** (revised text, /cycles/strauss-howe, 320x568, fresh walker): **PASS.**
+  - "There's no contradiction". The brief doubt "resolved within the same paragraph. 'Separately' does the real work here."
+  - The link "lands with every row already open", and the quoted 0.094 is on the landing screen with no scrolling.
+
+<!-- findings:begin -->
+- **The packet's bar citation was loose** (the review's note, OBSERVED): `evangelism-bar.md:24` is about overclaims, not "saying two things". The walk carried the choice.
+- **Residue for the close, not patched** (stop on the second round):
+  - Walk C would name the run the lowest p comes from ("lowest p 0.094, Schlesinger's 30 years").
+  - The /methods landing screen opens on AR(1)/AR(2)/Holm jargon.
+  - "a 84-year claim" (y 512 in the "Does it hold up?" box, `page.tsx:284`; and y 3532 in frozen `lay_text`). The first is fixable. The second needs a spectral re-freeze.
+<!-- findings:end -->
+
+### Receipt
+
+USER-VISIBLE: on all 9 cycle pages with a spectral verdict, the Spectral verdict section now says what this site's cross-grid panel did with that theory's period and its record (counts, lowest lead p, "none of its re-pairings is this theory's own claim"), and its link opens the 19 cells on /methods — a437d56 [proof: live visible-text multiset vs pre-ship snapshots +2 lines (paragraph + link) on each of 9 pages, −0 everywhere, fathers-and-sons 0; 320x568 tap lands on /methods#cross-grid with the box open=true and 19 rows; check-deployed-sha-drift in-sync live de1fdb63 = head (5515178 and a437d56 in it); folds 13/13; embeds 42/42] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30), Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none] [outcome: held — three fresh cold walks, docs/walks/2026-10-13-i041.md (synthetic N=1 each): Kondratiev reader explained "No test was run" from the page, no contradiction with /methods; Strauss-Howe re-walk after the revision: no contradiction, doubt resolved in the same paragraph, quoted p on the landing screen] [next: no new decision — lowest-p attribution, /methods landing jargon and "a 84-year" carried to the close]
+
+### What remains
+
+- **For the close:**
+  - I-041's closeWhen is met on its walk form. linkedCommits are written (`5515178`, `7b57938`, `a437d56`, `de1fdb6`).
+  - The residue above needs a disposition. The "a 84-year" in `page.tsx:284` is a lane-fixable sibling of the frozen one.
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED (r1 on 5515178, r2 on a437d56)
+hygiene helper: DISPATCHED 2026-10-13 ~11:25 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (0 drafts; wait-justification PASS 31 of 47; engineering-zero PASS 0 findings)
+
+[standing-rules-hash: 88cc2dc9]

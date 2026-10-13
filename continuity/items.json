@@ -1470,7 +1470,13 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/kondratiev C:/dev/skylark/sinusoidal-cycles/tmp/i041-kondratiev.txt",
       "notes": "2026-10-13 (P1, day round): minted from the 10-12 walk's ranked finding #2, selected as the day's user-visible job in P1 49244252, ahead of Perez's 'sits at a low' ordering and Strauss-Howe's 'a 84-year' (half frozen in verdicts.json lay_text).",
       "created": "2026-10-13",
-      "updated": "2026-10-13"
+      "updated": "2026-10-13",
+      "linkedCommits": [
+        "5515178",
+        "7b57938",
+        "a437d56",
+        "de1fdb6"
+      ]
     }
   ],
   "knownPatterns": [
