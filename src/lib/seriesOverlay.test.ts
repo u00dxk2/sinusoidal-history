@@ -212,7 +212,11 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(hw).toBeGreaterThan(0);
     expect(html).toContain('<span data-key="missing-years"');
     // The key names the hatch as record missing behind us, never a wait ahead (I-038).
-    expect(html).toMatch(/<span data-key="missing-years"[^>]*>(?:<svg[\s\S]*?<\/svg>)?years missing from the record<\/span>/);
+    // The key span holds only its swatch svg and the words, so its first </span> is its own;
+    // the words are read from inside that span, never from anywhere later in the page.
+    const keySpan = html.match(/<span data-key="missing-years"[^>]*>([\s\S]*?)<\/span>/);
+    expect(keySpan, `${slug}: no hatch key`).not.toBeNull();
+    expect(keySpan![1].replace(/<svg[\s\S]*?<\/svg>/g, "")).toBe("years missing from the record");
     expect(html).not.toContain("years a test still needs");
     expect(html).toContain(
       "Hatched before it: the earlier years a test would need, missing from this record. A shape that looks alike is not a test.",
