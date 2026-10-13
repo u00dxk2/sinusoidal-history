@@ -39,7 +39,7 @@ import {
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
 import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
-import { CROSS_GRID_SUMMARY } from "@/components/CrossGridList";
+import { CROSS_GRID_ROWS } from "@/components/CrossGridList";
 import {
   chartLinePoints,
   judgedRecord,
@@ -641,7 +641,7 @@ export default async function CyclePage({ params }: Params) {
                 href={`/methods#${CROSS_GRID_ANCHOR}`}
                 className="inline-block py-[13px] -my-[13px] underline decoration-rule underline-offset-2 hover:text-ink"
               >
-                {CROSS_GRID_SUMMARY} →
+                {`All ${CROSS_GRID_ROWS.length} re-pairings, cell by cell →`}
               </Link>
             </p>
           )}

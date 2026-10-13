@@ -31,9 +31,12 @@ function andList(items: string[]): string {
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
-// Smallest p across both nulls, unadjusted, as /methods states its panel-wide lowest.
+// Smallest lead p (the AR(1) null), the first number on each /methods row, so a reader who follows
+// the link finds it there. The lowest across both nulls (0.786 on Kondratiev) sat in brackets and a
+// cold reader took it for a mismatch (walk 2026-10-13 i041a). "Under either noise model" is
+// still checked against both.
 function lowestP(cells: SpectralVerdictRow[]): string {
-  return Math.min(...cells.flatMap((c) => [c.p!, c.p_ar2!])).toFixed(3);
+  return Math.min(...cells.map((c) => c.p!)).toFixed(3);
 }
 
 export type CrossGridDirections = {
@@ -55,7 +58,12 @@ export function crossGridSentence(cycleId: string): string | null {
   const dirs = crossGridDirections(cycleId);
   if (!dirs || (dirs.period.length === 0 && dirs.record.length === 0)) return null;
   const verdict = spectralVerdictForCycle(cycleId)!;
-  const parts = ["This site's secondary cross-grid panel re-pairs parts of this theory with other pages."];
+  // The scope comes first: both cold walkers (2026-10-13 i041a/b) tripped on a p-value printed
+  // after "no p-value exists" and found the scoping clause only at the end; both also found
+  // "re-pairs parts of this theory with other pages" unclear and named /methods' plain wording.
+  const parts = [
+    "This pairing has no p-value. Separately, this site's secondary cross-grid panel borrows a theory's period and sets it against a record that theory is not paired with, so none of its re-pairings is this theory's own claim.",
+  ];
   const { period, record } = dirs;
   if (period.length > 0) {
     const n = period.length;
@@ -71,7 +79,7 @@ export function crossGridSentence(cycleId: string): string | null {
   }
   const total = period.length + record.length;
   parts.push(
-    `${total === 1 ? "That re-pairing did not reach" : `None of these ${total} re-pairings reached`} p < 0.05 under either noise model, and ${total === 1 ? "it is not" : "none is"} this theory's own claim.`,
+    `${total === 1 ? "That re-pairing did not reach" : `None of these ${total} reached`} p < 0.05 under either noise model.`,
   );
   return parts.join(" ");
 }

@@ -39,21 +39,22 @@ const MEASURED: Record<string, [number, number]> = {
 // The whole sentence each page carries, as Codex r1 derived it independently from the data files
 // (2026-10-13, every clause HOLDS). A literal oracle, so swapped minima, a wrong name-to-period
 // pairing or a reversed conclusion cannot pass on substrings (Codex r1, two coverage gaps).
-const LEAD = "This site's secondary cross-grid panel re-pairs parts of this theory with other pages.";
+const LEAD =
+  "This pairing has no p-value. Separately, this site's secondary cross-grid panel borrows a theory's period and sets it against a record that theory is not paired with, so none of its re-pairings is this theory's own claim.";
 const NONE = (n: number) =>
-  `None of these ${n} re-pairings reached p < 0.05 under either noise model, and none is this theory's own claim.`;
+  `None of these ${n} reached p < 0.05 under either noise model.`;
 const VDEM = "US Liberal Democracy Index (V-Dem)";
 const MARS = "Deaths in conventional wars (Project Mars, log)";
 const EXPECTED: Record<string, string> = {
   schlesinger_jr: `${LEAD} Its 30-year period was set against 7 other records long enough for the 3.0-period rule: US House Polarization (DW-NOMINATE), ${VDEM}, ${MARS}, US Share of World GDP, Leading Economy's Share of World GDP, US top 1% wealth share (1913 onward) and US Technology-Diffusion Intensity (HATCH) (lowest p 0.094). ${NONE(7)}`,
-  kondratiev: `${LEAD} Its 54-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.786). ${NONE(2)}`,
-  perez: `${LEAD} Its 55-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.743). This page's record, US Technology-Diffusion Intensity (HATCH), was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.291). ${NONE(4)}`,
-  huntington: `${LEAD} Its 60-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.355). This page's record, US House Polarization (DW-NOMINATE), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.502). ${NONE(3)}`,
+  kondratiev: `${LEAD} Its 54-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.796). ${NONE(2)}`,
+  perez: `${LEAD} Its 55-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.743). This page's record, US Technology-Diffusion Intensity (HATCH), was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.341). ${NONE(4)}`,
+  huntington: `${LEAD} Its 60-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.600). This page's record, US House Polarization (DW-NOMINATE), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.585). ${NONE(3)}`,
   dalio: `${LEAD} Its 75-year period was set against 1 other record long enough for the 3.0-period rule: ${VDEM} (lowest p 0.149). This page's record, US Share of World GDP, was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.137). ${NONE(3)}`,
   strauss_howe: `${LEAD} This page's record, ${VDEM}, was set against 6 other theories' periods: Schlesinger Jr.'s 30 years, Turchin's 50 years, Kondratiev wave's 54 years, Carlota Perez's 55 years, Huntington's 60 years and Ray Dalio's 75 years (lowest p 0.094). ${NONE(6)}`,
   modelski: `${LEAD} This page's record, Leading Economy's Share of World GDP, was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.398). ${NONE(2)}`,
-  khaldun: `${LEAD} This page's record, ${MARS}, was set against 5 other theories' periods: Schlesinger Jr.'s 30 years, Turchin's 50 years, Kondratiev wave's 54 years, Carlota Perez's 55 years and Huntington's 60 years (lowest p 0.193). ${NONE(5)}`,
-  turchin: `${LEAD} This page's record, US top 1% wealth share (1913 onward), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.103). That re-pairing did not reach p < 0.05 under either noise model, and it is not this theory's own claim.`,
+  khaldun: `${LEAD} This page's record, ${MARS}, was set against 5 other theories' periods: Schlesinger Jr.'s 30 years, Turchin's 50 years, Kondratiev wave's 54 years, Carlota Perez's 55 years and Huntington's 60 years (lowest p 0.239). ${NONE(5)}`,
+  turchin: `${LEAD} This page's record, US top 1% wealth share (1913 onward), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.103). That re-pairing did not reach p < 0.05 under either noise model.`,
 };
 
 async function html(slug: string): Promise<string> {
@@ -72,7 +73,8 @@ function paragraph(page: string): string | null {
     : null;
 }
 
-const low = (cells: Cell[]) => Math.min(...cells.flatMap((c) => [c.p, c.p_ar2])).toFixed(3);
+// The lead (AR(1)) p: the first number on each /methods row.
+const low = (cells: Cell[]) => Math.min(...cells.map((c) => c.p)).toFixed(3);
 
 describe("I-041: cycle pages say what the cross-grid did with their period and record", () => {
   it("the measured table still matches the frozen file (a re-freeze must revisit this copy)", () => {
@@ -91,7 +93,7 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
       const text = paragraph(page);
       expect(text, "paragraph present").not.toBeNull();
       expect(text).toBe(
-        `${EXPECTED[v.cycle_id]} The ${verdicts.cross_grid.length} re-pairings, cell by cell →`,
+        `${EXPECTED[v.cycle_id]} All ${verdicts.cross_grid.length} re-pairings, cell by cell →`,
       );
       expect(page.match(/data-cross-grid/g)).toHaveLength(1);
 
@@ -136,11 +138,11 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
         expect(c.p_ar2).toBeGreaterThanOrEqual(0.05);
       }
       expect(text).toContain("p < 0.05 under either noise model");
-      expect(text).toContain("this theory's own claim");
+      expect(text).toContain("none of its re-pairings is this theory's own claim");
       const link = page.match(/<a [^>]*href="\/methods#cross-grid"[^>]*>([\s\S]*?)<\/a>/);
       expect(link, "link to the /methods cells").not.toBeNull();
       expect(link![1].replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()).toBe(
-        `The ${verdicts.cross_grid.length} re-pairings, cell by cell →`,
+        `All ${verdicts.cross_grid.length} re-pairings, cell by cell →`,
       );
     },
   );

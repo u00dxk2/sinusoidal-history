@@ -1,6 +1,7 @@
 import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import { cycleTheorist } from "@/lib/cycleRoutes";
+import OpenOnHash from "@/components/OpenOnHash";
 import { CROSS_GRID_ANCHOR } from "@/lib/crossGridLine";
 import { spectralCrossGrid } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
@@ -37,7 +38,8 @@ export const CROSS_GRID_LEAD =
 
 export default function CrossGridList() {
   return (
-    // The id is where each cycle page's cross-grid sentence links (I-041).
+    // The id is where each cycle page's cross-grid sentence links (I-041); OpenOnHash opens the
+    // box on that arrival.
     <details id={CROSS_GRID_ANCHOR} className="scroll-mt-4 border-t border-b border-rule/30 py-2">
       {/* No display:flex here: it replaces summary's list-item display and drops the native
           disclosure triangle, the only cue on a phone that this opens (Codex r1). py-3 keeps
@@ -57,6 +59,7 @@ export default function CrossGridList() {
           </li>
         ))}
       </ol>
+      <OpenOnHash id={CROSS_GRID_ANCHOR} />
     </details>
   );
 }
