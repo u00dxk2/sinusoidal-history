@@ -36,6 +36,26 @@ const MEASURED: Record<string, [number, number]> = {
   turchin: [0, 1],
 };
 
+// The whole sentence each page carries, as Codex r1 derived it independently from the data files
+// (2026-10-13, every clause HOLDS). A literal oracle, so swapped minima, a wrong name-to-period
+// pairing or a reversed conclusion cannot pass on substrings (Codex r1, two coverage gaps).
+const LEAD = "This site's secondary cross-grid panel re-pairs parts of this theory with other pages.";
+const NONE = (n: number) =>
+  `None of these ${n} re-pairings reached p < 0.05 under either noise model, and none is this theory's own claim.`;
+const VDEM = "US Liberal Democracy Index (V-Dem)";
+const MARS = "Deaths in conventional wars (Project Mars, log)";
+const EXPECTED: Record<string, string> = {
+  schlesinger_jr: `${LEAD} Its 30-year period was set against 7 other records long enough for the 3.0-period rule: US House Polarization (DW-NOMINATE), ${VDEM}, ${MARS}, US Share of World GDP, Leading Economy's Share of World GDP, US top 1% wealth share (1913 onward) and US Technology-Diffusion Intensity (HATCH) (lowest p 0.094). ${NONE(7)}`,
+  kondratiev: `${LEAD} Its 54-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.786). ${NONE(2)}`,
+  perez: `${LEAD} Its 55-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.743). This page's record, US Technology-Diffusion Intensity (HATCH), was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.291). ${NONE(4)}`,
+  huntington: `${LEAD} Its 60-year period was set against 2 other records long enough for the 3.0-period rule: ${VDEM} and ${MARS} (lowest p 0.355). This page's record, US House Polarization (DW-NOMINATE), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.502). ${NONE(3)}`,
+  dalio: `${LEAD} Its 75-year period was set against 1 other record long enough for the 3.0-period rule: ${VDEM} (lowest p 0.149). This page's record, US Share of World GDP, was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.137). ${NONE(3)}`,
+  strauss_howe: `${LEAD} This page's record, ${VDEM}, was set against 6 other theories' periods: Schlesinger Jr.'s 30 years, Turchin's 50 years, Kondratiev wave's 54 years, Carlota Perez's 55 years, Huntington's 60 years and Ray Dalio's 75 years (lowest p 0.094). ${NONE(6)}`,
+  modelski: `${LEAD} This page's record, Leading Economy's Share of World GDP, was set against 2 other theories' periods: Schlesinger Jr.'s 30 years and Turchin's 50 years (lowest p 0.398). ${NONE(2)}`,
+  khaldun: `${LEAD} This page's record, ${MARS}, was set against 5 other theories' periods: Schlesinger Jr.'s 30 years, Turchin's 50 years, Kondratiev wave's 54 years, Carlota Perez's 55 years and Huntington's 60 years (lowest p 0.193). ${NONE(5)}`,
+  turchin: `${LEAD} This page's record, US top 1% wealth share (1913 onward), was set against 1 other theory's period: Schlesinger Jr.'s 30 years (lowest p 0.103). That re-pairing did not reach p < 0.05 under either noise model, and it is not this theory's own claim.`,
+};
+
 async function html(slug: string): Promise<string> {
   const element = await CyclePage({ params: Promise.resolve({ id: slug }) });
   return renderToStaticMarkup(element as Parameters<typeof renderToStaticMarkup>[0])
@@ -70,12 +90,24 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
       const page = await html(slug);
       const text = paragraph(page);
       expect(text, "paragraph present").not.toBeNull();
+      expect(text).toBe(
+        `${EXPECTED[v.cycle_id]} The ${verdicts.cross_grid.length} re-pairings, cell by cell →`,
+      );
+      expect(page.match(/data-cross-grid/g)).toHaveLength(1);
 
-      // Inside the Spectral verdict section, after the frozen lay_text.
+      // Inside the Spectral verdict section, after the frozen lay_text and before the figure.
       const section = page.indexOf('id="spectral-verdict"');
+      const layText = page.indexOf(
+        (verdicts.primary.find((p) => p.cycle_id === v.cycle_id) as Primary & { lay_text: string })
+          .lay_text,
+        section,
+      );
       const at = page.indexOf("data-cross-grid");
+      const figure = page.indexOf("<figure", section);
       expect(section).toBeGreaterThan(-1);
-      expect(at).toBeGreaterThan(section);
+      expect(layText, "lay_text inside the section").toBeGreaterThan(section);
+      expect(at).toBeGreaterThan(layText);
+      expect(figure).toBeGreaterThan(at);
 
       const period = verdicts.cross_grid.filter((c) => c.period_source_cycle_id === v.cycle_id);
       const record = verdicts.cross_grid.filter((c) => c.series_id === v.series_id);
