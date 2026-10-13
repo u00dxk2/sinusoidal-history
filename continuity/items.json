@@ -1438,7 +1438,7 @@
     {
       "id": "I-040",
       "title": "On /cycles/turchin, the \"Paired data series\" section lists pre-1913 points about five screens down, while the figure hatches 1600-1913 as \"years missing from the record\"; the page reconciles the two only ~1.6 screens later (\"Why two labels\")",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1447,10 +1447,14 @@
       "closeWhen": "A change to the Turchin Paired data section ships and a fresh reader scrolling /cycles/turchin at 320x568 does not report a contradiction between the hatched 1600-1913 span and the pre-1913 points; or a recorded decision that the page's existing 'Why two labels' paragraph is enough.",
       "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
-      "linkedCommits": [],
-      "notes": "2026-10-13 (P5 close, overnight round 2): minted from the I-039 walk's T1 note, as the manager review of P3 8afb9df6 asked (close I-039; mint a narrow follow-up for the Turchin wording or record why it is left). Minted rather than left, because the fix belongs to a different surface (the Paired data section) than anything I-039 changed. Dated with I-027/I-034 (2026-10-20).",
+      "linkedCommits": [
+        "534ad31"
+      ],
+      "notes": "2026-10-13 (P5 close, overnight round 2): minted from the I-039 walk's T1 note, as the manager review of P3 8afb9df6 asked (close I-039; mint a narrow follow-up for the Turchin wording or record why it is left). Minted rather than left, because the fix belongs to a different surface (the Paired data section) than anything I-039 changed. Dated with I-027/I-034 (2026-10-20). | 2026-10-13 (P5 close, overnight round 3): CLOSED on its closeWhen (the \"resolved where they read it\" form). Shipped 534ad31 per REDIRECT d48212c3: on Turchin and Kondratiev the \"Why two labels\" paragraph (id why-two-labels, the header why-link target) moved from the Spectral verdict section into Paired data, right under the series description; Turchin's gained \"They are left out of that yearly record, which is why the figure at the top hatches 1820 to 1910 along with every other year before 1913.\" CI green on 534ad31; Render live = head. Production: why-link lands with the paragraph 24px from the top at 320x568 on both pages; visible-text multiset changed only Turchin's paragraph (Kondratiev 0, other 8 pages 0); check-entry-folds 13/13, Perez 5px; embed 42/42. Codex r1: no findings, all 8 sentences HOLD. Fresh scroll walk at 320x568 (docs/walks/2026-10-13-i040.md): Turchin's pre-1913 doubt at y3014 \"resolved immediately below, at y3194 ... one paragraph, both on the same screen\"; Q2 named the 1913-onward yearly record; Kondratiev Q2 named the annual figures. Manager review b289977f: COMPLETED, no defects. DECLINED, explicitly (not minted): the walker's copy-length note (Turchin's paragraph ~17 lines at 320 with an abstract opening; \"background-noise model\" on Kondratiev). Both paragraphs passed their pre-registered reads and no reader failed on them; shortening copy with no failed reading behind it is untested polishing. Re-open as a row only if a later walk or a real reader stalls on either paragraph.",
       "created": "2026-10-13",
-      "updated": "2026-10-13"
+      "updated": "2026-10-13",
+      "closedAt": "2026-10-13",
+      "lastEvaluated": "2026-10-13"
     }
   ],
   "knownPatterns": [

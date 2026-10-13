@@ -503,3 +503,55 @@ adversarialReviews: 1 — EXECUTED
 hygiene helper: DISPATCHED 2026-10-13 ~01:50 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (0 drafts; wait-justification PASS; engineering-zero PASS 0 findings)
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+## Close (overnight session round 3, 2026-10-13)
+
+ACTION: COMPLETED · item I-040 · P3 f0d023e3
+
+The manager review b289977f rated it COMPLETED and found no defects. Its own live read:
+- one `#why-two-labels` per page, sitting in Paired data, with its link resolving;
+- the Turchin clause true against the CSV;
+- folds 13/13;
+- live `ea3654cf` = head, with `534ad31` an ancestor.
+
+**State changed since P3 (f0d023e3):** none for readers. `ea3654c` (report and walk, docs only) is pushed.
+
+**Ledger delta** (each `continuity-edit` printed "wrote 1 change(s)"):
+- **I-040:** linkedCommits + `534ad31`.
+- **I-040 → closed 2026-10-13** on its closeWhen ("resolved where they read it" form), from the walk in `docs/walks/2026-10-13-i040.md`.
+- **The walker's copy-length note: explicitly DECLINED, not minted.** The note covers Turchin's ~17-line paragraph with its abstract opening, and "background-noise model" on Kondratiev. The decline is recorded on I-040's close note.
+  - Why: both paragraphs passed their pre-registered reads, and no reader failed on them. Shortening copy with no failed reading behind it is untested polishing.
+  - What would re-open it: a later walk, or a real reader, stalling on either paragraph.
+- **Not minted, carried as a primer note instead:** the review's tool note that `check-entry-folds.mjs --help` runs the live check at 390x664 instead of refusing an unknown flag. The review called it cheap and said it does not need tonight.
+
+**Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md`, round-3 helper, inputs none).
+- READ-MUTATED: "none — 0 reads guarded".
+- check-wait-justification: "PASS, exit 0 … swept 46 rows (37 in scope). No findings".
+- check-engineering-zero: "PASS, exit 0. This lane has 0 findings and 0 unreadable".
+- No row I touched carries a wait, and no lockfile changed.
+
+**Due-gate verification:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-13; 46 swept, 0 due).
+
+**Receipt:** P3's receipt (f0d023e3) still holds. Its `[next:]` named the copy-length note, which is now declined, a ledger detail. Nothing new.
+
+**David's board:** nothing new, no needs-decision.
+
+**Today panel:** `--date 2026-10-13`, live brief dated 10-13, merge (`reset: false`, 14 lanes preserved). The David line now covers all three overnight rounds.
+
+**Primer:** `docs/cold-starts/2026-10-13.md`, banner rewritten in place.
+
+**Pending reads:**
+- 2026-10-20: I-027, I-034.
+- 2026-11-01: I-037.
+- 2026-11-04: W-005, I-032.
+- 2026-12-01: I-025 (David).
+
+**UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's one review run is counted on P3 f0d023e3) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
