@@ -38,6 +38,8 @@ import {
   type SpectralVerdictRow,
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
+import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
+import { CROSS_GRID_SUMMARY } from "@/components/CrossGridList";
 import {
   chartLinePoints,
   judgedRecord,
@@ -123,6 +125,7 @@ export default async function CyclePage({ params }: Params) {
 
   const series = seriesForCycle(cycle);
   const verdict = spectralVerdictForCycle(cycle.id);
+  const crossGrid = crossGridSentence(cycle.id);
   // Only when the judged cut differs from the drawn series: a note on a matching
   // pair would explain a difference that is not there (Codex r1, 2026-10-06).
   const tested = judgedCut(series?.id, verdict?.series_id);
@@ -625,6 +628,21 @@ export default async function CyclePage({ params }: Params) {
               site&apos;s pre-registered 3.0-period rule - the test is
               declined, not failed - and is not evidence for or against the
               theory.
+            </p>
+          )}
+          {/* What the cross-grid panel did with this theory's period and record (I-041): a
+              cold reader who saw p-values on /methods read "No test was run" here as a
+              contradiction (walk 2026-10-12). Derived from verdicts.json; null when the
+              panel touched neither part. */}
+          {crossGrid && (
+            <p data-cross-grid className="text-[13px] leading-relaxed text-ink-soft mb-4">
+              {crossGrid}{" "}
+              <Link
+                href={`/methods#${CROSS_GRID_ANCHOR}`}
+                className="inline-block py-[13px] -my-[13px] underline decoration-rule underline-offset-2 hover:text-ink"
+              >
+                {CROSS_GRID_SUMMARY} →
+              </Link>
             </p>
           )}
           {/* The figure is drawn at its native 900px at every width, because
