@@ -324,3 +324,182 @@ The manager review (19f933a2) rated it COMPLETED and found no defects. Its own l
 codexCalls: 0 (this phase; the round's one review run is counted on P3 8afb9df6) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Overnight session (round 3) — P1 selection packet
+
+**Outcome:** a reader scrolling a cycle page whose verdict counts a different cut of the paired series sees, right where that series is described, which cut the figure and the verdict use, with a jump to the reason. On Turchin, the pre-1913 points stop reading as a contradiction of the hatch. Item **I-040** (open, P3, nextEvaluation 2026-10-20; minted at the round-2 close as the disposition of Turchin's T1 note, review 19f933a2).
+
+**The user problem, in a reader's words (synthetic, N=1, `docs/walks/2026-10-13-i039.md`, Turchin at 320, scrolled):** "a reader who reaches the Paired-data section before the 'Why two labels' paragraph will see a contradiction for about one screen. 'Missing' is also a stronger word than 'excluded' for years that have five data points."
+
+**Why this beats the next two candidates:**
+- **I-034** (local full suite fails under fleet load) and **I-027** (npm audit, dev-only tooling) are both invisible to readers.
+- **"Perez's first screen never names its record's start year"** (round-2 walk, not minted) is user-visible but sits on the 320 first screen, where Perez has 5px spare. A new line there is exactly what that budget cannot take, so it needs a design pass, not a round.
+- I-040 is a real reader confusion found tonight. Its fix sits far below every fold, and it fits a round.
+
+### Evidence
+
+- **OBSERVED (synthetic, N=1):** the round-2 walk's T1 above. The pre-1913 sentence is at ~y 3014 at 320, and "Why two labels" at ~y 3908, about 1.6 screens later.
+- **OBSERVED, mechanism at source:**
+  - The Paired data section prints `series.short_description` (`src/data/series.json:38`, Turchin: "The modern Saez–Zucman series begins 1913; pre-1913 points (1820, 1850, 1880, 1900, 1910) are spliced …").
+  - It also prints `series.source` (`:39`).
+  - It says nothing about the judged cut. The reason, `tested.whyTwoLabels`, renders only inside the Spectral verdict section (`page.tsx:610-617`, `id="why-two-labels"`).
+  - The one pointer to it sits in the header's "Judged on: 1913 onward · why? ↓" row (`page.tsx:389-402`), ~1,500px above the section.
+- **OBSERVED, scope** (`src/lib/testedSeries.ts:33,43`): two pages carry a judged cut that differs from the Paired data label.
+  - **Turchin:** 1913 onward vs the whole series from 1820.
+  - **Kondratiev:** annual vs the 5-year rolling average.
+  - The other 7 hatched pages have no `tested` note, and fathers-and-sons none.
+- **HYPOTHESIS:** one pointer line in the Paired data section on those two pages closes the gap where the doubt starts, which is the pattern I-030 used for the header row. The line names the cut the figure and the verdict use, and links `#why-two-labels`.
+  - `series.short_description` is shared with the home chart and `/methods`, so the fix does not touch it.
+  - The key words and the verdict box stay as they are (rulings be60d137, 19f933a2).
+- **MISSING:** any real reader on any /cycles page (no client analytics by standing choice, `docs/evangelism-bar.md:30`).
+
+### Section 0 (deltas, read this round)
+
+- CI: `check-ci-status --workflow ci.yml` GREEN on `cf99b8a565`.
+- Drift: `check-deployed-sha-drift` reads **UNPROVABLE** (not RED). Live is `68184756`; head `cf99b8a5` adds 4 doc-shaped files only. The live build contains every code commit (`26eceef` is an ancestor of `6818475`), so no reader-facing drift exists. Not a stop.
+- Due gates: today's snapshot is CURRENT (0 due, 46 swept; round-2 close).
+- Listener 🟢. `/loop-tick` armed by tool call. Codex GREEN per the probe line. Board: none.
+
+### Permission
+
+I-040 is this lane's own open row: not parked, no card. It is reader-facing copy on cycle pages, inside the lane's authority (the same class as I-030's "Judged on" row). Untouched: the verdict box, the hatch key words, `series.json` descriptions, `public/data/spectral/`, HashLink.tsx internals (only used, as lint requires for in-page jumps), and the /state bands.
+
+### Next action
+
+Kind: **improve.** In the Paired data section (`page.tsx`, after the series description paragraph), when `tested` exists, render one line. The words, written now:
+
+> The figure at the top and the verdict use {tested.name}, not every point described here. Why two labels ↓
+
+- `Why two labels ↓` is a `<HashLink href="#why-two-labels">`, with a 44px tap box via vertical padding, the same as the header row (I-015/I-030).
+- Turchin: "… use US top 1% wealth share (1913 onward), not every point described here."
+- Kondratiev: "… use US TFP growth (annual, unsmoothed), not every point described here."
+- **A test** pins the line, its link target and its absence on the other 8 paired pages. The oracle is the `testedSeriesNote` name, not the drawing code.
+
+First command (the before-snapshot of the two affected pages and one unaffected control):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/b2bd006d-e232-4be4-99f1-a0bdfde5498d/scratchpad/r3-before-turchin.txt
+```
+
+### Acceptance condition (observable)
+
+- **Delivery:**
+  - Live, the line appears in the Paired data section on Turchin and Kondratiev and nowhere else.
+  - Its link lands on "Why two labels" (scroll position read after the tap at 320x568).
+  - The visible-text multiset is +the new line(s) only on those 2 pages and 0 differences on the other 8 cycle pages.
+  - `check-entry-folds` 13/13 at 320x568, Perez 5px (the section is far below every fold).
+  - The no-test-ran guard is clean (it reads every page).
+  - `check-embed-snippets` 42/42.
+  - **One red arm:** remove the block, and the new pin goes RED on the 2 pages. Restore it, GREEN.
+- **Outcome (pre-registered, written before any look):** a fresh walker scrolls /cycles/turchin at 320x568 from the top to the end of the Paired data section, then answers:
+  - **Q1:** "Does anything here contradict the shaded 1600–1913 span at the top of the page?"
+  - **Q2:** "Which data does the verdict count, and how do you know?"
+  - It **PASSES only if** Q1 reports no contradiction, or one the walker says the page resolved where they read it, without scrolling past the section; and Q2 names the 1913-onward yearly record.
+- **If it fails:** no rewording tonight. Record it on I-040 for the close.
+
+### Delivery and encounter checks
+
+- **Delivery:** CI green → deploy row live = head → the multiset, link-landing, folds and embed reads on production.
+- **Encounter:** blind. No reader-arrival instrument exists by standing choice, and no instrument row exists. The synthetic walk is the read.
+
+### USER-FACING: yes
+
+Paths:
+- `src/app/(app)/cycles/[id]/page.tsx`: Paired data section, one conditional line.
+- A test file: `src/lib/seriesOverlay.test.ts` or `src/lib/testedSeries.test.ts`, whichever already renders every cycle page.
+
+No prose mirror describes cycle-page sections (the mirrors are /about, /methods and /colophon only).
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none**. Read: today's `--snapshot` (0 due, 46 swept).
+- (b) Owed child rows (skylark-site ledger): **none**. Read: round-1 kickoff `rows owed to you` (0 of 749); no state block on this prompt.
+- (c) State reads marked CROSSED: **none**. No kickoff state block on this prompt.
+
+codexCalls: 0 (P1) — probed-declined
+
+---
+
+[P3 — Product-work loop]
+
+## Overnight session (round 3) — P3 product-work loop
+
+### Action: improve (I-040), as the manager review d48212c3 REDIRECTED it
+
+I built the review's cut instead of my packet's pointer line, which would have been a third pointer to one paragraph. The review was also right on the facts: my generic line ("not every point described here") was false on Kondratiev, which differs by smoothing, not by points.
+
+- On the 2 pages with a `tested` note, `tested.whyTwoLabels` and its `id="why-two-labels"` now render in the Paired data section right after the series description, and no longer in the Spectral verdict section.
+- Turchin's paragraph gains one clause, the review's suggestion: "They are left out of that yearly record, which is why the figure at the top hatches 1820 to 1910 along with every other year before 1913."
+- **The review's HYPOTHESIS, checked:** the opening words "the 'Paired data' line and section on this page" still read true inside that section (Codex r1: "self-referential, but not inaccurate"). They are pinned by existing tests, so I left them. The walker found the sentence abstract (frank note), and I carry that, not fix it.
+
+### 1. Implementation
+
+- **`534ad31`:**
+  - `src/app/(app)/cycles/[id]/page.tsx`: the block moved, with a comment.
+  - `src/lib/testedSeries.ts`: the Turchin clause.
+  - `src/lib/testedSeries.test.ts`: a placement pin per page (Paired data heading < description < reason < Spectral verdict, with nothing but `</p>` between description and reason) and a Turchin sentence pin.
+- **Gates (local, targeted):**
+  - `vitest run src/lib/testedSeries.test.ts src/lib/seriesOverlay.test.ts`: 83/83.
+  - eslint exit 0 on the three files.
+  - `npm run typecheck` exit 0.
+  - CI: `check-ci-status --workflow ci.yml --sha 534ad316… --wait`, GREEN.
+- **Red arm:** HEAD's `page.tsx` (paragraph back in the verdict section) gives "67 tests | 2 failed", × kondratiev and × turchin "the reason paragraph sits in Paired data, after the description". Restored: "67 passed (67)", and `git status` shows only the intended files.
+- **Codex r1 at `534ad31`** (foreground pipe, `--sandbox read-only`, banner workdir `C:\dev\skylark\sinusoidal-cycles` checked): "No actionable findings."
+  - **All 8 sentences of the two paragraphs HOLD.** The new Turchin sentence is **REPRODUCED** against the rendered hatch (`data-from="1600"`, `data-to="1913"`).
+  - **REPRODUCED:** one anchor per page, and the header link targets it.
+  - **REPRODUCED:** the other 8 cycle pages are byte-identical.
+  - **REPRODUCED:** the placement pins fail when the paragraph is removed, returned to the verdict section, or the page is empty. No vacuous pass.
+  - **REPRODUCED:** TEST_RAN passes on all 10 pages.
+- **Sibling sweep:** no other surface renders `whyTwoLabels`. Grep for `whyTwoLabels|why-two-labels|Why two labels` outside docs: only `page.tsx`, `testedSeries.ts` and its test.
+
+### 2. Delivery
+
+- `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live `534ad316` = head.
+- **Why-link landing on production at 320x568** (Playwright tap, scratchpad script):
+  - Turchin: "anchors 1 · paragraph in section 'Paired data series' at page y 3192 · after tap scrollY 3168, paragraph top 24px in viewport (VISIBLE)".
+  - Kondratiev: "anchors 1 · … 'Paired data series' at page y 2961 · after tap scrollY 2937, paragraph top 24px (VISIBLE)".
+- **Visible-text multiset, all 10 cycle pages, before vs after:**
+  - Kondratiev: 0 differences (the paragraph moved, words unchanged).
+  - Turchin: 2, the old and new "Why two labels" paragraph, which is the added clause.
+  - The other 8 pages: 0.
+- `check-entry-folds … --width 320 --height 568`: **13 of 13 OK**, Perez 5px.
+- `check-embed-snippets`: **42/42 PASS**.
+
+### 3. Encounter
+
+**Blind for real readers.** There is no reader-arrival instrument, by standing choice (`docs/evangelism-bar.md:30`), and no instrument row exists.
+
+### 4. Outcome (synthetic, N=1): HELD on both pages
+
+Walk notes: `docs/walks/2026-10-13-i040.md` (fresh walker, 320x568, 08:11Z).
+
+- **Turchin Q1:** the apparent contradiction at y3014 "is resolved immediately below, at y3194 … The gap between the question and the answer was one paragraph, both on the same screen." Before the move, the answer was ~1.6 screens later, past the section.
+- **Turchin Q2:** "the yearly US top 1% wealth share record from 1913 onward"; four on-page lines agree.
+- **Kondratiev Q2:** "annual, unsmoothed US TFP growth … not the 5-year rolling average"; answered "directly below" the doubt.
+- **Link:** lands on the paragraph.
+
+<!-- findings:begin -->
+- **Turchin's "Why two labels" paragraph** is ~17 lines at 320, and its opening sentence is abstract (the walker re-read it). Kondratiev's uses "background-noise model", which is jargon. Neither blocked the pass. Both are copy-length notes for the close, not patched tonight.
+<!-- findings:end -->
+
+### Receipt
+
+USER-VISIBLE: on the Turchin and Kondratiev cycle pages, the reason the page carries two labels for its data now sits right under the paired-series description that raises the question (and Turchin's says why its five pre-1913 points are shaded), instead of ~1.6 phone screens further down — 534ad31 [proof: live #why-two-labels moved into "Paired data series" on both pages (page y 3192 Turchin, 2961 Kondratiev; header link tap lands with the paragraph 24px from the top at 320x568); visible-text multiset: Turchin only the reason paragraph changed, Kondratiev 0, other 8 pages 0; check-deployed-sha-drift in-sync live 534ad316 = head; check-entry-folds 13/13] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30), Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none] [outcome: held — fresh scroll walk at 320x568, docs/walks/2026-10-13-i040.md, Turchin Q1+Q2 and Kondratiev Q2 pass (synthetic N=1)] [next: no new decision — paragraph length carried to the close]
+
+### What remains
+
+- **For P5:**
+  - I-040 linkedCommits + `534ad31`.
+  - closeWhen ("A change to the Turchin Paired data section ships and a fresh reader scrolling /cycles/turchin at 320x568 does not report a contradiction …") is met on its "resolved where they read it" form.
+  - The paragraph-length note is the close's to disposition.
+- **Walk notes:** `docs/walks/2026-10-13-i040.md`, committed with this report.
+
+codexCalls: 1
+adversarialReviews: 1 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-13 ~01:50 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (0 drafts; wait-justification PASS; engineering-zero PASS 0 findings)
+
+[standing-rules-hash: 88cc2dc9]
