@@ -844,7 +844,7 @@ function CurveFigure({
   judged: JudgedRecord | null;
   /** That record as the home chart normalises a series; empty draws no line and no key. */
   overlay: NormalizedPoint[];
-  /** The pairing's verdict; a not-testable one hatches the years a test still needs. */
+  /** The pairing's verdict; a not-testable one hatches the earlier years a test would need. */
   verdict: SpectralVerdictRow | null;
 }) {
   const { start, end } = DEFAULT_YEAR_RANGE;
@@ -882,7 +882,7 @@ function CurveFigure({
     ? overlay.map((p) => `${x(p.year).toFixed(2)},${sy(p.value).toFixed(2)}`)
     : [];
 
-  // The years a test would still need, hatched just before the record (I-033, cold walk
+  // The earlier years a test would need, hatched just before the record (I-033, cold walk
   // 2026-10-12). A reader who looked at the line without reading the key took its swing
   // for the cycle fitting; the hatch puts the shortfall in the picture itself. Only on a
   // not-testable verdict, and clipped to the window (Turchin's runs off its left edge).
@@ -931,7 +931,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the years a test still needs. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years a test would need, missing from this record. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (
@@ -1106,7 +1106,9 @@ function CurveFigure({
                   opacity="0.45"
                 />
               </svg>
-              years a test still needs
+              {/* Past tense on purpose: "years a test still needs" over 1600-1913
+                  read as a wait ahead to two cold walkers (I-038, 2026-10-13). */}
+              years missing from the record
             </span>
           )}
           {showNow && (

@@ -76,7 +76,7 @@ export const MISSING_CLAUSE = "A shape that looks alike is not a test.";
 export const REQUIRED_PERIODS = 3;
 
 /**
- * The years a test would still need, as the figure hatches them: the stretch just before the
+ * The earlier years a test would need, as the figure hatches them: the stretch just before the
  * judged record that would bring it to REQUIRED_PERIODS full periods. Null on an eligible
  * verdict, where nothing is missing.
  *

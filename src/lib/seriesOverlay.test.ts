@@ -192,7 +192,7 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
       `${cycle.period_years}-year sinusoid ${keyName}: the record the verdict counts, drawn below on its own scale. A shape that looks alike is not a test.`,
     );
 
-    // The hatch: the years a test would still need, just before the record, inside the
+    // The hatch: the earlier years a test would need, just before the record, inside the
     // record's strip only. Its oracle is the record rebuilt from the manifest above and the
     // cycle's own period, not missingYears(): it ends where the record's first point is, and
     // starts 3 periods before the record's last point, clipped to the window.
@@ -211,7 +211,12 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(hx + hw).toBeCloseTo(((first - start) / (end - start)) * W, 1);
     expect(hw).toBeGreaterThan(0);
     expect(html).toContain('<span data-key="missing-years"');
-    expect(html).toContain("Hatched before it: the years a test still needs. A shape that looks alike is not a test.");
+    // The key names the hatch as record missing behind us, never a wait ahead (I-038).
+    expect(html).toMatch(/<span data-key="missing-years"[^>]*>(?:<svg[\s\S]*?<\/svg>)?years missing from the record<\/span>/);
+    expect(html).not.toContain("years a test still needs");
+    expect(html).toContain(
+      "Hatched before it: the earlier years a test would need, missing from this record. A shape that looks alike is not a test.",
+    );
     expect(html).toContain(
       `Drawn below it, in its own strip on its own scale: ${series.id === m.id ? series.name : note!.name}, the record the verdict counts.`,
     );
