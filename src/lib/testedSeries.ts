@@ -43,7 +43,7 @@ const NOTES: Record<string, TestedSeriesNote> = {
   wid_top1_wealth_1913: {
     name: "US top 1% wealth share (1913 onward)",
     whyTwoLabels:
-      "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the whole US Top 1% Wealth Share series, which the interactive chart draws from 1820. The verdict counts only the yearly record, which starts in 1913 with the Saez–Zucman series, and that is what the figure at the top of this page draws. Before 1913 there are just five points (1820, 1850, 1880, 1900 and 1910), rougher estimates from earlier historical sources that the interactive chart joins into one line. So the site measures the record's length from 1913, and would run any test on those yearly figures only.",
+      "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the whole US Top 1% Wealth Share series, which the interactive chart draws from 1820. The verdict counts only the yearly record, which starts in 1913 with the Saez–Zucman series, and that is what the figure at the top of this page draws. Before 1913 there are just five points (1820, 1850, 1880, 1900 and 1910), rougher estimates from earlier historical sources that the interactive chart joins into one line. They are left out of that yearly record, which is why the figure at the top hatches 1820 to 1910 along with every other year before 1913. So the site measures the record's length from 1913, and would run any test on those yearly figures only.",
     judgedOn: "1913 onward",
     judgedLine: {
       data_file: "/data/wid_top1_wealth.csv",

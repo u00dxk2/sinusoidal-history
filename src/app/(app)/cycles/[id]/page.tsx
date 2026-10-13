@@ -512,6 +512,18 @@ export default async function CyclePage({ params }: Params) {
             <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
               {series.short_description}
             </p>
+            {/* Right under the description that raises the question. Until 2026-10-13
+                it sat in the Spectral verdict section, ~1.6 screens further down on a
+                phone, and a cold reader met Turchin's pre-1913 points here first and read
+                them against the figure's hatch (I-040). The header's "why? ↓" lands here. */}
+            {tested && (
+              <p
+                id="why-two-labels"
+                className="scroll-mt-6 mt-3 text-[15px] leading-[1.6] text-ink/85"
+              >
+                {tested.whyTwoLabels}
+              </p>
+            )}
             <p className="mt-3 text-[14px] leading-relaxed text-ink-soft">
               <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80 mr-1.5 font-mono">
                 Why this pairing
@@ -607,14 +619,6 @@ export default async function CyclePage({ params }: Params) {
           <p className="text-[15px] leading-[1.6] text-ink/85 mb-3">
             {verdict.lay_text}
           </p>
-          {tested && (
-            <p
-              id="why-two-labels"
-              className="scroll-mt-6 text-[15px] leading-[1.6] text-ink/85 mb-3"
-            >
-              {tested.whyTwoLabels}
-            </p>
-          )}
           {!verdict.eligible && (
             <p className="text-[13px] leading-relaxed text-ink-soft mb-4">
               &ldquo;Insufficient data&rdquo; is an eligibility outcome under the

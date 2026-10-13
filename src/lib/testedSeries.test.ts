@@ -173,6 +173,33 @@ describe("I-030: the stats line says what the verdict is judged on, and links to
     expect(html).toMatch(/<p id="why-two-labels"[^>]*>Why two labels:/);
   });
 
+  // I-040 (2026-10-13): the reason sits in the Paired data section, right under the series
+  // description that raises the question, not in the Spectral verdict section ~1.6 phone
+  // screens below it (cold walk docs/walks/2026-10-13-i039.md, Turchin T1).
+  it.each(["kondratiev", "turchin"])("%s: the reason paragraph sits in Paired data, after the description", async (slug) => {
+    const html = await pageText(slug);
+    const cycle = cycles.find((c) => cycleSlug(c) === slug)!;
+    const series = seriesForCycle(cycle)!;
+    const paired = html.indexOf(">Paired data series</h2>");
+    const description = html.indexOf(`>${series.short_description}</p>`);
+    const reason = html.indexOf('<p id="why-two-labels"');
+    const verdictSection = html.indexOf('id="spectral-verdict"');
+    expect(paired).toBeGreaterThan(-1);
+    expect(description).toBeGreaterThan(paired);
+    expect(verdictSection).toBeGreaterThan(-1);
+    expect(reason).toBeGreaterThan(description);
+    expect(reason).toBeLessThan(verdictSection);
+    // Nothing but the description's closing tag and whitespace between the two.
+    expect(html.slice(description + series.short_description.length + 1, reason)).toMatch(/^<\/p>\s*$/);
+  });
+
+  it("Turchin's reason says the hatch covers the five rough points on purpose", () => {
+    const note = testedSeriesNote(spectralVerdictForCycle("turchin")!.series_id)!;
+    expect(note.whyTwoLabels).toContain(
+      "They are left out of that yearly record, which is why the figure at the top hatches 1820 to 1910 along with every other year before 1913.",
+    );
+  });
+
   it.each(cycles.filter((c) => !["kondratiev", "turchin"].includes(c.id)).map((c) => cycleSlug(c)))(
     "%s: no Judged on entry and no anchor",
     async (slug) => {
