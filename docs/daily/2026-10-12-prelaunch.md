@@ -388,3 +388,182 @@ The manager review bc014388 rated the action COMPLETED against the pre-registere
 codexCalls: 0 (this phase; the round's two review runs are counted on P3 5ed634be) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Overnight session (round 1, dispatched 2026-10-12 ~22:33 MT) — P1 selection packet
+
+**Outcome:** on a not-testable cycle page, a reader understands the hatched years as record that is missing behind us, not as a wait ahead. The same pass also covers the 320 glance on the strip that I-033 never walked. Item **I-038** (open, P3, nextEvaluation 2026-10-20). Pulled forward per the kickoff lead.
+
+**The user problem, in a reader's words (synthetic, N=1, `docs/walks/2026-10-12-w004-r2.md:39`):** "the hatch puts the missing years in the past (1600 to 1913), while the verdict says 'Roughly 339 more years of that measurement would reach the floor', which reads as waiting into the future. A cold reader may ask whether the hatch is 'years we would need to dig up' or 'years we have to wait'."
+
+### Evidence
+
+- **OBSERVED (synthetic, N=1)**, w004-r3 (`docs/walks/2026-10-12-w004-r3.md:19`, :25), Turchin at 390x664, a fresh walker, the second independent flag. "Its key reads 'years a test still needs' but the hatching sits over PAST years (1600 to 1913), while the box says the shortfall is ~339 FUTURE years … I had to resolve that myself." It was "the one place I stalled". Limits: one model reader per walk, one page, and it measures reading, not love.
+- **OBSERVED (synthetic, N=1)**, a sibling misreading from w004-r2 Step C (`:54`): on Kondratiev at 320, the hatch falls mid-timeline (~1865–1948). It "read as 'something special about that era' (a gap? a war-and-depression period?), not as 'years a test needs'." The key words did not carry the meaning there either.
+- **OBSERVED**, mechanism, read at source. The key text is the literal `years a test still needs` (`src/app/(app)/cycles/[id]/page.tsx:1109`), and the aria label repeats it (`:934`, "Hatched before it: the years a test still needs."), pinned by `src/lib/seriesOverlay.test.ts:214`. The hatch geometry is `missingYears()` (`src/lib/seriesOverlay.ts:88-96`): the span runs from `recordEnd − 3·period` to `recordEnd − span_years`, i.e. placed BEFORE the record. "Still needs" is a future-tense phrase laid over a past span. Those three files are the only places it appears outside docs (Grep, repo minus docs/continuity/tmp/node_modules/.next).
+- **OBSERVED**, the fold budget, production at HEAD `079c702`, read 2026-10-13 ~04:45Z (`check-entry-folds … --width 320 --height 568`): **13 of 13 OK**. Tightest legs are Perez 5px, `/` 12px, Kondratiev 16px; Turchin has 21px. The key sits in a fixed `h-4` row (`page.tsx:1086`) shared with the end-anchored "now · 2026". So a wording that stays on one line at 320 costs 0px, and a wrap would cost Perez its 5px. The new words must fit the row's left side at 320.
+- **HYPOTHESIS**, why a key-words change can work: the box wording is don't-touch, and the hatch's position is right (the record really is missing there). The fault is the tense of four words. A key that names the hatch as *record*, *missing* and *earlier* gives the eye the past-tense reading the picture already shows. The box's "339 more years of that measurement" then reads as "this much more record, wherever it comes from". **Stated risk:** the box still says "more years", so a walker may keep the future reading regardless. The walk is the only instrument that answers that.
+- **MISSING:** any real reader on any /cycles page. There is no client analytics, the bar reads UNMEASURED, and there is no `docs/evangelism-evidence.md`. A 320 glance on the strip has never been run (I-038 hypothesis (2)).
+- **Retro finding that recurred and bears on the choice:** "a check written from a measurement inherits its looseness." The text pins can prove the words changed. They cannot prove a reader stops reading "wait", so the walk stays the outcome instrument.
+
+### Section 0
+
+- Primer `docs/cold-starts/2026-10-12.md` read; its first action was run (folds at 320x568, above). `git pull --ff-only`: already up to date at `079c702`.
+- Listener: 🟢 SSE hello 2026-10-13T04:42:26Z (pid 55924, slug sinusoidal-cycles, replayed 1 = this dispatch). `/loop-tick 2m` armed by a `ScheduleWakeup` tool call. Waker ranks 1–3 are running (relaunched on this resumed session).
+- Codex: GREEN per the kickoff's `[codex-probe: …]` line (18:53Z 10-12, machine-level exec + write; pipe-backed stdio EPERM noted). P3 plans one read-only review round before push.
+- CI: `check-ci-status --workflow ci.yml` GREEN on `079c7023b5` (exit 0). Drift: `check-deployed-sha-drift --service sinusoidal-history` in-sync, live `079c7023` = head (exit 0).
+- Context budget: targeted reads only.
+- North Star: retention + word-of-mouth. The bar breaks on an overclaim, and a figure that seems to promise "wait 339 years and it will be tested" is a small one. Reported unmeasured.
+- Recs: the 10-12 close carries no Recommendations block. Its "Pending reads" are the dated rows below, and I-038 is today's action.
+- Harness: running 2.1.296 · fleet UNIFORM (31/31) · installed 2.1.296 (SAME).
+- Rotation: `check-cycle-rotation --lane sinusoidal-cycles` exit 0. No product-love pass picks this lane today.
+- Due gates: `--snapshot` "0 gate(s) due on/before 2026-10-12" (44 swept; identical to the existing snapshot, nothing dropped).
+- Board: `answered-cards` "NO waiting/answered/pending-verify cards for sinusoidal-cycles".
+
+### Permission
+
+I-038 is this lane's own open row: not parked, not frozen, no card. Changing key wording and an aria label is copy inside the lane's product authority, and the same class shipped as I-033/I-035 without a card. Untouched: the verdict box wording (don't-touch), `public/data/spectral/`, HashLink.tsx, the /state bands and state-2026.csv (I-025), `judgedOn` lengths, and the hatch geometry (`missingYears`, which is correct). **Not authorised here:** any change to the box sentence "Roughly N more years…". If the walk fails on the box's tense alone, that goes to David as a card, not a third key rewording.
+
+### Next action
+
+Kind: **improve.** Bar, written before building.
+
+- **Key words (primary):** `years a test still needs` → **`missing record a test would need`**. "Missing record" names what the hatch is (absent measurement, placed where it would sit), and "would need" is conditional with no "still/yet/wait". Fallback, if it does not fit one line at 320: **`missing earlier record`**.
+- **Aria label (`page.tsx:934`):** "Hatched before it: the years a test still needs." → "Hatched before it: the earlier record a test would need, which does not exist." The pin at `seriesOverlay.test.ts:214` moves with it. The no-test-ran guard (I-028) must still read clean, and "would need" is conditional, as the current wording is.
+- **No geometry, layout or box change.** The figure's comment at `page.tsx:847` and the `missingYears` doc comment get the same words.
+- **The walker's questions, written now (glance-first, fresh subagent, no repo reads, same protocol as w004-r3), on /cycles/turchin and /cycles/perez at 320x568, scrollY 0:**
+  - **A (before any text dump):** "Describe the picture in a few sentences."
+  - **B1:** "Does the drawn data line show that this cycle holds up?"
+  - **B2:** "What does the hatched area mean, in your own words? Which years does it stand for?"
+  - **B3:** "Does anything on the first screen say or imply a test was run or passed?"
+
+First command (the before-snapshot of every server-rendered cycle page, for the line-multiset diff after the change):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles/turchin C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/b2bd006d-e232-4be4-99f1-a0bdfde5498d/scratchpad/before-turchin.txt
+```
+
+### Acceptance condition (observable)
+
+- **Delivery:**
+  - Live, every not-testable paired page's key reads the new words on ONE line at 320x568 and at 390x664. `check-entry-folds` stays 13/13 at both sizes, with Perez still ≥ 5px spare at 320 (no row height change).
+  - **Line multiset, built vs production:** the only changed lines are the key line on each hatched page. Fathers-and-sons and testable pages are unchanged.
+  - `check-embed-snippets` 42/42. The no-test-ran guard is clean. The strip test is unchanged apart from the key text pin.
+  - **One red arm:** restore the old key words, and the new pin goes RED. Restore the fix, GREEN with the tree clean, and both outputs go in the report.
+- **Outcome (pre-registered, written before any look):** PASS only if, on BOTH Turchin and Perez at 320x568:
+  - (1) the Step A description names the record's shape (proof that it is visible at 320) without saying it follows, fits, mirrors, lines up with or moves with the curve; and
+  - (2) the B2 answer places the hatched years as missing/absent record (past, or "where the record would have to be") and does NOT read them as years to wait or a span still to come.
+  - Either fails → no further rewording. The I-038 closeWhen's other branch (a recorded decision to accept the reading) goes to David as a card, with the walk quoted.
+
+### Delivery and encounter checks
+
+- **Delivery:** CI green → deploy row live = head (`check-deployed-sha-drift --service sinusoidal-history`) → the fold, multiset and embed reads on production.
+- **Encounter:** blind for real readers (no client analytics; bug row I-038). The synthetic glance walk runs the same round, after deploy. W-005 reads click-through at ~100 impressions (11-04).
+
+### USER-FACING: yes
+
+Paths: `src/app/(app)/cycles/[id]/page.tsx` (key span `:1109`, aria label `:934`, comment `:847`), `src/lib/seriesOverlay.ts` (doc comments only), `src/lib/seriesOverlay.test.ts` (pin). The phrase appears nowhere in `public/` (Grep), so no prose mirror moves.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: **none**. Read: `dated gates due today` (0) and `--snapshot` (0 of 44 swept).
+- (b) Owed child rows (skylark-site ledger): **none**. Read: `rows owed to you` (0 of 749).
+- (c) State reads marked CROSSED: **none**. Read: the kickoff state block (stale-actionable 0 of 7; missingLinkedCommits NOTHING SWEPT 0 of 0, not crossed; queued rows 0; HEAD CI GREEN; report artifact PRESENT).
+
+codexCalls: 0 (P1) — probed-declined
+
+---
+
+[P3 — Product-work loop]
+
+## Overnight session (round 1) — P3 product-work loop
+
+### Action: improve (I-038), as the manager review APPROVED it, with its two wording fixes
+
+The review's item 1 is confirmed at source. Turchin's CSV has five points before 1913 (`src/lib/testedSeries.ts:46`), so "which does not exist" would have been false. I took both suggested wordings:
+- **Key:** `years missing from the record`.
+- **Aria label:** "Hatched before it: the earlier years a test would need, missing from this record."
+
+### 1. Implementation
+
+- **`80eada8`:**
+  - the key span, the aria label and the comments in `src/app/(app)/cycles/[id]/page.tsx`;
+  - the doc comment in `src/lib/seriesOverlay.ts`;
+  - the pin in `src/lib/seriesOverlay.test.ts`.
+  - Geometry, layout and the verdict box are untouched.
+- **`2544982`:** Codex r1's LOW finding, fixed. The pin now reads the words from inside the key's own span.
+- **Gates (local, targeted):**
+  - `vitest run src/lib/seriesOverlay.test.ts` 16/16.
+  - eslint exit 0 on the three files.
+  - `npm run typecheck` exit 0.
+  - CI is the full gate: `check-ci-status --workflow ci.yml --sha 254498237c… --wait`, GREEN after 45s.
+- **Red arm**, run on the final pin: the old words go back into `page.tsx`, giving "Tests 9 failed | 7 passed (16)", one failure per hatched page. Restored, it reads "16 passed (16)", and `git status` shows only the intended files.
+- **Key fit, measured live before the build** (Playwright, the new words injected into the served key): one line (16px tall) on all 9 hatched pages, 168px wide (was 131).
+  - 39px clear of "now · 2026" at 320.
+  - 69px clear at 360, 97px at 390.
+  - The row is a fixed `h-4`, so the fold cannot move.
+- **Codex r1 at `80eada8`** (foreground pipe, `--sandbox read-only`, banner workdir `C:\dev\skylark\sinusoidal-cycles` checked):
+  - **LOW, REPRODUCED — CONFIRMED, fixed in `2544982`.** The pin's `[\s\S]*?` could cross the key's `</span>`. Codex moved the words into a sibling span and the pin still passed on 9/9 pages.
+  - **REPRODUCED:** "missing from this record" is true on all 9 hatched pages. No judged observation falls inside any hatch, and Turchin's pre-1913 points are cut by the manifest's 1913 cutoff.
+  - **REPRODUCED:** the I-028 no-test-ran regex passes on all 9 rendered pages, including aria and alt attributes.
+  - **REPRODUCED:** the comment inside the span joins no words.
+  - **STATIC:** no conflicting copy anywhere in `public/**/*.md`, `public/llms.txt` or `src`.
+  - Codex did not re-run the folds and marked Perez's 5px margin SUPPLIED. I re-read the folds after the deploy (below).
+  - **Sibling sweep:** I searched the repo, excluding docs, tmp and build output, for "test still needs" / "years a test". The only hits were the three changed files; `public/` has none.
+  - The change after the review is test-only (the pin), and it is the fix Codex prescribed.
+
+### 2. Delivery
+
+- `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live `25449823` = head.
+- `check-entry-folds … --width 320 --height 568` on production after the deploy: **13 of 13 OK**, Perez 5px (unchanged), Turchin 21px.
+- **Line multiset, `/cycles/turchin` before vs after:** 103 → 103 lines. The only change is `years a test still needs` → `years missing from the record`.
+- `check-embed-snippets` on production: **42/42 PASS**.
+
+### 3. Encounter
+
+**Blind for real readers.** There is no client analytics and the bar reads UNMEASURED (bug row I-038). The synthetic walk below is the read I have.
+
+### 4. Outcome (synthetic, N=1): wording held on both pages; Perez's hatch is too thin to see
+
+Walk notes: `docs/walks/2026-10-13-i038.md` (fresh walker, 320x568, read 06:06–06:08Z).
+
+- **Turchin: HELD on both pre-registered legs.**
+  - Step A: "The wave and the data line never share space". The walker gave the line's shape and never said it follows or fits.
+  - A2: the walker saw the hatch "plainly".
+  - B2: "the years before the data series exists … about 1600 to about 1913".
+- **Perez: HELD on both legs, by meaning.**
+  - Step A: "does not visibly follow the wave's rapid up-and-down".
+  - B2: "years with no data".
+  - **But A2 says the hatch went essentially unseen** at a glance: "about two diagonal strokes … about 3 CSS px". Per the review's item 3, this is a **visibility finding**, not a wording failure, and not a David card.
+- **New finding, not pre-registered:**
+  - On Perez, the blank 1600–~1860 also has no record but is not hatched. The walker: "Either blank and hatched mean different things, which is not explained, or the hatch is not drawn where it should be."
+  - The cause: `missingYears` hatches only the shortfall to the 3-period floor. Where that floor falls inside the window (Perez, and Kondratiev's mid-timeline block per w004-r2 Step C), the new key's "years missing from the record" invites a reader to expect every pre-record year hatched.
+  - The old key ("a test still needs") described the shortfall but read as a wait. The new one fixes the tense and loosens the scope.
+  - This is a figure question: hatch the whole pre-record span, or mark the floor. It is not a fourth wording.
+
+<!-- findings:begin -->
+- **Perez's hatch is ~3px at 320 and unseen at a glance.** Kondratiev's is wide (1863–1948), so this class covers Perez only among the walked pages.
+- **On pages where the 3-period floor falls inside the window, an unhatched pre-record stretch sits beside a key that says "years missing from the record".** The hatch marks the shortfall, not all missing years.
+- Both findings are carried to the close for I-038's disposition. They are not patched tonight: the shape question (what the hatch should span) is a figure decision, and a second rewording would be patching.
+<!-- findings:end -->
+
+### Receipt
+
+USER-VISIBLE: on every not-testable cycle page the hatched key now reads "years missing from the record" instead of "years a test still needs", so the shaded years read as record missing behind us rather than a wait ahead — 80eada8 [proof: live /cycles/turchin visible text "years a test still needs" → "years missing from the record" (multiset 103→103, the only changed line); check-deployed-sha-drift in-sync live 25449823 = head; check-entry-folds 13/13 at 320x568 with Perez 5px] [coverage: none — no client analytics by standing choice, Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — no instrument can see a reader arrive on a /cycles page · bug row I-038]
+
+### What remains
+
+- **For P5:**
+  - I-038 linkedCommits + `80eada8`, `2544982`.
+  - closeWhen read against this walk: both legs hold on both pages, with the Perez visibility and scope findings above.
+  - The disposition (close with a new row for the hatch span, or keep I-038 open on it) is the close's call.
+- **Walk notes:** `docs/walks/2026-10-13-i038.md`, committed with this report.
+
+codexCalls: 1 (P3: one read-only review run at 80eada8)
+adversarialReviews: 1 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-12 ~23:30 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-12.md PRESENT (0 drafts; wait-justification PASS 31/44; engineering-zero PASS 0 findings)
+
+[standing-rules-hash: 88cc2dc9]
