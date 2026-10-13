@@ -1394,7 +1394,7 @@
     {
       "id": "I-038",
       "title": "The hatch key \"years a test still needs\" sits over past years while the verdict box says \"339 more years\" ahead, and no reader has glanced at the record strip at 320 wide",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1403,12 +1403,33 @@
       "closeWhen": "A glance-first cold walk at 320x568 on /cycles/turchin and /cycles/perez describes the record's shape (so it is visible) without saying it follows or fits the curve, AND a reader asked what the hatch means does not read it as years to wait; or a recorded decision that either reading is accepted as is.",
       "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
-      "notes": "2026-10-12 (P5 close, afternoon round 2): minted from manager review bc014388, which asked for the hatch-key direction to be carried as its own row with a dated trigger and named the un-walked 320 glance as a ceiling of I-033's pass. Dated alongside I-027/I-034 (2026-10-20).",
+      "notes": "2026-10-12 (P5 close, afternoon round 2): minted from manager review bc014388, which asked for the hatch-key direction to be carried as its own row with a dated trigger and named the un-walked 320 glance as a ceiling of I-033's pass. Dated alongside I-027/I-034 (2026-10-20). | 2026-10-13 (P5 close, overnight round 1): CLOSED on its pre-registered closeWhen. Shipped 80eada8 (key \"years a test still needs\" -> \"years missing from the record\"; aria \"the earlier years a test would need, missing from this record\") + 2544982 (pin reads the key's own span; Codex r1 LOW fixed). CI green on 254498237c; Render live = head (check-deployed-sha-drift in-sync). check-entry-folds 320x568 13/13, Perez 5px unchanged. Fresh glance walk at 320x568 (docs/walks/2026-10-13-i038.md, synthetic N=1): Turchin and Perez both describe the record without \"follows/fits\", and both read the hatch as missing record, not a wait. Manager review (P3, COMPLETED) suggested close + one figure row. Carried, not closed here: the hatch marks only the shortfall to the 3-period floor, so on Perez/Kondratiev an unhatched pre-record stretch sits beside \"years missing from the record\"; and Perez's hatch is ~3px at 320, unseen at a glance. Both -> I-039.",
       "linkedCommits": [
-        "5d5031a"
+        "5d5031a",
+        "80eada8",
+        "2544982"
       ],
       "created": "2026-10-12",
-      "updated": "2026-10-12"
+      "updated": "2026-10-13",
+      "closedAt": "2026-10-13",
+      "lastEvaluated": "2026-10-13"
+    },
+    {
+      "id": "I-039",
+      "title": "The hatch marks only the shortfall to the 3-period floor, so on Perez and Kondratiev blank pre-record years sit unhatched beside a key that says \"years missing from the record\", and Perez's hatch is ~3px at 320",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-13",
+      "hypothesis": "A figure question, not a wording one (manager review of P3 766906d9: don't reword again). missingYears() (src/lib/seriesOverlay.ts) hatches recordEnd - 3*period up to the record's first year. Where that floor falls inside the 1600-2050 window (Perez ~1860-1864, Kondratiev ~1863-1948), the years before it are blank, and a fresh walker read the blank as contradicting the key: 'Either blank and hatched mean different things, which is not explained, or the hatch is not drawn where it should be' (docs/walks/2026-10-13-i038.md). Perez's hatch is also ~3px at 320 and went unseen at a glance. Two shapes to choose between: (a) hatch every pre-record year in the window, so the key is literally true and Perez's hatch becomes visible; (b) keep the shortfall hatch and mark the floor (a tick or label at recordEnd - 3*period). Either must keep check-entry-folds 13/13 at 320x568 (Perez 5px spare) and leave the verdict box wording untouched.",
+      "closeWhen": "A shape (a) or (b) ships, and a fresh glance-first walk at 320x568 on /cycles/perez sees the hatched area and does not read the blank and hatched parts of the strip as contradicting each other; or a recorded decision that the current figure is accepted as is.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
+      "linkedCommits": [],
+      "notes": "2026-10-13 (P5 close, overnight round 1): minted from the I-038 walk's new finding and the manager review of P3 766906d9, which asked for ONE figure row instead of another rewording. Dated with I-027/I-034 (2026-10-20).",
+      "created": "2026-10-13",
+      "updated": "2026-10-13"
     }
   ],
   "knownPatterns": [
