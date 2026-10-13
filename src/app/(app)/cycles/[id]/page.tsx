@@ -39,6 +39,7 @@ import {
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
 import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
+import { aYear } from "@/lib/article";
 import { CROSS_GRID_ROWS } from "@/components/CrossGridList";
 import {
   chartLinePoints,
@@ -284,7 +285,7 @@ export default async function CyclePage({ params }: Params) {
               : tested
                 ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
                 : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
-            {`${periodsCovered(verdict)} this site requires before it will run a test on a ${verdict.period_years}-year claim.`}
+            {`${periodsCovered(verdict)} this site requires before it will run a test on ${aYear(verdict.period_years)} claim.`}
             {!verdict.eligible &&
               ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
           </p>
@@ -956,7 +957,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: a ${cycle.period_years}-year sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: ${aYear(cycle.period_years)} sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (

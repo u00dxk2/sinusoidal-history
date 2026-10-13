@@ -1,5 +1,6 @@
 import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
+import { indefiniteArticle } from "@/lib/article";
 import type { ConfidenceLevel, Cycle, DataSeries } from "@/data/types";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralVerdictForCycle } from "@/lib/spectral";
@@ -165,16 +166,6 @@ function spectralMetaClause(cycle: Cycle): string {
     case "SIGNIFICANT_TARGET_POWER":
       return " The spectral test finds significant power at that period.";
   }
-}
-
-/** "an 84-year", "a 54-year" — spoken form, so 8/11/18-leading numbers take "an". */
-function indefiniteArticle(n: number): string {
-  const digits = String(Math.abs(Math.trunc(n)));
-  if (digits.startsWith("8")) return "an";
-  if (digits.length > 1 && (digits.startsWith("11") || digits.startsWith("18"))) {
-    return "an";
-  }
-  return "a";
 }
 
 /**

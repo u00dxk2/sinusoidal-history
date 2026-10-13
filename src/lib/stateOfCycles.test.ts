@@ -231,7 +231,7 @@ describe("phaseReason (I-013: the word near a turning point says why)", () => {
         if (turning) expect(text, `${entry.id} ${year}`).not.toBeNull();
         if (!text) continue;
         const m = text.match(
-          /^(?:At its \w+|([\d.]+) years? \w+ its \w+(?: at [\d.]+(?: \(shown as \d+\))?)?), (inside|outside) the \w+ band: ([\d.]+) years? either side, 3% of a \d+-year cycle\.$/
+          /^(?:At its \w+|([\d.]+) years? \w+ its \w+(?: at [\d.]+(?: \(shown as \d+\))?)?), (inside|outside) the \w+ band: ([\d.]+) years? either side, 3% of an? \d+-year cycle\.$/
         );
         expect(m, text).not.toBeNull();
         const tag = `${entry.id} ${year}: ${text} / ${entry.phase}`;

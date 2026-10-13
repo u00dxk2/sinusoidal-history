@@ -8,6 +8,7 @@ import {
   sineAtYear,
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
+import { aYear } from "@/lib/article";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { SITE_URL } from "@/lib/siteConfig";
 
@@ -215,7 +216,7 @@ export function phaseReason(cycle: Cycle, year: number): string | null {
   const at = d === "0" ? `At its ${kind}` : `${d} ${d === "1" ? "year" : "years"} ${side} its ${kind}${when}`;
   // "either side", not "±": the share is the half-width, and "3%" alone was
   // read as the whole band ("the last 3% of the cycle") — Codex r3-3.
-  return `${at}, ${turning ? "inside" : "outside"} the ${word} band: ${band} ${band === "1" ? "year" : "years"} either side, ${share}% of a ${period}-year cycle.`;
+  return `${at}, ${turning ? "inside" : "outside"} the ${word} band: ${band} ${band === "1" ? "year" : "years"} either side, ${share}% of ${aYear(period)} cycle.`;
 }
 
 /** phaseReason for every cycle, by id. Kept off CycleStateEntry so /api/v1/state is unchanged. */
