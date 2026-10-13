@@ -1417,7 +1417,7 @@
     {
       "id": "I-039",
       "title": "The hatch marks only the shortfall to the 3-period floor, so on Perez and Kondratiev blank pre-record years sit unhatched beside a key that says \"years missing from the record\", and Perez's hatch is ~3px at 320",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1426,8 +1426,29 @@
       "closeWhen": "A shape (a) or (b) ships, and a fresh glance-first walk at 320x568 on /cycles/perez sees the hatched area and does not read the blank and hatched parts of the strip as contradicting each other; or a recorded decision that the current figure is accepted as is.",
       "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
+      "linkedCommits": [
+        "26eceef"
+      ],
+      "notes": "2026-10-13 (P5 close, overnight round 1): minted from the I-038 walk's new finding and the manager review of P3 766906d9, which asked for ONE figure row instead of another rewording. Dated with I-027/I-034 (2026-10-20). | 2026-10-13 (P5 close, overnight round 2): CLOSED on its closeWhen. Shipped 26eceef (shape (a): the hatch runs from the window start, 1600, to the judged record's first year on all 9 not-testable pages; Turchin still ends at 1913, pinned by a test arm against the CSV's 1820 first row; aria \"the earlier years missing from this record\"). CI green on 26eceef; Render live = head. Production re-measure: blank pre-record years 0 on all 9 (Perez 258 -> 0, hatch ~4.5px -> ~170px at 320); check-entry-folds 13/13 at 320x568, Perez 5px; visible-text multiset 0 differences on 10 pages; embed 42/42. Codex r1 at 26eceef: no findings. Fresh walk at 320x568 (docs/walks/2026-10-13-i039.md): Perez and Kondratiev pass all four pre-registered legs; Perez's hatch seen. Manager review (P3, COMPLETED; independent live read, oracle from manifest CSVs) found no defects. Turchin T1 (\"record\" means two things on that page; \"missing\" overstates years with five rough points) -> I-040, not this row.",
+      "created": "2026-10-13",
+      "updated": "2026-10-13",
+      "closedAt": "2026-10-13",
+      "lastEvaluated": "2026-10-13"
+    },
+    {
+      "id": "I-040",
+      "title": "On /cycles/turchin, the \"Paired data series\" section lists pre-1913 points about five screens down, while the figure hatches 1600-1913 as \"years missing from the record\"; the page reconciles the two only ~1.6 screens later (\"Why two labels\")",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-13",
+      "hypothesis": "From the I-039 walk's T1 question (docs/walks/2026-10-13-i039.md, synthetic N=1): 'No hard contradiction', but 'record' carries two meanings on this one page. The hatch, the key and the verdict use the yearly 1913+ record; the Paired data series section (~y 3014 at 320) says 'pre-1913 points (1820, 1850, 1880, 1900, 1910) are spliced from earlier historical sources' without saying they sit outside the judged record, and the reconciling 'Why two labels' paragraph is at ~y 3908. The walker also notes 'missing' is stronger than 'excluded' for years that hold five rough points; the aria label (page.tsx, 'the earlier years missing from this record') uses the same word. Turchin is the only page affected: on the other 8 the data file's first year IS the judged record's start (manager review 19f933a2). The key words and the verdict box are not to be reworded (manager rulings be60d137, 19f933a2). Candidate fixes live in the Paired data section, not the figure: a one-clause pointer at the pre-1913 sentence that these points are not part of the record the verdict counts (with the existing 'why?' anchor), or moving the 'Why two labels' paragraph next to it.",
+      "closeWhen": "A change to the Turchin Paired data section ships and a fresh reader scrolling /cycles/turchin at 320x568 does not report a contradiction between the hatched 1600-1913 span and the pre-1913 points; or a recorded decision that the page's existing 'Why two labels' paragraph is enough.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568",
       "linkedCommits": [],
-      "notes": "2026-10-13 (P5 close, overnight round 1): minted from the I-038 walk's new finding and the manager review of P3 766906d9, which asked for ONE figure row instead of another rewording. Dated with I-027/I-034 (2026-10-20).",
+      "notes": "2026-10-13 (P5 close, overnight round 2): minted from the I-039 walk's T1 note, as the manager review of P3 8afb9df6 asked (close I-039; mint a narrow follow-up for the Turchin wording or record why it is left). Minted rather than left, because the fix belongs to a different surface (the Paired data section) than anything I-039 changed. Dated with I-027/I-034 (2026-10-20).",
       "created": "2026-10-13",
       "updated": "2026-10-13"
     }

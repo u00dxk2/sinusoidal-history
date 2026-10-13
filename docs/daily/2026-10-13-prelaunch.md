@@ -272,3 +272,55 @@ adversarialReviews: 1 — EXECUTED
 hygiene helper: DISPATCHED 2026-10-13 ~00:50 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (0 drafts; wait-justification PASS 31/45; engineering-zero PASS 0 findings)
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+## Close (overnight session round 2, 2026-10-13)
+
+ACTION: COMPLETED · item I-039 · P3 8afb9df6
+
+The manager review (19f933a2) rated it COMPLETED and found no defects. Its own live read:
+- On all 9 hatched pages, the served hatch runs 1600 → the judged record's first year, matching an oracle built straight from the manifest CSVs.
+- Every verdict `lay_text` appears verbatim in the served page.
+- Folds read 13/13 at 320x568.
+
+**State changed since P3 (8afb9df6):** none for readers. `6818475` (report and walk notes, docs only) is pushed; live = head per the review's drift read.
+
+**Ledger delta** (every write via `continuity-edit`, each printing "wrote 1 change(s)"):
+- **I-039:** linkedCommits + `26eceef`.
+- **I-039 → closed 2026-10-13** on its closeWhen. A shape shipped, and the fresh 320x568 walk on Perez saw the hatch and read no contradiction between the blank and hatched parts (`docs/walks/2026-10-13-i039.md`).
+- **I-040 minted** (open, P3, nextEvaluation 2026-10-20, readCommand `check-entry-folds … --width 320 --height 568`). This is the disposition of Turchin's T1 note the review asked for.
+  - **Minted, not left as is**, because the confusion sits in a different surface: the Paired data section (~5 screens down) lists the 1820–1910 points before the page explains, ~1.6 screens later, that they are not the record the verdict counts.
+  - The fix belongs there, as a one-clause pointer or by moving "Why two labels" up.
+  - The hatch key words and the verdict box stay unreworded (rulings be60d137, 19f933a2).
+  - The aria label's "missing from this record" stays as well. It is literally true of the judged record (Codex r1 REPRODUCED, review 19f933a2), and I-040 records the walker's point that "missing" is stronger than "excluded" on Turchin.
+
+**Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md`, inputs none).
+- READ-MUTATED: "none — 0 reads guarded (no `--run` executed; no due rows)".
+- check-wait-justification: "RESULT: PASS — 31 of 45 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)".
+- check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)". No lockfile changed.
+- I-040 was minted after the helper ran, and it carries no wait.
+
+**Due-gate verification:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", "snapshot CURRENT: taken today (2026-10-13)" (46 swept, 0 due).
+
+**Receipt:** P3's receipt (8afb9df6) still holds. Its `[next:]` names I-039 for the Turchin note, and that is now I-040, which is a ledger detail, not a changed bracket. Nothing new.
+
+**David's board:** nothing new, no needs-decision.
+
+**Today panel:** written with `--date 2026-10-13`, per the orchestrator's note (56a4ac85). The live brief was dated 10-13 → merge (`reset: false`, 7 lanes preserved).
+
+**Primer:** `docs/cold-starts/2026-10-13.md`, banner rewritten in place for round 2. First action: `check-entry-folds` at 320x568.
+
+**Pending reads:**
+- 2026-10-20: I-027, I-034, I-040.
+- 2026-11-01: I-037.
+- 2026-11-04: W-005, I-032.
+- 2026-12-01: I-025 (David).
+
+**UNRESOLVED:** none.
+
+codexCalls: 0 (this phase; the round's one review run is counted on P3 8afb9df6) — probed-declined
+
+[standing-rules-hash: 88cc2dc9]
