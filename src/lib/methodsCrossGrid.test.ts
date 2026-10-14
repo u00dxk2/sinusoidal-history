@@ -15,6 +15,7 @@ import { describe, expect, it } from "vitest";
 import Methods from "@/app/(app)/methods/page";
 import CrossGridList, {
   CROSS_GRID_LEAD,
+  CROSS_GRID_NOTE,
   CROSS_GRID_ROWS,
   CROSS_GRID_SUMMARY,
 } from "@/components/CrossGridList";
@@ -109,15 +110,16 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     expect(html.split("<details").length - 1).toBe(1);
   });
 
-  it("the list's text is the summary, the lead and every row in order, and nothing else", () => {
+  it("the list's text is the summary, the lead, every row in order and the note, and nothing else", () => {
     const list = renderToStaticMarkup(createElement(CrossGridList));
     expect(visible(list)).toBe(
       `The ${grid.length} re-pairings, cell by cell` +
         CROSS_GRID_LEAD +
-        ORACLE_ROWS.map((r) => r.pair + r.detail).join(""),
+        ORACLE_ROWS.map((r) => r.pair + r.detail).join("") +
+        CROSS_GRID_NOTE,
     );
     expect(list.split("<li").length - 1).toBe(grid.length);
-    expect(list.split("<p").length - 1).toBe(1 + 2 * grid.length);
+    expect(list.split("<p").length - 1).toBe(2 + 2 * grid.length);
   });
 
   it("public/methods.md carries the same sentence, link included", () => {
@@ -136,7 +138,8 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     // invented row ABOVE the list pass).
     const expected =
       `\n\n**The ${grid.length} re-pairings, cell by cell.** ${CROSS_GRID_LEAD}\n\n` +
-      ORACLE_ROWS.map((r) => `- ${r.pair} — ${r.detail}`).join("\n");
+      ORACLE_ROWS.map((r) => `- ${r.pair} — ${r.detail}`).join("\n") +
+      `\n\n${CROSS_GRID_NOTE}`;
     const anchor = "one ~54–55-year statement.";
     const start = md.indexOf(anchor);
     const end = md.indexOf("\n\nThe failed-detection precedents");
@@ -144,6 +147,32 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     expect(end).toBeGreaterThan(start);
     expect(md.slice(start + anchor.length, end)).toBe(expected);
     expect(md.split(CROSS_GRID_SUMMARY).length - 1).toBe(1);
+  });
+
+  // I-043 (walk C, 2026-10-13, 320x568): a reader who follows a cycle page's link lands on this
+  // box, and the paragraph between its heading and the first row was the jargon they met first.
+  // The terms are a fixed list, never read from the component, and the text is cut from the
+  // rendered page and the mirror. The positive control: the same terms still appear after the
+  // last row, so the technical statement moved and was not deleted.
+  const JARGON = ["bootstrap", "AR(1)", "red-noise", "Holm", "unadjusted"];
+  const lastRow = ORACLE_ROWS[ORACLE_ROWS.length - 1];
+
+  it("the page's lead before the first row is plain words; the technical note follows the rows", () => {
+    const text = visible(renderToStaticMarkup(createElement(CrossGridList)));
+    const lead = text.slice(CROSS_GRID_SUMMARY.length, text.indexOf(ORACLE_ROWS[0].pair));
+    const after = text.slice(text.indexOf(lastRow.detail) + lastRow.detail.length);
+    for (const term of JARGON) expect(lead).not.toContain(term);
+    for (const term of ["AR(1)", "AR(2)", "Holm"]) expect(after).toContain(term);
+  });
+
+  it("public/methods.md's lead before the first row is plain words; the note follows the rows", () => {
+    const head = `**${CROSS_GRID_SUMMARY}.**`;
+    const start = md.indexOf(head) + head.length;
+    const lead = md.slice(start, md.indexOf(`- ${ORACLE_ROWS[0].pair}`, start));
+    const rowEnd = md.indexOf(lastRow.detail, start) + lastRow.detail.length;
+    const after = md.slice(rowEnd, md.indexOf("\n\nThe failed-detection precedents"));
+    for (const term of JARGON) expect(lead).not.toContain(term);
+    for (const term of ["AR(1)", "AR(2)", "Holm"]) expect(after).toContain(term);
   });
 
   it("no surface still points at a label no page shows", () => {

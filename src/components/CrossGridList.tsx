@@ -31,10 +31,15 @@ export const CROSS_GRID_LOWEST_P = Math.min(
 
 export const CROSS_GRID_SUMMARY = `The ${CROSS_GRID_ROWS.length} re-pairings, cell by cell`;
 
-// One string, so public/methods.md can be checked against it word for word (Codex r1:
-// a fragment check passed with this lead edited).
+// One string each, so public/methods.md can be checked against them word for word (Codex r1:
+// a fragment check passed with this lead edited). The lead is what a reader arriving from a
+// cycle page's link reads before the first row, so it carries no statistical term; the note
+// after the rows keeps the technical statement (I-043, walk C 2026-10-13).
 export const CROSS_GRID_LEAD =
-  "Each row borrows one theory's period and sets it against a series that theory is not paired with. The p is the bootstrap p against the AR(1) red-noise null, before any correction; the AR(2) null's p follows it. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
+  "Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list.";
+
+export const CROSS_GRID_NOTE =
+  "In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
 
 export default function CrossGridList() {
   return (
@@ -59,6 +64,9 @@ export default function CrossGridList() {
           </li>
         ))}
       </ol>
+      <p className="mt-2 border-t border-rule/20 pt-2 text-[13px] leading-relaxed text-ink-soft">
+        {CROSS_GRID_NOTE}
+      </p>
       <OpenOnHash id={CROSS_GRID_ANCHOR} />
     </details>
   );
