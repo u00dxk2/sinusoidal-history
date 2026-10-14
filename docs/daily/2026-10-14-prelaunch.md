@@ -271,3 +271,20 @@ hygiene helper: DISPATCHED 22:08Z · draft tmp/hygiene-draft-sinusoidal-cycles-2
 - **I-045 → close at P5:** the closeWhen is met by the live 40/40 and the HELD walk. Its walk residuals, for the close to disposition: (1) a dead tap on the home glance-figure labels, a new row candidate; (2) PEAKING plus the curve read as confirmation before the verdict line; (3) the "→" suggests the answer is elsewhere; (4) the off-card "why" and the buried "Dalio does not assert" sentence; (5) the vocabulary terms belong to I-043.
 - **I-044 → close at P5:** closeWhen met at 21:55Z (bus 028dbd4d).
 - I-043 stays on its 10-20 trigger.
+
+## Close (evening round, 2026-10-14)
+
+ACTION: COMPLETED · item I-045 · P3 ac0f7e3b. Per manager review c3c82e56, the acceptance in force was the P1 review's APPROVE with its one correction (the line outside the series gate, all 10 cycles). Production reads 40/40 at eac0a53. Live is now `7f097206`, which differs from eac0a53 only in two docs files.
+
+- **State changed since P3:** live moved eac0a53 → 7f097206 (docs only); `check-deployed-sha-drift` reads in-sync (manager review, OBSERVED). Waker rungs were reaped by low memory and relaunched once memory cleared 8 GB (bus 5a705361).
+- **Ledger delta:**
+  - **I-044 CLOSED.** It was on ancestry to live 7f097206, and its 4/4 live credit read is bus 028dbd4d.
+  - **I-045 CLOSED.** It was on ancestry to live 7f097206: 40/40 at eac0a53, walk HELD (synthetic, not an encounter). The 500→540px embed snippet side effect is recorded on the row.
+  - **I-046 minted.** Walk residual (1): a dead tap on the glance-figure labels.
+  - **I-047 minted.** Walk residuals (2), (3) and (4): PEAKING and the curve before the verdict, the arrow, the off-card "why". It is the next P1 candidate.
+  - **I-043 note.** Walk residual (5): the terms are added as input to its 10-20 step.
+- **Hygiene draft:** evening section 0 lines (0 accepted · 0 amended · 0 rejected). READ-MUTATED: none. check-wait-justification PASS (32 of 51 rows); check-engineering-zero PASS (0 findings).
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR", with the snapshot CURRENT (taken 2026-10-14).
+- **Receipt:** P3's receipt still holds (55b9c57); its one codexCalls line is `codexCalls: 3`.
+- **Pending reads:** I-046 and I-047, 2026-10-15; I-027, I-034 and I-043, 2026-10-20.
+- **Uncommitted, not this lane's write:** `continuity/continuity-disposition-events.jsonl` was already modified at session start and is left as found.
