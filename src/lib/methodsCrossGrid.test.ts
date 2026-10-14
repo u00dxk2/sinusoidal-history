@@ -44,7 +44,9 @@ const ORACLE_ROWS = verdicts.cross_grid.map((r) => {
     ORACLE_SERIES_NAMES[r.series_id];
   return {
     pair: `${who}'s ${r.period_years}-year period × ${series}`,
-    detail: `${r.span_years}y record · ${r.cycles_covered.toFixed(1)} periods · p ${(r.p as number).toFixed(3)} (AR(2) null: ${(r.p_ar2 as number).toFixed(3)})`,
+    // I-043 (10-13 evening walk): the bracket said "AR(2) null", a term the reader could not
+    // read. It now uses the lead's own words for the same second null.
+    detail: `${r.span_years}y record · ${r.cycles_covered.toFixed(1)} periods · p ${(r.p as number).toFixed(3)} (second drift model: ${(r.p_ar2 as number).toFixed(3)})`,
   };
 });
 
@@ -173,6 +175,38 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     const after = md.slice(rowEnd, md.indexOf("\n\nThe failed-detection precedents"));
     for (const term of JARGON) expect(lead).not.toContain(term);
     for (const term of ["AR(1)", "AR(2)", "Holm"]) expect(after).toContain(term);
+  });
+
+  // I-043, second round (walk 2026-10-13 evening, 320x568): the lead was plain, but every row's
+  // "(AR(2) null: …)" bracket was not, and the note below the list explained it only in
+  // technical terms. The terms are a fixed list; the rows are cut from the rendered page and the
+  // mirror, never taken from CROSS_GRID_ROWS. Positive control: the note still carries the
+  // technical terms (the two tests above), now after a plain sentence.
+  const ROW_JARGON = ["AR(1)", "AR(2)", "null", "bootstrap", "Holm"];
+
+  it("no row on the page or in methods.md carries a technical term", () => {
+    const text = visible(renderToStaticMarkup(createElement(CrossGridList)));
+    // Bounded by structure (first row's pair → the note; first row line → the blank line after
+    // the last), so the cut does not depend on the expected wording and RED means the words.
+    const rows = text.slice(text.indexOf(ORACLE_ROWS[0].pair), text.indexOf(CROSS_GRID_NOTE));
+    const head = `**${CROSS_GRID_SUMMARY}.**`;
+    const mdStart = md.indexOf(`- ${ORACLE_ROWS[0].pair}`, md.indexOf(head));
+    const mdRows = md.slice(mdStart, md.indexOf("\n\n", mdStart));
+    expect(text.indexOf(ORACLE_ROWS[0].pair)).toBeGreaterThan(-1);
+    expect(mdStart).toBeGreaterThan(-1);
+    expect(rows.split(" periods · p ").length - 1).toBe(grid.length);
+    expect(mdRows.split("\n").length).toBe(grid.length);
+    for (const term of ROW_JARGON) {
+      expect(rows).not.toContain(term);
+      expect(mdRows).not.toContain(term);
+    }
+  });
+
+  it("the note says it in plain words before it says it in technical terms", () => {
+    expect(CROSS_GRID_NOTE.startsWith("In plain words:")).toBe(true);
+    const plain = CROSS_GRID_NOTE.slice(0, CROSS_GRID_NOTE.indexOf("In technical terms:"));
+    expect(plain.length).toBeGreaterThan("In plain words:".length);
+    for (const term of ROW_JARGON) expect(plain).not.toContain(term);
   });
 
   it("no surface still points at a label no page shows", () => {

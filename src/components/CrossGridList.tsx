@@ -19,7 +19,9 @@ export const CROSS_GRID_ROWS = spectralCrossGrid.map((v) => {
     // "Turchin (50y)" would read "Turchin (50y)'s 50-year period": drop the parenthetical,
     // the period follows it anyway.
     pair: `${cycleTheorist(cycle).replace(/\s*\(.*\)$/, "")}'s ${v.period_years}-year period × ${series}`,
-    detail: `${v.span_years}y record · ${v.cycles_covered.toFixed(1)} periods · p ${v.p!.toFixed(3)} (AR(2) null: ${v.p_ar2!.toFixed(3)})`,
+    // "AR(2) null" stopped a cold reader on every row (I-043, walk 2026-10-13 evening); the
+    // bracket uses the lead's own words for the same second null.
+    detail: `${v.span_years}y record · ${v.cycles_covered.toFixed(1)} periods · p ${v.p!.toFixed(3)} (second drift model: ${v.p_ar2!.toFixed(3)})`,
   };
 });
 
@@ -38,8 +40,10 @@ export const CROSS_GRID_SUMMARY = `The ${CROSS_GRID_ROWS.length} re-pairings, ce
 export const CROSS_GRID_LEAD =
   "Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list.";
 
+// The note opens in plain words because the lead promises the second model is "explained
+// below the list", and a technical-only note left the walker without it (I-043).
 export const CROSS_GRID_NOTE =
-  "In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
+  "In plain words: drift is the slow wandering a long record shows even when nothing repeats. The first p models it with each year leaning on the year before; the bracketed one lets each year lean on the two years before. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
 
 export default function CrossGridList() {
   return (

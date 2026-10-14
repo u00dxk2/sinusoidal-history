@@ -164,27 +164,27 @@ Before any spectrum, an eligibility gate: a pairing is testable only if its reco
 
 **The 19 re-pairings, cell by cell.** Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list.
 
-- Schlesinger Jr.'s 30-year period × US House Polarization (DW-NOMINATE) — 144y record · 4.8 periods · p 0.585 (AR(2) null: 0.502)
-- Schlesinger Jr.'s 30-year period × US Liberal Democracy Index (V-Dem) — 236y record · 7.9 periods · p 0.094 (AR(2) null: 0.185)
-- Schlesinger Jr.'s 30-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 7.0 periods · p 0.239 (AR(2) null: 0.193)
-- Schlesinger Jr.'s 30-year period × US Share of World GDP — 152y record · 5.1 periods · p 0.183 (AR(2) null: 0.498)
-- Schlesinger Jr.'s 30-year period × Leading Economy's Share of World GDP — 152y record · 5.1 periods · p 0.917 (AR(2) null: 0.977)
-- Schlesinger Jr.'s 30-year period × US top 1% wealth share (1913 onward) — 111y record · 3.7 periods · p 0.103 (AR(2) null: 0.119)
-- Schlesinger Jr.'s 30-year period × US Technology-Diffusion Intensity (HATCH) — 158y record · 5.3 periods · p 0.453 (AR(2) null: 0.291)
-- Turchin's 50-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.7 periods · p 0.974 (AR(2) null: 0.727)
-- Turchin's 50-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 4.2 periods · p 0.958 (AR(2) null: 0.941)
-- Turchin's 50-year period × US Technology-Diffusion Intensity (HATCH) — 158y record · 3.2 periods · p 0.341 (AR(2) null: 0.318)
-- Turchin's 50-year period × US Share of World GDP — 152y record · 3.0 periods · p 0.137 (AR(2) null: 0.304)
-- Turchin's 50-year period × Leading Economy's Share of World GDP — 152y record · 3.0 periods · p 0.398 (AR(2) null: 0.533)
-- Kondratiev wave's 54-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.4 periods · p 0.796 (AR(2) null: 0.786)
-- Kondratiev wave's 54-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.9 periods · p 0.814 (AR(2) null: 0.833)
-- Carlota Perez's 55-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.3 periods · p 0.743 (AR(2) null: 0.755)
-- Carlota Perez's 55-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.8 periods · p 0.780 (AR(2) null: 0.789)
-- Huntington's 60-year period × US Liberal Democracy Index (V-Dem) — 236y record · 3.9 periods · p 0.600 (AR(2) null: 0.355)
-- Huntington's 60-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.5 periods · p 0.750 (AR(2) null: 0.655)
-- Ray Dalio's 75-year period × US Liberal Democracy Index (V-Dem) — 236y record · 3.1 periods · p 0.149 (AR(2) null: 0.266)
+- Schlesinger Jr.'s 30-year period × US House Polarization (DW-NOMINATE) — 144y record · 4.8 periods · p 0.585 (second drift model: 0.502)
+- Schlesinger Jr.'s 30-year period × US Liberal Democracy Index (V-Dem) — 236y record · 7.9 periods · p 0.094 (second drift model: 0.185)
+- Schlesinger Jr.'s 30-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 7.0 periods · p 0.239 (second drift model: 0.193)
+- Schlesinger Jr.'s 30-year period × US Share of World GDP — 152y record · 5.1 periods · p 0.183 (second drift model: 0.498)
+- Schlesinger Jr.'s 30-year period × Leading Economy's Share of World GDP — 152y record · 5.1 periods · p 0.917 (second drift model: 0.977)
+- Schlesinger Jr.'s 30-year period × US top 1% wealth share (1913 onward) — 111y record · 3.7 periods · p 0.103 (second drift model: 0.119)
+- Schlesinger Jr.'s 30-year period × US Technology-Diffusion Intensity (HATCH) — 158y record · 5.3 periods · p 0.453 (second drift model: 0.291)
+- Turchin's 50-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.7 periods · p 0.974 (second drift model: 0.727)
+- Turchin's 50-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 4.2 periods · p 0.958 (second drift model: 0.941)
+- Turchin's 50-year period × US Technology-Diffusion Intensity (HATCH) — 158y record · 3.2 periods · p 0.341 (second drift model: 0.318)
+- Turchin's 50-year period × US Share of World GDP — 152y record · 3.0 periods · p 0.137 (second drift model: 0.304)
+- Turchin's 50-year period × Leading Economy's Share of World GDP — 152y record · 3.0 periods · p 0.398 (second drift model: 0.533)
+- Kondratiev wave's 54-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.4 periods · p 0.796 (second drift model: 0.786)
+- Kondratiev wave's 54-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.9 periods · p 0.814 (second drift model: 0.833)
+- Carlota Perez's 55-year period × US Liberal Democracy Index (V-Dem) — 236y record · 4.3 periods · p 0.743 (second drift model: 0.755)
+- Carlota Perez's 55-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.8 periods · p 0.780 (second drift model: 0.789)
+- Huntington's 60-year period × US Liberal Democracy Index (V-Dem) — 236y record · 3.9 periods · p 0.600 (second drift model: 0.355)
+- Huntington's 60-year period × Deaths in conventional wars (Project Mars, log) — 211y record · 3.5 periods · p 0.750 (second drift model: 0.655)
+- Ray Dalio's 75-year period × US Liberal Democracy Index (V-Dem) — 236y record · 3.1 periods · p 0.149 (second drift model: 0.266)
 
-In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.
+In plain words: drift is the slow wandering a long record shows even when nothing repeats. The first p models it with each year leaning on the year before; the bracketed one lets each year lean on the two years before. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.
 
 The failed-detection precedents that shaped this design: Korotayev & Tsirel (2010) report a significant Kondratiev wave only after replacing the World War years with geometric means, on a record of at most three cycles - contested, never retracted. Kuznets's ~20-year swings were killed as a moving-average artifact (Adelman 1965; Howrey 1968), the direct ancestor of this site's unsmoothed-TFP rule. Turchin himself reports the ~150-year cycle as one realized oscillation and offers no formal spectral test - candor this page treats as the standard. Method references: Mann & Lees (1996); Torrence & Compo (1998); Hamilton (2018); Meyers (2012).
 
