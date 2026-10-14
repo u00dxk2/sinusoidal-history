@@ -82,7 +82,7 @@ export default function EmbedView({
   });
 
   // One cycle in the facets view is the "argue a specific claim" embed: the
-  // curve is the point, so it gets a chart a reader can see (200px, not the
+  // curve is the point, so it gets a chart a reader can see (184px, not the
   // stack's 60px) and no ten-row summary panel above it repeating the phase
   // word the facet header already prints.
   const single = view === "facets" && filteredCycles.length === 1;
@@ -122,7 +122,11 @@ export default function EmbedView({
           onFocus={() => {}}
           onBlur={() => {}}
           readOnly
-          chartHeight={200}
+          // 184, not 200: the "Does it hold up?" line (I-045) has to fit the
+          // documented 500px snippet frame at 320 wide with its attribution
+          // visible. check-embed-snippets holds the chart at >= 180.
+          chartHeight={184}
+          verdictLine
           timeAxis={
             <FacetTimeAxis
               startYear={range.start}

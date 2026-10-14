@@ -39,7 +39,9 @@ const SNIPPETS: ReadonlyArray<{
     // 1972, not 1968: 1968 IS the published peak, so the old example
     // calibrated nothing (I-037).
     src: "/embed?view=facets&cycles=huntington&peak.huntington=1972",
-    height: 500,
+    // 540, was 500: the "Does it hold up?" line under the curve (I-045)
+    // wraps to two lines at 358px; the content measured 510px there.
+    height: 540,
   },
   {
     title: "Classic overlay",

@@ -10,6 +10,7 @@ import {
   type PhasePositionLabel,
 } from "@/lib/cycleMath";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
+import { holdsUpCard } from "@/lib/holdsUp";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import {
@@ -53,6 +54,10 @@ interface CycleFacetProps {
       embed uses it: "normal" mode draws a 60px curve on a phone, too small
       to argue a claim with. */
   chartHeight?: number;
+  /** Draw the "Does it hold up?" line under the chart outside expanded mode.
+      The single-cycle embed sets it: it is a "normal" facet, and it argues a
+      claim with a curve over data, so it owes the verdict too (I-045). */
+  verdictLine?: boolean;
 }
 
 // Min-height in px per mode. Normal mode is shorter on mobile.
@@ -78,6 +83,7 @@ export default function CycleFacet({
   timeAxis,
   readOnly = false,
   chartHeight,
+  verdictLine = false,
 }: CycleFacetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(containerRef, 800);
@@ -143,6 +149,14 @@ export default function CycleFacet({
       )}
 
       {mode !== "collapsed" && timeAxis}
+
+      {/* Outside the `series` gate below on purpose: the unpaired cycle says
+          "Not tested" too. And directly under the chart, so the Calibrate
+          tab's sliders-first tail cannot push it away from the curve (I-045,
+          manager review 2026-10-14). */}
+      {(mode === "expanded" || verdictLine) && (
+        <HoldsUpLine cycle={cycle} newTab={readOnly} />
+      )}
 
       {mode === "collapsed" && (
         <CollapsedSparkline
@@ -258,6 +272,51 @@ function FacetHeader({
         {phaseLabel}
       </span>
     </div>
+  );
+}
+
+/**
+ * The cycle page's "Does it hold up?" headline, under the curve. The card
+ * draws a theory over a measured series with a phase word, which reads as a
+ * match; until I-045 nothing on it said whether the record can test that.
+ * The words come from holdsUpCard, so the card, the page box and the share
+ * card cannot drift. It is the PUBLISHED cycle's verdict even while the
+ * curve is calibrated. Nothing renders for a paired cycle with no verdict
+ * row (none today), rather than an empty question.
+ */
+function HoldsUpLine({ cycle, newTab }: { cycle: Cycle; newTab: boolean }) {
+  const card = holdsUpCard(cycle);
+  if (!card) return null;
+  const href = `${cycleRoutePath(cycle)}#does-it-hold-up`;
+  // One link for the whole line: the label and the headline wrap together
+  // inside one 44px tap box. As a label above a separate 44px link it took
+  // 59px on a phone and pushed the 500px snippet's attribution out of its
+  // frame (check-embed-snippets, 2026-10-14).
+  const linkClass =
+    "flex flex-wrap items-center gap-x-2 min-h-11 text-[13px] leading-snug text-ink";
+  const body = (
+    <>
+      <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80">
+        Does it hold up?
+      </span>
+      <span className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors">
+        {card.headline} →
+      </span>
+    </>
+  );
+  return (
+    <p data-holds-up={cycle.id} className="mt-1.5">
+      {/* An embed is an iframe: open the site in a new tab, as its footer does. */}
+      {newTab ? (
+        <a href={href} target="_blank" rel="noopener" className={linkClass}>
+          {body}
+        </a>
+      ) : (
+        <Link href={href} className={linkClass}>
+          {body}
+        </Link>
+      )}
+    </p>
   );
 }
 
