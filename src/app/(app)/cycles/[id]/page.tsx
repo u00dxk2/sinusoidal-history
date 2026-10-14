@@ -40,6 +40,7 @@ import {
 import { judgedCut } from "@/lib/testedSeries";
 import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
 import { aYear } from "@/lib/article";
+import { seriesCredit } from "@/lib/seriesCredit";
 import { CROSS_GRID_ROWS } from "@/components/CrossGridList";
 import {
   chartLinePoints,
@@ -783,11 +784,11 @@ function attributionFor(cycle: Cycle, series: DataSeries | undefined): string {
     `${page} · DOI 10.5281/zenodo.21998618`;
   if (!series) return `${base}.`;
   // series.source runs to a paragraph of provenance on some series; a credit
-  // line wants the publisher clause only. Full text stays on the page above.
-  const publisher = series.source.split(". ")[0]!.trim();
+  // line wants the publisher clause only, from an explicit list (src/lib/seriesCredit.ts).
+  // Full text stays on the page above.
   return (
     `${base}. Paired data series: ${series.name} ` +
-    `(${publisher}), ${series.license}.`
+    `(${seriesCredit(series)}), ${series.license}.`
   );
 }
 
