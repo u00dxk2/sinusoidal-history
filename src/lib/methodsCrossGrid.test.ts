@@ -182,7 +182,9 @@ describe("/methods says what the cross-grid re-pairings found", () => {
   // technical terms. The terms are a fixed list; the rows are cut from the rendered page and the
   // mirror, never taken from CROSS_GRID_ROWS. Positive control: the note still carries the
   // technical terms (the two tests above), now after a plain sentence.
-  const ROW_JARGON = ["AR(1)", "AR(2)", "null", "bootstrap", "Holm"];
+  // CEILING (Codex r1, 2026-10-14): this checks a FIXED list, case-insensitively. It proves
+  // these terms are gone, not that no technical word remains; a new term needs adding here.
+  const ROW_JARGON = ["ar(1)", "ar(2)", "null", "bootstrap", "holm", "red-noise", "autoregressive", "unadjusted"];
 
   it("no row on the page or in methods.md carries a technical term", () => {
     const text = visible(renderToStaticMarkup(createElement(CrossGridList)));
@@ -197,8 +199,8 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     expect(rows.split(" periods · p ").length - 1).toBe(grid.length);
     expect(mdRows.split("\n").length).toBe(grid.length);
     for (const term of ROW_JARGON) {
-      expect(rows).not.toContain(term);
-      expect(mdRows).not.toContain(term);
+      expect(rows.toLowerCase()).not.toContain(term);
+      expect(mdRows.toLowerCase()).not.toContain(term);
     }
   });
 
@@ -206,7 +208,7 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     expect(CROSS_GRID_NOTE.startsWith("In plain words:")).toBe(true);
     const plain = CROSS_GRID_NOTE.slice(0, CROSS_GRID_NOTE.indexOf("In technical terms:"));
     expect(plain.length).toBeGreaterThan("In plain words:".length);
-    for (const term of ROW_JARGON) expect(plain).not.toContain(term);
+    for (const term of ROW_JARGON) expect(plain.toLowerCase()).not.toContain(term);
   });
 
   it("no surface still points at a label no page shows", () => {
