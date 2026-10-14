@@ -88,3 +88,41 @@ Posted as bus `92309e83`.
 
 - **Red arm recorded (uncommitted, `src/lib/methodsCrossGrid.test.ts`):** the oracle at `:47` now builds `(second drift model: …)`, and two new tests were added. One checks that no row on the page or in methods.md carries `AR(1)`, `AR(2)`, `null`, `bootstrap` or `Holm`; it is bounded by structure, so the cut does not depend on the expected words. The other checks that the note opens "In plain words:" and that its plain part is free of those terms. `npx vitest run src/lib/methodsCrossGrid.test.ts --pool=threads` gives **12 tests, 4 failed**: the two whole-block pins (the received rows still read `(AR(2) null: …)`) and the two new tests. The other 8 pass, and those include the lead and note positive controls.
 - **Live baseline:** `tmp/i043-methods.txt` holds the 351 lines of production /methods, the diff's before-side.
+
+## Day round (2026-10-14): P3 product-work loop
+
+### Action: improve (I-043), as manager review 00190f9d APPROVED it
+
+Sequence as approved: the I-043 commit, its pre-registered walk unchanged, then the flow 1 journey-walk.
+
+### 1. Implementation
+
+- `8fd7f6a`: every row's bracket now reads `(second drift model: 0.185)` instead of `(AR(2) null: 0.185)`, and the note opens with a plain sentence. `public/methods.md` mirrors both. The test oracle builds the plain label independently of the component. Two new pins: no row (page or mirror, cut by structure) carries a listed technical term, and the note's plain part comes first and is jargon-free. **Red arm:** 4 of 12 failed on the old text (recorded at P1 prep). After the change, 12/12 pass. The mirror pin caught a dropped space after "In technical terms:" before commit.
+- `fc7ed63` (Codex r1): **CONFIRMED (MED)** "each year leans on the year before" was false for the first row, because House polarization is sampled every two years (`scripts/spectral_verdict.py:106`). **CONFIRMED (LOW)** "a long record shows" overclaimed. **CONFIRMED (LOW)** the contract asked for one plain sentence and the commit added two. **CONFIRMED (LOW)** the row pins checked five case-sensitive strings. Fixed: one sentence with "reading", not "year"; the pins now match case-insensitively over 8 terms, with a CEILING comment (a fixed list, not "no technical word").
+- `cfffd0f` (Codex r2): **CONFIRMED (MED)** "the two models differ only in memory" is false, because the AR(1) and AR(2) nulls also differ in fitting and simulation (`spectral_verdict.py:303ff`). That was the second round in which describing HOW the models differ overclaimed, so the sentence was changed to claim less: "In plain words: drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the bracketed one is a second opinion on the first." Codex r3: **HOLDS, no defects** (claims, consistency with the lead and the technical sentence, mirror parity REPRODUCED).
+- Gates: `verify-with-receipt -- npm test`, TRUE exit 0, 34 files and 344 tests. Typecheck and lint are clean on the changed files. Sibling sweep: `AR(2) null:` appears on no other reader surface (Grep over src, scripts, public).
+
+### 2. Delivery
+
+- CI: `check-ci-status --workflow ci.yml --wait`, GREEN on `cfffd0fc39` after 90 s.
+- Deploy: `check-deployed-sha-drift --service sinusoidal-history`, in sync, live `cfffd0fc` = head.
+- Surface, /methods: before and after snapshots are 351 lines each. Exactly 20 lines differ: the 19 rows (old label to new label) and the note. Live lines still carrying `AR(2) null:`: 0. The ordered `check-rendered-text diff` reads RED at line 289, the first changed row, which is the expected result for an ordered diff of a wording change. The multiset comparison above is the proof.
+- Surface, mirror: live `https://sinusoidalhistory.com/methods.md` has the new label 19 times, the old label 0 times and the plain note once.
+- Folds: `check-entry-folds` at 320x568 reads 13 of 13 OK. /methods has 25 px spare; Perez's spare is still 5 px.
+### 3. Encounter
+
+Blind. The site has no reader-arrival instrument, by standing choice (`docs/evangelism-bar.md:30`). The bar reads UNMEASURED. There is no bug row, because this is a deliberate absence, not a defect. Search Console (`scripts/gsc-read.mjs`) sees impressions and clicks per page, but not a reader reaching the cross-grid box.
+
+### 4. Outcome (synthetic, N=1): NOT HELD as the pre-registered bar is written, with the targeted residual resolved
+
+Walk record: `docs/walks/2026-10-14-i043.md`, saved whole this time. The setup was the same as 10-13: production `cfffd0f`, 320x568, start on /cycles/schlesinger-jr, tap the link, same question.
+
+- **Answered correctly from the landing screen:** yes. The landing was clean: the box was open, its heading 16 px from the top, and the lead plus three rows were on the first screen.
+- **The targeted residual is resolved.** The rows' bracket was the 10-13 stall, and the walker read it this time as "a second opinion … as a cross-check". It did not list the bracket as a term it could not understand.
+- **By the bar as written, it fails.** The walker named other terms it half-understood. In the box: "fit that period at least this well", how the second model *differs*, "brackets" (the rows show parentheses), "periods", "×", and the series acronyms (DW-NOMINATE, V-Dem, Project Mars/log, HATCH). In the technical note, which it skipped as labelled technical: bootstrap, AR(1)/AR(2), Holm. Across the two pages: "noise model" on the cycle page against "drift model" in the box, and "7" against "All 19". It also said the note's Holm sentence "muddies the lead's clear rule".
+- **Instrument caveat (honest):** this walker was told "a term you could only half-understand counts". The 10-13 prompt was never saved, so the two walks may not apply the same strictness. Two of the named items were present on 10-13 and not flagged then: the acronyms and "periods".
+- **No rewording this round, as pre-registered.** The residuals go to I-043's next step, in this order:
+  1. "brackets" → "parentheses" or "in round brackets": the lead's word is factually mismatched to what the page shows. It is a one-word fix.
+  2. One vocabulary across the cycle page's "noise model" and the box's "drift model".
+  3. The Holm sentence, which contradicts the lead's plain rule for this reader.
+  4. A one-line row key for "periods" and the series acronyms. This is the widest change and may belong to the series names, not this box.
