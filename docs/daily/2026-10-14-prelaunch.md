@@ -126,3 +126,60 @@ Walk record: `docs/walks/2026-10-14-i043.md`, saved whole this time. The setup w
   2. One vocabulary across the cycle page's "noise model" and the box's "drift model".
   3. The Holm sentence, which contradicts the lead's plain rule for this reader.
   4. A one-line row key for "periods" and the series acronyms. This is the widest change and may belong to the series names, not this box.
+### Journey-walk and P3 post
+
+Action: improve (I-043), as manager review 00190f9d APPROVED it. Then the due flow-1 journey-walk (the rotation pass), whose finding 2 was fixed today as debt-paydown.
+
+## I-043: the /methods cross-grid rows in plain words
+
+1. **Implementation:** commits 8fd7f6a, fc7ed63 and cfffd0f.
+   - Every one of the 19 rows now ends in "(second drift model: …)" instead of "(AR(2) null: …)".
+   - The note opens with one plain sentence: "drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the bracketed one is a second opinion on the first."
+   - public/methods.md mirrors both.
+   - Red arm: 4 of 12 tests failed on the old text; 12/12 pass after.
+   - Codex r1 CONFIRMED that "each year" was false for the biennial House series (MED), plus 3 LOW findings; all fixed. Codex r2 CONFIRMED that "differ only in memory" was false (MED). That was the second overclaim in a row, so I narrowed the claim. Codex r3 HOLDS, no defects.
+2. **Delivery:** check-deployed-sha-drift read in sync, live cfffd0fc = head, before the Render outage.
+   - Live /methods: 351 lines before and after; exactly 20 changed (19 rows and the note); 0 old labels remain.
+   - Live methods.md: the new label appears 19 times, the old one 0 times, and the plain note once.
+   - check-entry-folds at 320x568: 13/13 OK.
+3. **Encounter:** blind. The site has no reader-arrival instrument, by standing choice (docs/evangelism-bar.md:30), so there is no bug row.
+4. **Outcome (synthetic, N=1, pre-registered walk, docs/walks/2026-10-14-i043.md):** NOT HELD as the bar is written.
+   - The walker answered correctly from the landing screen.
+   - The targeted row label is resolved: it read the bracket as "a second opinion".
+   - It still named other terms it could not fully understand: "brackets" (the rows show parentheses), "noise model" on the cycle page vs "drift model" in the box, the Holm sentence, "periods", and the series acronyms.
+   - Instrument caveat: this walker was told that half-understood terms count. The 10-13 walker's prompt was never saved, so the two walks may not apply the same strictness.
+   - As pre-registered, no rewording this round. The named residuals become I-043's next step, trigger 2026-10-20.
+
+## Journey-walk, flow 1 (rotation DUE, 18 days since the last)
+
+Artifact: docs/journey-walk-2026-10-14.md. Three passes: phone from /, phone landing cold on /methods (the reviewer's ask), and desktop. Scores: coherence 3, brand 4, effectiveness 3. The walker saw 0 console errors and Back behaved correctly everywhere it tested.
+
+**The ONE (carried to the next P1):** the home page's focused cycle card and the single-cycle embed draw curve-over-data with a "PEAKING" badge and no verdict, the one place the site shows a look-alike match without saying it isn't a test. Seven more findings are dispositioned in the artifact.
+
+**Finding 2, fixed (debt-paydown):** "Copy attribution" cut 4 of the 9 data credits mid-name ("…2024, J)" twice, "James A", "U").
+- **Implementation:** commits ec68a71 and 6a3f06e. The credits are now an explicit per-series list, src/lib/seriesCredit.ts. The 5 credits that were already whole are unchanged.
+- Red arm: putting the old split back fails exactly the 4 broken pages. Codex r1 CONFIRMED that a credit cut to "James A. Stim" would still pass (MED). The test now pins hand-written credits, and that mutation fails 1 of 19. Codex r2: no defects.
+- **Delivery: PENDING (Render incident).** CI is GREEN on 6a3f06e. Render shows "Builds are not starting in all regions" (orchestrator 5798af47). Disclosed: before that notice reached me, I ran ONE manual `render-put-secret.mjs --deploy-latest`; its build dep-db7tqfg473hc738032lg sits in build_in_progress. No retry, no re-push. Live still serves cfffd0fc, so the 4 cycle pages still copy the cut credit. The live read is carried to when status.render.com reads resolved.
+
+## Receipt
+USER-VISIBLE: a reader who follows a cycle page's re-pairings link to /methods now reads each of the 19 rows as "(second drift model: …)" instead of "(AR(2) null: …)", and the note under the list opens with one plain sentence on what drift is before its technical one — cfffd0f [proof: live /methods line multiset 351 → 351 with exactly the 19 rows + the note changed and 0 old labels left, live /methods.md new label ×19 / old ×0, check-deployed-sha-drift in-sync live cfffd0fc = head before the Render outage] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30), Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none]
+
+codexCalls: 5 (P3): I-043 r1/r2/r3 and the credit fix r1/r2, each a foreground `codex exec --sandbox read-only` with the banner workdir checked
+adversarialReviews: 5 — EXECUTED
+hygiene helper: DISPATCHED 17:49Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-14.md PRESENT (check-wait-justification PASS, check-engineering-zero PASS, 0 drafts, 0 findings)
+[standing-rules-hash: 88cc2dc9]
+
+## What remains
+- Delivery of 6a3f06e: the live read of the copied credit on /cycles/dalio, schlesinger-jr, modelski and perez, once Render's incident resolves.
+- I-043's next step, from today's walk (trigger 10-20): "brackets" → "parentheses"; one word for "noise model" and "drift model" across the cycle page and the box; the Holm sentence; then a key for "periods" and the series acronyms.
+- Journey-walk ONE: put the verdict line in the focused home card and the embed. Next P1 candidate; it is a Viz change, so its proof is the rendered `main` innerText, not the rendered-text gate.
+## Close (day round, 2026-10-14)
+
+ACTION: COMPLETED · item I-043 · P3 6559efcf. As manager review b67a630a found: the plain-words rows and note are live at cfffd0f; the pre-registered walk ran unchanged (NOT HELD as written, an open outcome); the flow-1 journey-walk ran with its cold /methods pass.
+
+- **Deploys of 6a3f06e (credit fix, I-044):** dep-db7tqfg473hc738032lg (manual, 19:51Z) stuck in build_in_progress through Render's outage, CANCELED 20:25Z with orchestrator approval; dep-db7uaj49v7es73cugi7g (one fresh --deploy-latest, 20:25Z) still build_in_progress at 20:38Z. Render status reads "monitoring". Live still serves cfffd0fc. The copied-credit live read is PENDING, owed by 2026-10-15 (I-044).
+- **Ledger delta:** I-043 note appended (stays open, trigger 10-20, next step named); I-044 minted (credit live read, 10-15); I-045 minted (verdict line on the focused home card and the embed, next P1 candidate, 10-15).
+- **Hygiene draft:** 0 lines (0 accepted · 0 amended · 0 rejected). check-wait-justification PASS; check-engineering-zero PASS; READ-MUTATED none.
+- **Due gates:** `check-due-gates-dispositioned` verdict CLEAR, snapshot CURRENT (taken 2026-10-14).
+- **Receipt:** P3's receipt still holds (cfffd0f).
+- **NOT DONE (usage limit):** the CC daily brief David line (drafted in the scratchpad, not posted); the evening close-out steps.
