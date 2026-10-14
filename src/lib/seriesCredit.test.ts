@@ -15,6 +15,24 @@ const series = seriesJson as Series[];
 // A credit that ends on a lone capital initial ("J", "James A", "U") was cut mid-name.
 const CUT_AT_INITIAL = /(^|[\s(,])[A-Z]\)?$/;
 
+// Codex r1 (2026-10-14): the three shape checks pass a credit cut to "James A. Stim" or
+// "James". Completeness cannot be inferred from shape, so it is pinned here: each credit
+// written out by hand from its series' source (claims pass: Codex r1, all HOLDS).
+// CEILING: this pins what a reader copies; it does not judge whether a credit is the
+// right length. A new series needs a line here and in SERIES_CREDIT.
+const EXPECTED_CREDIT: Record<string, string> = {
+  dw_nominate_polarization: "Voteview / Lewis, Poole, Rosenthal, Boche, Rudkin, Sonnet (2026)",
+  us_tfp_growth: "Fernald (2014), FRBSF Working Paper 2012-19",
+  wid_top1_wealth: "WID · World Inequality Database, retrieved via Our World in Data",
+  us_world_gdp_share: "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys)",
+  vdem_libdem: "V-Dem Institute, Country-Year Dataset v16, March 2026 (retrieved via Our World in Data)",
+  conflict_deaths: "Our World in Data · Project Mars v1.1 (Lyall 2020)",
+  stimson_policy_mood: "James A. Stimson, Policy Mood data series (UNC)",
+  leading_power_gdp_share: "Maddison Project Database 2023 (Bolt & van Zanden, 2024, J. Econ. Surveys)",
+  perez_tech_diffusion:
+    "HATCH - Extended Historical Adoption of Technology Dataset 2.0 (Greene & Nemet, U. Wisconsin–Madison)",
+};
+
 function decode(s: string): string {
   return s
     .replace(/&#x27;/g, "'")
@@ -41,12 +59,13 @@ describe("each paired series' credit line is whole", () => {
   for (const s of series) {
     const cycle = (cyclesJson as { id: string }[]).find((c) => c.id === s.associated_cycle_id)!;
     const slug = cycle.id.replace(/_/g, "-");
-    it(`/cycles/${slug} copies "(${SERIES_CREDIT[s.id]}), ${s.license}."`, async () => {
+    it(`/cycles/${slug} copies "(${EXPECTED_CREDIT[s.id]}), ${s.license}."`, async () => {
       const el = await CyclePage({ params: Promise.resolve({ id: slug }) });
       const html = decode(
         renderToStaticMarkup(el as Parameters<typeof renderToStaticMarkup>[0]).replace(/<!-- -->/g, ""),
       );
-      expect(html).toContain(`(${SERIES_CREDIT[s.id]}), ${s.license}.`);
+      expect(EXPECTED_CREDIT[s.id]).toBeDefined();
+      expect(html).toContain(`(${EXPECTED_CREDIT[s.id]}), ${s.license}.`);
     });
   }
 });
