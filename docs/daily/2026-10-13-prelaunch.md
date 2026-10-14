@@ -974,3 +974,47 @@ hygiene helper: DISPATCHED 2026-10-14T05:38Z · draft tmp/hygiene-draft-sinusoid
 This section was drafted at 06:29Z, before the forced restart at 00:29 MT. It was committed by the resumed session f51393c2 after two fresh reads: `check-ci-status --workflow ci.yml` GREEN on 4259c74a50, and `check-deployed-sha-drift --service sinusoidal-history` in-sync, live 4259c74a = head. Nothing was rebuilt. The walk and Codex outputs quoted above come from the prior session's transcript (a4c9b746).
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P5 — Delta-only close]
+
+## Close (evening round, 2026-10-13; closed 2026-10-14 morning MT after the 00:29 MT forced reboot)
+
+ACTION: COMPLETED · item I-043 · P3 b8ccd87b
+
+The acceptance condition in force is the P1 packet, approved by manager review 8da0defd. Its pin and red arm, the positive control, the mirror match, the live diff, the landing fold and the deploy read were all met (P3 b8ccd87b; review 0b66f454 re-read the live /methods and /methods.md). **The outcome is NOT HELD by the pre-registered bar.** The cold walk (synthetic, N=1) answered correctly from the landing screen but named the rows' "(AR(2) null: …)" label as a term it could not understand. As pre-registered, there was no rewording this round.
+
+**Provenance:** the walk and the Codex r1 output are from the pre-reboot session a4c9b746 and were not re-run. After the reboot, only CI (`check-ci-status --workflow ci.yml`, GREEN on 4259c74a50) and the deploy (`check-deployed-sha-drift --service sinusoidal-history`, in-sync, live = head) were re-read.
+
+### Ledger delta
+
+- **I-043 stays open.** Its next step is now on the row (`continuity-edit --set I-043 --field notes --append-value-file`, sha256 fcec366b → d706e17e). Reword the rows' "(AR(2) null: …)" label (the oracle in `src/lib/methodsCrossGrid.test.ts` pins it, so change the words and the test together) and add one plain sentence to `CROSS_GRID_NOTE`. Re-check with the same cold walk: 320x568, starting on /cycles/schlesinger-jr. The trigger stays `nextEvaluation` 2026-10-20.
+- No other row was touched.
+
+### Hygiene and verification
+
+- **Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md`, evening section): 0 lines, so there was nothing to accept, amend or reject. READ-MUTATED: "none — 0 reads guarded (no --run executed)".
+  - wait-justification: "RESULT: PASS — 32 of 49 row(s) carry `waitJustification`; 0 warn / 0 info".
+  - engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable".
+- **`check-due-gates-dispositioned`** (no flag, run 2026-10-14): "verdict: CLEAR — every gate due at Phase 0 was dispositioned." The tool calls the snapshot STALE because it was taken 2026-10-13 and the clock now reads 10-14. 10-13 is this round's rail day, so that is the right snapshot, and per the rule I did not re-snapshot at close. The due set was 0 of 49.
+
+### Receipt
+
+P3's receipt still holds, and nothing in it changed.
+
+### Today panel
+
+- **Written for 2026-10-14, not the rail day.** `git show origin/main:src/data/cc-daily-brief.json` already read date 2026-10-14, and writing under an older date resets the brief.
+- **⚠ The write still returned `reset: true`.** better-reads had posted under 2026-10-13 at 07:46 MT (70dc30d13), which reset the brief to 10-13 and dropped forecast-lab's 10-14 row (13ff3763c). My 10-14 write then dropped better-reads' row.
+- **The repair is UNRESOLVED.** Re-posting both rows verbatim under 10-14 was refused by the Claude Code classifier ("Modify Shared Resources"), and I did not retry it. Handed to the orchestrator in the close post.
+
+### Pending reads
+
+The dated reads are unchanged:
+- **2026-10-20:** I-027, I-034, I-043
+- **2026-11-01:** I-037
+- **2026-11-04:** W-005, I-032
+- **2026-12-01:** I-025, I-042
+
+[standing-rules-hash: 88cc2dc9]
