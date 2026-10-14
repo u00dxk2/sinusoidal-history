@@ -40,11 +40,13 @@ export const CROSS_GRID_SUMMARY = `The ${CROSS_GRID_ROWS.length} re-pairings, ce
 export const CROSS_GRID_LEAD =
   "Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list.";
 
-// "Reading", not "year": House polarization is sampled every two years (Codex r1).
+// The plain sentence claims only what drift is and that the bracket is a second opinion: two
+// rounds of describing HOW the two models differ overclaimed (per-year lag on a biennial series,
+// Codex r1; "differ only in memory" when fitting and simulation differ too, Codex r2).
 // The note opens in plain words because the lead promises the second model is "explained
 // below the list", and a technical-only note left the walker without it (I-043).
 export const CROSS_GRID_NOTE =
-  "In plain words: drift here means slow wandering that can happen with no repeating cycle, and the two models differ only in memory: in the first, each reading leans on the one before it; in the bracketed one, on the two before it. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
+  "In plain words: drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the bracketed one is a second opinion on the first. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
 
 export default function CrossGridList() {
   return (
