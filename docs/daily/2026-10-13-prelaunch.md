@@ -829,3 +829,148 @@ USER-VISIBLE: on /cycles/strauss-howe the verdict box and the figure's screen-re
 codexCalls: 0 (this phase; the round's two review runs are counted on P3 f855b820) — probed-declined
 
 [standing-rules-hash: 88cc2dc9]
+
+---
+
+[P1 — Evidence and choice]
+
+## Evening round (2026-10-13): P1 selection packet
+
+**Outcome (I-043, /methods cross-grid lead):** a reader who follows a cycle page's "The 19 re-pairings, cell by cell" link sees only plain words between the box heading and the first row. The technical wording (bootstrap, the AR(1)/AR(2) nulls, Holm, unadjusted threshold) moves to a short note after the rows.
+
+**The user problem, in a reader's words (synthetic, N=1, walk C, `docs/walks/2026-10-13-i041.md:174`, 320x568, landed on /methods#cross-grid):** "Jargon at the landing: 'bootstrap p against the AR(1) red-noise null', 'AR(2) null', 'Holm correction', 'unadjusted threshold'. A lay reader arriving by the jump sees these in the first paragraph."
+
+**⚠ The brief's pass bar is already GREEN, so it cannot be the red arm.** The brief's test was "the lead's first sentence contains none of 'bootstrap', 'AR(1)', 'Holm'". But `CROSS_GRID_LEAD` (`src/components/CrossGridList.tsx:36-37`) already opens with the plain sentence the I-043 row proposes: "Each row borrows one theory's period and sets it against a series that theory is not paired with." The jargon is in sentences 2 and 3, and those sentences are what the walker read at y 97 before the first row at y 264 (`:159`). The row's "candidate fix" describes the current text, so a first-sentence assertion passes today and proves nothing. **Corrected pass bar (below):** none of the five jargon terms appears anywhere in the text between the summary and the first row, on the page or in `public/methods.md`. That is RED today, because sentences 2 and 3 carry all five.
+
+### Evidence
+
+- **OBSERVED (synthetic, N=1, walk C):** the quote above. On screen at 320x568: the summary at y 25, the lead at y 97, and the first rows from y 264, with two rows fully visible (`:159-160`). The walker found its number (p 0.094) on the landing screen.
+- **OBSERVED (synthetic, N=1, walks A and B):** the same walks called the box's first sentence "the clearest explanation of the panel I saw anywhere" (`:105`) and "plain English" (`:109`). That first sentence stays exactly as it is.
+- **OBSERVED, source:** the lead is one string, mirrored byte for byte in `public/methods.md:165` and pinned whole by `src/lib/methodsCrossGrid.test.ts:112-121,134-147`. Those blocks also pin the `<p>` count (1 + 2×19) and the md block's end at "The failed-detection precedents", so a note after the rows changes both, in the same commit.
+- **OBSERVED:** no other surface carries the lead. A Grep for "Each row borrows" over src/ and public/ finds only those two places.
+- **HYPOTHESIS, wording for P3, owed a Codex claims pass (rule 6):** keep sentence 1, then add a plain sentence about what p means here (roughly: how likely random drift alone fits that period this well; only a p below 0.05 could count, and none here is), plus a plain pointer that the bracketed number repeats the check against a second model of drift. The current sentences 2 and 3 move, unchanged in substance, to a note after the 19th row. "None here is" holds on the frozen data: the lowest p across both nulls is 0.094, and the test already asserts it is ≥ 0.05 (`methodsCrossGrid.test.ts:81`).
+- **MISSING:** any real reader on /methods (no client analytics by standing choice, `docs/evangelism-bar.md:30`).
+
+### Section 0
+
+- **Primer:** `docs/cold-starts/2026-10-13.md` (banner quoted whole in the kickoff, read).
+- **Listener:** 🟢 SSE alive (restart 03:37:20Z, hello + replay-complete, re-subscribing every 14 min), `/loop-tick` armed by a `ScheduleWakeup` call, waker ranks 1-3 launched. Rank 1 fired a wake-shorten for this prompt and was relaunched.
+- **Codex:** GREEN per the probe line on this prompt (machine-level, 04:45Z).
+- **CI:** `check-ci-status --workflow ci.yml` GREEN on `241a0fd7b3`.
+- **Drift:** `check-deployed-sha-drift --service sinusoidal-history` in-sync, live `241a0fd7` = head.
+- **Due gates:** `check-due-gates-dispositioned --print`, "0 gate(s) due on/before 2026-10-13" (49 swept). `--print`, not `--snapshot`: the day round took today's snapshot once, as the rule says.
+- **Board:** `answered-cards`, none.
+- **Rotation:** `check-cycle-rotation`, exit 0, "no product-love cycle picks this lane today".
+- **Harness:** `check-claude-build --panes` exit 3: fleet SKEW (2.1.299 ×26, 2.1.296 ×1), installed 2.1.299 (AHEAD of the 09-18 record). This pane's own build was not separated from the census. Read only, not a stop.
+- **North Star:** retention and word-of-mouth. The bar reads UNMEASURED (`metricReady: false`), so this ship is reported unmeasured.
+- **Recs yesterday:** the day round dispositioned them (report `:608`). Nothing new since.
+- **Prior-retro recurrence bearing on the choice:** "a check written from a measurement inherits its looseness". It recurred here before any build: the brief's pass bar, taken from the row's prose, passes on today's text. The corrected bar reads the whole lead paragraph, and its oracle is a fixed list of five terms, never the component's own string.
+
+### Permission
+
+This is reader-facing copy on /methods and its mirror, the same class as I-029 and I-041, so it sits inside the lane's own authority. The row is open, with no park, wait or card. Untouched: `public/data/spectral/` (read only), the 19 rows' text, the paragraph above the box, `OpenOnHash`, and the cycle pages' cross-grid line. No David decision.
+
+### Next action
+
+Kind: **improve.**
+1. Write the corrected pass-bar test in `src/lib/methodsCrossGrid.test.ts` first, and record it RED on today's lead.
+2. Rewrite `CROSS_GRID_LEAD` as the plain lead, and add a `CROSS_GRID_NOTE` paragraph after the `<ol>` carrying the moved technical wording.
+3. Mirror both in `public/methods.md:165` and update the whole-block pins.
+
+First command (the before-snapshot, which is also I-043's readCommand):
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/methods C:/dev/skylark/sinusoidal-cycles/tmp/i043-methods.txt
+```
+
+### Acceptance condition (observable)
+
+- **Pin (red arm recorded):** between the summary and the first row, on the page and in methods.md, the text contains none of `bootstrap`, `AR(1)`, `red-noise`, `Holm`, `unadjusted`. That is RED on today's lead and GREEN after. **Positive control:** the moved note, after the 19th row, still contains `AR(1)`, `AR(2)` and `Holm`, so the technical statement is moved, never deleted. The page and the mirror still match byte for byte.
+- **Delivery, live:** `check-rendered-text` diff of /methods against the before-snapshot changes only the lead and adds the note, with the rows identical. The deploy row reads live = head. `check-entry-folds` reads 13/13 at 320x568 (/methods is not an entry fold, so this is a regression read only).
+- **Landing fold:** at 320x568, landing on /methods#cross-grid, the first row is still fully in view. Today it starts at y 264, and the lead may not grow past it.
+- **Outcome (pre-registered, before any look):** a fresh cold walker at 320x568 starts on /cycles/schlesinger-jr, taps the re-pairings link and answers: "In plain words, what does each row do, and did any come out significant?" **PASSES only if** it answers from the landing screen without naming a term it could not understand. **If it fails:** no rewording this round; record it on I-043.
+
+### Delivery and encounter checks
+
+- **Delivery:** CI green → deploy row live = head → the diff, fold and landing reads on production.
+- **Encounter:** blind. No reader-arrival instrument exists, by standing choice, and no instrument row exists. The synthetic walk is the read.
+
+### USER-FACING: yes
+
+Paths:
+- `src/components/CrossGridList.tsx` (the lead string plus one new note paragraph)
+- `public/methods.md` (the mirror, line 165 and a note after the rows)
+- `src/lib/methodsCrossGrid.test.ts` (the pins)
+
+### HYGIENE INPUTS
+
+- **(a) Due rows not bearing on the choice:** none. Read: `check-due-gates-dispositioned --print` (0 due, 49 swept).
+- **(b) Owed child rows (skylark-site ledger):** none. Read: kickoff "rows owed to you" (0 of 749).
+- **(c) State reads marked CROSSED:** none. Read: the kickoff state block (dated gates 0, rows owed 0, cards 0, stale-actionable 0 of 8, queued 0, CI GREEN, report PRESENT). Two lines are not CROSSED but are noted: missingLinkedCommits reads NOTHING SWEPT (0 of 0), and key-metrics has "no list yet".
+
+codexCalls: 0 (P1) — probed-declined
+
+---
+
+[P3 — Product-work loop]
+
+## Evening round (2026-10-13): P3 product-work loop
+
+### Action: improve (I-043), as manager review 8da0defd APPROVED it
+
+The review's wording point, "how often random drift alone would fit that period at least this well", was adopted and put to the claims pass. It HOLDS.
+
+### 1. Implementation
+
+- **The commit, `4259c74`:**
+  - `CROSS_GRID_LEAD` keeps its plain first sentence and adds two plain sentences. The new lead reads: "Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list."
+  - A new `CROSS_GRID_NOTE`, after the 19th row, carries the technical statement: bootstrap, AR(1) red-noise null, AR(2), unadjusted threshold, Holm.
+  - `public/methods.md` mirrors both.
+- **Red arm, recorded before the edit:** the two new pins in `src/lib/methodsCrossGrid.test.ts` failed on the old lead, on page and mirror: `expected 'Each row borrows one theory's period…' not to contain 'bootstrap'`. The other 8 tests in the file passed. After the edit, the 4 test files that read /methods pass 93/93, under `verify-with-receipt` (receipt on 4259c74a). Typecheck and eslint on the changed files are clean.
+- **Codex r1 (read-only, foreground pipe):**
+  - Banner `workdir: C:\dev\skylark\sinusoidal-cycles` matched; head 4259c74, merge-base 241a0fd.
+  - No defects.
+  - Claims pass: HOLDS on all 7 sentences (STATIC). "None here is" checks out: the lowest of the 38 p values is 0.09377.
+  - One weakness, not fixed: on a missing anchor, the slices in the two new tests can still come out non-empty. Codex's own trace shows the exact whole-block pins at `:112` and `:136` catch that case.
+- **Sibling sweep:** "Each row borrows" over `src/` and `public/` finds 2 surfaces, both changed. `llms.txt` does not carry the lead.
+
+### 2. Delivery
+
+- CI GREEN on 4259c74 (`check-ci-status --workflow ci.yml --wait`).
+- `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live 4259c74a = head.
+- **Live surface:** `check-rendered-text` snap of /methods before and after. The line multiset differs by exactly the old lead, replaced by the new lead plus the note (350 → 351 lines). The diff's RED at line 287 is that line. Live `/methods.md` is byte-equal to the repo.
+- **Landing at 320x568, /methods#cross-grid (Playwright):** the box is open, the lead runs y 97-279, and the first row is fully in view at y 287-386. Before, it started at 264, per walk C.
+- `check-entry-folds` 320x568: 13 of 13.
+
+### 3. Encounter
+
+Blind. The site has no reader-arrival instrument, by standing choice (`docs/evangelism-bar.md:30`). No instrument row exists, and none was minted.
+
+### 4. Outcome (synthetic, N=1): NOT HELD, by the pre-registered bar
+
+A fresh cold walker started at 320x568 on /cycles/schlesinger-jr and clicked "All 19 re-pairings, cell by cell →".
+
+- **What held:** it answered from the landing screen, correctly. "The p number says how often plain random wandering would show that rhythm just as well, and only a p under 0.05 would count. None did, and the page says so directly." It did not stall on the lead.
+- **Why it is NOT HELD:** it named one term it could not understand, the rows' "(AR(2) null: …)" label. It also said the "explained below the list" note explains it only in technical terms. The bar was "without naming a term it could not understand".
+- **As pre-registered:** no rewording this round. The residual is recorded on I-043, which stays open. The next round's candidate is the rows' bracket label (pinned by the oracle) plus one plain sentence in the note.
+
+### Receipt
+
+USER-VISIBLE: a reader who follows a cycle page's "19 re-pairings" link to /methods now reads, before the first row, in plain words what each row does, what p means and that none came close, with the bootstrap/AR(1)/Holm wording moved to a note after the rows — 4259c74 [proof: live /methods line multiset old lead → new lead + note (350 → 351, nothing else), /methods.md byte-equal to repo, 320x568 landing first row y 287-386 fully in view, check-deployed-sha-drift in-sync live 4259c74a = head] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30), Search Console sees impressions not page views · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none]
+
+[red-armed: npx vitest run src/lib/methodsCrossGrid.test.ts on the pre-change lead -> "expected 'Each row borrows one theory's period…' not to contain 'bootstrap'" (2 failed | 8 passed)]
+
+codexCalls: 1
+adversarialReviews: 1 — EXECUTED (Codex r1 on 4259c74, read-only, banner workdir checked; paired with the lane's targeted gate)
+hygiene helper: DISPATCHED 2026-10-14T05:38Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-13.md PRESENT (evening section appended; wait-justification PASS 32 of 49, engineering-zero PASS 0 findings for this lane)
+
+### What remains
+
+- **I-043 stays open.** The next step is the rows' "(AR(2) null: …)" label and a plain sentence in the note, for a later round.
+- I-043's dated read (2026-10-20) still stands.
+
+### Resume after the Windows reboot (2026-10-14, 08:3x MT)
+
+This section was drafted at 06:29Z, before the forced restart at 00:29 MT. It was committed by the resumed session f51393c2 after two fresh reads: `check-ci-status --workflow ci.yml` GREEN on 4259c74a50, and `check-deployed-sha-drift --service sinusoidal-history` in-sync, live 4259c74a = head. Nothing was rebuilt. The walk and Codex outputs quoted above come from the prior session's transcript (a4c9b746).
+
+[standing-rules-hash: 88cc2dc9]
