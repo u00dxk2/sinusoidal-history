@@ -5,14 +5,19 @@
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL, 2 any leg UNREAD.
 // Legs, at 1280x900 and 390x664, for every cycle in src/data/cycles.json: the expanded card at
 // /?tab=facets&focus=<id>, and the single-cycle embed /embed?cycles=<id>. Each page must carry
-// exactly one [data-holds-up] line, this cycle's, painted (a box, no zero-opacity or hidden
-// ancestor), reading "Does it hold up? <headline> →" where <headline> appears in that cycle
-// page's own server-rendered #does-it-hold-up box, and linking to /cycles/<slug>#does-it-hold-up.
-// Plus one positive control: /cycles/dalio's own box is read by the same text match, so a match
-// that can never succeed reads UNREAD, not RED. The headline, paint and page-wide count legs were
-// added after Codex r1 (2026-10-14) showed a wrong headline, an opacity-0 line and a second line
-// would each have passed. NOT SEEN: contrast and font size, a line covered by another element,
-// and whether a reader understands it.
+// exactly one [data-holds-up] line, this cycle's, whose every text node is painted, reading
+// EXACTLY "Does it hold up? <headline> →" and linking to /cycles/<slug>#does-it-hold-up.
+// <headline> is a stated rule read from the frozen verdicts.json, sharing no code with the card:
+// no primary row and no paired series → "Not tested"; an ineligible row → "Not testable on the
+// record that exists". Anything else (an eligible row, or a paired series with no row) is a case
+// this rule does not cover, and the leg REFUSES (UNREAD) rather than guessing. Plus one positive
+// control: /cycles/dalio's own box carries the needle, so a needle that cannot match reads UNREAD.
+// Shape history: Codex r1 showed a wrong headline, an opacity-0 line and a second line would each
+// pass; r2 showed the substring oracle that fixed the first accepted reversals ("Tested" inside
+// "not tested") and that paint was judged on the line, not its children. Second appearance of
+// both classes, so the matcher became exact equality and paint became per text node.
+// NOT SEEN: contrast and font size, a line covered by another element, multi-cycle embeds, and
+// whether a reader understands it.
 // Written for I-045 (2026-10-14). Red arm: production on 9d66ef96, before the change, read 0/40
 // with 0 UNREAD and the control true.
 // Three traps this guards, each measured that evening: `/?focus=<id>` alone does NOT expand the
@@ -32,25 +37,15 @@ let fail = 0;
 let unread = 0;
 let pass = 0;
 
-// Each cycle page's server-rendered "Does it hold up?" box, lower-cased text, fetched once.
-const boxCache = new Map();
-async function pageBox(slug) {
-  if (!boxCache.has(slug)) {
-    const html = await (await fetch(`${origin}/cycles/${slug}`)).text();
-    const m = html.match(/<section id="does-it-hold-up"[\s\S]*?<\/section>/);
-    boxCache.set(
-      slug,
-      m
-        ? m[0]
-            .replace(/<[^>]+>/g, " ")
-            .replace(/&amp;/g, "&")
-            .replace(/&#x27;/g, "'")
-            .replace(/\s+/g, " ")
-            .toLowerCase()
-        : null
-    );
-  }
-  return boxCache.get(slug);
+const readJson = (rel) => JSON.parse(readFileSync(new URL(rel, import.meta.url), "utf8"));
+const primary = readJson("../public/data/spectral/verdicts.json").primary;
+const pairedIds = new Set(readJson("../src/data/series.json").map((s) => s.associated_cycle_id));
+
+// The headline a cycle's line must carry, or null where this rule does not decide (refuse).
+function expectedHeadline(id) {
+  const row = primary.find((r) => r.cycle_id === id);
+  if (!row) return pairedIds.has(id) ? null : "Not tested";
+  return row.eligible ? null : "Not testable on the record that exists";
 }
 
 const browser = await chromium.launch();
@@ -80,35 +75,49 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         const n = await line.count();
         const text = n ? (await line.first().innerText()).replace(/\s+/g, " ") : "";
         const href = n ? await line.first().locator("a").getAttribute("href") : null;
-        // Painted, not just present: a box, and no zero-opacity or hidden ancestor (Codex r1 MED).
+        // Painted, per TEXT NODE: each non-empty text node has a non-zero rect, and no element
+        // from it up to the document is hidden, display:none or opacity 0 (Codex r1, r2).
         const painted = n
           ? await line.first().evaluate((node) => {
-              const r = node.getBoundingClientRect();
-              if (r.width === 0 || r.height === 0) return false;
-              for (let e = node; e; e = e.parentElement) {
-                const s = getComputedStyle(e);
-                if (s.visibility === "hidden" || s.display === "none" || +s.opacity === 0) return false;
+              const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+              let seen = 0;
+              for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+                if (!t.textContent.trim()) continue;
+                seen++;
+                const range = document.createRange();
+                range.selectNodeContents(t);
+                const r = range.getBoundingClientRect();
+                if (r.width === 0 || r.height === 0) return false;
+                for (let e = t.parentElement; e; e = e.parentElement) {
+                  const s = getComputedStyle(e);
+                  if (s.visibility === "hidden" || s.display === "none" || +s.opacity === 0) return false;
+                }
               }
-              return true;
+              return seen > 0;
             })
           : false;
-        // The headline must be the one the cycle page's own box prints (Codex r1 MED): the
-        // oracle is that page's server-rendered #does-it-hold-up section, not this card's code.
-        const headline = text.replace(/^does it hold up\?\s*/i, "").replace(/\s*→\s*$/, "");
-        const box = await pageBox(slug);
-        const matchesPage = headline.length > 0 && box !== null && box.includes(headline.toLowerCase());
+        // Exact equality against the stated rule (Codex r2: a substring oracle accepted reversals).
+        // The label is CSS-uppercased in innerText, so it alone is compared case-insensitively.
+        const expected = expectedHeadline(c.id);
+        if (expected === null) {
+          unread++;
+          console.log(`UNREAD ${tag} — no stated headline rule for this cycle's verdict row; refusing`);
+          continue;
+        }
+        const exact =
+          text.slice(0, NEEDLE.length).toLowerCase() === NEEDLE &&
+          text.slice(NEEDLE.length) === ` ${expected} →`;
         const ok =
           nAll === 1 &&
           n === 1 &&
           painted &&
-          matchesPage &&
-          text.toLowerCase().startsWith(NEEDLE) &&
+          exact &&
           href === `/cycles/${slug}#does-it-hold-up`;
         if (ok) pass++;
         else fail++;
         console.log(
           `${ok ? "PASS" : "FAIL"}  ${tag}  — ${n}/${nAll} line(s) "${text}" -> ${href}` +
-            ` · painted ${painted} · headline in page box ${matchesPage}`
+            ` · painted ${painted} · exact "${expected}" ${exact}`
         );
       } catch {
         unread++;
