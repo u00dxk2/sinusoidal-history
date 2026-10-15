@@ -218,3 +218,58 @@ ACTION: DEFERRED — shipped and live, but the pre-registered walk read NOT HELD
   - 2026-12-01: I-025, I-042.
 - **Primer:** `docs/cold-starts/2026-10-15.md` (banner 785 chars).
 - **Uncommitted at session start, now committed with the ledger:** `continuity/continuity-disposition-events.jsonl`. It was already modified when this session began, and today's edits appended to it.
+
+## Evening round (2026-10-15): P1 selection packet
+
+**Outcome:** I-047, the open cycle card says whether the record supports it before anything else on the card seems to say it does. The user problem, in the 840a39f walker's words: "PEAKING sits in the top-right of the card header … above the verdict … for a moment it read as 'Dalio's claim: confirmed, we're peaking.'"
+
+### Evidence
+- OBSERVED (synthetic, N=1): `docs/walks/2026-10-15-i047.md`, GREEN arm walked against the build live at 840a39f, 390x664 from `/`. NOT HELD on the header phase word. The chart misread is now corrected by the answer above it. Limits: one synthetic walker, not a real user.
+- OBSERVED: `check-holds-up-line https://sinusoidalhistory.com` at about 22:16Z, verdict line as printed: `RESULT: 40/40 PASS · 0 FAIL · 0 UNREAD` (population: 10 cycles x {expanded card, single-cycle embed} x {1280x900, 390x664}).
+- OBSERVED: `check-deployed-sha-drift --service sinusoidal-history` reads in-sync (live 573ff609 = head). `check-ci-status --workflow ci.yml` reads GREEN on 573ff609.
+- MISSING: real-user evidence. `docs/evangelism-bar.md` is `metricReady: false`, "This bar reads UNMEASURED" (no client analytics by standing choice). The ship is reported as unmeasured.
+- `check-cycle-rotation --lane sinusoidal-cycles`: exit 0, "no product-love cycle due — picked evangelism-bar (7d since 2026-10-08, within its 30d cadence)".
+- `answered-cards --project sinusoidal-cycles`: no waiting, answered or pending-verify cards.
+- Due gates: `--snapshot` REFUSED (exit 2) because a morning snapshot for 2026-10-15 exists and holds I-046 and I-047. Both were re-dated to 2026-10-16 at the day close. The morning file is left unchanged, as P1 directs.
+- A prior-day retro finding that bears on the choice: "Q2: The Codex rounds' prompt-building and output reads". This round's prompt quotes the ledger note and the brief's fences verbatim, and its banner workdir was checked (`C:\dev\skylark\sinusoidal-cycles`).
+
+### Permission
+I-047 is open and not parked or waiting, with no board card. It is copy and layout on one card, within the lane's own product class; nothing waits on David.
+
+### Next action: improve (built as prep, NOTHING committed)
+On the EXPANDED card only, the phase word leaves the header. It becomes a plain line under the answer, attributed to the curve: "Where the drawn curve sits in 2026: peaking" (sentence case, `text-ink-soft`, `aria-label` "Phase position: …"). The closed card and the single-cycle embed keep the header word: the closed card is I-048's, and the embed has 0 px to spare. `check-holds-up-line` gains one card leg, "phase after answer": in DOM order the word follows `[data-holds-up]`, sits outside it, and is painted. The whole-line rule is unchanged, and the new leg tests position, not text.
+
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com
+```
+
+Frame (Dalio card at the top of the viewport, y px), written into `docs/walks/2026-10-15-i047-r2.md`:
+- 390x664, production: phase 39-55 (header), answer 77-154, chart 180-400. This change: answer 77-154, phase 158-174, chart 201-421.
+- 320x568, production: phase 39-55, answer 77-172, chart 219-439. This change: answer 77-172, phase 176-192, chart 239-459.
+- Choice: position AND wording. The walker named both ("looks like a status badge" and "above the verdict"). A bare "PEAKING" below the answer would still be a badge. Cost: the chart starts about 20 px lower and still ends on the first screen at both sizes.
+
+### Acceptance condition (pre-registered in `docs/walks/2026-10-15-i047-r2.md`)
+The same cold walker and the same prompt (`docs/walks/2026-10-14-i045.md`, saved whole), at 390x664 from `/` on production after drift reads this change live. Under (5), it does not report the phase word or the curve as confirmation BEFORE the verdict, and it still answers correctly from the card. RED arm: the 840a39f walk (NOT HELD). The closed card and home figure (I-048) are recorded, not scored.
+
+### Prep evidence (local build, nothing pushed)
+- New leg, red arm: production 573ff609 reads 20/40, all 20 card legs failing on "phase after answer" alone (embeds 20/20 PASS).
+- Instrument can fail (mutation): `opacity-0` on the phase line gives 20/40 FAIL on that leg. Restored, it gives 40/40, and the diff holds only the change.
+- Positive controls on the local build: `check-holds-up-line` 40/40; `check-embed-snippets` 42/42, the single-cycle embed "content 540px in 540px"; `check-entry-folds` 320x568 13/13; `check-calibrate-tab` 93/93; eslint clean on both files; `next build` type-check clean.
+- Codex r1 (read-only, workdir verified): one LOW, CONFIRMED and fixed. `phaseAfter` passed a hidden word, so it now applies the line's paint test, which is what the mutation above proves. "No current rendering or calculation defect found." Claims: all HOLDS or UNVERIFIABLE-HERE. Codex also offered narrower wording for an off-chart year ("The drawn model's phase in {year}"); this is not taken yet, and it is open for the P3 review to choose. The sentence still describes the curve whether or not a brushed range shows that year.
+
+### Delivery and encounter checks
+After the P3 go: commit and push, then CI green, then drift in-sync, then `check-holds-up-line` 40/40 on production, then the pre-registered walk. Encounter: real-user exposure is blind (no client analytics, by standing choice, per the bar), and the walk is synthetic N=1.
+
+### USER-FACING: yes
+- `src/components/CycleFacet.tsx` (the expanded card; the Calibrate tab's facet too)
+- `scripts/check-holds-up-line.mjs` (checker, internal)
+- `docs/walks/2026-10-15-i047-r2.md` (internal)
+
+### HYGIENE INPUTS
+- (a) due rows not bearing on the choice: none. Read: kickoff "dated gates due today: 0".
+- (b) owed child rows: none. Read: kickoff "0 of 754 considered".
+- (c) state reads marked CROSSED: none. Read: kickoff state reads. missingLinkedCommits reads NOTHING SWEPT (0 of 0), which is not a clean read.
+- I-046 owes a fresh `--run` (due 10-16). It runs this checker against production, so it is held until this change is live; otherwise it reads 20/40 against a checker production has not caught up with.
+
+codexCalls: 1
+adversarialReviews: 1 (Codex r1, read-only)
