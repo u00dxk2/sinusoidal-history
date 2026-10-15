@@ -1,0 +1,24 @@
+# PARTIAL read-output capture for I-046 — written by check-due-gates-dispositioned --run
+# ⚠ PARTIAL: the child was KILLED at its timeout cap. These bytes are NOT a reading and NOT an answer.
+#   The row was deliberately NOT stamped (no readCommandLastRun, no readCommandLastExit, no ref).
+#   This file exists so a human can see how far the command got; nothing resolves it.
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com
+# attempted: 2026-10-15T18:16:04.224Z · killed at cap: 60000ms · elapsed: 60204ms
+# bytesBeforeKill: 3480
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  1280x900 card  khaldun  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/khaldun#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed khaldun  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/khaldun#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  kondratiev  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/kondratiev#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed kondratiev  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/kondratiev#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  huntington  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/huntington#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed huntington  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/huntington#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  schlesinger_jr  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/schlesinger-jr#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed schlesinger_jr  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/schlesinger-jr#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  perez  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/perez#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed perez  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/perez#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  turchin  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/turchin#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed turchin  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/turchin#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  dalio  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/dalio#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed dalio  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/dalio#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 card  strauss_howe  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/strauss-howe#does-it-hold-up · painted true · exact "Not testable on the record that exists" true
+PASS  1280x900 embed strauss_howe  — 1/1 line(s) "DOES IT HOLD UP? Not testable on the record that exists →" -> /cycles/strauss-howe#does-it-hold-up · painted true · exact "Not testable on the record that exists" true

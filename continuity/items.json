@@ -1564,11 +1564,23 @@
       "identified": "2026-10-14",
       "description": "Pre-registered I-045 cold walk (docs/walks/2026-10-14-i045.md, synthetic N=1, 390x664, production eac0a53): the walker tapped \"Ray Dalio\" in the EVERY CYCLE, AT A GLANCE figure at (98,508); the URL stayed / and scroll stayed 0. A reader's first instinct gets no response; the only guide is the line \"Each in detail below — tap one to focus and calibrate.\" Not yet re-read in source: read the glance figure's code first and name whether a tap target is intended.",
       "closeWhen": "A tap on a glance-figure cycle label takes the reader to that cycle's expanded card (or the figure is made visibly non-interactive with the cue pointing at the list), proved by a Playwright tap read at 390x664 and 320x568; or a recorded decision against it.",
-      "nextEvaluation": "2026-10-15",
+      "nextEvaluation": "2026-10-16",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is a new tap probe on the glance figure",
-      "notes": "2026-10-14 (P5 close, evening round): minted as I-045 walk residual (1), per manager review c3c82e56 (\"the dead tap on the home glance-figure labels is a real new row\").",
+      "notes": "2026-10-14 (P5 close, evening round): minted as I-045 walk residual (1), per manager review c3c82e56 (\"the dead tap on the home glance-figure labels is a real new row\").\n\n | 2026-10-15 (P5 close, day round): hygiene draft ACCEPTED — re-dated to 2026-10-16 and readCommandTimeoutMs set to 300000 (16 of ~40 legs took 60s). The helper's --run of 10-15 is VOID: it executed scripts/check-holds-up-line.mjs while the lane was editing it for I-047 (READ-MUTATED, status d9e7a7e5), and it timed out with nothing stamped; a FRESH read is owed against the committed checker (live 840a39f). Source answers this row's open question: src/components/CycleOverview.tsx:17-24 says the glance rows are deliberately 'a FIGURE, not controls' (24px rows cannot meet the 44px floor, canon R28, 2026-09-22), so the choice is a real tap target or a recorded decision against it. The figure's missing verdict signal is NOT this row: it lives on I-048.",
       "created": "2026-10-14",
-      "updated": "2026-10-14"
+      "updated": "2026-10-15",
+      "readCommandLastTimeout": {
+        "at": "2026-10-15T18:16:04.224Z",
+        "capMs": 60000,
+        "bytesBeforeKill": 3480,
+        "command": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com"
+      },
+      "readCommandUnstampable": {
+        "at": "2026-10-15T18:16:04.224Z",
+        "reason": "over-cap 60204ms vs 60000ms — the child was KILLED at the cap after 60204ms with 3480 byte(s) of partial output. A partial capture is an UNFINISHED read, not a short one. Raise readCommandTimeoutMs (cap 600000ms), split the command, or make it cheaper."
+      },
+      "lastEvaluated": "2026-10-15",
+      "readCommandTimeoutMs": 300000
     },
     {
       "id": "I-047",
@@ -1580,11 +1592,44 @@
       "identified": "2026-10-14",
       "description": "Pre-registered I-045 cold walk (docs/walks/2026-10-14-i045.md, synthetic N=1, 390x664, production eac0a53), residuals (2)-(4): (2) the gold PEAKING word and the gold wave cresting on the 'now' line are the card's most prominent signals and sit above the verdict line; on / the glance row 'peaking in 2026.' also reads as fact; the walker's view of the friend's claim held until it reached 'Not testable'. (3) The verdict line's arrow suggests the answer is elsewhere, though the line alone answers. (4) The line does not say WHY it is not testable (the record covers too few periods), and the most useful sentence ('forces our sinusoid to peak again at ~2025, which Dalio does not assert') is buried in the Peak calibration paragraph. Manager review c3c82e56: the strongest candidate for the next round's action. Constraint: the no-test-ran guard (I-028) and the frozen headline wording (holdsUp.ts); do not touch I-042/I-043 scope.",
       "closeWhen": "A cold walker on the expanded card at 390x664 does not read the phase word or curve as confirmation before the verdict (pre-registered prompt, saved whole), with check-holds-up-line still 40/40 and check-entry-folds 320x568 unchanged; or a recorded decision against it.",
-      "nextEvaluation": "2026-10-15",
+      "nextEvaluation": "2026-10-16",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is a pre-registered cold walk",
-      "notes": "2026-10-14 (P5 close, evening round): minted from I-045 walk residuals (2), (3) and (4), per manager review c3c82e56. Next P1 candidate.",
+      "notes": "2026-10-14 (P5 close, evening round): minted from I-045 walk residuals (2), (3) and (4), per manager review c3c82e56. Next P1 candidate.\n\n | 2026-10-15 (P5 close, day round): DEFERRED, not closed — per manager review ae492972. SHIPPED a282984 (+ checker 3c70e16, 466d6c1, 840a39f): on the expanded card, \"Does it hold up?\", the plain headline and its reason (holdsUpCard detail, verbatim) now sit ABOVE the legend and chart, with one \"Details →\" link; the phase word is drawn in ink, not the cycle colour; the embed keeps its compact line, moved above the chart (540 in 540). Live 840a39f2 = head; check-holds-up-line on production 0/40 at a61c6f61 -> 40/40; embed-snippets 42/42; entry-folds 320x568 13/13. Codex r1-r3 read-only. Pre-registered walk (docs/walks/2026-10-15-i047.md, synthetic N=1): RED arm reproduced on a61c6f61; GREEN arm on 840a39f NOT HELD as written — \"PEAKING sits in the top-right of the card header … above the verdict … for a moment it read as 'Dalio's claim: confirmed'\". What moved: the chart misread now comes after the answer and the walker said the answer corrected it; it answered \"No\" with the reason from the card's first screen (residuals (3) arrow and (4) why are resolved). NEXT LEVER: the phase word's POSITION (below the answer, not in the header) or its WORDING; colour alone did not stop it reading as a verdict. Same pre-registered prompt and bar for the next walk. The closed-card / home-figure verdict gap from walk (6) lives on I-048.",
       "created": "2026-10-14",
-      "updated": "2026-10-14"
+      "updated": "2026-10-15",
+      "lastEvaluated": "2026-10-15"
+    },
+    {
+      "id": "I-048",
+      "title": "The closed cycle card and the home glance figure show \"PEAKING\" / \"peaking in 2026\" with no sign that the cycle is untested",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-15",
+      "description": "From the I-047 walks (docs/walks/2026-10-15-i047.md, synthetic N=1, 390x664): RED arm (5) and GREEN arm (6). Before a card opens, the home first screen's glance figure (text alternative 'Ray Dalio (75-year cycle): peaking in 2026.', a dot on the crest at the bold 2026 line) and the CLOSED facet card ('PEAKING' plus a chart of the curve over its data) read as the site agreeing; 'The closed card has no \"does it hold up\" signal, so the verdict appears only once you tap.' The page-level caveats ('0 of the 9 reach its 3.0-period evidence gate'; 'not prophecy'; the editor's note) sit at the bottom or past the list. Manager review e5888aa2 named this the skimmer's misread. Separate from I-046 (a dead tap on the same figure's labels) and from I-047 (the OPEN card). Constraints: the I-028 no-test-ran guard and the pinned holdsUp.ts headlines; the closed card is 60-84px tall, so any signal must be measured against the facet list's density; check-entry-folds 320x568 has 12px spare on /.",
+      "closeWhen": "A cold walker on / at 390x664, asked before tapping anything whether the cycles it sees are confirmed, does not read the glance figure or a closed card as confirmation (pre-registered prompt saved whole), with check-entry-folds 320x568 13/13 and check-holds-up-line 40/40; or a recorded decision against it.",
+      "nextEvaluation": "2026-10-16",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — regression read only; this row's own proof is a pre-registered cold walk from /",
+      "notes": "2026-10-15 (P5 close, day round): minted from I-047 walk (6) and RED (5), per manager review ae492972 ('where the closed-card/home verdict gap lives'). Dated with I-047's next walk (10-16) so the next P1 weighs them together.",
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
+    },
+    {
+      "id": "I-049",
+      "title": "Multi-sentence cycle descriptions end without a full stop and read as cut off",
+      "status": "open",
+      "type": "issue",
+      "priority": "P4",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-15",
+      "description": "No short_description in src/data/cycles.json ends with a full stop (10 of 10, grep 2026-10-15: '\"short_description\": \".*[^.]\",$' matched 9 lines plus Dalio's). That reads fine for one-clause fragments, but 5 hold two sentences (khaldun :5, kondratiev :17, turchin :67, dalio :79, modelski :104), and there the missing stop reads as truncation: the I-047 GREEN walker said Dalio's 'reads as cut off'; the 10-14 journey-walk (docs/journey-walk-2026-10-14.md:126, finding 9) said the same. public/about.md already writes them with full stops (hand mirror), so the mirror and the data disagree. A one-character Dalio fix was tried at the 10-15 close and reverted: it would have made Dalio the only stopped description. Decide the convention (stop every description, or stop only multi-sentence ones) and apply it to all 10 in one commit; the surfaces render the field directly (cards, /cycles, cycle pages, JSON-LD, /api/v1/cycles, /about).",
+      "closeWhen": "Every cycles.json short_description follows one stated punctuation convention, matching public/about.md, with the rendered-text multiset showing only those terminal stops changed.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i049-cycles.txt",
+      "notes": "2026-10-15 (P5 close, day round): minted from the I-047 GREEN walk's copy note and the sibling sweep that showed the defect is the convention, not one string. Dated with I-043's 10-20 copy step.",
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
     }
   ],
   "knownPatterns": [

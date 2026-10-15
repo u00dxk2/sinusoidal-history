@@ -190,3 +190,31 @@ hygiene helper: DISPATCHED ~18:12Z · draft tmp/hygiene-draft-sinusoidal-cycles-
 - The closed card and the home glance figure show no verdict (walk (6)), with I-046 or as a new row. I-046 needs a fresh read after this ship: the helper's partial read ran a half-edited checker.
 - Dalio's `short_description` is missing its full stop (`src/data/cycles.json:79`).
 - Waker rank 3's relaunch was refused at ~18:40Z: its pidfile names PID 35652, the rung that self-exited at max-life, and its identity read as UNREADABLE. That is benign by the skill's rule; ranks 1 and 2 are running.
+
+## Close (day round, 2026-10-15)
+
+ACTION: DEFERRED — shipped and live, but the pre-registered walk read NOT HELD on the phase word; next lever is its position or wording · trigger 2026-10-16 (I-047 nextEvaluation) · item I-047 · P3 468f643f
+
+- **Per manager review ae492972 (DEFERRED):** I-047 stays OPEN. NOT HELD is written on its row against the pre-registered bar, with the next lever named (the phase word's POSITION below the answer, or its WORDING) and the next walk dated 2026-10-16 with the same prompt.
+- **State since P3:** none on production; live is still `840a39f2` (P3's drift read). The report and walk commit `fdf96b9` is docs only.
+- **Reviewer's SUGGESTION, measured and not taken:** shipping Dalio's missing full stop alone. The sibling sweep (`grep '"short_description": ".*[^.]",$' src/data/cycles.json`) showed that NO description ends with a full stop (10 of 10), five of them hold two sentences, and `public/about.md` writes them all stopped. A Dalio-only fix would leave Dalio the one stopped description. Reverted before commit; I-049 owns the convention.
+- **Ledger delta (`continuity-edit`):**
+  - **I-046:** hygiene draft ACCEPTED. Re-dated to 2026-10-16, `readCommandTimeoutMs` set to 300000, and a note added: the 10-15 read is VOID (READ-MUTATED by this lane's own checker edit, timed out at 60 s); a fresh read is owed; the glance figure is a deliberate non-control (`CycleOverview.tsx:17-24`).
+  - **I-047:** re-dated to 2026-10-16, with the NOT HELD note, the evidence, and the next lever.
+  - **I-048:** minted. The closed card and the home glance figure carry no verdict signal (walk (6) and RED (5)); trigger 2026-10-16.
+  - **I-049:** minted. The description punctuation convention; trigger 2026-10-20, with I-043's copy step.
+- **Hygiene draft:** 1 line (1 accepted · 0 amended · 0 rejected).
+  - READ-MUTATED, quoted: `READ-MUTATED I-046 scripts/check-holds-up-line.mjs — path named in the readCommand`. Cause: this lane's own concurrent I-047 edit (status d9e7a7e5).
+  - check-wait-justification: `RESULT: PASS — 32 of 53 row(s) carry waitJustification; 0 warn / 0 info (exit 0)`.
+  - check-engineering-zero: `RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)`.
+- **Due gates:** `check-due-gates-dispositioned` (no flag) → `verdict: CLEAR — every gate due at Phase 0 was dispositioned.`, snapshot CURRENT (taken 2026-10-15). I-046 and I-047 were both re-dated to 2026-10-16.
+- **Receipt:** P3's still holds (`a282984`). Nothing new.
+- **Today panel:** `update-daily-brief --date 2026-10-15` inserted sinusoidal-cycles and preserved 11 other lanes (dry run first).
+- **Pending reads:**
+  - 2026-10-16: I-047, I-048, I-046.
+  - 2026-10-20: I-027, I-034, I-043, I-049.
+  - 2026-11-01: I-037.
+  - 2026-11-04: W-005, I-032.
+  - 2026-12-01: I-025, I-042.
+- **Primer:** `docs/cold-starts/2026-10-15.md` (banner 785 chars).
+- **Uncommitted at session start, now committed with the ledger:** `continuity/continuity-disposition-events.jsonl`. It was already modified when this session began, and today's edits appended to it.
