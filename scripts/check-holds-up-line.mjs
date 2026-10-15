@@ -20,7 +20,10 @@
 // whether a reader understands it. Also NOT SEEN, by declaration (I-047 Codex r2, the third round
 // of matcher gaps, so a ceiling rather than another matcher): text drawn by CSS (::before/::after
 // `content:`), which innerText and the text-node walk cannot see. The site's styles add no such
-// content to these elements; a change that does is reviewed, not caught here.
+// content to these elements; a change that does is reviewed, not caught here. Likewise NOT SEEN
+// (I-047 Codex r3, the colour leg's third round): the site-wide ink token itself drifting to a
+// near-transparent colour, which canvas bytes cannot tell from a transparent curve colour. That
+// drift would fade every grey label on the site, not this line alone; review catches it.
 // Written for I-045 (2026-10-14). Red arm: production on 9d66ef96, before the change, read 0/40
 // with 0 UNREAD and the control true.
 // Three traps this guards, each measured that evening: `/?focus=<id>` alone does NOT expand the
