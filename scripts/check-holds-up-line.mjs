@@ -17,7 +17,10 @@
 // "not tested") and that paint was judged on the line, not its children. Second appearance of
 // both classes, so the matcher became exact equality and paint became per text node.
 // NOT SEEN: contrast and font size, a line covered by another element, multi-cycle embeds, and
-// whether a reader understands it.
+// whether a reader understands it. Also NOT SEEN, by declaration (I-047 Codex r2, the third round
+// of matcher gaps, so a ceiling rather than another matcher): text drawn by CSS (::before/::after
+// `content:`), which innerText and the text-node walk cannot see. The site's styles add no such
+// content to these elements; a change that does is reviewed, not caught here.
 // Written for I-045 (2026-10-14). Red arm: production on 9d66ef96, before the change, read 0/40
 // with 0 UNREAD and the control true.
 // Three traps this guards, each measured that evening: `/?focus=<id>` alone does NOT expand the
@@ -85,16 +88,12 @@ function expectedWhy(id) {
   return name ? `Judged on ${name}: ${covered}` : null;
 }
 
-// "#A07628" → "rgb(160, 118, 40)", the form getComputedStyle reports.
-function rgb(hex) {
-  const n = parseInt(hex.slice(1), 16);
-  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
-}
-
-// The red, green and blue of an rgb()/rgba() string, alpha dropped: "rgba(160, 118, 40, 0.85)"
-// and "rgb(160, 118, 40)" are the same colour channels (Codex r1).
-function channels(css) {
-  return (css.match(/[\d.]+/g) ?? []).slice(0, 3).join(",");
+// Two "r,g,b,a" byte strings from the page's canvas: the same colour if every RGB channel is
+// within 3. Alpha is ignored on purpose.
+function nearRgb(a, b) {
+  const x = a.split(",").map(Number);
+  const y = b.split(",").map(Number);
+  return [0, 1, 2].every((i) => Math.abs(x[i] - y[i]) <= 3);
 }
 
 const browser = await chromium.launch();
@@ -157,7 +156,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         }
         // The pinned parts, read in the page itself (I-047).
         const parts = n
-          ? await line.first().evaluate((node) => {
+          ? await line.first().evaluate((node, curveHex) => {
               const facet = node.closest("[data-facet-id]") ?? document;
               const chart = facet.querySelector('svg[role="img"]');
               const head = node.querySelectorAll("[data-holds-up-headline]");
@@ -170,6 +169,17 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
               (phase?.parentElement ?? document.body).appendChild(probe);
               const ink = getComputedStyle(probe).color;
               probe.remove();
+              // Any CSS colour (rgb, rgba, color(srgb …), oklch …) to the bytes the browser paints,
+              // through its own canvas, so no string form is compared (Codex r2: color(srgb …) for
+              // the curve's own gold read as "different" from rgb(160, 118, 40)).
+              const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+              const bytes = (css) => {
+                ctx.clearRect(0, 0, 1, 1);
+                ctx.fillStyle = "#000";
+                ctx.fillStyle = css;
+                ctx.fillRect(0, 0, 1, 1);
+                return Array.from(ctx.getImageData(0, 0, 1, 1).data).join(",");
+              };
               const flat = (e) => e.innerText.replace(/\s+/g, " ").trim();
               return {
                 beforeChart: !!chart && !!(node.compareDocumentPosition(chart) & Node.DOCUMENT_POSITION_FOLLOWING),
@@ -178,10 +188,11 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
                 headLinked: head.length === 1 ? !!head[0].closest("a") : null,
                 whys: whyEl.length,
                 whyText: whyEl.length === 1 ? flat(whyEl[0]) : null,
-                phaseColor: phase ? getComputedStyle(phase).color : null,
-                ink,
+                phaseColor: phase ? bytes(getComputedStyle(phase).color) : null,
+                ink: bytes(ink),
+                curve: bytes(curveHex),
               };
-            })
+            }, c.color)
           : null;
         const label = text.slice(0, NEEDLE.length).toLowerCase() === NEEDLE;
         const headOk = !!parts && parts.heads === 1 && parts.headText === expected;
@@ -191,7 +202,9 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
           !!parts &&
           parts.phaseColor !== null &&
           parts.phaseColor === parts.ink &&
-          channels(parts.phaseColor) !== channels(rgb(c.color));
+          // RGB only, within 3 per channel: an alpha-reduced curve colour is still the curve's
+          // colour (Codex r1), and the canvas can round an alpha colour's channels by one.
+          !nearRgb(parts.phaseColor, parts.curve);
         // The WHOLE line, exactly, per form: the marked parts alone let extra text (a new claim,
         // an arrow beside the headline) ride along (Codex r1 MED; the second appearance of the
         // partial-match class from 10-14 r2, so the rule is the full composition, not more marks).
