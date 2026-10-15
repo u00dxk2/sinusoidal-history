@@ -1569,18 +1569,15 @@
       "notes": "2026-10-14 (P5 close, evening round): minted as I-045 walk residual (1), per manager review c3c82e56 (\"the dead tap on the home glance-figure labels is a real new row\").\n\n | 2026-10-15 (P5 close, day round): hygiene draft ACCEPTED — re-dated to 2026-10-16 and readCommandTimeoutMs set to 300000 (16 of ~40 legs took 60s). The helper's --run of 10-15 is VOID: it executed scripts/check-holds-up-line.mjs while the lane was editing it for I-047 (READ-MUTATED, status d9e7a7e5), and it timed out with nothing stamped; a FRESH read is owed against the committed checker (live 840a39f). Source answers this row's open question: src/components/CycleOverview.tsx:17-24 says the glance rows are deliberately 'a FIGURE, not controls' (24px rows cannot meet the 44px floor, canon R28, 2026-09-22), so the choice is a real tap target or a recorded decision against it. The figure's missing verdict signal is NOT this row: it lives on I-048.",
       "created": "2026-10-14",
       "updated": "2026-10-15",
-      "readCommandLastTimeout": {
-        "at": "2026-10-15T18:16:04.224Z",
-        "capMs": 60000,
-        "bytesBeforeKill": 3480,
-        "command": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com"
-      },
-      "readCommandUnstampable": {
-        "at": "2026-10-15T18:16:04.224Z",
-        "reason": "over-cap 60204ms vs 60000ms — the child was KILLED at the cap after 60204ms with 3480 byte(s) of partial output. A partial capture is an UNFINISHED read, not a short one. Raise readCommandTimeoutMs (cap 600000ms), split the command, or make it cheaper."
-      },
       "lastEvaluated": "2026-10-15",
-      "readCommandTimeoutMs": 300000
+      "readCommandTimeoutMs": 300000,
+      "readCommandLastRun": "2026-10-15T23:38:20.049Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 70612,
+      "readCommandLastOutputRef": {
+        "lines": 43,
+        "sha256": "ae3fc1486643ca76"
+      }
     },
     {
       "id": "I-047",

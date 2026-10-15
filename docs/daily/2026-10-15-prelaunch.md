@@ -273,3 +273,51 @@ After the P3 go: commit and push, then CI green, then drift in-sync, then `check
 
 codexCalls: 1
 adversarialReviews: 1 (Codex r1, read-only)
+
+
+## Evening round (2026-10-15): P3 product-work loop
+
+**Action: improve the product** (I-047 shipped, then I-048 built in the same P3, per manager review 4722a2ed REDIRECT). The goal: wherever a cycle's phase appears, it reads as the drawn curve's position, never as a verdict.
+
+### 1. Implementation
+- `371e309` (I-047): on the OPEN card, the phase word left the header and became "Where the drawn curve sits in 2026: peaking", under the answer. The checker gained the card leg "phase after answer" (DOM order, outside the verdict line, painted). Red arm: production 573ff609 read 20/40; the mutation (opacity-0) read 20 FAIL; restored, 40/40.
+- `f4fd76b` (I-048):
+  - The glance caption reads "Theory shapes, not findings".
+  - Each row's screen-reader text reads "… curve <phase> in 2026. <verdict headline>."
+  - The closed card's header reads "curve · <phase>", with "Does it hold up? <headline>" under it (normal mode only).
+  - The phase word is found by `data-phase-position`, not `aria-label` (the review's SUGGESTION, taken for a stronger reason than double-reading: where honoured, the label would have hidden the visible "curve ·"). Red arm: production 7a2ca327 read 0/40; the local build 40/40.
+  - `overviewReading.test.ts` gained a leg (red-armed: dropping "curve " fails 1).
+- `d907984`: the walk was pre-registered and committed before it ran.
+- Codex: r1 (P1 prep, the I-047 diff) had 1 LOW, fixed in 371e309. r2 (371e309) had 1 LOW, REJECTED: the colour leg compares painted colour on purpose, and a class-name rule would be the fenced-off matcher; the clipping case is declared NOT SEEN. r3 (f4fd76b): no defects; claims all HOLDS. Every banner workdir read `C:\dev\skylark\sinusoidal-cycles`.
+- Local gates: next build type-check clean, eslint clean; overviewReading + holdsUp tests 27/27; embed-snippets 42/42 (one 1440 overlay hit-test flaked on the first run and passed on the re-run; overlay untouched); calibrate-tab 93/93 (on the I-047 build).
+
+### 2. Delivery
+- CI: `check-ci-status --wait` read GREEN on d9079843.
+- `check-deployed-sha-drift --service sinusoidal-history` printed "sinusoidal-history in-sync live d9079843 → head d9079843 live commit IS the branch head".
+- `check-holds-up-line https://sinusoidalhistory.com` printed "RESULT: 40/40 PASS · 0 FAIL · 0 UNREAD" (also after the first push, on 7a2ca327). `check-entry-folds --width 320 --height 568` printed "OK: 13 of 13 entry-page legs answer on the first screen" (/ keeps its 12px).
+mechanism-verified: a live Playwright read at 390x664 and 320x568 shows the caption "THEORY SHAPES, NOT FINDINGS" and the closed Dalio card "Ray Dalio — Big Cycle | CURVE · PEAKING | DOES IT HOLD UP? | Not testable on the record that exists".
+
+### 3. Encounter
+blind: the site has no reader-arrival instrument, by standing choice (`docs/evangelism-bar.md:30`). Real users are unmeasured.
+
+### 4. Outcome (synthetic, N=1, pre-registered `docs/walks/2026-10-15-i048.md`): NOT HELD as the bar is written
+- **Glance figure FAILS:** "The picture alone agrees with my friend: Dalio's gold curve has a dot sitting exactly on its crest at the 2026 dotted line." No verdict is visible on the first screen; the caption did not outweigh the dot.
+- **Closed card HOLDS:** "it is pinned to the curve, and the verdict sits right under it. Nothing says confirmed." (RED arm: "PEAKING … read like the site agreeing".)
+- **Open card HOLDS:** "The verdict comes before the phase line and the chart, and 'Where the drawn curve sits in 2026: peaking' clearly describes the drawing." (RED arm: "a status badge … 'Dalio's claim: confirmed'".)
+- **Answer correct, from the card** ("No, there is no evidence yet either way").
+- This is a synthetic walker, not a real user.
+
+### Receipt
+USER-VISIBLE: on the home page's closed cards the phase now reads "curve · peaking" with "Does it hold up? Not testable on the record that exists" beneath it, the glance figure is captioned "Theory shapes, not findings", and the open card puts the phase under the answer as "Where the drawn curve sits in 2026: peaking" — f4fd76b [proof: check-holds-up-line 0/40 for the new selector at 7a2ca327 → 40/40 at d9079843, check-deployed-sha-drift in-sync live d9079843 = head, live read of the closed Dalio card and caption at 390x664] [coverage: none — no client analytics by standing choice (docs/evangelism-bar.md:30) · last good read n/a · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none]
+
+codexCalls: 3 (r1 at P1 prep on the I-047 diff; r2 on 371e309; r3 on f4fd76b), each a foreground `codex exec --sandbox read-only` with the banner workdir checked
+adversarialReviews: 3 — EXECUTED
+hygiene helper: DISPATCHED ~22:58Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-15.md PRESENT. Nothing red: check-wait-justification PASS, check-engineering-zero 0 findings / 0 unreadable, no READ-MUTATED line. I-046 was held during the edit, then run fresh after deploy.
+I-046: `check-due-gates-dispositioned --run I-046` gave exit 0 in 70.6 s, "RESULT: 40/40 PASS · 0 FAIL · 0 UNREAD", stamped (the 10-15 void read is replaced).
+[standing-rules-hash: 88cc2dc9]
+
+### What remains
+- **The glance figure's visible verdict on the first screen** (I-048's failing surface): the dot on the crest at the now line still reads as agreement. The next lever is a VISIBLE verdict signal there, weighed against the last row's 12px spare at 320x568. The caption alone did not do it.
+- **A cost of this change:** at 320 px the wider "CURVE · PEAKING" truncates "Ray Dalio — Big Cycle" to "Ray Dalio — Big C…".
+- Walk residuals: no year label inside the open chart; the calibration note is buried; vocabulary goes to I-043 (10-20).
+- I-047's open-card bar held in this walk; the close decides whether I-047 closes on it.

@@ -1,0 +1,49 @@
+# read-output sidecar for I-046 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com
+# ran: 2026-10-15T23:38:20.049Z · exit: 0
+# lines: 43 · sha256: ae3fc1486643ca76 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  1280x900 card  khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  1280x900 card  turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  1280x900 embed turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  390x664 card  turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · why exact, headline unlinked, phase after answer true
+PASS  390x664 embed turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · phase not curve colour true · compact form exact true
+PASS  control: /cycles/dalio's own box matches the needle
+population: 10 cycles x {expanded card, single-cycle embed} x {1280x900, 390x664} at https://sinusoidalhistory.com
+RESULT: 40/40 PASS · 0 FAIL · 0 UNREAD
