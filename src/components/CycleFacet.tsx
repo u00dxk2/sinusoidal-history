@@ -316,13 +316,19 @@ function HoldsUpLine({
     </span>
   );
   // An embed is an iframe: open the site in a new tab, as its footer does.
-  const anchor = (className: string, children: ReactNode) =>
+  const anchor = (className: string, children: ReactNode, ariaLabel?: string) =>
     newTab ? (
-      <a href={href} target="_blank" rel="noopener" className={className}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener"
+        className={className}
+        aria-label={ariaLabel}
+      >
         {children}
       </a>
     ) : (
-      <Link href={href} className={className}>
+      <Link href={href} className={className} aria-label={ariaLabel}>
         {children}
       </Link>
     );
@@ -362,7 +368,9 @@ function HoldsUpLine({
             with no layout cost (the I-015 /cycles header link). */}
         {anchor(
           "py-[13px] whitespace-nowrap underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors text-ink",
-          "Details →"
+          "Details →",
+          // A link list reads "Details" alone otherwise (Codex r1 LOW).
+          `Does ${cycle.name} hold up? Details on its page`
         )}
       </p>
     </div>

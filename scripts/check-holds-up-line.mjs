@@ -91,6 +91,12 @@ function rgb(hex) {
   return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
 }
 
+// The red, green and blue of an rgb()/rgba() string, alpha dropped: "rgba(160, 118, 40, 0.85)"
+// and "rgb(160, 118, 40)" are the same colour channels (Codex r1).
+function channels(css) {
+  return (css.match(/[\d.]+/g) ?? []).slice(0, 3).join(",");
+}
+
 const browser = await chromium.launch();
 for (const [w, h] of [[1280, 900], [390, 664]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
@@ -157,6 +163,13 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
               const head = node.querySelectorAll("[data-holds-up-headline]");
               const whyEl = node.querySelectorAll("[data-holds-up-why]");
               const phase = facet.querySelector('[aria-label^="Phase position"]');
+              // The ink token resolved on this page: a probe with the same utility class
+              // (Codex r1: a string compare against one opaque rgb() let rgba(curve, 0.85) pass).
+              const probe = document.createElement("span");
+              probe.className = "text-ink-soft";
+              (phase?.parentElement ?? document.body).appendChild(probe);
+              const ink = getComputedStyle(probe).color;
+              probe.remove();
               const flat = (e) => e.innerText.replace(/\s+/g, " ").trim();
               return {
                 beforeChart: !!chart && !!(node.compareDocumentPosition(chart) & Node.DOCUMENT_POSITION_FOLLOWING),
@@ -166,16 +179,31 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
                 whys: whyEl.length,
                 whyText: whyEl.length === 1 ? flat(whyEl[0]) : null,
                 phaseColor: phase ? getComputedStyle(phase).color : null,
+                ink,
               };
             })
           : null;
         const label = text.slice(0, NEEDLE.length).toLowerCase() === NEEDLE;
         const headOk = !!parts && parts.heads === 1 && parts.headText === expected;
-        const phaseOk = !!parts && parts.phaseColor !== null && parts.phaseColor !== rgb(c.color);
+        // The phase word IS the ink token, and is not the curve's colour (both, so a token that
+        // drifted to the cycle colour still fails).
+        const phaseOk =
+          !!parts &&
+          parts.phaseColor !== null &&
+          parts.phaseColor === parts.ink &&
+          channels(parts.phaseColor) !== channels(rgb(c.color));
+        // The WHOLE line, exactly, per form: the marked parts alone let extra text (a new claim,
+        // an arrow beside the headline) ride along (Codex r1 MED; the second appearance of the
+        // partial-match class from 10-14 r2, so the rule is the full composition, not more marks).
+        const rest = text.slice(NEEDLE.length);
         const formOk =
           kind === "card "
-            ? !!parts && parts.headLinked === false && parts.whys === 1 && parts.whyText === why
-            : text.slice(NEEDLE.length) === ` ${expected} →`;
+            ? !!parts &&
+              parts.headLinked === false &&
+              parts.whys === 1 &&
+              parts.whyText === why &&
+              rest === ` ${expected} ${why} Details →`
+            : rest === ` ${expected} →`;
         const ok =
           nAll === 1 &&
           n === 1 &&
