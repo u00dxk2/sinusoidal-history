@@ -49,6 +49,13 @@
 // DOM order, and outside it, so the whole-line rule above is unchanged. A position test, not a
 // text matcher. The embed keeps the word in its header (no height to spare). Red arm: production
 // at 573ff609, where the word sits in the header, reads the card legs FAIL.
+// NOT SEEN (I-047 Codex r2, declared, not a new matcher): a phase word hidden by an ancestor
+// clipped to zero height (height:0 + overflow:hidden) while its own box is non-zero; and whether
+// the word carries the text-ink-soft class itself or inherits it (the leg compares the painted
+// colour, which is what a reader sees, on purpose).
+// I-048 (2026-10-15 evening): the closed card's "Does it hold up? <headline>" line
+// ([data-holds-up-closed]) and the glance figure's caption are NOT judged here; the cold walk
+// judges them, and the line's words come from holdsUpCard, which holdsUp.test.ts pins.
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
@@ -169,7 +176,9 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
               const chart = facet.querySelector('svg[role="img"]');
               const head = node.querySelectorAll("[data-holds-up-headline]");
               const whyEl = node.querySelectorAll("[data-holds-up-why]");
-              const phase = facet.querySelector('[aria-label^="Phase position"]');
+              // data-phase-position since I-048 (was aria-label^="Phase position", which on a
+              // plain span is no reliable name and, where honoured, hid the visible "curve ·").
+              const phase = facet.querySelector("[data-phase-position]");
               // The ink token resolved on this page: a probe with the same utility class
               // (Codex r1: a string compare against one opaque rgb() let rgba(curve, 0.85) pass).
               const probe = document.createElement("span");

@@ -141,6 +141,12 @@ export default function CycleFacet({
         />
       )}
 
+      {/* The closed card's verdict (I-048): before any tap, the cold walks
+          read the closed card as confirmation with nothing beside it saying
+          the cycle is untested. Plain text, not a link, so the card keeps one
+          tap target; the single-cycle embed carries its own compact line. */}
+      {mode === "normal" && !verdictLine && <ClosedVerdict cycle={cycle} />}
+
       {/* The expanded card's phase word, below the answer and attributed to
           the curve (I-047, second lever). In the header, even in ink, the
           10-15 walk read "PEAKING" as a status badge above the verdict:
@@ -149,10 +155,10 @@ export default function CycleFacet({
       {mode === "expanded" && (
         <p className="mt-1 text-[12px] leading-snug text-ink-soft">
           Where the drawn curve sits in {currentYear}:{" "}
-          <span
-            className="text-ink-soft"
-            aria-label={`Phase position: ${phaseLabel}`}
-          >
+          {/* data-phase-position, not aria-label: an aria-label on a plain
+              span is not a reliable name, and where honoured it would replace
+              the visible words (I-048). check-holds-up-line reads this. */}
+          <span className="text-ink-soft" data-phase-position={phaseLabel}>
             {phaseLabel}
           </span>
         </p>
@@ -287,15 +293,17 @@ function FacetHeader({
           cold walks took "PEAKING" as confirmation. The colour bar beside the
           name still ties the card to its curve. Not in the expanded header:
           there it moved below the answer (see CycleFacet). */}
+      {/* "curve ·" (I-048): a bare "PEAKING" on the closed card read as the
+          site agreeing with the theory before the card was opened. */}
       {mode !== "expanded" && (
         <span
           className={cn(
             "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
             mode === "collapsed" ? "opacity-60" : ""
           )}
-          aria-label={`Phase position: ${phaseLabel}`}
+          data-phase-position={phaseLabel}
         >
-          {phaseLabel}
+          curve · {phaseLabel}
         </span>
       )}
     </div>
@@ -394,6 +402,24 @@ function HoldsUpLine({
         )}
       </p>
     </div>
+  );
+}
+
+/** The closed card's one-line answer: the label and holdsUpCard's headline,
+    unlinked. Nothing renders where there is no verdict row (none today). */
+function ClosedVerdict({ cycle }: { cycle: Cycle }) {
+  const card = holdsUpCard(cycle);
+  if (!card) return null;
+  return (
+    <p
+      data-holds-up-closed={cycle.id}
+      className="mt-0.5 px-1 flex flex-wrap items-baseline gap-x-2 text-[12px] leading-snug text-ink"
+    >
+      <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80">
+        Does it hold up?
+      </span>
+      <span>{card.headline}</span>
+    </p>
   );
 }
 

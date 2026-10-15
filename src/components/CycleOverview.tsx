@@ -85,7 +85,11 @@ export default function CycleOverview({
         id="cycle-overview-title"
         className="text-[11px] uppercase tracking-[0.18em] font-mono text-ink-soft mb-2"
       >
-        Every cycle, at a glance
+        {/* Was "Every cycle, at a glance" (I-048): the cold walks read ten
+            curves with dots on the current year as the site agreeing that the
+            cycles are where their curves say. One line either way: the last
+            row has 12px to spare at 320x568 (check-entry-folds). */}
+        Theory shapes, not findings
       </figcaption>
       <ul className="list-none m-0 p-0">
         {cycles.map((cycle) => (

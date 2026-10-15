@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { cycles } from "@/data/cycles";
 import { phasePositionLabel, type PhasePositionLabel } from "@/lib/cycleMath";
 import { isYearInRange, overviewRowReading } from "@/lib/overviewReading";
+import { holdsUpCard } from "@/lib/holdsUp";
 
 const PHASE_WORDS: PhasePositionLabel[] = [
   "rising",
@@ -29,6 +30,18 @@ describe("overviewRowReading", () => {
       expect(reading).toContain(phasePositionLabel(cycle, 2026));
       expect(reading).toContain(`${cycle.period_years}-year cycle`);
       expect(reading).toContain("in 2026.");
+    }
+  });
+
+  // I-048: the phase is the drawn curve's, and the verdict rides with it, so
+  // the row never reads as the site agreeing with the theory.
+  it("attributes the phase to the curve and carries the cycle's verdict headline", () => {
+    for (const cycle of cycles) {
+      const reading = overviewRowReading(cycle, { currentYear: 2026, ...FULL });
+      expect(reading).toContain(`curve ${phasePositionLabel(cycle, 2026)} in 2026.`);
+      const card = holdsUpCard(cycle);
+      expect(card).not.toBeNull();
+      expect(reading.endsWith(` ${card!.headline}.`)).toBe(true);
     }
   });
 
