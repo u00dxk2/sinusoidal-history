@@ -44,6 +44,11 @@
 // by hand below; and one link to the verdict box. The EMBED keeps the compact one-line form
 // "Does it hold up? <headline> →", because its 540px frame has no height to spare; only its
 // order changes.
+// I-047's second lever (2026-10-15 evening): the 840a39f walk still read the header's "PEAKING"
+// as a badge above the answer. On the CARD the phase word now comes AFTER the verdict line, in
+// DOM order, and outside it, so the whole-line rule above is unchanged. A position test, not a
+// text matcher. The embed keeps the word in its header (no height to spare). Red arm: production
+// at 573ff609, where the word sits in the header, reads the card legs FAIL.
 import { readFileSync } from "node:fs";
 import { chromium } from "playwright";
 
@@ -192,6 +197,23 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
                 whys: whyEl.length,
                 whyText: whyEl.length === 1 ? flat(whyEl[0]) : null,
                 phaseColor: phase ? bytes(getComputedStyle(phase).color) : null,
+                // DOM order, the same test as beforeChart: the phase word follows the verdict
+                // line and is not inside it.
+                // Painted too, by the same test as the line (Codex r1 LOW, I-047 r2: DOM order
+                // alone passed a hidden word).
+                phaseAfter:
+                  !!phase &&
+                  !node.contains(phase) &&
+                  !!(node.compareDocumentPosition(phase) & Node.DOCUMENT_POSITION_FOLLOWING) &&
+                  (() => {
+                    const r = phase.getBoundingClientRect();
+                    if (r.width === 0 || r.height === 0) return false;
+                    for (let e = phase; e; e = e.parentElement) {
+                      const s = getComputedStyle(e);
+                      if (s.visibility === "hidden" || s.display === "none" || +s.opacity === 0) return false;
+                    }
+                    return true;
+                  })(),
                 ink: bytes(ink),
                 curve: bytes(curveHex),
               };
@@ -215,6 +237,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         const formOk =
           kind === "card "
             ? !!parts &&
+              parts.phaseAfter === true &&
               parts.headLinked === false &&
               parts.whys === 1 &&
               parts.whyText === why &&
@@ -235,7 +258,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         console.log(
           `${ok ? "PASS" : "FAIL"}  ${tag}  — ${n}/${nAll} line(s) -> ${href} · painted ${painted}` +
             ` · headline ${headOk} · before chart ${!!parts?.beforeChart} · phase not curve colour ${phaseOk}` +
-            ` · ${kind === "card " ? "why exact, headline unlinked" : "compact form exact"} ${formOk}`
+            ` · ${kind === "card " ? "why exact, headline unlinked, phase after answer" : "compact form exact"} ${formOk}`
         );
       } catch {
         unread++;

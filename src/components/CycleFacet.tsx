@@ -141,6 +141,23 @@ export default function CycleFacet({
         />
       )}
 
+      {/* The expanded card's phase word, below the answer and attributed to
+          the curve (I-047, second lever). In the header, even in ink, the
+          10-15 walk read "PEAKING" as a status badge above the verdict:
+          "Dalio's claim: confirmed". Outside [data-holds-up] on purpose, so
+          the verdict line's whole-line rule is unchanged. */}
+      {mode === "expanded" && (
+        <p className="mt-1 text-[12px] leading-snug text-ink-soft">
+          Where the drawn curve sits in {currentYear}:{" "}
+          <span
+            className="text-ink-soft"
+            aria-label={`Phase position: ${phaseLabel}`}
+          >
+            {phaseLabel}
+          </span>
+        </p>
+      )}
+
       {mode !== "collapsed" && series && (
         <FacetLegend cycle={cycle} series={series} />
       )}
@@ -268,16 +285,19 @@ function FacetHeader({
       {/* In ink, not the cycle's colour (I-047): drawn in the curve's own
           colour, the phase word read as part of the theory's claim, and the
           cold walks took "PEAKING" as confirmation. The colour bar beside the
-          name still ties the card to its curve. */}
-      <span
-        className={cn(
-          "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
-          mode === "collapsed" ? "opacity-60" : ""
-        )}
-        aria-label={`Phase position: ${phaseLabel}`}
-      >
-        {phaseLabel}
-      </span>
+          name still ties the card to its curve. Not in the expanded header:
+          there it moved below the answer (see CycleFacet). */}
+      {mode !== "expanded" && (
+        <span
+          className={cn(
+            "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
+            mode === "collapsed" ? "opacity-60" : ""
+          )}
+          aria-label={`Phase position: ${phaseLabel}`}
+        >
+          {phaseLabel}
+        </span>
+      )}
     </div>
   );
 }
