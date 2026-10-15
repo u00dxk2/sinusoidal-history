@@ -122,7 +122,8 @@ export default function EmbedView({
           onFocus={() => {}}
           onBlur={() => {}}
           readOnly
-          // 184, not 200: the "Does it hold up?" line (I-045) has to fit the
+          // 184, not 200: the "Does it hold up?" line (I-045; above the chart
+          // since I-047, same height, compact form) has to fit the
           // documented 500px snippet frame at 320 wide with its attribution
           // visible. check-embed-snippets holds the chart at >= 180.
           chartHeight={184}

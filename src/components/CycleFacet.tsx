@@ -129,6 +129,18 @@ export default function CycleFacet({
         readOnly={readOnly}
       />
 
+      {/* Before the legend and the chart (I-047): the 10-14 and 10-15 cold walks
+          read "PEAKING" and a curve laid over its data as confirmation before
+          they reached the verdict under the chart. Outside the `series` gate
+          below on purpose: the unpaired cycle says "Not tested" too. */}
+      {(mode === "expanded" || verdictLine) && (
+        <HoldsUpLine
+          cycle={cycle}
+          newTab={readOnly}
+          compact={mode !== "expanded"}
+        />
+      )}
+
       {mode !== "collapsed" && series && (
         <FacetLegend cycle={cycle} series={series} />
       )}
@@ -149,14 +161,6 @@ export default function CycleFacet({
       )}
 
       {mode !== "collapsed" && timeAxis}
-
-      {/* Outside the `series` gate below on purpose: the unpaired cycle says
-          "Not tested" too. And directly under the chart, so the Calibrate
-          tab's sliders-first tail cannot push it away from the curve (I-045,
-          manager review 2026-10-14). */}
-      {(mode === "expanded" || verdictLine) && (
-        <HoldsUpLine cycle={cycle} newTab={readOnly} />
-      )}
 
       {mode === "collapsed" && (
         <CollapsedSparkline
@@ -261,12 +265,15 @@ function FacetHeader({
           {label}
         </button>
       )}
+      {/* In ink, not the cycle's colour (I-047): drawn in the curve's own
+          colour, the phase word read as part of the theory's claim, and the
+          cold walks took "PEAKING" as confirmation. The colour bar beside the
+          name still ties the card to its curve. */}
       <span
         className={cn(
-          "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0",
+          "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
           mode === "collapsed" ? "opacity-60" : ""
         )}
-        style={{ color: cycle.color }}
         aria-label={`Phase position: ${phaseLabel}`}
       >
         {phaseLabel}
@@ -276,47 +283,89 @@ function FacetHeader({
 }
 
 /**
- * The cycle page's "Does it hold up?" headline, under the curve. The card
- * draws a theory over a measured series with a phase word, which reads as a
- * match; until I-045 nothing on it said whether the record can test that.
- * The words come from holdsUpCard, so the card, the page box and the share
- * card cannot drift. It is the PUBLISHED cycle's verdict even while the
- * curve is calibrated. Nothing renders for a paired cycle with no verdict
- * row (none today), rather than an empty question.
+ * The cycle page's "Does it hold up?" answer, above the curve. The card draws
+ * a theory over a measured series with a phase word, which reads as a match;
+ * until I-045 nothing on it said whether the record can test that, and until
+ * I-047 the answer sat under the chart, where the walks met it last. The words
+ * come from holdsUpCard, so the card, the page box and the share card cannot
+ * drift. It is the PUBLISHED cycle's verdict even while the curve is
+ * calibrated. Nothing renders for a paired cycle with no verdict row (none
+ * today), rather than an empty question.
+ *
+ * Two forms. The expanded card states the answer as plain text (no arrow on
+ * it: the walk read an arrowed answer as "the answer is elsewhere"), then its
+ * reason, the share card's detail sentence, then one link to the page's box.
+ * The single-cycle embed keeps the compact one-line link, because its 540px
+ * snippet frame has no height to spare (check-embed-snippets).
  */
-function HoldsUpLine({ cycle, newTab }: { cycle: Cycle; newTab: boolean }) {
+function HoldsUpLine({
+  cycle,
+  newTab,
+  compact,
+}: {
+  cycle: Cycle;
+  newTab: boolean;
+  compact: boolean;
+}) {
   const card = holdsUpCard(cycle);
   if (!card) return null;
   const href = `${cycleRoutePath(cycle)}#does-it-hold-up`;
-  // One link for the whole line: the label and the headline wrap together
-  // inside one 44px tap box. As a label above a separate 44px link it took
-  // 59px on a phone and pushed the 500px snippet's attribution out of its
-  // frame (check-embed-snippets, 2026-10-14).
-  const linkClass =
-    "flex flex-wrap items-center gap-x-2 min-h-11 text-[13px] leading-snug text-ink";
-  const body = (
-    <>
-      <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80">
-        Does it hold up?
-      </span>
-      <span className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors">
-        {card.headline} →
-      </span>
-    </>
+  const label = (
+    <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80">
+      Does it hold up?
+    </span>
   );
+  // An embed is an iframe: open the site in a new tab, as its footer does.
+  const anchor = (className: string, children: ReactNode) =>
+    newTab ? (
+      <a href={href} target="_blank" rel="noopener" className={className}>
+        {children}
+      </a>
+    ) : (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+
+  if (compact) {
+    // One link for the whole line: the label and the headline wrap together
+    // inside one 44px tap box. As a label above a separate 44px link it took
+    // 59px on a phone and pushed the 500px snippet's attribution out of its
+    // frame (check-embed-snippets, 2026-10-14).
+    return (
+      <p data-holds-up={cycle.id} className="mt-1.5">
+        {anchor(
+          "flex flex-wrap items-center gap-x-2 min-h-11 text-[13px] leading-snug text-ink",
+          <>
+            {label}
+            <span className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors">
+              <span data-holds-up-headline>{card.headline}</span> →
+            </span>
+          </>
+        )}
+      </p>
+    );
+  }
+
   return (
-    <p data-holds-up={cycle.id} className="mt-1.5">
-      {/* An embed is an iframe: open the site in a new tab, as its footer does. */}
-      {newTab ? (
-        <a href={href} target="_blank" rel="noopener" className={linkClass}>
-          {body}
-        </a>
-      ) : (
-        <Link href={href} className={linkClass}>
-          {body}
-        </Link>
-      )}
-    </p>
+    <div data-holds-up={cycle.id} className="mt-2 mb-1">
+      <p className="flex flex-wrap items-baseline gap-x-2">
+        {label}
+        <span data-holds-up-headline className="text-[15px] font-medium text-ink">
+          {card.headline}
+        </span>
+      </p>
+      <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">
+        <span data-holds-up-why>{card.detail}</span>{" "}
+        {/* Inline padding, not min-h-11: an inline-flex 44px box opened a gap
+            in the middle of the reason sentence. py-[13px] makes a ~45px tap box
+            with no layout cost (the I-015 /cycles header link). */}
+        {anchor(
+          "py-[13px] whitespace-nowrap underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors text-ink",
+          "Details →"
+        )}
+      </p>
+    </div>
   );
 }
 
