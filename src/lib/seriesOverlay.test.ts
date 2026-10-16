@@ -254,7 +254,8 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
       expect(figureAt).toBeGreaterThan(verdictAt);
       expect(whyAt, `${slug}: no #why-not-tested`).toBeGreaterThan(figureAt);
       // Containment, not just offsets (Codex r6): BOTH paragraphs inside the section, none
-      // left in the box.
+      // left in the box. DECLARED CEILING (Codex r7): this reads markup, so a hidden section
+      // passes here. Visibility is check-holds-up-line's job (its shown() leg), not this one.
       const why = sectionText("why-not-tested");
       const box = sectionText("does-it-hold-up");
       expect(why).toMatch(new RegExp(`<p[^>]*>The paired record \\(.+?\\) runs ${verdict!.span_years} years: `));
