@@ -20,9 +20,11 @@ export const NOT_FORECAST = "That is a position of this construction, not the th
 
 /**
  * The question, the meta description and the answer text, or null for a cycle that is not a
- * claim page (or has no verdict card to lead with). The description is the verdict alone: with the
- * position sentence it runs past the snippet's ~155 characters, and a cut there would keep "sits at
- * a peak" while losing the clause that says it is not a forecast.
+ * claim page (or has no verdict card to lead with). The description is the question, then the
+ * verdict, and no position: with the position sentence it runs past the snippet's ~155 characters,
+ * and a cut there would keep "sits at a peak" while losing the clause that says it is not a
+ * forecast. The question rides in it so a consumer lifting the description alone knows what the
+ * verdict answers (Codex r1 on 5dd93d2, LOW).
  */
 export function claimAnswer(cycle: Cycle, year: number): ClaimAnswer | null {
   if (!cycle.question) return null;
@@ -31,7 +33,7 @@ export function claimAnswer(cycle: Cycle, year: number): ClaimAnswer | null {
   const verdict = `${card.headline}. ${card.detail}`;
   return {
     question: cycle.question,
-    description: verdict,
+    description: `${cycle.question} ${verdict}`,
     text: `${verdict} ${yearPositionSentence(cycle, year)} ${NOT_FORECAST}`,
   };
 }

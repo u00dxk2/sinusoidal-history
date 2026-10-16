@@ -280,17 +280,62 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 // Claim pages (2026-10-15 night round, the first is /cycles/dalio): every cycle with a
 // `question` in cycles.json must answer it on a phone's FIRST screen, verdict first. Stated rule,
 // per leg at 390x664 and 320x568:
-//   - <h1> reads EXACTLY the question, and document.title starts with
-//     "<question> The theory against the record";
-//   - the meta description reads EXACTLY "<headline>. <why>" (the two oracles above);
-//   - the box's first <p> reads EXACTLY "<headline> — and that is the finding, not a dodge."
-//     (the ineligible form; an eligible or unpaired claim cycle REFUSES, no rule written for it);
+//   - every served text reads EXACTLY its whole stated form (equality, never a prefix, suffix or
+//     substring: Codex r1 on 5dd93d2 showed startsWith/endsWith legs passing an inserted claim,
+//     the partial-match class's third appearance in this file, so the shape is whole-text equality
+//     on every surface the claim is lifted from):
+//       <h1>                         = <question>
+//       document.title               = "<question> The theory against the record · Sinusoidal History"
+//       meta, og: and twitter: description = "<question> <headline>. <why>"
+//       the box's first <p>          = "<headline> — and that is the finding, not a dodge."
+//       #where-now                   = "<position> <CLAUSE> Every cycle in <year> →"
+//       the one FAQPage's Question   = <question>, its Answer = "<headline>. <why> <position> <CLAUSE>"
+//     <position> is rebuilt from /api/v1/state's raw fields (the same rule check-year-position
+//     states, written out here so this script stands alone); <headline>/<why> are the oracles above.
+//     Only the ineligible form is stated; an eligible or unpaired claim cycle REFUSES;
 //   - #where-now sits inside #does-it-hold-up, after that <p> and before the curve
-//     (article svg[role=img]), and its text ENDS with the page's clause
-//     "That is a position of this construction, not the theorist's forecast. Every cycle in <year> →";
-//   - the answer <p> and #where-now are painted and both end within the first screen.
-// The position sentence itself is check-year-position's (against /api/v1/state); not re-judged here.
+//     (article svg[role=img]), in DOM order;
+//   - every text node of the <h1>, the answer <p> and #where-now is painted (per TEXT NODE, as the
+//     card legs above: a paragraph-level test passed an opacity-0 "Not ", Codex r1), and the answer
+//     and #where-now both end within the first screen.
+// NOT SEEN, declared: clipping and occlusion, horizontal overflow, visual (not DOM) order, contrast,
+// and whether a reader takes the answer as meant (the cold walk's job).
 const CLAUSE = "That is a position of this construction, not the theorist's forecast.";
+const fmtCos = (v) => (v > 0 ? `+${v.toFixed(2)}` : v < 0 ? `−${Math.abs(v).toFixed(2)}` : "0.00");
+function positionSentence(e, year) {
+  const nearest = (offset) => {
+    const anchor = e.reference_peak_year + offset;
+    return Math.round(anchor + Math.round((year - anchor) / e.period_years) * e.period_years);
+  };
+  const cos = fmtCos(e.cos);
+  const peakFirst = e.next_peak_year < e.next_trough_year;
+  const both = peakFirst
+    ? `The next high falls around ${e.next_peak_year}, and the next low around ${e.next_trough_year}.`
+    : `The next low falls around ${e.next_trough_year}, and the next high around ${e.next_peak_year}.`;
+  const lead = `By this page's curve, ${year} sits`;
+  const scale = "from −1 at a low to +1 at a peak";
+  switch (e.phase) {
+    case "peaking":
+      return `${lead} at a peak (the curve tops out in ${nearest(0)}; curve height ${cos}, ${scale}). The next low falls around ${e.next_trough_year}.`;
+    case "troughing":
+      return `${lead} at a low (the curve bottoms out in ${nearest(e.period_years / 2)}; curve height ${cos}, ${scale}). The next high falls around ${e.next_peak_year}.`;
+    case "rising":
+      return `${lead} on the rising arm (curve height ${cos}, ${scale}). ${both}`;
+    case "falling":
+      return `${lead} on the falling arm (curve height ${cos}, ${scale}). ${both}`;
+    case "crossing":
+      return `${lead} at the midline, on the way ${peakFirst ? "up" : "down"} (curve height ${cos}, ${scale}). ${both}`;
+    default:
+      return null;
+  }
+}
+let apiState = null;
+try {
+  const res = await fetch(`${origin}/api/v1/state`);
+  if (res.ok) apiState = await res.json();
+} catch {
+  apiState = null;
+}
 for (const c of cycles.filter((x) => x.question)) {
   const slug = c.id.replace(/_/g, "-");
   for (const [w, h] of [[390, 664], [320, 568]]) {
@@ -302,16 +347,54 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(`UNREAD ${tag} — no stated claim-page rule for this cycle's verdict row; refusing`);
       continue;
     }
+    const entry = apiState?.cycles?.find?.((e) => new URL(e.page, origin).pathname === `/cycles/${slug}`);
+    const year = apiState?.year;
+    const position = entry && Number.isInteger(year) ? positionSentence(entry, year) : null;
+    if (!position) {
+      unread++;
+      console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
+      continue;
+    }
     const page = await browser.newPage({ viewport: { width: w, height: h } });
     try {
       await page.goto(`${origin}/cycles/${slug}`, { waitUntil: "networkidle" });
       const r = await page.evaluate(() => {
         const flat = (e) => (e ? e.innerText.replace(/\s+/g, " ").trim() : null);
-        const shown = (e) => {
-          if (!e) return false;
-          const b = e.getBoundingClientRect();
-          return b.width > 0 && b.height > 0 && e.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+        // Per TEXT NODE, the same test as the card legs: each non-empty text node has a non-zero
+        // rect and no element from it up is hidden, display:none or opacity 0.
+        const shown = (node) => {
+          if (!node) return false;
+          const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+          let seen = 0;
+          for (let t = walker.nextNode(); t; t = walker.nextNode()) {
+            if (!t.textContent.trim()) continue;
+            seen++;
+            const range = document.createRange();
+            range.selectNodeContents(t);
+            const rr = range.getBoundingClientRect();
+            if (rr.width === 0 || rr.height === 0) return false;
+            for (let e = t.parentElement; e; e = e.parentElement) {
+              const s = getComputedStyle(e);
+              if (s.visibility === "hidden" || s.display === "none" || +s.opacity === 0) return false;
+            }
+          }
+          return seen > 0;
         };
+        const meta = (sel) => document.querySelector(sel)?.getAttribute("content") ?? null;
+        // Every FAQPage node in every JSON-LD block, wherever it sits in a @graph.
+        const faqs = [];
+        for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
+          let data;
+          try {
+            data = JSON.parse(s.textContent);
+          } catch {
+            faqs.push({ unparsable: true });
+            continue;
+          }
+          for (const n of [data, ...(Array.isArray(data?.["@graph"]) ? data["@graph"] : [])]) {
+            if (n?.["@type"] === "FAQPage") faqs.push(n);
+          }
+        }
         const box = document.getElementById("does-it-hold-up");
         const answer = box?.querySelector("p") ?? null;
         const where = document.getElementById("where-now");
@@ -320,23 +403,35 @@ for (const c of cycles.filter((x) => x.question)) {
         return {
           h1: flat(document.querySelector("h1")),
           title: document.title,
-          meta: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? null,
+          metas: [
+            meta('meta[name="description"]'),
+            meta('meta[property="og:description"]'),
+            meta('meta[name="twitter:description"]'),
+          ],
+          faqs,
           answer: flat(answer),
           where: flat(where),
           whereInBox: !!box && !!where && box.contains(where),
           order: after(answer, where) && after(where, curve),
-          painted: shown(answer) && shown(where),
+          painted: document.querySelectorAll("h1").length === 1 && shown(document.querySelector("h1")) && shown(answer) && shown(where),
           answerBottom: answer ? answer.getBoundingClientRect().bottom + scrollY : null,
           whereBottom: where ? where.getBoundingClientRect().bottom + scrollY : null,
-          year: new Date().getUTCFullYear(),
         };
       });
+      const description = `${c.question} ${expected}. ${why}`;
+      const faq = r.faqs.length === 1 ? r.faqs[0] : null;
       const checks = {
         h1: r.h1 === c.question,
-        title: r.title.startsWith(`${c.question} The theory against the record`),
-        meta: r.meta === `${expected}. ${why}`,
+        title: r.title === `${c.question} The theory against the record · Sinusoidal History`,
+        "description x3": r.metas.every((m) => m === description),
+        faq:
+          !!faq &&
+          faq.mainEntity?.["@type"] === "Question" &&
+          faq.mainEntity?.name === c.question &&
+          faq.mainEntity?.acceptedAnswer?.["@type"] === "Answer" &&
+          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${position} ${CLAUSE}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
-        where: !!r.where && r.where.endsWith(`${CLAUSE} Every cycle in ${r.year} →`),
+        where: r.where === `${position} ${CLAUSE} Every cycle in ${year} →`,
         "in box": r.whereInBox,
         "verdict, then position, then curve": r.order,
         painted: r.painted,

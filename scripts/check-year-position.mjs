@@ -66,8 +66,14 @@ function expectedSentence(e, year) {
   }
 }
 
-/** The page's text is the expected sentence, then the construction caveat and the link. */
-const matches = (text, e, year) => text.startsWith(`${expectedSentence(e, year)} That is a position`);
+/**
+ * The page's WHOLE text: the expected sentence, then the construction caveat and the link, exactly.
+ * Was a prefix match ("… That is a position"), which passed a sentence inserted before the caveat's
+ * end (Codex r1 on 5dd93d2, the partial-match class; shape changed to equality, not a new matcher).
+ */
+const matches = (text, e, year) =>
+  text ===
+  `${expectedSentence(e, year)} That is a position of this construction, not the theorist's forecast. Every cycle in ${year} →`;
 
 // The figure's "now" dot, read back from pixels into (year, value) — the inverse of the page's
 // x()/y() in CurveFigure, so the page's own numbers are never trusted: only where the dot actually
@@ -124,6 +130,8 @@ if (process.argv.includes("--selftest")) {
     ["peak year wrong", d.replace("2025", "1900"), dalio, false],
     ["cos sign wrong", m.replace("−0.09", "+0.09"), modelski, false],
     ["caveat missing", m.replace(tail, ""), modelski, false],
+    ["a sentence inserted inside the caveat", d.replace("That is a position", "That is a position confirmed by a test. That is a position"), dalio, false],
+    ["text after the link", `${d} Confirmed.`, dalio, false],
   ];
   let bad = 0;
   for (const [name, text, e, want] of cases) {

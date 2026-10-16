@@ -19,15 +19,29 @@ describe("claim pages (cycles.json `question`)", () => {
   it("leads every lifted string with the verdict, in the share card's exact words", () => {
     const card = holdsUpCard(dalio)!;
     const a = claimAnswer(dalio, 2026)!;
-    expect(a.description).toBe(`${card.headline}. ${card.detail}`);
-    expect(a.text.startsWith(a.description)).toBe(true);
+    expect(a.description).toBe(`${dalio.question} ${card.headline}. ${card.detail}`);
+    expect(a.text.startsWith(`${card.headline}. ${card.detail} `)).toBe(true);
     // The position comes after the verdict and is never lifted without its clause.
     expect(a.text).toContain("2026 sits at a peak");
     expect(a.text.indexOf("sits at a peak")).toBeGreaterThan(a.text.indexOf(card.headline));
     expect(a.text.endsWith(NOT_FORECAST)).toBe(true);
     // The snippet stays inside the cap the other descriptions keep (cycleRoutes.test.ts).
     expect(a.description.length).toBeLessThanOrEqual(165);
-    expect(a.description).not.toContain("peak");
+    // No position in the snippet: a cut there could keep "sits at a peak" without its clause.
+    expect(a.description).not.toContain("sits");
+  });
+
+  it("serves the FAQ question and answer in exactly those words (Codex r1, MED)", () => {
+    const a = claimAnswer(dalio, 2026)!;
+    const faq = (cycleJsonLd(dalio, a) as { "@graph": Record<string, unknown>[] })["@graph"].filter(
+      (n) => n["@type"] === "FAQPage",
+    );
+    expect(faq).toHaveLength(1);
+    expect(faq[0].mainEntity).toEqual({
+      "@type": "Question",
+      name: "Is Ray Dalio's Big Cycle peaking?",
+      acceptedAnswer: { "@type": "Answer", text: a.text },
+    });
   });
 
   it("adds a FAQPage node only on a claim page", () => {
