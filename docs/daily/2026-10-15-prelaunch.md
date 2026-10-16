@@ -321,3 +321,29 @@ I-046: `check-due-gates-dispositioned --run I-046` gave exit 0 in 70.6 s, "RESUL
 - **A cost of this change:** at 320 px the wider "CURVE · PEAKING" truncates "Ray Dalio — Big Cycle" to "Ray Dalio — Big C…".
 - Walk residuals: no year label inside the open chart; the calibration note is buried; vocabulary goes to I-043 (10-20).
 - I-047's open-card bar held in this walk; the close decides whether I-047 closes on it.
+
+## Close (evening round, 2026-10-15)
+
+ACTION: DEFERRED — both ships live, but the pre-registered walk read NOT HELD on the glance figure (the dot on the crest at the now line still reads as agreement); next lever is a visible verdict there · trigger 2026-10-16 day round (I-048 nextEvaluation) · item I-048 · P3 891d99a8
+
+- **Per manager review 34f52cfc (NOT COMPLETED; the glance-figure verdict DEFERRED):** I-048 stays OPEN. Its failing surface is the glance figure. The next lever is a VISIBLE verdict on the home first screen, fitting the last row's 12px spare at 320x568, judged by the same pre-registered walk from / (`docs/walks/2026-10-15-i048.md`) and checked against `check-entry-folds` 320x568 13/13. It runs in the 2026-10-16 day round.
+- **State since P3 (891d99a8):** none on production; live is still `d9079843` (P3's drift read). Docs-only commits follow.
+- **Ledger delta (`continuity-edit`):**
+  - **I-047: CLOSED** on its own bar, per the review's SUGGESTION: the open-card leg held ("The phase word and verdict: no …").
+  - **I-048:** DEFERRED note appended (the walk evidence and the next lever); nextEvaluation stays 2026-10-16.
+  - **I-050: minted**, the regression row the review asked for: at 320px "CURVE · PEAKING" truncates the card name to "Ray Dalio — Big C…" (from `f4fd76b`). Dated 2026-10-16, beside I-048.
+  - **I-046:** no change at the close. P3's fresh `--run` stamped "RESULT: 40/40 PASS · 0 FAIL · 0 UNREAD" (exit 0, 70.6 s), replacing the void 10-15 read. Its own proof, a tap probe, stays on 2026-10-16.
+- **hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected. Inputs were all `none`; it ran no `--run`. Its READ-MUTATED section: "none — 0 reads guarded". Its checks: check-wait-justification "RESULT: PASS — 32 of 55 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)"; check-engineering-zero "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)". Its one held item (I-046) was run in P3 after the change went live.
+- **Due gates:** `check-due-gates-dispositioned` (no flag) printed "verdict: CLEAR — every gate due at Phase 0 was dispositioned.", snapshot CURRENT (taken 2026-10-15).
+- **Receipt:** P3's still holds (`f4fd76b`). Nothing new.
+- **Pending reads:**
+  - 2026-10-16: I-048 (glance-figure lever + walk), I-050 (truncation sweep), I-046 (tap probe).
+  - 2026-10-20: I-027, I-034, I-043, I-049.
+  - 2026-11-01: I-037.
+  - 2026-11-04: W-005, I-032.
+  - 2026-12-01: I-025, I-042.
+- **Primer:** `docs/cold-starts/2026-10-15.md`, banner rewritten for the evening round.
+- UNRESOLVED: none.
+
+codexCalls: 3
+[standing-rules-hash: 88cc2dc9]
