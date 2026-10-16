@@ -66,7 +66,7 @@ Imperial-arc proxy. The data peaks at 1945 at ~32% of world GDP (war-production 
 
 V-Dem liberal-democracy index for the US, 1789–2025, scale 0–1.
 
-Generational-cycle theory predicts crisis lows that line up with stress on liberal-democratic institutions. V-Dem's recent US drop is the clearest empirical analogue to Strauss-Howe's "Fourth Turning."
+Generational-cycle theory predicts crisis lows that line up with stress on liberal-democratic institutions. V-Dem's recent US drop is the kind of movement that prediction points to, which is why it is paired here. It is an exploratory proxy: a fall in one index cannot show whether a "Fourth Turning" is underway.
 
 - Source: V-Dem Institute, Country-Year Dataset v16, March 2026 (retrieved via Our World in Data), https://v-dem.net/data/the-v-dem-dataset/
 - License: CC BY-SA 4.0.
