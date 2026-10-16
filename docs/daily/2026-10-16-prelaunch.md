@@ -283,3 +283,64 @@ ACTION: COMPLETED · item I-053 · P3 3b528071. The acceptance in force was the 
   - 12-01: I-025, I-042.
 - **Primer:** `docs/cold-starts/2026-10-16.md`. The banner was rewritten in place, about 1,150 characters.
 - UNRESOLVED: none.
+
+## Evening round (round 3, 2026-10-16): P1 selection packet
+
+[P1 — Evidence and choice]
+
+**Outcome (I-048):** a first-time arrival at `/` cannot read "peaking now" off the glance figure. The user problem, in walk B's words (10-16, production 4c042a9): "Dalio's gold curve has an open ring sitting exactly on its crest at the dotted '2026' line. The picture says 'peaking now', which is my friend's claim."
+
+### Section 0
+- **Session state:** fresh pane (30a30593). The round-2 close-out is 5d9927ae, and it does not cover this round. Primer `docs/cold-starts/2026-10-16.md` was read. Listener: hello at 22:54:14Z, slug sinusoidal-cycles. Waker ranks 1-3 are running, and the loop is armed by a ScheduleWakeup call. `git pull`: already up to date (53dc031).
+- **Codex:** GREEN per the kickoff's `[codex-probe:]` line (18:20Z).
+- **CI and drift:** HEAD CI GREEN for 53dc031 (kickoff read). `check-deployed-sha-drift --service sinusoidal-history`: PASS, live 53dc031d = head.
+- **Rotation:** `check-cycle-rotation` exit 0: "no product-love cycle picks this lane today … run the normal P3".
+- **Dated gates:** the kickoff read 0 due. A `--snapshot` re-run was REFUSED (exit 2), as designed, because the morning snapshot holds I-046, I-048, I-050 and I-052. The morning file is unchanged and P5 verifies against it.
+- **Recurring retro finding that bears on this:** "tearing down `next start` four times" (10-15 Q6). One local build this round, stopped by the PID whose command line names this checkout and :3123.
+
+### Evidence
+- **OBSERVED, RED before (production, 23:1xZ):** new checker `scripts/check-glance-now-mark.mjs` (uncommitted, prep). It counts the now-marks inside the glance figure that start above the fold: svg circles and lines in the rows, and an axis label reading the current year. It also requires the figure and its visible verdict line, so an unrendered figure cannot read clean.
+  ```
+  MARKED  https://sinusoidalhistory.com/ @ 390x664  rings 10 · now-lines 10 · current-year labels 1
+  MARKED  https://sinusoidalhistory.com/ @ 320x568  rings 10 · now-lines 10 · current-year labels 1
+  RED: 0 of 2 viewports show no now-mark on the glance figure's first screen
+  ```
+  `--selftest` 11/11, with red arms for each kind of mark alone, a missing figure and a dropped verdict line.
+- **OBSERVED, synthetic N=1 per walk (not users):** walk B (10-16, 4c042a9) read the ring on the crest as "peaking now" despite two quoted visible verdicts. Walks A4/A5 (ada68f6) read the claim page's "now · 2026" dot on the crest as "it's at the top". A6/A7/T1 held once no drawn position was on the first screen. Same finding on two surfaces: whenever the drawn 2026 position is on screen, it reads as agreement.
+- **OBSERVED, source:** every now-mark is in `src/components/CycleOverview.tsx`: the dashed `<line>` and hollow `<circle>` per row (:228-261), and the bold current-year axis label (:127-134). Each row's sr-only text is `overviewRowReading()`, "… curve <phase> in 2026. <verdict headline>." (`src/lib/overviewReading.ts`), so it speaks a position.
+- **OBSERVED: I-050 is NOT in this component.** The 320px truncation is the closed facet card's header in `CycleFacet.tsx` (FacetHeader). Per the lead, it is left for its 10-17 date.
+- **HYPOTHESIS:** with no mark at the current year, the glance rows read as ten theory shapes on a time axis, and the "peaking now" reading has nothing to land on. The curve's crest still sits near 2026 on the axis, and a reader who counts ticks could find it. That residual is what the walk measures.
+- **MISSING:** any real-user read of `/`. There is no client analytics by standing choice, and Search Console shows 0 clicks. The evangelism bar reads UNMEASURED (`docs/evangelism-bar.md`).
+
+### Permission
+- I-048 is an open lane row, P3, with no park and no card. Orchestrator lead (round 3, quoting 5d9927ae): "The call, and ONE job: yes, the home figure claims less … no crest mark on the first screen, or none at all; the verdict line stays." This supersedes 19c2b867.
+- Fences: never a forecast; never "a test ran" (I-028 guard); the holdsUp.ts headlines are not reworded; the verdict line and caption stay.
+- `answered-cards` at kickoff: 0 cards for this lane.
+
+### Next action — improve
+- **Change:** in `CycleOverview.tsx`, remove all three now-marks from the glance figure ("none at all"): the per-row dashed line, the ring, and the bold current-year axis label. The axis keeps its ordinary ticks.
+- **Text alternative:** the row's screen-reader text stops speaking a position, so the text and the picture say the same thing. `overviewRowReading` becomes "<name>. <verdict headline>." with no "curve <phase> in 2026". Whatever pins the old string (tests, check-embed-snippets) moves with it, and nothing else changes wording.
+- **Untouched:** the caption "Theory shapes · none confirmed", the visible `[data-glance-verdict]` line, the facets, the claim pages, `/state`.
+- **Ceiling of this change:** the expanded facet card's chart and the brush still draw "now". They are below the first screen, out of this job's scope and out of the checker's reach (declared in its header).
+
+First command (the RED read above, re-run after the change, on the local build and then production):
+```
+node C:/dev/skylark/sinusoidal-cycles/scripts/check-glance-now-mark.mjs https://sinusoidalhistory.com
+```
+
+### Pass bar (written before building)
+- **RED before:** `check-glance-now-mark` reads MARKED at 390x664 and 320x568 on production (done, above: 21 marks per viewport).
+- **GREEN after, on production:** the same check reads `2 of 2` CLEAN (exit 0); walk B2 and walk B3 both HELD as pre-registered in `docs/walks/2026-10-16-i052-i048.md` § "Walks B2 and B3"; `check-deployed-sha-drift` in sync.
+- **Positive controls, on production:** `check-holds-up-line` 46/46 and `check-year-position` 95/95 unchanged; `check-entry-folds` 320x568 13/13.
+- **Red-proof:** putting the ring back (a one-line mutation on the local build) turns `check-glance-now-mark` RED. Then restore it and show the tree clean.
+
+### Delivery and encounter
+- **Delivery:** full `npm test` before push, then a Codex read-only round before push; CI green on the pushed sha; drift in sync; then the checks above on production.
+- **Encounter:** at this traffic, no arrival is the expected reading. There is no instrument that would see one (no analytics, by choice), so the receipt's exposure will be `blind`, naming the bar's UNMEASURED state.
+
+USER-FACING: yes. Paths: `src/components/CycleOverview.tsx`, `src/lib/overviewReading.ts` (screen-reader text), their tests, `scripts/check-glance-now-mark.mjs` (new), plus any test or checker that pins the old row reading.
+
+### HYGIENE INPUTS
+- (a) Due rows not bearing on the choice: none. Source: the kickoff's "dated gates due today: 0".
+- (b) Owed child rows: none. Source: the kickoff's "rows owed to you in skylark-site's ledger: 0 of 754".
+- (c) CROSSED state reads: none. stale-actionable 0 of 13; missingLinkedCommits NOTHING SWEPT (0 of 0); queued rows 0.

@@ -4,13 +4,8 @@ import { useCallback, useMemo, useRef } from "react";
 import { line as d3Line, curveCatmullRom } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
-import { sineAtYear } from "@/lib/cycleMath";
 import { cycleTheorist } from "@/lib/cycleRoutes";
-import {
-  glanceVerdictLine,
-  isYearInRange,
-  overviewRowReading,
-} from "@/lib/overviewReading";
+import { glanceVerdictLine, overviewRowReading } from "@/lib/overviewReading";
 import {
   useContainerWidth,
   useCycleValues,
@@ -26,11 +21,18 @@ import {
 // tap instruction lives in the caption beside the cards that take the tap.
 // Gate, one row at a time: `node scripts/measure-fold.mjs <url> 390 664
 // '[data-overview-id="<id>"] svg'`. 2026-09-22.
+//
+// The figure marks NO current year: no now-line, no ring, no bold year on the
+// axis (I-048, 2026-10-16 evening). Walk B read the ring on Dalio's crest at
+// the 2026 line as "peaking now" beside two visible verdicts, and walks A4/A5
+// read the same drawn position on the claim page as agreement. The rows are
+// theory shapes; the verdict line under the axis does the talking. Gate:
+// `node scripts/check-glance-now-mark.mjs <origin>`.
 
 const NAME_COL = 104;
 const ROW_H = 24;
-// Horizontal inset so the now-dot and the curve's stroke are not clipped at
-// either end of the row.
+// Horizontal inset so the curve's stroke is not clipped at either end of the
+// row.
 const PAD = 3;
 // Half the rendered width of a four-digit year label at 11px mono — keeps a
 // label centred on an edge tick from overflowing the page.
@@ -38,7 +40,6 @@ const LABEL_HALF = 16;
 
 interface CycleOverviewProps {
   cycles: Cycle[];
-  currentYear: number;
   startYear: number;
   endYear: number;
   /** False when the facets are not the open tab, so "each in detail below"
@@ -48,7 +49,6 @@ interface CycleOverviewProps {
 
 export default function CycleOverview({
   cycles,
-  currentYear,
   startYear,
   endYear,
   detailBelow,
@@ -58,8 +58,6 @@ export default function CycleOverview({
   const chartWidth = Math.max(0, width - NAME_COL);
   const innerWidth = Math.max(0, chartWidth - PAD * 2);
   const xScale = useTimeScale(startYear, endYear, innerWidth);
-  const nowVisible = isYearInRange(currentYear, startYear, endYear);
-  const nowX = xScale(currentYear) + PAD;
 
   const place = useCallback(
     (x: number) => Math.min(Math.max(x, LABEL_HALF), chartWidth - LABEL_HALF),
@@ -68,10 +66,10 @@ export default function CycleOverview({
 
   // Spacing is judged on PLACED positions: an edge label clamped inward can
   // land on its neighbour even when the raw ticks are far apart (320px phone,
-  // default range: "16001700"). The now label is kept first; each tick after
-  // it survives only if it clears every label already kept.
+  // default range: "16001700"). Each tick survives only if it clears every
+  // label already kept.
   const ticks = useMemo(() => {
-    const kept: number[] = nowVisible ? [place(nowX)] : [];
+    const kept: number[] = [];
     const out: { year: number; x: number }[] = [];
     for (const year of xScale.ticks(4).filter((t) => Number.isInteger(t))) {
       const x = place(xScale(year) + PAD);
@@ -81,7 +79,7 @@ export default function CycleOverview({
       }
     }
     return out;
-  }, [xScale, nowVisible, nowX, place]);
+  }, [xScale, place]);
   const verdictLine = useMemo(() => glanceVerdictLine(cycles), [cycles]);
 
   return (
@@ -108,9 +106,6 @@ export default function CycleOverview({
             xScale={xScale}
             startYear={startYear}
             endYear={endYear}
-            currentYear={currentYear}
-            nowVisible={nowVisible}
-            nowX={nowX}
           />
         ))}
       </ul>
@@ -124,16 +119,8 @@ export default function CycleOverview({
             {t.year}
           </span>
         ))}
-        {nowVisible && (
-          <span
-            className="absolute top-0 -translate-x-1/2 font-mono text-[11px] leading-4 tabular-nums text-ink font-medium"
-            style={{ left: place(nowX) }}
-          >
-            {currentYear}
-          </span>
-        )}
       </div>
-      {/* I-048: the verdict, VISIBLE, under the dots it answers. The 10-15
+      {/* I-048: the verdict, VISIBLE, under the curves it answers. The 10-15
           walk read Dalio's dot on its crest as the site agreeing, and the
           per-row verdict was screen-reader text only. Below the axis on
           purpose: anything above the rows breaks the last row's 12px at
@@ -161,18 +148,12 @@ function OverviewRow({
   xScale,
   startYear,
   endYear,
-  currentYear,
-  nowVisible,
-  nowX,
 }: {
   cycle: Cycle;
   chartWidth: number;
   xScale: LinearScale;
   startYear: number;
   endYear: number;
-  currentYear: number;
-  nowVisible: boolean;
-  nowX: number;
 }) {
   const yScale = useMemo(
     () => scaleLinear().domain([-1, 1]).range([ROW_H - 4, 4]),
@@ -188,8 +169,6 @@ function OverviewRow({
   }, [points, xScale, yScale]);
 
   const theorist = cycleTheorist(cycle);
-  // The same function the path samples, so the dot sits on the drawn curve.
-  const nowY = yScale(sineAtYear(cycle, currentYear));
 
   return (
     <li
@@ -211,12 +190,8 @@ function OverviewRow({
         />
         <span className="font-display text-[12px] leading-none tracking-tight text-ink truncate">
           {theorist}
-          {/* Same predicate as the now-line and the dot (overviewReading.ts):
-              brushed away from the current year the row draws no reading, so
-              it must not speak one either. */}
-          <span className="sr-only">
-            {overviewRowReading(cycle, { currentYear, startYear, endYear })}
-          </span>
+          {/* No position, because the row draws none (overviewReading.ts). */}
+          <span className="sr-only">{overviewRowReading(cycle)}</span>
         </span>
       </span>
       <svg
@@ -225,18 +200,6 @@ function OverviewRow({
         height={ROW_H}
         className="block flex-shrink-0"
       >
-        {nowVisible && (
-          <line
-            x1={nowX}
-            x2={nowX}
-            y1={0}
-            y2={ROW_H}
-            stroke="currentColor"
-            strokeWidth={1}
-            strokeOpacity={0.35}
-            strokeDasharray="2 3"
-          />
-        )}
         <g transform={`translate(${PAD},0)`}>
           <path
             d={path}
@@ -247,18 +210,6 @@ function OverviewRow({
             strokeLinecap="round"
           />
         </g>
-        {/* Hollow (I-048): a filled dot on a crest read as an observed
-            "we are here". The ring marks a point on the drawing. */}
-        {nowVisible && (
-          <circle
-            cx={nowX}
-            cy={nowY}
-            r={3}
-            fill="none"
-            stroke={cycle.color}
-            strokeWidth={1.5}
-          />
-        )}
       </svg>
     </li>
   );

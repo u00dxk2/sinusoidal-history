@@ -150,7 +150,6 @@ export default function Viz({
         <div className="sm:hidden">
           <CycleOverview
             cycles={effectiveCycles}
-            currentYear={currentYear}
             startYear={visibleStartYear}
             endYear={visibleEndYear}
             detailBelow={tab === "facets"}

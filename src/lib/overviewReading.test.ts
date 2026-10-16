@@ -4,7 +4,6 @@ import { phasePositionLabel, type PhasePositionLabel } from "@/lib/cycleMath";
 import {
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
-  isYearInRange,
   overviewRowReading,
 } from "@/lib/overviewReading";
 import { holdsUpCard } from "@/lib/holdsUp";
@@ -49,70 +48,19 @@ const PHASE_WORDS: PhasePositionLabel[] = [
   "crossing",
 ];
 
-const FULL = { startYear: 1600, endYear: 2050 };
-
-describe("isYearInRange", () => {
-  it("includes both endpoints, because the row draws a dot at the edge", () => {
-    expect(isYearInRange(1600, 1600, 2050)).toBe(true);
-    expect(isYearInRange(2050, 1600, 2050)).toBe(true);
-    expect(isYearInRange(1599, 1600, 2050)).toBe(false);
-    expect(isYearInRange(2051, 1600, 2050)).toBe(false);
-  });
-});
-
 describe("overviewRowReading", () => {
-  it("speaks the same phase the facet header shows, for every cycle", () => {
+  // I-048 (2026-10-16 evening): the row draws no mark at the current year, so
+  // it speaks no position either: no phase word, no year.
+  it("speaks the period and the verdict headline, and no position, for every cycle", () => {
     for (const cycle of cycles) {
-      const reading = overviewRowReading(cycle, { currentYear: 2026, ...FULL });
-      expect(reading).toContain(phasePositionLabel(cycle, 2026));
-      expect(reading).toContain(`${cycle.period_years}-year cycle`);
-      expect(reading).toContain("in 2026.");
-    }
-  });
-
-  // I-048: the phase is the drawn curve's, and the verdict rides with it, so
-  // the row never reads as the site agreeing with the theory.
-  it("attributes the phase to the curve and carries the cycle's verdict headline", () => {
-    for (const cycle of cycles) {
-      const reading = overviewRowReading(cycle, { currentYear: 2026, ...FULL });
-      expect(reading).toContain(`curve ${phasePositionLabel(cycle, 2026)} in 2026.`);
+      const reading = overviewRowReading(cycle);
       const card = holdsUpCard(cycle);
       expect(card).not.toBeNull();
-      expect(reading.endsWith(` ${card!.headline}.`)).toBe(true);
-    }
-  });
-
-  // The defect this module exists for: the drawn reading (now-line + dot)
-  // disappears outside the range, so the spoken one must not assert a phase.
-  it("asserts no phase when the current year is outside the brushed range", () => {
-    for (const cycle of cycles) {
-      const reading = overviewRowReading(cycle, {
-        currentYear: 2026,
-        startYear: 2027,
-        endYear: 2050,
-      });
+      expect(reading).toBe(` (${cycle.period_years}-year cycle). ${card!.headline}.`);
       for (const word of PHASE_WORDS) expect(reading).not.toContain(word);
-      expect(reading).toContain("2026 is outside the years shown");
-      expect(reading).toContain("drawn 2027–2050");
-    }
-  });
-
-  it("agrees with the range predicate the row draws from, across ranges", () => {
-    const cycle = cycles[0];
-    const ranges = [
-      { startYear: 1600, endYear: 2050 },
-      { startYear: 2000, endYear: 2050 },
-      { startYear: 2026, endYear: 2050 },
-      { startYear: 1600, endYear: 2026 },
-      { startYear: 1600, endYear: 1700 },
-      { startYear: 2027, endYear: 2050 },
-    ];
-    for (const range of ranges) {
-      const drawn = isYearInRange(2026, range.startYear, range.endYear);
-      const spoken = PHASE_WORDS.some((w) =>
-        overviewRowReading(cycle, { currentYear: 2026, ...range }).includes(w)
-      );
-      expect(spoken).toBe(drawn);
+      expect(reading).not.toMatch(/\b(1[5-9]|2[0-9])\d\d\b/);
+      // The phase the facet header still shows is not repeated here.
+      expect(reading).not.toContain(phasePositionLabel(cycle, 2026));
     }
   });
 });
