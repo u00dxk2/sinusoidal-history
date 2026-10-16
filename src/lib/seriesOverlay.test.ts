@@ -243,8 +243,21 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     expect(descriptionAt, `${slug}: no description paragraph`).toBeGreaterThan(-1);
     expect(figureAt, `${slug}: no drawn record`).toBeGreaterThan(-1);
     expect(verdictAt, `${slug}: no verdict box`).toBeGreaterThan(-1);
-    if (cycle.question) expect(figureAt).toBeGreaterThan(verdictAt);
-    else expect(verdictAt).toBeGreaterThan(figureAt);
+    // The reasons ("Long-cycle claims are hard to test…") sit in the box, except on a claim
+    // page, where they follow the curve so the whole box fits a phone's first screen (I-053).
+    const reasonsAt = html.indexOf("Long-cycle claims are hard to test");
+    const whyAt = html.indexOf('id="why-not-tested"');
+    expect(reasonsAt, `${slug}: no reasons paragraph`).toBeGreaterThan(-1);
+    if (cycle.question) {
+      expect(figureAt).toBeGreaterThan(verdictAt);
+      expect(whyAt, `${slug}: no #why-not-tested`).toBeGreaterThan(figureAt);
+      expect(reasonsAt).toBeGreaterThan(whyAt);
+    } else {
+      expect(verdictAt).toBeGreaterThan(figureAt);
+      expect(whyAt).toBe(-1);
+      expect(reasonsAt).toBeGreaterThan(verdictAt);
+      expect(reasonsAt).toBeLessThan(html.indexOf("The full verdict, the figure and the protocol"));
+    }
     expect(descriptionAt).toBeGreaterThan(Math.max(figureAt, verdictAt));
   });
 

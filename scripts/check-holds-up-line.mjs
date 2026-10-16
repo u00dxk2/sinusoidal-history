@@ -443,7 +443,17 @@ for (const c of cycles.filter((x) => x.question)) {
         const notEv = document.getElementById("not-evidence");
         const curve = document.querySelector("article svg[role=img]");
         const after = (a, b) => !!a && !!b && !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+        // I-053: on a claim page the WHOLE box ends on the first screen, so the reasons (the
+        // record paragraph and "not a verdict about this theory") sit under the curve instead,
+        // in #why-not-tested. Both sentences are matched by phrases the page cannot drop
+        // without changing what they say.
+        const why = document.getElementById("why-not-tested");
+        const reasons = ["this site requires before it will run a test", "Long-cycle claims are hard to test"];
+        const has = (e, s) => !!e && e.innerText.replace(/\s+/g, " ").includes(s);
         return {
+          boxBottom: box ? box.getBoundingClientRect().bottom + scrollY : null,
+          reasonsMoved:
+            !!why && reasons.every((s) => has(why, s) && !has(box, s)) && after(curve, why) && shown(why),
           h1: flat(document.querySelector("h1")),
           title: document.title,
           metas: [
@@ -486,6 +496,8 @@ for (const c of cycles.filter((x) => x.question)) {
         painted: r.painted,
         "first screen": r.answerBottom !== null && r.notEvBottom !== null && r.answerBottom <= h && r.notEvBottom <= h,
         "position off first screen": r.whereTop !== null && r.whereTop >= h,
+        "whole box on first screen": r.boxBottom !== null && r.boxBottom <= h,
+        "reasons under the curve": r.reasonsMoved,
       };
       const ok = Object.values(checks).every(Boolean);
       if (ok) pass++;
@@ -493,7 +505,7 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(
         `${ok ? "PASS" : "FAIL"}  ${tag}  — ` +
           Object.entries(checks).map(([k, v]) => `${k} ${v}`).join(" · ") +
-          ` · answer ends ${Math.round(r.answerBottom ?? -1)} · not-evidence ends ${Math.round(r.notEvBottom ?? -1)} · position starts ${Math.round(r.whereTop ?? -1)} of ${h}`
+          ` · box ends ${Math.round(r.boxBottom ?? -1)} · answer ends ${Math.round(r.answerBottom ?? -1)} · not-evidence ends ${Math.round(r.notEvBottom ?? -1)} · position starts ${Math.round(r.whereTop ?? -1)} of ${h}`
       );
     } catch {
       unread++;

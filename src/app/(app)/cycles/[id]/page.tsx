@@ -185,6 +185,34 @@ export default async function CyclePage({ params }: Params) {
       verdict={verdict}
     />
   );
+  // Why the cycle is (not) tested: the record's span against the floor, and that the floor
+  // is not about this theory. In the box on every page except a claim page, where it follows
+  // the curve so the whole box ends on a phone's first screen (I-053: at 390x664 the second
+  // paragraph was cut mid-sentence by the fold on both claim pages).
+  const reasons = verdict && (
+    <>
+      <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
+        {/* Name the series ONLY when the tested record IS the displayed one:
+            inference runs on unsmoothed / span-limited cuts (Kondratiev's annual
+            TFP, Turchin's 1913+ wealth), and calling those by the chart's label
+            would contradict the verdict paragraph below. Shortfall is computed
+            from the exact span, never from the rounded cycles_covered — that
+            rounding overstates it by a year on four of the nine rows.
+            A cut with a testedSeriesNote is named here outright (I-024). */}
+        {series && series.id === verdict.series_id
+          ? `The paired record (${series.name}) runs ${verdict.span_years} years: `
+          : tested
+            ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
+            : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
+        {`${periodsCovered(verdict)} this site requires before it will run a test on ${aYear(verdict.period_years)} claim.`}
+        {!verdict.eligible &&
+          ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
+      </p>
+      <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
+        {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}
+      </p>
+    </>
+  );
 
   return (
     // [&_p]: the article stays 3xl because the curve, the extrema table, and
@@ -314,26 +342,7 @@ export default async function CyclePage({ params }: Params) {
               {claimNotEvidence(cycle, year)}
             </p>
           )}
-          <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
-            {/* Name the series ONLY when the tested record IS the displayed one:
-                inference runs on unsmoothed / span-limited cuts (Kondratiev's annual
-                TFP, Turchin's 1913+ wealth), and calling those by the chart's label
-                would contradict the verdict paragraph below. Shortfall is computed
-                from the exact span, never from the rounded cycles_covered — that
-                rounding overstates it by a year on four of the nine rows.
-                A cut with a testedSeriesNote is named here outright (I-024). */}
-            {series && series.id === verdict.series_id
-              ? `The paired record (${series.name}) runs ${verdict.span_years} years: `
-              : tested
-                ? `The record this verdict is judged on, ${tested.name}, runs ${verdict.span_years} years: `
-                : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
-            {`${periodsCovered(verdict)} this site requires before it will run a test on ${aYear(verdict.period_years)} claim.`}
-            {!verdict.eligible &&
-              ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
-          </p>
-          <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
-            {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}
-          </p>
+          {!claimPage && reasons}
           <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
             {/* min-h-11: this was a 17px-tall target on phones, and it is the
                 only way forward from the box (cold walk 2026-10-02, finding 3).
@@ -350,6 +359,12 @@ export default async function CyclePage({ params }: Params) {
       )}
 
       {claimPage && curveFigure}
+
+      {claimPage && (
+        <section id="why-not-tested" aria-label="Why it is not tested" className="mt-5">
+          {reasons}
+        </section>
+      )}
 
       {/* A cycle with no paired series has no verdict, and until 2026-09-25 its
           page simply skipped the question — the fathers-and-sons page opened on
