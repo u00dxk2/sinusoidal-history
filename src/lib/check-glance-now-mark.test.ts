@@ -11,5 +11,6 @@ it("check-glance-now-mark selftest passes, red arms included", () => {
   });
   expect(out).toContain("a ring alone is MARKED");
   expect(out).toContain("a missing figure is MISSING, never CLEAN");
+  expect(out).toContain("empty rows are MISSING, never CLEAN");
   expect(out).toMatch(/selftest: \d+ passed/);
 });
