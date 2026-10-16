@@ -6,7 +6,11 @@ import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
 import { sineAtYear } from "@/lib/cycleMath";
 import { cycleTheorist } from "@/lib/cycleRoutes";
-import { isYearInRange, overviewRowReading } from "@/lib/overviewReading";
+import {
+  glanceVerdictLine,
+  isYearInRange,
+  overviewRowReading,
+} from "@/lib/overviewReading";
 import {
   useContainerWidth,
   useCycleValues,
@@ -78,6 +82,7 @@ export default function CycleOverview({
     }
     return out;
   }, [xScale, nowVisible, nowX, place]);
+  const verdictLine = useMemo(() => glanceVerdictLine(cycles), [cycles]);
 
   return (
     <figure ref={ref} aria-labelledby="cycle-overview-title" className="m-0">
@@ -88,8 +93,11 @@ export default function CycleOverview({
         {/* Was "Every cycle, at a glance" (I-048): the cold walks read ten
             curves with dots on the current year as the site agreeing that the
             cycles are where their curves say. One line either way: the last
-            row has 12px to spare at 320x568 (check-entry-folds). */}
-        Theory shapes, not findings
+            row has 12px to spare at 320x568 (check-entry-folds). Since
+            2026-10-16 it carries the verdict too, the only place a verdict
+            fits a 320x568 first screen; it falls back to the old words the
+            moment the line below has nothing it may state. */}
+        {verdictLine ? "Theory shapes · none confirmed" : "Theory shapes, not findings"}
       </figcaption>
       <ul className="list-none m-0 p-0">
         {cycles.map((cycle) => (
@@ -125,6 +133,19 @@ export default function CycleOverview({
           </span>
         )}
       </div>
+      {/* I-048: the verdict, VISIBLE, under the dots it answers. The 10-15
+          walk read Dalio's dot on its crest as the site agreeing, and the
+          per-row verdict was screen-reader text only. Below the axis on
+          purpose: anything above the rows breaks the last row's 12px at
+          320x568 (check-entry-folds). */}
+      {verdictLine && (
+        <p
+          data-glance-verdict
+          className="mt-2 text-[13px] leading-snug text-ink"
+        >
+          {verdictLine}
+        </p>
+      )}
       {detailBelow && (
         <p className="mt-2 text-[13px] leading-snug italic font-display-italic text-ink-soft">
           Each in detail below — tap one to focus and calibrate.
@@ -226,8 +247,17 @@ function OverviewRow({
             strokeLinecap="round"
           />
         </g>
+        {/* Hollow (I-048): a filled dot on a crest read as an observed
+            "we are here". The ring marks a point on the drawing. */}
         {nowVisible && (
-          <circle cx={nowX} cy={nowY} r={3} fill={cycle.color} />
+          <circle
+            cx={nowX}
+            cy={nowY}
+            r={3}
+            fill="none"
+            stroke={cycle.color}
+            strokeWidth={1.5}
+          />
         )}
       </svg>
     </li>
