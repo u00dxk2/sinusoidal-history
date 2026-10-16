@@ -358,13 +358,18 @@ export default async function CyclePage({ params }: Params) {
         </section>
       )}
 
-      {claimPage && curveFigure}
-
+      {/* On a claim page the reasons come BEFORE the curve. The whole box ends on a phone's
+          first screen (I-053), and the reasons fill the rest of it, which keeps the curve below
+          the fold. With the curve first (ada68f6), walks A4 and A5 read the "now" dot on the
+          crest as "it's at the top" (docs/walks/2026-10-16-i052-i048.md); A2 and A3 held only
+          because the curve sat below the fold. */}
       {claimPage && (
-        <section id="why-not-tested" aria-label="The record behind this verdict" className="mt-5">
+        <section id="why-not-tested" aria-label="The record behind this verdict" className="mt-1">
           {reasons}
         </section>
       )}
+
+      {claimPage && curveFigure}
 
       {/* A cycle with no paired series has no verdict, and until 2026-09-25 its
           page simply skipped the question — the fathers-and-sons page opened on
