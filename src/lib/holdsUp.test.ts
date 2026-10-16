@@ -17,15 +17,15 @@ const primary: Row[] = JSON.parse(
   readFileSync(join(process.cwd(), "public", "data", "spectral", "verdicts.json"), "utf8"),
 ).primary;
 
-async function boxText(slug: string): Promise<string> {
+async function boxText(slug: string, id = "does-it-hold-up"): Promise<string> {
   const element = await CyclePage({ params: Promise.resolve({ id: slug }) });
   const html = renderToStaticMarkup(element as Parameters<typeof renderToStaticMarkup>[0])
     .replace(/<!-- -->/g, "")
     .replace(/&#x27;/g, "'")
     .replace(/&quot;/g, '"')
     .replace(/&amp;/g, "&");
-  const box = html.match(/<section id="does-it-hold-up"[\s\S]*?<\/section>/);
-  expect(box, `${slug}: no Does-it-hold-up box`).not.toBeNull();
+  const box = html.match(new RegExp(`<section id="${id}"[\\s\\S]*?</section>`));
+  expect(box, `${slug}: no #${id} section`).not.toBeNull();
   return box![0].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
 }
 
@@ -52,7 +52,14 @@ describe("I-032: the share card carries the page's verdict", () => {
     // The page's one-decimal number, from the raw row, on both surfaces.
     const n = `${row.cycles_covered.toFixed(1)} of the 3.0 full periods`;
     expect(card.detail).toContain(n);
-    expect(box).toContain(n);
+    // A claim page keeps the whole box on a phone's first screen, so the record paragraph that
+    // carries this number follows the curve in #why-not-tested instead (I-053).
+    if (cycle.question) {
+      expect(box).not.toContain(n);
+      expect(await boxText(slug, "why-not-tested")).toContain(n);
+    } else {
+      expect(box).toContain(n);
+    }
     if (!row.eligible) expect(card.headline).toBe("Not testable on the record that exists");
 
     // Correction 4: where the judged cut is not the drawn series, the card names the judged
