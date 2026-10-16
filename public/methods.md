@@ -42,7 +42,7 @@ Kondratiev waves predict 50–60 year cycles of technological paradigm expansion
 
 Share of total household wealth held by the top 1% of US adults. The modern Saez–Zucman series begins 1913; pre-1913 points (1820, 1850, 1880, 1900, 1910) are spliced from earlier historical sources via OWID/WID and have wider standard errors.
 
-Direct proxy for Turchin's elite-overproduction driver - when wealth concentrates, elite competition intensifies and instability follows.
+Proxy for Turchin's elite-overproduction driver: in his account, when wealth concentrates, elite competition intensifies and instability follows. It measures wealth concentration, not instability, so it cannot by itself show that his cycle holds or that his 2020s forecast came true.
 
 - Source: WID · World Inequality Database, retrieved via Our World in Data. 1913–present from Saez & Zucman (2016) / DINA; pre-1913 decadal points (1820, 1850, 1880, 1900, 1910) are WID interpolations from earlier US wealth-distribution literature, not from Saez–Zucman directly. https://wid.world/country/usa/
 - License: CC BY 4.0.

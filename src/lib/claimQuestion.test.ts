@@ -7,8 +7,8 @@ import { holdsUpCard } from "@/lib/holdsUp";
 const dalio = cycles.find((c) => c.id === "dalio")!;
 
 describe("claim pages (cycles.json `question`)", () => {
-  it("is Dalio and Strauss-Howe today, so the other eight pages are untouched", () => {
-    expect(cycles.filter((c) => c.question).map((c) => c.id)).toEqual(["dalio", "strauss_howe"]);
+  it("is Turchin, Dalio and Strauss-Howe today, so the other seven pages are untouched", () => {
+    expect(cycles.filter((c) => c.question).map((c) => c.id)).toEqual(["turchin", "dalio", "strauss_howe"]);
     for (const c of cycles.filter((x) => !x.question)) expect(claimAnswer(c, 2026)).toBeNull();
   });
 

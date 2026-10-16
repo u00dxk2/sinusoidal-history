@@ -71,7 +71,8 @@
     "amplitude_normalized": 1.0,
     "source": "Peter Turchin, Secular Cycles (Princeton, 2009, with Nefedov); Ages of Discord (Beresta, 2016); End Times (Penguin, 2023)",
     "confidence_level": "quantitative",
-    "color": "#B25535"
+    "color": "#B25535",
+    "question": "Does Turchin's secular cycle hold up?"
   },
   {
     "id": "dalio",

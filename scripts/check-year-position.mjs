@@ -82,7 +82,7 @@ const matches = (text, e, year, theorist = null) =>
 // peak" as "yes, it's peaking" when the caveat came last. Same sentence body, same equality; the
 // theorist's name is written out here by hand (an oracle sharing no code with cycleTheorist), and
 // a claim cycle missing from this map FAILS its leg rather than being judged by the plain form.
-const CLAIM_THEORIST = { dalio: "Ray Dalio", strauss_howe: "Strauss-Howe" };
+const CLAIM_THEORIST = { dalio: "Ray Dalio", strauss_howe: "Strauss-Howe", turchin: "Peter Turchin" };
 const PLAIN_LEAD = "By this page's curve, ";
 function claimSentence(e, year, theorist) {
   return `This page draws a wave, not ${theorist}'s forecast: on that wave, ${expectedSentence(e, year).slice(PLAIN_LEAD.length)}`;
