@@ -71,9 +71,22 @@ function expectedSentence(e, year) {
  * Was a prefix match ("… That is a position"), which passed a sentence inserted before the caveat's
  * end (Codex r1 on 5dd93d2, the partial-match class; shape changed to equality, not a new matcher).
  */
-const matches = (text, e, year) =>
+const matches = (text, e, year, theorist = null) =>
   text ===
-  `${expectedSentence(e, year)} That is a position of this construction, not the theorist's forecast. Every cycle in ${year} →`;
+  (theorist
+    ? `${claimSentence(e, year, theorist)} Every cycle in ${year} →`
+    : `${expectedSentence(e, year)} That is a position of this construction, not the theorist's forecast. Every cycle in ${year} →`);
+
+// A claim page (a cycle with `question` in cycles.json) says "not <theorist>'s forecast" BEFORE
+// the position and drops the trailing caveat (I-052, 2026-10-16): the walk read "2026 sits at a
+// peak" as "yes, it's peaking" when the caveat came last. Same sentence body, same equality; the
+// theorist's name is written out here by hand (an oracle sharing no code with cycleTheorist), and
+// a claim cycle missing from this map FAILS its leg rather than being judged by the plain form.
+const CLAIM_THEORIST = { dalio: "Ray Dalio", strauss_howe: "Strauss-Howe" };
+const PLAIN_LEAD = "By this page's curve, ";
+function claimSentence(e, year, theorist) {
+  return `This page draws a wave, not ${theorist}'s forecast: on that wave, ${expectedSentence(e, year).slice(PLAIN_LEAD.length)}`;
+}
 
 // The figure's "now" dot, read back from pixels into (year, value) — the inverse of the page's
 // x()/y() in CurveFigure, so the page's own numbers are never trusted: only where the dot actually
@@ -133,7 +146,22 @@ if (process.argv.includes("--selftest")) {
     ["a sentence inserted inside the caveat", d.replace("That is a position", "That is a position confirmed by a test. That is a position"), dalio, false],
     ["text after the link", `${d} Confirmed.`, dalio, false],
   ];
+  // Claim-form arms (I-052): [name, text, entry, theorist, expected].
+  const dc = `This page draws a wave, not Ray Dalio's forecast: on that wave, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063. Every cycle in 2026 →`;
+  const claimCases = [
+    ["claim: dalio as printed", dc, dalio, "Ray Dalio", true],
+    ["claim: the plain form on a claim page", d, dalio, "Ray Dalio", false],
+    ["claim: the old caveat appended", dc.replace(" Every cycle", `${tail.split(" Every")[0]} Every cycle`), dalio, "Ray Dalio", false],
+    ["claim: the negation dropped", dc.replace("not Ray Dalio's forecast", "Ray Dalio's forecast"), dalio, "Ray Dalio", false],
+    ["claim: another theorist named", dc.replace("Ray Dalio", "Strauss-Howe"), dalio, "Ray Dalio", false],
+    ["claim: the claim form on a plain page", dc, dalio, null, false],
+  ];
   let bad = 0;
+  for (const [name, text, e, theorist, want] of claimCases) {
+    const got = matches(text, e, 2026, theorist);
+    if (got !== want) bad += 1;
+    console.log(`${got === want ? "PASS" : "FAIL"}  selftest ${name} → ${got ? "match" : "no match"}`);
+  }
   for (const [name, text, e, want] of cases) {
     const got = matches(text, e, 2026);
     if (got !== want) bad += 1;
@@ -190,7 +218,7 @@ if (process.argv.includes("--selftest")) {
     if (got !== want) bad += 1;
     console.log(`${got === want ? "PASS" : "FAIL"}  selftest surface ${name} → ${got ? "pass" : "fail"}`);
   }
-  const total = cases.length + dots.length + prose.length + surfaces.length;
+  const total = cases.length + claimCases.length + dots.length + prose.length + surfaces.length;
   console.log(`selftest: ${total - bad}/${total} ${bad ? "FAIL" : "PASS"}`);
   process.exit(bad ? 3 : 0);
 }
@@ -214,12 +242,17 @@ try {
 if (!Number.isInteger(state?.year) || !Array.isArray(state?.cycles) || state.cycles.length === 0) {
   refuse(`${origin}/api/v1/state has no year and cycles list`);
 }
+const cyclesJson = JSON.parse(readFileSync(new URL("../src/data/cycles.json", import.meta.url), "utf8"));
+const claimIds = new Set(cyclesJson.filter((c) => c.question).map((c) => c.id));
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 390, height: 664 } });
 
 for (const entry of state.cycles) {
   const path = new URL(entry.page).pathname;
   const tag = path.replace("/cycles/", "");
+  const id = tag.replace(/-/g, "_");
+  // A claim cycle with no hand-written theorist gets "" — which no page prints — so it FAILS.
+  const theorist = claimIds.has(id) ? (CLAIM_THEORIST[id] ?? "") : null;
   await page.goto(`${origin}${path}`, { waitUntil: "domcontentloaded" });
   const el = page.locator("#where-now");
   if ((await el.count()) === 0) {
@@ -227,10 +260,11 @@ for (const entry of state.cycles) {
     continue;
   }
   const text = (await el.innerText()).replace(/\s+/g, " ").trim();
+  const want = theorist === null ? expectedSentence(entry, state.year) : claimSentence(entry, state.year, theorist);
   check(
-    `${tag} sentence = API ${state.year} (${entry.phase}, cos ${fmtCos(entry.cos)})`,
-    matches(text, entry, state.year),
-    matches(text, entry, state.year) ? "" : `got "${text.slice(0, 140)}" want "${expectedSentence(entry, state.year).slice(0, 140)}"`
+    `${tag} sentence = API ${state.year} (${entry.phase}, cos ${fmtCos(entry.cos)})${theorist === null ? "" : " · claim form"}`,
+    matches(text, entry, state.year, theorist),
+    matches(text, entry, state.year, theorist) ? "" : `got "${text.slice(0, 140)}" want "${want.slice(0, 140)}"`
   );
   const href = await el.locator("a").getAttribute("href");
   check(`${tag} links /state/${state.year}`, href === `/state/${state.year}`, href ?? "no link");
@@ -337,7 +371,7 @@ for (const [w, h] of [[390, 664], [320, 568]]) {
 
 await browser.close();
 // The roster is the API's; a page that silently dropped out of it would shrink the denominator.
-const roster = JSON.parse(readFileSync(new URL("../src/data/cycles.json", import.meta.url), "utf8")).length;
+const roster = cyclesJson.length;
 check(`roster: API served ${state.cycles.length} of cycles.json's ${roster}`, state.cycles.length === roster);
 const pass = results.filter(Boolean).length;
 console.log(`${pass}/${results.length} ${pass === results.length ? "PASS" : "FAIL"}`);

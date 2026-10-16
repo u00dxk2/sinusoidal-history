@@ -160,10 +160,19 @@ export function yearPosition(
  * has no footnote. 2026-10-11 day session.
  */
 export function yearPositionSentence(cycle: Cycle, year: number): string {
+  return `By this page's curve, ${yearPositionBody(cycle, year)}`;
+}
+
+/**
+ * The sentence after its lead: "<year> sits <where> (<bracket>). <next>". Split out so a claim
+ * page can put "not the theorist's forecast" BEFORE the position (I-052) while every other page
+ * keeps yearPositionSentence word for word.
+ */
+export function yearPositionBody(cycle: Cycle, year: number): string {
   const { where, note, cos, next } = yearPosition(cycle, year);
   const height = `curve height ${cos}, from −1 at a low to +1 at a peak`;
   const bracket = note ? `${note}; ${height}` : height;
-  return `By this page's curve, ${year} sits ${where} (${bracket}). ${next}`;
+  return `${year} sits ${where} (${bracket}). ${next}`;
 }
 
 /** |cos| from which a rising/falling row looks like a turning point and gets a reason. */

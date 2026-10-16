@@ -59,7 +59,7 @@ import {
   testedHeadline,
 } from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
-import { claimAnswer, NOT_FORECAST } from "@/lib/claimQuestion";
+import { claimAnswer, claimPositionSentence, NOT_FORECAST } from "@/lib/claimQuestion";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -160,7 +160,9 @@ export default async function CyclePage({ params }: Params) {
   const claimPage = Boolean(claim && verdict);
   const whereNow = (className: string) => (
     <p id="where-now" className={className}>
-      {`${positionSentence} ${NOT_FORECAST}`}{" "}
+      {claimPage
+        ? claimPositionSentence(cycle, year)
+        : `${positionSentence} ${NOT_FORECAST}`}{" "}
       <Link
         href={statePath(year)}
         className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"

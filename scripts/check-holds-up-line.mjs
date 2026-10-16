@@ -288,8 +288,8 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 //       document.title               = "<question> The theory against the record · Sinusoidal History"
 //       meta, og: and twitter: description = "<question> <headline>. <why>"
 //       the box's first <p>          = "<headline> — and that is the finding, not a dodge."
-//       #where-now                   = "<position> <CLAUSE> Every cycle in <year> →"
-//       the one FAQPage's Question   = <question>, its Answer = "<headline>. <why> <position> <CLAUSE>"
+//       #where-now                   = "<claim position> Every cycle in <year> →"   (I-052, below)
+//       the one FAQPage's Question   = <question>, its Answer = "<headline>. <why> <claim position>"
 //     <position> is rebuilt from /api/v1/state's raw fields (the same rule check-year-position
 //     states, written out here so this script stands alone); <headline>/<why> are the oracles above.
 //     Only the ineligible form is stated; an eligible or unpaired claim cycle REFUSES;
@@ -305,7 +305,16 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 // paragraph and #where-now, social TITLES, non-FAQ JSON-LD text, accessibility-name overrides.
 // A page cached across New Year against a fresh API year FAILS (it cannot tell that from wrong
 // prose); that is a refusal-shaped failure, not a false pass (Codex r2).
-const CLAUSE = "That is a position of this construction, not the theorist's forecast.";
+// I-052 (2026-10-16): the clause moved IN FRONT of the position, in plain words, on claim pages:
+//       <claim position> = "This page draws a wave, not <theorist>'s forecast: on that wave, <year> sits …"
+// i.e. positionSentence() with its "By this page's curve, " lead swapped, and no trailing caveat.
+// #where-now = "<claim position> Every cycle in <year> →"; the FAQ answer = "<headline>. <why> <claim
+// position>". The theorist is written out by hand (no code shared with cycleTheorist); a claim
+// cycle missing from CLAIM_THEORIST REFUSES.
+const CLAIM_THEORIST = { dalio: "Ray Dalio", strauss_howe: "Strauss-Howe" };
+const PLAIN_LEAD = "By this page's curve, ";
+const claimPosition = (position, theorist) =>
+  `This page draws a wave, not ${theorist}'s forecast: on that wave, ${position.slice(PLAIN_LEAD.length)}`;
 const fmtCos = (v) => (v > 0 ? `+${v.toFixed(2)}` : v < 0 ? `−${Math.abs(v).toFixed(2)}` : "0.00");
 function positionSentence(e, year) {
   const nearest = (offset) => {
@@ -354,7 +363,14 @@ for (const c of cycles.filter((x) => x.question)) {
     }
     const entry = apiState?.cycles?.find?.((e) => new URL(e.page, origin).pathname === `/cycles/${slug}`);
     const year = apiState?.year;
-    const position = entry && Number.isInteger(year) ? positionSentence(entry, year) : null;
+    const plain = entry && Number.isInteger(year) ? positionSentence(entry, year) : null;
+    const theorist = CLAIM_THEORIST[c.id];
+    if (!theorist) {
+      unread++;
+      console.log(`UNREAD ${tag} — no hand-written theorist for this claim cycle; refusing`);
+      continue;
+    }
+    const position = plain ? claimPosition(plain, theorist) : null;
     if (!position) {
       unread++;
       console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
@@ -448,9 +464,9 @@ for (const c of cycles.filter((x) => x.question)) {
           faq.mainEntity?.["@type"] === "Question" &&
           faq.mainEntity?.name === c.question &&
           faq.mainEntity?.acceptedAnswer?.["@type"] === "Answer" &&
-          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${position} ${CLAUSE}`,
+          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${position}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
-        where: r.where === `${position} ${CLAUSE} Every cycle in ${year} →`,
+        where: r.where === `${position} Every cycle in ${year} →`,
         "height recomputed": mathOk,
         "in box": r.whereInBox,
         "verdict, then position, then curve": r.order,

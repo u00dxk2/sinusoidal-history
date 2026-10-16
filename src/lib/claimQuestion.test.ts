@@ -20,11 +20,13 @@ describe("claim pages (cycles.json `question`)", () => {
     const card = holdsUpCard(dalio)!;
     const a = claimAnswer(dalio, 2026)!;
     expect(a.description).toBe(`${dalio.question} ${card.headline}. ${card.detail}`);
-    expect(a.text.startsWith(`${card.headline}. ${card.detail} `)).toBe(true);
-    // The position comes after the verdict and is never lifted without its clause.
-    expect(a.text).toContain("2026 sits at a peak");
-    expect(a.text.indexOf("sits at a peak")).toBeGreaterThan(a.text.indexOf(card.headline));
-    expect(a.text.endsWith(NOT_FORECAST)).toBe(true);
+    // Whole text: verdict, then the not-a-forecast lead, THEN the position (I-052). The old
+    // trailing caveat is gone from the claim form.
+    expect(a.text).toBe(
+      `${card.headline}. ${card.detail} This page draws a wave, not Ray Dalio's forecast: on that wave, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063.`,
+    );
+    expect(a.text.indexOf("not Ray Dalio's forecast")).toBeLessThan(a.text.indexOf("sits at a peak"));
+    expect(a.text).not.toContain(NOT_FORECAST);
     // The snippet stays inside the cap the other descriptions keep (cycleRoutes.test.ts).
     expect(a.description.length).toBeLessThanOrEqual(165);
     // No position in the snippet: a cut there could keep "sits at a peak" without its clause.
