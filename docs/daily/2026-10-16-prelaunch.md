@@ -84,3 +84,27 @@ No-arrival: no instrument sees a person on these pages (no client analytics by s
 - Hygiene draft: `tmp/hygiene-draft-sinusoidal-cycles-2026-10-16.md` (I-046 → 10-20, I-050 → 10-17), applied at the close.
 
 codexCalls: 5 · adversarialReviews: 5 — EXECUTED (r1-r5, read-only, banner workdir checked each time)
+
+## Close (day round, 2026-10-16)
+
+ACTION: COMPLETED · item I-052 · P3 dd9536cb. Acceptance in force: the P1 review 2af4adc6 plus orchestrator answer 19c2b867, which strengthened the bar to two walkers, both holding bar 4. Both walks held (A2, and A3 on a different seed). Manager review df3ee3f0 marked P3 COMPLETED.
+
+- **State since the P3 post:** unchanged. Live is still d13077c's code. 4b276d9 (the read stamps) and this close are docs and ledger only.
+- **Hygiene draft:** 2 lines, 2 accepted, 0 amended, 0 rejected. I-046 moves to 10-20 and I-050 to 10-17, the drafted commands run as written.
+  - Its READ-MUTATED lines (5) were all my own concurrent P3 edits (status e4d05ced): I-046 on page.tsx, claimQuestion.ts and stateOfCycles.ts; I-050 on check-holds-up-line.mjs and check-year-position.mjs.
+  - check-wait-justification: PASS, 0 warnings. check-engineering-zero: PASS, 0 findings.
+- **Ledger delta (continuity-edit):**
+  - I-052 CLOSED, on A2 and A3. The close note cites the walk file, 19c2b867, the red-proof, and 44/44 and 95/95.
+  - I-048 re-dated to 10-20, with walk B's result. The ring on the crest still reads as "peaking now", and the home page stays as shipped per 19c2b867.
+  - I-051 note: the 10-30 read gains a Strauss-Howe leg. Baseline: 0 named-query impressions; the page has 5 impressions at position 20.0.
+  - I-053 MINTED, per review df3ee3f0: the verdict box's last line is half-cut at the 390x664 fold on both claim pages. Due 10-20.
+- **Verify:** `check-due-gates-dispositioned` verdict: CLEAR, every gate due at Phase 0 was dispositioned (snapshot CURRENT, taken 2026-10-16; 4 of 4).
+- **Pending reads:**
+  - 10-17: I-050.
+  - 10-20: I-043, I-046, I-048, I-053, I-027, I-034, I-049.
+  - 10-30: I-051.
+  - 11-01: I-037.
+  - 11-04: W-005, I-032.
+  - 12-01: I-025, I-042.
+- **Primer:** `docs/cold-starts/2026-10-16.md` (banner 999 characters).
+- UNRESOLVED: none.

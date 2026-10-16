@@ -1564,12 +1564,12 @@
       "identified": "2026-10-14",
       "description": "Pre-registered I-045 cold walk (docs/walks/2026-10-14-i045.md, synthetic N=1, 390x664, production eac0a53): the walker tapped \"Ray Dalio\" in the EVERY CYCLE, AT A GLANCE figure at (98,508); the URL stayed / and scroll stayed 0. A reader's first instinct gets no response; the only guide is the line \"Each in detail below — tap one to focus and calibrate.\" Not yet re-read in source: read the glance figure's code first and name whether a tap target is intended.",
       "closeWhen": "A tap on a glance-figure cycle label takes the reader to that cycle's expanded card (or the figure is made visibly non-interactive with the cue pointing at the list), proved by a Playwright tap read at 390x664 and 320x568; or a recorded decision against it.",
-      "nextEvaluation": "2026-10-16",
+      "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is a new tap probe on the glance figure",
       "notes": "2026-10-14 (P5 close, evening round): minted as I-045 walk residual (1), per manager review c3c82e56 (\"the dead tap on the home glance-figure labels is a real new row\").\n\n | 2026-10-15 (P5 close, day round): hygiene draft ACCEPTED — re-dated to 2026-10-16 and readCommandTimeoutMs set to 300000 (16 of ~40 legs took 60s). The helper's --run of 10-15 is VOID: it executed scripts/check-holds-up-line.mjs while the lane was editing it for I-047 (READ-MUTATED, status d9e7a7e5), and it timed out with nothing stamped; a FRESH read is owed against the committed checker (live 840a39f). Source answers this row's open question: src/components/CycleOverview.tsx:17-24 says the glance rows are deliberately 'a FIGURE, not controls' (24px rows cannot meet the 44px floor, canon R28, 2026-09-22), so the choice is a real tap target or a recorded decision against it. The figure's missing verdict signal is NOT this row: it lives on I-048.",
       "created": "2026-10-14",
       "updated": "2026-10-15",
-      "lastEvaluated": "2026-10-15",
+      "lastEvaluated": "2026-10-16",
       "readCommandTimeoutMs": 300000,
       "readCommandLastRun": "2026-10-16T15:13:28.961Z",
       "readCommandLastExit": 0,
@@ -1607,11 +1607,12 @@
       "identified": "2026-10-15",
       "description": "From the I-047 walks (docs/walks/2026-10-15-i047.md, synthetic N=1, 390x664): RED arm (5) and GREEN arm (6). Before a card opens, the home first screen's glance figure (text alternative 'Ray Dalio (75-year cycle): peaking in 2026.', a dot on the crest at the bold 2026 line) and the CLOSED facet card ('PEAKING' plus a chart of the curve over its data) read as the site agreeing; 'The closed card has no \"does it hold up\" signal, so the verdict appears only once you tap.' The page-level caveats ('0 of the 9 reach its 3.0-period evidence gate'; 'not prophecy'; the editor's note) sit at the bottom or past the list. Manager review e5888aa2 named this the skimmer's misread. Separate from I-046 (a dead tap on the same figure's labels) and from I-047 (the OPEN card). Constraints: the I-028 no-test-ran guard and the pinned holdsUp.ts headlines; the closed card is 60-84px tall, so any signal must be measured against the facet list's density; check-entry-folds 320x568 has 12px spare on /.",
       "closeWhen": "A cold walker on / at 390x664, asked before tapping anything whether the cycles it sees are confirmed, does not read the glance figure or a closed card as confirmation (pre-registered prompt saved whole), with check-entry-folds 320x568 13/13 and check-holds-up-line 40/40; or a recorded decision against it.",
-      "nextEvaluation": "2026-10-16",
+      "nextEvaluation": "2026-10-20",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — regression read only; this row's own proof is a pre-registered cold walk from /",
-      "notes": "2026-10-15 (P5 close, day round): minted from I-047 walk (6) and RED (5), per manager review ae492972 ('where the closed-card/home verdict gap lives'). Dated with I-047's next walk (10-16) so the next P1 weighs them together.\n\n | 2026-10-15 (P5 close, evening round): DEFERRED, not closed — per manager review 34f52cfc. SHIPPED f4fd76b (live d9079843): the glance caption reads \"Theory shapes, not findings\"; each glance row's screen-reader text reads \"… curve <phase> in 2026. <verdict headline>.\"; the closed card's header reads \"curve · <phase>\" with a plain \"Does it hold up? <headline>\" line under it. Pre-registered walk docs/walks/2026-10-15-i048.md (d907984), synthetic N=1, 390x664: NOT HELD as written. The CLOSED CARD HOLDS (\"it is pinned to the curve, and the verdict sits right under it. Nothing says confirmed\"). The GLANCE FIGURE FAILS: \"The picture alone agrees with my friend: Dalio's gold curve has a dot sitting exactly on its crest at the 2026 dotted line\"; no verdict is visible on the first screen (the per-row verdict is screen-reader text only), and the caption did not outweigh the dot. NEXT LEVER, in the 2026-10-16 day round: a VISIBLE verdict signal on the glance figure's first screen, fitting the last row's 12px spare at 320x568, judged by the same pre-registered walk prompt from / (docs/walks/2026-10-15-i048.md) and checked against check-entry-folds 320x568 13/13 and check-holds-up-line 40/40. The 320px title truncation this change added lives on I-050.",
+      "notes": "2026-10-15 (P5 close, day round): minted from I-047 walk (6) and RED (5), per manager review ae492972 ('where the closed-card/home verdict gap lives'). Dated with I-047's next walk (10-16) so the next P1 weighs them together.\n\n | 2026-10-15 (P5 close, evening round): DEFERRED, not closed — per manager review 34f52cfc. SHIPPED f4fd76b (live d9079843): the glance caption reads \"Theory shapes, not findings\"; each glance row's screen-reader text reads \"… curve <phase> in 2026. <verdict headline>.\"; the closed card's header reads \"curve · <phase>\" with a plain \"Does it hold up? <headline>\" line under it. Pre-registered walk docs/walks/2026-10-15-i048.md (d907984), synthetic N=1, 390x664: NOT HELD as written. The CLOSED CARD HOLDS (\"it is pinned to the curve, and the verdict sits right under it. Nothing says confirmed\"). The GLANCE FIGURE FAILS: \"The picture alone agrees with my friend: Dalio's gold curve has a dot sitting exactly on its crest at the 2026 dotted line\"; no verdict is visible on the first screen (the per-row verdict is screen-reader text only), and the caption did not outweigh the dot. NEXT LEVER, in the 2026-10-16 day round: a VISIBLE verdict signal on the glance figure's first screen, fitting the last row's 12px spare at 320x568, judged by the same pre-registered walk prompt from / (docs/walks/2026-10-15-i048.md) and checked against check-entry-folds 320x568 13/13 and check-holds-up-line 40/40. The 320px title truncation this change added lives on I-050.\n\n | 2026-10-16 (day round, P5): SHIPPED 4c042a9 (live). Hollow now-rings; the caption reads \"Theory shapes · none confirmed\"; a visible line under the axis, counted from holdsUpCard, reads \"None of these ten is confirmed: nine cannot be tested on the record that exists, and one has no record on this site.\" check-entry-folds 320x568 13/13 (home spare 12px, unchanged); check-embed-snippets 42/42; Codex r2 found no defects. Walk B (docs/walks/2026-10-16-i052-i048.md, pre-registered, synthetic N=1, 390x664): NOT HELD as written, but it moved. Two visible verdicts were quoted (\"the words twice say 'not confirmed'\"), and the dot is no longer read as confirmation. The ring on Dalio's crest still reads as \"peaking now\": \"The picture says 'peaking now', which is my friend's claim.\" Orchestrator 19c2b867: keep the home page as shipped. Re-dated to 10-20, alongside I-043's vocabulary step. The open question is whether the drawn position at 2026 on the glance figure should claim less (as the claim page now does) or whether the figure stays a picture of the theories.",
       "created": "2026-10-15",
-      "updated": "2026-10-15"
+      "updated": "2026-10-16",
+      "lastEvaluated": "2026-10-16"
     },
     {
       "id": "I-049",
@@ -1639,7 +1640,7 @@
       "identified": "2026-10-15",
       "description": "Regression introduced by f4fd76b (I-048), recorded as a row per manager review 34f52cfc. The closed facet card's header phase word grew from 'PEAKING' to 'CURVE · PEAKING' (11px mono, uppercase, 0.18em tracking, whitespace-nowrap, flex-shrink-0), so the cycle name, which truncates, loses its end at narrow widths. Observed on the local build and production at 320x568: 'Ray Dalio — Big C…' (the full name is used because it is 21 chars, under the 22-char shortName rule in CycleFacet.tsx FacetHeader). Other long names may truncate too; not yet swept. Not caught by any checker: check-entry-folds judges the first screen, not facet headers.",
       "closeWhen": "At 320x568 and 390x664, no closed card's cycle name is truncated while its header still attributes the phase to the curve (a sweep over all 10 cards, by DOM measurement: name scrollWidth <= clientWidth), with check-embed-snippets 42/42 and check-entry-folds 320x568 13/13; or a recorded decision that the truncation is acceptable.",
-      "nextEvaluation": "2026-10-16",
+      "nextEvaluation": "2026-10-17",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — regression read only; this row's own proof is a header-truncation sweep over the 10 closed cards",
       "notes": "2026-10-15 (P5 close, evening round): minted as the regression row manager review 34f52cfc asked for (defect 2), beside I-048. Dated with I-048's next round (2026-10-16 day round), because both change the same closed-card header.",
       "created": "2026-10-15",
@@ -1650,7 +1651,8 @@
       "readCommandLastOutputRef": {
         "lines": 15,
         "sha256": "8f199c483c522006"
-      }
+      },
+      "lastEvaluated": "2026-10-16"
     },
     {
       "id": "I-051",
@@ -1669,14 +1671,14 @@
         "59e5025",
         "d1fa17f"
       ],
-      "notes": "2026-10-15 (night round, minted at the close; no P5 ran): SHIPPED 5dd93d2 (live d1fa17f, CI GREEN, drift in-sync). Title, H1, meta/og/twitter description and a FAQPage are shaped to the question from existing strings (src/lib/claimQuestion.ts); verdict box above the curve carrying #where-now. check-holds-up-line claim legs (whole-text equality, red-armed): production 40/42 before, 42/42 after. Codex r1+r2 read-only, 7 findings all fixed. Pre-registered walk docs/walks/2026-10-16-dalio-claim.md HELD as written (synthetic N=1), residual on I-052. Cost: the curve is off Dalio's first screen on purpose. The page-only gsc-read total is whole; the Dalio-query count needs a query-grouped read of the same route (query rows drop anonymized queries, so it is a floor).",
+      "notes": "2026-10-15 (night round, minted at the close; no P5 ran): SHIPPED 5dd93d2 (live d1fa17f, CI GREEN, drift in-sync). Title, H1, meta/og/twitter description and a FAQPage are shaped to the question from existing strings (src/lib/claimQuestion.ts); verdict box above the curve carrying #where-now. check-holds-up-line claim legs (whole-text equality, red-armed): production 40/42 before, 42/42 after. Codex r1+r2 read-only, 7 findings all fixed. Pre-registered walk docs/walks/2026-10-16-dalio-claim.md HELD as written (synthetic N=1), residual on I-052. Cost: the curve is off Dalio's first screen on purpose. The page-only gsc-read total is whole; the Dalio-query count needs a query-grouped read of the same route (query rows drop anonymized queries, so it is a floor).\n\n | 2026-10-16 (day round, P5): a second claim page went live (edceb88, d13077c): /cycles/strauss-howe, \"Are we in the Fourth Turning?\". The 10-30 read gains a Strauss-Howe leg on the same rule: \"moved\" = at least 4 named Fourth-Turning or Strauss-Howe query impressions, or any at position ≤30. Strauss-Howe baseline (page+query, 2026-07-01..10-16): 0 named-query impressions; the page itself had 5 impressions at position 20.0, 0 clicks. Both claim pages' first screens changed today (021ed20: the position is no longer on the first screen), so a move after 10-16 is the new shape's, not the 10-15 one's.",
       "created": "2026-10-15",
-      "updated": "2026-10-15"
+      "updated": "2026-10-16"
     },
     {
       "id": "I-052",
       "title": "On the Dalio claim page the position sentence opens with \"2026 sits at a peak\" and reads as \"yes, it's peaking\"; the not-a-forecast clause comes last",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P2",
       "owner": "sinusoidal-cycles",
@@ -1684,9 +1686,26 @@
       "closeWhen": "The same pre-registered cold walk (docs/walks/2026-10-16-dalio-claim.md prompt, 390x664, production) reports nothing on the first screen as agreeing with 'it is peaking', while it still names the verdict and the curve's position, with check-holds-up-line 42/42 (claim legs re-stated on purpose if the wording moves) and check-year-position 95/95; or a recorded decision that the order stays.",
       "nextEvaluation": "2026-10-16",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is the cold walk",
-      "notes": "2026-10-15 (night round, minted at the close): from the I-051 walk on d1fa17f, verbatim: \"'2026 sits at a peak', 'the curve tops out in 2025' and 'curve height +1.00' all read as 'yes, it's peaking right now.' The disclaimer comes after, in smaller and more abstract words.\" Lever to weigh: the clause before the peak on claim pages only (the other nine pages and /api/v1/state keep the sentence; check-year-position pins it word for word). Unknown words from the same walk (NARRATIVE, this construction, paired record, the floor) go to I-043.",
+      "notes": "2026-10-15 (night round, minted at the close): from the I-051 walk on d1fa17f, verbatim: \"'2026 sits at a peak', 'the curve tops out in 2025' and 'curve height +1.00' all read as 'yes, it's peaking right now.' The disclaimer comes after, in smaller and more abstract words.\" Lever to weigh: the clause before the peak on claim pages only (the other nine pages and /api/v1/state keep the sentence; check-year-position pins it word for word). Unknown words from the same walk (NARRATIVE, this construction, paired record, the floor) go to I-043. | 2026-10-16 (day round, P5): CLOSED on walks A2 + A3 (docs/walks/2026-10-16-i052-i048.md, pre-registered). Both walkers were independent, A3 on a different seed; production was 021ed20, and both HELD bars 1-4. A3, verbatim: \"Candidly, I found nothing that sides with my friend.\" The closeWhen's \"still names the curve's position\" was replaced by orchestrator answer 19c2b867 (consult ad680494): the first screen now claims less (verdict + \"Where this site's drawn wave puts 2026 is not evidence for or against Ray Dalio's cycle.\"), and the position sits under the curve. Path: a3780c2 (clause first) failed walk A, the second appearance, which prompted the consult; then the shape change in 021ed20. Red-proof: check-holds-up-line with \"is not evidence\"→\"is evidence\" read 40/42, restored. Production on d13077c: check-holds-up-line 44/44 (two claim pages), check-year-position 95/95. Manager review df3ee3f0: COMPLETED. The half-cut last line of the verdict box at the 390x664 fold goes to I-053.",
       "created": "2026-10-15",
-      "updated": "2026-10-15"
+      "updated": "2026-10-16",
+      "closedAt": "2026-10-16",
+      "lastEvaluated": "2026-10-16"
+    },
+    {
+      "id": "I-053",
+      "title": "On both claim pages the verdict box's last line is half-cut at the 390x664 fold (~673 of 664), the last thing a skimmer sees on the first screen",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-16",
+      "closeWhen": "At 390x664 and 320x568 on production, the verdict box's last visible line on both claim pages either ends at or above the fold, or starts below it (no line straddles it), measured on the rendered page; check-holds-up-line 44/44 and check-entry-folds 320x568 13/13 unchanged; or a recorded decision that a straddling line is acceptable.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is a fold measurement of the box's last line on both claim pages",
+      "notes": "2026-10-16 (day round, P5, minted on manager review df3ee3f0): walks A2 and A3 (docs/walks/2026-10-16-i052-i048.md) both saw the box's last paragraph ('…not because the theorists are careless.') cut at the 390x664 fold, at ~640-673px. Neither read it as agreement; A3: 'a minor clip … doesn't change the answer.' It is the last thing on the first screen a skimmer sees.",
+      "created": "2026-10-16",
+      "updated": "2026-10-16"
     }
   ],
   "knownPatterns": [
