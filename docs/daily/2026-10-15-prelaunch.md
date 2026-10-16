@@ -347,3 +347,51 @@ ACTION: DEFERRED — both ships live, but the pre-registered walk read NOT HELD 
 
 codexCalls: 3
 [standing-rules-hash: 88cc2dc9]
+
+## Night round (2026-10-15): P1 selection packet
+
+The packet as posted to the bus is in `tmp/p1-2026-10-15-night.md`, and the summary is below. **Outcome:** the first claim page. `/cycles/dalio` is made to answer "Is Ray Dalio's Big Cycle peaking?" on its first screen and in its title. The question is a data field on Dalio's entry, so the other nine pages do not change.
+
+- **Why the existing page, not a new route:** every Dalio query Search Console recorded since 2026-08-20 landed there. It had 16 impressions at position 35 and 0 clicks; the named Dalio queries total 6 impressions at positions 49.5-60. The page already carries both halves of the answer from derived strings, and every gate already covers its URL.
+- **RED on production (Playwright, `tmp/measure-dalio-question.mjs`):** neither the title nor the H1 states the question. The verdict is on the first screen (y 463-511 at 390x664). The curve's 2026 position is 1.5 to 2.2 screens down (y 1012 at 390x664, y 1113 at 320x568).
+- **GREEN after:** the question, the verdict headline, and the curve's position with its "not the theorist's forecast" clause all sit on the first screen at both sizes. `check-holds-up-line` is extended to the page as a stated whole-line rule and red-armed. The positive controls are unchanged.
+- **Search Console read pre-registered for 2026-10-30:** "moved" means at least 4 named Dalio-query impressions in 14 days, or any Dalio query at position ≤ 30.
+- **Fences:** never a forecast; never say a test ran; the reason is `holdsUpCard().detail` verbatim; the headline is not reworded.
+- USER-FACING: yes. HYGIENE INPUTS: none (0 due, 0 owed, 0 crossed).
+
+## Night round (2026-10-15): P3 product-work loop
+
+**Action: improve the product.** The first claim page: /cycles/dalio answers "Is Ray Dalio's Big Cycle peaking?" (manager review 638840f1 APPROVE).
+
+### 1. Implementation
+- `5dd93d2` feature: an optional `question` on a cycle (Dalio only). The title is "<question> The theory against the record". The H1 is the question. The verdict box moves above the curve and carries the where-now line. The meta, og and twitter descriptions are "<question> <headline>. <detail>". A FAQPage answer gives the verdict first, then the position and the "not the theorist's forecast" clause, all from existing strings (`src/lib/claimQuestion.ts`). The llms.txt Dalio line names the question. No new claim sentence; the pinned headline is unchanged.
+- `3c2f89e`, `59e5025`: Codex r1 and r2 fixes to the checker (below).
+- `d1fa17f` CORRECTIVE: CI went RED on 59e5025. `seriesOverlay.test.ts` pinned "curve, then verdict" on every cycle page; it now states both orders. My local targeted set had missed that file. This is corrective work, not progress on the outcome.
+- Checker: `check-holds-up-line` gains claim-page legs (390x664, 320x568). Every surface is judged by whole-text equality against stated oracles: h1, title, the three description tags (exactly one each), the answer line, #where-now, and exactly one FAQPage found at any depth. Paint is checked per text node, the height is recomputed from cycles.json, and the order is verdict, then position, then curve. Both answers must end on the first screen. Sibling fix: `check-year-position`'s prefix match is now equality (selftest 28/28, two new arms).
+- Red arms: production before the deploy read 40/42 (both claim legs FAIL). A one-word mutation of the clause ("forecast" to "prediction") failed faq and where. Shifting Dalio's peak year 1950 to 1960 in the checker's input failed "height recomputed". Each read 42/42 when restored.
+
+### 2. Delivery
+- CI GREEN on d1fa17f (`check-ci-status --wait`, exit 0). `check-deployed-sha-drift --service sinusoidal-history` reads in-sync, live d1fa17fd = head.
+- Production: `check-holds-up-line` 42/42 (40/42 before). The Dalio answer ends at 358px and the position at 512 of 664 (390x664), and 536 of 568 (320x568); it was 1132 and 1257.
+- Positive controls on production: `check-entry-folds` 320x568 13/13; `check-year-position` 95/95; `check-embed-snippets` 42/42. Before push, on the build, the other nine cycle pages' visible text was identical to production, and Dalio's line multiset changed only in its H1 and title.
+- Cost: on /cycles/dalio the curve no longer reaches the first screen (it starts at 857px at 390). This was on purpose: verdict before curve.
+
+### 3. Encounter
+blind: the site has no reader-arrival instrument by standing choice. Search Console reports impressions about 3 days late; the pre-registered read is on 2026-10-30.
+
+### 4. Outcome (synthetic, N=1, pre-registered `docs/walks/2026-10-16-dalio-claim.md`): HELD as written, with a residual
+The walker would tap the result: "The title asks my friend's exact question, and 'Not testable on the record that exists' is an honest, unusual answer". It named the verdict and the curve's position, and quoted the "not the theorist's forecast" clause. The verdict came first. **Residual:** "'2026 sits at a peak', 'the curve tops out in 2025' and 'curve height +1.00' all read as 'yes, it's peaking right now.' The disclaimer comes after, in smaller and more abstract words." The position sentence leads with the peak. Next lever (for the close to mint): the clause before the peak, which is a wording change to yearPositionSentence's use on claim pages and is checked by the same walk. The unknown words "NARRATIVE", "this construction", "paired record" and "the floor" go to I-043.
+
+### Receipt
+USER-VISIBLE: /cycles/dalio answers "Is Ray Dalio's Big Cycle peaking?": the question is its title and heading, and a phone's first screen shows the verdict (not testable on the record that exists), then where the drawn curve puts 2026 and that this is not Dalio's forecast; the search snippet and FAQ answer lead with the verdict — 5dd93d2 [proof: production 97aa59b5 had no question in title/H1/meta and the position 1132-1257px down → live d1fa17fd: check-holds-up-line 42/42 (was 40/42), position ends 512/664 and 536/568, drift in-sync] [coverage: Search Console (gsc-read.mjs) · last good read 2026-10-16 · founder+test excluded no] [exposure: blind — the site has no reader-arrival instrument by standing choice; no instrument row exists, none minted · bug row none]
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED (r1 on 5dd93d2: 4 findings, all CONFIRMED, fixed in 3c2f89e; claims pass: no sentence REFUTED, llms.txt "on its first screen" UNVERIFIABLE-HERE so it was removed. r2 on 3c2f89e: r1 fixes 3 FIXED + 1 PARTLY; 3 new MED, all CONFIRMED, fixed in 59e5025. Read-only, banner workdir C:\dev\skylark\sinusoidal-cycles both times. No r3: the 59e5025 and d1fa17f changes are checker and test only, and each new leg is red-armed.)
+hygiene helper: DISPATCHED 2026-10-16 ~05:18Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-15.md PRESENT (0 lines; wait-justification PASS, engineering-zero PASS; no PRODUCTION, READ-MUTATED or expired-wait lines)
+
+### What remains
+- For the close: mint I-051 (Dalio claim page, monitoring; Search Console read 2026-10-30: "moved" = ≥4 named Dalio-query impressions in 14 days or any at position ≤30, baseline 6 in 57 days at 49.5-60, 0 clicks), and the walk's residual (clause before the peak on claim pages).
+- Local suite: two spawned-selftest timeouts under host load (I-034 class): check-rendered-text at 5 s and checkStagedSecrets at 60 s (63.8 s alone, at 100% CPU with ~248 node processes). CI ran them green on d1fa17f.
+- Carried: I-048, I-050, I-046 (10-16); I-027, I-034, I-043, I-049 (10-20); I-037 (11-01).
+- Local servers: none running (port 3123 verified free after each stop).
+[standing-rules-hash: 88cc2dc9]
