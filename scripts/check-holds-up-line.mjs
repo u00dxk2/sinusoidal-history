@@ -298,8 +298,13 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 //   - every text node of the <h1>, the answer <p> and #where-now is painted (per TEXT NODE, as the
 //     card legs above: a paragraph-level test passed an opacity-0 "Not ", Codex r1), and the answer
 //     and #where-now both end within the first screen.
+//   - each description tag occurs exactly once, and FAQPage nodes are counted at any depth of
+//     any JSON-LD block (exactly one); the curve height is recomputed from cycles.json (Codex r2).
 // NOT SEEN, declared: clipping and occlusion, horizontal overflow, visual (not DOM) order, contrast,
-// and whether a reader takes the answer as meant (the cold walk's job).
+// whether a reader takes the answer as meant (the cold walk's job), prose outside the answer
+// paragraph and #where-now, social TITLES, non-FAQ JSON-LD text, accessibility-name overrides.
+// A page cached across New Year against a fresh API year FAILS (it cannot tell that from wrong
+// prose); that is a refusal-shaped failure, not a false pass (Codex r2).
 const CLAUSE = "That is a position of this construction, not the theorist's forecast.";
 const fmtCos = (v) => (v > 0 ? `+${v.toFixed(2)}` : v < 0 ? `−${Math.abs(v).toFixed(2)}` : "0.00");
 function positionSentence(e, year) {
@@ -355,6 +360,14 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
       continue;
     }
+    // The API computes phase and cos with the same function the page does (Codex r2), so the
+    // wording oracle alone would agree with a shared math error. The height is recomputed here
+    // from cycles.json's period and peak, sharing no code with the site, and a "peaking" label
+    // must sit inside the site's stated 3%-of-period peak band (cos >= cos(2*pi*0.03)).
+    const cosHere = Math.cos((2 * Math.PI * (year - c.reference_peak_year)) / c.period_years);
+    const mathOk =
+      Math.abs(cosHere - entry.cos) <= 0.005 &&
+      (entry.phase !== "peaking" || cosHere >= Math.cos(2 * Math.PI * 0.03));
     const page = await browser.newPage({ viewport: { width: w, height: h } });
     try {
       await page.goto(`${origin}/cycles/${slug}`, { waitUntil: "networkidle" });
@@ -380,19 +393,25 @@ for (const c of cycles.filter((x) => x.question)) {
           }
           return seen > 0;
         };
-        const meta = (sel) => document.querySelector(sel)?.getAttribute("content") ?? null;
-        // Every FAQPage node in every JSON-LD block, wherever it sits in a @graph.
+        // EVERY occurrence of each description, so a second, contradicting tag fails (Codex r2):
+        // the leg requires exactly one, and that one exact.
+        const meta = (sel) => [...document.querySelectorAll(sel)].map((m) => m.getAttribute("content"));
+        // Every FAQPage node in every JSON-LD block, at ANY depth (arrays, @graph, nested objects),
+        // with @type a string or an array containing "FAQPage" (Codex r2: a root-and-@graph walk
+        // missed a nested second FAQ, so a contradicting one could ride beside the right one).
         const faqs = [];
+        const walk = (v) => {
+          if (Array.isArray(v)) return v.forEach(walk);
+          if (!v || typeof v !== "object") return;
+          const t = v["@type"];
+          if (t === "FAQPage" || (Array.isArray(t) && t.includes("FAQPage"))) faqs.push(v);
+          Object.values(v).forEach(walk);
+        };
         for (const s of document.querySelectorAll('script[type="application/ld+json"]')) {
-          let data;
           try {
-            data = JSON.parse(s.textContent);
+            walk(JSON.parse(s.textContent));
           } catch {
             faqs.push({ unparsable: true });
-            continue;
-          }
-          for (const n of [data, ...(Array.isArray(data?.["@graph"]) ? data["@graph"] : [])]) {
-            if (n?.["@type"] === "FAQPage") faqs.push(n);
           }
         }
         const box = document.getElementById("does-it-hold-up");
@@ -423,7 +442,7 @@ for (const c of cycles.filter((x) => x.question)) {
       const checks = {
         h1: r.h1 === c.question,
         title: r.title === `${c.question} The theory against the record · Sinusoidal History`,
-        "description x3": r.metas.every((m) => m === description),
+        "description x3": r.metas.every((m) => m.length === 1 && m[0] === description),
         faq:
           !!faq &&
           faq.mainEntity?.["@type"] === "Question" &&
@@ -432,6 +451,7 @@ for (const c of cycles.filter((x) => x.question)) {
           faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${position} ${CLAUSE}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
         where: r.where === `${position} ${CLAUSE} Every cycle in ${year} →`,
+        "height recomputed": mathOk,
         "in box": r.whereInBox,
         "verdict, then position, then curve": r.order,
         painted: r.painted,
