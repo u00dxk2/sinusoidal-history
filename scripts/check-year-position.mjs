@@ -73,7 +73,7 @@ function expectedSentence(e, year) {
  */
 const matches = (text, e, year, theorist = null) =>
   text ===
-  (theorist
+  (theorist !== null
     ? `${claimSentence(e, year, theorist)} Every cycle in ${year} →`
     : `${expectedSentence(e, year)} That is a position of this construction, not the theorist's forecast. Every cycle in ${year} →`);
 
@@ -155,6 +155,7 @@ if (process.argv.includes("--selftest")) {
     ["claim: the negation dropped", dc.replace("not Ray Dalio's forecast", "Ray Dalio's forecast"), dalio, "Ray Dalio", false],
     ["claim: another theorist named", dc.replace("Ray Dalio", "Strauss-Howe"), dalio, "Ray Dalio", false],
     ["claim: the claim form on a plain page", dc, dalio, null, false],
+    ["claim: an empty theorist never falls back to the plain form", d, dalio, "", false],
   ];
   let bad = 0;
   for (const [name, text, e, theorist, want] of claimCases) {
@@ -251,8 +252,13 @@ for (const entry of state.cycles) {
   const path = new URL(entry.page).pathname;
   const tag = path.replace("/cycles/", "");
   const id = tag.replace(/-/g, "_");
-  // A claim cycle with no hand-written theorist gets "" — which no page prints — so it FAILS.
-  const theorist = claimIds.has(id) ? (CLAIM_THEORIST[id] ?? "") : null;
+  const theorist = claimIds.has(id) ? (CLAIM_THEORIST[id] ?? null) : null;
+  // A claim cycle with no hand-written theorist FAILS before any match: falling back to the
+  // plain form would pass a claim page serving the old caveat-last sentence (Codex r1, a3780c2).
+  if (claimIds.has(id) && !theorist) {
+    check(`${tag} sentence (claim form)`, false, "claim cycle with no hand-written theorist in CLAIM_THEORIST");
+    continue;
+  }
   await page.goto(`${origin}${path}`, { waitUntil: "domcontentloaded" });
   const el = page.locator("#where-now");
   if ((await el.count()) === 0) {
