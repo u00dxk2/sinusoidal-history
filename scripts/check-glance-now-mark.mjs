@@ -10,13 +10,18 @@
 //
 //   ring   — any svg <circle> anywhere in the figure (the now-ring)
 //   line   — any svg <line> anywhere in the figure (the dashed now-line)
-//   label  — any rendered leaf element whose text names the current year as a
-//            word ("2026", "now · 2026"); sr-only text counts, because it is
-//            read to a screen-reader user on the same first screen
+//   label  — any text node in the figure that names the current year as a word
+//            ("2026", "now · 2026", "2026 <em>now</em>"), counted once per
+//            rendered parent; sr-only text counts, because it is read to a
+//            screen-reader user on the same first screen
 //
-// and checks that the figure, every row's drawn curve and the visible verdict
-// line are there, so a figure that failed to render (or rendered empty rows)
-// cannot read as clean. Codex r11 found both of those holes in the first cut.
+// and checks that the figure, one curve's geometry per cycle and the visible
+// verdict line are there, so a figure that failed to render (or rendered empty
+// rows) cannot read as clean. Codex r11 found both of those holes in the first
+// cut; r12 found the same two classes again (a year split by an inline child; a
+// curve with geometry but no paint), so the shape changed instead of growing:
+// text is read as text nodes, and the row leg claims GEOMETRY, not paint. Whether
+// a curve is visibly painted (stroke, stroke-opacity, colour) is NOT judged here.
 //
 //   node scripts/check-glance-now-mark.mjs [origin] [--width N --height N]
 //   node scripts/check-glance-now-mark.mjs --selftest
@@ -51,6 +56,7 @@ export function judge(read, expectedRows = CYCLE_COUNT) {
   if (read.drawnRows !== expectedRows)
     return { state: "MISSING", why: `${read.drawnRows} of ${expectedRows} rows draw a curve` };
   const total = read.marks.ring + read.marks.line + read.marks.label;
+  // drawnRows is curve GEOMETRY per cycle, never paint (header).
   return total > 0 ? { state: "MARKED", total } : { state: "CLEAN", total: 0 };
 }
 
@@ -128,7 +134,8 @@ async function run(args) {
       if (!fig || !shown(fig)) return { figure: false, verdictLine: false, drawnRows: 0, marks: { ring: 0, line: 0, label: 0 } };
       const verdict = fig.querySelector("[data-glance-verdict]");
       const year = String(new Date().getFullYear());
-      // A row draws when its svg holds a path with a non-empty d and a rendered box.
+      // A row counts when its svg holds a path with a non-empty d and a rendered box. That is
+      // geometry, not paint (declared in the header).
       const drawnRows = [...fig.querySelectorAll("li")].filter((li) =>
         [...li.querySelectorAll("svg path")].some((p) => (p.getAttribute("d") ?? "").length > 0 && shown(p)),
       ).length;
@@ -139,9 +146,14 @@ async function run(args) {
         marks: {
           ring: [...fig.querySelectorAll("svg circle")].filter(above).length,
           line: [...fig.querySelectorAll("svg line")].filter(above).length,
-          label: [...fig.querySelectorAll("*")]
-            .filter((el) => el.children.length === 0 && yearIn(el.textContent ?? "", year))
-            .filter(above).length,
+          label: (() => {
+            const parents = new Set();
+            const walk = document.createTreeWalker(fig, NodeFilter.SHOW_TEXT);
+            for (let n = walk.nextNode(); n; n = walk.nextNode()) {
+              if (n.parentElement && yearIn(n.textContent ?? "", year)) parents.add(n.parentElement);
+            }
+            return [...parents].filter(above).length;
+          })(),
         },
       };
     }, { sel: FIGURE, yearInSrc: yearIn.toString() });
