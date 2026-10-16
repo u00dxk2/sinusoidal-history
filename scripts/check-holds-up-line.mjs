@@ -277,6 +277,86 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
   }
   await page.close();
 }
+// Claim pages (2026-10-15 night round, the first is /cycles/dalio): every cycle with a
+// `question` in cycles.json must answer it on a phone's FIRST screen, verdict first. Stated rule,
+// per leg at 390x664 and 320x568:
+//   - <h1> reads EXACTLY the question, and document.title starts with
+//     "<question> The theory against the record";
+//   - the meta description reads EXACTLY "<headline>. <why>" (the two oracles above);
+//   - the box's first <p> reads EXACTLY "<headline> — and that is the finding, not a dodge."
+//     (the ineligible form; an eligible or unpaired claim cycle REFUSES, no rule written for it);
+//   - #where-now sits inside #does-it-hold-up, after that <p> and before the curve
+//     (article svg[role=img]), and its text ENDS with the page's clause
+//     "That is a position of this construction, not the theorist's forecast. Every cycle in <year> →";
+//   - the answer <p> and #where-now are painted and both end within the first screen.
+// The position sentence itself is check-year-position's (against /api/v1/state); not re-judged here.
+const CLAUSE = "That is a position of this construction, not the theorist's forecast.";
+for (const c of cycles.filter((x) => x.question)) {
+  const slug = c.id.replace(/_/g, "-");
+  for (const [w, h] of [[390, 664], [320, 568]]) {
+    const tag = `${w}x${h} claim ${c.id}`;
+    const expected = expectedHeadline(c.id);
+    const why = expectedWhy(c.id);
+    if (expected !== "Not testable on the record that exists" || why === null) {
+      unread++;
+      console.log(`UNREAD ${tag} — no stated claim-page rule for this cycle's verdict row; refusing`);
+      continue;
+    }
+    const page = await browser.newPage({ viewport: { width: w, height: h } });
+    try {
+      await page.goto(`${origin}/cycles/${slug}`, { waitUntil: "networkidle" });
+      const r = await page.evaluate(() => {
+        const flat = (e) => (e ? e.innerText.replace(/\s+/g, " ").trim() : null);
+        const shown = (e) => {
+          if (!e) return false;
+          const b = e.getBoundingClientRect();
+          return b.width > 0 && b.height > 0 && e.checkVisibility({ opacityProperty: true, visibilityProperty: true });
+        };
+        const box = document.getElementById("does-it-hold-up");
+        const answer = box?.querySelector("p") ?? null;
+        const where = document.getElementById("where-now");
+        const curve = document.querySelector("article svg[role=img]");
+        const after = (a, b) => !!a && !!b && !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+        return {
+          h1: flat(document.querySelector("h1")),
+          title: document.title,
+          meta: document.querySelector('meta[name="description"]')?.getAttribute("content") ?? null,
+          answer: flat(answer),
+          where: flat(where),
+          whereInBox: !!box && !!where && box.contains(where),
+          order: after(answer, where) && after(where, curve),
+          painted: shown(answer) && shown(where),
+          answerBottom: answer ? answer.getBoundingClientRect().bottom + scrollY : null,
+          whereBottom: where ? where.getBoundingClientRect().bottom + scrollY : null,
+          year: new Date().getUTCFullYear(),
+        };
+      });
+      const checks = {
+        h1: r.h1 === c.question,
+        title: r.title.startsWith(`${c.question} The theory against the record`),
+        meta: r.meta === `${expected}. ${why}`,
+        answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
+        where: !!r.where && r.where.endsWith(`${CLAUSE} Every cycle in ${r.year} →`),
+        "in box": r.whereInBox,
+        "verdict, then position, then curve": r.order,
+        painted: r.painted,
+        "first screen": r.answerBottom !== null && r.whereBottom !== null && r.answerBottom <= h && r.whereBottom <= h,
+      };
+      const ok = Object.values(checks).every(Boolean);
+      if (ok) pass++;
+      else fail++;
+      console.log(
+        `${ok ? "PASS" : "FAIL"}  ${tag}  — ` +
+          Object.entries(checks).map(([k, v]) => `${k} ${v}`).join(" · ") +
+          ` · answer ends ${Math.round(r.answerBottom ?? -1)} · position ends ${Math.round(r.whereBottom ?? -1)} of ${h}`
+      );
+    } catch {
+      unread++;
+      console.log(`UNREAD ${tag} — /cycles/${slug} did not load`);
+    }
+    await page.close();
+  }
+}
 {
   const page = await browser.newPage();
   await page.goto(`${origin}/cycles/dalio`, { waitUntil: "networkidle" });
@@ -288,7 +368,8 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 await browser.close();
 const total = pass + fail;
 console.log(
-  `population: ${cycles.length} cycles x {expanded card, single-cycle embed} x {1280x900, 390x664} at ${origin}`
+  `population: ${cycles.length} cycles x {expanded card, single-cycle embed} x {1280x900, 390x664}` +
+    ` + ${cycles.filter((x) => x.question).length} claim page(s) x {390x664, 320x568} at ${origin}`
 );
 console.log(`RESULT: ${pass}/${total} PASS · ${fail} FAIL · ${unread} UNREAD`);
 process.exit(unread ? 2 : fail ? 3 : 0);

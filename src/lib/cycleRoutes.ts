@@ -115,7 +115,13 @@ export function confidenceGloss(level: ConfidenceLevel | string): string {
   }
 }
 
+/**
+ * A claim page (a cycle with a `question`) is titled by the question, followed by words
+ * its searchers actually typed: the Dalio queries Search Console recorded were "ray dalio
+ * big cycle (theory)", never "peaking" (2026-10-15 night P1; manager review 638840f1).
+ */
 export function cycleMetaTitle(cycle: Cycle): string {
+  if (cycle.question) return `${cycle.question} The theory against the record`;
   return `${cycle.name} · ${cycle.period_years}-year period`;
 }
 
@@ -213,7 +219,10 @@ function extremaInRange(
  * plus a Dataset node for the paired series so the underlying CSV is
  * discoverable as data (the "<theory> data" query class) and not just prose.
  */
-export function cycleJsonLd(cycle: Cycle): Record<string, unknown> {
+/** A claim page's question and its answer, in the words src/lib/claimQuestion.ts builds. */
+export type ClaimAnswer = { question: string; description: string; text: string };
+
+export function cycleJsonLd(cycle: Cycle, claim?: ClaimAnswer | null): Record<string, unknown> {
   const url = `${SITE_URL}${cycleRoutePath(cycle)}`;
   const series = seriesForCycle(cycle);
 
@@ -223,7 +232,7 @@ export function cycleJsonLd(cycle: Cycle): Record<string, unknown> {
       "@id": `${url}#webpage`,
       url,
       name: cycleMetaTitle(cycle),
-      description: cycleMetaDescription(cycle),
+      description: claim?.description ?? cycleMetaDescription(cycle),
       isPartOf: {
         "@type": "WebSite",
         "@id": `${SITE_URL}#website`,
@@ -283,6 +292,21 @@ export function cycleJsonLd(cycle: Cycle): Record<string, unknown> {
         "@type": "PropertyValue",
         name: series.value_column,
         unitText: series.value_units,
+      },
+    });
+  }
+
+  // The question and its answer as clean text for answer engines. Google shows FAQ rich
+  // results only for a few kinds of site since 2023, so this is not counted on for those.
+  if (claim) {
+    graph.push({
+      "@type": "FAQPage",
+      "@id": `${url}#faq`,
+      isPartOf: { "@id": `${url}#webpage` },
+      mainEntity: {
+        "@type": "Question",
+        name: claim.question,
+        acceptedAnswer: { "@type": "Answer", text: claim.text },
       },
     });
   }

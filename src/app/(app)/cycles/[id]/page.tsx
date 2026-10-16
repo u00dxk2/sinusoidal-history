@@ -59,6 +59,7 @@ import {
   testedHeadline,
 } from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
+import { claimAnswer, NOT_FORECAST } from "@/lib/claimQuestion";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -84,7 +85,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const path = cycleRoutePath(cycle);
   const title = cycleMetaTitle(cycle);
-  const description = cycleMetaDescription(cycle);
+  // A claim page leads its snippet with the verdict (src/lib/claimQuestion.ts).
+  const description =
+    claimAnswer(cycle, new Date().getUTCFullYear())?.description ?? cycleMetaDescription(cycle);
   const ogImage = `/og?cycle=${cycle.id}`;
 
   return {
@@ -148,6 +151,33 @@ export default async function CyclePage({ params }: Params) {
     ? chartLinePoints(judged, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end)
     : [];
   const positionSentence = yearPositionSentence(cycle, year);
+  // A claim page (cycles.json `question`) answers its question on the first screen, verdict
+  // first: the box moves above the curve and carries the where-now line, which otherwise sits
+  // 1.5-2.2 screens down (measured 2026-10-15 on /cycles/dalio). Before the curve on purpose: two
+  // cold walks read the curve's dot on its crest as confirmation when it came before the verdict
+  // (I-047, I-048). The other pages keep the I-033 order, curve first.
+  const claim = claimAnswer(cycle, year);
+  const claimPage = Boolean(claim && verdict);
+  const whereNow = (className: string) => (
+    <p id="where-now" className={className}>
+      {`${positionSentence} ${NOT_FORECAST}`}{" "}
+      <Link
+        href={statePath(year)}
+        className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+      >
+        {`Every cycle in ${year} →`}
+      </Link>
+    </p>
+  );
+  const curveFigure = (
+    <CurveFigure
+      cycle={cycle}
+      year={year}
+      judged={judged}
+      overlay={overlay}
+      verdict={verdict}
+    />
+  );
 
   return (
     // [&_p]: the article stays 3xl because the curve, the extrema table, and
@@ -173,7 +203,7 @@ export default async function CyclePage({ params }: Params) {
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
-        dangerouslySetInnerHTML={{ __html: jsonLdHtml(cycleJsonLd(cycle)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(cycleJsonLd(cycle, claim)) }}
       />
 
       <nav
@@ -232,7 +262,7 @@ export default async function CyclePage({ params }: Params) {
           </HashLink>
         </p>
         <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[30px] max-[360px]:text-[28px] sm:text-[clamp(34px,5.2vw,52px)]">
-          {cycle.name}
+          {cycle.question ?? cycle.name}
         </h1>
         <div
           aria-hidden
@@ -247,14 +277,9 @@ export default async function CyclePage({ params }: Params) {
           screens down at 390x664 on all ten pages, with no series drawn on any.
           The description now follows the verdict. The figure reads its own
           period and peak in its caption, so the stats line stays below with the
-          "Paired data" and "Judged on" entries. */}
-      <CurveFigure
-        cycle={cycle}
-        year={year}
-        judged={judged}
-        overlay={overlay}
-        verdict={verdict}
-      />
+          "Paired data" and "Judged on" entries. On a claim page it follows
+          the verdict box instead (see claimPage above). */}
+      {!claimPage && curveFigure}
 
       {/* The question a stranger arrives with is "is this real, and how would I
           know?" — and until 2026-09-16 the answer sat ~4 sections down, after the
@@ -273,6 +298,7 @@ export default async function CyclePage({ params }: Params) {
               ? `${testedHeadline(verdict)}.`
               : `${NOT_TESTABLE_HEADLINE} — and that is the finding, not a dodge.`}
           </p>
+          {claimPage && whereNow("mt-2.5 text-[15px] leading-[1.6] text-ink/85")}
           <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
             {/* Name the series ONLY when the tested record IS the displayed one:
                 inference runs on unsmoothed / span-limited cuts (Kondratiev's annual
@@ -307,6 +333,8 @@ export default async function CyclePage({ params }: Params) {
           </p>
         </section>
       )}
+
+      {claimPage && curveFigure}
 
       {/* A cycle with no paired series has no verdict, and until 2026-09-25 its
           page simply skipped the question — the fathers-and-sons page opened on
@@ -346,19 +374,12 @@ export default async function CyclePage({ params }: Params) {
           down. Derived (yearPosition → cycleStateAtYear), so it matches
           /state/<year> and /api/v1/state. It sits BELOW the verdict on purpose:
           the verdict is each page's first-screen answer, and /cycles/turchin
-          had 12px to spare at 320x568 before this line existed. */}
-      <p
-        id="where-now"
-        className="mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85"
-      >
-        {`${positionSentence} That is a position of this construction, not the theorist's forecast.`}{" "}
-        <Link
-          href={statePath(year)}
-          className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
-        >
-          {`Every cycle in ${year} →`}
-        </Link>
-      </p>
+          had 12px to spare at 320x568 before this line existed. A claim page
+          carries it inside the verdict box instead (claimPage above). */}
+      {!claimPage &&
+        whereNow(
+          "mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85",
+        )}
 
       {/* Period / reference peak / paired series sat directly under the H1
           until 2026-09-19, which pushed the verdict's answer sentence 17px

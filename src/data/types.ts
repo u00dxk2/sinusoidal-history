@@ -16,6 +16,12 @@ export interface Cycle {
   confidence_level: ConfidenceLevel;
   color: string;
   caveat?: string;
+  /**
+   * The question people search about this theory, when its page is a claim page: the
+   * title, H1 and lifted answer text are shaped to it, and the verdict box moves above
+   * the curve (src/lib/claimQuestion.ts). Absent on most cycles.
+   */
+  question?: string;
 }
 
 export interface Annotation {
