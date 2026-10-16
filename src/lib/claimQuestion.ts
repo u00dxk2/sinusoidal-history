@@ -3,9 +3,9 @@
 // (2026-10-15 night round): Search Console showed every Dalio query landing there, ranked 49-60,
 // and nothing on the page answered in the searcher's words.
 //
-// No new claim sentence is written here. The answer is assembled from strings the page already
-// shows: the verdict (holdsUpCard, the share card's words) FIRST, then the curve's position
-// led by "not <theorist>'s forecast" (claimPositionSentence, I-052). Verdict first
+// The answer is assembled from strings the page shows: the verdict (holdsUpCard, the share
+// card's words) FIRST, then "the drawing is not evidence" (claimNotEvidence), then the curve's
+// position led by "not <theorist>'s forecast" (claimPositionSentence, I-052). Verdict first
 // on every lifted surface, because an answer engine quoting the first sentence must never quote
 // "2026 sits at a peak" alone (manager review 638840f1), and two cold walks read the curve's
 // peak as confirmation when it came before the verdict (I-047, I-048).
@@ -24,6 +24,16 @@ export const NOT_FORECAST = "That is a position of this construction, not the th
  * clause last (I-052), and it did not understand "this construction"; NOT_FORECAST cannot simply
  * move to the front, because its "That" would point at nothing (manager review 2af4adc6).
  */
+/**
+ * The one line a claim page's verdict box carries instead of the position (orchestrator answer
+ * 19c2b867 to consult ad680494, 2026-10-16). Two walks read the position itself ("2026 sits at a
+ * peak") as agreement whatever stood in front of it, so the first screen no longer states it:
+ * the box says the drawing is not evidence, and the position moves under the curve.
+ */
+export function claimNotEvidence(cycle: Cycle, year: number): string {
+  return `Where this site's drawn wave puts ${year} is not evidence for or against ${cycleTheorist(cycle)}'s cycle.`;
+}
+
 export function claimPositionSentence(cycle: Cycle, year: number): string {
   return `This page draws a wave, not ${cycleTheorist(cycle)}'s forecast: on that wave, ${yearPositionBody(cycle, year)}`;
 }
@@ -44,6 +54,6 @@ export function claimAnswer(cycle: Cycle, year: number): ClaimAnswer | null {
   return {
     question: cycle.question,
     description: `${cycle.question} ${verdict}`,
-    text: `${verdict} ${claimPositionSentence(cycle, year)}`,
+    text: `${verdict} ${claimNotEvidence(cycle, year)} ${claimPositionSentence(cycle, year)}`,
   };
 }

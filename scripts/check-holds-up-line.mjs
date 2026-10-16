@@ -288,16 +288,22 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 //       document.title               = "<question> The theory against the record · Sinusoidal History"
 //       meta, og: and twitter: description = "<question> <headline>. <why>"
 //       the box's first <p>          = "<headline> — and that is the finding, not a dodge."
+//       #not-evidence                = "Where this site's drawn wave puts <year> is not evidence for
+//                                       or against <theorist>'s cycle."              (2026-10-16)
 //       #where-now                   = "<claim position> Every cycle in <year> →"   (I-052, below)
-//       the one FAQPage's Question   = <question>, its Answer = "<headline>. <why> <claim position>"
+//       the one FAQPage's Question   = <question>, its Answer =
+//                                       "<headline>. <why> <not-evidence> <claim position>"
 //     <position> is rebuilt from /api/v1/state's raw fields (the same rule check-year-position
 //     states, written out here so this script stands alone); <headline>/<why> are the oracles above.
 //     Only the ineligible form is stated; an eligible or unpaired claim cycle REFUSES;
-//   - #where-now sits inside #does-it-hold-up, after that <p> and before the curve
-//     (article svg[role=img]), in DOM order;
-//   - every text node of the <h1>, the answer <p> and #where-now is painted (per TEXT NODE, as the
-//     card legs above: a paragraph-level test passed an opacity-0 "Not ", Codex r1), and the answer
-//     and #where-now both end within the first screen.
+//   - #not-evidence sits inside #does-it-hold-up, after the answer <p>; the curve (article
+//     svg[role=img]) follows it; #where-now sits OUTSIDE the box, after the curve, in DOM order;
+//   - every text node of the <h1>, the answer <p>, #not-evidence and #where-now is painted (per
+//     TEXT NODE, as the card legs above: a paragraph-level test passed an opacity-0 "Not ", Codex
+//     r1); the answer and #not-evidence end within the first screen, and #where-now STARTS below it.
+//     The position off the first screen is the rule itself, not a layout accident: two walks read
+//     "2026 sits at a peak" there as agreement whatever stood in front of it (I-052, orchestrator
+//     answer 19c2b867 to consult ad680494).
 //   - each description tag occurs exactly once, and FAQPage nodes are counted at any depth of
 //     any JSON-LD block (exactly one); the curve height is recomputed from cycles.json (Codex r2).
 // NOT SEEN, declared: clipping and occlusion, horizontal overflow, visual (not DOM) order, contrast,
@@ -371,6 +377,7 @@ for (const c of cycles.filter((x) => x.question)) {
       continue;
     }
     const position = plain ? claimPosition(plain, theorist) : null;
+    const notEvidence = `Where this site's drawn wave puts ${year} is not evidence for or against ${theorist}'s cycle.`;
     if (!position) {
       unread++;
       console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
@@ -433,6 +440,7 @@ for (const c of cycles.filter((x) => x.question)) {
         const box = document.getElementById("does-it-hold-up");
         const answer = box?.querySelector("p") ?? null;
         const where = document.getElementById("where-now");
+        const notEv = document.getElementById("not-evidence");
         const curve = document.querySelector("article svg[role=img]");
         const after = (a, b) => !!a && !!b && !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
         return {
@@ -446,11 +454,15 @@ for (const c of cycles.filter((x) => x.question)) {
           faqs,
           answer: flat(answer),
           where: flat(where),
-          whereInBox: !!box && !!where && box.contains(where),
-          order: after(answer, where) && after(where, curve),
-          painted: document.querySelectorAll("h1").length === 1 && shown(document.querySelector("h1")) && shown(answer) && shown(where),
+          notEv: flat(notEv),
+          boxed: !!box && !!notEv && !!where && box.contains(notEv) && !box.contains(where),
+          order: after(answer, notEv) && after(notEv, curve) && after(curve, where),
+          painted:
+            document.querySelectorAll("h1").length === 1 &&
+            shown(document.querySelector("h1")) && shown(answer) && shown(notEv) && shown(where),
           answerBottom: answer ? answer.getBoundingClientRect().bottom + scrollY : null,
-          whereBottom: where ? where.getBoundingClientRect().bottom + scrollY : null,
+          notEvBottom: notEv ? notEv.getBoundingClientRect().bottom + scrollY : null,
+          whereTop: where ? where.getBoundingClientRect().top + scrollY : null,
         };
       });
       const description = `${c.question} ${expected}. ${why}`;
@@ -464,14 +476,16 @@ for (const c of cycles.filter((x) => x.question)) {
           faq.mainEntity?.["@type"] === "Question" &&
           faq.mainEntity?.name === c.question &&
           faq.mainEntity?.acceptedAnswer?.["@type"] === "Answer" &&
-          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${position}`,
+          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${notEvidence} ${position}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
+        "not evidence": r.notEv === notEvidence,
         where: r.where === `${position} Every cycle in ${year} →`,
         "height recomputed": mathOk,
-        "in box": r.whereInBox,
-        "verdict, then position, then curve": r.order,
+        "not-evidence in box, position out": r.boxed,
+        "verdict, not-evidence, curve, position": r.order,
         painted: r.painted,
-        "first screen": r.answerBottom !== null && r.whereBottom !== null && r.answerBottom <= h && r.whereBottom <= h,
+        "first screen": r.answerBottom !== null && r.notEvBottom !== null && r.answerBottom <= h && r.notEvBottom <= h,
+        "position off first screen": r.whereTop !== null && r.whereTop >= h,
       };
       const ok = Object.values(checks).every(Boolean);
       if (ok) pass++;
@@ -479,7 +493,7 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(
         `${ok ? "PASS" : "FAIL"}  ${tag}  — ` +
           Object.entries(checks).map(([k, v]) => `${k} ${v}`).join(" · ") +
-          ` · answer ends ${Math.round(r.answerBottom ?? -1)} · position ends ${Math.round(r.whereBottom ?? -1)} of ${h}`
+          ` · answer ends ${Math.round(r.answerBottom ?? -1)} · not-evidence ends ${Math.round(r.notEvBottom ?? -1)} · position starts ${Math.round(r.whereTop ?? -1)} of ${h}`
       );
     } catch {
       unread++;

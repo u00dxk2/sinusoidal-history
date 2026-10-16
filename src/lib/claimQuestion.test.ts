@@ -23,7 +23,7 @@ describe("claim pages (cycles.json `question`)", () => {
     // Whole text: verdict, then the not-a-forecast lead, THEN the position (I-052). The old
     // trailing caveat is gone from the claim form.
     expect(a.text).toBe(
-      `${card.headline}. ${card.detail} This page draws a wave, not Ray Dalio's forecast: on that wave, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063.`,
+      `${card.headline}. ${card.detail} Where this site's drawn wave puts 2026 is not evidence for or against Ray Dalio's cycle. This page draws a wave, not Ray Dalio's forecast: on that wave, 2026 sits at a peak (the curve tops out in 2025; curve height +1.00, from −1 at a low to +1 at a peak). The next low falls around 2063.`,
     );
     expect(a.text.indexOf("not Ray Dalio's forecast")).toBeLessThan(a.text.indexOf("sits at a peak"));
     expect(a.text).not.toContain(NOT_FORECAST);

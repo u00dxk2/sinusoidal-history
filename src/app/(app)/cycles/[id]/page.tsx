@@ -59,7 +59,12 @@ import {
   testedHeadline,
 } from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
-import { claimAnswer, claimPositionSentence, NOT_FORECAST } from "@/lib/claimQuestion";
+import {
+  claimAnswer,
+  claimNotEvidence,
+  claimPositionSentence,
+  NOT_FORECAST,
+} from "@/lib/claimQuestion";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -152,10 +157,10 @@ export default async function CyclePage({ params }: Params) {
     : [];
   const positionSentence = yearPositionSentence(cycle, year);
   // A claim page (cycles.json `question`) answers its question on the first screen, verdict
-  // first: the box moves above the curve and carries the where-now line, which otherwise sits
-  // 1.5-2.2 screens down (measured 2026-10-15 on /cycles/dalio). Before the curve on purpose: two
-  // cold walks read the curve's dot on its crest as confirmation when it came before the verdict
-  // (I-047, I-048). The other pages keep the I-033 order, curve first.
+  // first: the box moves above the curve and says the drawing is not evidence. Before the curve
+  // on purpose: two cold walks read the curve's dot on its crest as confirmation when it came
+  // before the verdict (I-047, I-048). The position itself stays off that screen (I-052). The
+  // other pages keep the I-033 order, curve first.
   const claim = claimAnswer(cycle, year);
   const claimPage = Boolean(claim && verdict);
   const whereNow = (className: string) => (
@@ -300,7 +305,15 @@ export default async function CyclePage({ params }: Params) {
               ? `${testedHeadline(verdict)}.`
               : `${NOT_TESTABLE_HEADLINE} — and that is the finding, not a dodge.`}
           </p>
-          {claimPage && whereNow("mt-2.5 text-[15px] leading-[1.6] text-ink/85")}
+          {/* A claim page says the drawing is not evidence, and NOT where the drawing
+              sits: two walks read "2026 sits at a peak" as agreement wherever its
+              caveat stood (I-052; orchestrator 19c2b867). The position follows the
+              description, as on every other page. */}
+          {claimPage && (
+            <p id="not-evidence" className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
+              {claimNotEvidence(cycle, year)}
+            </p>
+          )}
           <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
             {/* Name the series ONLY when the tested record IS the displayed one:
                 inference runs on unsmoothed / span-limited cuts (Kondratiev's annual
@@ -377,11 +390,11 @@ export default async function CyclePage({ params }: Params) {
           /state/<year> and /api/v1/state. It sits BELOW the verdict on purpose:
           the verdict is each page's first-screen answer, and /cycles/turchin
           had 12px to spare at 320x568 before this line existed. A claim page
-          carries it inside the verdict box instead (claimPage above). */}
-      {!claimPage &&
-        whereNow(
-          "mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85",
-        )}
+          prints it here too, in its claim form (since 2026-10-16; it sat in the
+          verdict box for one day and was read as agreement, I-052). */}
+      {whereNow(
+        "mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85",
+      )}
 
       {/* Period / reference peak / paired series sat directly under the H1
           until 2026-09-19, which pushed the verdict's answer sentence 17px
