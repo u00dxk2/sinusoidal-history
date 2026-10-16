@@ -7,8 +7,8 @@ import { holdsUpCard } from "@/lib/holdsUp";
 const dalio = cycles.find((c) => c.id === "dalio")!;
 
 describe("claim pages (cycles.json `question`)", () => {
-  it("is Dalio alone today, so the other nine pages are untouched", () => {
-    expect(cycles.filter((c) => c.question).map((c) => c.id)).toEqual(["dalio"]);
+  it("is Dalio and Strauss-Howe today, so the other eight pages are untouched", () => {
+    expect(cycles.filter((c) => c.question).map((c) => c.id)).toEqual(["dalio", "strauss_howe"]);
     for (const c of cycles.filter((x) => !x.question)) expect(claimAnswer(c, 2026)).toBeNull();
   });
 
@@ -31,6 +31,18 @@ describe("claim pages (cycles.json `question`)", () => {
     expect(a.description.length).toBeLessThanOrEqual(165);
     // No position in the snippet: a cut there could keep "sits at a peak" without its clause.
     expect(a.description).not.toContain("sits");
+  });
+
+  it("gives Strauss-Howe the same shape, in its searchers' words, inside the snippet cap", () => {
+    const sh = cycles.find((c) => c.id === "strauss_howe")!;
+    const card = holdsUpCard(sh)!;
+    const a = claimAnswer(sh, 2026)!;
+    expect(cycleMetaTitle(sh)).toBe("Are we in the Fourth Turning? The theory against the record");
+    expect(a.description).toBe(`Are we in the Fourth Turning? ${card.headline}. ${card.detail}`);
+    expect(a.description.length).toBeLessThanOrEqual(165);
+    expect(a.text.startsWith(
+      `${card.headline}. ${card.detail} Where this site's drawn wave puts 2026 is not evidence for or against Strauss-Howe's cycle. This page draws a wave, not Strauss-Howe's forecast: on that wave, 2026 sits `,
+    )).toBe(true);
   });
 
   it("serves the FAQ question and answer in exactly those words (Codex r1, MED)", () => {
