@@ -233,13 +233,19 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     );
     expect(html).not.toContain("rescaled to the curve's height");
 
-    // Curve first, then the verdict, then the description.
+    // Curve first, then the verdict, then the description. A claim page (cycles.json
+    // `question`, Dalio since 2026-10-15) puts the verdict BEFORE the curve on purpose, so its
+    // first screen answers the question verdict-first (src/lib/claimQuestion.ts); the
+    // description still follows both.
     const figureAt = html.indexOf('data-mark="paired-series"');
     const verdictAt = html.indexOf('id="does-it-hold-up"');
     const descriptionAt = html.indexOf(`>${cycle.short_description}</p>`);
     expect(descriptionAt, `${slug}: no description paragraph`).toBeGreaterThan(-1);
-    expect(verdictAt).toBeGreaterThan(figureAt);
-    expect(descriptionAt).toBeGreaterThan(verdictAt);
+    expect(figureAt, `${slug}: no drawn record`).toBeGreaterThan(-1);
+    expect(verdictAt, `${slug}: no verdict box`).toBeGreaterThan(-1);
+    if (cycle.question) expect(figureAt).toBeGreaterThan(verdictAt);
+    else expect(verdictAt).toBeGreaterThan(figureAt);
+    expect(descriptionAt).toBeGreaterThan(Math.max(figureAt, verdictAt));
   });
 
   // No real verdict is eligible, so these arms are fixtures.
