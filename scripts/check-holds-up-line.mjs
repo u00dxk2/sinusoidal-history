@@ -480,10 +480,13 @@ for (const c of cycles.filter((x) => x.question)) {
         // first screen). Judged as whole paragraphs against the oracle below (Codex r6: two
         // phrases let the rest of the prose go missing).
         const why = document.getElementById("why-not-tested");
-        // The curve is identified by a stated rule, not by position (Codex r9): the ONE figure
-        // that draws the paired record, painted with real geometry. Anything else is null, and
-        // the leg fails rather than measuring a stand-in. DECLARED CEILING: order is DOM order;
-        // a CSS transform that paints the reasons below the curve is not judged here.
+        // The curve FIGURE is identified by a stated rule, not by position (Codex r9, r10): the
+        // ONE figure that draws the paired record, with real geometry and no hidden ancestor.
+        // Anything else is null, and the leg fails rather than measuring a stand-in.
+        // DECLARED CEILINGS (Codex r9/r10; the third round on this class, so the leg claims less
+        // instead of growing): it judges where the FIGURE sits, not whether its drawing paints
+        // (check-year-position reads the drawn now-dot and its label on every page), and order
+        // is DOM order, so a CSS transform that paints the reasons below the curve is not judged.
         const figures = [...document.querySelectorAll("article svg[role=img]")].filter((s) =>
           s.querySelector('[data-mark="paired-series"]'),
         );
@@ -496,13 +499,13 @@ for (const c of cycles.filter((x) => x.question)) {
           }
           return true;
         };
-        const theCurve = figures.length === 1 && figures[0] === curve && painted(curve) ? curve : null;
+        const theCurve = figures.length === 1 && painted(figures[0]) ? figures[0] : null;
         return {
           boxBottom: box ? box.getBoundingClientRect().bottom + scrollY : null,
           curveTop: theCurve ? theCurve.getBoundingClientRect().top + scrollY : null,
           whyParas: why ? [...why.querySelectorAll("p")].map(flat) : null,
           boxParas: box ? [...box.querySelectorAll("p")].map(flat) : [],
-          whyPlaced: after(box, why) && after(why, curve) && shown(why),
+          whyPlaced: after(box, why) && after(why, theCurve) && shown(why),
           h1: flat(document.querySelector("h1")),
           title: document.title,
           metas: [
@@ -546,7 +549,7 @@ for (const c of cycles.filter((x) => x.question)) {
         "first screen": r.answerBottom !== null && r.notEvBottom !== null && r.answerBottom <= h && r.notEvBottom <= h,
         "position off first screen": r.whereTop !== null && r.whereTop >= h,
         "whole box on first screen": r.boxBottom !== null && r.boxBottom <= h,
-        "curve off first screen": r.curveTop !== null && r.curveTop >= h,
+        "curve figure off first screen": r.curveTop !== null && r.curveTop >= h,
         "reasons before the curve":
           r.whyPlaced &&
           JSON.stringify(r.whyParas) === JSON.stringify(reasons) &&
