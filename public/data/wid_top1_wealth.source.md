@@ -17,7 +17,7 @@ Source CSV from OWID has all countries × all years × multiple variants. We kep
 
 ## Why this series pairs with Turchin
 
-Turchin's secular-cycle theory holds that elite overproduction — too many people competing for too few elite slots — drives state breakdown. Wealth concentration in the top 1% is a well-measured proxy for elite overproduction: in Turchin's account, more wealth at the top means more elites to support, more positional competition, and more downstream instability. The series measures concentration, not instability, so it cannot by itself show that the cycle holds or that his 2020s forecast came true.
+Turchin's secular-cycle theory holds that elite overproduction — too many people competing for too few elite slots — drives state breakdown. This site pairs US top-1% wealth share with that cycle as a proposed proxy for elite overproduction. The series measures wealth concentration, not elite numbers or instability, so it cannot by itself show that the cycle holds or that his 2020s forecast came true.
 
 The series shows the famous U-shape: high inequality in the antebellum period (~50% in 1850), a long mid-20th-century compression, and a return to high concentration since the 1980s.
 

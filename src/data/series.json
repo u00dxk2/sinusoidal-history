@@ -45,7 +45,7 @@
     "value_units": "% of household wealth",
     "color": "#5A1A1A",
     "associated_cycle_id": "turchin",
-    "association_note": "Proxy for Turchin's elite-overproduction driver: in his account, when wealth concentrates, elite competition intensifies and instability follows. It measures wealth concentration, not instability, so it cannot by itself show that his cycle holds or that his 2020s forecast came true."
+    "association_note": "This site pairs US top-1% wealth share with Turchin's secular cycle as a proposed proxy for elite overproduction, the driver in his account. It measures wealth concentration, not elite numbers or instability, so it cannot by itself show that his cycle holds or that his 2020s forecast came true."
   },
   {
     "id": "us_world_gdp_share",

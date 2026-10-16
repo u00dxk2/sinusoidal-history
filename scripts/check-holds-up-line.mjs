@@ -480,9 +480,26 @@ for (const c of cycles.filter((x) => x.question)) {
         // first screen). Judged as whole paragraphs against the oracle below (Codex r6: two
         // phrases let the rest of the prose go missing).
         const why = document.getElementById("why-not-tested");
+        // The curve is identified by a stated rule, not by position (Codex r9): the ONE figure
+        // that draws the paired record, painted with real geometry. Anything else is null, and
+        // the leg fails rather than measuring a stand-in. DECLARED CEILING: order is DOM order;
+        // a CSS transform that paints the reasons below the curve is not judged here.
+        const figures = [...document.querySelectorAll("article svg[role=img]")].filter((s) =>
+          s.querySelector('[data-mark="paired-series"]'),
+        );
+        const painted = (e) => {
+          const b = e.getBoundingClientRect();
+          if (b.width === 0 || b.height === 0) return false;
+          for (let x = e; x; x = x.parentElement) {
+            const s = getComputedStyle(x);
+            if (s.visibility === "hidden" || s.display === "none" || +s.opacity === 0) return false;
+          }
+          return true;
+        };
+        const theCurve = figures.length === 1 && figures[0] === curve && painted(curve) ? curve : null;
         return {
           boxBottom: box ? box.getBoundingClientRect().bottom + scrollY : null,
-          curveTop: curve ? curve.getBoundingClientRect().top + scrollY : null,
+          curveTop: theCurve ? theCurve.getBoundingClientRect().top + scrollY : null,
           whyParas: why ? [...why.querySelectorAll("p")].map(flat) : null,
           boxParas: box ? [...box.querySelectorAll("p")].map(flat) : [],
           whyPlaced: after(box, why) && after(why, curve) && shown(why),
