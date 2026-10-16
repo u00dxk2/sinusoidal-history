@@ -409,9 +409,11 @@ export default function Methods() {
           exactly one paired series; Turchin&apos;s fathers-and-sons cycle has
           none. Both are
           arguments. The Strauss-Howe pairing reads V-Dem&apos;s recent
-          decline as a Fourth-Turning institutional-stress signal; the
-          Huntington pairing would have read it as the trough side of a
-          creedal-passion cycle. The data is the same; the framing differs.
+          decline as the kind of institutional stress a Fourth Turning would
+          show, though one index cannot show that a Fourth Turning is
+          underway; the Huntington pairing would have read it as the trough
+          side of a creedal-passion cycle. The data is the same; the framing
+          differs.
         </p>
         <p>
           <strong className="text-ink">Project Mars covers conventional
