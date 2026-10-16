@@ -1,0 +1,21 @@
+# read-output sidecar for I-050 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568
+# ran: 2026-10-16T15:15:05.019Z · exit: 0
+# lines: 15 · sha256: 8f199c483c522006 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+https://sinusoidalhistory.com @ 320x568
+  OK      /                                12px spare
+  OK      /cycles                          30px spare
+  OK      /methods                         25px spare
+  OK      /cycles/khaldun                  38px spare
+  OK      /cycles/kondratiev               16px spare
+  OK      /cycles/huntington               21px spare
+  OK      /cycles/schlesinger-jr           22px spare
+  OK      /cycles/perez                    5px spare
+  OK      /cycles/turchin                  21px spare
+  OK      /cycles/dalio                    210px spare
+  OK      /cycles/strauss-howe             66px spare
+  OK      /cycles/modelski                 22px spare
+  OK      /cycles/turchin-fathers-sons     77px spare
+OK: 13 of 13 entry-page legs answer on the first screen

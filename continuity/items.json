@@ -1571,12 +1571,12 @@
       "updated": "2026-10-15",
       "lastEvaluated": "2026-10-15",
       "readCommandTimeoutMs": 300000,
-      "readCommandLastRun": "2026-10-15T23:38:20.049Z",
+      "readCommandLastRun": "2026-10-16T15:13:28.961Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 70612,
+      "readCommandLastDurationMs": 91472,
       "readCommandLastOutputRef": {
-        "lines": 43,
-        "sha256": "ae3fc1486643ca76"
+        "lines": 45,
+        "sha256": "1c4494f5abae996d"
       }
     },
     {
@@ -1643,7 +1643,14 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — regression read only; this row's own proof is a header-truncation sweep over the 10 closed cards",
       "notes": "2026-10-15 (P5 close, evening round): minted as the regression row manager review 34f52cfc asked for (defect 2), beside I-048. Dated with I-048's next round (2026-10-16 day round), because both change the same closed-card header.",
       "created": "2026-10-15",
-      "updated": "2026-10-15"
+      "updated": "2026-10-15",
+      "readCommandLastRun": "2026-10-16T15:15:05.019Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 40544,
+      "readCommandLastOutputRef": {
+        "lines": 15,
+        "sha256": "8f199c483c522006"
+      }
     },
     {
       "id": "I-051",
