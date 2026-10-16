@@ -103,6 +103,24 @@ function expectedWhy(id) {
   return name ? `Judged on ${name}: ${covered}` : null;
 }
 
+// The two reason paragraphs a claim page carries under its curve (I-053), whole, written out from
+// verdicts.json and series.json, sharing no code with the page. Only the ineligible, drawn-is-judged
+// case is stated (Dalio, Strauss-Howe); anything else refuses.
+function expectedReasons(id) {
+  const row = primary.find((r) => r.cycle_id === id);
+  const drawn = seriesList.find((s) => s.associated_cycle_id === id);
+  if (!row || row.eligible || !drawn || drawn.id !== row.series_id) return null;
+  const p = row.period_years;
+  if (!Number.isInteger(p) || p < 1 || p > 999) return null;
+  const article = /^8/.test(String(p)) || p === 11 || p === 18 ? "an" : "a";
+  const short = Math.max(0, Math.ceil(3 * p - row.span_years));
+  const h = readJson("../public/data/spectral/verdicts.json").headline;
+  return [
+    `The paired record (${drawn.name}) runs ${row.span_years} years: ${row.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before it will run a test on ${article} ${p}-year claim. Roughly ${short} more years of that measurement would reach the floor.`,
+    `This is not a verdict about this theory in particular: ${h.eligible_primary} of the ${h.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`,
+  ];
+}
+
 // Two "r,g,b,a" byte strings from the page's canvas: the same colour if every RGB channel is
 // within 3. Alpha is ignored on purpose.
 function nearRgb(a, b) {
@@ -378,6 +396,12 @@ for (const c of cycles.filter((x) => x.question)) {
     }
     const position = plain ? claimPosition(plain, theorist) : null;
     const notEvidence = `Where this site's drawn wave puts ${year} is not evidence for or against ${theorist}'s cycle.`;
+    const reasons = expectedReasons(c.id);
+    if (!reasons) {
+      unread++;
+      console.log(`UNREAD ${tag} — no stated rule for this claim cycle's reason paragraphs; refusing`);
+      continue;
+    }
     if (!position) {
       unread++;
       console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
@@ -445,15 +469,14 @@ for (const c of cycles.filter((x) => x.question)) {
         const after = (a, b) => !!a && !!b && !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
         // I-053: on a claim page the WHOLE box ends on the first screen, so the reasons (the
         // record paragraph and "not a verdict about this theory") sit under the curve instead,
-        // in #why-not-tested. Both sentences are matched by phrases the page cannot drop
-        // without changing what they say.
+        // in #why-not-tested, between the curve and the position. Judged as whole paragraphs
+        // against the oracle below (Codex r6: two phrases let the rest of the prose go missing).
         const why = document.getElementById("why-not-tested");
-        const reasons = ["this site requires before it will run a test", "Long-cycle claims are hard to test"];
-        const has = (e, s) => !!e && e.innerText.replace(/\s+/g, " ").includes(s);
         return {
           boxBottom: box ? box.getBoundingClientRect().bottom + scrollY : null,
-          reasonsMoved:
-            !!why && reasons.every((s) => has(why, s) && !has(box, s)) && after(curve, why) && shown(why),
+          whyParas: why ? [...why.querySelectorAll("p")].map(flat) : null,
+          boxParas: box ? [...box.querySelectorAll("p")].map(flat) : [],
+          whyPlaced: after(curve, why) && after(why, where) && shown(why),
           h1: flat(document.querySelector("h1")),
           title: document.title,
           metas: [
@@ -497,7 +520,10 @@ for (const c of cycles.filter((x) => x.question)) {
         "first screen": r.answerBottom !== null && r.notEvBottom !== null && r.answerBottom <= h && r.notEvBottom <= h,
         "position off first screen": r.whereTop !== null && r.whereTop >= h,
         "whole box on first screen": r.boxBottom !== null && r.boxBottom <= h,
-        "reasons under the curve": r.reasonsMoved,
+        "reasons under the curve":
+          r.whyPlaced &&
+          JSON.stringify(r.whyParas) === JSON.stringify(reasons) &&
+          !r.boxParas.some((p) => reasons.includes(p)),
       };
       const ok = Object.values(checks).every(Boolean);
       if (ok) pass++;

@@ -248,10 +248,20 @@ describe("I-035: the cycle page draws the record its verdict is judged on", () =
     const reasonsAt = html.indexOf("Long-cycle claims are hard to test");
     const whyAt = html.indexOf('id="why-not-tested"');
     expect(reasonsAt, `${slug}: no reasons paragraph`).toBeGreaterThan(-1);
+    const sectionText = (id: string) =>
+      html.match(new RegExp(`<section id="${id}"[^>]*>([\\s\\S]*?)</section>`))?.[1] ?? null;
     if (cycle.question) {
       expect(figureAt).toBeGreaterThan(verdictAt);
       expect(whyAt, `${slug}: no #why-not-tested`).toBeGreaterThan(figureAt);
-      expect(reasonsAt).toBeGreaterThan(whyAt);
+      // Containment, not just offsets (Codex r6): BOTH paragraphs inside the section, none
+      // left in the box.
+      const why = sectionText("why-not-tested");
+      const box = sectionText("does-it-hold-up");
+      expect(why).toMatch(new RegExp(`<p[^>]*>The paired record \\(.+?\\) runs ${verdict!.span_years} years: `));
+      expect(why).toContain("Long-cycle claims are hard to test because the records are short");
+      expect(why!.match(/<p[\s>]/g)).toHaveLength(2);
+      expect(box).not.toContain("Long-cycle claims are hard to test");
+      expect(box).not.toContain(`runs ${verdict!.span_years} years`);
     } else {
       expect(verdictAt).toBeGreaterThan(figureAt);
       expect(whyAt).toBe(-1);

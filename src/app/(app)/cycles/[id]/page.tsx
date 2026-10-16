@@ -361,7 +361,7 @@ export default async function CyclePage({ params }: Params) {
       {claimPage && curveFigure}
 
       {claimPage && (
-        <section id="why-not-tested" aria-label="Why it is not tested" className="mt-5">
+        <section id="why-not-tested" aria-label="The record behind this verdict" className="mt-5">
           {reasons}
         </section>
       )}
