@@ -260,3 +260,26 @@ hygiene helper: DISPATCHED 18:55Z · draft tmp/hygiene-draft-sinusoidal-cycles-2
 - **I-048:** unchanged per 19c2b867. A4/A5 showed the same crest reading on the claim page whenever the curve is on screen, so I-048's open question (should the drawn 2026 position claim less?) is now evidenced on two surfaces.
 - **To I-043:** the walkers' unknown words. New this round: "secular cycle" is never defined on the Turchin page, and "this site's drawn wave" is named on the first screen with no wave visible.
 - **I-051 (10-30):** gains a Turchin leg.
+
+## Close (afternoon round 2, 2026-10-16)
+
+ACTION: COMPLETED · item I-053 · P3 3b528071. The acceptance in force was the P1 packet plus review 24813b55. Every claim page's box is whole on the first screen at 390x664 and 320x568 on production. check-holds-up-line covers all three claim pages, 46/46. Walks A6/A7 held, and T1 held on Turchin. Manager review ee7dc206: COMPLETED.
+
+- **State since the P3 post:** unchanged. Live is 2bc0c2f0 = head. Commits since 28c5774 are docs only.
+- **Turchin wording, recorded once so it is not reopened:** "Does Turchin's secular cycle hold up?", not a 2020s question. His wave's 2020 peak is anchored on his own forecast window (cycles.json:70), and the claim title must stay within 70 characters.
+- **Hygiene draft:** 1 line, 1 accepted ("none", nothing to run), 0 amended, 0 rejected. No READ-MUTATED lines. check-wait-justification: PASS, 0 warnings. check-engineering-zero: PASS, 0 findings.
+- **Verify:** `check-due-gates-dispositioned` verdict: CLEAR, snapshot CURRENT (taken 2026-10-16), 4 of 4 gates dispositioned.
+- **Ledger delta (continuity-edit):**
+  - I-053 CLOSED on A6/A7. The close note cites 8707b6b, the production numbers and the withdrawn A3 quote.
+  - I-051's closeWhen is restated with three legs (Dalio, Strauss-Howe, Turchin), each "moved" at ≥4 named-query impressions or any at position ≤30. The Turchin baseline is 0 named-query impressions; the page has 6 impressions at position 6.7. Next read 10-30 (11-02 if empty).
+  - I-043 note: two Turchin gaps ("secular cycle" undefined; "drawn wave" named with no wave on screen), plus the walkers' repeated words.
+  - I-048 note: A4/A5 show the crest reading on the claim page too, whenever the curve is on screen. The home page stays as shipped.
+- **Pending reads:**
+  - 10-17: I-050.
+  - 10-20: I-043, I-046, I-048, I-027, I-034, I-049.
+  - 10-30: I-051.
+  - 11-01: I-037.
+  - 11-04: W-005, I-032.
+  - 12-01: I-025, I-042.
+- **Primer:** `docs/cold-starts/2026-10-16.md`. The banner was rewritten in place, about 1,150 characters.
+- UNRESOLVED: none.
