@@ -115,6 +115,8 @@ Two surfaces are **hand-written** and will silently go stale:
 - `public/llms.txt` — the "Per-cycle pages" bullet list, plus the ascending-period ordering in the intro
 - `public/about.md` — the mirror needs a new `### <name>` block *and* its `- **Page:**` line (see the prose-mirror rule above)
 
+**Claim pages (since 2026-10-15).** An optional `question` on a cycle in `cycles.json` (Dalio only today) makes its page answer that question: the title, H1, description tags and a FAQPage come from `src/lib/claimQuestion.ts`, and the verdict box moves ABOVE the curve carrying `#where-now`. A new claim page adds no route and needs no sitemap edit, but `check-holds-up-line` judges it whole-text (its claim legs refuse a verdict form they do not state), `seriesOverlay.test.ts` pins its verdict-first order, and `public/llms.txt` names the question by hand.
+
 Renaming a cycle's `id` changes its URL. Slugs are the id with underscores swapped for hyphens (`strauss_howe` → `/cycles/strauss-howe`), so an id change is a redirect-worthy URL change, not a cosmetic edit.
 <!-- END:new-cycle-checklist -->
 

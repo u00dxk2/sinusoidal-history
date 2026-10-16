@@ -1644,6 +1644,42 @@
       "notes": "2026-10-15 (P5 close, evening round): minted as the regression row manager review 34f52cfc asked for (defect 2), beside I-048. Dated with I-048's next round (2026-10-16 day round), because both change the same closed-card header.",
       "created": "2026-10-15",
       "updated": "2026-10-15"
+    },
+    {
+      "id": "I-051",
+      "title": "Claim page: /cycles/dalio answers \"Is Ray Dalio's Big Cycle peaking?\" verdict-first; does search find it?",
+      "status": "monitoring",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-15",
+      "closeWhen": "The pre-registered Search Console read on 2026-10-30 (window: deploy 2026-10-16 to 2026-10-30; read on 2026-11-02 if 10-30 is still empty, Search Console lags ~3 days) reads 'moved' (>= 4 named Dalio-query impressions in the 14 days, OR any Dalio query at mean position <= 30; baseline 6 named Dalio-query impressions in 57 days at positions 49.5-60, 0 clicks), or 'not moved yet' with the next read dated. Clicks are reported, not judged.",
+      "nextEvaluation": "2026-10-30",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-10-16 --end 2026-10-30",
+      "linkedCommits": [
+        "5dd93d2",
+        "3c2f89e",
+        "59e5025",
+        "d1fa17f"
+      ],
+      "notes": "2026-10-15 (night round, minted at the close; no P5 ran): SHIPPED 5dd93d2 (live d1fa17f, CI GREEN, drift in-sync). Title, H1, meta/og/twitter description and a FAQPage are shaped to the question from existing strings (src/lib/claimQuestion.ts); verdict box above the curve carrying #where-now. check-holds-up-line claim legs (whole-text equality, red-armed): production 40/42 before, 42/42 after. Codex r1+r2 read-only, 7 findings all fixed. Pre-registered walk docs/walks/2026-10-16-dalio-claim.md HELD as written (synthetic N=1), residual on I-052. Cost: the curve is off Dalio's first screen on purpose. The page-only gsc-read total is whole; the Dalio-query count needs a query-grouped read of the same route (query rows drop anonymized queries, so it is a floor).",
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
+    },
+    {
+      "id": "I-052",
+      "title": "On the Dalio claim page the position sentence opens with \"2026 sits at a peak\" and reads as \"yes, it's peaking\"; the not-a-forecast clause comes last",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-16",
+      "closeWhen": "The same pre-registered cold walk (docs/walks/2026-10-16-dalio-claim.md prompt, 390x664, production) reports nothing on the first screen as agreeing with 'it is peaking', while it still names the verdict and the curve's position, with check-holds-up-line 42/42 (claim legs re-stated on purpose if the wording moves) and check-year-position 95/95; or a recorded decision that the order stays.",
+      "nextEvaluation": "2026-10-16",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com — regression read only; this row's own proof is the cold walk",
+      "notes": "2026-10-15 (night round, minted at the close): from the I-051 walk on d1fa17f, verbatim: \"'2026 sits at a peak', 'the curve tops out in 2025' and 'curve height +1.00' all read as 'yes, it's peaking right now.' The disclaimer comes after, in smaller and more abstract words.\" Lever to weigh: the clause before the peak on claim pages only (the other nine pages and /api/v1/state keep the sentence; check-year-position pins it word for word). Unknown words from the same walk (NARRATIVE, this construction, paired record, the floor) go to I-043.",
+      "created": "2026-10-15",
+      "updated": "2026-10-15"
     }
   ],
   "knownPatterns": [
