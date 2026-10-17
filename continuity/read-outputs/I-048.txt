@@ -1,0 +1,9 @@
+# read-output sidecar for I-048 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-glance-now-mark.mjs https://sinusoidalhistory.com
+# ran: 2026-10-17T16:10:21.561Z · exit: 0
+# lines: 3 · sha256: 9a616a5a36c3cd59 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+CLEAN   https://sinusoidalhistory.com/ @ 390x664  rings 0 · now-lines 0 · current-year labels 0
+  CLEAN   https://sinusoidalhistory.com/ @ 320x568  rings 0 · now-lines 0 · current-year labels 0
+OK: 2 of 2 viewports show no now-mark on the glance figure's first screen

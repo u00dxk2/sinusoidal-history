@@ -95,3 +95,17 @@ hygiene helper: DISPATCHED 2026-10-17T15:00Z · draft tmp/hygiene-draft-sinusoid
 [standing-rules-hash: 88cc2dc9]
 
 **What remains, for the close:** I-048 and I-050 are ready to close on this evidence. The ledger edits happen at the close, as does the I-048 `--run` stamp. Residuals from the walks, to route: (1) the opened card's "Where the drawn curve sits in 2026: peaking" over the crest at an unlabelled dotted line (both walkers, briefly; review item 3); (2) "State of the cycles" lower on the home page lists "Ray Dalio 75y PEAKING" with no verdict beside it (both walkers, page text); (3) the closed card's data line peaking near a mid-century crest reads as a possible match at a glance; (4) the legend's "THEORY ·" read as a missing word (C1); (5) vocabulary to I-043. All `next start` processes this round started are stopped (port 3123 free, verified).
+## Close (round 1, 2026-10-17)
+
+ACTION: COMPLETED · item I-048 (closed-card half) + I-050 · P3 2b2be7b4
+
+- **State changed since the P3 post:** manager review e04598a9 COMPLETED (no defects; it re-read drift: live 6d1692ea = head, a descendant of 58c5168). Nothing user-facing changed after P3.
+- **Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected (`tmp/hygiene-draft-sinusoidal-cycles-2026-10-17.md`: no input rows). READ-MUTATED: none. check-wait-justification: "RESULT: PASS — 32 of 59 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)". check-engineering-zero --project sinusoidal-cycles: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)".
+- **Ledger delta (`continuity/items.json`):**
+  - I-048 → closed 2026-10-17. Its readCommand ran through `check-due-gates-dispositioned --run I-048`: exit 0, "OK: 2 of 2 viewports show no now-mark on the glance figure's first screen" (`continuity/read-outputs/I-048.txt`).
+  - I-050 → closed 2026-10-17, on check-closed-card-header cut names 1 → 0.
+  - I-054 minted (open, P3, nextEvaluation 2026-10-20): the opened card's "Where the drawn curve sits in 2026: peaking" over an unlabelled dotted line, plus "State of the cycles" "PEAKING" with no verdict. The legend "THEORY ·" and the data-crest match are recorded on that row; vocabulary to I-043.
+- **Due gates:** `check-due-gates-dispositioned`: "verdict: CLEAR — every gate due at Phase 0 was dispositioned." Snapshot CURRENT (taken 2026-10-17).
+- **Receipt:** P3's line stands unchanged (2b2be7b4). Exposure is still blind (bug row W-003), and the outcome stays open.
+- **Pending reads:** 10-20 I-054 (pre-registered walk through the opened card and State of the cycles), with I-043, I-046, I-027, I-034, I-049; 10-30 I-051 (Search Console).
+- **Primer:** `docs/cold-starts/2026-10-17.md`.
