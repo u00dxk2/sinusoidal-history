@@ -383,3 +383,22 @@ hygiene helper: DISPATCHED 2026-10-16T23:27Z · draft tmp/hygiene-draft-sinusoid
 [standing-rules-hash: 88cc2dc9]
 
 **What remains:** I-048 stays open for the close to disposition: the glance figure half is done and walked; the closed card's "CURVE · PEAKING" tag and its chart are now the residual both walkers named (below the fold). I-050 keeps its 10-17 date (it lives in CycleFacet.tsx, not this component). The ledger note for I-048 is written at the close. All `next start` processes this round started are stopped (port 3123 free, verified).
+
+## Close (evening round 3, 2026-10-16)
+
+ACTION: COMPLETED · item I-048 (glance-figure half) · P3 b7a5d3c4
+
+- **Changed since P3:** manager review b0e62cc0 COMPLETED (glance half). Live is 8329206a, a doc-only descendant of 1b6d3c0 (`check-deployed-sha-drift --service sinusoidal-history`).
+- **Records correction (review defect):** the 0031273 commit message's "21 marks at each viewport" came from the pre-r11 checker, which did not read the sr-only text. The final checker (1b6d3c0) reads production-before as 10 rings · 10 now-lines · 11 current-year labels. The commit is not rewritten.
+- **Ledger delta:** I-048 stays OPEN. It gets a note with today's evidence, a closeWhen narrowed to the remaining closed-card half (the "CURVE · PEAKING" tag and the card chart in CycleFacet.tsx, which both walkers read as leaning toward "peaking now" after scrolling to it), nextEvaluation 2026-10-20 → 2026-10-17 (with I-050, same card header), and readCommand set to `check-glance-now-mark`.
+- **Hygiene draft:** 0 lines — 0 accepted · 0 amended · 0 rejected. READ-MUTATED: none. check-wait-justification: PASS (32 of 59 carry waitJustification; 0 warn). check-engineering-zero: PASS (0 findings, 0 unreadable).
+- **Due gates:** `check-due-gates-dispositioned` → verdict CLEAR, snapshot CURRENT (taken 2026-10-16), 4 of 4 dispositioned (I-046 → 10-20, I-048 → 10-17, I-050 → 10-17, I-052 closed).
+- **Receipt:** P3's receipt stands unchanged (exposure blind · W-003; outcome open).
+- **Pending reads:**
+  - 10-17: I-048 (closed card), I-050.
+  - 10-20: I-043, I-046, I-027, I-034, I-049.
+  - 10-30: I-051.
+  - 11-01: I-037.
+  - 11-04: W-005, I-032.
+  - 12-01: I-025, I-042.
+- UNRESOLVED: none.
