@@ -344,3 +344,42 @@ USER-FACING: yes. Paths: `src/components/CycleOverview.tsx`, `src/lib/overviewRe
 - (a) Due rows not bearing on the choice: none. Source: the kickoff's "dated gates due today: 0".
 - (b) Owed child rows: none. Source: the kickoff's "rows owed to you in skylark-site's ledger: 0 of 754".
 - (c) CROSSED state reads: none. stale-actionable 0 of 13; missingLinkedCommits NOTHING SWEPT (0 of 0); queued rows 0.
+
+
+## Evening round (round 3): P3 product-work loop
+
+[P3 — Product-work loop]
+
+**Action (improve), I-048:** the home page's glance figure marks no current year. The per-row dashed now-line, the hollow ring and the bold current-year axis label are gone; each row's screen-reader text is "(<N>-year cycle). <verdict headline>." with no position, the same at every brush range (the out-of-range branch went too, per review 0d4e4e28). Caption "Theory shapes · none confirmed" and the visible verdict line under the axis unchanged. Commits: `0031273` (change), `709704b` + `1b6d3c0` (checker fixes from Codex r11/r12).
+
+### Four states
+1. **Implementation:** on `main` at `1b6d3c0`. Full `npm test` 371/371 on `1b6d3c0` (verify-with-receipt, exit 0). New `scripts/check-glance-now-mark.mjs` + `src/lib/check-glance-now-mark.test.ts` (selftest 15/15).
+2. **Delivery:** CI GREEN on `1b6d3c0` (`check-ci-status --workflow ci.yml`). `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live 1b6d3c0d = head. Surface read: `check-glance-now-mark https://sinusoidalhistory.com` → 2 of 2 CLEAN (rings 0 · now-lines 0 · current-year labels 0 at 390x664 and 320x568). Before, on 53dc031: MARKED, rings 10 · now-lines 10 · current-year labels 11 at both.
+3. **Encounter:** blind — no client analytics on this site by standing choice; a reader of / leaves no trace · bug row W-003.
+4. **Outcome:** open. The pre-registered synthetic walks are a hypothesis read, not a real-user outcome.
+
+### Pass bar (written at P1), result
+- RED before: MARKED at both viewports on production. ✔
+- GREEN after on production: 2 of 2 CLEAN. ✔
+- Walks B2 and B3 (`docs/walks/2026-10-16-i052-i048.md`, independent, synthetic N=1 each, B3 the schoolteacher seed): **HELD on both**. B3: "The Ray Dalio row in that glance figure is just a gold wave. It has no dot or 'now' mark." Both quoted "None of these ten is confirmed: …". RED arm was walk B: "The picture says 'peaking now', which is my friend's claim."
+- Positive controls on production: `check-holds-up-line` 46/46, `check-year-position` 95/95, `check-entry-folds` 320x568 13/13 — unchanged. ✔
+- Red-proof: ring put back in source (one line), rebuilt, local `check-glance-now-mark` → MARKED rings 10 (exit 1); source restored by `git checkout`, tree clean, port 3123 freed. ✔
+
+### Manager-review hypotheses, measured
+1. Axis gap: the tick filter no longer reserves the now label's slot; 2000 now shows at 390 and 320 (ticks 1600–2000 at 390; 1600, 1800, 1900, 2000 at 320). No gap, no overlap (local measurement + screenshot at 320).
+2. Closed cards above the fold: none. First "curve ·" tag at 793 (390x664) and 775 (320x568); ten found below the fold (positive control on the search). **The walk residual traces to exactly this card:** both walkers, after scrolling to it, read "CURVE · PEAKING" and the card's own chart (gold crest at its unlabelled dashed line) as leaning toward the friend, then corrected on the verdict line under the name. Not widened per the review; it is I-048's closed-card half, for the close to route.
+- My P1 worry was wrong: `check-year-position` never read the overview row text, so 95/95 was never at risk.
+
+### Reviews
+- Codex r11 (read-only, `0031273`, banner workdir = this checkout, session 01a1471c): no defect in the change; 2 P2 STATIC defects in the new check (a now label with other text / a line outside the rows escaped; empty rows read CLEAN) → CONFIRMED, fixed in `709704b`.
+- Codex r12 (read-only, `709704b`, banner workdir matched, session 01a14724): the same two classes again (a year split by an inline child; a curve with geometry but zero stroke opacity) → CONFIRMED; second appearance, so the shape changed in `1b6d3c0` instead of growing: text read as text nodes, the row leg claims curve GEOMETRY not paint (declared in the header). No r13: the remaining paint question is a declared ceiling, not a matcher to grow.
+- Sibling sweep: `public/*.md`, `public/llms.txt`, `src/` for text describing the home now-ring/dot — 0 hits needing a change.
+
+USER-VISIBLE: the home page's ten-cycle glance figure no longer marks 2026 (no ring, no dashed now-line, no bold year), so no curve's crest reads as "peaking now"; rows' screen-reader text drops the position — 0031273 [proof: check-glance-now-mark on https://sinusoidalhistory.com MARKED 10 rings · 10 now-lines · 11 year labels at 390x664 and 320x568 on 53dc031 → 2 of 2 CLEAN on live 1b6d3c0 (drift in-sync, CI GREEN); walks B2/B3 HELD] [coverage: none — no client analytics by standing choice; Search Console sees impressions only · last good read 2026-10-16 · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader of / leaves no trace · bug row W-003] [red-armed: ring restored in CycleOverview.tsx, rebuilt, node scripts/check-glance-now-mark.mjs http://localhost:3123 -> MARKED rings 10 · now-lines 0 · current-year labels 0 at both viewports, RED: 0 of 2 (exit 1)]
+
+codexCalls: 2
+adversarialReviews: 2 — EXECUTED
+hygiene helper: DISPATCHED 2026-10-16T23:27Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-16.md PRESENT (0 drafts; check-wait-justification PASS, check-engineering-zero PASS)
+[standing-rules-hash: 88cc2dc9]
+
+**What remains:** I-048 stays open for the close to disposition: the glance figure half is done and walked; the closed card's "CURVE · PEAKING" tag and its chart are now the residual both walkers named (below the fold). I-050 keeps its 10-17 date (it lives in CycleFacet.tsx, not this component). The ledger note for I-048 is written at the close. All `next start` processes this round started are stopped (port 3123 free, verified).
