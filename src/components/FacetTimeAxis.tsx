@@ -10,6 +10,9 @@ interface FacetTimeAxisProps {
   endYear: number;
   currentYear: number;
   annotations?: Annotation[];
+  /** Mark the current year ("now · 2026" and a bolder tick). Off under the
+   *  home page's closed cards (I-048, 2026-10-17), which draw no now-line. */
+  markNow?: boolean;
 }
 
 export default function FacetTimeAxis({
@@ -17,6 +20,7 @@ export default function FacetTimeAxis({
   endYear,
   currentYear,
   annotations = [],
+  markNow = true,
 }: FacetTimeAxisProps) {
   const ref = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(ref, 800);
@@ -38,7 +42,8 @@ export default function FacetTimeAxis({
     return ticks;
   }, [startYear, endYear, isMobile]);
 
-  const nowInRange = currentYear >= startYear && currentYear <= endYear;
+  const nowInRange =
+    markNow && currentYear >= startYear && currentYear <= endYear;
   const nowX = xScale(currentYear);
   const nowAnchor = nowX > innerWidth - 40 ? "end" : "middle";
   const nowSpan = nowInRange
@@ -112,7 +117,7 @@ export default function FacetTimeAxis({
               </g>
             );
           })}
-          {currentYear >= startYear && currentYear <= endYear && (
+          {nowInRange && (
             <g transform={`translate(${xScale(currentYear)},${axisBaseY})`}>
               <line
                 y1={0}

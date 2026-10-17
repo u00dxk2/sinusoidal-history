@@ -122,6 +122,7 @@ export default function CycleFacet({
         effective={effective}
         mode={mode}
         phaseLabel={phaseLabel}
+        showPhaseTag={mode !== "expanded" && verdictLine}
         overridden={overridden}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -180,6 +181,7 @@ export default function CycleFacet({
           endYear={endYear}
           currentYear={currentYear}
           interactive={mode === "expanded"}
+          markNow={mode === "expanded" || verdictLine}
         />
       )}
 
@@ -214,6 +216,7 @@ function FacetHeader({
   effective,
   mode,
   phaseLabel,
+  showPhaseTag,
   overridden,
   onFocus,
   onBlur,
@@ -224,6 +227,7 @@ function FacetHeader({
   effective: Cycle;
   mode: FacetMode;
   phaseLabel: PhasePositionLabel;
+  showPhaseTag: boolean;
   overridden: boolean;
   onFocus: () => void;
   onBlur: () => void;
@@ -294,8 +298,14 @@ function FacetHeader({
           name still ties the card to its curve. Not in the expanded header:
           there it moved below the answer (see CycleFacet). */}
       {/* "curve ·" (I-048): a bare "PEAKING" on the closed card read as the
-          site agreeing with the theory before the card was opened. */}
-      {mode !== "expanded" && (
+          site agreeing with the theory before the card was opened. Even with
+          "curve ·", walks B2/B3 (2026-10-16) read "CURVE · PEAKING" on the
+          closed Dalio card as "peaking now", and the tag, which never
+          shrinks, cut the name short at 320px (I-050). So the home page's
+          closed and collapsed cards carry no phase word at all (2026-10-17);
+          the embed keeps it (its own verdict line sits above the chart, and
+          check-holds-up-line reads it there). */}
+      {showPhaseTag && (
         <span
           className={cn(
             "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
@@ -463,6 +473,7 @@ function FacetChart({
   endYear,
   currentYear,
   interactive,
+  markNow,
 }: {
   cycle: Cycle;
   series: DataSeries | undefined;
@@ -472,6 +483,9 @@ function FacetChart({
   endYear: number;
   currentYear: number;
   interactive: boolean;
+  /** Draw the dashed current-year line. Off on the home page's closed card
+   *  (I-048, 2026-10-17): its crest at that line read as "peaking now". */
+  markNow: boolean;
 }) {
   const innerWidth = Math.max(0, width - 8);
   const xScale = useTimeScale(startYear, endYear, innerWidth);
@@ -544,16 +558,18 @@ function FacetChart({
             strokeLinecap="round"
           />
         )}
-        <line
-          x1={xScale(currentYear)}
-          x2={xScale(currentYear)}
-          y1={0}
-          y2={height}
-          stroke="currentColor"
-          strokeWidth={1}
-          strokeOpacity={0.35}
-          strokeDasharray="2 3"
-        />
+        {markNow && (
+          <line
+            x1={xScale(currentYear)}
+            x2={xScale(currentYear)}
+            y1={0}
+            y2={height}
+            stroke="currentColor"
+            strokeWidth={1}
+            strokeOpacity={0.35}
+            strokeDasharray="2 3"
+          />
+        )}
       </g>
     </svg>
   );

@@ -131,12 +131,15 @@ export default function FacetView({
           </Fragment>
         );
       })}
+      {/* No "now" mark under the closed cards (I-048, 2026-10-17): they draw
+          no now-line, so a marked year here would put the position back. */}
       {!focusIsValid && (
         <FacetTimeAxis
           startYear={startYear}
           endYear={endYear}
           currentYear={currentYear}
           annotations={annotations}
+          markNow={false}
         />
       )}
     </div>
