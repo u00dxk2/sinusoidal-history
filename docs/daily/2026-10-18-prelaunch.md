@@ -132,7 +132,9 @@ ACTION: DEFERRED — the change shipped live and every count leg is met, but the
 hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (inputs none; READ-MUTATED none, 0 reads guarded). check-wait-justification: PASS, 32 of 64 rows carry waitJustification, 0 warn (re-run after the ledger edits). check-engineering-zero --project sinusoidal-cycles: PASS, 0 findings, 0 unreadable (helper).
 Due gates: `check-due-gates-dispositioned`: "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-18), 0 due.
 
-State since P3 (58bf9ddd): the docs commit 93154cb is live (drift in-sync live 93154cb2, per manager review 35a7b77e). The manager re-ran check-open-card-position on production: CLEAN, 2 of 2. No new read.
+State since P3 (58bf9ddd): the change is still on for users. Production still serves 93154cb2, which contains 60b74b6. The close commit 82e45d1 (docs and ledger only) is waiting on its CI gate.
+mechanism-verified: node C:/dev/skylark/sinusoidal-cycles/scripts/check-open-card-position.mjs https://sinusoidalhistory.com → "CLEAN … @ 390x664 cards (Facets + Calibrate): tags 0 · phase words 0 · now-lines 0 · current-year labels 0 | panel: phase words 0 · in row names 0 · rows with no verdict 0 of 10" and the same at 320x568; "OK: 2 of 2 viewports show no current-year position on the opened dalio card or the State of the cycles panel" (read 2026-10-18 ~10:12 MT).
+check-deployed-sha-drift --service sinusoidal-history → "sinusoidal-history not-drift-eligible live 93154cb2 → head 82e45d1f head is not passing (in-flight — 1 of 1 check-run(s) still running … gates:in_progress)"; RESULT: PASS (exit 0).
 
 Ledger delta (continuity-edit, continuity/items.json, 60 → 64 rows):
 - I-054: stays OPEN, narrowed. closeWhen replaced (the opened card's bare crest, or a recorded decision to keep the shape to 2050). Notes record today's evidence. readCommand now check-open-card-position. nextEvaluation 2026-10-20 (unchanged).
