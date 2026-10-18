@@ -2,11 +2,7 @@
 
 import Link from "next/link";
 import type { Cycle } from "@/data/types";
-import {
-  phasePositionLabel,
-  phaseProgressPercent,
-  type PhasePositionLabel,
-} from "@/lib/cycleMath";
+import { holdsUpCard } from "@/lib/holdsUp";
 
 interface NowSummaryPanelProps {
   cycles: Cycle[];
@@ -42,10 +38,6 @@ function monthYear(year: number): string {
   return `${MONTH_NAMES[m]} ${year}`;
 }
 
-function labelDescription(label: PhasePositionLabel): string {
-  return label;
-}
-
 /**
  * Editorial short-form name. The State panel is a snapshot, not an
  * encyclopedia: we display the byline (author surname or short title),
@@ -54,6 +46,46 @@ function labelDescription(label: PhasePositionLabel): string {
 function bylineName(name: string): string {
   if (!name.includes("—")) return name;
   return name.split("—")[0].trim();
+}
+
+/**
+ * Each row carries its cycle's "Does it hold up?" headline, and no phase word
+ * or position bar (I-054, 2026-10-18): the rows read "Ray Dalio 75y PEAKING"
+ * with no verdict beside it, and the 10-17 cold walks took that as the site
+ * agreeing. The words are the closed card's (holdsUpCard), unchanged. On a
+ * phone the verdict takes its own line under the name, so the long headline is
+ * never cut; from 640px it sits beside the name, so the State embed still fits
+ * its published 700px frame (check-embed-snippets).
+ */
+function RowBody({ cycle }: { cycle: Cycle }) {
+  const verdict = holdsUpCard(cycle)?.headline;
+  return (
+    <span className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
+      <span className="flex items-baseline gap-2 min-w-0 sm:flex-1">
+        <span className="font-display text-[15px] sm:text-[18px] leading-tight tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
+          {bylineName(cycle.name)}
+        </span>
+        {/* Mobile hides the facet subtitle, so no period number appeared
+            anywhere on the phone home page — and "Peter Turchin" (150y) vs
+            "Turchin" (50y) were indistinguishable. Journey-walk 2026-08-24,
+            J15. */}
+        <span
+          aria-hidden
+          className="sm:hidden font-mono text-[11px] text-ink-soft/70 tabular-nums flex-shrink-0"
+        >
+          {cycle.period_years}y
+        </span>
+      </span>
+      {verdict && (
+        <span
+          data-panel-verdict={cycle.id}
+          className="block text-[12px] leading-tight text-ink-soft sm:text-right sm:flex-shrink-0"
+        >
+          {verdict}
+        </span>
+      )}
+    </span>
+  );
 }
 
 export default function NowSummaryPanel({
@@ -97,12 +129,6 @@ export default function NowSummaryPanel({
                 select a row to focus + calibrate
               </p>
             )}
-            {/* The phase bar's key lived only on /poster; the same reading
-                order, stated where the bars are. Desktop-only because the
-                bars are. Journey-walk 2026-08-24, J16. */}
-            <p className="hidden sm:block mt-0.5 text-[11px] text-ink-soft/70 font-mono uppercase tracking-[0.14em]">
-              bar: trough · peak · trough
-            </p>
           </div>
         </header>
       </div>
@@ -111,12 +137,11 @@ export default function NowSummaryPanel({
 
       <ul className="px-2 sm:px-4 py-3 grid grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-0">
         {cycles.map((cycle, idx) => {
-          const label = phasePositionLabel(cycle, currentYear);
-          const progress = phaseProgressPercent(cycle, currentYear);
+          const verdict = holdsUpCard(cycle)?.headline;
           if (!interactive) {
             return (
               <li key={cycle.id}>
-                <div className="w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 min-h-11 rounded-sm">
+                <div className="w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-1.5 sm:py-2.5 min-h-11 rounded-sm">
                   <span
                     aria-hidden
                     className="font-mono text-[11px] text-ink-soft/70 tabular-nums w-4 text-right flex-shrink-0"
@@ -128,22 +153,7 @@ export default function NowSummaryPanel({
                     className="self-stretch w-[3px] flex-shrink-0 rounded-full"
                     style={{ backgroundColor: cycle.color }}
                   />
-                  <span className="font-display text-[15px] sm:text-[18px] tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
-                    {bylineName(cycle.name)}
-                  </span>
-                  <span
-                    aria-hidden
-                    className="sm:hidden font-mono text-[11px] text-ink-soft/70 tabular-nums flex-shrink-0"
-                  >
-                    {cycle.period_years}y
-                  </span>
-                  <PhaseGaugeBar percent={progress} color={cycle.color} />
-                  <span
-                    className="text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right"
-                    style={{ color: cycle.color }}
-                  >
-                    {labelDescription(label)}
-                  </span>
+                  <RowBody cycle={cycle} />
                 </div>
               </li>
             );
@@ -153,13 +163,13 @@ export default function NowSummaryPanel({
               <button
                 type="button"
                 onClick={() => onSelectCycle?.(cycle.id)}
-                aria-label={`${cycle.name} — currently ${labelDescription(label)}, select to focus and calibrate`}
+                aria-label={`${cycle.name} — does it hold up? ${verdict ?? "no verdict"}. Select to focus and calibrate`}
                 // min-h-11: py-2.5 landed these rows at 43px, one under the
                 // 44px floor. outline-none + a 30%-opacity ring is dropped in
                 // favour of the global :focus-visible rule in globals.css —
                 // it was the one place focus was effectively invisible.
                 // Canon R28, R30.
-                className="group w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-2.5 min-h-11 rounded-sm hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04] text-left transition-colors"
+                className="group w-full flex items-center gap-3 sm:gap-4 px-3 sm:px-4 py-1.5 sm:py-2.5 min-h-11 rounded-sm hover:bg-ink/[0.04] focus-visible:bg-ink/[0.04] text-left transition-colors"
               >
                 <span
                   aria-hidden
@@ -172,29 +182,7 @@ export default function NowSummaryPanel({
                   className="self-stretch w-[3px] flex-shrink-0 rounded-full"
                   style={{ backgroundColor: cycle.color }}
                 />
-                <span className="font-display text-[15px] sm:text-[18px] tracking-tight font-medium flex-1 truncate min-w-0 text-ink">
-                  {bylineName(cycle.name)}
-                </span>
-                {/* Mobile hides the gauge bar and the facet subtitle, so no
-                    period number appeared anywhere on the phone home page —
-                    and "Peter Turchin" (150y) vs "Turchin" (50y) were
-                    indistinguishable. Journey-walk 2026-08-24, J15. */}
-                <span
-                  aria-hidden
-                  className="sm:hidden font-mono text-[11px] text-ink-soft/70 tabular-nums flex-shrink-0"
-                >
-                  {cycle.period_years}y
-                </span>
-                <PhaseGaugeBar
-                  percent={progress}
-                  color={cycle.color}
-                />
-                <span
-                  className="text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] flex-shrink-0 w-[5.5rem] sm:w-[6rem] text-right transition-colors"
-                  style={{ color: cycle.color }}
-                >
-                  {labelDescription(label)}
-                </span>
+                <RowBody cycle={cycle} />
                 <span
                   aria-hidden
                   className="hidden sm:inline-flex items-center justify-center w-5 h-5 rounded text-ink-soft/30 group-hover:text-ink/70 group-focus:text-ink/70 transition-colors"
@@ -219,30 +207,5 @@ export default function NowSummaryPanel({
         })}
       </ul>
     </section>
-  );
-}
-
-function PhaseGaugeBar({
-  percent,
-  color,
-}: {
-  percent: number;
-  color: string;
-}) {
-  const clamped = Math.max(0, Math.min(100, percent));
-  return (
-    <span
-      aria-hidden
-      className="hidden sm:block relative h-[3px] w-24 lg:w-32 rounded-full bg-ink/[0.08] flex-shrink-0 overflow-visible"
-    >
-      <span
-        className="absolute inset-y-0 left-0 rounded-full"
-        style={{ width: `${clamped}%`, backgroundColor: color }}
-      />
-      <span
-        aria-hidden
-        className="absolute -top-1 bottom-[-4px] left-1/2 w-px bg-ink/20"
-      />
-    </span>
   );
 }

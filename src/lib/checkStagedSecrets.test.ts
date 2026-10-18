@@ -16,6 +16,8 @@ describe("vendored secret scanner", () => {
       expect(r.stdout + r.stderr).toContain("PASS");
       expect(r.status).toBe(0);
     },
-    60_000,
+    // 180s, not 60s: on 2026-10-17 it ran 70.9s under host load and passed on
+    // re-run at the same commit, so a 60s budget made a full gate a coin flip.
+    180_000,
   );
 });

@@ -119,13 +119,15 @@ export default function FacetView({
           {/* When a facet is focused, the year axis moves up to sit directly
               under the expanded chart — it used to exist only below all ten
               panels, so a focused reading had no year scale in view.
-              Journey-walk 2026-08-24, J3. */}
+              Journey-walk 2026-08-24, J3. No "now" mark on it (I-054): the
+              expanded chart draws no now-line either. */}
           {mode === "expanded" && (
             <FacetTimeAxis
               startYear={startYear}
               endYear={endYear}
               currentYear={currentYear}
               annotations={annotations}
+              markNow={false}
             />
           )}
           </Fragment>

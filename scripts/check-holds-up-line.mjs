@@ -53,6 +53,11 @@
 // clipped to zero height (height:0 + overflow:hidden) while its own box is non-zero; and whether
 // the word carries the text-ink-soft class itself or inherits it (the leg compares the painted
 // colour, which is what a reader sees, on purpose).
+// I-054 (2026-10-18): the card legs' phase rule INVERTED. The expanded card carries no phase word
+// at all now (walks C1/C2 read "Where the drawn curve sits in 2026: peaking", under the answer, as
+// agreement), so a card leg requires NO [data-phase-position] inside the card; the embed legs keep
+// the rule above (the single-cycle embed's header tag stays, in ink). Same 40 legs. Red arm:
+// production at 223cdc4, which still prints the card's phase line, reads the 20 card legs FAIL.
 // I-048 (2026-10-15 evening): the closed card's "Does it hold up? <headline>" line
 // ([data-holds-up-closed]) and the glance figure's caption are NOT judged here; the cold walk
 // judges them, and the line's words come from holdsUpCard, which holdsUp.test.ts pins.
@@ -247,6 +252,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
                     }
                     return true;
                   })(),
+                phases: facet.querySelectorAll("[data-phase-position]").length,
                 ink: bytes(ink),
                 curve: bytes(curveHex),
               };
@@ -256,8 +262,8 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         const headOk = !!parts && parts.heads === 1 && parts.headText === expected;
         // The phase word IS the ink token, and is not the curve's colour (both, so a token that
         // drifted to the cycle colour still fails).
-        const phaseOk =
-          !!parts &&
+        // The card: no phase word anywhere in it (I-054). The embed: the word, in ink, not the curve's colour.
+        const phaseOk = kind === "card " ? !!parts && parts.phases === 0 : !!parts &&
           parts.phaseColor !== null &&
           parts.phaseColor === parts.ink &&
           // RGB only, within 3 per channel: an alpha-reduced curve colour is still the curve's
@@ -270,7 +276,6 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         const formOk =
           kind === "card "
             ? !!parts &&
-              parts.phaseAfter === true &&
               parts.headLinked === false &&
               parts.whys === 1 &&
               parts.whyText === why &&
@@ -290,8 +295,8 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         else fail++;
         console.log(
           `${ok ? "PASS" : "FAIL"}  ${tag}  — ${n}/${nAll} line(s) -> ${href} · painted ${painted}` +
-            ` · headline ${headOk} · before chart ${!!parts?.beforeChart} · phase not curve colour ${phaseOk}` +
-            ` · ${kind === "card " ? "why exact, headline unlinked, phase after answer" : "compact form exact"} ${formOk}`
+            ` · headline ${headOk} · before chart ${!!parts?.beforeChart} · ${kind === "card " ? "no phase word" : "phase not curve colour"} ${phaseOk}` +
+            ` · ${kind === "card " ? "why exact, headline unlinked" : "compact form exact"} ${formOk}`
         );
       } catch {
         unread++;

@@ -148,22 +148,11 @@ export default function CycleFacet({
           tap target; the single-cycle embed carries its own compact line. */}
       {mode === "normal" && !verdictLine && <ClosedVerdict cycle={cycle} />}
 
-      {/* The expanded card's phase word, below the answer and attributed to
-          the curve (I-047, second lever). In the header, even in ink, the
-          10-15 walk read "PEAKING" as a status badge above the verdict:
-          "Dalio's claim: confirmed". Outside [data-holds-up] on purpose, so
-          the verdict line's whole-line rule is unchanged. */}
-      {mode === "expanded" && (
-        <p className="mt-1 text-[12px] leading-snug text-ink-soft">
-          Where the drawn curve sits in {currentYear}:{" "}
-          {/* data-phase-position, not aria-label: an aria-label on a plain
-              span is not a reliable name, and where honoured it would replace
-              the visible words (I-048). check-holds-up-line reads this. */}
-          <span className="text-ink-soft" data-phase-position={phaseLabel}>
-            {phaseLabel}
-          </span>
-        </p>
-      )}
+      {/* No phase line on the expanded card (I-054, 2026-10-18): "Where the
+          drawn curve sits in 2026: peaking", over a crest at the now-line,
+          still read briefly as the site agreeing (walks C1/C2, 10-17), after
+          moving it under the answer (I-047) had not been enough. The
+          /cycles/<slug> page says where this year sits, below its verdict. */}
 
       {mode !== "collapsed" && series && (
         <FacetLegend cycle={cycle} series={series} />
@@ -181,7 +170,7 @@ export default function CycleFacet({
           endYear={endYear}
           currentYear={currentYear}
           interactive={mode === "expanded"}
-          markNow={mode === "expanded" || verdictLine}
+          markNow={verdictLine}
         />
       )}
 
