@@ -11,7 +11,7 @@
 //   phase word — any block (p, li, div) whose rendered text names a phase label as a word (rising,
 //                peaking, falling, troughing, crossing) AND the current year: a position, not the
 //                theory's own description ("rising → top → declining → reset" names no year)
-//   now-line   — any vertical svg <line> (x1 == x2) in the card's chart
+//   now-line   — any vertical svg <line> (x1 == x2) in the card's chart (its svg[role=img], not the axis)
 //   year label — any rendered text node naming the current year as a word, in the card or its axis
 //
 // and, for the panel (section[aria-label="State of the cycles summary"]):
@@ -20,7 +20,10 @@
 //                manager review's control, because both walkers read the panel from page text)
 //   no verdict — a row that does not carry its cycle's "Does it hold up?" headline
 //
-// It checks that the card opened (aria-expanded="true"), that its chart draws a curve and that
+// The same card legs are read a second time on /?tab=calibrate&focus=dalio, which renders the
+// same expanded card with its own axis (Codex r1, 2026-10-18: that axis kept "now · 2026").
+//
+// It checks that the card opened (it carries the full [data-holds-up] line), that its chart draws a curve and that
 // the panel has one row per cycle, so a page that failed to render cannot read as clean. It
 // claims DOM presence and text only, never paint or what a reader takes from it; that is the walk's.
 //
@@ -61,16 +64,19 @@ export function yearIn(text, year) {
 
 // One viewport's verdict from what the page reported.
 export function judge(read, expectedRows = CYCLE_COUNT) {
-  if (!read.card) return { state: "MISSING", why: `the ${FOCUS} card is not on the page` };
-  if (!read.card.open) return { state: "MISSING", why: `the ${FOCUS} card did not open` };
-  if (!read.card.drawn) return { state: "MISSING", why: `the opened ${FOCUS} card draws no curve` };
+  for (const [where, c] of [["Facets", read.card], ["Calibrate", read.calCard]]) {
+    if (!c) return { state: "MISSING", why: `the ${FOCUS} card is not on the ${where} tab` };
+    if (!c.open) return { state: "MISSING", why: `the ${FOCUS} card did not open on the ${where} tab` };
+    if (!c.drawn) return { state: "MISSING", why: `the opened ${FOCUS} card draws no curve on the ${where} tab` };
+  }
   if (read.panel.rows !== expectedRows)
     return { state: "MISSING", why: `the panel has ${read.panel.rows} of ${expectedRows} rows` };
+  const both = (k) => read.card[k] + read.calCard[k];
   const totals = {
-    cardTag: read.card.tag,
-    cardPhase: read.card.phase,
-    cardLine: read.card.line,
-    cardYear: read.card.year,
+    cardTag: both("tag"),
+    cardPhase: both("phase"),
+    cardLine: both("line"),
+    cardYear: both("year"),
     panelPhase: read.panel.phase,
     panelNamePhase: read.panel.namePhase,
     panelNoVerdict: read.panel.noVerdict,
@@ -91,7 +97,7 @@ export function summary(results) {
 function selftest() {
   const card = (over = {}) => ({ open: true, drawn: true, tag: 0, phase: 0, line: 0, year: 0, ...over });
   const panel = (over = {}) => ({ rows: 10, phase: 0, namePhase: 0, noVerdict: 0, ...over });
-  const page = (c = card(), p = panel()) => ({ card: c, panel: p });
+  const page = (c = card(), p = panel(), cal = card()) => ({ card: c, panel: p, calCard: cal });
   // The 10-17 production page: a tag and its sentence, a now-line, "now · 2026" on the axis, and
   // ten panel rows each carrying a phase word, a phase in its accessible name and no verdict.
   const before = judge(page(card({ tag: 1, phase: 1, line: 1, year: 1 }), panel({ phase: 10, namePhase: 10, noVerdict: 10 })), 10);
@@ -105,7 +111,9 @@ function selftest() {
     ["a panel phase word alone is MARKED", judge(page(card(), panel({ phase: 1 })), 10).state === "MARKED"],
     ["a phase in a row's accessible name alone is MARKED", judge(page(card(), panel({ namePhase: 1 })), 10).state === "MARKED"],
     ["a row with no verdict alone is MARKED", judge(page(card(), panel({ noVerdict: 1 })), 10).state === "MARKED"],
-    ["no card is MISSING, never CLEAN", judge({ card: null, panel: panel() }, 10).state === "MISSING"],
+    ["a current-year label on the Calibrate tab's card alone is MARKED", judge(page(card(), panel(), card({ year: 1 })), 10).state === "MARKED"],
+    ["no card is MISSING, never CLEAN", judge({ card: null, panel: panel(), calCard: card() }, 10).state === "MISSING"],
+    ["no Calibrate card is MISSING, never CLEAN", judge({ card: card(), panel: panel(), calCard: null }, 10).state === "MISSING"],
     ["a card that did not open is MISSING", judge(page(card({ open: false })), 10).state === "MISSING"],
     ["a card with no curve is MISSING", judge(page(card({ drawn: false })), 10).state === "MISSING"],
     ["an empty panel is MISSING, never CLEAN", judge(page(card(), panel({ rows: 0 })), 10).state === "MISSING"],
@@ -141,9 +149,10 @@ async function run(args) {
   const results = [];
   for (const vp of viewports) {
     const page = await browser.newPage({ viewport: vp, isMobile: true, hasTouch: true });
-    await page.goto(`${origin}/?tab=facets&focus=${FOCUS}`, { waitUntil: "networkidle" });
+    const readTab = async (tab) => {
+    await page.goto(`${origin}/?tab=${tab}&focus=${FOCUS}`, { waitUntil: "networkidle" });
     await page.locator('section[aria-label="State of the cycles summary"]').first().waitFor({ timeout: 15000 }).catch(() => {});
-    const read = await page.evaluate(({ focus, yearInSrc, phaseInSrc, verdicts }) => {
+    return page.evaluate(({ focus, yearInSrc, phaseInSrc, verdicts }) => {
       const yearIn = new Function(`return (${yearInSrc})`)();
       const phaseIn = new Function(`return (${phaseInSrc})`)();
       const shown = (el) => {
@@ -166,7 +175,10 @@ async function run(args) {
         const axis = next && !next.hasAttribute("data-facet-id") ? next : null;
         const scoped = [...texts(card), ...(axis ? texts(axis) : [])];
         cardRead = {
-          open: !!card.querySelector('button[aria-expanded="true"]'),
+          // Expanded = the card carries the full [data-holds-up] verdict line (a closed card carries
+          // [data-holds-up-closed]). Not aria-expanded: the Calibrate tab's header is an "open in the
+          // facets view" button with no aria-expanded at all.
+          open: !!card.querySelector("[data-holds-up]"),
           drawn: [...card.querySelectorAll('svg path[data-curve="theory"]')].some((p) => (p.getAttribute("d") ?? "").length > 0 && shown(p)),
           tag: [...card.querySelectorAll("[data-phase-position]")].filter(shown).length,
           phase: new Set(
@@ -175,7 +187,10 @@ async function run(args) {
               .map((n) => n.parentElement.closest("p, li, div"))
               .filter((b) => b && yearIn(b.innerText ?? "", year)),
           ).size,
-          line: [...card.querySelectorAll("svg line")].filter((l) => shown(l) && l.getAttribute("x1") === l.getAttribute("x2")).length,
+          // The chart's own svg only: on the Calibrate tab the year axis sits INSIDE the card and its
+          // tick marks are vertical lines too (6 of them, measured 2026-10-18). The axis's "now"
+          // mark is caught by the year-label leg.
+          line: [...card.querySelectorAll('svg[role="img"] line')].filter((l) => shown(l) && l.getAttribute("x1") === l.getAttribute("x2")).length,
           year: new Set(scoped.filter((n) => yearIn(n.textContent ?? "", year)).map((n) => n.parentElement)).size,
         };
       }
@@ -192,6 +207,9 @@ async function run(args) {
         },
       };
     }, { focus: FOCUS, yearInSrc: yearIn.toString(), phaseInSrc: `(text) => new RegExp("\\\\b(${PHASE_WORDS.join("|")})\\\\b", "i").test(text)`, verdicts: VERDICTS });
+    };
+    const read = await readTab("facets");
+    read.calCard = (await readTab("calibrate")).card;
     await page.close();
     const v = judge(read);
     results.push(v);
@@ -199,8 +217,8 @@ async function run(args) {
     const detail =
       v.state === "MISSING"
         ? v.why
-        : `card: tags ${t.cardTag} · phase words ${t.cardPhase} · now-lines ${t.cardLine} · current-year labels ${t.cardYear} | panel: phase words ${t.panelPhase} · in row names ${t.panelNamePhase} · rows with no verdict ${t.panelNoVerdict} of ${read.panel.rows}`;
-    console.log(`  ${v.state.padEnd(7)} ${origin}/?tab=facets&focus=${FOCUS} @ ${vp.width}x${vp.height}  ${detail}`);
+        : `cards (Facets + Calibrate): tags ${t.cardTag} · phase words ${t.cardPhase} · now-lines ${t.cardLine} · current-year labels ${t.cardYear} | panel: phase words ${t.panelPhase} · in row names ${t.panelNamePhase} · rows with no verdict ${t.panelNoVerdict} of ${read.panel.rows}`;
+    console.log(`  ${v.state.padEnd(7)} ${origin}/?tab=facets|calibrate&focus=${FOCUS} @ ${vp.width}x${vp.height}  ${detail}`);
   }
   await browser.close();
   const s = summary(results);
