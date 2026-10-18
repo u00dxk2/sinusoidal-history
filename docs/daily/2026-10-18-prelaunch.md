@@ -118,3 +118,34 @@ Substrate: `.githooks/pre-commit` is one leg (`exec node scripts/check-staged-se
 - The packet named two marks on the opened card. There were three (the line, the chart's now-line, the axis label under the card), plus a fourth path the packet missed: the Calibrate tab renders the same expanded card with its own axis (Codex r1, fixed in 60b74b6).
 - The packet's recommended layout ("let the verdict wrap under the name") overflowed the State embed's published 700px frame (816px at 358 wide, 844 at 680). Changed before push: under the name below 640px, beside it from 640px.
 <!-- findings:end -->
+
+---
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: DEFERRED — the change shipped live and every count leg is met, but the walk leg is not: walker D1 briefly read the opened card's bare last crest as "peaks about now" · trigger 2026-10-20 (pre-registered walk on the next lever) · item I-054 · P3 58bf9ddd
+
+[standing-rules-hash: 88cc2dc9]
+
+hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (inputs none; READ-MUTATED none, 0 reads guarded). check-wait-justification: PASS, 32 of 64 rows carry waitJustification, 0 warn (re-run after the ledger edits). check-engineering-zero --project sinusoidal-cycles: PASS, 0 findings, 0 unreadable (helper).
+Due gates: `check-due-gates-dispositioned`: "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-18), 0 due.
+
+State since P3 (58bf9ddd): the docs commit 93154cb is live (drift in-sync live 93154cb2, per manager review 35a7b77e). The manager re-ran check-open-card-position on production: CLEAN, 2 of 2. No new read.
+
+Ledger delta (continuity-edit, continuity/items.json, 60 → 64 rows):
+- I-054: stays OPEN, narrowed. closeWhen replaced (the opened card's bare crest, or a recorded decision to keep the shape to 2050). Notes record today's evidence. readCommand now check-open-card-position. nextEvaluation 2026-10-20 (unchanged).
+- Minted I-055 (the editor's note heading "Notice how the cycles tend to peak near the present.", read as agreement by both walkers), due 2026-10-20.
+- Minted I-056 (the main share card /og: phase words + bars under "State of the cycles"), due 2026-10-23.
+- Minted I-057 (/state/<year> + /api/v1/state phase labels; the frozen 2026 CSV is never edited), due 2026-10-27.
+- Minted I-058 (overlay hover readout "currently <phase>", CycleOverlay.tsx:585,602; /poster rows, Poster.tsx:178; the manager review's hypothesis, held by source read), due 2026-10-27.
+
+Receipt: P3's line stands unchanged (58bf9ddd): no outcome read exists beyond the synthetic walks, and the exposure is still blind (W-003).
+
+Pending reads: 2026-10-20 I-054 walk (on the lever) and I-055; 2026-10-23 I-056; 2026-10-27 I-057, I-058; 2026-10-30 I-051 (Search Console).
+UNRESOLVED: none.
+Today panel: written for 2026-10-18 (update-daily-brief, insertedProjects sinusoidal-cycles, reset false).
+Primer: docs/cold-starts/2026-10-18.md (banner 1,074 chars).
+
+codexCalls: 0 this phase (probed-declined: a ledger and docs close with no code diff). The day's total is 2, in P3.
