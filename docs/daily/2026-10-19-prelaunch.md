@@ -119,3 +119,31 @@ hygiene helper: DISPATCHED 2026-10-19 ~09:02 MT · draft tmp/hygiene-draft-sinus
 - The P1 packet recommended option A over B because "the walkers stopped on the display line". E1/E2 show A still fails: a display sentence that OPENS with the pattern is lifted before its correction lands, even inside the same sentence. The packet's premise that "the claim-less sentence is the one a skimmer lifts" was wrong. A skimmer lifts the first clause.
 - The range chart's grey mean curve (unchanged today) was named by both walkers as the strongest "peaking now / converge" picture on the page. D1 named it on 10-18. It is a bigger driver than the note's words, and it sits directly under the note.
 <!-- findings:end -->
+
+---
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: DEFERRED — both legs shipped as approved (I-054 closed on its decision arm; I-055's 5b30410 live), but I-055's acceptance condition is not met: walks E1/E2 read the note NOT HELD · trigger 2026-10-20 (pre-registered walk on a shape change) · item I-055 · P3 e0769359
+
+[standing-rules-hash: 88cc2dc9]
+
+The manager review (c4547c6f) reads the action as COMPLETED against the approved packet with the outcome open. I write DEFERRED because this line's own definition makes COMPLETED mean the acceptance condition was met, and I-055's walk leg was not.
+
+hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected (inputs none; READ-MUTATED none, 0 reads guarded). check-wait-justification: PASS, 32 of 64 rows carry waitJustification, 0 warn. check-engineering-zero --project sinusoidal-cycles: PASS, 0 findings, 0 unreadable (helper).
+Due gates: `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-19), 0 due.
+
+State since P3 (e0769359): production serves 2f17c43e, which contains 5b30410 (manager review's drift read: in-sync). The ledger edits below are new since P3. Nothing else changed for users.
+
+Ledger delta (continuity-edit, continuity/items.json, 64 → 65 rows):
+- I-054: CLOSED 2026-10-19 on its closeWhen's decision arm (recorded at P3; the note carries the arithmetic and the reopen trigger).
+- I-055: stays OPEN, narrowed to the note. Title and closeWhen narrowed (range-chart half → I-059). readCommand re-pointed to the display line that read NOT HELD (`git grep -n "Nearly every cycle peaks somewhere near the present" -- src`, 1 match today). The manager review found that the old grep returned 0 after the ship and read as progress. Notes record 5b30410, the production read, and walks E1/E2. nextEvaluation 2026-10-20 (unchanged).
+- I-059: MINTED, the range chart's grey mean curve (caption src/lib/countWords.ts:48), read as "the cycles line up now" by D1 (10-18) and by E1 and E2 (10-19). readCommand: `git grep -n "mean of all" -- src` (2 matches today). nextEvaluation 2026-10-20, with its own pre-registered walk.
+
+Receipt: P3's line stands unchanged (e0769359). No outcome read exists beyond the synthetic walks, and the exposure is still blind (W-003).
+
+Pending reads: 2026-10-20 I-055 (walk on the shape change) and I-059 (its own walk), plus I-043, I-046, I-027, I-034, I-049; 2026-10-23 I-056; 2026-10-27 I-057, I-058; 2026-10-30 I-051 (Search Console).
+
+UNRESOLVED: none.

@@ -1739,19 +1739,20 @@
     },
     {
       "id": "I-055",
-      "title": "Editor's note heading \"Notice how the cycles tend to peak near the present.\" (just above State of the cycles) reads briefly as the site agreeing",
+      "title": "Editor's note display line (just above the range chart and State of the cycles) opens with the pattern and reads briefly as the site agreeing",
       "status": "open",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
       "identified": "2026-10-18",
       "description": "Walks D1/D2 (docs/walks/2026-10-18-i054.md, production 60b74b6, synthetic N=1 each): both walkers, scrolling from the opened Dalio card to 'State of the cycles', passed the editor's note (src/components/ConvergenceNote.tsx) whose large italic heading 'Notice how the cycles tend to peak near the present.' read for 'half a second' as the site agreeing (D2) and as leaning toward the friend (D1), before its next line ('That is not convergence - it is a selection effect') corrected it. D1 also read the range chart's grey 'mean of all ten cycle sinusoids' bump near 2030-2040 as 'everything peaks now'. ConvergenceNote is client-rendered inside Viz, so check-rendered-text is blind to it; a change here is proved by the rendered main innerText multiset (AGENTS.md). Rule that has held three times on this page: claim less, never reword.",
-      "closeWhen": "A pre-registered cold walk (390x664, production) that scrolls from the opened Dalio card to State of the cycles reports nothing in the editor's note or the range chart read as 'peaking now' or the site agreeing, even briefly; or a recorded decision that the heading stays.",
+      "closeWhen": "NARROWED 2026-10-19 (the range-chart half is I-059): a pre-registered cold walk (390x664, production, two walkers, default + schoolteacher seed) that scrolls from the opened Dalio card past the editor's note reports nothing in the note read as 'peaking now', convergence or the site agreeing, even briefly; or a recorded decision that the display line stays.",
       "nextEvaluation": "2026-10-20",
-      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"tend to peak near the present\" -- src — presence of the heading; the row's proof is the walk",
-      "notes": "2026-10-18 (round 1, P5): minted at the close per manager review (35a7b77e) from walks D1/D2 'recorded, not scored'. Dated with I-054's next read.",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"Nearly every cycle peaks somewhere near the present\" -- src — presence of the display line that read NOT HELD on 2026-10-19 (1 match = still that shape); the row's proof is the walk",
+      "notes": "2026-10-18 (round 1, P5): minted at the close per manager review (35a7b77e) from walks D1/D2 'recorded, not scored'. Dated with I-054's next read.\n\n | 2026-10-19 (round 1, P5): SHIPPED, live, NOT HELD; stays OPEN, narrowed to the note. 5b30410 (CI GREEN on b0b0aff, run 39281087099; drift in-sync live b0b0aff5, then 2f17c43e): the display line went from \"Notice how the cycles tend to peak near the present.\" to \"Nearly every cycle peaks somewhere near the present. That is not evidence the theories converge - it is a selection effect.\" (/about's words, manager review 286686b2 fix 2). Production first <p> read on / and /?tab=facets&focus=dalio at 390x664 (tmp/measure-note.mjs); built-vs-production 0 lines differ. Codex r1 on 5b30410: no defects. Walks E1/E2 (docs/walks/2026-10-19-i055.md, production b0b0aff, synthetic N=1 each): the note NOT HELD for both, because both lifted the first clause as the friend's claim before the correction landed (\"the opening words are the friend's claim in display type\", E1). E2 also took the line for the site's own headline, because the \"EDITOR'S NOTE\" label sits below it. The range-chart half (also NOT HELD for both) is minted as I-059. The reword has now failed twice on this element (D1/D2, E1/E2), so per the stop-patching rule the next lever changes SHAPE, not words: the display line leads with the correction, or the pattern leaves display type (not chosen here). readCommand re-pointed (manager review: the old grep returned 0 after the ship and read as progress): it now reads the presence of the line that read NOT HELD, so 1 match = still the failed shape. Next read 2026-10-20: a pre-registered walk on the shape change.",
       "created": "2026-10-18",
-      "updated": "2026-10-18"
+      "updated": "2026-10-19",
+      "lastEvaluated": "2026-10-19"
     },
     {
       "id": "I-056",
@@ -1800,6 +1801,22 @@
       "notes": "2026-10-18 (round 1, P5): minted at the close per manager review (35a7b77e), which asked to check both and mint them if they held. Both held by source read.",
       "created": "2026-10-18",
       "updated": "2026-10-18"
+    },
+    {
+      "id": "I-059",
+      "title": "Range chart's grey mean curve rises to its tallest bump near 2025-2035, read as 'the cycles line up now' (the strongest 'peaking now' picture on /)",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-18",
+      "description": "Split from I-055 at the 2026-10-19 close (manager review c4547c6f: 'mint the range-chart half as its own row, so each lever has its own bar and walk'). The range chart under the editor's note on / (TimeRangeBrush, src/components/TimeRangeBrush.tsx; rendered in Viz between ConvergenceNote and NowSummaryPanel) draws 'the mean of all ten cycle sinusoids' (its caption, src/lib/countWords.ts:48) as a grey curve across 1600-2050. It wiggles at low amplitude and rises to its tallest bump just before the right edge, near today. Walk D1 (2026-10-18, docs/walks/2026-10-18-i054.md line 36) read the bump near 2030-2040 as 'everything peaks now'. Walks E1 and E2 (2026-10-19, docs/walks/2026-10-19-i055.md) both named it the strongest 'peaking now / converge' picture on the page: 'nothing next to it says what the bump does or does not mean' (E1), 'The picture says they all line up now' (E2). The bump is the selection effect the editor's note describes, drawn as a curve. The chart is client-rendered inside Viz, so check-rendered-text is blind to it. Candidate levers (not chosen): remove the mean curve, or say beside it what the bump is.",
+      "closeWhen": "A pre-registered cold walk (390x664, production, two walkers, default + schoolteacher seed) that scrolls from the opened Dalio card past the range chart reports nothing in the chart's picture read as 'peaking now', convergence, or the site agreeing, even briefly; or a recorded decision that the mean curve stays as drawn.",
+      "nextEvaluation": "2026-10-20",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"mean of all\" -- src — presence of the mean curve's label; the row's proof is the walk",
+      "notes": "2026-10-19 (round 1, P5): minted from I-055's range-chart half (walks E1/E2 NOT HELD on it, both; D1 on 10-18). Unchanged by 5b30410. Dated with I-055's next read.",
+      "created": "2026-10-19",
+      "updated": "2026-10-19"
     }
   ],
   "knownPatterns": [
