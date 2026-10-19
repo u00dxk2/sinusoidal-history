@@ -78,3 +78,44 @@ CI green → `check-deployed-sha-drift --service sinusoidal-history` in-sync →
 - (c) CROSSED state reads: none. Read: in the kickoff state block, stale-actionable was 0 of 16, missingLinkedCommits was NOTHING SWEPT (0 of 0; not a clean read), and queued rows were 0. Not crossed, but noted: key numbers "no list yet" (`docs/key-metrics.json` absent), and rotation exit 2 UNDETERMINED (above).
 
 One prior-day retro finding bears on the choice (Q6, "full checker output pasted into context"): today's checker runs went to a scratch file and only the tail was read.
+
+---
+
+## P3
+
+[P3 — Product-work loop]
+
+Manager review 286686b2: APPROVE (I-054 decision, no cut; I-055 option A), with three fixes, all applied: (1) I-054's reason calls the crest this site's construction, disclosed on the card, with the verdict above it; (2) the display line uses /about's "nearly every cycle"; (3) the walk scores the note and the range chart as separate halves.
+
+**Action (improve), two legs on one outcome:**
+- **I-054 — CLOSED** on its closeWhen's decision arm (the opened card keeps its drawn curve's shape to 2050). The reason, with the arithmetic (Dalio −0.50 at 2050, +1.00 at 2026, +0.97 at 2022), is on the row. Reopen trigger: a cold walk reads the full-window crest as a site claim with the verdict NOT read first. E1/E2 both read the verdict first, so it is not met.
+- **I-055 — SHIPPED, NOT HELD, stays OPEN.** `5b30410`: the editor's note display line went from "Notice how the cycles tend to peak near the present." to "Nearly every cycle peaks somewhere near the present. That is not evidence the theories converge - it is a selection effect."
+
+## What a reader sees differently (live b0b0aff)
+
+The large italic line above the range chart on `/` now carries its own correction. Before, the correction sat in the small paragraph under it.
+
+## The four states
+
+1. **Implementation:** `5b30410` (one file, src/components/ConvergenceNote.tsx). Local: built `main` innerText on `/` and `/?tab=facets&focus=dalio` differed from production by exactly the two stated lines (161 and 138 lines, counts unchanged); 5 controls passed on the local build; red-proof by Edit (the presence read gives 1 match with the old line back, 0 restored, tree clean); eslint clean. Gate: verify-with-receipt `npm test` on b0b0aff, 39 files / 373 tests passed. Codex r1 read-only on 5b30410: no defects (STATIC; banner workdir C:\dev\skylark\sinusoidal-cycles checked).
+2. **Delivery:** CI GREEN on b0b0aff (run 39281087099, queued ~26 min behind GitHub Actions "degraded_performance"). `check-deployed-sha-drift --service sinusoidal-history` in-sync, live b0b0aff5 = head. On production, the note's first `<p>` reads the new line on both paths, and built-vs-production differs by 0 lines. Production controls: check-open-card-position 2/2, check-closed-card-header 2/2, check-holds-up-line 46/46, check-embed-snippets 42/42, check-entry-folds 13/13.
+3. **Encounter:** blind. There is no client analytics on this site by standing choice, so a reader who sees the note leaves no trace (bug row W-003).
+4. **Outcome:** open. The synthetic walks E1/E2 (`docs/walks/2026-10-19-i055.md`) read NOT HELD on both halves. Both lifted the display line's first clause as the friend's claim before its correction landed, and both called the range chart's grey mean bump near 2025–2035 the page's strongest "peaking now" picture. Synthetic N=2, not real users.
+
+USER-VISIBLE: the editor's note's large line above the range chart now states its correction in the same sentence ("Nearly every cycle peaks somewhere near the present. That is not evidence the theories converge - it is a selection effect.") — 5b30410 [proof: production first line of the note "Notice how the cycles tend to peak near the present." on e5827215 → the new line on b0b0aff, on / and /?tab=facets&focus=dalio at 390x664, check-deployed-sha-drift in-sync live b0b0aff5, built-vs-production 0 lines differ] [coverage: none, no client analytics on this site · last good read never · founder+test excluded no] [exposure: blind — no client analytics on this site, a reader who sees the note leaves no trace · bug row W-003]
+
+codexCalls: 1 (r1, read-only review of 5b30410)
+adversarialReviews: 1 — EXECUTED (Codex r1 on 5b30410, no defects; head sha 5b304107 confirmed by the reviewer)
+hygiene helper: DISPATCHED 2026-10-19 ~09:02 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-19.md PRESENT (18 lines; no findings: check-wait-justification PASS, check-engineering-zero PASS)
+
+## What remains (to the close)
+
+- **I-055 stays OPEN on both halves.** The reword has now failed the "even briefly" bar twice in a row on the same element (D1/D2 on the old heading, E1/E2 on the new one), so per the stop-patching rule the next lever changes shape rather than wording again. Candidate for the next cycle (not decided here): the display line no longer opens with the pattern at all. It leads with the correction, or the pattern leaves display type. And the range chart's mean curve, which both walkers named as the strongest "peaking now" picture, gets its own lever (remove the mean curve, or say beside it what the bump is). Propose minting the range-chart half as its own row at the close, so each lever has its own bar.
+- E2: the "EDITOR'S NOTE" label sits UNDER the display line, so the line read as the site's headline before it read as a note. Same element, same next cycle.
+- Recorded for I-043 (words) and for the Peak calibration "~2025" phrase: in the walk doc.
+- No process left running from P3: next start stopped by verified PID (42884, 62896), port 3123 free; the Codex r1 process exited (0 codex.exe for this worktree); both walkers closed their browsers.
+
+<!-- findings:begin -->
+- The P1 packet recommended option A over B because "the walkers stopped on the display line". E1/E2 show A still fails: a display sentence that OPENS with the pattern is lifted before its correction lands, even inside the same sentence. The packet's premise that "the claim-less sentence is the one a skimmer lifts" was wrong. A skimmer lifts the first clause.
+- The range chart's grey mean curve (unchanged today) was named by both walkers as the strongest "peaking now / converge" picture on the page. D1 named it on 10-18. It is a bigger driver than the note's words, and it sits directly under the note.
+<!-- findings:end -->
