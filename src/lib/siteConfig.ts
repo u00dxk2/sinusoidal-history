@@ -15,6 +15,16 @@ export const DEFAULT_YEAR_RANGE = {
   end: 2050,
 } as const;
 
+/**
+ * The narrowest window the chart will draw, in years (I-060, 2026-10-20). Every theory is
+ * anchored to a recent peak, so a short window ending near the present draws most cycles as
+ * one crest there: 7 of 10 on 2000–2050, and two cold walkers read the opened Dalio card's
+ * single dome as "peaking right now". At the longest cycle's period (Turchin, 150 years) no
+ * cycle can be drawn as a lone crest. A shorter drag on the brush or an explicit URL range is
+ * widened about its centre to this span. siteConfig.test.ts pins it to cycles.json.
+ */
+export const MIN_VISIBLE_SPAN = 150;
+
 export const PRESET_RANGES = {
   all: {
     label: "All",
@@ -34,18 +44,9 @@ export const PRESET_RANGES = {
     start: 1900,
     end: DEFAULT_YEAR_RANGE.end,
   },
-  living: {
-    label: "Living memory",
-    short: "1950–",
-    start: 1950,
-    end: DEFAULT_YEAR_RANGE.end,
-  },
-  now: {
-    label: "Now",
-    short: "2000–",
-    start: 2000,
-    end: DEFAULT_YEAR_RANGE.end,
-  },
+  // "Living memory" (1950–) and "Now" (2000–) were removed (I-060, 2026-10-20): both are
+  // shorter than MIN_VISIBLE_SPAN. On "Now", 7 of 10 cycles drew as one crest near the
+  // present; on "Living memory", Khaldun and Turchin did.
 } as const;
 
 export type RangePresetName = keyof typeof PRESET_RANGES;

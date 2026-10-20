@@ -11,12 +11,43 @@ import {
 } from "nuqs";
 import type { Cycle } from "@/data/types";
 import type { CycleOverride } from "@/components/CycleOverlay";
-import { PRESET_RANGES, type RangePresetName } from "@/lib/siteConfig";
+import {
+  MIN_VISIBLE_SPAN,
+  PRESET_RANGES,
+  type RangePresetName,
+} from "@/lib/siteConfig";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
 
 export type TabName = "facets" | "overlay" | "calibrate";
 
 const TAB_VALUES = ["facets", "overlay", "calibrate"] as const;
+
+/**
+ * Widen [start, end] to at least `minSpan` years about its centre, kept inside
+ * [fullStart, fullEnd] (I-060). A reader who drags a short window keeps the place
+ * they chose; the chart just will not draw it narrower than one longest period.
+ */
+export function widenToMinSpan(
+  start: number,
+  end: number,
+  fullStart: number,
+  fullEnd: number,
+  minSpan: number = MIN_VISIBLE_SPAN
+): { start: number; end: number } {
+  if (end - start >= minSpan) return { start, end };
+  if (fullEnd - fullStart <= minSpan) return { start: fullStart, end: fullEnd };
+  const centre = (start + end) / 2;
+  let lo = Math.round(centre - minSpan / 2);
+  let hi = lo + minSpan;
+  if (lo < fullStart) {
+    lo = fullStart;
+    hi = fullStart + minSpan;
+  } else if (hi > fullEnd) {
+    hi = fullEnd;
+    lo = fullEnd - minSpan;
+  }
+  return { start: lo, end: hi };
+}
 
 export function parseRange(
   value: string | null,
@@ -36,7 +67,10 @@ export function parseRange(
     const start = Math.max(fallback.start, Number(match[1]));
     const end = Math.min(fallback.end, Number(match[2]));
     if (Number.isFinite(start) && Number.isFinite(end) && end > start) {
-      return { start, end, preset: null };
+      return {
+        ...widenToMinSpan(start, end, fallback.start, fallback.end),
+        preset: null,
+      };
     }
   }
   return { ...fallback, preset: null };

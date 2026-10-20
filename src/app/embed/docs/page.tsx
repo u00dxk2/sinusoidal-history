@@ -87,8 +87,8 @@ export default function EmbedDocs() {
           </li>
           <li>
             <code className="font-mono">range</code>{" "}— preset name (
-            <code>all</code>, <code>industrial</code>, <code>modern</code>,{" "}
-            <code>living</code>, <code>now</code>) or explicit{" "}
+            <code>all</code>, <code>industrial</code>,{" "}
+            <code>modern</code>) or explicit{" "}
             <code>1900-2050</code>.
           </li>
           <li>

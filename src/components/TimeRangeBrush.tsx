@@ -5,6 +5,7 @@ import { brushX, type D3BrushEvent } from "d3-brush";
 import { select } from "d3-selection";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
+import { widenToMinSpan } from "@/lib/urlState";
 import { cn } from "@/lib/utils";
 
 // The strip draws time only (I-059, 2026-10-20). It used to draw the mean of every cycle's
@@ -108,7 +109,13 @@ export default function TimeRangeBrush({
           onChange(fullStartYear, fullEndYear);
           return;
         }
-        onChange(lo, hi);
+        // A drag shorter than MIN_VISIBLE_SPAN is widened about its centre (I-060), and the
+        // brush redrawn to match. brush.move fires with no sourceEvent, so this handler skips it.
+        const wide = widenToMinSpan(lo, hi, fullStartYear, fullEndYear);
+        if (wide.start !== lo || wide.end !== hi) {
+          sel.call(brush.move, [xScale(wide.start), xScale(wide.end)]);
+        }
+        onChange(wide.start, wide.end);
       });
 
     sel.call(brush);

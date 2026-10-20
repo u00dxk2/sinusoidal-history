@@ -2,7 +2,12 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { cycles } from "@/data/cycles";
-import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/siteConfig";
+import {
+  MIN_VISIBLE_SPAN,
+  PRESET_RANGES,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+} from "@/lib/siteConfig";
 
 /**
  * Guards for the two SERP-snippet defects found in the first Search Console
@@ -36,6 +41,24 @@ describe("SITE_DESCRIPTION", () => {
     const expected = NUMBER_WORDS[cycles.length];
     expect(expected).toBeDefined();
     expect(SITE_DESCRIPTION.startsWith(`${expected} `)).toBe(true);
+  });
+});
+
+describe("the narrowest window", () => {
+  // I-060 (2026-10-20): "Now" (2000–2050) drew 7 of 10 cycles as a single crest near the
+  // present, and two cold walkers read the opened Dalio card's one dome as "peaking right
+  // now". A window at least one full period long cannot show any cycle as a lone crest.
+  const longest = Math.max(...cycles.map((c) => c.period_years));
+
+  it("MIN_VISIBLE_SPAN is at least the longest cycle's period", () => {
+    expect(MIN_VISIBLE_SPAN).toBeGreaterThanOrEqual(longest);
+  });
+
+  it("no preset is narrower than MIN_VISIBLE_SPAN", () => {
+    const short = Object.entries(PRESET_RANGES)
+      .filter(([, p]) => p.end - p.start < MIN_VISIBLE_SPAN)
+      .map(([name, p]) => `${name} ${p.start}-${p.end}`);
+    expect(short).toEqual([]);
   });
 });
 
