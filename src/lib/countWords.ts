@@ -43,11 +43,6 @@ export function posterStandfirst(cycleCount: number): string {
   return `${countWord(cycleCount)} long-wave cycles of history, each calibrated to a single documented peak. Drawn together to ask whose curve fits whose century — and where every cycle's reach exceeds its grasp.`;
 }
 
-/** The caption under the time-range brush. */
-export function brushCaption(cycleCount: number): string {
-  return `The grey curve is the mean of all ${countWordLower(cycleCount)} cycle sinusoids — drag across it to zoom the chart above.`;
-}
-
 /** The home page's desktop dek. */
 export function homeDek(cycleCount: number, pairedCount: number): string {
   return `Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin (twice), Dalio, Strauss-Howe, Modelski — drawn over 1600–2050. Each a pure sinusoid pinned to one documented peak; ${countWordLower(pairedCount)} of the ${countWordLower(cycleCount)} carry a paired empirical series for stress-testing.`;

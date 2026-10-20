@@ -3,17 +3,18 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { brushX, type D3BrushEvent } from "d3-brush";
 import { select } from "d3-selection";
-import { line as d3Line, curveMonotoneX } from "d3-shape";
-import { scaleLinear } from "d3-scale";
-import type { Cycle } from "@/data/types";
-import { brushCaption } from "@/lib/countWords";
-import { sineAtYear } from "@/lib/cycleMath";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 
+// The strip draws time only (I-059, 2026-10-20). It used to draw the mean of every cycle's
+// sinusoid, whose highest crest in 1600-2050 is 2029: each theory is anchored to a recent peak,
+// so their average peaks at the present. Both cold walkers (E1/E2, 10-19) called that bump the
+// page's strongest "peaking now" picture. The selection effect drawn as data, so it was removed,
+// not relabelled. Pinned by convergenceShape.test.ts.
+export const BRUSH_CAPTION = "Drag across the strip to zoom the chart above.";
+
 interface TimeRangeBrushProps {
-  cycles: Cycle[];
   fullStartYear: number;
   fullEndYear: number;
   visibleStartYear: number;
@@ -22,10 +23,11 @@ interface TimeRangeBrushProps {
 }
 
 const HEIGHT = 78;
+/** An endpoint label (~28px of 11px mono) plus half a century label plus a gap. */
+const LABEL_CLEARANCE = 48;
 const HINT_STORAGE_KEY = "sh.brushHintSeen";
 
 export default function TimeRangeBrush({
-  cycles,
   fullStartYear,
   fullEndYear,
   visibleStartYear,
@@ -56,24 +58,6 @@ export default function TimeRangeBrush({
   const innerWidth = Math.max(0, width - 8);
   const xScale = useTimeScale(fullStartYear, fullEndYear, innerWidth);
 
-  const overviewPath = useMemo(() => {
-    if (cycles.length === 0 || innerWidth === 0) return "";
-    const points: { year: number; value: number }[] = [];
-    for (let y = fullStartYear; y <= fullEndYear; y += 1) {
-      let sum = 0;
-      for (const c of cycles) sum += sineAtYear(c, y);
-      points.push({ year: y, value: sum / cycles.length });
-    }
-    const yScale = scaleLinear()
-      .domain([-1.05, 1.05])
-      .range([HEIGHT - 14, 14]);
-    const lineGen = d3Line<{ year: number; value: number }>()
-      .x((d) => xScale(d.year))
-      .y((d) => yScale(d.value))
-      .curve(curveMonotoneX);
-    return lineGen(points) ?? "";
-  }, [cycles, xScale, innerWidth, fullStartYear, fullEndYear]);
-
   // Decade tick marks for the brush track. Editorial measure.
   const trackTicks = useMemo(() => {
     const out: number[] = [];
@@ -82,6 +66,19 @@ export default function TimeRangeBrush({
     }
     return out;
   }, [fullStartYear, fullEndYear]);
+
+  // With no curve, the century labels are what makes the strip read as a timeline (manager
+  // review, 2026-10-20). Centuries only: 50-year labels crowd at 390px. The endpoints keep
+  // their own labels, so a century label within LABEL_CLEARANCE px of either end is skipped
+  // (at 320-390px that drops 2000, which would overlap 2050).
+  const centuryLabels = useMemo(
+    () =>
+      trackTicks.filter((y) => {
+        const x = xScale(y);
+        return y % 100 === 0 && x >= LABEL_CLEARANCE && innerWidth - x >= LABEL_CLEARANCE;
+      }),
+    [trackTicks, xScale, innerWidth],
+  );
 
   useEffect(() => {
     const node = brushGroupRef.current;
@@ -227,25 +224,18 @@ export default function TimeRangeBrush({
                   strokeOpacity={0.05}
                 />
               ))}
-              {/* Mid-line zero reference */}
-              <line
-                x1={0}
-                x2={innerWidth}
-                y1={HEIGHT / 2}
-                y2={HEIGHT / 2}
-                stroke="var(--ink)"
-                strokeOpacity={0.08}
-                strokeDasharray="1 4"
-              />
-              {/* Cycle convergence overview */}
-              <path
-                d={overviewPath}
-                fill="none"
-                stroke="var(--ink)"
-                strokeOpacity={0.65}
-                strokeWidth={1.25}
-                strokeLinejoin="round"
-              />
+              {centuryLabels.map((y) => (
+                <text
+                  key={y}
+                  x={xScale(y)}
+                  y={HEIGHT - 3}
+                  textAnchor="middle"
+                  className="fill-ink-soft font-mono text-[11px]"
+                  style={{ opacity: 0.55 }}
+                >
+                  {y}
+                </text>
+              ))}
               {/* Decade labels at endpoints */}
               <text
                 x={2}
@@ -278,10 +268,8 @@ export default function TimeRangeBrush({
             </div>
           )}
         </div>
-        {/* The grey composite curve carried no explanation anywhere.
-            Journey-walk 2026-08-24, J17. */}
         <p className="mt-1.5 text-[11px] text-ink-soft/75 italic font-display-italic">
-          {brushCaption(cycles.length)}
+          {BRUSH_CAPTION}
         </p>
       </div>
     </div>

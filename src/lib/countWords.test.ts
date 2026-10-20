@@ -7,7 +7,6 @@ import { describe, expect, it } from "vitest";
 import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import {
-  brushCaption,
   countWord,
   countWordLower,
   cyclesIndexDescription,
@@ -57,9 +56,6 @@ describe("the count surfaces derive from the data", () => {
     expect(posterStandfirst(cycles.length)).toBe(
       "Ten long-wave cycles of history, each calibrated to a single documented peak. Drawn together to ask whose curve fits whose century — and where every cycle's reach exceeds its grasp.",
     );
-    expect(brushCaption(cycles.length)).toBe(
-      "The grey curve is the mean of all ten cycle sinusoids — drag across it to zoom the chart above.",
-    );
     expect(homeDek(cycles.length, dataSeries.length)).toContain(
       "nine of the ten carry a paired empirical series for stress-testing.",
     );
@@ -70,7 +66,6 @@ describe("the count surfaces derive from the data", () => {
   it("each moves with the count", () => {
     expect(countWordLower(11)).toBe("eleven");
     expect(posterStandfirst(11).startsWith("Eleven ")).toBe(true);
-    expect(brushCaption(11)).toContain("all eleven cycle");
     expect(homeDek(11, 10)).toContain("ten of the eleven carry");
     expect(cyclesIndexTitle(11)).toBe("The eleven cycles");
     expect(cyclesIndexDescription(11).startsWith("Eleven ")).toBe(true);
@@ -83,7 +78,8 @@ describe("the count surfaces derive from the data", () => {
     const index = src("app", "(app)", "cycles", "page.tsx");
     expect(poster).toContain("posterStandfirst(cycles.length)");
     expect(poster).not.toMatch(new RegExp(`${COUNT_WORD} long-wave cycles`));
-    expect(brush).toContain("brushCaption(cycles.length)");
+    // The brush caption carries no count since I-059 (the mean curve it described is gone), so
+    // only the no-typed-count leg remains for it.
     expect(brush).not.toMatch(new RegExp(`all ${COUNT_WORD} cycle`));
     expect(home).toContain('{countWord(cycles.length)}{" "}cycles,');
     expect(home).toContain("homeDek(cycles.length, dataSeries.length)");

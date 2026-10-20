@@ -243,7 +243,6 @@ export default function Viz({
         <ConvergenceNote />
 
         <TimeRangeBrush
-          cycles={effectiveCycles}
           fullStartYear={fullStartYear}
           fullEndYear={fullEndYear}
           visibleStartYear={visibleStartYear}
