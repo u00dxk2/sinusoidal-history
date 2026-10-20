@@ -87,6 +87,7 @@ ACTION: DEFERRED — acceptance not met: walk G1 NOT HELD on Modern; the remaini
 - **Hygiene draft:** 0 lines (no inputs). Checks: wait-justification PASS (32 of 67, 0 warn); engineering-zero PASS (0 findings, 0 unreadable). READ-MUTATED none.
 - **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-20).
 - **Receipt:** P3's line stands (064e930, exposure blind, outcome not held).
+- **I-061's next-round order** (items.json, I-061 notes): first draft (d) with its own Codex review and a pre-registered walk that names the Turchin 2020 case. THEN one David board card (before/after per card type at phone width, a recommendation, and what happens with no answer) BEFORE any site-wide ship. **No card is owed today.** The draft and review come first, so a missing card is not a dropped step (P3 review bba67b2c).
 - **Pending reads:**
   - 10-21: I-043, I-046, I-049.
   - 10-22: I-061.
