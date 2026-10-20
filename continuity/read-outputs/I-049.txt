@@ -1,0 +1,7 @@
+# read-output sidecar for I-049 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i049-cycles.txt
+# ran: 2026-10-20T06:09:04.100Z · exit: 0
+# lines: 1 · sha256: 1413a2c8d6f463a2 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+snap: https://sinusoidalhistory.com/cycles -> C:/dev/skylark/sinusoidal-cycles/tmp/i049-cycles.txt (314 lines)

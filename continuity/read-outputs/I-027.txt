@@ -1,0 +1,31 @@
+# read-output sidecar for I-027 — written by check-due-gates-dispositioned --run
+# readCommand: npm --prefix C:/dev/skylark/sinusoidal-cycles audit --audit-level=high
+# ran: 2026-10-20T06:08:42.660Z · exit: 1
+# lines: 25 · sha256: 206d47478f66a579 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+# npm audit report
+
+braces  *
+Severity: high
+braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
+fix available via `npm audit fix --force`
+Will install eslint-config-next@14.2.35, which is a breaking change
+node_modules/braces
+  micromatch  >=0.2.0
+  Depends on vulnerable versions of braces
+  node_modules/micromatch
+    fast-glob  *
+    Depends on vulnerable versions of micromatch
+    node_modules/fast-glob
+      @next/eslint-plugin-next  >=14.3.0-canary.0
+      Depends on vulnerable versions of fast-glob
+      node_modules/@next/eslint-plugin-next
+        eslint-config-next  >=14.3.0-canary.0
+        Depends on vulnerable versions of @next/eslint-plugin-next
+        node_modules/eslint-config-next
+
+5 high severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force

@@ -86,7 +86,7 @@ One prior-day retro finding bears on the choice (10-18 Q6, "full checker output 
    - New test: `src/components/convergenceShape.test.ts` pins both shapes from source. It has a declared ceiling: it reads source, not the rendered page.
    - Red-proof: I edited the old display `<p>` and a `<path>` back in, and three legs went RED (`expected 24 to be less than or equal to 15`, `expected false to be true`, `not to match /<path\b/`). I then made a wording-only mutation ("Several curves crest near the present…"), and the first-sentence leg went RED (`not to match /\bpeak|\bcrest|near the present…/`). After restoring, 17/17 pass and the tree is clean.
    - Locally: eslint on the changed files passes (exit 0), `npm run typecheck` passes (exit 0), and `npm run build` passes (exit 0).
-   - The local full suite through `verify-with-receipt` was NOT run. Its first attempt refused at stamp time because of an untracked walk file I wrote mid-run. The second sat in the fleet heavy-gate queue (position 12 → 7) and was killed by the ~05:20Z low-memory reap before reaching the runner (62437b3f). I did not relaunch it. Per AGENTS.md, CI is the full battery: **CI GREEN on 99af95053f484df7d76147fc4fc00c7702f2428d, run 39374760444.**
+   - The local full suite through `verify-with-receipt` (corrected at the close: an earlier draft of this line said it was not run). The first attempt refused at stamp time because of an untracked walk file I wrote mid-run. The second sat in the fleet heavy-gate queue (position 12 → 7) and was killed by the ~05:20Z low-memory reap before reaching the runner (62437b3f). The third ran under the orchestrator's go-ahead to resume (76d21033), on HEAD 45bf10c: **GREEN, 40 files and 377 tests, receipt written** (the `[gates:]` stamp on P3 b426f5b9). CI also ran the full battery: **GREEN on 99af95053f484df7d76147fc4fc00c7702f2428d, run 39374760444.**
    - Codex r1 (read-only, foreground pipe, prompt read back, banner `workdir: C:\dev\skylark\sinusoidal-cycles` checked, head `c90104c` confirmed by the reviewer) found **no defects**. It listed 3 coverage limits of the new test: it sees only `text-[Npx]` sizes, only `<path`/`d3-shape`, and no brush behaviour. All three are disposed DELIBERATE, inside the test's declared source-read ceiling, as the reviewer itself said. The proof is the production read and the walk.
 2. **Delivery.** `check-deployed-sha-drift --service sinusoidal-history`: **in-sync, live 99af9505 = head**. Surface read on production with `tmp/measure-shape.mjs`, at 390x664 on `/` and `/?tab=facets&focus=dalio`:
    - the note's largest text went **20px → 14px**;
@@ -126,6 +126,47 @@ hygiene helper: DISPATCHED 2026-10-20T04:45Z · draft tmp/hygiene-draft-sinusoid
 - Heavy-job note: walks F1/F2 ran side by side. The orchestrator's one-at-a-time rule arrived after both had started. The next walk runs alone.
 
 [standing-rules-hash: 88cc2dc9]
+
+## Close (round 3, 2026-10-20 ~00:30 MT)
+
+ACTION: COMPLETED · item I-055 (and I-059) · P3 b426f5b9
+
+The acceptance condition in force is the P1 packet's, approved without change by review 3dfb7544. Both walk halves HELD (walks F1/F2), the shape is read on production, and the review of the work (e7ab92e8) reads COMPLETED, defects none.
+
+**What changed since the P3 post:**
+- Live is now 45bf10cb (docs only on top of c90104c). The manager review read the production bundles: "A selection effect, not convergence" and "Drag across the strip to zoom the chart above" are present; "Nearly every cycle peaks somewhere near the present" and "mean of all" are absent.
+- The P3 section above was corrected at the close. It had said the local full gate was not run, but the receipt at 45bf10c is GREEN, 40 files and 377 tests.
+
+**Ledger delta** (`continuity-edit`, each with its evidence):
+- **I-055: closed** on the note half of F1/F2. F1's priming line is kept in the close note, so HELD isn't misread as "the phrase is gone".
+- **I-059: closed** on the strip half of F1/F2. It is not reopened for the zoom.
+- **I-060: minted**, the "Now 2000–" preset zoom that both walkers read as "peaking right now". It gets its own bar and walk, run one at a time. Next read 2026-10-22.
+- **I-061: minted**, Dalio's "peak again at ~2025" calibration phrase, lifted by four walkers (D2, E1, F2, F1 quoting). The review asked for "a row or a recorded no", and I chose a row. Next read 2026-10-22.
+- **The five 10-20 rows, each read through `check-due-gates-dispositioned --run`:**
+  - **I-027**, npm audit: still 5 high, `braces *`, and npm's latest braces is 3.0.3, so no fix is published. Re-dated 2026-11-03, with its wait re-dated to match.
+  - **I-034**, the local full suite under load: 1 of the 3 consecutive runs, 45bf10c GREEN at 377/377. Re-dated 2026-10-23 so the remaining two run one at a time under normal load.
+  - **I-043**, the /methods lead: still opens with "bootstrap p against the AR(1)" (1 match in the snap). It is copy work, not a read. Re-check 2026-10-21. F1/F2's vocabulary is added to its list.
+  - **I-046**, the glance-figure tap: its regression read, check-holds-up-line, is 46/46. The tap-or-decision is untouched. Re-check 2026-10-21.
+  - **I-049**, the description stops: snap 314 lines, unchanged. Re-check 2026-10-21.
+
+**Checks:**
+- Hygiene draft: 0 lines, so 0 accepted, 0 amended, 0 rejected. Its READ-MUTATED section says "none — 0 reads guarded".
+- check-wait-justification, re-run after the waits were touched: PASS, 32 of 67 rows, 0 warn.
+- check-engineering-zero --project sinusoidal-cycles: PASS, 0 findings, 0 unreadable.
+- Due gates: `check-due-gates-dispositioned` (no flag) says "verdict: CLEAR … snapshot STALE: it was taken 2026-10-19". So the rail day's due set (0 rows) is CLEAR, and **the 10-20 due set is UNRESOLVED by that instrument**. Those five rows were read and dispositioned by hand, above. I did not re-snapshot at the close.
+
+**Receipt:** P3's line still holds, so there is nothing new to write.
+
+**Pending reads:**
+- I-043, I-046, I-049: 2026-10-21.
+- I-060, I-061: 2026-10-22.
+- I-034: 2026-10-23.
+- I-056: 2026-10-23.
+- I-057, I-058: 2026-10-27.
+- I-051, the Search Console read: 2026-10-30.
+- I-027: 2026-11-03.
+
+**Process note:** walks F1/F2 ran side by side. The orchestrator's one-browser-walk-at-a-time rule (76d21033) arrived after both had started. I-060's and I-061's closeWhen now say "one at a time".
 
 ---
 
