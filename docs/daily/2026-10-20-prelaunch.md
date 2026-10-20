@@ -57,6 +57,10 @@ node C:/dev/skylark/sinusoidal-cycles/tmp/shot-shape.mjs
 
 This matches the walkers' lists (F1 and F2 named 6 of these 7 between them). "Now" is the problem window by a wide margin. "Living memory" is the next one down, and the lever has to answer for it too. Turchin's single crest on Modern comes from its 150-year period, not from the zoom, so it is out of I-060's scope. It is arithmetic, not a read of what the screen draws. P3 confirms it on a screenshot before choosing.
 
+<!-- findings:begin -->
+**Correction to this packet's premise (P3, after walk G1).** The packet's arithmetic counted the windows where a cycle draws a LONE crest near now, and called Modern "1 of 10". Walk G1 (`docs/walks/2026-10-20-i060.md`) read **Modern** as "the strongest 'Dalio peaks now' picture", with the ~2025 crest as the right-hand dome of two. A reader picks out the crest nearest the right-hand edge, not the only one. So the shipped change (no window under 150 years; "Now" and "Living memory" gone) removed the F1/F2 picture, and did not remove the problem. The crest is in the model (1950 + 75 = 2025), not in the zoom.
+<!-- findings:end -->
+
 **HYGIENE INPUTS:**
 - (a) due rows not bearing on the choice: none. Read: `dated gates due today: 0`, and `check-due-gates-dispositioned --snapshot` → "0 gate(s) due on/before 2026-10-20" (67 ledger rows swept).
 - (b) owed child rows: none. Read: "rows owed to you in skylark-site's ledger: 0 of 754".
