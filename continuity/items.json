@@ -1849,7 +1849,7 @@
     {
       "id": "I-060",
       "title": "The \"Now 2000–\" range preset zooms the opened Dalio card and the facet rows into one crest at ~2025, read as 'peaking right now'",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1858,9 +1858,11 @@
       "closeWhen": "A pre-registered cold walk (390x664, production, two walkers, default + schoolteacher seed, run ONE AT A TIME) that taps the 'Now' range preset from the opened Dalio card reports nothing in the zoomed picture read as 'peaking now', convergence or the site agreeing, even briefly; or a recorded decision that the preset stays as drawn.",
       "nextEvaluation": "2026-10-22",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"label: \\\"Now\\\"\" -- src/lib/siteConfig.ts — presence of the preset (1 match = unchanged); the row's proof is the walk",
-      "notes": "2026-10-20 (round 3, P5): minted at the close per manager review e7ab92e8 ('give it its own bar and walk … do not reopen I-059'), from walks F1/F2 'recorded, not scored'.",
+      "notes": "2026-10-20 (round 3, P5): minted at the close per manager review e7ab92e8 ('give it its own bar and walk … do not reopen I-059'), from walks F1/F2 'recorded, not scored'. | 2026-10-20 (day round 1, P3): CLOSED NOT HELD on walk G1, per orchestrator consult-2 answer (option e). Shipped and live: 0ed4feb (064e930 + bc42129). The chart draws no window narrower than 150 years (MIN_VISIBLE_SPAN), the \"Now\" and \"Living memory\" presets are removed, and a short drag or ?range is widened about its centre. Live read: 3 presets, and a 2010-2040 drag shows 1900-2050. Walk G1 (docs/walks/2026-10-20-i060.md) was NOT HELD on Modern (1900-2050): \"a large clear crest at about 2025 … the strongest 'Dalio peaks now' picture\". G2 was not run, because one NOT HELD settles the bar. The residual picture is the model's own 2025 crest (1950 + 75), not the zoom. It is handed to I-061. A second shape (stop the theory at the record's end) was prototyped and measured worse: it ends rising at its peak. It was not built (portable rule 2).",
       "created": "2026-10-20",
-      "updated": "2026-10-20"
+      "updated": "2026-10-20",
+      "closedAt": "2026-10-20",
+      "lastEvaluated": "2026-10-20"
     },
     {
       "id": "I-061",
@@ -1874,7 +1876,7 @@
       "closeWhen": "A pre-registered cold walk (390x664, production, two walkers, run ONE AT A TIME) that reads the opened Dalio card's Peak calibration reports no phrase lifted as 'the site says it peaks around now'; or a recorded decision that the rationale stays as written.",
       "nextEvaluation": "2026-10-22",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"peak again at ~2025\" -- src/data/cycles.json — presence of the lifted phrase (1 match = unchanged); the row's proof is the walk",
-      "notes": "2026-10-20 (round 3, P5): minted at the close; the manager review (e7ab92e8) asked for a row or a recorded no, and four walkers is a row.",
+      "notes": "2026-10-20 (round 3, P5): minted at the close; the manager review (e7ab92e8) asked for a row or a recorded no, and four walkers is a row.\n\n | 2026-10-20 (day round 1, P3): I-060's residual was handed here (orchestrator consult-2). The opened Dalio card on Modern draws the 2025 crest as its right-hand dome (walk G1, NOT HELD). G1 also lifted this phrase, which makes five walkers. Stopping the theory at the record's end was prototyped and read worse, ending rising at its peak (docs/walks/2026-10-20-i060.md). NEXT ROUND, shape (d), approved for drafting only: each card draws only the anchored cycle, one period centred on the writer's own reference peak, and projects nothing. The draft gets its own Codex read-only review. Its pre-registered walk repeats I-060's question (9) plus this row's phrase question, and it must name the Turchin case: an anchor at 2020 draws a dome at the present, which is Turchin's own claim, under the verdict box; the draft says how the walk scores it. (d) changes what \"theory\" means on EVERY card, so it goes to David as ONE board card (before/after per card type at phone width, a recommendation, and what happens with no answer) before any site-wide ship.",
       "created": "2026-10-20",
       "updated": "2026-10-20"
     }
