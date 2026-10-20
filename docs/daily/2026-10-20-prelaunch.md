@@ -65,3 +65,36 @@ This matches the walkers' lists (F1 and F2 named 6 of these 7 between them). "No
 - (a) due rows not bearing on the choice: none. Read: `dated gates due today: 0`, and `check-due-gates-dispositioned --snapshot` → "0 gate(s) due on/before 2026-10-20" (67 ledger rows swept).
 - (b) owed child rows: none. Read: "rows owed to you in skylark-site's ledger: 0 of 754".
 - (c) CROSSED state reads: none. Read: every kickoff state read (stale-actionable 0 of 16, queued rows 0, cards 0, missingLinkedCommits nothing swept, HEAD CI GREEN, report PENDING as expected).
+
+## P3 — Product-work loop (posted 3d2c21fb)
+
+- Shipped, live: 0ed4feb (064e930 + bc42129). The chart draws no window under 150 years. "Now" and "Living memory" are removed. A short drag or `?range` is widened about its centre.
+- Reviews: Codex r1 found 1 LOW (fixed in bc42129); r2 found nothing.
+- Tests: full suite 386/386 (receipt deaad40); CI GREEN on 0ed4feb.
+- Walk G1: NOT HELD on Modern. G2 was not run.
+- Shape (c) was prototyped and measured worse. Consults 0bdd1dab and f06fd8a4; answered with (e).
+- Detail: the P3 post and `docs/walks/2026-10-20-i060.md`.
+
+## Close
+
+ACTION: DEFERRED — acceptance not met: walk G1 NOT HELD on Modern; the remaining crest is the model's own 2025 peak, handed to I-061 (orchestrator consult-2, option e) · trigger next round's I-061 shape (d) draft, I-061 nextEvaluation 2026-10-22 · item I-060 · P3 3d2c21fb
+
+- **State changed since P3:** none on the product. P3 review APPROVE/REDIRECT not yet received at close.
+- **Ledger delta:**
+  - I-060 CLOSED NOT HELD (deaad40; note carries 0ed4feb live, walk G1, prototype (c) not built).
+  - I-061 notes appended: the residual, the 5th walker, and shape (d) with its review, walk and David-card requirements.
+  - Nothing else changed.
+- **Hygiene draft:** 0 lines (no inputs). Checks: wait-justification PASS (32 of 67, 0 warn); engineering-zero PASS (0 findings, 0 unreadable). READ-MUTATED none.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-20).
+- **Receipt:** P3's line stands (064e930, exposure blind, outcome not held).
+- **Pending reads:**
+  - 10-21: I-043, I-046, I-049.
+  - 10-22: I-061.
+  - 10-23: I-034, I-056.
+  - 10-27: I-057, I-058.
+  - 10-30: I-051.
+  - 11-03: I-027.
+- **Processes:**
+  - `next start` PID 61252 stopped by verified command line; re-read shows 0 lane `next start` survivors.
+  - Codex runs were foreground pipes that exited (CODEX_EXIT=0 both).
+  - Waker rungs and the listener stay up for the evening.
