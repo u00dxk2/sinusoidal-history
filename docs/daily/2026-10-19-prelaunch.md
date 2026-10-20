@@ -1,5 +1,77 @@
 [P1 — Evidence and choice]
 
+# 2026-10-19 (Monday night, MT) — sinusoidal-cycles, round 3
+
+## Selection packet (round 3)
+
+**Outcome:** a first-time reader scrolls from the opened Dalio card to "State of the cycles", past the editor's note and the range strip, and nothing on the way says the cycles peak now. **Items:** I-055 (the note, open, nextEvaluation 2026-10-20) and I-059 (the range strip's grey mean curve, open, nextEvaluation 2026-10-20). They are one scroll path and one walk.
+
+**The user problem in the user's words** (walks E1/E2, `docs/walks/2026-10-19-i055.md` lines 25-26): on the note, E1 said "the opening words are the friend's claim in display type", and E2 said "the first sentence registers as agreement before the correction lands … I took the bold sentence for the site's own headline claim." On the strip, E1 called it "the single strongest picture on the page supporting my friend" and E2 said "The picture says 'they all line up now'".
+
+### Section 0
+
+- Primer: `docs/cold-starts/2026-10-19.md` read. Its first action ran: `git grep -n "Nearly every cycle peaks somewhere near the present" -- src` gave **1 match** (`src/components/ConvergenceNote.tsx:15`), so the line that read NOT HELD is still the shipped one. I-059's readCommand (`git grep -n "mean of all" -- src`) gave **2 matches** (`countWords.ts:48`, `countWords.test.ts:61`), so the caption is still shipped.
+- Listener: 🟢 SSE alive (pid 34668, hello 04:10:55Z, replay 0) and `/loop-tick` armed by ScheduleWakeup. Waker ranks 1-3 are relaunched for this session.
+- Codex: GREEN per the kickoff's `[codex-probe:]` line (04:14:19Z). Spawn caveat: pipe-backed stdio gives EPERM. P1 used none.
+- CI: `check-ci-status --workflow ci.yml` is GREEN for d5d32f1bdb (exit 0). Drift: `check-deployed-sha-drift --service sinusoidal-history` is **in-sync**, live d5d32f1b = head (exit 0).
+- Harness: running 2.1.304 · fleet UNIFORM (27/27) · installed 2.1.304 (SAME). The build moved from 2.1.277 since the tracked record.
+- North Star: retention and word of mouth. Whatever ships here is unmeasured by design (no client analytics, W-003).
+- Recs from the last close (primer banner and round-1 § What remains): one recommendation, the shape change for I-055 and I-059. It's **carrying today → P3**, and it is this packet.
+- Rotation: `check-cycle-rotation --lane sinusoidal-cycles` gave **exit 2, UNDETERMINED** ("no real-user-evidence artifact on record … the registry does not declare which lanes owe one"). That is not the same as nothing being due.
+- Due gates: `check-due-gates-dispositioned --print` gave "0 gate(s) due on/before 2026-10-19" (of 65 ledger items). This morning's round-1 `--snapshot` stands, and I didn't re-take it. I-055 and I-059 come due 10-20, and the work below is their read.
+- David's word: `answered-cards --project sinusoidal-cycles` found none.
+
+### Evidence
+
+- OBSERVED (walks E1/E2, N = 2, synthetic, Chromium, 390x664, production b0b0aff, 2026-10-19): both walkers lifted the note's first clause ("Nearly every cycle peaks somewhere near the present.") as agreement before the correction landed. Both called the strip's grey mean curve the page's strongest "peaking now" picture. The same note read failed on D1/D2 (10-18) with the old line, so **the reword has failed twice on this element**. **Limits:** synthetic, N = 1 per seed.
+- OBSERVED (source): the note's display line is 20-24px italic (`ConvergenceNote.tsx:14`), its correction is 13-14px, and the "Editor's note" label sits **below** both (`:24`). E2 read the label's position as making the line the site's headline.
+- OBSERVED (arithmetic, scratch `mean-curve.mjs`, the same formula as `TimeRangeBrush.tsx:59-66`, 10 cycles from `src/data/cycles.json`, 1600-2050): the grey mean curve's **highest point in the whole window is 2029, at 0.61**. That's 1.40× the next-highest crest (1725, 0.44), and the curve reads 0.58 at 2026. The curve is the selection effect drawn as data: each theory is anchored to a recent peak, so their average crests at the present. What the walkers saw is in the curve itself, not in a misreading of it.
+- HYPOTHESIS (why removing it, not relabelling it): a caption that explains a bump argues against a picture, and the picture is read first. That's the same lesson as I-047 and I-048 (both cleared only when the claim was removed) and the round-1 note on I-054 ("stopping a curve early moves its crest to the endpoint": the picture wins). Untested until the walk.
+- OBSERVED (source): the strip still works without the curve. The brush, the decade ticks, the zero line, the endpoint years and the range buttons don't depend on `overviewPath`. The only other dependants are the caption `brushCaption()` (`countWords.ts:48`) and its pin (`countWords.test.ts:61`).
+- OBSERVED (AGENTS.md): `check-rendered-text` can't see inside `Viz`, so the proof for both changes is the rendered `main` innerText line multiset (Playwright, built against production).
+- MISSING: any real-user encounter (no client analytics by standing choice, W-003). Search Console's next read is I-051, 2026-10-30.
+
+### Permission
+
+Both rows are lane-owned issues: not parked, no open card, no David word on either. Round 1's reviewer (286686b2) approved the note's wording change under the lane's copy class. Removing a decorative overview curve and demoting a display line to body type is the same class: the caveat and its words stay on the page.
+
+### The choice, and why
+
+1. **I-055: take the pattern out of display type, rather than leading the display line with the correction.** The note keeps no display-size text. The "Editor's note" label moves **above** the text (fixing E2's "the site's own headline"). The single paragraph at body size **opens with the correction**, and the pattern comes later, after its reason. **Why this arm:** a display line that "leads with the correction" still has to name what it corrects, so its subject is the pattern ("Peaks near today are a selection effect"), and both walkers lift the subject first. That's the third reword the rule forbids. Removing the display type changes the shape: nothing in the note is set big enough to be lifted as a headline. Wording rule for P3, held by a check: the paragraph's first clause doesn't state the pattern ("peaks", "near the present", "converge" don't appear before the first full stop, unless negated as "not convergence"), and it reuses /about's words where it can. `/about` and `public/about.md` don't change: their sentence is prose inside a reasoned paragraph, not a display line.
+2. **I-059: remove the grey mean curve, rather than relabelling it.** The strip keeps the brush, ticks, zero line, endpoint years and range buttons. The caption becomes an instruction with no count ("Drag across the strip to zoom the chart above."), and the test pin moves with it. **Why this arm:** the arithmetic above shows the curve's tallest crest **is** the present, so any label would be words arguing against the picture. The strip's job is zoom, and zoom doesn't need it.
+
+### Next action — improve
+
+Edit `src/components/ConvergenceNote.tsx` (shape: label above, one body-size paragraph, correction first), `src/components/TimeRangeBrush.tsx` (drop `overviewPath` and its `<path>`), `src/lib/countWords.ts` + `countWords.test.ts` (caption). Then: build, measure the multiset locally against production, push after CI, check drift, run the walk. The first command is the presence read the change takes from 1 and 2 matches to 0 and 0:
+
+```
+git -C C:/dev/skylark/sinusoidal-cycles grep -n -e "Nearly every cycle peaks somewhere near the present" -e "mean of all" -- src
+```
+
+### Acceptance condition
+
+- **RED before (production d5d32f1b):** the presence read above gives 3 lines (1 note + 2 caption). At 390x664 on `/` and `/?tab=facets&focus=dalio`, `aside[role="note"]` has a `<p>` whose computed font-size is ≥ 20px. The strip's SVG holds a `<path>` with a non-empty `d`.
+- **GREEN after (production):** the presence read gives 0. No text node inside the note has a computed font-size above the body size (≤ 15px). The note's first text in DOM order is the label, and its first sentence states no pattern (the rule above). The strip's SVG holds no data `<path>`. The `main` innerText multiset differs from production by exactly the stated lines (old note lines and old caption out, new paragraph and new caption in), and by no others.
+- **Walk (pre-registered before push, `docs/walks/2026-10-20-i055-i059.md`):** walks F1/F2. Walk B's prompt + question (7) + E1/E2's question (8), verbatim. 390x664, production, default + schoolteacher seed. Pass words, written before the walk: **HELD only if neither walker reports the note or the strip read as "peaking now", convergence or the site agreeing, even briefly.** Each half is scored separately, and I-055 and I-059 close on their own half. **NOT HELD on either → record it; no third reword.** The next lever would be removing the note from the scroll path, for a reviewer's call.
+- **Positive controls:** check-open-card-position 2/2, check-closed-card-header 2/2, check-holds-up-line 46/46, check-embed-snippets 42/42, check-entry-folds 320x568 13/13 (the note shrinks, so folds can only gain).
+- **Red-proof:** an Edit that puts the old display `<p>` back makes the font-size leg and the presence read go RED. An Edit back restores them, with the tree clean.
+
+### Delivery and encounter checks
+
+CI green (`check-ci-status --wait --wait-timeout-min 90`, in case Actions is slow again) → `check-deployed-sha-drift --service sinusoidal-history` in-sync → the size, path and multiset reads on production → walks F1/F2. A real encounter can't be read at this traffic level (no analytics), so the exposure line will be `blind`, naming W-003's standing choice.
+
+**USER-FACING: yes.** Paths: `src/components/ConvergenceNote.tsx` and `src/components/TimeRangeBrush.tsx` (served on `/` to every reader), `src/lib/countWords.ts` (the strip caption). Internal: `src/lib/countWords.test.ts`, `continuity/items.json`, `docs/walks/`, `docs/daily/`.
+
+### HYGIENE INPUTS
+
+- (a) Due rows not bearing on the choice: none. Read: `check-due-gates-dispositioned --print` gave "0 gate(s) due on/before 2026-10-19". After 00:00 MT the 10-20 rows come due: I-043, I-046, I-027, I-034, I-049 (from the primer banner). They aren't due as of this packet, and I'll list them for the helper once they are.
+- (b) Owed child rows: none. Read: the kickoff gave "0 of 754" owner-stamped rows in skylark-site's ledger.
+- (c) CROSSED state reads: none. Read: in the kickoff state block, stale-actionable was 0 of 16, missingLinkedCommits was NOTHING SWEPT (0 of 0; not a clean read), and queued rows were 0. Not crossed, but noted: key numbers "no list yet" (`docs/key-metrics.json` absent), and rotation exit 2 UNDETERMINED.
+
+One prior-day retro finding bears on the choice (10-18 Q6, "full checker output pasted into context"): tonight's checker runs went through `Select-Object -Last N`.
+
+---
+
 # 2026-10-19 (Monday, MT) — sinusoidal-cycles, round 1
 
 ## Selection packet
