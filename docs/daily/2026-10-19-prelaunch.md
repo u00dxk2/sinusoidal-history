@@ -72,6 +72,63 @@ One prior-day retro finding bears on the choice (10-18 Q6, "full checker output 
 
 ---
 
+## P3 (round 3): the note left display type, and the strip lost its mean curve. Both walks HELD.
+
+**Action (kind: improve).** I-055 and I-059 changed SHAPE, not words, as the manager review approved (3dfb7544):
+- **The note:** the "Editor's note" label now comes first. Everything is body size (14/15px), and the first sentence is the correction: "A selection effect, not convergence."
+- **The range strip:** the grey mean curve is removed. Its highest crest in 1600-2050 was 2029 at 0.61, 1.4× the next. The strip keeps the brush and the 50-year ticks, and it gains century labels, which the review suggested. A label within 48px of either end is dropped, so 2000 goes at 320-390px, where it would overlap 2050. The caption is now "Drag across the strip to zoom the chart above." The stale comment is gone.
+
+### The four states
+
+1. **Implementation.**
+   - `c90104c`: the code. `src/components/ConvergenceNote.tsx`, `TimeRangeBrush.tsx` and `Viz.tsx`; `src/lib/countWords.ts`. `brushCaption` leaves, because the caption no longer carries a count.
+   - `99af950`: the docs (the P1 packet and the pre-registered walk).
+   - New test: `src/components/convergenceShape.test.ts` pins both shapes from source. It has a declared ceiling: it reads source, not the rendered page.
+   - Red-proof: I edited the old display `<p>` and a `<path>` back in, and three legs went RED (`expected 24 to be less than or equal to 15`, `expected false to be true`, `not to match /<path\b/`). I then made a wording-only mutation ("Several curves crest near the present…"), and the first-sentence leg went RED (`not to match /\bpeak|\bcrest|near the present…/`). After restoring, 17/17 pass and the tree is clean.
+   - Locally: eslint on the changed files passes (exit 0), `npm run typecheck` passes (exit 0), and `npm run build` passes (exit 0).
+   - The local full suite through `verify-with-receipt` was NOT run. Its first attempt refused at stamp time because of an untracked walk file I wrote mid-run. The second sat in the fleet heavy-gate queue (position 12 → 7) and was killed by the ~05:20Z low-memory reap before reaching the runner (62437b3f). I did not relaunch it. Per AGENTS.md, CI is the full battery: **CI GREEN on 99af95053f484df7d76147fc4fc00c7702f2428d, run 39374760444.**
+   - Codex r1 (read-only, foreground pipe, prompt read back, banner `workdir: C:\dev\skylark\sinusoidal-cycles` checked, head `c90104c` confirmed by the reviewer) found **no defects**. It listed 3 coverage limits of the new test: it sees only `text-[Npx]` sizes, only `<path`/`d3-shape`, and no brush behaviour. All three are disposed DELIBERATE, inside the test's declared source-read ceiling, as the reviewer itself said. The proof is the production read and the walk.
+2. **Delivery.** `check-deployed-sha-drift --service sinusoidal-history`: **in-sync, live 99af9505 = head**. Surface read on production with `tmp/measure-shape.mjs`, at 390x664 on `/` and `/?tab=facets&focus=dalio`:
+   - the note's largest text went **20px → 14px**;
+   - the strip's data paths went **1 → 0**;
+   - the strip's years went from [1600, 2050] to [1600, 1700, 1800, 1900, 2050];
+   - `main` lines went 161 → 163 and 138 → 140. Against production before the change, the multiset differs by exactly the stated lines: the old display line, the old paragraph and the old caption out; the new paragraph, the new caption and the century labels in.
+   - The presence read went **3 → 0** lines.
+   - Controls on production: check-open-card-position 2/2, check-closed-card-header 2/2, check-holds-up-line 46/46, check-embed-snippets 42/42, check-entry-folds 320x568 13/13.
+3. **Encounter.** blind. The site carries no client analytics by standing choice (W-003, closed 10-03). The bug row is W-003 itself: the decision not to instrument.
+4. **Outcome (synthetic).** Walks F1/F2 (`docs/walks/2026-10-20-i055-i059.md`), pre-registered before the push, ran on production 99af9505 with N=1 each:
+   - **The note: HELD for both.** F1: "It argues against my friend". F2: "It argues directly against my friend".
+   - **The strip: HELD for both.** F1: "an empty gridded box … nothing that bumps". F2: "empty: just year gridlines … no mean curve and no shaded shape".
+   - **Controls: HELD.**
+   - So I-055 and I-059 each meet their closeWhen. **The rows close at the P5 close, not here.**
+   - The RED arm was E1/E2 on 10-19: both NOT HELD on both halves.
+
+### A new finding, recorded and not scored (for the reviewer before the close)
+
+Both walkers independently tapped the **"Now 2000–" range preset** while answering (8). The note invites it ("Drag the time-range below…"). On that window the opened Dalio card becomes "one big gold dome whose top sits about mid-axis, roughly 2025 … It looks exactly like 'peaking right now'" (F2). Several facet rows bow into humps (F1: "for a moment that looked like 'they all crest around now'").
+
+This is the zoom, not the strip's picture, and neither walker read the strip that way. It is the same family as I-054: a window centred on a crest reads as "now". **Proposal for the close:** mint it as I-060, with its own bar and walk, rather than reopen I-059. Candidate levers, none chosen: the "Now" preset's window, or a "now" caveat on a zoomed view. Also recorded again: the Peak calibration phrase "peak again at ~2025" is now the most-lifted phrase in four walks (D2, E1, F2; plus F1 quoting it). That is a candidate row for the close.
+
+### Receipt
+
+USER-VISIBLE: on the home page, the editor's note is now body-size text that opens with its label and the correction ("A selection effect, not convergence."), and the range strip under it shows a plain timeline with century labels instead of a grey mean curve that crested at 2029 — 99af950 [proof: production 390x664 on / and /?tab=facets&focus=dalio: note max text 20px → 14px, strip data paths 1 → 0, presence read 3 → 0 lines, main multiset differs by exactly the stated lines; drift in-sync live 99af9505; walks F1/F2 HELD on both halves] [coverage: none — no client analytics by standing choice (W-003); Search Console sees impressions, not arrivals on a section of / · last good read never · founder+test excluded no] [exposure: blind — no instrument sees an arrival on / by standing choice · bug row W-003]
+
+codexCalls: 1
+adversarialReviews: 1 — EXECUTED (Codex r1, read-only, on c90104c: no defects; 3 test-coverage limits disposed DELIBERATE)
+hygiene helper: DISPATCHED 2026-10-20T04:45Z · draft tmp/hygiene-draft-sinusoidal-cycles-2026-10-19.md PRESENT (0 drafts; check-wait-justification PASS, check-engineering-zero PASS 0 findings)
+
+### What remains (to the close)
+
+- Close I-055 and I-059 on their halves, citing the walk record.
+- Mint I-060 (the "Now" preset zoom).
+- Decide whether "peak again at ~2025" gets a row.
+- The 10-20 reads due after midnight MT: I-043, I-046, I-027, I-034, I-049.
+- Heavy-job note: walks F1/F2 ran side by side. The orchestrator's one-at-a-time rule arrived after both had started. The next walk runs alone.
+
+[standing-rules-hash: 88cc2dc9]
+
+---
+
 # 2026-10-19 (Monday, MT) — sinusoidal-cycles, round 1
 
 ## Selection packet
