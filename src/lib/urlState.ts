@@ -34,8 +34,11 @@ export function widenToMinSpan(
   fullEnd: number,
   minSpan: number = MIN_VISIBLE_SPAN
 ): { start: number; end: number } {
-  if (end - start >= minSpan) return { start, end };
+  // Clamp first, so the result is always inside the chart (Codex r1, 2026-10-20).
+  start = Math.max(fullStart, start);
+  end = Math.min(fullEnd, end);
   if (fullEnd - fullStart <= minSpan) return { start: fullStart, end: fullEnd };
+  if (end - start >= minSpan) return { start, end };
   const centre = (start + end) / 2;
   let lo = Math.round(centre - minSpan / 2);
   let hi = lo + minSpan;

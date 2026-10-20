@@ -84,6 +84,12 @@ describe("widenToMinSpan", () => {
     expect(widenToMinSpan(2010, 2040, fs, fe)).toEqual({ start: 1900, end: 2050 });
     expect(widenToMinSpan(1600, 1620, fs, fe)).toEqual({ start: 1600, end: 1750 });
   });
+
+  it("clamps a window that starts or ends outside the chart", () => {
+    expect(widenToMinSpan(1500, 1650, fs, fe)).toEqual({ start: 1600, end: 1750 });
+    expect(widenToMinSpan(1500, 2100, fs, fe)).toEqual({ start: fs, end: fe });
+    expect(widenToMinSpan(1900, 1950, 1900, 2000)).toEqual({ start: 1900, end: 2000 });
+  });
 });
 
 describe("formatRange", () => {
