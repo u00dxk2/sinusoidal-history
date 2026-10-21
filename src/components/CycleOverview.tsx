@@ -16,11 +16,17 @@ import {
 // All ten cycles, one thin row each, on the same time axis as the facets —
 // the picture the H1 names, sized to a phone's first screen. At 390x664 a
 // facet card is ~148px tall, so the facets alone put one curve above the
-// fold; ten 24px rows put all ten there. The rows are a FIGURE, not
-// controls: a 24px row cannot meet the 44px tap floor (canon R28), so the
-// tap instruction lives in the caption beside the cards that take the tap.
-// Gate, one row at a time: `node scripts/measure-fold.mjs <url> 390 664
-// '[data-overview-id="<id>"] svg'`. 2026-09-22.
+// fold; ten 24px rows put all ten there. Gate, one row at a time:
+// `node scripts/measure-fold.mjs <url> 390 664 '[data-overview-id="<id>"] svg'`.
+// 2026-09-22.
+//
+// Each row is a button that opens that cycle's card (I-046, 2026-10-21). The
+// rows were a figure, not controls, because a 24px row cannot meet the 44px
+// house tap floor (canon R28) — but the I-045 walk tapped "Ray Dalio" first
+// and got nothing, and the caption under the figure says "tap one". A
+// full-width 24px row meets WCAG 2.2 AA's 24x24 minimum (2.5.8), and a
+// mis-tap opens the neighbouring cycle's card, which names itself, so the
+// dead tap was the worse failure. Gate: `node scripts/check-glance-tap.mjs`.
 //
 // The figure marks NO current year: no now-line, no ring, no bold year on the
 // axis (I-048, 2026-10-16 evening). Walk B read the ring on Dalio's crest at
@@ -45,6 +51,8 @@ interface CycleOverviewProps {
   /** False when the facets are not the open tab, so "each in detail below"
       would point at nothing. */
   detailBelow: boolean;
+  /** Opens a cycle's card (switches to the facets tab if needed). */
+  onSelect: (id: string) => void;
 }
 
 export default function CycleOverview({
@@ -52,6 +60,7 @@ export default function CycleOverview({
   startYear,
   endYear,
   detailBelow,
+  onSelect,
 }: CycleOverviewProps) {
   const ref = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(ref, 358);
@@ -106,6 +115,7 @@ export default function CycleOverview({
             xScale={xScale}
             startYear={startYear}
             endYear={endYear}
+            onSelect={onSelect}
           />
         ))}
       </ul>
@@ -148,12 +158,14 @@ function OverviewRow({
   xScale,
   startYear,
   endYear,
+  onSelect,
 }: {
   cycle: Cycle;
   chartWidth: number;
   xScale: LinearScale;
   startYear: number;
   endYear: number;
+  onSelect: (id: string) => void;
 }) {
   const yScale = useMemo(
     () => scaleLinear().domain([-1, 1]).range([ROW_H - 4, 4]),
@@ -171,14 +183,14 @@ function OverviewRow({
   const theorist = cycleTheorist(cycle);
 
   return (
-    <li
-      data-overview-id={cycle.id}
-      className="flex items-center"
-      style={{ height: ROW_H }}
-    >
-      {/* The visible name is the readable text, so a screen reader's
-          explore-by-touch finds it; the reading the curve shows follows it
-          as sr-only text. */}
+    <li data-overview-id={cycle.id} style={{ height: ROW_H }}>
+      {/* The visible name is the button's name; the reading the curve shows
+          follows it as sr-only text. */}
+      <button
+        type="button"
+        onClick={() => onSelect(cycle.id)}
+        className="flex items-center w-full h-full p-0 m-0 bg-transparent border-0 text-left cursor-pointer rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-ink"
+      >
       <span
         className="flex items-center gap-2 pr-2 min-w-0 flex-shrink-0 self-stretch"
         style={{ width: NAME_COL }}
@@ -191,7 +203,7 @@ function OverviewRow({
         <span className="font-display text-[12px] leading-none tracking-tight text-ink truncate">
           {theorist}
           {/* No position, because the row draws none (overviewReading.ts). */}
-          <span className="sr-only">{overviewRowReading(cycle)}</span>
+          <span className="sr-only">{overviewRowReading(cycle)} Opens its card.</span>
         </span>
       </span>
       <svg
@@ -211,6 +223,7 @@ function OverviewRow({
           />
         </g>
       </svg>
+      </button>
     </li>
   );
 }

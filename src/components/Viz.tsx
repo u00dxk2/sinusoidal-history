@@ -153,6 +153,7 @@ export default function Viz({
             startYear={visibleStartYear}
             endYear={visibleEndYear}
             detailBelow={tab === "facets"}
+            onSelect={handleSelectCycleFromSummary}
           />
         </div>
         <Tabs
