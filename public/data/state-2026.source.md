@@ -4,9 +4,11 @@
 > the site now draws each cycle as one period around its reference peak, up to the present,
 > and no longer states where any year sits on a cycle. `/state/*` redirects to `/cycles`, and
 > `/api/v1/state` answers 410 Gone. This file stays as published, under the freeze contract
-> below, so a citation of it still resolves. Its positions are cosine arithmetic carried past
-> each cycle's drawn period, not forecasts, and the site no longer endorses reading them as
-> where the cycles stand.
+> below, so a citation of it still resolves. Its rows are the site's cosine values at 2026,
+> including values outside some cycles' drawn periods; they are not forecasts, and the site no
+> longer endorses reading them as where the cycles stand.
+>
+> Everything below this note is the original publication documentation, kept as published.
 
 **Published:** 2026-08-18
 **Derivation:** Generated from `/api/v1/state?year=2026` at publication time —

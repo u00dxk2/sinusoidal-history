@@ -110,7 +110,7 @@ const MORE: Record<
     sourceUrl: "https://www.hup.harvard.edu/books/9780674030213",
   },
   schlesinger_jr: {
-    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases averaging about sixteen and a half years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. expected a liberal turn shortly before or after 1990, while a strict thirty-year clock started at our 1970 midpoint would say 2000. His own forecast and his own period disagree - which tells you how much play these numbers have in them.",
+    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases averaging about sixteen and a half years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. expected a liberal turn shortly before or after 1990, while a strict thirty-year clock started at our 1970 midpoint would say 2000. That cosine, anchored on our midpoint, is not his forecast - which tells you how much play these numbers have in them.",
     sourceLabel: "The Cycles of American History (Houghton Mifflin, 1986)",
     sourceUrl: "https://archive.org/details/cyclesofamerican0000schl",
   },

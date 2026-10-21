@@ -48,8 +48,9 @@
 // nothing here proves a continuous range, and a column under 358px wraps text the fixed heights
 // do not cover); real hosts' CSS (the paste page is bare, like a Substack body); whether a button
 // does what its label says (rule 6 proves it does SOMETHING), and click targets that are not
-// buttons (the overlay's pin-year area, removed with I-061 on 2026-10-21); the curve's shape
-// against the math (the unit tests own that: drawnPeriod.test.ts).
+// buttons (the overlay's pin-year area, removed with I-061 on 2026-10-21); the curve's shape and
+// temporal extent (drawnPeriod.test.ts covers the shared sampler only, not each renderer's use of
+// it; no end-to-end check reads a rendered path's years).
 import http from "node:http";
 import { chromium } from "playwright";
 

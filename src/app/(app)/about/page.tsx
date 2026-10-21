@@ -43,9 +43,10 @@ export default function About() {
           side.
         </p>
         <p>
-          Each curve is one period of a pure sinusoid built from the theory&apos;s own
-          stated period and a single documented reference peak. That is a
-          naïve choice on purpose. One knob per cycle means that when two
+          Each curve is one period of a pure sinusoid built from a period and a
+          single reference peak, each taken from the theory or, where it gives
+          none, chosen by this site and documented on the cycle&apos;s page. That
+          is a naïve choice on purpose. One fixed period and peak per cycle means that when two
           theories disagree on this chart, the disagreement comes from the
           theories - not from us tuning parameters until something looked
           profound.
@@ -192,9 +193,9 @@ export default function About() {
           84, the one period drawn runs from a trough at 1913 to a trough at
           1997. Their predicted Fourth-Turning Crisis climax around 2020 falls
           after that period ends, so the site draws nothing there; a wave
-          repeated past 1997 would put 2020 on a rising arm, neither a trough
-          nor a peak, so no single peak-year anchor lines their Crisis climax up
-          with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
+          repeated past 1997 would put 2020 on a rising arm: with this
+          site&apos;s 1955 anchor and 84-year period, 2020 is neither a trough
+          nor a peak. Schlesinger Jr.&apos;s liberal/conservative cycle is
           interpretive periodization formalizing his father&apos;s alternating
           phases (averaging 16.55 years in the elder Schlesinger&apos;s count)
           into a ~30-year full cycle; the empirical pairing (Stimson Policy

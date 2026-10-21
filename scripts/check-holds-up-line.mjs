@@ -245,6 +245,9 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
                     return true;
                   })(),
                 phases: facet.querySelectorAll("[data-phase-position]").length,
+                // Codex r5 (I-061): the attribute count alone passes a tag that lost its
+                // attribute, so the card's whole text is read for the tag's words too.
+                phaseText: /curve\s*·\s*(peaking|rising|falling|troughing|crossing)/i.test(facet.innerText),
                 ink: bytes(ink),
                 curve: bytes(curveHex),
               };
@@ -257,7 +260,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         // The card: no phase word anywhere in it (I-054). The embed: the word, in ink, not the curve's colour.
         // I-061 (2026-10-21): no phase word on the embed either, so every leg requires none. The
         // embed's ink-not-curve-colour rule above (I-047) has nothing left to judge.
-        const phaseOk = !!parts && parts.phases === 0;
+        const phaseOk = !!parts && parts.phases === 0 && !parts.phaseText;
         // The WHOLE line, exactly, per form: the marked parts alone let extra text (a new claim,
         // an arrow beside the headline) ride along (Codex r1 MED; the second appearance of the
         // partial-match class from 10-14 r2, so the rule is the full composition, not more marks).
@@ -462,6 +465,9 @@ for (const c of cycles.filter((x) => x.question)) {
           faqs,
           answer: flat(answer),
           whereExists: !!where,
+          // Codex r5 (I-061): a position paragraph without id="where-now" would pass the id
+          // test, so the page's whole text is read for every stem the old sentence used.
+          positionText: /\bsits (at a peak|at a low|on the rising arm|on the falling arm|at the midline)\b|\bcurve (tops|bottoms) out\b|Every cycle in \d{4}/.test(document.body.innerText),
           notEv: flat(notEv),
           boxed: !!box && !!notEv && box.contains(notEv),
           order: after(answer, notEv) && after(notEv, curve),
@@ -486,7 +492,7 @@ for (const c of cycles.filter((x) => x.question)) {
           faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${notEvidence}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
         "not evidence": r.notEv === notEvidence,
-        "no position sentence (I-061)": !r.whereExists,
+        "no position sentence (I-061)": !r.whereExists && !r.positionText,
         "not-evidence in box": r.boxed,
         "verdict, not-evidence, curve": r.order,
         painted: r.painted,
