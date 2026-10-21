@@ -1,6 +1,5 @@
 import { describe, it, expect } from "vitest";
 import { cycles } from "@/data/cycles";
-import { phasePositionLabel, type PhasePositionLabel } from "@/lib/cycleMath";
 import {
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
@@ -40,7 +39,8 @@ describe("glanceVerdictLine", () => {
   });
 });
 
-const PHASE_WORDS: PhasePositionLabel[] = [
+// The five words the retired phase classifier printed (I-061 deleted it).
+const PHASE_WORDS = [
   "rising",
   "peaking",
   "falling",
@@ -59,8 +59,6 @@ describe("overviewRowReading", () => {
       expect(reading).toBe(` (${cycle.period_years}-year cycle). ${card!.headline}.`);
       for (const word of PHASE_WORDS) expect(reading).not.toContain(word);
       expect(reading).not.toMatch(/\b(1[5-9]|2[0-9])\d\d\b/);
-      // The phase the facet header still shows is not repeated here.
-      expect(reading).not.toContain(phasePositionLabel(cycle, 2026));
     }
   });
 });

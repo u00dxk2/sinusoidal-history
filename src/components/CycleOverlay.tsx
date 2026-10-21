@@ -4,11 +4,7 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import type { Cycle, DataSeries } from "@/data/types";
-import {
-  sineAtYear,
-  phasePositionLabel,
-  type PhasePositionLabel,
-} from "@/lib/cycleMath";
+import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { normalizeSeries, type SeriesPoint } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
@@ -31,10 +27,6 @@ interface CycleOverlayProps {
 const DEFAULT_HEIGHT = 500;
 const MARGIN = { top: 24, right: 24, bottom: 44, left: 24 };
 const SAMPLE_STEP = 0.5;
-
-function phaseLabel(p: PhasePositionLabel): string {
-  return p;
-}
 
 function applyOverride(c: Cycle, ov?: CycleOverride): Cycle {
   if (!ov) return c;
@@ -75,7 +67,6 @@ export default function CycleOverlay({
     year: number;
     raw: number;
   } | null>(null);
-  const [pinnedYear, setPinnedYear] = useState<number | null>(null);
 
   const innerWidth = Math.max(0, width - MARGIN.left - MARGIN.right);
   const innerHeight = height - MARGIN.top - MARGIN.bottom;
@@ -97,13 +88,11 @@ export default function CycleOverlay({
       .curve(curveCatmullRom.alpha(0.5));
 
     return effectiveCycles.map((cycle) => {
-      const points: { year: number; value: number }[] = [];
-      for (let y = startYear; y <= endYear; y += SAMPLE_STEP) {
-        points.push({ year: y, value: sineAtYear(cycle, y) });
-      }
+      // One period around the stored peak, cut at today (cycleMath `drawnPeriod`, I-061).
+      const points = sampleDrawnPeriod(cycle, startYear, endYear, currentYear, SAMPLE_STEP);
       return { cycle, d: lineGen(points) ?? "" };
     });
-  }, [effectiveCycles, xScale, yScale, startYear, endYear]);
+  }, [effectiveCycles, xScale, yScale, startYear, endYear, currentYear]);
 
   const tickYears = useMemo(() => {
     const ticks: number[] = [];
@@ -129,17 +118,6 @@ export default function CycleOverlay({
       return next;
     });
   }, []);
-
-  const handleAxisClick = useCallback(
-    (e: React.MouseEvent<SVGRectElement>) => {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const year = Math.round(xScale.invert(x));
-      if (year < startYear || year > endYear) return;
-      setPinnedYear((prev) => (prev === year ? null : year));
-    },
-    [xScale, startYear, endYear]
-  );
 
   const hoveredCycle = hoveredCycleId !== null;
 
@@ -242,54 +220,10 @@ export default function CycleOverlay({
             />
           ))}
 
-          {/* Gated like FacetTimeAxis's identical marker: brushed to a range that
-              excludes today, this drew the line and its label outside the plot
-              area (sibling sweep of the 2026-09-22 overview defect). */}
-          {currentYear >= startYear && currentYear <= endYear && (
-            <>
-              <line
-                x1={xScale(currentYear)}
-                x2={xScale(currentYear)}
-                y1={0}
-                y2={innerHeight}
-                stroke="#e11d48"
-                strokeWidth={1.5}
-                strokeOpacity={0.8}
-              />
-              <text
-                x={xScale(currentYear)}
-                y={-6}
-                textAnchor="middle"
-                className="fill-[#e11d48] text-[11px] font-medium font-mono"
-              >
-                now · {currentYear}
-              </text>
-            </>
-          )}
-
-          {pinnedYear !== null && (
-            <line
-              x1={xScale(pinnedYear)}
-              x2={xScale(pinnedYear)}
-              y1={0}
-              y2={innerHeight}
-              stroke="currentColor"
-              strokeWidth={1}
-              strokeOpacity={0.6}
-              strokeDasharray="2 3"
-            />
-          )}
-
-          <rect
-            x={0}
-            y={0}
-            width={innerWidth}
-            height={innerHeight}
-            fill="transparent"
-            onClick={handleAxisClick}
-            style={{ cursor: "crosshair" }}
-            aria-label="Click any year to pin an info panel"
-          />
+          {/* No now-line and no click-to-pin year panel (I-061, David
+              2026-10-21): the overlay says nothing about where any year sits on
+              a cycle. The red "now · <year>" line and a panel giving every
+              cycle's phase and amplitude at a clicked year were here until then. */}
         </g>
       </svg>
 
@@ -307,7 +241,6 @@ export default function CycleOverlay({
         <HoverInfo
           cycle={effectiveCycles.find((c) => c.id === hoveredCycleId)!}
           originalCycle={cycles.find((c) => c.id === hoveredCycleId)!}
-          currentYear={currentYear}
         />
       )}
 
@@ -316,14 +249,6 @@ export default function CycleOverlay({
           series={dataSeries.find((s) => s.id === hoveredSeriesId)!}
           year={seriesHoverPoint.year}
           raw={seriesHoverPoint.raw}
-        />
-      )}
-
-      {pinnedYear !== null && (
-        <PinnedYearPanel
-          year={pinnedYear}
-          cycles={effectiveCycles.filter((c) => activeCycleIds.has(c.id))}
-          onClose={() => setPinnedYear(null)}
         />
       )}
     </div>
@@ -576,13 +501,10 @@ function SeriesLegendItem({
 function HoverInfo({
   cycle,
   originalCycle,
-  currentYear,
 }: {
   cycle: Cycle;
   originalCycle: Cycle;
-  currentYear: number;
 }) {
-  const pos = phasePositionLabel(cycle, currentYear);
   const overridden =
     cycle.period_years !== originalCycle.period_years ||
     cycle.reference_peak_year !== originalCycle.reference_peak_year;
@@ -599,7 +521,7 @@ function HoverInfo({
         />
         <span className="font-semibold">{cycle.name}</span>
         <span className="text-foreground/60 font-mono text-xs">
-          period {cycle.period_years}y · currently {phaseLabel(pos)}
+          period {cycle.period_years}y · reference peak {cycle.reference_peak_year}
           {overridden ? " · calibrated" : ""}
         </span>
       </div>
@@ -635,63 +557,6 @@ function SeriesHoverInfo({
           {raw.toFixed(3)} {series.value_units}
         </span>
       </div>
-    </div>
-  );
-}
-
-function PinnedYearPanel({
-  year,
-  cycles,
-  onClose,
-}: {
-  year: number;
-  cycles: Cycle[];
-  onClose: () => void;
-}) {
-  return (
-    <div className="mt-4 rounded-lg border border-foreground/15 p-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold font-mono">{year}</h2>
-        <button
-          type="button"
-          onClick={onClose}
-          className="text-sm text-foreground/60 hover:text-foreground underline underline-offset-2"
-          aria-label="Close pinned year panel"
-        >
-          close
-        </button>
-      </div>
-      {cycles.length === 0 ? (
-        <p className="mt-2 text-sm text-foreground/60">
-          No cycles are currently active — toggle at least one in the legend
-          above.
-        </p>
-      ) : (
-        <ul className="mt-3 space-y-2">
-          {cycles.map((cycle) => {
-            const pos = phasePositionLabel(cycle, year);
-            const value = sineAtYear(cycle, year);
-            return (
-              <li key={cycle.id} className="text-sm">
-                <div className="flex items-baseline gap-2 flex-wrap">
-                  <span
-                    aria-hidden
-                    className="inline-block w-2.5 h-2.5 rounded-sm"
-                    style={{ backgroundColor: cycle.color }}
-                  />
-                  <span className="font-semibold">{cycle.name}</span>
-                  <span className="text-foreground/60 font-mono text-xs">
-                    {phaseLabel(pos)} (amplitude {value.toFixed(2)})
-                  </span>
-                </div>
-                <p className="mt-0.5 text-foreground/70 pl-4">
-                  {cycle.short_description}
-                </p>
-              </li>
-            );
-          })}
-        </ul>
-      )}
     </div>
   );
 }

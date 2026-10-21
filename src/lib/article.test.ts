@@ -5,27 +5,20 @@ import { cycles } from "@/data/cycles";
 import { aYear, indefiniteArticle } from "@/lib/article";
 import { cycleMetaDescription } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
-import { phaseReason } from "@/lib/stateOfCycles";
 
-const strauss = cycles.find((c) => c.id === "strauss_howe")!;
 const modelski = cycles.find((c) => c.id === "modelski")!;
 
 describe("the article on the surfaces that print a period (2026-10-13 close)", () => {
-  it("/cycles/strauss-howe: box and figure label say 'an 84-year'; only the frozen lay_text keeps 'a 84-year'", async () => {
+  it("/cycles/strauss-howe: the box says 'an 84-year'; only the frozen lay_text keeps 'a 84-year'", async () => {
     const el = await CyclePage({ params: Promise.resolve({ id: "strauss-howe" }) });
     const html = renderToStaticMarkup(el as Parameters<typeof renderToStaticMarkup>[0]).replace(/<!-- -->/g, "");
     expect(html).toContain("before it will run a test on an 84-year claim.");
-    expect(html).toMatch(/aria-label="Strauss[^"]*: an 84-year sinusoid/);
+    // The figure label says "one 84-year period" since I-061, so no article to get wrong.
+    expect(html).toMatch(/aria-label="Strauss[^"]*: one 84-year period of a sinusoid/);
     // verdicts.json is manifest-frozen; its lay_text carries the one remaining slip until a re-freeze.
     const frozen = spectralVerdictForCycle("strauss_howe")!.lay_text;
     expect(frozen).toContain("a 84-year");
     expect(html.split(frozen).join("")).not.toMatch(/\ba 84-year/);
-  });
-
-  it("/state reason line: 'of an 84-year cycle'", () => {
-    const line = Array.from({ length: 200 }, (_, i) => phaseReason(strauss, 1950 + i)).find(Boolean);
-    expect(line).toBeTruthy();
-    expect(line).toContain("of an 84-year cycle.");
   });
 
   it("Modelski's search snippet: 'A 110-year', not 'An 110-year'", () => {

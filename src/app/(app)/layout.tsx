@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { statePath, stateYears } from "@/lib/stateOfCycles";
 
 export default function AppLayout({
   children,
@@ -74,14 +73,8 @@ export default function AppLayout({
             not prophecy.
           </span>
           <span className="ml-auto flex gap-4 uppercase tracking-[0.18em] -my-2 [&>a]:inline-flex [&>a]:items-center [&>a]:min-h-11">
-            {/* Latest published annual reading — build-time year, so this
-                never links ahead of what the route will serve. */}
-            <Link
-              href={statePath(stateYears().at(-1)!)}
-              className="hover:text-ink transition-colors"
-            >
-              State {stateYears().at(-1)}
-            </Link>
+            {/* "State <year>" linked the yearly reading here until I-061 (David
+                2026-10-21) retired it. */}
             <Link
               href="/methods"
               className="hover:text-ink transition-colors"

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { scaleLinear, type ScaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
-import { sineAtYear } from "./cycleMath";
+import { sampleDrawnPeriod } from "./cycleMath";
 import type { SeriesPoint } from "./seriesMath";
 
 export type LinearScale = ScaleLinear<number, number>;
@@ -30,19 +30,18 @@ export function useVisibleData(
   );
 }
 
+/** The cycle's drawn period inside the window (cycleMath `drawnPeriod`, I-061). */
 export function useCycleValues(
   cycle: Cycle,
   startYear: number,
   endYear: number,
-  step: number = 0.5
+  step: number = 0.5,
+  currentYear: number = new Date().getUTCFullYear()
 ): { year: number; value: number }[] {
-  return useMemo(() => {
-    const out: { year: number; value: number }[] = [];
-    for (let y = startYear; y <= endYear; y += step) {
-      out.push({ year: y, value: sineAtYear(cycle, y) });
-    }
-    return out;
-  }, [cycle, startYear, endYear, step]);
+  return useMemo(
+    () => sampleDrawnPeriod(cycle, startYear, endYear, currentYear, step),
+    [cycle, startYear, endYear, step, currentYear]
+  );
 }
 
 export function useContainerWidth(

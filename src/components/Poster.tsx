@@ -3,41 +3,24 @@
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Cycle } from "@/data/types";
-import {
-  phasePositionLabel,
-  phaseProgressPercent,
-  type PhasePositionLabel,
-} from "@/lib/cycleMath";
+import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { confidenceLabel } from "@/lib/cycleRoutes";
 import { posterStandfirst } from "@/lib/countWords";
-import { SITE_DOMAIN, SITE_MAKER, SITE_NAME } from "@/lib/siteConfig";
+import {
+  DEFAULT_YEAR_RANGE,
+  SITE_DOMAIN,
+  SITE_MAKER,
+  SITE_NAME,
+} from "@/lib/siteConfig";
 import { useOverridesState } from "@/lib/urlState";
+
+// The poster was "State of the cycles" with a dateline and, per cycle, a
+// trough → peak → trough gauge and a phase word for the current year, until
+// I-061 (David 2026-10-21): no surface says where the present sits on a cycle.
+// Each row now draws the cycle's one period on a shared axis.
 
 interface PosterProps {
   cycles: Cycle[];
-}
-
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-function formatHeadline(date: Date): string {
-  return `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`;
-}
-
-function labelWord(l: PhasePositionLabel): string {
-  return l.toUpperCase();
 }
 
 export default function Poster({ cycles }: PosterProps) {
@@ -57,9 +40,7 @@ export default function Poster({ cycles }: PosterProps) {
     [cycles, overrides]
   );
 
-  const now = new Date();
-  const currentYear = now.getUTCFullYear();
-  const headline = formatHeadline(now);
+  const currentYear = new Date().getUTCFullYear();
 
   const posterRef = useRef<HTMLDivElement>(null);
   const [downloading, setDownloading] = useState(false);
@@ -129,27 +110,16 @@ export default function Poster({ cycles }: PosterProps) {
               className="font-display mt-3 text-ink leading-[0.94] tracking-[-0.02em]"
               style={{ fontSize: 92 }}
             >
-              State of <br />
+              The cycles, <br />
               <span
                 className="font-display-italic text-ink-soft"
                 style={{ fontStyle: "italic" }}
               >
-                the cycles
+                one period each
               </span>
             </h1>
           </div>
-          <div className="col-span-4 flex flex-col items-end justify-between text-right pt-1">
-            <div>
-              <p className="font-mono text-[11px] tracking-[0.2em] uppercase text-ink-soft">
-                Dateline
-              </p>
-              <p
-                className="font-display text-ink mt-0.5"
-                style={{ fontSize: 26, lineHeight: 1.1 }}
-              >
-                {headline}
-              </p>
-            </div>
+          <div className="col-span-4 flex flex-col items-end justify-end text-right pt-1">
             <div className="text-[11px] font-mono leading-[1.5] tracking-wide text-ink-soft">
               {SITE_DOMAIN}
               <br />
@@ -174,19 +144,14 @@ export default function Poster({ cycles }: PosterProps) {
 
         {/* Cycle rows */}
         <div className="flex-1 flex flex-col gap-3.5">
-          {effectiveCycles.map((cycle, idx) => {
-            const label = phasePositionLabel(cycle, currentYear);
-            const progress = phaseProgressPercent(cycle, currentYear);
-            return (
-              <PosterRow
-                key={cycle.id}
-                cycle={cycle}
-                idx={idx}
-                label={label}
-                progressPercent={progress}
-              />
-            );
-          })}
+          {effectiveCycles.map((cycle, idx) => (
+            <PosterRow
+              key={cycle.id}
+              cycle={cycle}
+              idx={idx}
+              currentYear={currentYear}
+            />
+          ))}
         </div>
 
         {/* Footer with editorial colophon */}
@@ -213,13 +178,11 @@ export default function Poster({ cycles }: PosterProps) {
 function PosterRow({
   cycle,
   idx,
-  label,
-  progressPercent,
+  currentYear,
 }: {
   cycle: Cycle;
   idx: number;
-  label: PhasePositionLabel;
-  progressPercent: number;
+  currentYear: number;
 }) {
   return (
     <div className="grid grid-cols-12 gap-5 items-center border-t border-rule/40 pt-3.5">
@@ -262,49 +225,42 @@ function PosterRow({
           </span>
         </div>
       </div>
-      {/* Phase gauge */}
-      <div className="col-span-3">
-        <PhaseGauge percent={progressPercent} color={cycle.color} />
-      </div>
-      {/* Phase label */}
-      <div
-        className="col-span-2 text-right font-display"
-        style={{
-          fontSize: 30,
-          letterSpacing: "-0.02em",
-          color: cycle.color,
-        }}
-      >
-        <span style={{ fontStyle: "italic" }}>{labelWord(label).toLowerCase()}</span>
+      {/* The cycle's one drawn period on the shared axis */}
+      <div className="col-span-5">
+        <PeriodStrip cycle={cycle} currentYear={currentYear} />
       </div>
     </div>
   );
 }
 
-function PhaseGauge({
-  percent,
-  color,
-}: {
-  percent: number;
-  color: string;
-}) {
-  const clamped = Math.max(0, Math.min(100, percent));
+const STRIP_W = 420;
+const STRIP_H = 40;
+
+function PeriodStrip({ cycle, currentYear }: { cycle: Cycle; currentYear: number }) {
+  const start = DEFAULT_YEAR_RANGE.start;
+  const end = currentYear;
+  const x = (year: number) => ((year - start) / (end - start)) * STRIP_W;
+  const y = (v: number) => STRIP_H / 2 - v * (STRIP_H / 2 - 3);
+  const points = sampleDrawnPeriod(cycle, start, end, currentYear, 1)
+    .map((p) => `${x(p.year).toFixed(1)},${y(p.value).toFixed(1)}`)
+    .join(" ");
   return (
-    <div className="space-y-1.5">
-      <div className="relative h-[3px] bg-ink/15 overflow-visible">
-        <div
-          className="absolute inset-y-0 left-0"
-          style={{ width: `${clamped}%`, backgroundColor: color }}
-        />
-        <div
-          aria-hidden
-          className="absolute -top-1 bottom-[-4px] left-1/2 w-px bg-ink/35"
-        />
-      </div>
+    <div className="space-y-1">
+      <svg
+        viewBox={`0 0 ${STRIP_W} ${STRIP_H}`}
+        className="block w-full h-auto"
+        role="img"
+        aria-label={`${cycle.name}: one ${cycle.period_years}-year period around its reference peak ${cycle.reference_peak_year}`}
+      >
+        <line x1="0" y1={STRIP_H - 1} x2={STRIP_W} y2={STRIP_H - 1} stroke="currentColor" strokeOpacity="0.15" />
+        {points && (
+          <polyline points={points} fill="none" stroke={cycle.color} strokeWidth="2" strokeLinejoin="round" />
+        )}
+      </svg>
       <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.18em] text-ink-soft/65">
-        <span>trough</span>
-        <span>peak</span>
-        <span>trough</span>
+        <span>{start}</span>
+        <span>{Math.round((start + end) / 2)}</span>
+        <span>{end}</span>
       </div>
     </div>
   );

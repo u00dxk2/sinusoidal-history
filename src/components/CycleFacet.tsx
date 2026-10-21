@@ -5,10 +5,6 @@ import Link from "next/link";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
-import {
-  phasePositionLabel,
-  type PhasePositionLabel,
-} from "@/lib/cycleMath";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { holdsUpCard } from "@/lib/holdsUp";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
@@ -99,8 +95,6 @@ export default function CycleFacet({
     effective.period_years !== cycle.period_years ||
     effective.reference_peak_year !== cycle.reference_peak_year;
 
-  const phaseLabel = phasePositionLabel(effective, currentYear);
-
   return (
     <div
       ref={containerRef}
@@ -121,8 +115,6 @@ export default function CycleFacet({
         cycle={cycle}
         effective={effective}
         mode={mode}
-        phaseLabel={phaseLabel}
-        showPhaseTag={mode !== "expanded" && verdictLine}
         overridden={overridden}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -148,11 +140,11 @@ export default function CycleFacet({
           tap target; the single-cycle embed carries its own compact line. */}
       {mode === "normal" && !verdictLine && <ClosedVerdict cycle={cycle} />}
 
-      {/* No phase line on the expanded card (I-054, 2026-10-18): "Where the
-          drawn curve sits in 2026: peaking", over a crest at the now-line,
-          still read briefly as the site agreeing (walks C1/C2, 10-17), after
-          moving it under the answer (I-047) had not been enough. The
-          /cycles/<slug> page says where this year sits, below its verdict. */}
+      {/* No phase word and no now-line anywhere on a card (I-061, David
+          2026-10-21): the curve is one period around the stored peak, and no
+          surface says where the present sits on it. The expanded card lost its
+          phase line on 2026-10-18 (I-054), the closed card its tag on 10-17
+          (I-048); the embed kept both until I-061. */}
 
       {mode !== "collapsed" && series && (
         <FacetLegend cycle={cycle} series={series} />
@@ -170,7 +162,6 @@ export default function CycleFacet({
           endYear={endYear}
           currentYear={currentYear}
           interactive={mode === "expanded"}
-          markNow={verdictLine}
         />
       )}
 
@@ -204,8 +195,6 @@ function FacetHeader({
   cycle,
   effective,
   mode,
-  phaseLabel,
-  showPhaseTag,
   overridden,
   onFocus,
   onBlur,
@@ -215,8 +204,6 @@ function FacetHeader({
   cycle: Cycle;
   effective: Cycle;
   mode: FacetMode;
-  phaseLabel: PhasePositionLabel;
-  showPhaseTag: boolean;
   overridden: boolean;
   onFocus: () => void;
   onBlur: () => void;
@@ -280,30 +267,6 @@ function FacetHeader({
         >
           {label}
         </button>
-      )}
-      {/* In ink, not the cycle's colour (I-047): drawn in the curve's own
-          colour, the phase word read as part of the theory's claim, and the
-          cold walks took "PEAKING" as confirmation. The colour bar beside the
-          name still ties the card to its curve. Not in the expanded header:
-          there it moved below the answer (see CycleFacet). */}
-      {/* "curve ·" (I-048): a bare "PEAKING" on the closed card read as the
-          site agreeing with the theory before the card was opened. Even with
-          "curve ·", walks B2/B3 (2026-10-16) read "CURVE · PEAKING" on the
-          closed Dalio card as "peaking now", and the tag, which never
-          shrinks, cut the name short at 320px (I-050). So the home page's
-          closed and collapsed cards carry no phase word at all (2026-10-17);
-          the embed keeps it (its own verdict line sits above the chart, and
-          check-holds-up-line reads it there). */}
-      {showPhaseTag && (
-        <span
-          className={cn(
-            "text-[11px] sm:text-[11px] font-mono uppercase tracking-[0.18em] whitespace-nowrap flex-shrink-0 text-ink-soft",
-            mode === "collapsed" ? "opacity-60" : ""
-          )}
-          data-phase-position={phaseLabel}
-        >
-          curve · {phaseLabel}
-        </span>
       )}
     </div>
   );
@@ -462,7 +425,6 @@ function FacetChart({
   endYear,
   currentYear,
   interactive,
-  markNow,
 }: {
   cycle: Cycle;
   series: DataSeries | undefined;
@@ -470,11 +432,9 @@ function FacetChart({
   height: number;
   startYear: number;
   endYear: number;
+  /** Where the drawn period is cut (cycleMath `drawnPeriod`). No line marks it. */
   currentYear: number;
   interactive: boolean;
-  /** Draw the dashed current-year line. Off on the home page's closed card
-   *  (I-048, 2026-10-17): its crest at that line read as "peaking now". */
-  markNow: boolean;
 }) {
   const innerWidth = Math.max(0, width - 8);
   const xScale = useTimeScale(startYear, endYear, innerWidth);
@@ -483,7 +443,7 @@ function FacetChart({
     [height]
   );
 
-  const cyclePoints = useCycleValues(cycle, startYear, endYear);
+  const cyclePoints = useCycleValues(cycle, startYear, endYear, 0.5, currentYear);
 
   const cyclePath = useMemo(() => {
     const lineGen = d3Line<{ year: number; value: number }>()
@@ -515,7 +475,11 @@ function FacetChart({
       width={width}
       height={height}
       role="img"
-      aria-label={`${cycle.name} curve from ${startYear} to ${endYear}`}
+      aria-label={
+        cyclePoints.length > 0
+          ? `${cycle.name} curve from ${Math.round(cyclePoints[0].year)} to ${Math.round(cyclePoints[cyclePoints.length - 1].year)}, one period around its reference peak`
+          : `${cycle.name}: its one drawn period falls outside ${startYear} to ${endYear}`
+      }
       className="block mt-1"
     >
       <line
@@ -545,18 +509,6 @@ function FacetChart({
             strokeWidth={1.5}
             strokeOpacity={0.65}
             strokeLinecap="round"
-          />
-        )}
-        {markNow && (
-          <line
-            x1={xScale(currentYear)}
-            x2={xScale(currentYear)}
-            y1={0}
-            y2={height}
-            stroke="currentColor"
-            strokeWidth={1}
-            strokeOpacity={0.35}
-            strokeDasharray="2 3"
           />
         )}
       </g>

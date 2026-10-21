@@ -72,8 +72,8 @@ export default function EmbedView({
 
   const currentYear = new Date().getUTCFullYear();
 
-  // An embed's peak/period overrides change the curve and the phase word it
-  // prints, so the reader has to be told the numbers are the page author's
+  // An embed's peak/period overrides change the curve it draws, so the
+  // reader has to be told the numbers are the page author's
   // and not the site's. The facet's own "cal" tag is md+ only, and an iframe
   // is usually narrower than that (I-037).
   const calibrated = filteredCycles.flatMap((c) => {
@@ -83,8 +83,7 @@ export default function EmbedView({
 
   // One cycle in the facets view is the "argue a specific claim" embed: the
   // curve is the point, so it gets a chart a reader can see (184px, not the
-  // stack's 60px) and no ten-row summary panel above it repeating the phase
-  // word the facet header already prints.
+  // stack's 60px) and no ten-row summary panel above it.
   const single = view === "facets" && filteredCycles.length === 1;
 
   return (
@@ -132,26 +131,17 @@ export default function EmbedView({
             <FacetTimeAxis
               startYear={range.start}
               endYear={range.end}
-              currentYear={currentYear}
               annotations={annotations}
             />
           }
         />
       )}
       {view === "state-only" && (
-        <NowSummaryPanel
-          cycles={effectiveCycles}
-          currentYear={currentYear}
-          interactive={false}
-        />
+        <NowSummaryPanel cycles={effectiveCycles} interactive={false} />
       )}
       {view === "facets" && !single && (
         <>
-          <NowSummaryPanel
-            cycles={effectiveCycles}
-            currentYear={currentYear}
-            interactive={false}
-          />
+          <NowSummaryPanel cycles={effectiveCycles} interactive={false} />
           <FacetView
             cycles={filteredCycles}
             dataSeries={filteredSeries}

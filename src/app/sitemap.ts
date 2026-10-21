@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { cycles } from "@/data/cycles";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
-import { statePath, stateYears } from "@/lib/stateOfCycles";
 import { SITE_URL } from "@/lib/siteConfig";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,13 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}${cycleRoutePath(cycle)}`,
       lastModified,
       changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
-    // One dated annual reading per year since 2026 — the citable permalink.
-    ...stateYears().map((year) => ({
-      url: `${SITE_URL}${statePath(year)}`,
-      lastModified,
-      changeFrequency: "yearly" as const,
       priority: 0.8,
     })),
     {

@@ -5,71 +5,61 @@ export function sineAtYear(cycle: Cycle, year: number): number {
   return cycle.amplitude_normalized * Math.cos(phase);
 }
 
-export function normalizedPhase(cycle: Cycle, year: number): number {
-  const raw = (year - cycle.reference_peak_year) / cycle.period_years;
-  const frac = raw - Math.floor(raw);
-  return frac;
-}
-
-// phasePosition (wide 5% bands, no "crossing") was deleted 2026-08-18: the
-// site briefly ran two incompatible phase classifiers, so the overlay tab
-// could disagree with the masthead about whether a cycle was "peaking".
-// phasePositionLabel below is the single taxonomy every surface uses.
-
-export type PhasePositionLabel =
-  | "rising"
-  | "peaking"
-  | "falling"
-  | "troughing"
-  | "crossing";
-
-// Phase-label band widths, defined a priori in phase fraction (1 = one full
-// cycle period): "peaking"/"troughing" within ±3% of the extremum,
-// "crossing" within ±1.5% of a zero crossing. In years that is
-// period-dependent — ±0.9y for a 30-year cycle, ±4.5y for a 150-year one.
-// These are editorial cutoffs for the labels; the underlying cos values are
-// exact. The /state pages disclose the cutoffs next to the labels.
-export const PEAK_BAND = 0.03;
-export const TROUGH_BAND = 0.03;
-export const CROSSING_BAND = 0.015;
-
 /**
- * Like phasePosition, but with narrow bands around peak, trough, and zero
- * crossings so "peaking" actually means peaking.
+ * The only years a cycle is drawn over (I-061 shape d', David 2026-10-21:
+ * "one wave per cycle, stop at today"). One period centred on the reference
+ * peak this site stores, cut at the current year, so the site never draws a
+ * repeat of the wave and never draws a year after the present. Every surface
+ * that draws a cycle samples through `sampleDrawnPeriod`, so no two can
+ * disagree about which years are drawn.
  */
-export function phasePositionLabel(
+export function drawnPeriod(
   cycle: Cycle,
-  year: number
-): PhasePositionLabel {
-  const frac = normalizedPhase(cycle, year);
+  currentYear: number
+): { from: number; to: number } {
+  const half = cycle.period_years / 2;
+  return {
+    from: cycle.reference_peak_year - half,
+    to: Math.min(cycle.reference_peak_year + half, currentYear),
+  };
+}
 
-  if (frac < PEAK_BAND || frac > 1 - PEAK_BAND) return "peaking";
-  if (Math.abs(frac - 0.5) < TROUGH_BAND) return "troughing";
-  if (Math.abs(frac - 0.25) < CROSSING_BAND) return "crossing";
-  if (Math.abs(frac - 0.75) < CROSSING_BAND) return "crossing";
-  if (frac < 0.5) return "falling";
-  return "rising";
+/** The part of [start, end] inside the cycle's drawn period, or null. */
+export function drawnSpan(
+  cycle: Cycle,
+  start: number,
+  end: number,
+  currentYear: number
+): { from: number; to: number } | null {
+  const p = drawnPeriod(cycle, currentYear);
+  const from = Math.max(start, p.from);
+  const to = Math.min(end, p.to);
+  return from < to ? { from, to } : null;
 }
 
 /**
- * Percentage through the cycle from its most recent trough (0) to the next
- * trough (100), with 50 at peak. Useful for filled-bar gauges in poster mode.
- *
- * We anchor at trough rather than peak so the bar fills intuitively:
- * empty = bottom of cycle, full = next bottom. Peak sits at the middle.
+ * Points of the drawn period inside [start, end], every `step` years, with
+ * both ends of the span included exactly. Empty when the window holds none
+ * of it.
  */
-export function phaseProgressPercent(cycle: Cycle, year: number): number {
-  const frac = normalizedPhase(cycle, year); // 0=peak, 0.5=trough, 1=peak
-  // Shift so 0 = trough. If frac >= 0.5 we're past the trough heading back up;
-  // if frac < 0.5 we're past the peak heading down toward the trough.
-  const shifted = frac < 0.5 ? frac + 0.5 : frac - 0.5;
-  return shifted * 100;
+export function sampleDrawnPeriod(
+  cycle: Cycle,
+  start: number,
+  end: number,
+  currentYear: number,
+  step: number
+): { year: number; value: number }[] {
+  const span = drawnSpan(cycle, start, end, currentYear);
+  if (!span) return [];
+  const out: { year: number; value: number }[] = [];
+  for (let y = span.from; y < span.to; y += step) {
+    out.push({ year: y, value: sineAtYear(cycle, y) });
+  }
+  out.push({ year: span.to, value: sineAtYear(cycle, span.to) });
+  return out;
 }
 
-/**
- * Phase as a 0..1 fraction of the cycle starting from peak (0=peak, 0.5=trough,
- * 1=next peak). Useful for filling gauge dots.
- */
-export function phaseFraction(cycle: Cycle, year: number): number {
-  return normalizedPhase(cycle, year);
-}
+// The phase classifier (phasePositionLabel: rising / peaking / falling /
+// troughing / crossing at a year), its gauge helpers and its bands were deleted
+// on 2026-10-21 with I-061: no surface says where a year sits on a cycle any
+// more, so nothing reads them.

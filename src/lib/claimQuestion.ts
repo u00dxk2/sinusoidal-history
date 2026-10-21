@@ -4,49 +4,29 @@
 // and nothing on the page answered in the searcher's words.
 //
 // The answer is assembled from strings the page shows: the verdict (holdsUpCard, the share
-// card's words) FIRST, then "the drawing is not evidence" (claimNotEvidence), then the curve's
-// position led by "not <theorist>'s forecast" (claimPositionSentence, I-052). Verdict first
-// on every lifted surface, because an answer engine quoting the first sentence must never quote
-// "2026 sits at a peak" alone (manager review 638840f1), and two cold walks read the curve's
-// peak as confirmation when it came before the verdict (I-047, I-048).
+// card's words) FIRST, then what the drawing is (claimNotEvidence). Verdict first on every
+// lifted surface, because two cold walks read the curve's peak as confirmation when it came
+// before the verdict (I-047, I-048).
+//
+// No year's position is stated (I-061, David 2026-10-21: "one wave per cycle, stop at today").
+// Until then the answer went on to say where 2026 sat on the drawn wave, under a not-a-forecast
+// clause, and walks read that position as agreement wherever the clause stood (I-052).
 
 import type { Cycle } from "@/data/types";
 import { cycleTheorist, type ClaimAnswer } from "@/lib/cycleRoutes";
 import { holdsUpCard } from "@/lib/holdsUp";
-import { yearPositionBody } from "@/lib/stateOfCycles";
 
-/** The clause a non-claim cycle page puts after its position sentence, verbatim. */
-export const NOT_FORECAST = "That is a position of this construction, not the theorist's forecast.";
-
-/**
- * A claim page's position sentence: the not-a-forecast clause FIRST, in plain words, then the
- * position. The I-051 walk read "2026 sits at a peak" as "yes, it's peaking right now" with the
- * clause last (I-052), and it did not understand "this construction"; NOT_FORECAST cannot simply
- * move to the front, because its "That" would point at nothing (manager review 2af4adc6).
- */
-/**
- * The one line a claim page's verdict box carries instead of the position (orchestrator answer
- * 19c2b867 to consult ad680494, 2026-10-16). Two walks read the position itself ("2026 sits at a
- * peak") as agreement whatever stood in front of it, so the first screen no longer states it:
- * the box says the drawing is not evidence, and the position moves under the curve.
- */
-export function claimNotEvidence(cycle: Cycle, year: number): string {
-  return `Where this site's drawn wave puts ${year} is not evidence for or against ${cycleTheorist(cycle)}'s cycle.`;
-}
-
-export function claimPositionSentence(cycle: Cycle, year: number): string {
-  return `This page draws a wave, not ${cycleTheorist(cycle)}'s forecast: on that wave, ${yearPositionBody(cycle, year)}`;
+/** What a claim page's drawing is, in the verdict box and the answer text. */
+export function claimNotEvidence(cycle: Cycle): string {
+  return `This page draws one period of a wave around the peak year this site uses for ${cycleTheorist(cycle)}'s cycle. It is not a forecast, and not evidence for or against the cycle.`;
 }
 
 /**
  * The question, the meta description and the answer text, or null for a cycle that is not a
- * claim page (or has no verdict card to lead with). The description is the question, then the
- * verdict, and no position: with the position sentence it runs past the snippet's ~155 characters,
- * and a cut there would keep "sits at a peak" while losing the clause that says it is not a
- * forecast. The question rides in it so a consumer lifting the description alone knows what the
- * verdict answers (Codex r1 on 5dd93d2, LOW).
+ * claim page (or has no verdict card to lead with). The question rides in the description so a
+ * consumer lifting the description alone knows what the verdict answers (Codex r1 on 5dd93d2, LOW).
  */
-export function claimAnswer(cycle: Cycle, year: number): ClaimAnswer | null {
+export function claimAnswer(cycle: Cycle): ClaimAnswer | null {
   if (!cycle.question) return null;
   const card = holdsUpCard(cycle);
   if (!card) return null;
@@ -54,6 +34,6 @@ export function claimAnswer(cycle: Cycle, year: number): ClaimAnswer | null {
   return {
     question: cycle.question,
     description: `${cycle.question} ${verdict}`,
-    text: `${verdict} ${claimNotEvidence(cycle, year)} ${claimPositionSentence(cycle, year)}`,
+    text: `${verdict} ${claimNotEvidence(cycle)}`,
   };
 }

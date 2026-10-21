@@ -1,5 +1,13 @@
 # State of the Cycles — frozen 2026 edition
 
+> **Retired 2026-10-21.** The yearly `/state/<year>` pages and `/api/v1/state` are retired:
+> the site now draws each cycle as one period around its reference peak, up to the present,
+> and no longer states where any year sits on a cycle. `/state/*` redirects to `/cycles`, and
+> `/api/v1/state` answers 410 Gone. This file stays as published, under the freeze contract
+> below, so a citation of it still resolves. Its positions are cosine arithmetic carried past
+> each cycle's drawn period, not forecasts, and the site no longer endorses reading them as
+> where the cycles stand.
+
 **Published:** 2026-08-18
 **Derivation:** Generated from `/api/v1/state?year=2026` at publication time —
 the same `stateOfCycles()` derivation the live `/state/2026` page renders

@@ -1,11 +1,7 @@
 import { ImageResponse } from "next/og";
 import { cycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
-import {
-  phasePositionLabel,
-  phaseProgressPercent,
-  sineAtYear,
-} from "@/lib/cycleMath";
+import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
 import { holdsUpCard } from "@/lib/holdsUp";
 import { ogMainStandfirst } from "@/lib/countWords";
@@ -33,21 +29,6 @@ const PAPER = "#fafaf6";
 const INK = "#1a1a1a";
 const INK_SOFT = "#4a4a48";
 const RULE = "#2a2a2a";
-
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -110,10 +91,13 @@ export async function GET(request: Request) {
   return customCard(JSON.stringify(overrides), () => snapshotCard(effective));
 }
 
+// The share image for every page without its own. It was "State of the cycles · <month
+// year>" with a bar per cycle giving its "current position on the trough → peak → trough
+// swing" until I-061 (David 2026-10-21): no surface says where the present sits on a
+// cycle. Each row now draws the cycle's one period on a shared axis, as the home figure
+// does, with its period and reference peak.
 function snapshotCard(effective: Cycle[]) {
-  const now = new Date();
-  const headline = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
-  const currentYear = now.getUTCFullYear();
+  const currentYear = new Date().getUTCFullYear();
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));
@@ -157,7 +141,7 @@ function snapshotCard(effective: Cycle[]) {
               opacity: 0.35,
             }}
           />
-          <div style={{ display: "flex" }}>{headline}</div>
+          <div style={{ display: "flex" }}>None confirmed</div>
         </div>
 
         {/* Masthead */}
@@ -178,7 +162,7 @@ function snapshotCard(effective: Cycle[]) {
               color: INK,
             }}
           >
-            State of the cycles
+            Do the cycles hold up?
           </div>
           <div
             style={{
@@ -204,11 +188,11 @@ function snapshotCard(effective: Cycle[]) {
               opacity: 0.85,
             }}
           >
-            Bars · current position on the trough → peak → trough swing
+            Each drawn as one period around its reference peak · {DEFAULT_YEAR_RANGE.start}–{currentYear}
           </div>
         </div>
 
-        {/* Two-column phase rows */}
+        {/* Two columns, one row per cycle */}
         <div
           style={{
             display: "flex",
@@ -231,17 +215,13 @@ function snapshotCard(effective: Cycle[]) {
               }}
             >
               {col.map((cycle, rowIdx) => {
-                const progress = phaseProgressPercent(cycle, currentYear);
-                const label = phasePositionLabel(cycle, currentYear);
                 const overallIdx = idx === 0 ? rowIdx : left.length + rowIdx;
                 return (
-                  <PhaseRow
+                  <PeriodRow
                     key={cycle.id}
                     idx={overallIdx + 1}
-                    name={cycle.name}
-                    color={cycle.color}
-                    progress={progress}
-                    label={label}
+                    cycle={cycle}
+                    currentYear={currentYear}
                   />
                 );
               })}
@@ -550,7 +530,11 @@ function truncate(text: string, max: number): string {
   return `${(lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut).replace(/[,;:·\s]+$/, "")}…`;
 }
 
-/** The cycle's sinusoid over 1600–2050 as an inline data-URI SVG. */
+/**
+ * The cycle's one drawn period (cycleMath `drawnPeriod`, I-061) on the site's
+ * 1600–2050 axis, as an inline data-URI SVG. It drew the repeating wave across
+ * the whole axis until 2026-10-21.
+ */
 function curveDataUri(cycle: Cycle): string {
   const start = DEFAULT_YEAR_RANGE.start;
   const end = DEFAULT_YEAR_RANGE.end;
@@ -558,12 +542,10 @@ function curveDataUri(cycle: Cycle): string {
   const h = 148;
   const pad = 12;
 
-  const points: string[] = [];
-  for (let year = start; year <= end; year += 1) {
-    const x = ((year - start) / (end - start)) * w;
-    const y = h / 2 - sineAtYear(cycle, year) * (h / 2 - pad);
-    points.push(`${x.toFixed(1)},${y.toFixed(1)}`);
-  }
+  const points = sampleDrawnPeriod(cycle, start, end, new Date().getUTCFullYear(), 1).map(
+    (p) =>
+      `${(((p.year - start) / (end - start)) * w).toFixed(1)},${(h / 2 - p.value * (h / 2 - pad)).toFixed(1)}`
+  );
 
   const peakX = ((cycle.reference_peak_year - start) / (end - start)) * w;
   const inRange =
@@ -582,20 +564,38 @@ function curveDataUri(cycle: Cycle): string {
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 }
 
-function PhaseRow({
+/** A row's one drawn period on the shared 1600–present axis, as a data-URI SVG. */
+function periodStripDataUri(cycle: Cycle, currentYear: number): string {
+  const start = DEFAULT_YEAR_RANGE.start;
+  const end = currentYear;
+  const w = 480;
+  const h = 22;
+  const pad = 3;
+  const points = sampleDrawnPeriod(cycle, start, end, currentYear, 1).map(
+    (p) =>
+      `${(((p.year - start) / (end - start)) * w).toFixed(1)},${(h / 2 - p.value * (h / 2 - pad)).toFixed(1)}`
+  );
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">` +
+    `<line x1="0" y1="${h - 1}" x2="${w}" y2="${h - 1}" stroke="${RULE}" stroke-width="1" opacity="0.15"/>` +
+    (points.length > 1
+      ? `<polyline points="${points.join(" ")}" fill="none" stroke="${cycle.color}" stroke-width="2" stroke-linejoin="round"/>`
+      : "") +
+    `</svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+function PeriodRow({
   idx,
-  name,
-  color,
-  progress,
-  label,
+  cycle,
+  currentYear,
 }: {
   idx: number;
-  name: string;
-  color: string;
-  progress: number;
-  label: string;
+  cycle: Cycle;
+  currentYear: number;
 }) {
-  const clamped = Math.max(0, Math.min(100, progress));
+  const { name, color } = cycle;
+  const label = `${cycle.period_years}y · peak ${cycle.reference_peak_year}`;
   const displayName =
     name.length > 26 ? (name.split("—")[0]?.trim() ?? name) : name;
   return (
@@ -660,23 +660,10 @@ function PhaseRow({
           {label}
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          height: 3,
-          background: "#e0dcd0",
-          overflow: "hidden",
-          marginLeft: 38,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            width: `${clamped}%`,
-            background: color,
-          }}
-        />
+      <div style={{ display: "flex", marginLeft: 38 }}>
+        {/* Satori renders a plain <img>; next/image has no meaning here. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={periodStripDataUri(cycle, currentYear)} width={480} height={22} alt="" />
       </div>
     </div>
   );

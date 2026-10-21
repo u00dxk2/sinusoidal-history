@@ -4,7 +4,7 @@ import HashLink from "@/components/HashLink";
 import { notFound } from "next/navigation";
 import { cycles } from "@/data/cycles";
 import type { Cycle, DataSeries } from "@/data/types";
-import { sineAtYear } from "@/lib/cycleMath";
+import { drawnPeriod, drawnSpan, sampleDrawnPeriod } from "@/lib/cycleMath";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import {
   confidenceGloss,
@@ -25,11 +25,6 @@ import {
 import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
 import FigureScroller from "@/components/FigureScroller";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
-import {
-  statePath,
-  yearPosition,
-  yearPositionSentence,
-} from "@/lib/stateOfCycles";
 import {
   SPECTRAL_STATE_LABELS,
   spectralDraws,
@@ -59,12 +54,7 @@ import {
   testedHeadline,
 } from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
-import {
-  claimAnswer,
-  claimNotEvidence,
-  claimPositionSentence,
-  NOT_FORECAST,
-} from "@/lib/claimQuestion";
+import { claimAnswer, claimNotEvidence } from "@/lib/claimQuestion";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -72,10 +62,9 @@ type Params = { params: Promise<{ id: string }> };
 export const dynamicParams = false;
 
 /**
- * Re-render once a day. The page states where its curve puts the current year
- * (yearPosition), and a prerender alone would freeze that year at build time —
- * a page built in December would say the old year all of January. Daily ISR
- * keeps it within a day of /state/<year>, which is force-dynamic.
+ * Re-render once a day. The drawn period is cut at the current year
+ * (cycleMath `drawnPeriod`), and a prerender alone would freeze that cut at
+ * build time for the two cycles whose period reaches the present.
  */
 export const revalidate = 86400;
 
@@ -92,7 +81,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const title = cycleMetaTitle(cycle);
   // A claim page leads its snippet with the verdict (src/lib/claimQuestion.ts).
   const description =
-    claimAnswer(cycle, new Date().getUTCFullYear())?.description ?? cycleMetaDescription(cycle);
+    claimAnswer(cycle)?.description ?? cycleMetaDescription(cycle);
   const ogImage = `/og?cycle=${cycle.id}`;
 
   return {
@@ -140,8 +129,11 @@ export default async function CyclePage({ params }: Params) {
   // pair would explain a difference that is not there (Codex r1, 2026-10-06).
   const tested = judgedCut(series?.id, verdict?.series_id);
   const index = cycles.findIndex((c) => c.id === cycle.id);
-  const peaks = peakYearsInRange(cycle);
-  const troughs = troughYearsInRange(cycle);
+  // The extrema of the one drawn period only (I-061): the old list ran across
+  // 1600-2050 and named Dalio's 2025 repeat.
+  const period = drawnPeriod(cycle, new Date().getUTCFullYear());
+  const peaks = peakYearsInRange(cycle, period.from, period.to);
+  const troughs = troughYearsInRange(cycle, period.from, period.to);
   const provenanceHref = series
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
@@ -155,27 +147,14 @@ export default async function CyclePage({ params }: Params) {
   const overlay: NormalizedPoint[] = judged
     ? chartLinePoints(judged, DEFAULT_YEAR_RANGE.start, DEFAULT_YEAR_RANGE.end)
     : [];
-  const positionSentence = yearPositionSentence(cycle, year);
   // A claim page (cycles.json `question`) answers its question on the first screen, verdict
-  // first: the box moves above the curve and says the drawing is not evidence. Before the curve
-  // on purpose: two cold walks read the curve's dot on its crest as confirmation when it came
-  // before the verdict (I-047, I-048). The position itself stays off that screen (I-052). The
-  // other pages keep the I-033 order, curve first.
-  const claim = claimAnswer(cycle, year);
+  // first: the box moves above the curve and says what the drawing is. Before the curve on
+  // purpose: two cold walks read the curve's peak as confirmation when it came before the
+  // verdict (I-047, I-048). The other pages keep the I-033 order, curve first. No page says
+  // where the present sits on the curve (I-061, David 2026-10-21); the "where this year
+  // sits" sentence and its link to /state/<year> were here until then.
+  const claim = claimAnswer(cycle);
   const claimPage = Boolean(claim && verdict);
-  const whereNow = (className: string) => (
-    <p id="where-now" className={className}>
-      {claimPage
-        ? claimPositionSentence(cycle, year)
-        : `${positionSentence} ${NOT_FORECAST}`}{" "}
-      <Link
-        href={statePath(year)}
-        className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
-      >
-        {`Every cycle in ${year} →`}
-      </Link>
-    </p>
-  );
   const curveFigure = (
     <CurveFigure
       cycle={cycle}
@@ -333,13 +312,13 @@ export default async function CyclePage({ params }: Params) {
               ? `${testedHeadline(verdict)}.`
               : `${NOT_TESTABLE_HEADLINE} — and that is the finding, not a dodge.`}
           </p>
-          {/* A claim page says the drawing is not evidence, and NOT where the drawing
-              sits: two walks read "2026 sits at a peak" as agreement wherever its
-              caveat stood (I-052; orchestrator 19c2b867). The position follows the
-              description, as on every other page. */}
+          {/* A claim page says what the drawing is, and never where the present
+              sits on it: walks read "2026 sits at a peak" as agreement wherever its
+              caveat stood (I-052; orchestrator 19c2b867), and since I-061 no page
+              states it at all. */}
           {claimPage && (
             <p id="not-evidence" className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
-              {claimNotEvidence(cycle, year)}
+              {claimNotEvidence(cycle)}
             </p>
           )}
           {!claimPage && reasons}
@@ -402,19 +381,6 @@ export default async function CyclePage({ params }: Params) {
       <p className="mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.55] sm:text-[17px] sm:leading-[1.6] text-ink/85">
         {cycle.short_description}
       </p>
-
-      {/* "Where are we now?" — the question a searcher who lands here on the
-          theorist's name arrives with. Until 2026-09-29 the page never said it:
-          the reader had to find the current decade in the extrema row further
-          down. Derived (yearPosition → cycleStateAtYear), so it matches
-          /state/<year> and /api/v1/state. It sits BELOW the verdict on purpose:
-          the verdict is each page's first-screen answer, and /cycles/turchin
-          had 12px to spare at 320x568 before this line existed. A claim page
-          prints it here too, in its claim form (since 2026-10-16; it sat in the
-          verdict box for one day and was read as agreement, I-052). */}
-      {whereNow(
-        "mt-4 max-[360px]:mt-3 sm:mt-6 text-[15px] leading-[1.6] sm:text-[17px] text-ink/85",
-      )}
 
       {/* Period / reference peak / paired series sat directly under the H1
           until 2026-09-19, which pushed the verdict's answer sentence 17px
@@ -506,7 +472,7 @@ export default async function CyclePage({ params }: Params) {
           {confidenceGloss(cycle.confidence_level)}. It grades the
           theorist&apos;s own evidence for the period; a paired data series is
           a separate comparison this site added. Every cycle on this site
-          is a pure sinusoid built from the
+          is drawn as one period of a pure sinusoid, built from the
           theory&apos;s stated period and one documented reference peak — a
           deliberately naïve construction, so that disagreement between
           theories rather than parameter fitting is what you see. See{" "}
@@ -516,7 +482,7 @@ export default async function CyclePage({ params }: Params) {
           >
             about
           </Link>{" "}
-          for why nearly every cycle peaks near the present.
+          for why this site draws one period and not a repeating wave.
         </p>
       </section>
 
@@ -526,8 +492,8 @@ export default async function CyclePage({ params }: Params) {
         </h2>
         <p className="text-[14px] leading-relaxed text-ink-soft mb-4">
           Computed from period {cycle.period_years} and reference peak{" "}
-          {cycle.reference_peak_year}, across the site&apos;s default window
-          ({DEFAULT_YEAR_RANGE.start}–{DEFAULT_YEAR_RANGE.end}). These are
+          {cycle.reference_peak_year}, over the one period this site draws
+          ({Math.round(period.from)}–{Math.round(period.to)}). These are
           positions of{" "}<em>this construction</em>, not dates claimed by the
           theorist.
         </p>
@@ -946,10 +912,13 @@ function CurveFigure({
   const y = (value: number) =>
     curveHeight / 2 - value * (curveHeight / 2 - padY);
 
-  const points: string[] = [];
-  for (let year = start; year <= end; year += 1) {
-    points.push(`${x(year).toFixed(2)},${y(sineAtYear(cycle, year)).toFixed(2)}`);
-  }
+  // One period around the stored peak, cut at today (cycleMath `drawnPeriod`;
+  // I-061, David 2026-10-21). Until then this drew the wave across the whole
+  // window, and Dalio's 2025 repeat read as "peaking now".
+  const points = sampleDrawnPeriod(cycle, start, end, year, 1).map(
+    (p) => `${x(p.year).toFixed(2)},${y(p.value).toFixed(2)}`
+  );
+  const drawn = drawnSpan(cycle, start, end, year);
 
   // The record, in its strip. Straight segments between the CSV's points: no
   // smoothing invents a shape between points.
@@ -987,20 +956,8 @@ function CurveFigure({
   const showPeakMarker =
     cycle.reference_peak_year >= start && cycle.reference_peak_year <= end;
 
-  // "Now" on the curve. Until 2026-09-29 the only marked point was the
-  // reference peak, so on /cycles/dalio the one dot said 1950 while the
-  // sentence above said 2026 is at a peak. Same look as the home chart's
-  // now-line (a thin ink rule, a dot in the cycle's colour, "now · <year>").
-  // The dot and label are HTML over the SVG, not SVG marks: the 900-wide
-  // viewBox scales to ~0.39 on a phone, which shrinks an SVG dot to ~1.5px
-  // and 11px SVG text to ~4px. Same sineAtYear as the curve and the sentence.
-  const showNow = year >= start && year <= end;
-  const nowPct = (x(year) / width) * 100;
-  const nowTopPct = (y(sineAtYear(cycle, year)) / height) * 100;
-  // End-anchor the label near the right edge (2026 sits at ~95% of the
-  // window) so it never runs off a 320px screen; start-anchor near the left.
-  const nowLabelShift =
-    nowPct > 80 ? "-translate-x-full" : nowPct < 20 ? "" : "-translate-x-1/2";
+  // No "now" mark (I-061): the figure says nothing about where the present
+  // sits. It had a now-line, dot and "now · <year>" label from 2026-09-29.
 
   return (
     // mt-4: since I-033 the figure sits directly under the title's rule, above
@@ -1014,7 +971,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: ${aYear(cycle.period_years)} sinusoid across ${start} to ${end}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}${showNow ? `, and ${year} marked ${yearPosition(cycle, year).where}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: one ${cycle.period_years}-year period of a sinusoid${drawn ? `, drawn from ${Math.round(drawn.from)} to ${Math.round(drawn.to)} on a ${start} to ${end} axis` : ""}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (
@@ -1098,20 +1055,6 @@ function CurveFigure({
               />
             </>
           )}
-          {showNow && (
-            <line
-              data-mark="now-line"
-              x1={x(year)}
-              y1={0}
-              x2={x(year)}
-              y2={height}
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeOpacity="0.55"
-              vectorEffect="non-scaling-stroke"
-              className="text-ink"
-            />
-          )}
           {drawnSeries && (
             <polyline
               data-mark="paired-series"
@@ -1133,25 +1076,9 @@ function CurveFigure({
             vectorEffect="non-scaling-stroke"
           />
         </svg>
-        {showNow && (
-          <span
-            aria-hidden
-            data-mark="now"
-            data-year={year}
-            className="absolute block w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-paper"
-            style={{
-              left: `${nowPct}%`,
-              top: `${nowTopPct}%`,
-              backgroundColor: cycle.color,
-            }}
-          />
-        )}
-        {/* The reference peak: a hollow ring, painted AFTER the filled now-dot.
-            It was an SVG circle (r 3.5 in the viewBox), which a phone drew at
-            ~1.2px radius, and on /cycles/turchin (peak 2020, now 2026) the
-            now-dot sat ~4px away and covered it whole (Codex review,
-            2026-09-29). Hollow and on top, its outer arc stays visible
-            wherever the two meet. */}
+        {/* The reference peak: a hollow ring. It was an SVG circle (r 3.5 in
+            the viewBox), which a phone drew at ~1.2px radius (Codex review,
+            2026-09-29); HTML over the SVG keeps it legible. */}
         {showPeakMarker && (
           <span
             aria-hidden
@@ -1165,10 +1092,9 @@ function CurveFigure({
           />
         )}
       </div>
-      {(showNow || hatch) && (
+      {hatch && (
         <div aria-hidden className="relative h-4 mt-1">
-          {/* The hatch's key, in the row's empty left side: "now · <year>" sits at
-              ~95% and is end-anchored, so the two never meet from 320px up. */}
+          {/* The hatch's key, in the row's empty left side. */}
           {hatch && (
             <span
               data-key="missing-years"
@@ -1192,15 +1118,6 @@ function CurveFigure({
               {/* Past tense on purpose: "years a test still needs" over 1600-1913
                   read as a wait ahead to two cold walkers (I-038, 2026-10-13). */}
               years missing from the record
-            </span>
-          )}
-          {showNow && (
-            <span
-              data-mark="now-label"
-              className={`absolute top-0 ${nowLabelShift} whitespace-nowrap font-mono text-[11px] leading-4 tabular-nums font-medium text-ink`}
-              style={{ left: `${nowPct}%` }}
-            >
-              {`now · ${year}`}
             </span>
           )}
         </div>

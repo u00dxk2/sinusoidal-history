@@ -23,6 +23,19 @@ const nextConfig: NextConfig = {
         destination: "https://sinusoidalhistory.com/:path*",
         permanent: true,
       },
+      {
+        // The yearly /state/<year> readings, retired 2026-10-21 (I-061, David:
+        // "retire the yearly state pages"). Existing links land on the cycles
+        // list. The frozen data file public/data/state-2026.csv stays, marked.
+        source: "/state/:year*",
+        destination: "/cycles",
+        permanent: true,
+      },
+      {
+        source: "/state",
+        destination: "/cycles",
+        permanent: true,
+      },
     ];
   },
   async headers() {

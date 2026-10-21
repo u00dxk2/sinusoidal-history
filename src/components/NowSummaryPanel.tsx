@@ -1,46 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import type { Cycle } from "@/data/types";
 import { holdsUpCard } from "@/lib/holdsUp";
 
+// The verdict panel. It was "State of the cycles" with this month's dateline
+// and an "annual permalink →" to /state/<year> until I-061 (David
+// 2026-10-21): no surface frames the cycles as a reading of the present, and
+// the yearly state pages are retired. Its rows already carried verdicts only.
+
 interface NowSummaryPanelProps {
   cycles: Cycle[];
-  currentYear: number;
   onSelectCycle?: (id: string) => void;
-  /** Dated /state/<year> permalink. Omitted in embeds, where an in-iframe
-      navigation would strand the reader. */
-  permalinkHref?: string;
   /** False in embeds: rows render as plain rows (no buttons, no "tap a row"
       hint) because the embed discards selection events. */
   interactive?: boolean;
 }
 
-const MONTH_NAMES = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-function monthYear(year: number): string {
-  // We render server-side too, so use the passed-in year and a fresh Date
-  // for the month. Stable enough for this masthead.
-  const m = new Date().getMonth();
-  return `${MONTH_NAMES[m]} ${year}`;
-}
-
 /**
- * Editorial short-form name. The State panel is a snapshot, not an
- * encyclopedia: we display the byline (author surname or short title),
+ * Editorial short-form name: the byline (author surname or short title),
  * not the full descriptive name.
  */
 function bylineName(name: string): string {
@@ -90,14 +67,12 @@ function RowBody({ cycle }: { cycle: Cycle }) {
 
 export default function NowSummaryPanel({
   cycles,
-  currentYear,
   onSelectCycle,
-  permalinkHref,
   interactive = true,
 }: NowSummaryPanelProps) {
   return (
     <section
-      aria-label="State of the cycles summary"
+      aria-label="Does each cycle hold up? Summary"
       className="relative bg-paper border border-rule/30 rounded-sm shadow-[0_1px_0_rgba(0,0,0,0.04)] overflow-hidden print:border-rule"
     >
       <div className="px-5 sm:px-8 pt-6 sm:pt-7 pb-4">
@@ -107,23 +82,10 @@ export default function NowSummaryPanel({
               No. {String(cycles.length).padStart(2, "0")}{" "}· A reckoning
             </p>
             <h2 className="font-display text-[30px] sm:text-[42px] leading-[1.0] tracking-tight mt-1.5 text-ink">
-              State of the cycles
+              Does each cycle hold up?
             </h2>
           </div>
           <div className="text-right">
-            <p className="font-mono text-[11px] sm:text-[11px] tracking-widest uppercase text-ink-soft">
-              {monthYear(currentYear)}
-            </p>
-            {permalinkHref && (
-              <p className="mt-1 text-[11px]">
-                <Link
-                  href={permalinkHref}
-                  className="inline-flex items-center min-h-11 -my-3 text-ink-soft underline decoration-ink/30 underline-offset-[3px] hover:text-ink hover:decoration-ink transition-colors"
-                >
-                  annual permalink →
-                </Link>
-              </p>
-            )}
             {interactive && (
               <p className="hidden sm:block mt-1 text-[11px] text-ink-soft italic font-display-italic">
                 select a row to focus + calibrate

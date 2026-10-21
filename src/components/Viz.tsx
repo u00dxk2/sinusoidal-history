@@ -253,9 +253,7 @@ export default function Viz({
 
         <NowSummaryPanel
           cycles={effectiveCycles}
-          currentYear={currentYear}
           onSelectCycle={handleSelectCycleFromSummary}
-          permalinkHref={`/state/${currentYear}`}
         />
       </div>
     </TooltipProvider>
@@ -404,16 +402,7 @@ function CalibrationPanelWithPicker({
         onFocus={() => onOpenInFacets(cycle.id)}
         onBlur={() => onOpenInFacets(cycle.id)}
         onOpenInFacets={() => onOpenInFacets(cycle.id)}
-        timeAxis={
-          // No "now" mark (I-054): the expanded card draws no now-line, as on
-          // the Facets tab (Codex r1, 2026-10-18).
-          <FacetTimeAxis
-            startYear={startYear}
-            endYear={endYear}
-            currentYear={currentYear}
-            markNow={false}
-          />
-        }
+        timeAxis={<FacetTimeAxis startYear={startYear} endYear={endYear} />}
       />
     </div>
   );

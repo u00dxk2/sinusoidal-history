@@ -1,34 +1,24 @@
-import type { NextRequest } from "next/server";
-import { stateOfCycles } from "@/lib/stateOfCycles";
 import { SITE_URL } from "@/lib/siteConfig";
 
-// Where every cycle sits at a given year, computed from the same cosine the
-// chart draws. The one endpoint that is computation rather than a file:
-// GET /api/v1/state?year=2026 (year defaults to the current UTC year).
+// Retired 2026-10-21 (I-061, David: "one wave per cycle, stop at today, retire
+// the yearly state pages"). This endpoint returned every cycle's position on a
+// repeating cosine at any year; the site no longer states where a year sits on
+// a cycle. It answers 410 Gone with a pointer, so an existing caller gets a
+// reason instead of a bare 404. /api/v1/cycles still serves each cycle's
+// period, reference peak and rationale.
 const HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Cache-Control": "public, max-age=3600",
+  "Cache-Control": "public, max-age=86400",
 };
 
-export async function GET(request: NextRequest) {
-  const raw = request.nextUrl.searchParams.get("year");
-  const year = raw === null ? new Date().getUTCFullYear() : Number(raw);
-
-  if (!Number.isInteger(year) || year < 1 || year > 9999) {
-    return Response.json(
-      { error: "year must be an integer between 1 and 9999" },
-      { status: 400, headers: HEADERS }
-    );
-  }
-
+export async function GET() {
   return Response.json(
     {
-      site: SITE_URL,
-      year,
-      formula: "cos(2π · (year − reference_peak_year) / period_years)",
-      note: "Positions of each fixed-sinusoid construction, not forecasts. See /methods for caveats and /about for why most cycles peak near the present.",
-      cycles: stateOfCycles(year),
+      error: "gone",
+      retired: "2026-10-21",
+      note: "This site no longer states where a year sits on any cycle. Each cycle is drawn as one period around its reference peak, up to the present.",
+      see: [`${SITE_URL}/api/v1/cycles`, `${SITE_URL}/cycles`],
     },
-    { headers: HEADERS }
+    { status: 410, headers: HEADERS }
   );
 }
