@@ -47,9 +47,9 @@ export default function About() {
           single reference peak, each taken from the theory or, where it gives
           none, chosen by this site and documented on the cycle&apos;s page. That
           is a naïve choice on purpose. One fixed period and peak per cycle means that when two
-          theories disagree on this chart, the disagreement comes from the
-          theories - not from us tuning parameters until something looked
-          profound.
+          theories disagree on this chart, the difference reflects the
+          theories and this site&apos;s documented choices - not us tuning
+          parameters until something looked profound.
         </p>
       </section>
 

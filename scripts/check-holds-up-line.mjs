@@ -467,7 +467,7 @@ for (const c of cycles.filter((x) => x.question)) {
           whereExists: !!where,
           // Codex r5 (I-061): a position paragraph without id="where-now" would pass the id
           // test, so the page's whole text is read for every stem the old sentence used.
-          positionText: /\bsits (at a peak|at a low|on the rising arm|on the falling arm|at the midline)\b|\bcurve (tops|bottoms) out\b|Every cycle in \d{4}/.test(document.body.innerText),
+          positionText: /\bsits (at a peak|at a low|on the rising arm|on the falling arm|at the midline)\b|\bcurve (tops|bottoms) out in \d{4}\b|Every cycle in \d{4} →/.test(document.body.innerText),
           notEv: flat(notEv),
           boxed: !!box && !!notEv && box.contains(notEv),
           order: after(answer, notEv) && after(notEv, curve),
