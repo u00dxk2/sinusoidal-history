@@ -19,8 +19,9 @@ export default function ConvergenceNote() {
         <p className="mt-1.5 text-[14px] sm:text-[15px] leading-relaxed text-ink-soft max-w-2xl">
           <span className="font-medium text-ink">A selection effect, not convergence.</span>{" "}
           Theorists writing today anchor their forecasts to the world they live in, and we read
-          them precisely because their climaxes happen to land in our era. So where several
-          curves crest near the present, that is not evidence the theories converge. Drag the
+          them precisely because their climaxes happen to land in our era. That is why nine of
+          the ten peak years here fall between 1945 and 2020, and why this site draws each cycle
+          as one period around its peak rather than a wave repeating into the present. Drag the
           time-range below or select any cycle to see how much the peak-year choice is doing.
         </p>
       </div>

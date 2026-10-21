@@ -43,7 +43,7 @@ export default function About() {
           side.
         </p>
         <p>
-          Each curve is a pure sinusoid built from the theory&apos;s own
+          Each curve is one period of a pure sinusoid built from the theory&apos;s own
           stated period and a single documented reference peak. That is a
           naïve choice on purpose. One knob per cycle means that when two
           theories disagree on this chart, the disagreement comes from the
@@ -54,16 +54,25 @@ export default function About() {
 
       <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
-          Why every cycle peaks near now
+          Why each cycle is drawn as one period
         </h2>
         <p>
-          Open the chart and nearly every cycle peaks somewhere near the
-          present. That is not evidence the theories converge - it is a
-          selection effect. Each theorist wrote in a moment that felt
-          consequential and anchored the cycle, consciously or not, to a
-          recent peak. And we read these particular theorists today precisely
-          because their forecasts land in our era. The ones whose cycles
-          peaked quietly in 1880 don&apos;t get republished.
+          Nine of the ten peak years on this site fall between 1945 and 2020.
+          That is not evidence the theories converge - it is a selection
+          effect. Each theorist wrote in a moment that felt consequential and
+          anchored the cycle, consciously or not, to a recent peak. And we read
+          these particular theorists today precisely because their forecasts
+          land in our era. The ones whose cycles peaked quietly in 1880
+          don&apos;t get republished.
+        </p>
+        <p>
+          Until October 2026 this site drew each cycle as a wave repeating
+          across 1600–2050, and with peaks that recent, nearly every wave
+          crested again somewhere near the present. Readers took those repeat
+          crests as the site saying the cycles peak now, which no one here
+          claims. So each cycle is now drawn as one period - a single rise and
+          fall centred on its reference peak, stopping at today - and no page
+          says where the present sits on a cycle.
         </p>
         <p>
           A few specifics, since the choices matter. Huntington dated his
@@ -92,9 +101,9 @@ export default function About() {
         </p>
         <p>
           None of this makes the theories worthless. It does mean the
-          peak-year choice is the most consequential parameter on the site,
-          and that it is doing a lot of the work of
-          &quot;predicting&quot; the present. The calibration panel on the
+          peak-year choice is the most consequential parameter on the site:
+          it decides where each period sits on the axis, and how a wave
+          repeated from it would line up with the present. The calibration panel on the
           main page exists so you can check this yourself: move the peak and
           watch the correlation with real data change.
         </p>
@@ -180,17 +189,17 @@ export default function About() {
           discourse, contested in academic history; reducing their four-
           turnings saeculum to a single sinusoid forces the choice of which
           peak to anchor (we use the post-WWII High at ~1955). With period
-          84, the trough of this construction lands at 1997 and the next
-          peak at 2039; their predicted Fourth-Turning Crisis climax around
-          2020 sits on the rising arm of the sinusoid (curve height ≈ +0.15,
-          on a scale from −1 at a low to +1 at a peak), neither
-          at a trough nor a peak - there is no peak-year anchor that lines
-          their Crisis climax up with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
+          84, the one period drawn runs from a trough at 1913 to a trough at
+          1997. Their predicted Fourth-Turning Crisis climax around 2020 falls
+          after that period ends, so the site draws nothing there; a wave
+          repeated past 1997 would put 2020 on a rising arm, neither a trough
+          nor a peak, so no single peak-year anchor lines their Crisis climax up
+          with the sinusoid&apos;s extrema. Schlesinger Jr.&apos;s liberal/conservative cycle is
           interpretive periodization formalizing his father&apos;s alternating
           phases (averaging 16.55 years in the elder Schlesinger&apos;s count)
           into a ~30-year full cycle; the empirical pairing (Stimson Policy
-          Mood) only covers 1952 onward, so the Schlesinger curve&apos;s
-          pre-1952 shape cannot be stress-tested against the data.
+          Mood) only covers 1952 onward, so a 30-year construction can be
+          stress-tested against the data from 1952 only.
           Modelski&apos;s long cycle is a 100–120-year range that he says
           &quot;does not connote strict cycles&quot;; we plot a fixed
           110-year sinusoid he would disclaim, paired with a largest-economy

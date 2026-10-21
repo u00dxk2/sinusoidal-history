@@ -24,7 +24,7 @@ Nine of the ten cycles are paired with a real long-run series: DW-NOMINATE polar
 
 ## On the convergence problem
 
-Every cycle on this page peaks near the present. That isn't convergence - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored their cycle there; we read them precisely because their climaxes land in our era. The site says it on the home page, on [/about](https://sinusoidalhistory.com/about), and here. Carry the caveat with you or the rest of the project doesn't work.
+Nine of the ten peak years here fall between 1945 and 2020. That isn't convergence - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored their cycle there; we read them precisely because their climaxes land in our era. The site says it on the home page, on [/about](https://sinusoidalhistory.com/about), and here. Carry the caveat with you or the rest of the project doesn't work.
 
 ---
 

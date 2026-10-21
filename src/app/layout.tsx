@@ -47,7 +47,7 @@ export const metadata: Metadata = {
         url: "/og",
         width: 1200,
         height: 630,
-        alt: "State of the cycles snapshot",
+        alt: "Do the cycles hold up? Each cycle drawn as one period around its reference peak",
       },
     ],
   },

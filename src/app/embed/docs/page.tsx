@@ -15,9 +15,9 @@ const SNIPPETS: ReadonlyArray<{
   height: number;
 }> = [
   {
-    title: "State of the cycles (most embeddable)",
+    title: "Does each cycle hold up? (most embeddable)",
     description:
-      "Just the summary panel. Small, scannable, shareable. Ideal for inline Substack embeds.",
+      "Just the verdict panel: each cycle's \"Does it hold up?\" answer. Small, scannable, shareable. Ideal for inline Substack embeds.",
     src: "/embed?view=state-only",
     // Heights hold the whole embed, attribution line included, at a 358px
     // and a 680px column (scripts/check-embed-snippets.mjs, I-037). They
@@ -83,7 +83,8 @@ export default function EmbedDocs() {
           <li>
             <code className="font-mono">view</code> —{" "}
             <code>facets</code> (default), <code>overlay</code>, or{" "}
-            <code>state-only</code>. State-only is the single summary panel.
+            <code>state-only</code>. State-only is the single verdict panel (the
+            name is kept so published embeds keep working).
           </li>
           <li>
             <code className="font-mono">range</code>{" "}— preset name (

@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     url: "/cycles",
     siteName: SITE_NAME,
     type: "website",
-    images: [{ url: "/og", width: 1200, height: 630, alt: "State of the cycles snapshot" }],
+    images: [{ url: "/og", width: 1200, height: 630, alt: "Do the cycles hold up? Each cycle drawn as one period around its reference peak" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -110,7 +110,7 @@ const MORE: Record<
     sourceUrl: "https://www.hup.harvard.edu/books/9780674030213",
   },
   schlesinger_jr: {
-    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases averaging about sixteen and a half years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. expected a liberal turn shortly before or after 1990, while a strict thirty-year clock started at our 1970 midpoint says 2000. His own forecast and his own period disagree - which tells you how much play these numbers have in them.",
+    text: "Two Schlesingers, one idea. Arthur Sr., a Harvard historian, noticed American politics alternating between liberal and conservative moods in phases averaging about sixteen and a half years. His son formalized it in The Cycles of American History (1986): eras of 'public purpose' alternate with eras of 'private interest,' each exhausting itself and breeding its opposite, a full round trip about every thirty years. The wrinkle we keep on the record: Schlesinger Jr. expected a liberal turn shortly before or after 1990, while a strict thirty-year clock started at our 1970 midpoint would say 2000. His own forecast and his own period disagree - which tells you how much play these numbers have in them.",
     sourceLabel: "The Cycles of American History (Houghton Mifflin, 1986)",
     sourceUrl: "https://archive.org/details/cyclesofamerican0000schl",
   },
@@ -144,7 +144,7 @@ const MORE: Record<
     sourceUrl: "https://doi.org/10.1007/978-1-349-09151-5",
   },
   turchin_fathers_sons: {
-    text: "Same author as the 150-year secular cycle, a different construct, and the plainest empirical claim on the roster: Turchin's 2012 Journal of Peace Research paper reports US political violence spiking about every fifty years, with peaks around 1870, 1920, and 1970. The proposed mechanism is generational memory - the people who lived through one convulsion won't start another, and their grandchildren, who didn't, will. Two honesty notes: he describes the observed pattern as sharply peaked, not a smooth wave, so the cosine keeps only his interval; and the missing piece above is deliberate - no paired data series, because the violence database he posts carries no reuse license, so we don't redistribute it. And when this curve and his secular cycle both peak at 2020 on our chart, that's construction, not corroboration - though the 2012 paper does extend its own sequence to 'around 2020,' calling that a projection rather than a prediction.",
+    text: "Same author as the 150-year secular cycle, a different construct, and the plainest empirical claim on the roster: Turchin's 2012 Journal of Peace Research paper reports US political violence spiking about every fifty years, with peaks around 1870, 1920, and 1970. The proposed mechanism is generational memory - the people who lived through one convulsion won't start another, and their grandchildren, who didn't, will. Two honesty notes: he describes the observed pattern as sharply peaked, not a smooth wave, so the cosine keeps only his interval; and the missing piece above is deliberate - no paired data series, because the violence database he posts carries no reuse license, so we don't redistribute it. This site draws one period of it, around 1970; repeated, it would peak again at 2020 alongside his secular cycle, and that would be construction, not corroboration - though the 2012 paper does extend its own sequence to 'around 2020,' calling that a projection rather than a prediction.",
     sourceLabel:
       "'Dynamics of political instability in the United States, 1780–2010,' Journal of Peace Research 49(4), 2012",
     sourceUrl: "https://doi.org/10.1177/0022343312442078",

@@ -210,7 +210,7 @@ function snapshotCard(effective: Cycle[]) {
                 display: "flex",
                 flex: 1,
                 flexDirection: "column",
-                gap: 11,
+                gap: 6,
                 justifyContent: "center",
               }}
             >
@@ -569,8 +569,8 @@ function periodStripDataUri(cycle: Cycle, currentYear: number): string {
   const start = DEFAULT_YEAR_RANGE.start;
   const end = currentYear;
   const w = 480;
-  const h = 22;
-  const pad = 3;
+  const h = 14;
+  const pad = 2;
   const points = sampleDrawnPeriod(cycle, start, end, currentYear, 1).map(
     (p) =>
       `${(((p.year - start) / (end - start)) * w).toFixed(1)},${(h / 2 - p.value * (h / 2 - pad)).toFixed(1)}`
@@ -603,7 +603,7 @@ function PeriodRow({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: 5,
+        gap: 2,
       }}
     >
       <div
@@ -663,7 +663,7 @@ function PeriodRow({
       <div style={{ display: "flex", marginLeft: 38 }}>
         {/* Satori renders a plain <img>; next/image has no meaning here. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={periodStripDataUri(cycle, currentYear)} width={480} height={22} alt="" />
+        <img src={periodStripDataUri(cycle, currentYear)} width={480} height={14} alt="" />
       </div>
     </div>
   );

@@ -29,7 +29,7 @@ export function countWordLower(n: number): string {
   return countWord(n).toLowerCase();
 }
 
-/** The main share card's standfirst under "State of the cycles". */
+/** The main share card's standfirst under "Do the cycles hold up?". */
 export function ogMainStandfirst(cycleCount: number): string {
   return `${countWord(cycleCount)} long-wave cycles of history, on one shared axis.`;
 }
@@ -45,7 +45,7 @@ export function posterStandfirst(cycleCount: number): string {
 
 /** The home page's desktop dek. */
 export function homeDek(cycleCount: number, pairedCount: number): string {
-  return `Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin (twice), Dalio, Strauss-Howe, Modelski — drawn over 1600–2050. Each a pure sinusoid pinned to one documented peak; ${countWordLower(pairedCount)} of the ${countWordLower(cycleCount)} carry a paired empirical series for stress-testing.`;
+  return `Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin (twice), Dalio, Strauss-Howe, Modelski — on one 1600–2050 axis, each drawn as one period of a pure sinusoid around one documented peak; ${countWordLower(pairedCount)} of the ${countWordLower(cycleCount)} carry a paired empirical series for stress-testing.`;
 }
 
 /**

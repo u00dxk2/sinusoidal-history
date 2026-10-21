@@ -355,7 +355,9 @@ export default function Methods() {
           Missing and sparse data
         </h2>
         <p>
-          The curves cover 1600–2050. Every data series has shorter coverage.
+          The chart&apos;s axis runs 1600–2050; each curve covers one period
+          around its reference peak, up to the present. Every data series has
+          its own, shorter coverage.
           DW-NOMINATE: 46th–118th Congress (1879–2023); Fernald TFP
           annual series 1948–present, displayed 1948–present (the 1948 and
           1949 values use a clipped, asymmetric window because a true 5-year
@@ -459,12 +461,12 @@ export default function Methods() {
           scope of government, not the whole political-historical rhythm),
           and Stimson&apos;s own reading stresses shorter, thermostatic swings
           rather than a fixed 30-year cycle. The catch is coverage: the series
-          only starts in 1952. Inside the empirical window this construction
-          (period 30, peak 1970) plots troughs at 1955, 1985, and 2015 and
-          peaks at 1970 and 2000 - two complete trough-to-trough swings inside
-          a record spanning 2.4 periods. The pre-1952 shape of the Schlesinger curve
-          cannot be stress-tested against the paired data; treat the
-          calibration drawer&apos;s Pearson r accordingly.
+          only starts in 1952. The one period this site draws (period 30,
+          peak 1970) runs from a trough at 1955 to a trough at 1985, inside a
+          record spanning 2.4 periods. The calibration drawer&apos;s Pearson r
+          compares the record with the 30-year wave repeated across all of it
+          (troughs at 1955, 1985 and 2015, peaks at 1970 and 2000), so it
+          covers more years than the drawing shows; treat it accordingly.
         </p>
         <p>
           See each series&apos; per-source provenance file for full retrieval

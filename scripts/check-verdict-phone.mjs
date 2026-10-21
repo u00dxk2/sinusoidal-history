@@ -6,7 +6,7 @@
 // Written 2026-09-30. Measured on production that morning: VerdictTable (/cycles and /methods)
 // is a 576px table inside a 353px sideways scroller on a 393-wide phone. The VERDICT column sat
 // wholly off-screen at 393 and at 320, "Years short" was cut at 393 and hidden at 320, and
-// nothing said the table scrolls. The same shape I-011 replaced on /state (check-state-phone).
+// nothing said the table scrolls. The same shape I-011 replaced on /state (check-state-phone; both retired 2026-10-21, I-061).
 //
 // Legs, on /cycles and /methods, at the iPhone 15 preset (coarse pointer proven) and 320x568
 // with touch: for each primary verdict in /data/spectral/verdicts.json, the page's entry

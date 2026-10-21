@@ -259,7 +259,7 @@ function PeriodStrip({ cycle, currentYear }: { cycle: Cycle; currentYear: number
       </svg>
       <div className="flex items-center justify-between text-[11px] font-mono uppercase tracking-[0.18em] text-ink-soft/65">
         <span>{start}</span>
-        <span>{Math.round((start + end) / 2)}</span>
+        <span>1800</span>
         <span>{end}</span>
       </div>
     </div>

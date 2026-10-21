@@ -5,7 +5,7 @@ import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 // scripts/check-embed-snippets.mjs runs at import (top-level await + a browser), so it is
-// SPAWNED, never imported — the check-year-position.test.ts shape. Async spawn on purpose: a
+// SPAWNED, never imported — the shape of the retired (2026-10-21) check-year-position.test.ts. Async spawn on purpose: a
 // sync one would block the fake origin below and the child's fetch would never be answered.
 const script = path.resolve(__dirname, "../../scripts/check-embed-snippets.mjs");
 const run = (...args: string[]) =>

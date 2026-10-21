@@ -108,14 +108,16 @@ Since Phase 12, most per-cycle surfaces derive from `src/data/cycles.json` and n
 
 - `/cycles/<slug>` and its metadata, OG card, and JSON-LD (`generateStaticParams` over `cycles`)
 - the `/cycles` index, the `/about` list, the sitemap entry, the poster and chart rows
-- the `/state/<year>` annual-reading rows and all three `/api/v1/*` endpoints (Phase 13 — they map over `cycles.json`/`series.json` at request/build time)
+- the two live `/api/v1/*` endpoints, cycles and series (Phase 13 — they map over `cycles.json`/`series.json` at request/build time). `/state/<year>` and `/api/v1/state` were retired 2026-10-21 (I-061, David): `/state/*` 301s to `/cycles`, the API answers 410.
+
+**One period per cycle, no present position (I-061, David 2026-10-21: "one wave per cycle, stop at today, retire the yearly state pages").** Every surface that draws a cycle samples through `sampleDrawnPeriod` in `src/lib/cycleMath.ts`: one period centred on the stored reference peak, cut at the current year. No surface says where the present (or any chosen year) sits on a cycle: no phase word, gauge, now-line, now-dot or "where 2026 sits" sentence. The phase classifier was deleted with them. Rationale prose that discusses years outside the drawn period says so ("would put", "repeated back"); the cos-math audit below still applies to those years.
 
 Two surfaces are **hand-written** and will silently go stale:
 
 - `public/llms.txt` — the "Per-cycle pages" bullet list, plus the ascending-period ordering in the intro
 - `public/about.md` — the mirror needs a new `### <name>` block *and* its `- **Page:**` line (see the prose-mirror rule above)
 
-**Claim pages (since 2026-10-15).** An optional `question` on a cycle in `cycles.json` (Dalio only today) makes its page answer that question: the title, H1, description tags and a FAQPage come from `src/lib/claimQuestion.ts`, and the verdict box moves ABOVE the curve carrying `#where-now`. A new claim page adds no route and needs no sitemap edit, but `check-holds-up-line` judges it whole-text (its claim legs refuse a verdict form they do not state), `seriesOverlay.test.ts` pins its verdict-first order, and `public/llms.txt` names the question by hand.
+**Claim pages (since 2026-10-15).** An optional `question` on a cycle in `cycles.json` (Turchin, Dalio and Strauss-Howe today) makes its page answer that question: the title, H1, description tags and a FAQPage come from `src/lib/claimQuestion.ts`, and the verdict box moves ABOVE the curve carrying `#not-evidence` (what the drawing is; no position since I-061). A new claim page adds no route and needs no sitemap edit, but `check-holds-up-line` judges it whole-text (its claim legs refuse a verdict form they do not state), `seriesOverlay.test.ts` pins its verdict-first order, and `public/llms.txt` names the question by hand.
 
 Renaming a cycle's `id` changes its URL. Slugs are the id with underscores swapped for hyphens (`strauss_howe` → `/cycles/strauss-howe`), so an id change is a redirect-worthy URL change, not a cosmetic edit.
 <!-- END:new-cycle-checklist -->

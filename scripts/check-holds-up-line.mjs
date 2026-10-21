@@ -132,14 +132,6 @@ function expectedReasons(id) {
   ];
 }
 
-// Two "r,g,b,a" byte strings from the page's canvas: the same colour if every RGB channel is
-// within 3. Alpha is ignored on purpose.
-function nearRgb(a, b) {
-  const x = a.split(",").map(Number);
-  const y = b.split(",").map(Number);
-  return [0, 1, 2].every((i) => Math.abs(x[i] - y[i]) <= 3);
-}
-
 const browser = await chromium.launch();
 for (const [w, h] of [[1280, 900], [390, 664]]) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
@@ -263,12 +255,9 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         // The phase word IS the ink token, and is not the curve's colour (both, so a token that
         // drifted to the cycle colour still fails).
         // The card: no phase word anywhere in it (I-054). The embed: the word, in ink, not the curve's colour.
-        const phaseOk = kind === "card " ? !!parts && parts.phases === 0 : !!parts &&
-          parts.phaseColor !== null &&
-          parts.phaseColor === parts.ink &&
-          // RGB only, within 3 per channel: an alpha-reduced curve colour is still the curve's
-          // colour (Codex r1), and the canvas can round an alpha colour's channels by one.
-          !nearRgb(parts.phaseColor, parts.curve);
+        // I-061 (2026-10-21): no phase word on the embed either, so every leg requires none. The
+        // embed's ink-not-curve-colour rule above (I-047) has nothing left to judge.
+        const phaseOk = !!parts && parts.phases === 0;
         // The WHOLE line, exactly, per form: the marked parts alone let extra text (a new claim,
         // an arrow beside the headline) ride along (Codex r1 MED; the second appearance of the
         // partial-match class from 10-14 r2, so the rule is the full composition, not more marks).
@@ -295,7 +284,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
         else fail++;
         console.log(
           `${ok ? "PASS" : "FAIL"}  ${tag}  — ${n}/${nAll} line(s) -> ${href} · painted ${painted}` +
-            ` · headline ${headOk} · before chart ${!!parts?.beforeChart} · ${kind === "card " ? "no phase word" : "phase not curve colour"} ${phaseOk}` +
+            ` · headline ${headOk} · before chart ${!!parts?.beforeChart} · no phase word ${phaseOk}` +
             ` · ${kind === "card " ? "why exact, headline unlinked" : "compact form exact"} ${formOk}`
         );
       } catch {
@@ -322,7 +311,7 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 //       #where-now                   = "<claim position> Every cycle in <year> →"   (I-052, below)
 //       the one FAQPage's Question   = <question>, its Answer =
 //                                       "<headline>. <why> <not-evidence> <claim position>"
-//     <position> is rebuilt from /api/v1/state's raw fields (the same rule check-year-position
+//     [until I-061] <position> was rebuilt from /api/v1/state's raw fields (the rule the retired check-year-position
 //     states, written out here so this script stands alone); <headline>/<why> are the oracles above.
 //     Only the ineligible form is stated; an eligible or unpaired claim cycle REFUSES;
 //   - #not-evidence sits inside #does-it-hold-up, after the answer <p>; the curve (article
@@ -346,45 +335,14 @@ for (const [w, h] of [[1280, 900], [390, 664]]) {
 // #where-now = "<claim position> Every cycle in <year> →"; the FAQ answer = "<headline>. <why> <claim
 // position>". The theorist is written out by hand (no code shared with cycleTheorist); a claim
 // cycle missing from CLAIM_THEORIST REFUSES.
+// I-061 (2026-10-21, David: "one wave per cycle, stop at today, retire the yearly state pages"):
+// the claim page states NO position. #where-now and its "Every cycle in <year> →" link are gone,
+// and a leg now FAILS if #where-now exists; #not-evidence reads
+//       "This page draws one period of a wave around the peak year this site uses for
+//        <theorist>'s cycle. It is not a forecast, and not evidence for or against the cycle."
+// and the FAQ answer is "<headline>. <why> <not-evidence>". The /api/v1/state oracle went with the
+// API (it answers 410 now), and so did the recomputed-height leg, which judged the position.
 const CLAIM_THEORIST = { dalio: "Ray Dalio", strauss_howe: "Strauss-Howe", turchin: "Peter Turchin" };
-const PLAIN_LEAD = "By this page's curve, ";
-const claimPosition = (position, theorist) =>
-  `This page draws a wave, not ${theorist}'s forecast: on that wave, ${position.slice(PLAIN_LEAD.length)}`;
-const fmtCos = (v) => (v > 0 ? `+${v.toFixed(2)}` : v < 0 ? `−${Math.abs(v).toFixed(2)}` : "0.00");
-function positionSentence(e, year) {
-  const nearest = (offset) => {
-    const anchor = e.reference_peak_year + offset;
-    return Math.round(anchor + Math.round((year - anchor) / e.period_years) * e.period_years);
-  };
-  const cos = fmtCos(e.cos);
-  const peakFirst = e.next_peak_year < e.next_trough_year;
-  const both = peakFirst
-    ? `The next high falls around ${e.next_peak_year}, and the next low around ${e.next_trough_year}.`
-    : `The next low falls around ${e.next_trough_year}, and the next high around ${e.next_peak_year}.`;
-  const lead = `By this page's curve, ${year} sits`;
-  const scale = "from −1 at a low to +1 at a peak";
-  switch (e.phase) {
-    case "peaking":
-      return `${lead} at a peak (the curve tops out in ${nearest(0)}; curve height ${cos}, ${scale}). The next low falls around ${e.next_trough_year}.`;
-    case "troughing":
-      return `${lead} at a low (the curve bottoms out in ${nearest(e.period_years / 2)}; curve height ${cos}, ${scale}). The next high falls around ${e.next_peak_year}.`;
-    case "rising":
-      return `${lead} on the rising arm (curve height ${cos}, ${scale}). ${both}`;
-    case "falling":
-      return `${lead} on the falling arm (curve height ${cos}, ${scale}). ${both}`;
-    case "crossing":
-      return `${lead} at the midline, on the way ${peakFirst ? "up" : "down"} (curve height ${cos}, ${scale}). ${both}`;
-    default:
-      return null;
-  }
-}
-let apiState = null;
-try {
-  const res = await fetch(`${origin}/api/v1/state`);
-  if (res.ok) apiState = await res.json();
-} catch {
-  apiState = null;
-}
 for (const c of cycles.filter((x) => x.question)) {
   const slug = c.id.replace(/_/g, "-");
   for (const [w, h] of [[390, 664], [320, 568]]) {
@@ -396,36 +354,19 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(`UNREAD ${tag} — no stated claim-page rule for this cycle's verdict row; refusing`);
       continue;
     }
-    const entry = apiState?.cycles?.find?.((e) => new URL(e.page, origin).pathname === `/cycles/${slug}`);
-    const year = apiState?.year;
-    const plain = entry && Number.isInteger(year) ? positionSentence(entry, year) : null;
     const theorist = CLAIM_THEORIST[c.id];
     if (!theorist) {
       unread++;
       console.log(`UNREAD ${tag} — no hand-written theorist for this claim cycle; refusing`);
       continue;
     }
-    const position = plain ? claimPosition(plain, theorist) : null;
-    const notEvidence = `Where this site's drawn wave puts ${year} is not evidence for or against ${theorist}'s cycle.`;
+    const notEvidence = `This page draws one period of a wave around the peak year this site uses for ${theorist}'s cycle. It is not a forecast, and not evidence for or against the cycle.`;
     const reasons = expectedReasons(c.id);
     if (!reasons) {
       unread++;
       console.log(`UNREAD ${tag} — no stated rule for this claim cycle's reason paragraphs; refusing`);
       continue;
     }
-    if (!position) {
-      unread++;
-      console.log(`UNREAD ${tag} — /api/v1/state gave no usable year and entry for ${c.id}; refusing`);
-      continue;
-    }
-    // The API computes phase and cos with the same function the page does (Codex r2), so the
-    // wording oracle alone would agree with a shared math error. The height is recomputed here
-    // from cycles.json's period and peak, sharing no code with the site, and a "peaking" label
-    // must sit inside the site's stated 3%-of-period peak band (cos >= cos(2*pi*0.03)).
-    const cosHere = Math.cos((2 * Math.PI * (year - c.reference_peak_year)) / c.period_years);
-    const mathOk =
-      Math.abs(cosHere - entry.cos) <= 0.005 &&
-      (entry.phase !== "peaking" || cosHere >= Math.cos(2 * Math.PI * 0.03));
     const page = await browser.newPage({ viewport: { width: w, height: h } });
     try {
       await page.goto(`${origin}/cycles/${slug}`, { waitUntil: "networkidle" });
@@ -490,7 +431,7 @@ for (const c of cycles.filter((x) => x.question)) {
         // Anything else is null, and the leg fails rather than measuring a stand-in.
         // DECLARED CEILINGS (Codex r9/r10; the third round on this class, so the leg claims less
         // instead of growing): it judges where the FIGURE sits, not whether its drawing paints
-        // (check-year-position reads the drawn now-dot and its label on every page), and order
+        // (there is no now-dot since I-061; check-year-position, which read it, was retired), and order
         // is DOM order, so a CSS transform that paints the reasons below the curve is not judged.
         const figures = [...document.querySelectorAll("article svg[role=img]")].filter((s) =>
           s.querySelector('[data-mark="paired-series"]'),
@@ -520,16 +461,15 @@ for (const c of cycles.filter((x) => x.question)) {
           ],
           faqs,
           answer: flat(answer),
-          where: flat(where),
+          whereExists: !!where,
           notEv: flat(notEv),
-          boxed: !!box && !!notEv && !!where && box.contains(notEv) && !box.contains(where),
-          order: after(answer, notEv) && after(notEv, curve) && after(curve, where),
+          boxed: !!box && !!notEv && box.contains(notEv),
+          order: after(answer, notEv) && after(notEv, curve),
           painted:
             document.querySelectorAll("h1").length === 1 &&
-            shown(document.querySelector("h1")) && shown(answer) && shown(notEv) && shown(where),
+            shown(document.querySelector("h1")) && shown(answer) && shown(notEv),
           answerBottom: answer ? answer.getBoundingClientRect().bottom + scrollY : null,
           notEvBottom: notEv ? notEv.getBoundingClientRect().bottom + scrollY : null,
-          whereTop: where ? where.getBoundingClientRect().top + scrollY : null,
         };
       });
       const description = `${c.question} ${expected}. ${why}`;
@@ -543,16 +483,14 @@ for (const c of cycles.filter((x) => x.question)) {
           faq.mainEntity?.["@type"] === "Question" &&
           faq.mainEntity?.name === c.question &&
           faq.mainEntity?.acceptedAnswer?.["@type"] === "Answer" &&
-          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${notEvidence} ${position}`,
+          faq.mainEntity?.acceptedAnswer?.text === `${expected}. ${why} ${notEvidence}`,
         answer: r.answer === `${expected} — and that is the finding, not a dodge.`,
         "not evidence": r.notEv === notEvidence,
-        where: r.where === `${position} Every cycle in ${year} →`,
-        "height recomputed": mathOk,
-        "not-evidence in box, position out": r.boxed,
-        "verdict, not-evidence, curve, position": r.order,
+        "no position sentence (I-061)": !r.whereExists,
+        "not-evidence in box": r.boxed,
+        "verdict, not-evidence, curve": r.order,
         painted: r.painted,
         "first screen": r.answerBottom !== null && r.notEvBottom !== null && r.answerBottom <= h && r.notEvBottom <= h,
-        "position off first screen": r.whereTop !== null && r.whereTop >= h,
         "whole box on first screen": r.boxBottom !== null && r.boxBottom <= h,
         "curve figure off first screen": r.curveTop !== null && r.curveTop >= h,
         "reasons before the curve":
@@ -566,7 +504,7 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(
         `${ok ? "PASS" : "FAIL"}  ${tag}  — ` +
           Object.entries(checks).map(([k, v]) => `${k} ${v}`).join(" · ") +
-          ` · box ends ${Math.round(r.boxBottom ?? -1)} · curve starts ${Math.round(r.curveTop ?? -1)} · answer ends ${Math.round(r.answerBottom ?? -1)} · not-evidence ends ${Math.round(r.notEvBottom ?? -1)} · position starts ${Math.round(r.whereTop ?? -1)} of ${h}`
+          ` · box ends ${Math.round(r.boxBottom ?? -1)} · curve starts ${Math.round(r.curveTop ?? -1)} · answer ends ${Math.round(r.answerBottom ?? -1)} · not-evidence ends ${Math.round(r.notEvBottom ?? -1)} of ${h}`
       );
     } catch {
       unread++;

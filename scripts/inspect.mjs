@@ -59,7 +59,7 @@ async function main() {
     await page.goto(`${BASE}/`, { waitUntil: "networkidle" });
     await page.waitForTimeout(1200);
 
-    const summary = await page.locator("section[aria-label='State of the cycles summary']").first();
+    const summary = await page.locator("section[aria-label='Does each cycle hold up? Summary']").first();
     if (await summary.count()) {
       await summary.screenshot({ path: `${OUT_DIR}/20-summary-panel.png` });
       console.log("✓ 20-summary-panel.png");

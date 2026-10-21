@@ -48,8 +48,8 @@
 // nothing here proves a continuous range, and a column under 358px wraps text the fixed heights
 // do not cover); real hosts' CSS (the paste page is bare, like a Substack body); whether a button
 // does what its label says (rule 6 proves it does SOMETHING), and click targets that are not
-// buttons (the overlay's pin-year area); the curve's shape against the math (check-year-position
-// and the unit tests own that).
+// buttons (the overlay's pin-year area, removed with I-061 on 2026-10-21); the curve's shape
+// against the math (the unit tests own that: drawnPeriod.test.ts).
 import http from "node:http";
 import { chromium } from "playwright";
 
@@ -290,7 +290,7 @@ try {
           });
         };
         const via = [...document.querySelectorAll("footer a")].find((a) => /Sinusoidal History/.test(a.textContent));
-        const rows = [...document.querySelectorAll('section[aria-label="State of the cycles summary"] li')];
+        const rows = [...document.querySelectorAll('section[aria-label="Does each cycle hold up? Summary"] li')];
         let curve = null;
         if (singleName) {
           const svgs = [...document.querySelectorAll('svg[role="img"]')]

@@ -1,4 +1,5 @@
-// Does the opened Ray Dalio card, or the "State of the cycles" panel under it, give a cycle's
+// Does the opened Ray Dalio card, or the verdict panel under it (titled "State of the cycles"
+// until I-061, 2026-10-21; now "Does each cycle hold up?"), give a cycle's
 // curve a position in the current year, on a phone?
 //
 // I-054. Walks C1/C2 (2026-10-17, docs/walks/2026-10-17-i048-closed-card.md) opened the Dalio
@@ -14,7 +15,7 @@
 //   now-line   — any vertical svg <line> (x1 == x2) in the card's chart (its svg[role=img], not the axis)
 //   year label — any rendered text node naming the current year as a word, in the card or its axis
 //
-// and, for the panel (section[aria-label="State of the cycles summary"]):
+// and, for the panel (section[aria-label="Does each cycle hold up? Summary"]):
 //
 //   phase word — in a rendered text node, or in a row button's accessible name (aria-label: the
 //                manager review's control, because both walkers read the panel from page text)
@@ -89,7 +90,7 @@ export function summary(results) {
   const clean = results.filter((r) => r.state === "CLEAN").length;
   const exit = results.some((r) => r.state === "MISSING") ? 2 : results.some((r) => r.state === "MARKED") ? 1 : 0;
   return {
-    line: `${clean} of ${results.length} viewports show no current-year position on the opened ${FOCUS} card or the State of the cycles panel`,
+    line: `${clean} of ${results.length} viewports show no current-year position on the opened ${FOCUS} card or the verdict panel`,
     exit,
   };
 }
@@ -151,7 +152,7 @@ async function run(args) {
     const page = await browser.newPage({ viewport: vp, isMobile: true, hasTouch: true });
     const readTab = async (tab) => {
     await page.goto(`${origin}/?tab=${tab}&focus=${FOCUS}`, { waitUntil: "networkidle" });
-    await page.locator('section[aria-label="State of the cycles summary"]').first().waitFor({ timeout: 15000 }).catch(() => {});
+    await page.locator('section[aria-label="Does each cycle hold up? Summary"]').first().waitFor({ timeout: 15000 }).catch(() => {});
     return page.evaluate(({ focus, yearInSrc, phaseInSrc, verdicts }) => {
       const yearIn = new Function(`return (${yearInSrc})`)();
       const phaseIn = new Function(`return (${phaseInSrc})`)();
@@ -194,7 +195,7 @@ async function run(args) {
           year: new Set(scoped.filter((n) => yearIn(n.textContent ?? "", year)).map((n) => n.parentElement)).size,
         };
       }
-      const panel = document.querySelector('section[aria-label="State of the cycles summary"]');
+      const panel = document.querySelector('section[aria-label="Does each cycle hold up? Summary"]');
       const rows = panel ? [...panel.querySelectorAll("li")] : [];
       const flat = (el) => (el.innerText ?? "").replace(/\s+/g, " ").trim();
       return {

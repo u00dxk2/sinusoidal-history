@@ -3,9 +3,9 @@
 An interactive editorial chart-room overlaying ten named long-wave cycles
 of history — Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin
 (secular and fathers-and-sons), Dalio, Strauss-Howe, Modelski — on a shared
-1600–2050 time axis. Each cycle is a
-unit-amplitude sinusoid pinned to a single explicitly documented reference
-peak, and nine of the ten are paired with a real long-run empirical data
+1600–2050 time axis. Each cycle is drawn as one period of a
+unit-amplitude sinusoid centred on a single explicitly documented reference
+peak, stopping at the present, and nine of the ten are paired with a real long-run empirical data
 series for stress-testing.
 
 **Live:** https://sinusoidalhistory.com
@@ -30,13 +30,22 @@ different anchor and the curve shifts. The calibration drawer exists to make
 that visible. See `/methods` for the data-side caveats and `/about` for the
 intellectual-honesty disclaimer.
 
-The headline editorial point: nearly every cycle peaks near the present, but
-that is a **selection effect**, not convergence — theorists writing today
+The headline editorial point: nine of the ten reference peaks fall between
+1945 and 2020, and that is a **selection effect**, not convergence — theorists writing today
 anchor their forecasts to the world they live in, and we read them precisely
 because their climaxes land in our era. The site says this on the home page,
 on `/about`, and on `/colophon`.
 
 ## Status
+
+2026-10-21 (I-061): each cycle is now drawn as one period around its
+reference peak, cut at the present, instead of a wave repeating across
+1600–2050, and no page says where the present sits on a cycle. Readers had
+taken the repeat crests near the present as the site saying the cycles peak
+now. The yearly `/state/<year>` pages and `/api/v1/state` were retired
+(`/state/*` redirects to `/cycles`; the API answers 410); the frozen
+`public/data/state-2026.csv` stays as published. Sections below describe the
+site as it was at each phase.
 
 Phase 15 shipped (August 2026): the spectral verdict. Every cycle–series
 pairing now carries a pre-registered statistical answer to "does this series
@@ -266,8 +275,9 @@ Cycle value at year `y`:
 value(y) = amplitude * cos(2π * (y - reference_peak_year) / period)
 ```
 
-Phase-band labels (peaking, rising, falling, troughing, crossing) use narrow
-fractional-phase windows defined in `src/lib/cycleMath.ts`. Data series are
+The site draws only `y` in one period around the reference peak, cut at the
+current year (`drawnPeriod` / `sampleDrawnPeriod` in `src/lib/cycleMath.ts`),
+and labels no year's phase (the phase-band labels were removed 2026-10-21). Data series are
 rescaled to [-1, 1] using their own min/max over the visible window. The
 calibration drawer reports a Pearson correlation and explicitly does not
 report a p-value (Pearson significance tests are anti-conservative on
@@ -366,14 +376,14 @@ frame-ancestors *` (configured in `next.config.ts`).
 For agents and notebooks: `/llms.txt` indexes everything. Prose pages are
 mirrored as plain markdown at `/about.md`, `/methods.md`, `/colophon.md`
 with permissive CORS. Data CSVs and provenance markdown are served from
-`/data/` with CORS open for cross-origin fetches. Three JSON endpoints
+`/data/` with CORS open for cross-origin fetches. Two JSON endpoints
 (no auth, CORS `*`): `/api/v1/cycles` and `/api/v1/series` are the canonical
-definition files served live; `/api/v1/state?year=2026` returns every
-cycle's cos value, phase label, and next implied peak/trough at that year.
+definition files served live. `/api/v1/state` was retired 2026-10-21 and
+answers 410 Gone.
 
-For citing a moment in time: `/state/<year>` (from 2026) is the dated annual
-reading — where each construction sits that year and the turning points it
-implies next, frozen at a permalink with a suggested citation.
+The yearly `/state/<year>` readings were retired the same day and redirect to
+`/cycles`. The frozen 2026 edition stays as published at
+`/data/state-2026.csv`, marked retired in its provenance file.
 
 For a single theory: `/cycles/<slug>` is the static, indexable page for one
 cycle — period, reference peak, calibration rationale, caveat, sourcing, the

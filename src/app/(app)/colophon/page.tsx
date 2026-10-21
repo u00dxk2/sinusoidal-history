@@ -100,8 +100,8 @@ export default function Colophon() {
           On the convergence problem
         </h2>
         <p>
-          Every cycle on this page peaks near the present. That isn&apos;t
-          convergence - it is a selection effect. Each theorist wrote in a
+          Nine of the ten peak years here fall between 1945 and 2020. That
+          isn&apos;t convergence - it is a selection effect. Each theorist wrote in a
           moment that felt consequential and anchored their cycle there; we
           read them precisely because their climaxes land in our era. The
           site says it on the home page, on{" "}
