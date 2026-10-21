@@ -115,3 +115,32 @@ Manager review: REDIRECT (msg 6ce97495). Three parts: ship the Dalio sentence to
   - /cycles/dalio: "sits at a peak" ×0, "one period of a wave" ×4.
   - sitemap: /state ×0.
 - **Encounter:** blind (no client analytics, W-003). The pre-registered production walk is I-061's 10-22 read: two walkers, one at a time, the same questions as the prototype walk.
+
+## Close
+
+ACTION: COMPLETED · item I-061 · P3 f9ceeb4d. All three parts of the acceptance the REDIRECT set were met: the Dalio sentence is live, a David card was filed with frames and a walk, and I-046 is live. David's yes on that card was built and shipped site-wide. Live reads are quoted above; the review approved it (8b00c864).
+
+- **State changed since the P3 post (f9ceeb4d):**
+  - Dependabot cleared. vite 8.3.0 → 8.3.5 (ce9d766) fixed #57–#59. Mid-close, #60/#61 opened on @vitest/mocker; vitest + @vitest/ui 4.1.11 → 4.1.12 (27ff51a) fixed them. CI GREEN on both. Live `gh api …/dependabot/alerts?state=open` → `[]` (the same query had returned #60, #61 minutes earlier). `check-engineering-zero` still printed RED [#60, #61] from its panel cache after the fix landed: a cache lag, not an open alert.
+  - Branches: `feat/i061-one-wave` deleted (merged as a3a9389). `proto/i061-shape-d` deleted (superseded by the shipped build, never pushed; its frames and walk are committed under docs/walks/).
+- **Ledger delta:**
+  - I-046 CLOSED on its closeWhen (the tap read on production went from 0/10 to 20/20).
+  - I-061 → monitoring. Its readCommand is now check-holds-up-line; its closeWhen is re-pointed at a production walk of the LIVE one-wave page; the note carries David's words verbatim.
+  - I-043 and I-049 re-dated to 2026-10-22 (hygiene draft ACCEPTED).
+  - I-062 MINTED: the zoom strip snaps back with no message (both walkers named it), dated 2026-10-23.
+- **Hygiene draft:** 2 lines — 2 accepted · 0 amended · 0 rejected.
+  - READ-MUTATED ×2 (I-049: src/data/cycles.json, public/about.md) = this lane's own concurrent I-061 edit.
+  - wait-justification: PASS (32 of 67, 0 warn).
+  - engineering-zero at helper time: RED, 3 Dependabot (#57–#59), now fixed (above).
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-21).
+- **Receipt:** P3's line stands (a3a9389, exposure blind · W-003). Outcome open until the 10-22 walk.
+- **Pending reads:**
+  - 10-22: I-061 production walk, I-043, I-049.
+  - 10-23: I-034, I-056, I-062.
+  - 10-27: I-057, I-058.
+  - 10-30: I-051.
+  - 11-03: I-027.
+- **Processes:**
+  - `next start` on 3461/3462/3463 each stopped by verified PID (0 listening).
+  - Codex runs were foreground pipes that exited.
+  - Waker rungs and the listener stay up for the evening.
