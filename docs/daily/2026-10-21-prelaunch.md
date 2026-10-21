@@ -62,7 +62,7 @@ node C:/dev/skylark/sinusoidal-cycles/tmp/shot-shape.mjs
 - (b) owed child rows: none. Read: "rows owed to you in skylark-site's ledger: 0 of 754".
 - (c) CROSSED state reads: none. Read: every kickoff state read (stale-actionable 0 of 15, queued rows 0, cards 0, missingLinkedCommits nothing swept, HEAD CI GREEN, report PENDING as expected).
 
-## P3 — Product-work loop (in progress)
+## P3 — Product-work loop
 
 Manager review: REDIRECT (msg 6ce97495). Three parts: ship the Dalio sentence today; draft (d) with both holes closed and file the card; then I-046.
 
@@ -74,7 +74,10 @@ Manager review: REDIRECT (msg 6ce97495). Three parts: ship the Dalio sentence to
 - Tests 386/386 local. CI GREEN on 0d738473 (`check-ci-status --sha 0d73847`). Deploy: `check-deployed-sha-drift --service sinusoidal-history` in-sync, live 0d738473 = head.
 - Live read (Invoke-WebRequest, production): /cycles/dalio new opening ×2 (HTML + payload), "site's choice" ×2, "peak again at ~2025" ×0; /about.md new ×1, old ×0. The nonzero new-phrase count is the positive control for the zero.
 
-### 2. I-046 glance tap, committed b50df27, Codex r3 in flight
+### 2. I-046 glance tap, SHIPPED (b50df27 + 36b01c1)
+
+- Codex r3 (head b50df27): no application defects; LOW (pre-open guard) fixed in 36b01c1, proven by its selftest arm only.
+- Delivery: CI GREEN on 36b01c14; drift in-sync, live 36b01c14 = head. Live: `check-glance-tap.mjs https://sinusoidalhistory.com` → "OK: 20 of 20" (production before: 0 of 10).
 
 - Each glance row is a full-width button calling the existing `handleSelectCycleFromSummary` (`Viz.tsx:114`). Rows stay 24px: below R28's 44px, at WCAG 2.2 AA's 24x24. The reasoning is in the component comment.
 - New gate `scripts/check-glance-tap.mjs` + `src/lib/check-glance-tap.test.ts` (selftest 10 passed). Red arm: production 0d738473 at 390x664 → "RED: 0 of 10 glance-row taps opened their own card in view" (all DEAD). Green: local build of b50df27 → "OK: 20 of 20" at 390x664 + 320x568.
@@ -83,3 +86,7 @@ Manager review: REDIRECT (msg 6ce97495). Three parts: ship the Dalio sentence to
 ### 3. Shape (d) draft
 
 - Draft + pre-registered walk: `docs/walks/2026-10-21-i061-shape-d.md`. Hole 1: rule (d') = [peak − P/2, min(peak + P/2, current year)]; only Perez (1.5y) and Turchin (69y) reach past 2026. Hole 2: cycle and claim pages drop the present-day position; /state and /api/v1/state stay, labelled as extrapolation. Codex r4 (design review) in flight.
+- Codex r4 on r1: 5 HIGH + 2 MED, all CONFIRMED; r2 carries each disposition (the /state label was withdrawn as false; /state goes to David as retire-or-keep, retire recommended).
+- Prototype on the local branch `proto/i061-shape-d` (10f8613, not pushed). Frames at 390: `docs/walks/frames/2026-10-21-i061/`.
+- Pre-registered walk, W1 then W2, local production build: **HELD (both)**. Turchin's 150-year row is the one "peaking now" picture; both walkers credited it to Turchin and said the site does not endorse it.
+- **David card filed: 777f3084** (needs-decision 72ac4315). No build of (d) on main without his word.
