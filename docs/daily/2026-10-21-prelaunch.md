@@ -90,3 +90,28 @@ Manager review: REDIRECT (msg 6ce97495). Three parts: ship the Dalio sentence to
 - Prototype on the local branch `proto/i061-shape-d` (10f8613, not pushed). Frames at 390: `docs/walks/frames/2026-10-21-i061/`.
 - Pre-registered walk, W1 then W2, local production build: **HELD (both)**. Turchin's 150-year row is the one "peaking now" picture; both walkers credited it to Turchin and said the site does not endorse it.
 - **David card filed: 777f3084** (needs-decision 72ac4315). No build of (d) on main without his word.
+
+### 4. David said yes; shape (d') SHIPPED site-wide
+
+- **David, 2:47 PM MT, verbatim:** "Yes: one wave per cycle, stop at today, retire the yearly state pages." Banked in `docs/answers/2026-10-21.md`.
+- **Inventory:** a read-only helper mapped every surface, about 60 touchpoints. They were built on `feat/i061-one-wave` and fast-forwarded to main as a3a9389 (9849b93, a327700, 53d83e2, a3a9389).
+- **Drawing:** every drawing path samples through `sampleDrawnPeriod` (one period around the stored peak, cut at today). This covers the cards, glance figure, overlay, cycle-page figure, both OG cards and the poster.
+- **Removed:**
+  - phase tag, now-line, axis "now · year";
+  - overlay now-line, pin-a-year panel and "currently <phase>";
+  - cycle-page now dot and the #where-now sentence;
+  - the claim answer's position;
+  - the phase classifier.
+- **Retired:** /state/* redirects permanently (308) to /cycles, and /api/v1/state answers 410 with a pointer. `state-2026.csv` stays as an archived file, marked retired.
+- **Prose:** rewritten across the editor's note, /about, /methods and /colophon (with their mirrors), llms.txt, README and AGENTS.md, the /cycles index, six rationales and two provenance files. The cos-math audit was re-run and is consistent.
+- **Codex reviews** (read-only, workdir checked each time):
+  - r5 on a327700: no HIGH; 5 findings plus claims, all fixed in 53d83e2. Selection-effect causal wording DELIBERATE (the site's standing editorial argument).
+  - r6 on 53d83e2: 2 MED narrowings plus 1 LOW checker tightening, fixed in a3a9389.
+- **Gates:** tests 362/362 local, CI GREEN on a3a9389, `check-deployed-sha-drift` in-sync (live a3a9389).
+- **Live reads on production after deploy:**
+  - check-holds-up-line: 46/46. The red arm on the previous production was 20/46.
+  - check-glance-tap 20/20, check-glance-now-mark 2/2, check-entry-folds 13/13, check-open-card-position 2/2, check-closed-card-header 2/2, check-embed-snippets 42/42.
+  - /state/2026 → 308 /cycles; /api/v1/state → 410.
+  - /cycles/dalio: "sits at a peak" ×0, "one period of a wave" ×4.
+  - sitemap: /state ×0.
+- **Encounter:** blind (no client analytics, W-003). The pre-registered production walk is I-061's 10-22 read: two walkers, one at a time, the same questions as the prototype walk.
