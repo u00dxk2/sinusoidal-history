@@ -18,7 +18,7 @@
 //
 // Exit 0 every tap opened its own card in view · 1 at least one tap was dead,
 // opened the wrong card, or left the card off-screen · 2 the figure or a row is
-// missing. NOT caught: a mouse click or keyboard press (only touch is read); a
+// missing, or a card was already expanded before the tap. NOT caught: a mouse click or keyboard press (only touch is read); a
 // tap on the curve part of the row (the name is tapped); a brushed range other
 // than the default; whether a reader NOTICES the card opened (the walk is the
 // instrument for that).
@@ -38,6 +38,8 @@ export const VIEWPORTS = [
 // One tap's verdict from what the page reported.
 export function judge(read) {
   if (!read.row) return { state: "MISSING", why: "no visible row for this cycle in the glance figure" };
+  // Codex r3 (LOW): post-tap state alone cannot tell "the tap opened it" from "it was open".
+  if (read.preOpen > 0) return { state: "MISSING", why: `${read.preOpen} card(s) already expanded before the tap; cannot judge` };
   if (!read.opened) return { state: "DEAD", why: "the tap opened no card for this cycle" };
   if (read.others > 0) return { state: "WRONG", why: `${read.others} other card(s) expanded as well` };
   if (!read.inView) return { state: "OFFSCREEN", why: "the card opened but its top is outside the viewport" };
@@ -59,6 +61,7 @@ function selftest() {
     ["a tap that also opens another card is WRONG", judge({ ...good, others: 1 }).state === "WRONG"],
     ["a card opened below the fold is OFFSCREEN", judge({ ...good, inView: false }).state === "OFFSCREEN"],
     ["a missing row is MISSING, never OPENS", judge({ row: false, opened: false, others: 0, inView: false }).state === "MISSING"],
+    ["a card already open before the tap is MISSING, never OPENS", judge({ ...good, preOpen: 1 }).state === "MISSING"],
     ["one dead tap makes the run exit 1", summary([{ state: "OPENS" }, { state: "DEAD" }]).exit === 1],
     ["a missing row outranks a dead tap: exit 2", summary([{ state: "DEAD" }, { state: "MISSING" }]).exit === 2],
     ["the count names its denominator", summary([{ state: "OPENS" }, { state: "OPENS" }]).line.startsWith("2 of 2 ")],
@@ -94,6 +97,7 @@ async function run(args) {
       let read = { row: false, opened: false, others: 0, inView: false };
       if ((await row.count()) && (await row.isVisible())) {
         await row.scrollIntoViewIfNeeded();
+        const preOpen = await page.locator('[data-facet-id]:visible button[aria-expanded="true"]').count();
         const box = await row.boundingBox();
         await page.touchscreen.tap(box.x + 40, box.y + box.height / 2);
         await page.waitForTimeout(800);
@@ -111,6 +115,7 @@ async function run(args) {
             inView: !!mine && top >= 0 && top < window.innerHeight,
           };
         }, id);
+        read.preOpen = preOpen;
       }
       await page.close();
       const v = judge(read);

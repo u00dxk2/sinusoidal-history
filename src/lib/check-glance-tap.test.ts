@@ -12,5 +12,6 @@ it("check-glance-tap selftest passes, red arms included", () => {
   expect(out).toContain("the 10-14 dead tap (nothing opened) is DEAD");
   expect(out).toContain("a tap that also opens another card is WRONG");
   expect(out).toContain("a missing row is MISSING, never OPENS");
+  expect(out).toContain("a card already open before the tap is MISSING, never OPENS");
   expect(out).toMatch(/selftest: \d+ passed/);
 });
