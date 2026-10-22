@@ -6,7 +6,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { BRUSH_CAPTION } from "./TimeRangeBrush";
+import { BRUSH_CAPTION, widenedNote } from "./TimeRangeBrush";
 
 const src = (name: string) => readFileSync(join(process.cwd(), "src", "components", name), "utf8");
 
@@ -56,5 +56,17 @@ describe("the range strip draws time only (I-059)", () => {
   it("captions the strip as a control, not as a curve", () => {
     expect(BRUSH_CAPTION).toBe("Drag across the strip to zoom the chart above.");
     expect(BRUSH_CAPTION).not.toMatch(/curve|mean|average/i);
+  });
+
+  // I-062: a widened drag says so, in place, and claims nothing about any cycle.
+  it("names the widened drag and the floor, and nothing about the cycles", () => {
+    const note = widenedNote(2000, 2030, 150);
+    expect(note).toBe("Your 2000–2030 drag was widened to 150 years, the shortest view this chart draws.");
+    expect(note).not.toMatch(/peak|crest|wave|cycle|now|today/i);
+  });
+
+  it("announces the note politely from a region that is always mounted", () => {
+    expect(source).toMatch(/aria-live="polite"/);
+    expect(source).toMatch(/setWidened\(\{ from: \[lo, hi\]/);
   });
 });

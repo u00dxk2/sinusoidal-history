@@ -15,6 +15,16 @@ import { cn } from "@/lib/utils";
 // not relabelled. Pinned by convergenceShape.test.ts.
 export const BRUSH_CAPTION = "Drag across the strip to zoom the chart above.";
 
+/**
+ * What the strip says when a drag was widened to MIN_VISIBLE_SPAN (I-062, 2026-10-22). Both
+ * 10-21 walkers dragged to recent years, saw the selection snap wider with no word, and read
+ * the strip as broken. The floor stays (I-060); the strip now says it applied it. It names only
+ * what the code did: no claim about what any cycle looks like inside the window.
+ */
+export function widenedNote(dragStart: number, dragEnd: number, span: number): string {
+  return `Your ${dragStart}–${dragEnd} drag was widened to ${span} years, the shortest view this chart draws.`;
+}
+
 interface TimeRangeBrushProps {
   fullStartYear: number;
   fullEndYear: number;
@@ -39,6 +49,12 @@ export default function TimeRangeBrush({
   const width = useContainerWidth(containerRef, 800);
   const brushGroupRef = useRef<SVGGElement | null>(null);
 
+  // The last widened drag, kept only while the chart still shows the window it produced.
+  const [widened, setWidened] = useState<{
+    from: [number, number];
+    start: number;
+    end: number;
+  } | null>(null);
   const [hintVisible, setHintVisible] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -97,6 +113,7 @@ export default function TimeRangeBrush({
         if (!event.sourceEvent) return;
         const sel2 = event.selection as [number, number] | null;
         if (!sel2) {
+          setWidened(null);
           onChange(fullStartYear, fullEndYear);
           return;
         }
@@ -106,6 +123,7 @@ export default function TimeRangeBrush({
         const lo = Math.min(y0, y1);
         const hi = Math.max(y0, y1);
         if (hi - lo < 5) {
+          setWidened(null);
           onChange(fullStartYear, fullEndYear);
           return;
         }
@@ -114,6 +132,9 @@ export default function TimeRangeBrush({
         const wide = widenToMinSpan(lo, hi, fullStartYear, fullEndYear);
         if (wide.start !== lo || wide.end !== hi) {
           sel.call(brush.move, [xScale(wide.start), xScale(wide.end)]);
+          setWidened({ from: [lo, hi], start: wide.start, end: wide.end });
+        } else {
+          setWidened(null);
         }
         onChange(wide.start, wide.end);
       });
@@ -169,6 +190,11 @@ export default function TimeRangeBrush({
   const range = `${visibleStartYear}–${visibleEndYear}`;
   const isFullRange =
     visibleStartYear === fullStartYear && visibleEndYear === fullEndYear;
+  // A preset tap or any other change to the window retires the note without a second state write.
+  const note =
+    widened && widened.start === visibleStartYear && widened.end === visibleEndYear
+      ? widenedNote(widened.from[0], widened.from[1], widened.end - widened.start)
+      : null;
 
   return (
     <div className="space-y-3" ref={containerRef}>
@@ -209,6 +235,14 @@ export default function TimeRangeBrush({
           showing <span className="text-ink">{range}</span>
         </span>
       </div>
+      {/* Always mounted, so a screen reader announces the note when it appears (polite). */}
+      <p
+        aria-live="polite"
+        data-brush-widened={note ? "true" : undefined}
+        className={cn("text-[11px] text-ink-soft", !note && "sr-only")}
+      >
+        {note ?? ""}
+      </p>
       <div className="relative">
         <div className="relative rounded-sm border border-rule/35 bg-paper-deep/50 overflow-hidden">
           <svg
