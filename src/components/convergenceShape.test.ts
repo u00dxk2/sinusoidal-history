@@ -66,10 +66,12 @@ describe("the range strip draws time only (I-059)", () => {
   });
 
   // Source pins only. The interaction proof is the Playwright drag read (tmp/i062-drag.mjs).
-  it("source: a polite live region, set by a widened drag, cleared by a preset and a new drag", () => {
+  it("source: a polite live region, set by a widened drag, cleared by a preset or a changed window", () => {
     expect(source).toMatch(/aria-live="polite"/);
     expect(source).toMatch(/setWidened\(\{ from: \[lo, hi\]/);
     expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setWidened\(null\);/);
-    expect(source).toMatch(/if \(event\.sourceEvent\) setWidened\(null\);/);
+    expect(source).toMatch(/if \(start !== visibleStartYear \|\| end !== visibleEndYear\) setWidened\(null\);/);
+    // A pointer event alone never clears it (r2: a press that changed nothing erased the note).
+    expect(source).not.toMatch(/\.on\("start"[^)]*\)[\s\S]{0,120}setWidened/);
   });
 });

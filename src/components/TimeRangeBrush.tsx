@@ -106,16 +106,20 @@ export default function TimeRangeBrush({
         [0, 6],
         [innerWidth, HEIGHT - 6],
       ])
-      .on("start", (event: D3BrushEvent<unknown>) => {
+      .on("start", () => {
         if (hintVisible) dismissHint();
-        // A new drag retires the last note, so a repeat of the same drag is announced afresh.
-        if (event.sourceEvent) setWidened(null);
       })
       .on("end", (event: D3BrushEvent<unknown>) => {
         if (!event.sourceEvent) return;
         const sel2 = event.selection as [number, number] | null;
+        // The note follows OUTCOMES, never pointer events (Codex r1+r2, 2026-10-22): it is set by
+        // a widened drag and cleared only when a drag lands on a different window, so a press
+        // that changes nothing leaves it standing.
+        const retire = (start: number, end: number) => {
+          if (start !== visibleStartYear || end !== visibleEndYear) setWidened(null);
+        };
         if (!sel2) {
-          setWidened(null);
+          retire(fullStartYear, fullEndYear);
           onChange(fullStartYear, fullEndYear);
           return;
         }
@@ -125,7 +129,7 @@ export default function TimeRangeBrush({
         const lo = Math.min(y0, y1);
         const hi = Math.max(y0, y1);
         if (hi - lo < 5) {
-          setWidened(null);
+          retire(fullStartYear, fullEndYear);
           onChange(fullStartYear, fullEndYear);
           return;
         }
@@ -136,7 +140,7 @@ export default function TimeRangeBrush({
           sel.call(brush.move, [xScale(wide.start), xScale(wide.end)]);
           setWidened({ from: [lo, hi], start: wide.start, end: wide.end });
         } else {
-          setWidened(null);
+          retire(wide.start, wide.end);
         }
         onChange(wide.start, wide.end);
       });
@@ -193,7 +197,7 @@ export default function TimeRangeBrush({
   const isFullRange =
     visibleStartYear === fullStartYear && visibleEndYear === fullEndYear;
   // Shown only while the chart still shows the window the drag produced (a URL or Back change
-  // hides it); a preset tap and a new drag clear it outright.
+  // hides it); a preset tap, or a drag to a different window, clears it outright.
   const note =
     widened && widened.start === visibleStartYear && widened.end === visibleEndYear
       ? widenedNote(widened.from[0], widened.from[1], widened.end - widened.start)
