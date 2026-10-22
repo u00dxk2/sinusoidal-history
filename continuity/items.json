@@ -1893,7 +1893,7 @@
     {
       "id": "I-062",
       "title": "A drag on the time-range strip narrower than 150 years snaps back to a wider window with no message, and reads as broken",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1902,9 +1902,11 @@
       "closeWhen": "A reader who drags the strip narrower than the floor is told what happened (or the floor is removed or changed because one-period drawing makes it unnecessary), proved by a Playwright drag read at 390x664 and one cold walker who does not read the strip as broken; or a recorded decision against it.",
       "nextEvaluation": "2026-10-23",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"widenToMinSpan\" -- src/components/TimeRangeBrush.tsx src/lib/urlState.ts — presence of the silent widen (unchanged until a message or a floor change ships); the row's proof is a drag read and a walk",
-      "notes": "2026-10-21 (day round 1, P5): minted at the close on the manager review's instruction (8b00c864: 'the zoom-strip snap-back row that both walkers named. Mint it with a trigger date'). Dated with I-034 and I-056.",
+      "notes": "2026-10-21 (day round 1, P5): minted at the close on the manager review's instruction (8b00c864: 'the zoom-strip snap-back row that both walkers named. Mint it with a trigger date'). Dated with I-034 and I-056. | 2026-10-22 (day round 1, P3): CLOSED. Pulled forward from 10-23 by the manager review (REDIRECT). Shipped d39e795 + d66293e + d71acc9 + 9bbfb22: after a drag narrower than 150 years the strip says \"Widened to 150 years, the shortest view this chart draws.\" (polite live region); the 150-year floor is unchanged (under one-wave drawing a narrow window near today still shows Turchin's 1945-2020 ramp as a lone crest). Drag read on production 9bbfb221 (tmp/i062-drag.mjs, gitignored): PASS at 390x664 and 320x568, mouse + touch, 0 stale after a preset return, 0 erased by a no-op press; red arm on production 5274fce7 was 0 of 2. Cold walker on production 13d6d79a (docs/walks/2026-10-22-i062.md): HELD, \"limited\" not \"broken\"; it found the earlier note quoting a previous drag's years after a pan, which is why 9bbfb22 states the rule only (not re-walked on the final wording; the change removed the years and nothing else). Codex r1-r4 read-only, all dispositioned in the walk doc and commit messages. Carried, not this row: a drag inside the box pans it with no cue; every short drag lands on the same 1900-2050 window as Modern; the strip sits ~2,800px below the chart on a phone.",
       "created": "2026-10-21",
-      "updated": "2026-10-21"
+      "updated": "2026-10-22",
+      "closedAt": "2026-10-22",
+      "lastEvaluated": "2026-10-22"
     }
   ],
   "knownPatterns": [
