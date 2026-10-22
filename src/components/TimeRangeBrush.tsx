@@ -106,8 +106,10 @@ export default function TimeRangeBrush({
         [0, 6],
         [innerWidth, HEIGHT - 6],
       ])
-      .on("start", () => {
+      .on("start", (event: D3BrushEvent<unknown>) => {
         if (hintVisible) dismissHint();
+        // A new drag retires the last note, so a repeat of the same drag is announced afresh.
+        if (event.sourceEvent) setWidened(null);
       })
       .on("end", (event: D3BrushEvent<unknown>) => {
         if (!event.sourceEvent) return;
@@ -190,7 +192,8 @@ export default function TimeRangeBrush({
   const range = `${visibleStartYear}–${visibleEndYear}`;
   const isFullRange =
     visibleStartYear === fullStartYear && visibleEndYear === fullEndYear;
-  // A preset tap or any other change to the window retires the note without a second state write.
+  // Shown only while the chart still shows the window the drag produced (a URL or Back change
+  // hides it); a preset tap and a new drag clear it outright.
   const note =
     widened && widened.start === visibleStartYear && widened.end === visibleEndYear
       ? widenedNote(widened.from[0], widened.from[1], widened.end - widened.start)
@@ -211,7 +214,11 @@ export default function TimeRangeBrush({
               <button
                 key={preset.label}
                 type="button"
-                onClick={() => onChange(preset.start, preset.end)}
+                onClick={() => {
+                  // A preset supersedes the drag: its note must not return on a later visit.
+                  setWidened(null);
+                  onChange(preset.start, preset.end);
+                }}
                 aria-pressed={active}
                 className={cn(
                   // min-h-11: these sat at 28px on a phone, well under the

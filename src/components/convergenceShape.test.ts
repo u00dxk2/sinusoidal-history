@@ -65,8 +65,11 @@ describe("the range strip draws time only (I-059)", () => {
     expect(note).not.toMatch(/peak|crest|wave|cycle|now|today/i);
   });
 
-  it("announces the note politely from a region that is always mounted", () => {
+  // Source pins only. The interaction proof is the Playwright drag read (tmp/i062-drag.mjs).
+  it("source: a polite live region, set by a widened drag, cleared by a preset and a new drag", () => {
     expect(source).toMatch(/aria-live="polite"/);
     expect(source).toMatch(/setWidened\(\{ from: \[lo, hi\]/);
+    expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setWidened\(null\);/);
+    expect(source).toMatch(/if \(event\.sourceEvent\) setWidened\(null\);/);
   });
 });
