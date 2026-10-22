@@ -102,3 +102,33 @@ hygiene helper: DISPATCHED ~14:56Z · draft tmp/hygiene-draft-sinusoidal-cycles-
 [standing-rules-hash: 88cc2dc9]
 
 What remains: P5 applies the hygiene draft and dispositions the candidate rows (the glance-figure "bunched humps" read; pan versus select on the strip with no cue; every short drag landing on the Modern window).
+
+## Close
+
+ACTION: COMPLETED · item I-061, I-062 · P3 cc666457
+
+The redirected acceptance held on both legs (manager review 139d51cd). Leg one: the I-061 walk doc records both walkers against the bar on the served sha 5274fce7, and I-061 is closed. Leg two: a narrower-than-150-year drag on production shows the reason (live 9bbfb221, now 9a04ce05).
+
+**Changed since the P3 post:**
+- I-062 was REOPENED to monitoring on the review. The walk that HELD read 13d6d79a's year-quoting note, and the final years-free wording (9bbfb22) has not been cold-walked. Its readCommand is now `scripts/check-brush-widened.mjs`, and nextEvaluation is 2026-10-23 (one fresh cold walker, the same prompt and bar).
+
+**Ledger delta (continuity/items.json, 68 → 70 rows):**
+- I-061 closed.
+- I-062 is open → monitoring (closed, then reopened), next read 10-23.
+- I-043 and I-049 re-dated to 10-23 (hygiene draft accepted).
+- I-063 minted: the glance-figure humps read as convergence, 2 of 2 walkers, 10-27.
+- I-064 minted: pan versus select with no cue, and every short drag landing on Modern, 10-27.
+
+**Hygiene draft:** 2 lines — 2 accepted · 0 amended · 0 rejected (I-043 and I-049 re-dated to 2026-10-23). I did not take the optional 30-day hold: both rows are copy work that can be scheduled. Draft checks: check-wait-justification PASS (32 of 68 rows carry a waitJustification, 0 warn); check-engineering-zero --project sinusoidal-cycles PASS (0 findings, 0 unreadable). READ-MUTATED: none (2 reads guarded).
+
+**Due gates:** `check-due-gates-dispositioned` (no flag) → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-10-22).
+
+**Receipt:** unchanged from P3 (cc666457).
+
+**Pending reads:**
+- 10-23: I-062 (cold walk of the final wording), I-034, I-043, I-049, I-056.
+- 10-27: I-057, I-058, I-063, I-064.
+- 10-30: I-051.
+- 11-03: I-027.
+
+codexCalls: 4 (r1–r4, P3; none at P5)
