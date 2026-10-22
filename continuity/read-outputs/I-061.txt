@@ -1,0 +1,55 @@
+# read-output sidecar for I-061 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-holds-up-line.mjs https://sinusoidalhistory.com
+# ran: 2026-10-22T14:49:41.294Z · exit: 0
+# lines: 49 · sha256: 7e7a2ad2cd276cf5 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+PASS  1280x900 card  khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  1280x900 card  turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  1280x900 embed turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed khaldun  — 1/1 line(s) -> /cycles/khaldun#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed kondratiev  — 1/1 line(s) -> /cycles/kondratiev#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed huntington  — 1/1 line(s) -> /cycles/huntington#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed schlesinger_jr  — 1/1 line(s) -> /cycles/schlesinger-jr#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed perez  — 1/1 line(s) -> /cycles/perez#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed turchin  — 1/1 line(s) -> /cycles/turchin#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed dalio  — 1/1 line(s) -> /cycles/dalio#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed strauss_howe  — 1/1 line(s) -> /cycles/strauss-howe#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed modelski  — 1/1 line(s) -> /cycles/modelski#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 card  turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · no phase word true · why exact, headline unlinked true
+PASS  390x664 embed turchin_fathers_sons  — 1/1 line(s) -> /cycles/turchin-fathers-sons#does-it-hold-up · painted true · headline true · before chart true · no phase word true · compact form exact true
+PASS  390x664 claim turchin  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 533 · curve starts 809 · answer ends 358 · not-evidence ends 464 of 664
+PASS  320x568 claim turchin  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 557 · curve starts 905 · answer ends 358 · not-evidence ends 488 of 568
+PASS  390x664 claim dalio  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 533 · curve starts 809 · answer ends 358 · not-evidence ends 464 of 664
+PASS  320x568 claim dalio  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 557 · curve starts 881 · answer ends 358 · not-evidence ends 488 of 568
+PASS  390x664 claim strauss_howe  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 504 · curve starts 780 · answer ends 329 · not-evidence ends 435 of 664
+PASS  320x568 claim strauss_howe  — h1 true · title true · description x3 true · faq true · answer true · not evidence true · no position sentence (I-061) true · not-evidence in box true · verdict, not-evidence, curve true · painted true · first screen true · whole box on first screen true · curve figure off first screen true · reasons before the curve true · box ends 557 · curve starts 881 · answer ends 358 · not-evidence ends 488 of 568
+PASS  control: /cycles/dalio's own box matches the needle
+population: 10 cycles x {expanded card, single-cycle embed} x {1280x900, 390x664} + 3 claim page(s) x {390x664, 320x568} at https://sinusoidalhistory.com
+RESULT: 46/46 PASS · 0 FAIL · 0 UNREAD
