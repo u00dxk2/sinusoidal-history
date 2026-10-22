@@ -19,10 +19,12 @@ export const BRUSH_CAPTION = "Drag across the strip to zoom the chart above.";
  * What the strip says when a drag was widened to MIN_VISIBLE_SPAN (I-062, 2026-10-22). Both
  * 10-21 walkers dragged to recent years, saw the selection snap wider with no word, and read
  * the strip as broken. The floor stays (I-060); the strip now says it applied it. It names only
- * what the code did: no claim about what any cycle looks like inside the window.
+ * what the code did: no claim about what any cycle looks like inside the window. It states the
+ * rule, not the reader's drag: quoting the dragged years went stale three times (Codex r1, r2,
+ * and the 10-22 cold walk, where a pan inside the box kept the previous drag's years).
  */
-export function widenedNote(dragStart: number, dragEnd: number, span: number): string {
-  return `Your ${dragStart}–${dragEnd} drag was widened to ${span} years, the shortest view this chart draws.`;
+export function widenedNote(span: number): string {
+  return `Widened to ${span} years, the shortest view this chart draws.`;
 }
 
 interface TimeRangeBrushProps {
@@ -50,11 +52,7 @@ export default function TimeRangeBrush({
   const brushGroupRef = useRef<SVGGElement | null>(null);
 
   // The last widened drag, kept only while the chart still shows the window it produced.
-  const [widened, setWidened] = useState<{
-    from: [number, number];
-    start: number;
-    end: number;
-  } | null>(null);
+  const [widened, setWidened] = useState<{ start: number; end: number } | null>(null);
   const [hintVisible, setHintVisible] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -138,7 +136,7 @@ export default function TimeRangeBrush({
         const wide = widenToMinSpan(lo, hi, fullStartYear, fullEndYear);
         if (wide.start !== lo || wide.end !== hi) {
           sel.call(brush.move, [xScale(wide.start), xScale(wide.end)]);
-          setWidened({ from: [lo, hi], start: wide.start, end: wide.end });
+          setWidened({ start: wide.start, end: wide.end });
         } else {
           retire(wide.start, wide.end);
         }
@@ -200,7 +198,7 @@ export default function TimeRangeBrush({
   // hides it); a preset tap, or a drag to a different window, clears it outright.
   const note =
     widened && widened.start === visibleStartYear && widened.end === visibleEndYear
-      ? widenedNote(widened.from[0], widened.from[1], widened.end - widened.start)
+      ? widenedNote(widened.end - widened.start)
       : null;
 
   return (

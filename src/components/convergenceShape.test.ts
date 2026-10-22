@@ -59,16 +59,18 @@ describe("the range strip draws time only (I-059)", () => {
   });
 
   // I-062: a widened drag says so, in place, and claims nothing about any cycle.
-  it("names the widened drag and the floor, and nothing about the cycles", () => {
-    const note = widenedNote(2000, 2030, 150);
-    expect(note).toBe("Your 2000–2030 drag was widened to 150 years, the shortest view this chart draws.");
+  it("states the floor, and nothing about the cycles or the reader's drag", () => {
+    const note = widenedNote(150);
+    expect(note).toBe("Widened to 150 years, the shortest view this chart draws.");
     expect(note).not.toMatch(/peak|crest|wave|cycle|now|today/i);
+    // No years: a quoted drag went stale when a later pan left the window unchanged (10-22 walk).
+    expect(note).not.toMatch(/\b1[6-9]\d\d\b|\b20\d\d\b/);
   });
 
   // Source pins only. The interaction proof is the Playwright drag read (tmp/i062-drag.mjs).
   it("source: a polite live region, set by a widened drag, cleared by a preset or a changed window", () => {
     expect(source).toMatch(/aria-live="polite"/);
-    expect(source).toMatch(/setWidened\(\{ from: \[lo, hi\]/);
+    expect(source).toMatch(/setWidened\(\{ start: wide\.start, end: wide\.end \}\)/);
     expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setWidened\(null\);/);
     expect(source).toMatch(/if \(start !== visibleStartYear \|\| end !== visibleEndYear\) setWidened\(null\);/);
     // A pointer event alone never clears it (r2: a press that changed nothing erased the note).
