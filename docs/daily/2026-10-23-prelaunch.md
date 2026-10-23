@@ -79,8 +79,8 @@ node C:/dev/skylark/skylark-site/scripts/check-due-gates-dispositioned.mjs --run
 - Words from `src/lib/holdsUp.ts` (`overallAnswer`, `holdsUpOverall`, `holdsUpOverallAlt`), counted from the frozen verdict rows at the STORED periods. A period/peak override card (`/og?period.<id>=`) keeps the answer and says "This card draws changed periods or peaks; the verdicts are for the stored ones."
 - Home and /cycles og:image alt carry the same answer; the I-028 no-test-ran guard reads the answer, the alt and the calibrated note.
 - DEPLOY.md § 6: canonical host (the old one permanently redirects), and the card as it is now.
-- Tests: red 5 failed / 89 passed before the helper existed → green 116/116 (holdsUp, testedSeries, countWords, og route). The 30px leg red-armed: `fontSize: 24` → "expected 24 to be greater than or equal to 30", restored → green. Lint and `npm run typecheck` clean.
-- CI ci.yml green on 92fa188b06 (1 completed success, 0 failures, 0 pending).
+- Tests: red 5 failed / 89 passed before the helper existed → green 116/116 (holdsUp, testedSeries, countWords, og route). The 30px leg red-armed: `fontSize: 24` → "expected 24 to be greater than or equal to 30", restored → green.
+- CI ci.yml green on ebdc180639, which carries all three commits (also green on 92fa188b06 before the docs commit).
 - Codex read-only, foreground pipe, banner workdir `C:\dev\skylark\sinusoidal-cycles` both rounds. r1 on 550df48: 5 findings, all CONFIRMED, fixed in 562ab1f (MED: a period override could make the detail false → answer from stored cycles + calibrated note; MED: tests passed with the answer deleted → font-size leg; LOW: "each cycle's page" → "each paired cycle's page"; LOW: "301s" → "permanently redirects" (next.config permanent = 308); LOW: "one period" → "at most one period …, cut at today"). r2 on 562ab1f: 2 LOW; the card caption CONFIRMED and fixed in 92fa188; the font-size test reading a source literal (a later style spread could hide a smaller size) DELIBERATE, a declared ceiling: it catches the deletion and direct change it was written for.
 - Sibling sweep, "each drawn as one period" over the repo outside node_modules/.next/tmp: 4 hits, 1 fixed (the card). Carried: `public/llms.txt:3`, `src/app/poster/page.tsx:8`, `src/lib/countWords.ts:48` (I-061 wording, outside this card).
 - Extremes rendered locally before push: the default card and `?period.perez=41` (the override note alone stays one line; with the standfirst it wrapped and pushed the last row into the footer rule, fixed before push).
@@ -91,7 +91,7 @@ node C:/dev/skylark/skylark-site/scripts/check-due-gates-dispositioned.mjs --run
 
 **4. Outcome — open.** No real reader has been seen meeting the card.
 
-**Second leg, due read: I-062 cold walk on the final wording — HELD.** Production ccda0a8b, prompt and bar from `docs/walks/2026-10-22-i062.md` unchanged; the walker quoted "Widened to 150 years, the shortest view this chart draws." and called the strip "limited". Two new I-064 details recorded (Modern lights up and the URL reads `?range=modern` after a drag; the note pushes the strip down ~28px). Result appended to that walk doc. I-062 is closeable at P5.
+**Second leg, due read: I-062 cold walk on the final wording — HELD.** Production served ccda0a8b, prompt and bar from `docs/walks/2026-10-22-i062.md` unchanged; [linter-report] the walker quoted "Widened to 150 years, the shortest view this chart draws." and called the strip "limited". Two new I-064 details recorded (Modern lights up and the URL reads `?range=modern` after a drag; the note pushes the strip down ~28px). Result appended to that walk doc. I-062 is closeable at P5.
 
 **I-056: CLOSED** (`continuity-edit --close I-056`, receipt in the row's notes).
 
