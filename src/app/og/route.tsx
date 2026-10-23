@@ -213,7 +213,7 @@ function snapshotCard(effective: Cycle[], calibrated: boolean) {
               opacity: 0.85,
             }}
           >
-            Each drawn as one period around its reference peak · {DEFAULT_YEAR_RANGE.start}–{currentYear}
+            Each drawn as at most one period around its reference peak, cut at today · {DEFAULT_YEAR_RANGE.start}–{currentYear}
           </div>
         </div>
 
