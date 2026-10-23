@@ -98,3 +98,29 @@ node C:/dev/skylark/skylark-site/scripts/check-due-gates-dispositioned.mjs --run
 **Hygiene helper:** DISPATCHED ~15:11Z · draft `tmp/hygiene-draft-sinusoidal-cycles-2026-10-23.md` PRESENT. Nothing production-shaped (engineering-zero 0/0, wait-justification pass, 0 READ-MUTATED). It flags I-034's `waitJustification.until` = 2026-10-23 and its unWait (2 more local full-suite runs) as conflicting with the 10-21 no-local-verify-when-CI-green ruling: a re-scope for the close.
 
 USER-VISIBLE: The main share card (the link preview for the home page, /cycles and every page without its own card) now answers "Do the cycles hold up?" right under the headline at 34px: "Not yet: none of the ten is testable on the record that exists." — 550df48 [proof: live /og answered only in a 14px "None confirmed" eyebrow (94,961 bytes, 14:57Z) → carries the answer line (110,365 bytes, after deploy), drift in-sync live 92fa188b, cold reader on the live PNG at 360px HELD] [coverage: none can see a link-preview reader; gsc-read.mjs sees search clicks only · last good read 2026-10-22 · founder+test excluded no] [exposure: blind — a preview is fetched by the chat host, no client analytics by standing choice (W-003) · bug row I-032]
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-056 · P3 dd1a5faf. The manager review (252b4688) read the live card itself: "Not yet: none of the ten is testable on the record that exists." under the 84px masthead, no phase word, no position bar; drift in-sync.
+
+**Changed since P3:** report-only commit 8a31ce1 (status 0b6ad1a1); waker ladder reaped by the low-memory reaper and relaunched at ~24 GB free (status 601b227c). P3's receipt is unchanged and still true.
+
+**Hygiene draft: 4 lines — 2 accepted · 2 amended · 0 rejected.**
+- I-034 AMENDED: not a hold. Re-dated to 2026-11-06 (`--extend`), `waitJustification.until` moved with it, unWait re-scoped to David's 2026-10-21 ruling (time the load-sensitive files alone, size timeouts, close), note appended. Read not run (full suite; CI green).
+- I-043 ACCEPTED: `--extend I-043 --new-target 2026-10-27` (copy batch). Re-point of its readCommand not taken today.
+- I-049 ACCEPTED: `--extend I-049 --new-target 2026-10-27`. Same.
+- I-062 AMENDED (walk doc path only): `--close I-062 --note-file …`, the HELD walk is appended to docs/walks/2026-10-22-i062.md.
+- READ-MUTATED: "none — 3 reads guarded (I-043, I-049, I-062)". Checks: wait-justification "RESULT: PASS — 32 of 70 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)" (helper), re-run at close after I touched I-032 and I-034: "RESULT: PASS — 32 of 71 row(s) carry `waitJustification`; 0 warn / 1 info" (the info was I-065's non-wait `waitingFor`, removed). Engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable (exit 0)".
+
+**Rest of the ledger delta:**
+- I-056 CLOSED at P3 (receipt in its notes).
+- I-032 (monitoring, 11-04): scope extended to the main /og card on the manager review; unWait now names "a per-cycle card OR the main /og card"; trigger a messaging-host referral in crawl-read or W-005's read on 2026-11-04; linkedCommits +550df48.
+- I-065 MINTED (open, 10-27): "drawn as one period" on public/llms.txt:3, src/app/poster/page.tsx:8, src/lib/countWords.ts:48; readCommand a `git grep` that exits 1 when fixed.
+
+**Due-gate verify:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned." · "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-10-23)".
+
+**Pending reads:** 10-27 I-043, I-049, I-057, I-058, I-063, I-064, I-065 · 10-30 I-051 · 11-03 I-027 · 11-04 I-032 (+ W-005) · 11-06 I-034. Nothing UNRESOLVED.
+
+codexCalls: 2 (r1, r2 at P3; none at close)
