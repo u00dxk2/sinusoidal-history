@@ -3,7 +3,11 @@ import { cycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
 import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
-import { holdsUpCard, holdsUpOverall } from "@/lib/holdsUp";
+import {
+  CALIBRATED_CARD_NOTE,
+  holdsUpCard,
+  holdsUpOverall,
+} from "@/lib/holdsUp";
 import { ogMainStandfirst } from "@/lib/countWords";
 import { customCard, memoCard } from "@/lib/ogCardCache";
 import {
@@ -84,11 +88,11 @@ export async function GET(request: Request) {
   });
 
   if (Object.keys(overrides).length === 0) {
-    return memoCard("snapshot", () => snapshotCard(effective));
+    return memoCard("snapshot", () => snapshotCard(effective, false));
   }
   // Bounded memo + render budget; past it, 429 (SIN-R1). The key is built in
   // cycles.json order, so param order in the URL does not split variants.
-  return customCard(JSON.stringify(overrides), () => snapshotCard(effective));
+  return customCard(JSON.stringify(overrides), () => snapshotCard(effective, true));
 }
 
 // The share image for every page without its own. It was "State of the cycles · <month
@@ -96,9 +100,15 @@ export async function GET(request: Request) {
 // swing" until I-061 (David 2026-10-21): no surface says where the present sits on a
 // cycle. Each row now draws the cycle's one period on a shared axis, as the home figure
 // does, with its period and reference peak. Under the masthead, the answer (I-056).
-function snapshotCard(effective: Cycle[]) {
+function snapshotCard(effective: Cycle[], calibrated: boolean) {
   const currentYear = new Date().getUTCFullYear();
-  const answer = holdsUpOverall(effective);
+  // The stored cycles, never `effective`: the verdicts were judged at the stored periods.
+  const answer = holdsUpOverall(cycles);
+  // One line either way: the note and the standfirst together wrap and push the last row's
+  // curve into the footer rule (rendered 2026-10-23).
+  const answerDetail = calibrated
+    ? CALIBRATED_CARD_NOTE
+    : `${answer.detail} ${ogMainStandfirst(cycles.length)}`;
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));
@@ -188,7 +198,7 @@ function snapshotCard(effective: Cycle[]) {
               fontStyle: "italic",
             }}
           >
-            {answer.detail} {ogMainStandfirst(cycles.length)}
+            {answerDetail}
           </div>
           <div
             style={{

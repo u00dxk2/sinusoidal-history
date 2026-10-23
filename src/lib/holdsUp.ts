@@ -92,20 +92,31 @@ export function overallAnswer(total: number, testable: number): HoldsUpCard {
       detail: "No record covers the 3.0 full periods this site requires before testing.",
     };
   }
+  // Not "each cycle's page": a cycle with no paired series has no verdict (Codex r1, LOW).
   return {
     headline: `${countWord(testable)} ${of} ${testable === 1 ? "is" : "are"} testable on the record that exists`,
-    detail: "Each cycle's page gives its verdict.",
+    detail: "Each paired cycle's page gives its verdict.",
   };
 }
 
-/** {@link overallAnswer} for the cycles drawn, counted from their frozen verdict rows. */
+/**
+ * {@link overallAnswer} for the site's cycles at their STORED periods, counted from the frozen
+ * verdict rows. Pass the stored cycles, never a calibrated copy: the verdicts are keyed by id and
+ * were judged at the stored period, so a shorter period override would make "no record covers
+ * the 3.0 full periods" false on that card (Codex r1, MED). A calibrated card says so instead
+ * ({@link CALIBRATED_CARD_NOTE}).
+ */
 export function holdsUpOverall(all: Cycle[]): HoldsUpCard {
   const testable = all.filter((c) => spectralVerdictForCycle(c.id)?.eligible).length;
   return overallAnswer(all.length, testable);
 }
 
+/** The detail line on a main card drawn with a changed period or peak (`/og?period.<id>=`). */
+export const CALIBRATED_CARD_NOTE =
+  "This card draws changed periods or peaks; the verdicts are for the stored ones.";
+
 /** The main card's og:image alt: the question, its answer, and what the card draws. */
 export function holdsUpOverallAlt(all: Cycle[]): string {
   const { headline, detail } = holdsUpOverall(all);
-  return `Do the cycles hold up? ${headline}. ${detail} Each cycle drawn as one period around its reference peak`;
+  return `Do the cycles hold up? ${headline}. ${detail} Each cycle drawn as at most one period around its reference peak, cut at today`;
 }

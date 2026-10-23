@@ -14,7 +14,13 @@ import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
-import { holdsUpAlt, holdsUpCard, holdsUpOverall, holdsUpOverallAlt } from "@/lib/holdsUp";
+import {
+  CALIBRATED_CARD_NOTE,
+  holdsUpAlt,
+  holdsUpCard,
+  holdsUpOverall,
+  holdsUpOverallAlt,
+} from "@/lib/holdsUp";
 
 async function pageText(slug: string): Promise<string> {
   const element = await CyclePage({ params: Promise.resolve({ id: slug }) });
@@ -243,6 +249,7 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
     const overall = holdsUpOverall(cycles);
     expect(`${overall.headline}. ${overall.detail}`).not.toMatch(TEST_RAN);
     expect(holdsUpOverallAlt(cycles)).not.toMatch(TEST_RAN);
+    expect(CALIBRATED_CARD_NOTE).not.toMatch(TEST_RAN);
   });
 });
 

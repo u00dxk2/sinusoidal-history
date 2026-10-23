@@ -84,7 +84,7 @@ You should see the Render hostname returned.
 ## 6. Verify embed + OG card
 
 On the canonical host, `https://sinusoidalhistory.com` (since the 2026-08-20 cutover the old
-`sinusoidal-history.skylarkcreations.com` host 301s, so a `curl -I` there reads the redirect,
+`sinusoidal-history.skylarkcreations.com` host permanently redirects, so a `curl -I` there reads the redirect,
 not the page):
 
 ```bash
@@ -101,7 +101,7 @@ curl -sI https://sinusoidalhistory.com/og | grep -E "Content-Type|Cache-Control"
 # Expected: image/png, public, max-age=3600
 ```
 
-Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview reads "Do the cycles hold up?" with its answer directly under it at large size (today "Not yet: none of the ten is testable on the record that exists.", built from `src/lib/holdsUp.ts`), and one row per cycle drawing its one period with "<period>y · peak <year>". It must carry no phase word (rising, peaking, …) and no position bar: since I-061 (2026-10-21) no surface says where the present sits on a cycle.
+Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview reads "Do the cycles hold up?" with its answer directly under it at large size (today "Not yet: none of the ten is testable on the record that exists.", built from `src/lib/holdsUp.ts`), and one row per cycle drawing at most one period around its reference peak, cut at today, with "<period>y · peak <year>". A card with a period or peak override (`/og?period.<id>=…`) keeps the same answer and says instead that its verdicts are for the stored periods. It must carry no phase word (rising, peaking, …) and no position bar: since I-061 (2026-10-21) no surface says where the present sits on a cycle.
 
 ## 7. Smoke checklist (production)
 

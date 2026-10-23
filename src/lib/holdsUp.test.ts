@@ -11,6 +11,7 @@ import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { metadata as cyclesMetadata } from "@/app/(app)/cycles/page";
 import {
+  CALIBRATED_CARD_NOTE,
   holdsUpAlt,
   holdsUpCard,
   holdsUpOverall,
@@ -121,11 +122,15 @@ describe("I-056: the main share card answers its own question", () => {
     expect(overallAnswer(10, 1).headline).toBe("One of the ten is testable on the record that exists");
     expect(overallAnswer(10, 3).headline).toBe("Three of the ten are testable on the record that exists");
     expect(overallAnswer(10, 3).headline).not.toContain("Not yet");
+    // A cycle with no paired series has no verdict, so the detail cannot say "each cycle's page".
+    expect(overallAnswer(10, 3).detail).toBe("Each paired cycle's page gives its verdict.");
   });
 
   it("the home and /cycles og:image alt carry the same answer", () => {
     const alt = holdsUpOverallAlt(cycles);
-    expect(alt).toContain(`${holdsUpOverall(cycles).headline}.`);
+    const { headline, detail } = holdsUpOverall(cycles);
+    expect(alt).toContain(`${headline}. ${detail}`);
+    expect(alt).toContain("cut at today");
     const images = cyclesMetadata.openGraph?.images as { url: string; alt: string }[];
     expect(images[0].url).toBe("/og");
     expect(images[0].alt).toBe(alt);
@@ -135,9 +140,26 @@ describe("I-056: the main share card answers its own question", () => {
     expect(layout).not.toContain('alt: "Do the cycles hold up?');
   });
 
-  it("the og route draws the answer from the helper, not typed text", () => {
-    const source = readFileSync(join(process.cwd(), "src", "app", "og", "route.tsx"), "utf8");
-    expect(source).toContain("holdsUpOverall(effective)");
-    expect(source).not.toMatch(/Not yet: none of/);
+  // The card is a PNG, so these read the route's source. Codex r1 (MED): a bare token check
+  // passed with the large answer block deleted, so the answer's font size is read too.
+  const route = readFileSync(join(process.cwd(), "src", "app", "og", "route.tsx"), "utf8");
+
+  it("the og route draws the answer from the helper, at the stored periods", () => {
+    expect(route.includes("holdsUpOverall(cycles)")).toBe(true);
+    // A calibrated copy would let a period override contradict the frozen verdicts.
+    expect(route.includes("holdsUpOverall(effective)")).toBe(false);
+    expect(/Not yet: none of/.test(route)).toBe(false);
+  });
+
+  it("the answer line renders at 30px or more", () => {
+    const block = route.match(/fontSize: (\d+),[^<]*?>\s*\{answer\.headline\}\./);
+    expect(block, "no div rendering {answer.headline}. with its own fontSize").not.toBeNull();
+    expect(Number(block![1])).toBeGreaterThanOrEqual(30);
+  });
+
+  it("a calibrated card says its verdicts are for the stored periods", () => {
+    expect(route.includes("snapshotCard(effective, true)")).toBe(true);
+    expect(/calibrated\s*\?\s*CALIBRATED_CARD_NOTE\s*:\s*`\$\{answer\.detail\}/.test(route)).toBe(true);
+    expect(CALIBRATED_CARD_NOTE).toContain("the verdicts are for the stored ones");
   });
 });
