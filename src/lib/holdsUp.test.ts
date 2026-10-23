@@ -9,7 +9,14 @@ import { describe, expect, it } from "vitest";
 import CyclePage, { generateMetadata } from "@/app/(app)/cycles/[id]/page";
 import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
-import { holdsUpAlt, holdsUpCard } from "@/lib/holdsUp";
+import { metadata as cyclesMetadata } from "@/app/(app)/cycles/page";
+import {
+  holdsUpAlt,
+  holdsUpCard,
+  holdsUpOverall,
+  holdsUpOverallAlt,
+  overallAnswer,
+} from "@/lib/holdsUp";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
 type Row = { cycle_id?: string; series_id: string; cycles_covered: number; eligible: boolean };
@@ -90,4 +97,47 @@ describe("I-032: the share card carries the page's verdict", () => {
       expect(holdsUpAlt(cycle)).toContain(holdsUpCard(cycle)!.detail);
     },
   );
+});
+
+// I-056 (2026-10-23): the main share card asks "Do the cycles hold up?" at headline size and
+// answered only in its small eyebrow ("None confirmed"). A chat app shows it ~350px wide, so the
+// answer moved under the masthead. Expected counts come from verdicts.json off disk.
+describe("I-056: the main share card answers its own question", () => {
+  const eligible = cycles.filter((c) => primary.find((r) => r.cycle_id === c.id)?.eligible);
+
+  it("none of the ten is testable today, and no record reaches 3.0 periods", () => {
+    expect(eligible.length).toBe(0);
+    expect(Math.max(...primary.map((r) => r.cycles_covered))).toBeLessThan(3);
+    expect(holdsUpOverall(cycles)).toEqual({
+      headline: "Not yet: none of the ten is testable on the record that exists",
+      detail: "No record covers the 3.0 full periods this site requires before testing.",
+    });
+  });
+
+  it("the answer moves with the count, and stops saying 'not yet' once one is testable", () => {
+    expect(overallAnswer(11, 0).headline).toBe(
+      "Not yet: none of the eleven is testable on the record that exists",
+    );
+    expect(overallAnswer(10, 1).headline).toBe("One of the ten is testable on the record that exists");
+    expect(overallAnswer(10, 3).headline).toBe("Three of the ten are testable on the record that exists");
+    expect(overallAnswer(10, 3).headline).not.toContain("Not yet");
+  });
+
+  it("the home and /cycles og:image alt carry the same answer", () => {
+    const alt = holdsUpOverallAlt(cycles);
+    expect(alt).toContain(`${holdsUpOverall(cycles).headline}.`);
+    const images = cyclesMetadata.openGraph?.images as { url: string; alt: string }[];
+    expect(images[0].url).toBe("/og");
+    expect(images[0].alt).toBe(alt);
+    // The root layout loads next/font, which vitest cannot run, so its metadata is read as source.
+    const layout = readFileSync(join(process.cwd(), "src", "app", "layout.tsx"), "utf8");
+    expect(layout).toContain("alt: holdsUpOverallAlt(cycles)");
+    expect(layout).not.toContain('alt: "Do the cycles hold up?');
+  });
+
+  it("the og route draws the answer from the helper, not typed text", () => {
+    const source = readFileSync(join(process.cwd(), "src", "app", "og", "route.tsx"), "utf8");
+    expect(source).toContain("holdsUpOverall(effective)");
+    expect(source).not.toMatch(/Not yet: none of/);
+  });
 });

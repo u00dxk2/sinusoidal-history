@@ -83,27 +83,29 @@ You should see the Render hostname returned.
 
 ## 6. Verify embed + OG card
 
-Still on the production URL:
+On the canonical host, `https://sinusoidalhistory.com` (since the 2026-08-20 cutover the old
+`sinusoidal-history.skylarkcreations.com` host 301s, so a `curl -I` there reads the redirect,
+not the page):
 
 ```bash
 # Embed CSP must be present:
-curl -I https://sinusoidal-history.skylarkcreations.com/embed | grep -i content-security
+curl -I https://sinusoidalhistory.com/embed | grep -i content-security
 # Expected: Content-Security-Policy: frame-ancestors *
 
 # Embed must NOT have the SAMEORIGIN restriction:
-curl -I https://sinusoidal-history.skylarkcreations.com/embed | grep -i x-frame-options
+curl -I https://sinusoidalhistory.com/embed | grep -i x-frame-options
 # Expected: empty value or absent
 
 # OG card must return an image:
-curl -sI https://sinusoidal-history.skylarkcreations.com/og | grep -E "Content-Type|Cache-Control"
+curl -sI https://sinusoidalhistory.com/og | grep -E "Content-Type|Cache-Control"
 # Expected: image/png, public, max-age=3600
 ```
 
-Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview renders the "State of the cycles · {month}" headline and the eight phase bars.
+Then validate the OG card by sharing the production URL into Bluesky's [card debugger](https://bsky.app/profile/cardyb.bsky.app) and the [Twitter card validator](https://cards-dev.twitter.com/validator). Confirm the preview reads "Do the cycles hold up?" with its answer directly under it at large size (today "Not yet: none of the ten is testable on the record that exists.", built from `src/lib/holdsUp.ts`), and one row per cycle drawing its one period with "<period>y · peak <year>". It must carry no phase word (rising, peaking, …) and no position bar: since I-061 (2026-10-21) no surface says where the present sits on a cycle.
 
 ## 7. Smoke checklist (production)
 
-- [ ] `https://sinusoidal-history.skylarkcreations.com/` 200, renders Facets default
+- [ ] `https://sinusoidalhistory.com/` 200, renders Facets default
 - [ ] `/about`, `/methods`, `/poster`, `/embed`, `/embed/docs` all 200
 - [ ] `/data/dw_nominate.csv` 200 (raw CSV served from `public/`)
 - [ ] `/data/dw_nominate.source.md` 200 (provenance file)

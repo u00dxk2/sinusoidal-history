@@ -3,7 +3,7 @@ import { cycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
 import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
-import { holdsUpCard } from "@/lib/holdsUp";
+import { holdsUpCard, holdsUpOverall } from "@/lib/holdsUp";
 import { ogMainStandfirst } from "@/lib/countWords";
 import { customCard, memoCard } from "@/lib/ogCardCache";
 import {
@@ -95,9 +95,10 @@ export async function GET(request: Request) {
 // year>" with a bar per cycle giving its "current position on the trough → peak → trough
 // swing" until I-061 (David 2026-10-21): no surface says where the present sits on a
 // cycle. Each row now draws the cycle's one period on a shared axis, as the home figure
-// does, with its period and reference peak.
+// does, with its period and reference peak. Under the masthead, the answer (I-056).
 function snapshotCard(effective: Cycle[]) {
   const currentYear = new Date().getUTCFullYear();
+  const answer = holdsUpOverall(effective);
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));
@@ -164,16 +165,30 @@ function snapshotCard(effective: Cycle[]) {
           >
             Do the cycles hold up?
           </div>
+          {/* The answer, at a size a phone-width link preview still shows (I-056). It was only
+              the eyebrow's "None confirmed" until 2026-10-23. */}
+          <div
+            style={{
+              display: "flex",
+              fontSize: 34,
+              lineHeight: 1.1,
+              letterSpacing: "-0.01em",
+              color: INK,
+              marginTop: 12,
+            }}
+          >
+            {answer.headline}.
+          </div>
           <div
             style={{
               display: "flex",
               fontSize: 18,
               color: INK_SOFT,
-              marginTop: 10,
+              marginTop: 8,
               fontStyle: "italic",
             }}
           >
-            {ogMainStandfirst(cycles.length)}
+            {answer.detail} {ogMainStandfirst(cycles.length)}
           </div>
           <div
             style={{

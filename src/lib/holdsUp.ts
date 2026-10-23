@@ -8,6 +8,7 @@
 // reads the card text and its alt; src/lib/testedSeries.test.ts).
 
 import type { Cycle } from "@/data/types";
+import { countWord, countWordLower } from "@/lib/countWords";
 import { seriesForCycle } from "@/lib/cycleRoutes";
 import {
   SPECTRAL_STATE_LABELS,
@@ -75,4 +76,36 @@ export function holdsUpCard(cycle: Cycle): HoldsUpCard | null {
 export function holdsUpAlt(cycle: Cycle): string {
   const card = holdsUpCard(cycle);
   return card ? `Does it hold up? ${card.headline}. ${card.detail}` : "";
+}
+
+/**
+ * The main share card's answer to its own headline, "Do the cycles hold up?" (I-056). Until
+ * 2026-10-23 it answered only in a small eyebrow, which a chat app's phone-width preview shrinks
+ * past reading. The words are the per-cycle cards' ("testable on the record that exists", "the
+ * 3.0 full periods this site requires before testing").
+ */
+export function overallAnswer(total: number, testable: number): HoldsUpCard {
+  const of = `of the ${countWordLower(total)}`;
+  if (testable === 0) {
+    return {
+      headline: `Not yet: none ${of} is testable on the record that exists`,
+      detail: "No record covers the 3.0 full periods this site requires before testing.",
+    };
+  }
+  return {
+    headline: `${countWord(testable)} ${of} ${testable === 1 ? "is" : "are"} testable on the record that exists`,
+    detail: "Each cycle's page gives its verdict.",
+  };
+}
+
+/** {@link overallAnswer} for the cycles drawn, counted from their frozen verdict rows. */
+export function holdsUpOverall(all: Cycle[]): HoldsUpCard {
+  const testable = all.filter((c) => spectralVerdictForCycle(c.id)?.eligible).length;
+  return overallAnswer(all.length, testable);
+}
+
+/** The main card's og:image alt: the question, its answer, and what the card draws. */
+export function holdsUpOverallAlt(all: Cycle[]): string {
+  const { headline, detail } = holdsUpOverall(all);
+  return `Do the cycles hold up? ${headline}. ${detail} Each cycle drawn as one period around its reference peak`;
 }

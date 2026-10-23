@@ -14,7 +14,7 @@ import { cycles } from "@/data/cycles";
 import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { spectralVerdictForCycle } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
-import { holdsUpAlt, holdsUpCard } from "@/lib/holdsUp";
+import { holdsUpAlt, holdsUpCard, holdsUpOverall, holdsUpOverallAlt } from "@/lib/holdsUp";
 
 async function pageText(slug: string): Promise<string> {
   const element = await CyclePage({ params: Promise.resolve({ id: slug }) });
@@ -236,6 +236,13 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
     expect(card).not.toBeNull();
     expect(`${card!.headline}. ${card!.detail}`).not.toMatch(TEST_RAN);
     expect(holdsUpAlt(cycle)).not.toMatch(TEST_RAN);
+  });
+
+  // I-056 (2026-10-23): the main share card's answer line and the alt that carries it.
+  it("main share card answer and alt", () => {
+    const overall = holdsUpOverall(cycles);
+    expect(`${overall.headline}. ${overall.detail}`).not.toMatch(TEST_RAN);
+    expect(holdsUpOverallAlt(cycles)).not.toMatch(TEST_RAN);
   });
 });
 

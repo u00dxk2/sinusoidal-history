@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { cycles } from "@/data/cycles";
+import { holdsUpOverallAlt } from "@/lib/holdsUp";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import "./globals.css";
 
@@ -47,7 +49,7 @@ export const metadata: Metadata = {
         url: "/og",
         width: 1200,
         height: 630,
-        alt: "Do the cycles hold up? Each cycle drawn as one period around its reference peak",
+        alt: holdsUpOverallAlt(cycles),
       },
     ],
   },

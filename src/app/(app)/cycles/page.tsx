@@ -9,6 +9,7 @@ import {
   cycleRoutePath,
   seriesForCycle,
 } from "@/lib/cycleRoutes";
+import { holdsUpOverallAlt } from "@/lib/holdsUp";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
     url: "/cycles",
     siteName: SITE_NAME,
     type: "website",
-    images: [{ url: "/og", width: 1200, height: 630, alt: "Do the cycles hold up? Each cycle drawn as one period around its reference peak" }],
+    images: [{ url: "/og", width: 1200, height: 630, alt: holdsUpOverallAlt(cycles) }],
   },
   twitter: {
     card: "summary_large_image",
