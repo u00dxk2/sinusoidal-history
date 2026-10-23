@@ -1,0 +1,8 @@
+# read-output sidecar for I-062 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://sinusoidalhistory.com 390x664 --preset-return
+# ran: 2026-10-23T15:15:09.353Z · exit: 0
+# lines: 2 · sha256: 5450ac21a7ea951c (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+[{"mode":"mouse","showing":"showing 1900–2050","note":"Widened to 150 years, the shortest view this chart draws.","visible":true},{"mode":"noop-press-target","hit":"selection"},{"mode":"noop-press","showing":"showing 1900–2050","keptNote":"Widened to 150 years, the shortest view this chart draws."},{"mode":"preset-return","showing":"showing 1900–2050","staleNote":null},{"mode":"touch","showing":"showing 1900–2050","note":"Widened to 150 years, the shortest view this chart draws.","visible":true}]
+RESULT: PASS — 2 of 2 drags show a visible widening reason; 0 stale note(s) after a preset return; 0 note(s) erased by a no-op press (https://sinusoidalhistory.com)

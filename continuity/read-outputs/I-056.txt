@@ -1,0 +1,6 @@
+# read-output sidecar for I-056 — written by check-due-gates-dispositioned --run
+# readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "phasePositionLabel" -- src/app/og
+# ran: 2026-10-23T14:56:31.954Z · exit: 1
+# lines: 0 · sha256: e3b0c44298fc1c14 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--

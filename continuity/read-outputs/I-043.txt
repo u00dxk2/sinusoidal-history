@@ -1,6 +1,6 @@
 # read-output sidecar for I-043 — written by check-due-gates-dispositioned --run
 # readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/methods C:/dev/skylark/sinusoidal-cycles/tmp/i043-methods.txt
-# ran: 2026-10-22T14:56:56.994Z · exit: 0
+# ran: 2026-10-23T15:13:33.539Z · exit: 0
 # lines: 1 · sha256: 2cd1fe4b0a2e75ca (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
