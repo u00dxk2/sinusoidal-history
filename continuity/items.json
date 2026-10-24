@@ -1944,7 +1944,7 @@
     {
       "id": "I-064",
       "title": "On the zoom strip a drag inside the selection pans it with no cue, and every short drag lands on the same window as the Modern button",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1953,9 +1953,11 @@
       "closeWhen": "A reader who drags inside the selection, and one who drags a short span near the present, can tell what the strip did without guessing, proved by one pre-registered cold walker at 390x664 on production; or a recorded decision that the current behaviour plus the widening note is enough.",
       "nextEvaluation": "2026-10-27",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://sinusoidalhistory.com 390x664 --preset-return — regression for the note only; this row's proof is a walk",
-      "notes": "2026-10-22 (day round 1, P5): minted at the close on the manager review's instruction (139d51cd: 'pan versus select with no cue, and every short drag landing on the Modern window'). The two are one row: both are the strip not telling the reader what a gesture did. Dated with I-057 and I-058 (10-27).",
+      "notes": "2026-10-22 (day round 1, P5): minted at the close on the manager review's instruction (139d51cd: 'pan versus select with no cue, and every short drag landing on the Modern window'). The two are one row: both are the strip not telling the reader what a gesture did. Dated with I-057 and I-058 (10-27). | 2026-10-24 (day round 1, P3): CLOSED on the pre-registered cold walk. Shipped d4cd016 + da472e7 + 98e9b55 (live 98e9b557, CI ci.yml green on 98e9b557, drift in-sync): one line UNDER the strip says what the last gesture did and which years the chart shows (\"Chart now shows 1900–2050, the same as Modern.\" after a short drag, with the I-062 widening sentence; \"Moved the selection; drag outside it to pick new years.\" after a pan); the strip no longer moves (29px → 0px); the idle caption no longer says \"the chart above\". Pan classified from d3-brush's start-event mode (manager review 704be81e; the 149-year rounding case red-armed). Codex read-only r1-r3: r1 MED (still handle press erased the note) fixed da472e7; r2 MED (false \"Moved\" at a preset) fixed 98e9b55 by making the rule claim less; r3 no material findings. check-brush-widened.mjs --preset-return on production: PASS at 390x664 and 320x568 (red before deploy: \"2 moved the strip, 0 of 1 pans say they moved\"). Cold walk docs/walks/2026-10-24-i064.md HELD: step 2 \"Yes, without doubt … It even tells you how to do the other thing\"; verdict \"limited\". Residuals recorded there: handles cover tick labels; a recent window reads \"…–2050\" past today; the floor is not stated before a drag; the strip is ~2,800px below the chart.",
       "created": "2026-10-22",
-      "updated": "2026-10-22"
+      "updated": "2026-10-24",
+      "closedAt": "2026-10-24",
+      "lastEvaluated": "2026-10-24"
     },
     {
       "id": "I-065",
@@ -1968,10 +1970,10 @@
       "description": "Codex r2 on I-056 (562ab1f) found the main share card's caption said \"Each drawn as one period around its reference peak\" while sampleDrawnPeriod cuts each period at the current year (Turchin draws 81 of its 150 years). The card was fixed in 92fa188 (\"at most one period around its reference peak, cut at today\"). A sibling sweep for \"drawn as one period\" over the repo outside node_modules/.next/tmp found 3 more: public/llms.txt:3, src/app/poster/page.tsx:8 (meta description), src/lib/countWords.ts:48 (home summary, pinned word-for-word by countWords.test.ts). All are I-061 wording, outside the card I-056 shipped.",
       "closeWhen": "The three surfaces say \"at most one period … cut at today\" (or an equally true narrower sentence), with countWords.test.ts moved with the home sentence; the readCommand finds no hit.",
       "nextEvaluation": "2026-10-27",
-      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i \"drawn as one period\" -- public/llms.txt src/app/poster/page.tsx src/lib/countWords.ts — exit 0 while a hit remains; exit 1 = fixed",
-      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -E \"drawn as one period|draws each cycle\\s+as one period|is drawn as one period|curve is one period|draws one period of a wave\" -- public src — exit 0 while a hit remains; exit 1 = fixed",
+      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").\n\n | 2026-10-24 (day round 1, P3): PARTIAL, stays open. 998fdc1 + 98e9b55 (live 98e9b557): the home summary sentence, the poster description and public/llms.txt (lines 3, 9, 16) now say \"at most one period …, cut at today\" / \"at most one period … stopping at the present\"; countWords.test.ts pins the home clause (red with the old wording). The old readCommand exits 1, but Codex r2 (STATIC, CONFIRMED) showed it was too narrow: variants still claim each cycle IS one period, false for Perez (53.5 of 55 years drawn in 2026) and Turchin (81 of 150) — ConvergenceNote.tsx:23-24 (home editor's note), cycles/[id]/page.tsx:475/485/495 (every cycle page), claimQuestion.ts:21 (three claim pages; whole-text checkers), about/page.tsx:46/58/74 + public/about.md:11/13/17 (mirror pair). readCommand widened to those variants today. A copy batch with the claim-page checkers and the about mirror, not a same-day patch.",
       "created": "2026-10-23",
-      "updated": "2026-10-23"
+      "updated": "2026-10-24"
     }
   ],
   "knownPatterns": [
