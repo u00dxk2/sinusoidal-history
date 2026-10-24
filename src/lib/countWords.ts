@@ -45,7 +45,7 @@ export function posterStandfirst(cycleCount: number): string {
 
 /** The home page's desktop dek. */
 export function homeDek(cycleCount: number, pairedCount: number): string {
-  return `Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin (twice), Dalio, Strauss-Howe, Modelski — on one 1600–2050 axis, each drawn as one period of a pure sinusoid around one documented peak; ${countWordLower(pairedCount)} of the ${countWordLower(cycleCount)} carry a paired empirical series for stress-testing.`;
+  return `Khaldun, Kondratiev, Huntington, Schlesinger Jr., Perez, Turchin (twice), Dalio, Strauss-Howe, Modelski — on one 1600–2050 axis, each drawn as at most one period of a pure sinusoid around one documented peak, cut at today; ${countWordLower(pairedCount)} of the ${countWordLower(cycleCount)} carry a paired empirical series for stress-testing.`;
 }
 
 /**

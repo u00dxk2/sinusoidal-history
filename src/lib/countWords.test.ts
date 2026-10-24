@@ -59,6 +59,10 @@ describe("the count surfaces derive from the data", () => {
     expect(homeDek(cycles.length, dataSeries.length)).toContain(
       "nine of the ten carry a paired empirical series for stress-testing.",
     );
+    // I-065: a period that would run past today is cut there, so it is "at most" one period.
+    expect(homeDek(cycles.length, dataSeries.length)).toContain(
+      "each drawn as at most one period of a pure sinusoid around one documented peak, cut at today;",
+    );
     expect(cyclesIndexTitle(cycles.length)).toBe("The ten cycles");
     expect(cyclesIndexDescription(cycles.length).startsWith("Ten long-wave cycles of history - ")).toBe(true);
   });

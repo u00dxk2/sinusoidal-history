@@ -5,7 +5,7 @@ import { cycles } from "@/data/cycles";
 export const metadata = {
   // Bare segment — the root layout's template appends "· Sinusoidal History".
   title: "Poster",
-  description: "Shareable poster of every cycle, each drawn as one period around its reference peak.",
+  description: "Shareable poster of every cycle, each drawn as at most one period around its reference peak, cut at today.",
   alternates: { canonical: "/poster" },
 };
 
