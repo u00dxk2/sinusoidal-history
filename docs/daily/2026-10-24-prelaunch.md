@@ -92,6 +92,30 @@ node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://si
 
 USER-VISIBLE: The zoom strip on the home chart now says, right under it, what each drag did and which years the chart shows ("Chart now shows 1900–2050, the same as Modern."; "Moved the selection; drag outside it to pick new years."), and no longer jumps down when it does — d4cd016 [proof: production 26cd28dc before → check-brush-widened RED "2 moved the strip, 0 of 1 pans say they moved"; live 98e9b557 after → PASS at 390x664 and 320x568, drift in-sync, pre-registered cold walker on production HELD] [coverage: none can see an on-page gesture; gsc-read.mjs sees search impressions and clicks only · last good read 2026-10-22 · founder+test excluded no] [exposure: blind — no client analytics by standing choice (W-003), an on-page drag reaches no instrument · bug row I-064]
 
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-064 · P3 bf359ead. The manager review (e1fc7408) marked it COMPLETED: all four code commits are ancestors of origin/main; the walk bar reads HELD; no defects. (Its one nit: the P3 body carried `codexCalls:` twice, "3 (r1…)" and "3 (dispatched)"; they agree.)
+
+**Changed since P3:** report-only commit 2f34860; the waker's rank 1 fired a loop-death wake and was relaunched. P3's receipt is unchanged and still true, so no new receipt line.
+
+**Hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected** (inputs were all none). READ-MUTATED: "none — 0 reads guarded". Checks, re-run at close after ledger edits: wait-justification "RESULT: PASS — 32 of 74 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)"; engineering-zero "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable" (fleet REDs are other lanes).
+
+**Walk residuals, per the review (minted or dismissed):**
+- I-066 MINTED (10-27): on a phone the strip sits ~2,800px below the chart it zooms (the review's strongest candidate).
+- I-067 MINTED (10-27): the handles cover the tick labels they sit on.
+- I-068 MINTED (10-27): a recent window reads "…–2050", past today, though every curve stops at today (checked against I-061 before any change).
+- "The floor is not stated before a drag": DISMISSED, not minted. The widening sentence appears at the moment the floor applies, and the walker called it sufficient ("nothing failed silently"). Stating it ahead adds words to the idle caption every reader sees, for a gesture most never make. Revisit if a walker calls a drag broken.
+
+**Rest of the ledger delta:** I-064 CLOSED at P3 (receipt in its notes). I-065 PARTIAL, stays open (10-27 copy batch is its trigger): note appended, readCommand widened; its positive control prints 17 lines in 11 files (exit 0).
+
+**Due-gate verify:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned." · "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-10-24)".
+
+**Pending reads:** 10-27 I-043, I-049, I-057, I-058, I-063, I-065, I-066, I-067, I-068 · 10-30 I-051 · 11-03 I-027 · 11-04 I-032 (+ W-005) · 11-06 I-034. Nothing UNRESOLVED.
+
+codexCalls: 3 (r1-r3 at P3; none at close)
+
 ## State Appendix
 
 - At P1: lane HEAD 26cd28d = origin main; live 26cd28dc (drift in-sync).
