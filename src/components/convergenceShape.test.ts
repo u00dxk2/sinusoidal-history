@@ -75,7 +75,7 @@ describe("the range strip draws time only (I-059)", () => {
     expect(source.match(/aria-live=/g)).toHaveLength(1);
     // I-064: the status sits after the strip's svg, so its height never moves the strip.
     expect(source.indexOf("aria-live=")).toBeGreaterThan(source.indexOf("</svg>"));
-    expect(source).toMatch(/if \(!\(r\.outcome === "moved" && unchanged\)\) setStatus\(r\);/);
+    expect(source).toMatch(/setStatus\(\(prev\) => nextStatus\(prev, r, visibleStartYear, visibleEndYear\)\);/);
     expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setStatus\(null\);/);
     // A pointer event alone never sets or clears it (r2: a press that changed nothing erased the note).
     expect(source).not.toMatch(/\.on\("start"[\s\S]{0,160}setStatus/);

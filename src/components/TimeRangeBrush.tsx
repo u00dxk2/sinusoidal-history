@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { brushX, type D3BrushEvent } from "d3-brush";
 import { select } from "d3-selection";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
-import { brushStatus, resolveBrushEnd, type BrushResult } from "@/lib/brushStatus";
+import { brushStatus, nextStatus, resolveBrushEnd, type BrushResult } from "@/lib/brushStatus";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 
@@ -124,10 +124,9 @@ export default function TimeRangeBrush({
           fullEnd: fullEndYear,
         });
         modeRef.current = undefined;
-        // The status follows OUTCOMES, never pointer events (Codex r1+r2, 2026-10-22): a press
-        // inside the selection that moves nothing leaves the last sentence standing.
-        const unchanged = r.start === visibleStartYear && r.end === visibleEndYear;
-        if (!(r.outcome === "moved" && unchanged)) setStatus(r);
+        // The status follows OUTCOMES, never pointer events: a press that moves nothing leaves
+        // the last sentence standing (rules in nextStatus).
+        setStatus((prev) => nextStatus(prev, r, visibleStartYear, visibleEndYear));
         // A widened drag or a pan is redrawn on the window the chart will show (I-060: widened
         // about its centre; I-064: a pan keeps its span). brush.move fires with no sourceEvent,
         // so this handler skips it.

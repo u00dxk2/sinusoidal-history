@@ -2,7 +2,7 @@
 // brush gesture (resolveBrushEnd) and the sentence the strip shows for it (brushStatus). The
 // interaction proof is check-brush-widened.mjs on production and a cold walk; this is the logic.
 import { describe, expect, it } from "vitest";
-import { brushStatus, resolveBrushEnd } from "./brushStatus";
+import { brushStatus, nextStatus, resolveBrushEnd } from "./brushStatus";
 
 const FULL = { fullStart: 1600, fullEnd: 2050 };
 const MODERN = { visibleStart: 1900, visibleEnd: 2050 };
@@ -37,6 +37,40 @@ describe("resolveBrushEnd: what a gesture did to the chart's window", () => {
   it("a pan is kept inside the chart", () => {
     const r = resolveBrushEnd({ mode: "drag", lo: 1590, hi: 1739, visibleStart: 1700, visibleEnd: 1850, ...FULL });
     expect(r).toEqual({ outcome: "moved", start: 1600, end: 1750 });
+  });
+});
+
+describe("nextStatus: a press that changes nothing keeps the sentence shown", () => {
+  const widened = { outcome: "widened", start: 1900, end: 2050 } as const;
+
+  it("a still press on a handle keeps the widening sentence (Codex r1)", () => {
+    const still = resolveBrushEnd({ mode: "handle", lo: 1900, hi: 2050, ...MODERN, ...FULL });
+    expect(still.outcome).toBe("chosen");
+    expect(nextStatus(widened, still, 1900, 2050)).toBe(widened);
+  });
+
+  it("a still press inside the box keeps it too", () => {
+    const still = resolveBrushEnd({ mode: "drag", lo: 1900, hi: 2050, ...MODERN, ...FULL });
+    expect(nextStatus(widened, still, 1900, 2050)).toBe(widened);
+  });
+
+  it("a short drag at Modern still says it widened, onto the window already shown", () => {
+    const short = resolveBrushEnd({ mode: "selection", lo: 2000, hi: 2030, ...MODERN, ...FULL });
+    expect(nextStatus(null, short, 1900, 2050)).toEqual(widened);
+    const chosen = { outcome: "chosen", start: 1900, end: 2050 } as const;
+    expect(nextStatus(chosen, short, 1900, 2050)).toEqual(widened);
+  });
+
+  it("an unchanged gesture with nothing shown for this window gets a sentence", () => {
+    const stale = { outcome: "moved", start: 1800, end: 1950 } as const;
+    const still = resolveBrushEnd({ mode: "handle", lo: 1900, hi: 2050, ...MODERN, ...FULL });
+    expect(nextStatus(stale, still, 1900, 2050)).toBe(still);
+    expect(nextStatus(null, still, 1900, 2050)).toBe(still);
+  });
+
+  it("a changed window always replaces the sentence", () => {
+    const pan = resolveBrushEnd({ mode: "drag", lo: 1850, hi: 2000, ...MODERN, ...FULL });
+    expect(nextStatus(widened, pan, 1900, 2050)).toBe(pan);
   });
 });
 

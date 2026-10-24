@@ -67,6 +67,15 @@ try {
       await page.waitForTimeout(400);
       const kept = (await noteLoc.count()) && (await noteLoc.first().isVisible()) ? (await noteLoc.first().innerText()).trim() : null;
       out.push({ mode: "noop-press", showing: (await page.locator("text=showing").first().innerText()).trim(), keptNote: kept });
+      // I-064 Codex r1: a still press on the LEFT handle (at 1900) must keep the note too.
+      const hx = b2.x + 4 + ((1900 - 1600) / 450) * (b2.width - 8) + 1;
+      const handleHit = await page.evaluate(([x, y]) => document.elementFromPoint(x, y)?.getAttribute("class"), [hx, pressY]);
+      await page.mouse.move(hx, pressY);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForTimeout(400);
+      const keptH = (await noteLoc.count()) && (await noteLoc.first().isVisible()) ? (await noteLoc.first().innerText()).trim() : null;
+      out.push({ mode: "noop-press", hit: handleHit, showing: (await page.locator("text=showing").first().innerText()).trim(), keptNote: keptH });
       await page.getByRole("button", { name: /Industrial/ }).click();
       await page.getByRole("button", { name: /Modern/ }).click();
       await page.waitForTimeout(400);
