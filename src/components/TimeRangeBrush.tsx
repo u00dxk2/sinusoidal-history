@@ -4,8 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { brushX, type D3BrushEvent } from "d3-brush";
 import { select } from "d3-selection";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
+import { brushStatus, resolveBrushEnd, type BrushResult } from "@/lib/brushStatus";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
-import { widenToMinSpan } from "@/lib/urlState";
 import { cn } from "@/lib/utils";
 
 // The strip draws time only (I-059, 2026-10-20). It used to draw the mean of every cycle's
@@ -13,19 +13,19 @@ import { cn } from "@/lib/utils";
 // so their average peaks at the present. Both cold walkers (E1/E2, 10-19) called that bump the
 // page's strongest "peaking now" picture. The selection effect drawn as data, so it was removed,
 // not relabelled. Pinned by convergenceShape.test.ts.
-export const BRUSH_CAPTION = "Drag across the strip to zoom the chart above.";
+// I-064 (2026-10-24): no "above". On a phone the chart is ~2,800px up the page, so the strip
+// says what it controls and, after a gesture, which years the chart now shows.
+export const BRUSH_CAPTION = "Drag across the strip to choose the years the chart shows.";
 
 /**
  * What the strip says when a drag was widened to MIN_VISIBLE_SPAN (I-062, 2026-10-22). Both
  * 10-21 walkers dragged to recent years, saw the selection snap wider with no word, and read
- * the strip as broken. The floor stays (I-060); the strip now says it applied it. It names only
- * what the code did: no claim about what any cycle looks like inside the window. It states the
+ * the strip as broken. The floor stays (I-060); the strip now says it applied it. It states the
  * rule, not the reader's drag: quoting the dragged years went stale three times (Codex r1, r2,
- * and the 10-22 cold walk, where a pan inside the box kept the previous drag's years).
+ * and the 10-22 cold walk, where a pan inside the box kept the previous drag's years). Lives in
+ * src/lib/brushStatus.ts with the rest of the strip's status sentences (I-064).
  */
-export function widenedNote(span: number): string {
-  return `Widened to ${span} years, the shortest view this chart draws.`;
-}
+export { widenedNote } from "@/lib/brushStatus";
 
 interface TimeRangeBrushProps {
   fullStartYear: number;
@@ -51,8 +51,10 @@ export default function TimeRangeBrush({
   const width = useContainerWidth(containerRef, 800);
   const brushGroupRef = useRef<SVGGElement | null>(null);
 
-  // The last widened drag, kept only while the chart still shows the window it produced.
-  const [widened, setWidened] = useState<{ start: number; end: number } | null>(null);
+  // The last gesture's outcome, shown only while the chart still shows the window it produced.
+  const [status, setStatus] = useState<BrushResult | null>(null);
+  // The d3-brush mode of the gesture in progress: "drag" when it began inside the selection.
+  const modeRef = useRef<string | undefined>(undefined);
   const [hintVisible, setHintVisible] = useState(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -104,43 +106,35 @@ export default function TimeRangeBrush({
         [0, 6],
         [innerWidth, HEIGHT - 6],
       ])
-      .on("start", () => {
+      .on("start", (event: D3BrushEvent<unknown>) => {
+        if (!event.sourceEvent) return;
+        modeRef.current = event.mode;
         if (hintVisible) dismissHint();
       })
       .on("end", (event: D3BrushEvent<unknown>) => {
         if (!event.sourceEvent) return;
         const sel2 = event.selection as [number, number] | null;
-        // The note follows OUTCOMES, never pointer events (Codex r1+r2, 2026-10-22): it is set by
-        // a widened drag and cleared only when a drag lands on a different window, so a press
-        // that changes nothing leaves it standing.
-        const retire = (start: number, end: number) => {
-          if (start !== visibleStartYear || end !== visibleEndYear) setWidened(null);
-        };
-        if (!sel2) {
-          retire(fullStartYear, fullEndYear);
-          onChange(fullStartYear, fullEndYear);
-          return;
+        const r = resolveBrushEnd({
+          mode: modeRef.current,
+          lo: sel2 ? Math.round(xScale.invert(sel2[0])) : null,
+          hi: sel2 ? Math.round(xScale.invert(sel2[1])) : null,
+          visibleStart: visibleStartYear,
+          visibleEnd: visibleEndYear,
+          fullStart: fullStartYear,
+          fullEnd: fullEndYear,
+        });
+        modeRef.current = undefined;
+        // The status follows OUTCOMES, never pointer events (Codex r1+r2, 2026-10-22): a press
+        // inside the selection that moves nothing leaves the last sentence standing.
+        const unchanged = r.start === visibleStartYear && r.end === visibleEndYear;
+        if (!(r.outcome === "moved" && unchanged)) setStatus(r);
+        // A widened drag or a pan is redrawn on the window the chart will show (I-060: widened
+        // about its centre; I-064: a pan keeps its span). brush.move fires with no sourceEvent,
+        // so this handler skips it.
+        if (r.outcome === "widened" || r.outcome === "moved") {
+          sel.call(brush.move, [xScale(r.start), xScale(r.end)]);
         }
-        const [x0, x1] = sel2;
-        const y0 = Math.round(xScale.invert(x0));
-        const y1 = Math.round(xScale.invert(x1));
-        const lo = Math.min(y0, y1);
-        const hi = Math.max(y0, y1);
-        if (hi - lo < 5) {
-          retire(fullStartYear, fullEndYear);
-          onChange(fullStartYear, fullEndYear);
-          return;
-        }
-        // A drag shorter than MIN_VISIBLE_SPAN is widened about its centre (I-060), and the
-        // brush redrawn to match. brush.move fires with no sourceEvent, so this handler skips it.
-        const wide = widenToMinSpan(lo, hi, fullStartYear, fullEndYear);
-        if (wide.start !== lo || wide.end !== hi) {
-          sel.call(brush.move, [xScale(wide.start), xScale(wide.end)]);
-          setWidened({ start: wide.start, end: wide.end });
-        } else {
-          retire(wide.start, wide.end);
-        }
-        onChange(wide.start, wide.end);
+        onChange(r.start, r.end);
       });
 
     sel.call(brush);
@@ -194,11 +188,11 @@ export default function TimeRangeBrush({
   const range = `${visibleStartYear}–${visibleEndYear}`;
   const isFullRange =
     visibleStartYear === fullStartYear && visibleEndYear === fullEndYear;
-  // Shown only while the chart still shows the window the drag produced (a URL or Back change
-  // hides it); a preset tap, or a drag to a different window, clears it outright.
-  const note =
-    widened && widened.start === visibleStartYear && widened.end === visibleEndYear
-      ? widenedNote(widened.end - widened.start)
+  // Shown only while the chart still shows the window the gesture produced (a URL or Back change
+  // hides it); a preset tap clears it outright, and the next gesture replaces it.
+  const said =
+    status && status.start === visibleStartYear && status.end === visibleEndYear
+      ? brushStatus(status)
       : null;
 
   return (
@@ -218,7 +212,7 @@ export default function TimeRangeBrush({
                 type="button"
                 onClick={() => {
                   // A preset supersedes the drag: its note must not return on a later visit.
-                  setWidened(null);
+                  setStatus(null);
                   onChange(preset.start, preset.end);
                 }}
                 aria-pressed={active}
@@ -244,14 +238,6 @@ export default function TimeRangeBrush({
           showing <span className="text-ink">{range}</span>
         </span>
       </div>
-      {/* Always mounted, so a screen reader announces the note when it appears (polite). */}
-      <p
-        aria-live="polite"
-        data-brush-widened={note ? "true" : undefined}
-        className={cn("text-[11px] text-ink-soft", !note && "sr-only")}
-      >
-        {note ?? ""}
-      </p>
       <div className="relative">
         <div className="relative rounded-sm border border-rule/35 bg-paper-deep/50 overflow-hidden">
           <svg
@@ -318,8 +304,18 @@ export default function TimeRangeBrush({
             </div>
           )}
         </div>
-        <p className="mt-1.5 text-[11px] text-ink-soft/75 italic font-display-italic">
-          {BRUSH_CAPTION}
+        {/* One line UNDER the strip says what the last gesture did (I-064), so nothing above the
+            strip changes height. Always mounted: a screen reader announces each change (polite). */}
+        <p aria-live="polite" className="mt-1.5 text-[11px] text-ink-soft">
+          {said ? (
+            <>
+              {said.widened && <span data-brush-widened="true">{said.widened}</span>}
+              {said.widened && " "}
+              <span data-brush-status={status?.outcome}>{said.rest}</span>
+            </>
+          ) : (
+            <span className="text-ink-soft/75 italic font-display-italic">{BRUSH_CAPTION}</span>
+          )}
         </p>
       </div>
     </div>

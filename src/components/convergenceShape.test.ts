@@ -54,8 +54,10 @@ describe("the range strip draws time only (I-059)", () => {
   });
 
   it("captions the strip as a control, not as a curve", () => {
-    expect(BRUSH_CAPTION).toBe("Drag across the strip to zoom the chart above.");
+    expect(BRUSH_CAPTION).toBe("Drag across the strip to choose the years the chart shows.");
     expect(BRUSH_CAPTION).not.toMatch(/curve|mean|average/i);
+    // I-064: on a phone the chart is far up the page; the caption does not send the reader there.
+    expect(BRUSH_CAPTION).not.toMatch(/\babove\b|scroll/i);
   });
 
   // I-062: a widened drag says so, in place, and claims nothing about any cycle.
@@ -68,12 +70,14 @@ describe("the range strip draws time only (I-059)", () => {
   });
 
   // Source pins only. The interaction proof is the Playwright drag read (tmp/i062-drag.mjs).
-  it("source: a polite live region, set by a widened drag, cleared by a preset or a changed window", () => {
+  it("source: one polite live region UNDER the strip, set by a gesture's outcome, cleared by a preset", () => {
     expect(source).toMatch(/aria-live="polite"/);
-    expect(source).toMatch(/setWidened\(\{ start: wide\.start, end: wide\.end \}\)/);
-    expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setWidened\(null\);/);
-    expect(source).toMatch(/if \(start !== visibleStartYear \|\| end !== visibleEndYear\) setWidened\(null\);/);
-    // A pointer event alone never clears it (r2: a press that changed nothing erased the note).
-    expect(source).not.toMatch(/\.on\("start"[^)]*\)[\s\S]{0,120}setWidened/);
+    expect(source.match(/aria-live=/g)).toHaveLength(1);
+    // I-064: the status sits after the strip's svg, so its height never moves the strip.
+    expect(source.indexOf("aria-live=")).toBeGreaterThan(source.indexOf("</svg>"));
+    expect(source).toMatch(/if \(!\(r\.outcome === "moved" && unchanged\)\) setStatus\(r\);/);
+    expect(source).toMatch(/onClick=\{\(\) => \{\s*\/\/[^\n]*\n\s*setStatus\(null\);/);
+    // A pointer event alone never sets or clears it (r2: a press that changed nothing erased the note).
+    expect(source).not.toMatch(/\.on\("start"[\s\S]{0,160}setStatus/);
   });
 });
