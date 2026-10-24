@@ -50,22 +50,22 @@ export function resolveBrushEnd(e: BrushEnd): BrushResult {
 
 /**
  * Which sentence the strip shows after a gesture. The status follows OUTCOMES, never pointer
- * events (I-062 r2): a press that leaves the window as it was keeps the sentence already shown
- * for that window (Codex r1, 2026-10-24: a still press on a handle erased the widening sentence).
- * Two exceptions, both so a gesture is never met with silence or a stale reason: a widened drag
- * always says so, even onto the window already shown (a short drag at Modern, the 10-22 walk's
- * "drags … did nothing"), and an unchanged gesture with nothing shown for this window gets one.
+ * events (I-062 r2): only a gesture that changed the window, or widened a drag, says anything.
+ * Any other gesture leaves the line exactly as it was, including empty (Codex r1: a still press
+ * on a handle erased the widening sentence; r2: a still press inside the box said "Moved").
+ * The one exception: a widened drag always says so, even onto the window already shown (a short
+ * drag at Modern, the 10-22 walk's "drags … did nothing").
  */
 export function nextStatus(
   prev: BrushResult | null,
   r: BrushResult,
   visibleStart: number,
   visibleEnd: number,
-): BrushResult {
+): BrushResult | null {
   const unchanged = r.start === visibleStart && r.end === visibleEnd;
+  if (!unchanged || r.outcome === "widened") return r;
   const shown = prev !== null && prev.start === visibleStart && prev.end === visibleEnd;
-  if (unchanged && shown && r.outcome !== "widened") return prev;
-  return r;
+  return shown ? prev : null;
 }
 
 /**

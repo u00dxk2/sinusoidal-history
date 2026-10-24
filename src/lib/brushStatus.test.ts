@@ -61,11 +61,15 @@ describe("nextStatus: a press that changes nothing keeps the sentence shown", ()
     expect(nextStatus(chosen, short, 1900, 2050)).toEqual(widened);
   });
 
-  it("an unchanged gesture with nothing shown for this window gets a sentence", () => {
+  // Codex r2: at a preset (nothing shown), a still press inside the box said "Moved the selection".
+  it("an unchanged gesture with nothing shown for this window says nothing", () => {
+    const stillInBox = resolveBrushEnd({ mode: "drag", lo: 1900, hi: 2050, ...MODERN, ...FULL });
+    const stillOnHandle = resolveBrushEnd({ mode: "handle", lo: 1900, hi: 2050, ...MODERN, ...FULL });
     const stale = { outcome: "moved", start: 1800, end: 1950 } as const;
-    const still = resolveBrushEnd({ mode: "handle", lo: 1900, hi: 2050, ...MODERN, ...FULL });
-    expect(nextStatus(stale, still, 1900, 2050)).toBe(still);
-    expect(nextStatus(null, still, 1900, 2050)).toBe(still);
+    for (const still of [stillInBox, stillOnHandle]) {
+      expect(nextStatus(null, still, 1900, 2050)).toBeNull();
+      expect(nextStatus(stale, still, 1900, 2050)).toBeNull();
+    }
   });
 
   it("a changed window always replaces the sentence", () => {

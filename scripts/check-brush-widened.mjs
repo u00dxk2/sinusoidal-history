@@ -75,16 +75,23 @@ try {
       await page.mouse.up();
       await page.waitForTimeout(400);
       const keptH = (await noteLoc.count()) && (await noteLoc.first().isVisible()) ? (await noteLoc.first().innerText()).trim() : null;
-      out.push({ mode: "noop-press", hit: handleHit, showing: (await page.locator("text=showing").first().innerText()).trim(), keptNote: keptH });
+      out.push({ mode: "noop-handle", hit: handleHit, showing: (await page.locator("text=showing").first().innerText()).trim(), keptNote: keptH });
       await page.getByRole("button", { name: /Industrial/ }).click();
       await page.getByRole("button", { name: /Modern/ }).click();
       await page.waitForTimeout(400);
       const back = (await noteLoc.count()) && (await noteLoc.first().isVisible()) ? (await noteLoc.first().innerText()).trim() : null;
       out.push({ mode: "preset-return", showing: (await page.locator("text=showing").first().innerText()).trim(), staleNote: back });
-      // I-064: a drag that starts inside the Modern selection (1900-2050) pans it 50 years back.
       const b3 = await svg.boundingBox();
       const xAt = (y) => b3.x + 4 + ((y - 1600) / 450) * (b3.width - 8);
       const yAt = b3.y + b3.height / 2;
+      // I-064 Codex r2: at a preset nothing is said, and a still press inside the box must not
+      // say "Moved".
+      await page.mouse.move(xAt(1975), yAt);
+      await page.mouse.down();
+      await page.mouse.up();
+      await page.waitForTimeout(400);
+      out.push({ mode: "still-at-preset", status: (await statusLoc.count()) ? (await statusLoc.first().innerText()).trim() : null });
+      // I-064: a drag that starts inside the Modern selection (1900-2050) pans it 50 years back.
       await page.mouse.move(xAt(1975), yAt);
       await page.mouse.down();
       await page.mouse.move(xAt(1950), yAt, { steps: 5 });
@@ -102,13 +109,17 @@ try {
 console.log(JSON.stringify(out));
 const drags = out.filter((r) => r.mode === "mouse" || r.mode === "touch");
 const stale = out.filter((r) => r.mode === "preset-return" && r.staleNote);
-const lost = out.filter((r) => r.mode === "noop-press" && !r.keptNote);
+// The handle leg counts only if the press landed on the left handle (Codex r2): a press that
+// slid onto the selection would keep the note for a different reason.
+const lost = out.filter((r) => (r.mode === "noop-press" || r.mode === "noop-handle") && !r.keptNote);
+const handleMissed = out.filter((r) => r.mode === "noop-handle" && !(/(^|\s)handle(\s|$)/.test(r.hit || "") && /(^|\s)handle--w(\s|$)/.test(r.hit || "")));
 // I-064 legs: a short drag names the Modern window, moves the strip 0px, and a pan says it moved.
 const named = drags.filter((r) => r.status === "Chart now shows 1900–2050, the same as Modern.");
 const shifted = drags.filter((r) => r.shift !== 0);
 const pans = out.filter((r) => r.mode === "pan");
 const panOk = pans.filter((r) => r.showing === "showing 1850–2000" && r.status === "Moved the selection; drag outside it to pick new years. Chart now shows 1850–2000." && !r.widenedNote);
-const i064 = process.argv[4] === "--preset-return" ? named.length === drags.length && shifted.length === 0 && pans.length === 1 && panOk.length === 1 : true;
-const ok = drags.every((r) => r.note && r.visible && r.showing === "showing 1900–2050" && /^Widened to 150 years, the shortest view this chart draws\.$/.test(r.note)) && stale.length === 0 && lost.length === 0 && i064;
-console.log(`RESULT: ${ok ? "PASS" : "RED"} — ${drags.filter((r) => r.note && r.visible).length} of ${drags.length} drags show a visible widening reason; ${stale.length} stale note(s) after a preset return; ${lost.length} note(s) erased by a no-op press; I-064: ${named.length} of ${drags.length} name the Modern window, ${shifted.length} moved the strip, ${panOk.length} of ${pans.length} pans say they moved (${origin})`);
+const falseMoves = out.filter((r) => r.mode === "still-at-preset" && r.status !== null);
+const i064 = process.argv[4] === "--preset-return" ? named.length === drags.length && shifted.length === 0 && pans.length === 1 && panOk.length === 1 && falseMoves.length === 0 : true;
+const ok = drags.every((r) => r.note && r.visible && r.showing === "showing 1900–2050" && /^Widened to 150 years, the shortest view this chart draws\.$/.test(r.note)) && stale.length === 0 && lost.length === 0 && handleMissed.length === 0 && i064;
+console.log(`RESULT: ${ok ? "PASS" : "RED"} — ${drags.filter((r) => r.note && r.visible).length} of ${drags.length} drags show a visible widening reason; ${stale.length} stale note(s) after a preset return; ${lost.length} note(s) erased by a no-op press; ${handleMissed.length} handle press(es) that missed the handle; I-064: ${named.length} of ${drags.length} name the Modern window, ${shifted.length} moved the strip, ${panOk.length} of ${pans.length} pans say they moved, ${falseMoves.length} still press(es) at a preset that said something (${origin})`);
 process.exit(ok ? 0 : 3);
