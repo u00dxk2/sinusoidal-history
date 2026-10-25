@@ -13,8 +13,10 @@ import { cn } from "@/lib/utils";
 // so their average peaks at the present. Both cold walkers (E1/E2, 10-19) called that bump the
 // page's strongest "peaking now" picture. The selection effect drawn as data, so it was removed,
 // not relabelled. Pinned by convergenceShape.test.ts.
-// I-064 (2026-10-24): no "above". On a phone the chart is ~2,800px up the page, so the strip
-// says what it controls and, after a gesture, which years the chart now shows.
+// I-064 (2026-10-24): no "above". The strip then sat ~2,800px below the chart on a phone, so it
+// says what it controls and, after a gesture, which years the chart now shows. I-066
+// (2026-10-25) moved it under the phone overview; the sentence still says the years, because
+// the facet rows below it follow the strip too.
 export const BRUSH_CAPTION = "Drag across the strip to choose the years the chart shows.";
 
 /**
@@ -200,7 +202,13 @@ export default function TimeRangeBrush({
         <span className="text-[11px] uppercase tracking-[0.28em] text-ink-soft font-medium mr-3 self-center">
           Range
         </span>
-        <div className="flex flex-wrap gap-1">
+        {/* On a phone the readout shares the label's line and the buttons wrap under both; it was
+            a third line of its own, which kept the tenth overview row and the strip off one
+            360x560 screen (I-066). From sm up it sits at the row's right end, as before. */}
+        <span className="text-[11px] text-ink-soft ml-auto font-mono tabular-nums sm:order-last">
+          showing <span className="text-ink">{range}</span>
+        </span>
+        <div className="flex flex-wrap gap-1 max-sm:basis-full">
           {RANGE_PRESET_OPTIONS.map((preset) => {
             const active =
               preset.start === visibleStartYear &&
@@ -233,9 +241,6 @@ export default function TimeRangeBrush({
             );
           })}
         </div>
-        <span className="text-[11px] text-ink-soft ml-auto font-mono tabular-nums">
-          showing <span className="text-ink">{range}</span>
-        </span>
       </div>
       <div className="relative">
         <div className="relative rounded-sm border border-rule/35 bg-paper-deep/50 overflow-hidden">

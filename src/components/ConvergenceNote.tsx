@@ -21,8 +21,9 @@ export default function ConvergenceNote() {
           Theorists writing today anchor their forecasts to the world they live in, and we read
           them precisely because their climaxes happen to land in our era. That is why nine of
           the ten peak years here fall between 1945 and 2020, and why this site draws each cycle
-          as one period around its peak rather than a wave repeating into the present. Drag the
-          time-range below or select any cycle to see how much the peak-year choice is doing.
+          as at most one period around its peak, cut at today, rather than a wave repeating into
+          the present. Drag the range strip or select any cycle to see how much the peak-year
+          choice is doing.
         </p>
       </div>
     </aside>

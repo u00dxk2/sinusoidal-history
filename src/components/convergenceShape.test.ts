@@ -42,6 +42,34 @@ describe("the editor's note has no display line (I-055)", () => {
     }
     expect(first).toMatch(/selection effect/i);
   });
+
+  // I-066: the strip moved from under this note to above the tabs, so a direction word goes stale.
+  it("points at the strip without saying where it is", () => {
+    expect(noteText(source)).not.toMatch(/\b(below|above|beneath|underneath)\b/i);
+  });
+
+  // I-065: a period that would run past today is cut there, so it is "at most" one period.
+  it("never says each cycle IS one period", () => {
+    expect(noteText(source)).not.toMatch(/draws each cycle as one period/i);
+  });
+});
+
+// I-066 (2026-10-25): on a phone the strip sat after all ten facet rows, ~2,500px below the
+// overview it zooms. It now follows the overview, before the tabs. Source order pin; the
+// measured proof is scripts/check-strip-near-chart.mjs on the rendered page.
+describe("the range strip sits next to the chart it zooms (I-066)", () => {
+  const viz = src("Viz.tsx");
+  const at = (needle: RegExp) => {
+    const i = viz.search(needle);
+    expect(i, String(needle)).toBeGreaterThan(-1);
+    return i;
+  };
+
+  it("renders the strip after the phone overview and before the tabs", () => {
+    expect(viz.match(/<TimeRangeBrush\b/g)).toHaveLength(1);
+    expect(at(/<TimeRangeBrush\b/)).toBeGreaterThan(at(/<CycleOverview\b/));
+    expect(at(/<TimeRangeBrush\b/)).toBeLessThan(at(/<Tabs\s/));
+  });
 });
 
 describe("the range strip draws time only (I-059)", () => {

@@ -134,9 +134,9 @@ export default function Viz({
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-5">
-        {/* The chart leads. The editor's note sits between the curves it
-            comments on and the brush it points at ("Drag the time-range
-            below"), and the reckoning follows. With the panel and note
+        {/* The chart leads, the range strip right under the figure it zooms,
+            then the editor's note after the curves it comments on, and the
+            reckoning follows. With the panel and note
             first, a 390x664 phone met the first curve at 1381px and a
             1440x900 desktop at 1113px — the chart this page is named for sat
             below the fold at both. Moved in the DOM, not with CSS `order`,
@@ -156,6 +156,20 @@ export default function Viz({
             onSelect={handleSelectCycleFromSummary}
           />
         </div>
+        {/* I-066 (2026-10-25): the strip used to follow the ten facet rows, so on a
+            390x664 phone it sat ~2,500px below the overview it narrows and a reader
+            who dragged it never saw the chart change. Here the ten rows and the
+            strip share one screen at 390x664 (131px spare) and 360x560 (9px); 320x568
+            fits eight rows beside it (declared ceiling: `--expect-rows 8`). On desktop
+            it sits over the tabs it frames.
+            Gate: `node scripts/check-strip-near-chart.mjs <origin>`. */}
+        <TimeRangeBrush
+          fullStartYear={fullStartYear}
+          fullEndYear={fullEndYear}
+          visibleStartYear={visibleStartYear}
+          visibleEndYear={visibleEndYear}
+          onChange={setRange}
+        />
         <Tabs
           value={tab}
           onValueChange={(v) =>
@@ -242,14 +256,6 @@ export default function Viz({
         </Tabs>
 
         <ConvergenceNote />
-
-        <TimeRangeBrush
-          fullStartYear={fullStartYear}
-          fullEndYear={fullEndYear}
-          visibleStartYear={visibleStartYear}
-          visibleEndYear={visibleEndYear}
-          onChange={setRange}
-        />
 
         <NowSummaryPanel
           cycles={effectiveCycles}
