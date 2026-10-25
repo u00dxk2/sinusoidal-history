@@ -72,9 +72,12 @@ describe("the range strip sits next to the chart it zooms (I-066)", () => {
   });
 
   // Codex r1: a CSS `order-*` utility could move the strip back below the facets while the
-  // source order above stays green. Viz orders its blocks in the DOM only. Ceiling (declared):
-  // CI does not run the rendered checker; this is the source half.
-  it("orders its blocks in the DOM, never with a CSS order utility", () => {
+  // source order above stays green. Viz orders its blocks in the DOM only. This catches the common
+  // Tailwind forms (`order-1`, `sm:order-first`, `order-[…]`) and nothing more. Ceiling (declared
+  // after Codex r2 found a second gap, `order-(--x)` and `[order:…]`; the matcher is not grown
+  // again): CI does not run the rendered checker, scripts/check-strip-near-chart.mjs, which is the
+  // proof of where the strip is.
+  it("uses none of the common Tailwind order utilities", () => {
     expect(viz).not.toMatch(/\border-(?:first|last|none|\d+|\[)/);
   });
 });
