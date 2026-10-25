@@ -1971,14 +1971,14 @@
       "closeWhen": "The three surfaces say \"at most one period … cut at today\" (or an equally true narrower sentence), with countWords.test.ts moved with the home sentence; the readCommand finds no hit.",
       "nextEvaluation": "2026-10-27",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -E \"drawn as one period|draws each cycle\\s+as one period|is drawn as one period|curve is one period|draws one period of a wave\" -- public src — exit 0 while a hit remains; exit 1 = fixed",
-      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").\n\n | 2026-10-24 (day round 1, P3): PARTIAL, stays open. 998fdc1 + 98e9b55 (live 98e9b557): the home summary sentence, the poster description and public/llms.txt (lines 3, 9, 16) now say \"at most one period …, cut at today\" / \"at most one period … stopping at the present\"; countWords.test.ts pins the home clause (red with the old wording). The old readCommand exits 1, but Codex r2 (STATIC, CONFIRMED) showed it was too narrow: variants still claim each cycle IS one period, false for Perez (53.5 of 55 years drawn in 2026) and Turchin (81 of 150) — ConvergenceNote.tsx:23-24 (home editor's note), cycles/[id]/page.tsx:475/485/495 (every cycle page), claimQuestion.ts:21 (three claim pages; whole-text checkers), about/page.tsx:46/58/74 + public/about.md:11/13/17 (mirror pair). readCommand widened to those variants today. A copy batch with the claim-page checkers and the about mirror, not a same-day patch.",
+      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").\n\n | 2026-10-24 (day round 1, P3): PARTIAL, stays open. 998fdc1 + 98e9b55 (live 98e9b557): the home summary sentence, the poster description and public/llms.txt (lines 3, 9, 16) now say \"at most one period …, cut at today\" / \"at most one period … stopping at the present\"; countWords.test.ts pins the home clause (red with the old wording). The old readCommand exits 1, but Codex r2 (STATIC, CONFIRMED) showed it was too narrow: variants still claim each cycle IS one period, false for Perez (53.5 of 55 years drawn in 2026) and Turchin (81 of 150) — ConvergenceNote.tsx:23-24 (home editor's note), cycles/[id]/page.tsx:475/485/495 (every cycle page), claimQuestion.ts:21 (three claim pages; whole-text checkers), about/page.tsx:46/58/74 + public/about.md:11/13/17 (mirror pair). readCommand widened to those variants today. A copy batch with the claim-page checkers and the about mirror, not a same-day patch.\n\n | 2026-10-25 (day round 1, P3): PARTIAL, stays open. 646e89a: the home editor's note (ConvergenceNote.tsx, the line-wrapped case the grep could not see) now reads \"draws each cycle as at most one period around its peak, cut at today\"; convergenceShape.test.ts pins it (red with the old wording). readCommand now prints 16 lines in 9 files (was 17 in 11): about page + public/about.md mirror, the cycle page, claimQuestion.ts (+ its test), api/v1/state, llms.txt 30/31/33, state-2026.source.md, a CycleFacet comment. Still the 10-27 copy batch with the claim-page whole-text checkers.",
       "created": "2026-10-23",
-      "updated": "2026-10-24"
+      "updated": "2026-10-25"
     },
     {
       "id": "I-066",
       "title": "On a phone the zoom strip sits about 2,800px below the chart it zooms, so a reader never sees what a drag did to the chart",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1987,9 +1987,11 @@
       "closeWhen": "On a 390x664 phone, a reader who drags the strip can see the chart change without scrolling (the control moves next to the chart, or the chart's window is shown beside the strip), proved by a measured distance and one pre-registered cold walker on production; or a recorded decision that the readout is enough, with the reason.",
       "nextEvaluation": "2026-10-27",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://sinusoidalhistory.com 390x664 --preset-return — regression for the strip only; this row's proof is a measured strip-to-chart distance and a walk",
-      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'the strip's distance from the chart … the strongest candidate'). Walk residual from the I-064 cold walk.",
+      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'the strip's distance from the chart … the strongest candidate'). Walk residual from the I-064 cold walk. | 2026-10-25 (day round 1, P3): CLOSED. 646e89a + 6bfcac8 + 963782f (live 963782f4, drift in-sync, CI ci.yml green on 963782f4): the Range block (presets, strip, status line) now follows the phone overview, before the tabs. Measured distance on production: check-strip-near-chart (new gate) RED before on 5b9b9161 \"APART — 0 of 10 rows share a screen with the strip; 2503px between the rows and the strip\" → after on 963782f4 \"TOGETHER — all 10 rows and the strip on one screen, 131px spare\" at 390x664, 9px spare at 360x560, 320x568 PARTIAL 8 of 10 (declared ceiling --expect-rows 8). Pre-registered cold walker on production at 390x664: HELD (docs/walks/2026-10-25-i066.md) — \"I didn't have to scroll to see the change, because the chart was right above the strip\". Codex read-only r1 (3 CONFIRMED, fixed 6bfcac8) + r2 (1 LOW, test claims less, 963782f). Residuals for the close: empty rows unexplained in a zoomed window, cut-off crests, header span, off-by-one year, no left axis label.",
       "created": "2026-10-24",
-      "updated": "2026-10-24"
+      "updated": "2026-10-25",
+      "closedAt": "2026-10-25",
+      "lastEvaluated": "2026-10-25"
     },
     {
       "id": "I-067",

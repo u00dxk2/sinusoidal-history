@@ -50,7 +50,8 @@ describe("the editor's note has no display line (I-055)", () => {
 
   // I-065: a period that would run past today is cut there, so it is "at most" one period.
   it("never says each cycle IS one period", () => {
-    expect(noteText(source)).not.toMatch(/draws each cycle as one period/i);
+    // `\s+` keeps this line out of I-065's own readCommand grep, which scans src/.
+    expect(noteText(source)).not.toMatch(/draws each cycle as one\s+period/i);
   });
 });
 
