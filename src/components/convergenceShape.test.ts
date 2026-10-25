@@ -70,6 +70,13 @@ describe("the range strip sits next to the chart it zooms (I-066)", () => {
     expect(at(/<TimeRangeBrush\b/)).toBeGreaterThan(at(/<CycleOverview\b/));
     expect(at(/<TimeRangeBrush\b/)).toBeLessThan(at(/<Tabs\s/));
   });
+
+  // Codex r1: a CSS `order-*` utility could move the strip back below the facets while the
+  // source order above stays green. Viz orders its blocks in the DOM only. Ceiling (declared):
+  // CI does not run the rendered checker; this is the source half.
+  it("orders its blocks in the DOM, never with a CSS order utility", () => {
+    expect(viz).not.toMatch(/\border-(?:first|last|none|\d+|\[)/);
+  });
 });
 
 describe("the range strip draws time only (I-059)", () => {

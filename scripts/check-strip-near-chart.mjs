@@ -15,10 +15,17 @@
 // up the overview is hidden by design and the run reads HIDDEN.
 // NOT read: whether the reader scrolls to that position (the cold walk asks), and touch on iOS.
 
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+// One overview row per cycle. Fewer rows on the page is MISSING, never a smaller "all" (Codex r1:
+// a single row near the strip used to read TOGETHER).
+const CYCLE_COUNT = JSON.parse(readFileSync(join(import.meta.dirname, "../src/data/cycles.json"), "utf8")).length;
+
 // How many rows share one screen with the strip block. Boxes are absolute page y. A row counts
 // when it is wholly inside the best screen-tall window that also holds the whole strip block.
-export function together(rows, strip, height) {
-  if (!rows?.length || !strip) return { state: "MISSING" };
+export function together(rows, strip, height, expected = CYCLE_COUNT) {
+  if (!rows?.length || !strip || rows.length !== expected) return { state: "MISSING", found: rows?.length ?? 0, expected };
   if (strip.hidden || rows.some((r) => r.hidden)) return { state: "HIDDEN" };
   const top = Math.min(strip.top, ...rows.map((r) => r.top));
   const bottom = Math.max(strip.bottom, ...rows.map((r) => r.bottom));
@@ -53,6 +60,9 @@ function selftest() {
     ["PARTIAL at or over a declared ceiling exits 0", exitFor(tight, 7) === 0 && exitFor(tight, 8) === 1],
     ["a declared ceiling never rescues APART", exitFor(far, 0) === 1],
     ["missing rows are MISSING and exit 2", together([], { top: 0, bottom: 1 }, 664).state === "MISSING" && exitFor(together([], null, 664)) === 2],
+    // Codex r1 red arm: one row beside the strip is not "all rows together".
+    ["one row near the strip, of ten expected, is MISSING, not TOGETHER", together(ten(352).slice(0, 1), { top: 400, bottom: 480 }, 664, 10).state === "MISSING" && exitFor(together(ten(352).slice(0, 1), { top: 400, bottom: 480 }, 664, 10), 1) === 2],
+    ["the expected count is read from cycles.json", Number.isInteger(CYCLE_COUNT) && CYCLE_COUNT > 0],
     ["a hidden strip is HIDDEN and exits 2", exitFor(together(ten(0), { top: 0, bottom: 0, hidden: true }, 664)) === 2],
     // Window 100-600: rows at 500, 524, 548, 572 fit.
     ["a strip above the rows is judged too", together(ten(500), { top: 100, bottom: 200 }, 500).rows === 4],
@@ -99,7 +109,7 @@ async function run(args) {
     v.state === "TOGETHER" ? `all ${v.of} rows and the strip on one screen, ${v.spare}px spare`
     : v.state === "PARTIAL" || v.state === "APART" ? `${v.rows} of ${v.of} rows share a screen with the strip; ${v.gap}px between the rows and the strip`
     : v.state === "HIDDEN" ? "the overview rows or the strip render zero-size (desktop layout?)"
-    : "no overview rows or no strip on the page";
+    : `found ${v.found} of ${v.expected} overview rows, or no strip on the page`;
   const ceiling = expectRows != null ? ` (declared ceiling: ${expectRows} rows)` : "";
   console.log(`${origin}/ @ ${width}x${height}: ${v.state} — ${detail}${ceiling}`);
   console.log(exit === 0 ? "RESULT: PASS" : `RESULT: RED (exit ${exit})`);

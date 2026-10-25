@@ -134,9 +134,10 @@ export default function Viz({
   return (
     <TooltipProvider>
       <div className="flex flex-col gap-5">
-        {/* The chart leads, the range strip right under the figure it zooms,
-            then the editor's note after the curves it comments on, and the
-            reckoning follows. With the panel and note
+        {/* On a phone the overview figure leads with the range strip right
+            under it; on desktop (no overview) the strip leads, over the tabs it
+            frames. Then the editor's note after the curves it comments on, and
+            the reckoning follows. With the panel and note
             first, a 390x664 phone met the first curve at 1381px and a
             1440x900 desktop at 1113px — the chart this page is named for sat
             below the fold at both. Moved in the DOM, not with CSS `order`,
