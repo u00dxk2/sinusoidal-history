@@ -99,10 +99,35 @@ node C:/Users/david/AppData/Local/Temp/claude/C--dev-skylark-sinusoidal-cycles/7
 
 USER-VISIBLE: On a phone the zoom strip now sits directly under the ten-row chart it zooms, so a reader drags it and watches the chart change on the same screen — 646e89a [proof: production 5b9b9161 before → check-strip-near-chart RED "APART — 0 of 10 rows share a screen with the strip; 2503px between"; live 963782f4 after → TOGETHER at 390x664 (131px spare) and 360x560 (9px), drift in-sync, pre-registered cold walker on production HELD] [coverage: none can see an on-page gesture; gsc-read.mjs sees search impressions and clicks only · last good read 2026-10-22 · founder+test excluded no] [exposure: blind — no client analytics by standing choice (W-003), an on-page drag reaches no instrument · bug row I-066]
 
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-066 · P3 dc9a29a2. The manager review (f845a41f) marked it COMPLETED: every acceptance leg met, all three code commits are ancestors of origin/main, no defects. (Its one nit: the P3 body carried `codexCalls:` twice with the same value.)
+
+**Changed since P3:** report-only commit b717ff2 (one sentence now cites CI for the gates; status e275bae7). P3's receipt is unchanged and still true, so there is no new receipt line.
+
+**Hygiene draft: 0 lines — 0 accepted · 0 amended · 0 rejected** (all inputs were none). READ-MUTATED: "none — 0 reads guarded (no --run issued)". Checks: wait-justification "RESULT: PASS — 32 of 74 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)"; engineering-zero "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable" (the fleet REDs are other lanes). Not drafted: the key-numbers list (`docs/key-metrics.json` absent) is a missing file, not a row. Not created today; it stays a CROSSED kickoff read.
+
+**Walk residuals, per the review (rows minted or dismissed):**
+- I-069 MINTED (10-27): in a zoomed window, rows whose drawn period falls outside it go blank, and cut-off arms carry no word (folds "empty rows" and "cut-off crests"; any wording for arms is checked against I-061).
+- I-070 MINTED (10-27): the phone header still says 1600–2050 after a zoom.
+- I-071 MINTED (10-27, P4): a drag aimed at 1800–1950 reads 1801–1951, and the zoomed axis has no left-edge year (folds two reading-precision residuals).
+- The hint pill not returning after "All": DISMISSED, not minted. It is dismissed once per browser by design (`sh.brushHintSeen`).
+
+**Rest of the ledger delta:** I-066 CLOSED at P3 (receipt in its notes; encounter blind, no instrument, so no read is owed). I-065 PARTIAL, stays open, next read 10-27 (the copy batch): note appended; readCommand prints 16 lines in 9 files (exit 0).
+
+**Due-gate verify:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned." · "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-10-25)".
+
+**Pending reads** (`show-item --index --status open`, 19 rows): 10-27 I-043, I-049, I-057, I-058, I-063, I-065, I-067, I-068, I-069, I-070, I-071 · 10-30 I-051 · 11-01 I-037 (missing from the 10-24 list) · 11-03 I-027 · 11-04 I-032 + W-005 · 11-06 I-034 · 12-01 I-025, I-042. Nothing UNRESOLVED.
+
+codexCalls: 2 (r1-r2 at P3; none at close)
+
 ## State Appendix
 
 - At P1: lane HEAD 5b9b916 = origin main; live 5b9b9161 (drift in-sync); CI ci.yml GREEN on 5b9b91619f.
 - At P3: code head 963782f = live 963782f4 (drift in-sync), CI ci.yml green on 963782f4.
+- At P5: live b717ff2c is the branch head (manager's drift read, f845a41f); commits after 963782f are doc-only.
 
 <!-- findings:begin -->
 - The P1 arithmetic for 360x560 (552px, "fits with 8px spare") was wrong in practice: the built layout ran 12px over, because the Range header is three lines on a phone. Moving the "showing" readout onto the label's line brought it to 9px spare.
