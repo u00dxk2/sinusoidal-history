@@ -1,0 +1,7 @@
+# read-output sidecar for I-068 — written by check-due-gates-dispositioned --run
+# readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "end: 2050" -- src/lib/siteConfig.ts
+# ran: 2026-10-27T16:19:28.759Z · exit: 0
+# lines: 1 · sha256: 8b15d49306bdd611 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+src/lib/siteConfig.ts:15:  end: 2050,

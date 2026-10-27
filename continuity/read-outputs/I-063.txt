@@ -1,0 +1,7 @@
+# read-output sidecar for I-063 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com C:/dev/skylark/sinusoidal-cycles/tmp/i063-home.txt
+# ran: 2026-10-27T16:19:07.816Z · exit: 0
+# lines: 1 · sha256: 83d8662378965421 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+snap: https://sinusoidalhistory.com -> C:/dev/skylark/sinusoidal-cycles/tmp/i063-home.txt (24 lines)

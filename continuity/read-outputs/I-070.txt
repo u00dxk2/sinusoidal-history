@@ -1,0 +1,7 @@
+# read-output sidecar for I-070 — written by check-due-gates-dispositioned --run
+# readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "Long-wave history, 1600" -- src/app
+# ran: 2026-10-27T16:19:42.024Z · exit: 0
+# lines: 1 · sha256: 95f9cb1dc233c26c (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+src/app/(app)/page.tsx:63:            <span className="sm:hidden">Long-wave history, 1600–2050.</span>
