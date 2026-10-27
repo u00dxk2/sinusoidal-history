@@ -56,3 +56,4 @@ ACTION: NEVER-DISPATCHED — light day; the orchestrator approved the no-build c
 - **Receipt:** USER-VISIBLE: none — light day by David's instruction; no product work was selected or shipped.
 - **Pending reads:** 10-28 I-043, I-049, I-058, I-063, I-065, I-067, I-068, I-069, I-070, I-071. 10-30 I-051. 11-01 I-037. 11-03 I-027. 11-04 I-032, W-005. 11-06 I-034. 12-01 I-025, I-042.
 - **Codex:** 0 calls (probed-declined). No review ran, so no broker shutdown is owed.
+- **Correction at close-session (~10:45 MT):** I-067..I-071 moved 10-28 → 10-29, because `continuity-check` flagged DUE_DATE_CONCENTRATION (10 of 18 dated rows on 10-28). Pending reads now: 10-28 I-043, I-049, I-058, I-063, I-065; 10-29 I-067, I-068, I-069, I-070, I-071; the later dates are unchanged.
