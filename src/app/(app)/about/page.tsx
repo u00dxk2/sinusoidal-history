@@ -43,7 +43,7 @@ export default function About() {
           side.
         </p>
         <p>
-          Each curve is a single period of a pure sinusoid, cut at today where that
+          Each curve is at most one period of a pure sinusoid, cut at today where that
           period has not ended yet, built from a period and a single reference
           peak, each taken from the theory or, where it gives
           none, chosen by this site and documented on the cycle&apos;s page. That

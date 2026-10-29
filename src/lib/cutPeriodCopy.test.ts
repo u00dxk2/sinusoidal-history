@@ -1,6 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
+import { cycles } from "@/data/cycles";
+import { periodCutAtToday } from "@/lib/cycleMath";
 
 // I-065 (2026-10-29): a period that has not ended is cut at today, so a cycle page must not
 // call Turchin's drawing "one period"; a whole period keeps the words. Date pinned so the
@@ -32,11 +34,20 @@ describe("cycle page copy for a cut period (I-065)", () => {
     expect(page).toContain("over the one period this site draws (1913–1997).");
   });
 
-  it("no cycle page says it draws 'a single period' or credits every period to the theory", async () => {
-    for (const id of ["turchin", "perez", "dalio"]) {
-      const page = await html(id);
-      expect(page).not.toContain("draws a single period");
+  // The rule, not a phrase list (Codex r2: an exact-substring check let "is drawn as a single
+  // period" through). On a cut page, every "one period" / "single period" must be qualified as
+  // "at most one" or "part of (its | the) one"; strip those and nothing whole-period may remain.
+  it("a cut page carries no unqualified whole-period wording; no page credits every period to the theory", async () => {
+    let cutPages = 0;
+    for (const c of cycles) {
+      const page = await html(c.id.replace(/_/g, "-"));
       expect(page).not.toContain("the theory&#x27;s stated period");
+      if (!periodCutAtToday(c, 2026)) continue;
+      cutPages++;
+      const rest = page.replace(/\b(at most one|part of (its |the )?one)\b/gi, "");
+      const hit = rest.match(/.{0,80}\b(single|one)( full)?( \d+-year)? period\b.{0,40}/i);
+      expect(hit?.[0] ?? null, c.id).toBeNull();
     }
+    expect(cutPages).toBe(2);
   });
 });

@@ -355,8 +355,8 @@ export default function Methods() {
           Missing and sparse data
         </h2>
         <p>
-          The chart&apos;s axis runs 1600–2050; each curve covers one period
-          around its reference peak, cut at the present where that period has
+          The chart&apos;s axis runs 1600–2050; each curve covers at most one
+          period around its reference peak, cut at the present where that period has
           not ended yet. Every data series has
           its own, shorter coverage.
           DW-NOMINATE: 46th–118th Congress (1879–2023); Fernald TFP

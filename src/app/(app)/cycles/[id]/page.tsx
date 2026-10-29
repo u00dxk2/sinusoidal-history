@@ -480,7 +480,7 @@ export default async function CyclePage({ params }: Params) {
           {confidenceGloss(cycle.confidence_level)}. It grades the
           theorist&apos;s own evidence for the period; a paired data series is
           a separate comparison this site added. Every cycle on this site
-          is drawn as a single period of a pure sinusoid, cut at today where that
+          is drawn as at most one period of a pure sinusoid, cut at today where that
           period has not ended yet, built from one documented period and one
           documented reference peak, each taken from the theory or, where it
           gives none, chosen by this site — a deliberately naïve
