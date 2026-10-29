@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import type { Cycle } from "@/data/types";
-import { sampleDrawnPeriod } from "@/lib/cycleMath";
+import { periodCutAtToday, sampleDrawnPeriod } from "@/lib/cycleMath";
 import { confidenceLabel } from "@/lib/cycleRoutes";
 import { posterStandfirst } from "@/lib/countWords";
 import {
@@ -250,7 +250,7 @@ function PeriodStrip({ cycle, currentYear }: { cycle: Cycle; currentYear: number
         viewBox={`0 0 ${STRIP_W} ${STRIP_H}`}
         className="block w-full h-auto"
         role="img"
-        aria-label={`${cycle.name}: one ${cycle.period_years}-year period around its reference peak ${cycle.reference_peak_year}`}
+        aria-label={`${cycle.name}: ${periodCutAtToday(cycle, currentYear) ? "part of one" : "one"} ${cycle.period_years}-year period around its reference peak ${cycle.reference_peak_year}`}
       >
         <line x1="0" y1={STRIP_H - 1} x2={STRIP_W} y2={STRIP_H - 1} stroke="currentColor" strokeOpacity="0.15" />
         {points && (

@@ -136,14 +136,16 @@ export default async function CyclePage({ params }: Params) {
   const index = cycles.findIndex((c) => c.id === cycle.id);
   // The extrema of the one drawn period only (I-061): the old list ran across
   // 1600-2050 and named Dalio's 2025 repeat.
-  const period = drawnPeriod(cycle, new Date().getUTCFullYear());
-  const cutAtToday = periodCutAtToday(cycle, new Date().getUTCFullYear());
+  // One read of the year, so the range, the cut and the figure cannot straddle a new year
+  // during one render (Codex r1 on 46090ff, LOW).
+  const year = new Date().getUTCFullYear();
+  const period = drawnPeriod(cycle, year);
+  const cutAtToday = periodCutAtToday(cycle, year);
   const peaks = peakYearsInRange(cycle, period.from, period.to);
   const troughs = troughYearsInRange(cycle, period.from, period.to);
   const provenanceHref = series
     ? series.data_file.replace(/\.csv$/, ".source.md")
     : null;
-  const year = new Date().getUTCFullYear();
   // The record the verdict is judged on, drawn the way the home chart draws a
   // series (I-035). Not caught on purpose: the CSV is a committed file, so a failed
   // read is a bug. Thrown, it fails the build, and on an ISR revalidation Next
@@ -479,8 +481,9 @@ export default async function CyclePage({ params }: Params) {
           theorist&apos;s own evidence for the period; a paired data series is
           a separate comparison this site added. Every cycle on this site
           is drawn as a single period of a pure sinusoid, cut at today where that
-          period has not ended yet, built from the theory&apos;s stated period
-          and one documented reference peak — a deliberately naïve
+          period has not ended yet, built from one documented period and one
+          documented reference peak, each taken from the theory or, where it
+          gives none, chosen by this site — a deliberately naïve
           construction, so that disagreement between theories rather than
           parameter fitting is what you see. See{" "}
           <Link
@@ -489,7 +492,7 @@ export default async function CyclePage({ params }: Params) {
           >
             about
           </Link>{" "}
-          for why this site draws a single period and not a repeating wave.
+          for why this site draws each cycle once, not as a repeating wave.
         </p>
       </section>
 
@@ -981,7 +984,7 @@ function CurveFigure({
           // describes: naming a marker that is not drawn is the 2026-09-22
           // overview defect, latent here only because every peak year currently
           // falls inside the window. The now clause is gated the same way.
-          aria-label={`${cycle.name}: one ${cycle.period_years}-year period of a sinusoid${drawn ? `, drawn from ${Math.round(drawn.from)} to ${Math.round(drawn.to)} on a ${start} to ${end} axis` : ""}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
+          aria-label={`${cycle.name}: ${periodCutAtToday(cycle, year) ? "part of one" : "one"} ${cycle.period_years}-year period of a sinusoid${drawn ? `, drawn from ${Math.round(drawn.from)} to ${Math.round(drawn.to)} on a ${start} to ${end} axis` : ""}${showPeakMarker ? `, with its reference peak at ${cycle.reference_peak_year}` : ""}.${drawnSeries ? ` Drawn below it, in its own strip on its own scale: ${drawnSeries.fullName}, the record the verdict counts.` : ""}${hatch ? ` Hatched before it: the earlier years missing from this record. ${MISSING_CLAUSE}` : ""}`}
           className="block w-full h-auto"
         >
           {hatch && (
