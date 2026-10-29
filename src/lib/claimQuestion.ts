@@ -14,19 +14,21 @@
 
 import type { Cycle } from "@/data/types";
 import { cycleTheorist, type ClaimAnswer } from "@/lib/cycleRoutes";
-import { drawnPeriod, periodCutAtToday } from "@/lib/cycleMath";
+import { periodCutAtToday } from "@/lib/cycleMath";
 import { holdsUpCard } from "@/lib/holdsUp";
 
 /**
  * What a claim page's drawing is, in the verdict box and the answer text. A period that has
  * not ended is cut at today, so "one period" would be false for it (Turchin in 2026, I-065):
- * that branch names where the drawing starts and that it stops at today. It gives no count of
- * years drawn, because with the peak at the period's midpoint a count says where the present
- * sits on the wave, which no page states (I-061).
+ * that branch says "a wave … up to today" instead. It is no longer than the whole-period
+ * sentence on purpose: the whole verdict box must fit the 320x568 first screen
+ * (check-holds-up-line), and a 70-character-longer first version pushed Turchin's box to
+ * 605px on 10-29. It gives no count of years drawn, because with the peak at the period's
+ * midpoint a count says where the present sits on the wave, which no page states (I-061).
  */
 export function claimNotEvidence(cycle: Cycle, currentYear = new Date().getUTCFullYear()): string {
   const drawing = periodCutAtToday(cycle, currentYear)
-    ? `This page draws a wave around the peak year this site uses for ${cycleTheorist(cycle)}'s cycle, from its ${Math.round(drawnPeriod(cycle, currentYear).from)} trough up to today; the rest of that period has not happened yet.`
+    ? `This page draws a wave around the peak year this site uses for ${cycleTheorist(cycle)}'s cycle, up to today.`
     : `This page draws one period of a wave around the peak year this site uses for ${cycleTheorist(cycle)}'s cycle.`;
   return `${drawing} It is not a forecast, and not evidence for or against the cycle.`;
 }

@@ -368,7 +368,7 @@ for (const c of cycles.filter((x) => x.question)) {
     const halfP = c.period_years / 2;
     const cutNow = c.reference_peak_year + halfP > new Date().getUTCFullYear();
     const notEvidence = cutNow
-      ? `This page draws a wave around the peak year this site uses for ${theorist}'s cycle, from its ${Math.round(c.reference_peak_year - halfP)} trough up to today; the rest of that period has not happened yet. It is not a forecast, and not evidence for or against the cycle.`
+      ? `This page draws a wave around the peak year this site uses for ${theorist}'s cycle, up to today. It is not a forecast, and not evidence for or against the cycle.`
       : `This page draws one period of a wave around the peak year this site uses for ${theorist}'s cycle. It is not a forecast, and not evidence for or against the cycle.`;
     const reasons = expectedReasons(c.id);
     if (!reasons) {

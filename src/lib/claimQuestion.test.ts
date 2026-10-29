@@ -48,13 +48,17 @@ describe("claim pages (cycles.json `question`)", () => {
   });
 
   // I-065: Turchin's period runs 1945-2095, so in 2026 it is cut at today, and "draws one
-  // period" would be false. The cut form names the start and the stop and no count of years.
+  // period" would be false. The cut form says "up to today" and no count of years, and is no
+  // longer than the whole form so the box still fits the 320x568 first screen.
   it("tells a Turchin reader the drawing stops at today, and says one period only once it is whole", () => {
     const turchin = cycles.find((c) => c.id === "turchin")!;
     const card = holdsUpCard(turchin)!;
+    const cut = "This page draws a wave around the peak year this site uses for Peter Turchin's cycle, up to today.";
     expect(claimAnswer(turchin, 2026)!.text).toBe(
-      `${card.headline}. ${card.detail} This page draws a wave around the peak year this site uses for Peter Turchin's cycle, from its 1945 trough up to today; the rest of that period has not happened yet. It is not a forecast, and not evidence for or against the cycle.`,
+      `${card.headline}. ${card.detail} ${cut} It is not a forecast, and not evidence for or against the cycle.`,
     );
+    const whole = "This page draws one period of a wave around the peak year this site uses for Peter Turchin's cycle.";
+    expect(cut.length).toBeLessThanOrEqual(whole.length);
     expect(claimAnswer(turchin, 2095)!.text).toContain("This page draws one period of a wave");
     for (const c of cycles.filter((x) => x.question)) {
       expect(claimAnswer(c, 2026)!.text).not.toMatch(/\b\d+(\.\d+)? of its \d+ years\b/);
