@@ -1,0 +1,8 @@
+# read-output sidecar for I-069 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-strip-near-chart.mjs https://sinusoidalhistory.com
+# ran: 2026-10-29T15:22:18.938Z · exit: 0
+# lines: 2 · sha256: f9f02ef3cd68eb2c (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+https://sinusoidalhistory.com/ @ 390x664: TOGETHER — all 10 rows and the strip on one screen, 131px spare
+RESULT: PASS

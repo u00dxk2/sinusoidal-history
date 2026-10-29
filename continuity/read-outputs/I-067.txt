@@ -1,0 +1,8 @@
+# read-output sidecar for I-067 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://sinusoidalhistory.com 390x664 --preset-return
+# ran: 2026-10-29T15:20:35.173Z · exit: 0
+# lines: 2 · sha256: 46cf09961240b9ba (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+[{"mode":"mouse","showing":"showing 1900–2050","note":"Widened to 150 years, the shortest view this chart draws.","visible":true,"status":"Chart now shows 1900–2050, the same as Modern.","shift":0},{"mode":"noop-press-target","hit":"selection"},{"mode":"noop-press","showing":"showing 1900–2050","keptNote":"Widened to 150 years, the shortest view this chart draws."},{"mode":"noop-handle","hit":"handle handle--w","showing":"showing 1900–2050","keptNote":"Widened to 150 years, the shortest view this chart draws."},{"mode":"preset-return","showing":"showing 1900–2050","staleNote":null},{"mode":"still-at-preset","status":null},{"mode":"pan","showing":"showing 1850–2000","status":"Moved the selection; drag outside it to pick new years. Chart now shows 1850–2000.","widenedNote":null},{"mode":"touch","showing":"showing 1900–2050","note":"Widened to 150 years, the shortest view this chart draws.","visible":true,"status":"Chart now shows 1900–2050, the same as Modern.","shift":0}]
+RESULT: PASS — 2 of 2 drags show a visible widening reason; 0 stale note(s) after a preset return; 0 note(s) erased by a no-op press; 0 handle press(es) that missed the handle; I-064: 2 of 2 name the Modern window, 0 moved the strip, 1 of 1 pans say they moved, 0 still press(es) at a preset that said something (https://sinusoidalhistory.com)

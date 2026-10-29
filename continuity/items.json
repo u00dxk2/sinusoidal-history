@@ -1990,7 +1990,7 @@
     {
       "id": "I-065",
       "title": "Three surfaces still say each cycle is \"drawn as one period\" although each is cut at today (llms.txt, the poster's description, the home summary sentence)",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1998,10 +1998,10 @@
       "description": "Codex r2 on I-056 (562ab1f) found the main share card's caption said \"Each drawn as one period around its reference peak\" while sampleDrawnPeriod cuts each period at the current year (Turchin draws 81 of its 150 years). The card was fixed in 92fa188 (\"at most one period around its reference peak, cut at today\"). A sibling sweep for \"drawn as one period\" over the repo outside node_modules/.next/tmp found 3 more: public/llms.txt:3, src/app/poster/page.tsx:8 (meta description), src/lib/countWords.ts:48 (home summary, pinned word-for-word by countWords.test.ts). All are I-061 wording, outside the card I-056 shipped.",
       "closeWhen": "The three surfaces say \"at most one period … cut at today\" (or an equally true narrower sentence), with countWords.test.ts moved with the home sentence; the readCommand finds no hit.",
       "nextEvaluation": "2026-10-31",
-      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -E \"drawn as one period|draws each cycle\\s+as one period|is drawn as one period|curve is one period|draws one period of a wave\" -- public src — exit 0 while a hit remains; exit 1 = fixed",
-      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").\n\n | 2026-10-24 (day round 1, P3): PARTIAL, stays open. 998fdc1 + 98e9b55 (live 98e9b557): the home summary sentence, the poster description and public/llms.txt (lines 3, 9, 16) now say \"at most one period …, cut at today\" / \"at most one period … stopping at the present\"; countWords.test.ts pins the home clause (red with the old wording). The old readCommand exits 1, but Codex r2 (STATIC, CONFIRMED) showed it was too narrow: variants still claim each cycle IS one period, false for Perez (53.5 of 55 years drawn in 2026) and Turchin (81 of 150) — ConvergenceNote.tsx:23-24 (home editor's note), cycles/[id]/page.tsx:475/485/495 (every cycle page), claimQuestion.ts:21 (three claim pages; whole-text checkers), about/page.tsx:46/58/74 + public/about.md:11/13/17 (mirror pair). readCommand widened to those variants today. A copy batch with the claim-page checkers and the about mirror, not a same-day patch.\n\n | 2026-10-25 (day round 1, P3): PARTIAL, stays open. 646e89a: the home editor's note (ConvergenceNote.tsx, the line-wrapped case the grep could not see) now reads \"draws each cycle as at most one period around its peak, cut at today\"; convergenceShape.test.ts pins it (red with the old wording). readCommand now prints 16 lines in 9 files (was 17 in 11): about page + public/about.md mirror, the cycle page, claimQuestion.ts (+ its test), api/v1/state, llms.txt 30/31/33, state-2026.source.md, a CycleFacet comment. Still the 10-27 copy batch with the claim-page whole-text checkers.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-28 (light day, P5): the readCommand grep (git grep -n -i -E over public src) at HEAD 920b000 still finds 16 lines in 9 files: public/about.md (3), public/data/state-2026.source.md, public/llms.txt (3), about/page.tsx (3), cycles/[id]/page.tsx, api/v1/state/route.ts, CycleFacet.tsx (a comment), claimQuestion.ts and its test (2). Unchanged from 10-25 and 10-27. This is a copy batch plus a cross-family claims pass, which a light day excludes. It goes first on the next full day. Re-dated to 2026-10-31.",
+      "readCommand": "npx --prefix C:/dev/skylark/sinusoidal-cycles vitest run --root C:/dev/skylark/sinusoidal-cycles src/lib/cutPeriodCopy.test.ts src/lib/claimQuestion.test.ts — exit 0 = every rendered cut cycle page (2 of 10 in 2026) carries no unqualified \"(single|one) [N-year] period\" in markup or text, and the Turchin claim sentence names the cut; exit 1 = a whole-period claim came back. Phrase sweep for prose surfaces it cannot render (about.md, methods.md, llms.txt): git grep -n -i -E \"one (full )?period|single period|one wave\" -- public src, each hit judged per the 10-29 Codex r3 table (42 served, 0 refuted).",
+      "notes": "2026-10-23 (day round 1, P5): minted at the close on the manager review's instruction (252b4688: the three carried strings \"dated, not left loose\").\n\n | 2026-10-24 (day round 1, P3): PARTIAL, stays open. 998fdc1 + 98e9b55 (live 98e9b557): the home summary sentence, the poster description and public/llms.txt (lines 3, 9, 16) now say \"at most one period …, cut at today\" / \"at most one period … stopping at the present\"; countWords.test.ts pins the home clause (red with the old wording). The old readCommand exits 1, but Codex r2 (STATIC, CONFIRMED) showed it was too narrow: variants still claim each cycle IS one period, false for Perez (53.5 of 55 years drawn in 2026) and Turchin (81 of 150) — ConvergenceNote.tsx:23-24 (home editor's note), cycles/[id]/page.tsx:475/485/495 (every cycle page), claimQuestion.ts:21 (three claim pages; whole-text checkers), about/page.tsx:46/58/74 + public/about.md:11/13/17 (mirror pair). readCommand widened to those variants today. A copy batch with the claim-page checkers and the about mirror, not a same-day patch.\n\n | 2026-10-25 (day round 1, P3): PARTIAL, stays open. 646e89a: the home editor's note (ConvergenceNote.tsx, the line-wrapped case the grep could not see) now reads \"draws each cycle as at most one period around its peak, cut at today\"; convergenceShape.test.ts pins it (red with the old wording). readCommand now prints 16 lines in 9 files (was 17 in 11): about page + public/about.md mirror, the cycle page, claimQuestion.ts (+ its test), api/v1/state, llms.txt 30/31/33, state-2026.source.md, a CycleFacet comment. Still the 10-27 copy batch with the claim-page whole-text checkers.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-28 (light day, P5): the readCommand grep (git grep -n -i -E over public src) at HEAD 920b000 still finds 16 lines in 9 files: public/about.md (3), public/data/state-2026.source.md, public/llms.txt (3), about/page.tsx (3), cycles/[id]/page.tsx, api/v1/state/route.ts, CycleFacet.tsx (a comment), claimQuestion.ts and its test (2). Unchanged from 10-25 and 10-27. This is a copy batch plus a cross-family claims pass, which a light day excludes. It goes first on the next full day. Re-dated to 2026-10-31. | 2026-10-29 (full day, P3): CLOSED as delivered. Scope widened on the manager review (cd482e31) to the whole claim class (git grep -i -E \"one (full )?period|single period|one wave\" -- public src) and made cycle-true: only Perez (1972.5–2026 of a period ending 2027.5) and Turchin (1945–2026 of one ending 2095) are cut in 2026; the other eight keep \"one period\". Commits 46090ff, 36c9da0, 5e8e417, 64bbb00, 9ffe14b; CI ci.yml green on 64bbb00 and 9ffe14b (run 40911990232: lint, typecheck, npm test, build); live 9ffe14bd = head (check-deployed-sha-drift --service sinusoidal-history in-sync). Before → after on production (check-rendered-text snaps at 207b829 vs live): /cycles/turchin line 20 \"This page draws one period of a wave around the peak year this site uses for Peter Turchin's cycle.\" → \"… Peter Turchin's cycle, up to today.\"; extrema line \"over the one period this site draws (1945–2026)\" → \"over the part of its one period this site draws, up to today (1945–2026; the period has not ended yet)\"; /about line 15 \"Each curve is one period …\" → \"Each curve is at most one period …, cut at today where that period has not ended yet\". check-holds-up-line https://sinusoidalhistory.com 46/46 (after a 45/46 on 64bbb00: 320x568 Turchin box ended 605 of 568 with the first, longer cut sentence; fixed in 9ffe14b, box ends 557). Codex read-only: r1 REJECT (4 MED + 1 LOW fixed in 36c9da0; HIGH \"present computable\" REFUTED, 1945–2026 was already served at 207b829), r2 REJECT (same class recurred → shape changed to \"at most one period\", 5e8e417), r3 ACCEPT (42 served hits, 0 refuted; LOW fixed 64bbb00), r4 ACCEPT on 9ffe14b. Instrument: cutPeriodCopy.test.ts renders all ten cycle pages and refuses unqualified whole-period wording on a cut page (red on 46090ff 2 of 3, red on 36c9da0 on Perez). The orchestrator's \"81 of its 150 years\" suggestion was declined: with the peak at the midpoint the count says where the present sits (I-061). Encounter: blind — no client analytics; the claim-page read is I-051 (Search Console, 10-30).",
       "created": "2026-10-23",
-      "updated": "2026-10-28",
+      "updated": "2026-10-29",
       "readCommandLastRun": "2026-10-27T16:19:19.679Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 104,
@@ -2009,7 +2009,8 @@
         "lines": 16,
         "sha256": "cc2176b2d19f30c3"
       },
-      "lastEvaluated": "2026-10-28"
+      "lastEvaluated": "2026-10-29",
+      "closedAt": "2026-10-29"
     },
     {
       "id": "I-066",
@@ -2044,7 +2045,14 @@
       "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
       "created": "2026-10-24",
       "updated": "2026-10-27",
-      "lastEvaluated": "2026-10-27"
+      "lastEvaluated": "2026-10-27",
+      "readCommandLastRun": "2026-10-29T15:20:35.173Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 35231,
+      "readCommandLastOutputRef": {
+        "lines": 2,
+        "sha256": "46cf09961240b9ba"
+      }
     },
     {
       "id": "I-068",
@@ -2061,9 +2069,9 @@
       "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk. Touches I-061's 'stop at today' ruling: any change to the axis end is checked against it.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
       "created": "2026-10-24",
       "updated": "2026-10-27",
-      "readCommandLastRun": "2026-10-27T16:19:28.759Z",
+      "readCommandLastRun": "2026-10-29T15:18:21.010Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 167,
+      "readCommandLastDurationMs": 3071,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "8b15d49306bdd611"
@@ -2085,7 +2093,14 @@
       "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: 'the walker's five residuals as named rows or a named deferral … especially … rows that go empty in a zoomed window carry no word'). Folds two walk residuals: empty rows and cut-off crests.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
       "created": "2026-10-25",
       "updated": "2026-10-27",
-      "lastEvaluated": "2026-10-27"
+      "lastEvaluated": "2026-10-27",
+      "readCommandLastRun": "2026-10-29T15:22:18.938Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 28021,
+      "readCommandLastOutputRef": {
+        "lines": 2,
+        "sha256": "f9f02ef3cd68eb2c"
+      }
     },
     {
       "id": "I-070",
@@ -2102,9 +2117,9 @@
       "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: '… and the phone header still says 1600–2050 after a zoom'). Walk residual from the I-066 cold walk.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
       "created": "2026-10-25",
       "updated": "2026-10-27",
-      "readCommandLastRun": "2026-10-27T16:19:42.024Z",
+      "readCommandLastRun": "2026-10-29T15:18:46.486Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 104,
+      "readCommandLastDurationMs": 3765,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "95f9cb1dc233c26c"
@@ -2126,9 +2141,9 @@
       "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f). Folds two minor walk residuals (off-by-one year, no left axis label). The hint pill not returning after 'All' was NOT minted: it is dismissed once per browser by design (sh.brushHintSeen).\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
       "created": "2026-10-25",
       "updated": "2026-10-27",
-      "readCommandLastRun": "2026-10-27T16:19:55.514Z",
+      "readCommandLastRun": "2026-10-29T15:19:03.544Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 91,
+      "readCommandLastDurationMs": 2053,
       "readCommandLastOutputRef": {
         "lines": 2,
         "sha256": "36d7940a9571d280"
