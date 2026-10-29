@@ -60,6 +60,27 @@ This is a full day (David, 10-29, verbatim: "regular day today not a light day. 
 - A copy change on a claim page has a layout cost. The 320x568 first-screen rule binds the length of the verdict-box sentence, and that rule is only checked by the production Playwright checker, not by CI.
 <!-- findings:end -->
 
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-065 · P3 693f67b7. Met against the REDIRECT acceptance (manager review cd482e31; the close review bff2ee90 re-ran the broad grep on origin/main and found no served sentence calling Perez or Turchin whole).
+
+- **State since the P3 post:** live is 0362a39b = head (the orchestrator's `check-deployed-sha-drift` read; 0362a39 adds only docs and ledger on top of 9ffe14b). The receipt in 693f67b7 still holds; no bracket changed.
+- **Hygiene draft:** 5 lines, 5 accepted, 0 amended, 0 rejected. Re-dates: I-067 → 11-02, I-068 → 11-03, I-069 → 11-02, I-070 → 11-03, I-071 → 11-04, each with a dated note. READ-MUTATED ×3 (I-067: `claimQuestion.ts`, `cycleMath.ts`; I-069: `cycles/[id]/page.tsx`) were this P3's own I-065 edits; HEAD stayed 207b829 through the helper's reads. Draft check verdicts: `check-wait-justification` PASS (32 of 77 rows carry a wait, 0 warn); `check-engineering-zero --project sinusoidal-cycles` PASS (0 findings, 0 unreadable).
+- **Ledger delta:**
+  - I-065 closed (P3): its readCommand is now the rendered-page rule test.
+  - I-051 now also carries I-065's encounter read: the Turchin verdict box changed at ~16:30Z on 10-29, inside I-051's 10-16..10-30 window.
+  - The five re-dates above.
+- **Due-gate verification:** `check-due-gates-dispositioned` reports "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-10-29).
+- **Pending reads:**
+  - **10-30:** I-051, the Search Console per-page read, `gsc-read.mjs --start 2026-10-16 --end 2026-10-30`. This is the first possible encounter read for /cycles/turchin and /about after the deploy. A zero there is lag (about 3 days), not absence, until the 11-02 fallback. Also due: I-043, I-049, I-063.
+  - **10-31:** I-058.
+  - **11-01:** I-037.
+  - **11-02:** I-067, I-069.
+  - **11-03:** I-068, I-070, I-027.
+  - **11-04:** I-071, I-032, W-005.
+
 ## State Appendix
 
 ### Section 0

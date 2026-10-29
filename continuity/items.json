@@ -1707,9 +1707,9 @@
         "59e5025",
         "d1fa17f"
       ],
-      "notes": "2026-10-15 (night round, minted at the close; no P5 ran): SHIPPED 5dd93d2 (live d1fa17f, CI GREEN, drift in-sync). Title, H1, meta/og/twitter description and a FAQPage are shaped to the question from existing strings (src/lib/claimQuestion.ts); verdict box above the curve carrying #where-now. check-holds-up-line claim legs (whole-text equality, red-armed): production 40/42 before, 42/42 after. Codex r1+r2 read-only, 7 findings all fixed. Pre-registered walk docs/walks/2026-10-16-dalio-claim.md HELD as written (synthetic N=1), residual on I-052. Cost: the curve is off Dalio's first screen on purpose. The page-only gsc-read total is whole; the Dalio-query count needs a query-grouped read of the same route (query rows drop anonymized queries, so it is a floor).\n\n | 2026-10-16 (day round, P5): a second claim page went live (edceb88, d13077c): /cycles/strauss-howe, \"Are we in the Fourth Turning?\". The 10-30 read gains a Strauss-Howe leg on the same rule: \"moved\" = at least 4 named Fourth-Turning or Strauss-Howe query impressions, or any at position ≤30. Strauss-Howe baseline (page+query, 2026-07-01..10-16): 0 named-query impressions; the page itself had 5 impressions at position 20.0, 0 clicks. Both claim pages' first screens changed today (021ed20: the position is no longer on the first screen), so a move after 10-16 is the new shape's, not the 10-15 one's.\n\n | 2026-10-16 (afternoon round 2, P5): a third claim page went live (942a456, live 28c5774): /cycles/turchin, \"Does Turchin's secular cycle hold up?\" (not a 2020s wording: the wave's 2020 peak is anchored on Turchin's own forecast window, cycles.json:70, and the 70-char title test). The 10-30 read now has THREE legs on one pre-registered rule, each judged alone: \"moved\" = at least 4 named-query impressions for that theorist (Dalio; Fourth Turning or Strauss-Howe; Turchin or secular cycle) in the window, OR any such query at mean position <= 30. Baselines (page+query, 2026-07-01..10-16): Dalio 6 named impressions at 49.5-60; Strauss-Howe 0 (page 5 impressions at 20.0); Turchin 0 (page 6 impressions at 6.7). All three first screens changed again today (8707b6b: whole box, then reasons, then curve), so the window starts 2026-10-16. Clicks reported, not judged.",
+      "notes": "2026-10-15 (night round, minted at the close; no P5 ran): SHIPPED 5dd93d2 (live d1fa17f, CI GREEN, drift in-sync). Title, H1, meta/og/twitter description and a FAQPage are shaped to the question from existing strings (src/lib/claimQuestion.ts); verdict box above the curve carrying #where-now. check-holds-up-line claim legs (whole-text equality, red-armed): production 40/42 before, 42/42 after. Codex r1+r2 read-only, 7 findings all fixed. Pre-registered walk docs/walks/2026-10-16-dalio-claim.md HELD as written (synthetic N=1), residual on I-052. Cost: the curve is off Dalio's first screen on purpose. The page-only gsc-read total is whole; the Dalio-query count needs a query-grouped read of the same route (query rows drop anonymized queries, so it is a floor).\n\n | 2026-10-16 (day round, P5): a second claim page went live (edceb88, d13077c): /cycles/strauss-howe, \"Are we in the Fourth Turning?\". The 10-30 read gains a Strauss-Howe leg on the same rule: \"moved\" = at least 4 named Fourth-Turning or Strauss-Howe query impressions, or any at position ≤30. Strauss-Howe baseline (page+query, 2026-07-01..10-16): 0 named-query impressions; the page itself had 5 impressions at position 20.0, 0 clicks. Both claim pages' first screens changed today (021ed20: the position is no longer on the first screen), so a move after 10-16 is the new shape's, not the 10-15 one's.\n\n | 2026-10-16 (afternoon round 2, P5): a third claim page went live (942a456, live 28c5774): /cycles/turchin, \"Does Turchin's secular cycle hold up?\" (not a 2020s wording: the wave's 2020 peak is anchored on Turchin's own forecast window, cycles.json:70, and the 70-char title test). The 10-30 read now has THREE legs on one pre-registered rule, each judged alone: \"moved\" = at least 4 named-query impressions for that theorist (Dalio; Fourth Turning or Strauss-Howe; Turchin or secular cycle) in the window, OR any such query at mean position <= 30. Baselines (page+query, 2026-07-01..10-16): Dalio 6 named impressions at 49.5-60; Strauss-Howe 0 (page 5 impressions at 20.0); Turchin 0 (page 6 impressions at 6.7). All three first screens changed again today (8707b6b: whole box, then reasons, then curve), so the window starts 2026-10-16. Clicks reported, not judged.\n\n | 2026-10-29 (full day, P5): this row now also carries I-065's encounter read (I-065 closed as delivered; encounter blind, no client analytics). I-065 changed the Turchin claim page's verdict box on 2026-10-29 at ~16:30Z (live 9ffe14bd): This page draws a wave around the peak year this site uses for Peter Turchin's cycle, up to today. That is inside this row's 10-16..10-30 window, so the Turchin leg judges a mix of the two wordings. Search Console lags ~3 days, so a zero for /cycles/turchin or /about after the deploy is lag, not absence, until the 11-02 fallback read. Baseline today: gsc-read --start 2026-10-22 gives 0 clicks / 18 impressions site-wide, /about 3, /cycles/turchin none.",
       "created": "2026-10-15",
-      "updated": "2026-10-16",
+      "updated": "2026-10-29",
       "lastEvaluated": "2026-10-16"
     },
     {
@@ -2040,12 +2040,12 @@
       "identified": "2026-10-24",
       "description": "I-064 cold walk on production 98e9b557, 390x664 (docs/walks/2026-10-24-i064.md): 'After step 1 the left handle sat on \"1900\" and the right handle on \"2050\". After step 3 the right handle covered \"1800\". These are the labels you would use to read the box's edges, so in practice I read the years from the text rather than the strip.' Also seen on 10-22 ('the left handle covers the 1900 tick (\"19|0\")', docs/walks/2026-10-22-i062.md:55). The handles are 8px wide (TimeRangeBrush.tsx handle width override) and the century labels sit on the tick lines.",
       "closeWhen": "With a selection on the strip at 390x664, every century label inside the strip is readable (not overlapped by a handle), measured by element-box overlap on production; or a recorded decision that the status line's years are enough.",
-      "nextEvaluation": "2026-10-29",
+      "nextEvaluation": "2026-11-02",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-brush-widened.mjs https://sinusoidalhistory.com 390x664 --preset-return — regression for the strip only; this row's proof is a handle-over-label overlap measurement",
-      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
+      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-02 on the hygiene draft (ACCEPTED). readCommand run and stamped: check-brush-widened 390x664 --preset-return RESULT PASS (2 of 2 drags show a widening reason), a strip regression read that passes whether or not a handle covers a label, so it cannot answer this row. No overlap-measuring script exists; the proof is still a handle-over-label measurement or a recorded decision.",
       "created": "2026-10-24",
-      "updated": "2026-10-27",
-      "lastEvaluated": "2026-10-27",
+      "updated": "2026-10-29",
+      "lastEvaluated": "2026-10-29",
       "readCommandLastRun": "2026-10-29T15:20:35.173Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 35231,
@@ -2064,11 +2064,11 @@
       "identified": "2026-10-24",
       "description": "I-064 cold walk on production 98e9b557 (docs/walks/2026-10-24-i064.md): 'Any recent window runs to 2050, past today. A reader may wonder what is being drawn for 2026–2050.' The chart axis runs to DEFAULT_YEAR_RANGE.end = 2050 (src/lib/siteConfig.ts) and the Modern preset is 1900–2050, while since I-061 every curve is cut at the current year (sampleDrawnPeriod). The strip's status line ('Chart now shows 1900–2050') and the 'showing' readout name 2050 without saying nothing is drawn past today. Wording or axis question, not a math error.",
       "closeWhen": "A reader shown a recent window can tell that nothing is drawn after today (the readout or axis says so, or the axis ends at today), proved by one pre-registered cold walker or a source-pinned test of the wording; or a recorded decision to keep the 2050 axis as is, with the reason.",
-      "nextEvaluation": "2026-10-29",
+      "nextEvaluation": "2026-11-03",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"end: 2050\" -- src/lib/siteConfig.ts — presence of the 2050 axis end; this row's proof is a decision or a walk",
-      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk. Touches I-061's 'stop at today' ruling: any change to the axis end is checked against it.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
+      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk. Touches I-061's 'stop at today' ruling: any change to the axis end is checked against it.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/lib/siteConfig.ts:15 still reads end: 2050. No walk, wording pin or recorded decision yet; the full day went to I-065.",
       "created": "2026-10-24",
-      "updated": "2026-10-27",
+      "updated": "2026-10-29",
       "readCommandLastRun": "2026-10-29T15:18:21.010Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 3071,
@@ -2076,7 +2076,7 @@
         "lines": 1,
         "sha256": "8b15d49306bdd611"
       },
-      "lastEvaluated": "2026-10-27"
+      "lastEvaluated": "2026-10-29"
     },
     {
       "id": "I-069",
@@ -2088,12 +2088,12 @@
       "identified": "2026-10-25",
       "description": "I-066 cold walk on production 963782f4 (docs/walks/2026-10-25-i066.md), 390x664, window 1801–1951: 'Schlesinger Jr. and Carlota Perez go blank with no note that they fall outside the chosen years. On a first look it reads like missing data.' And: 'a newcomer could read the rising arms as \"something is climbing\" without knowing the crest is just off the right edge.' Since I-061 each row draws one period around its peak (sampleDrawnPeriod), so a narrow window can hold none of a row's period, or only an arm of it. The overview rows (CycleOverview) say nothing in either case. The rising-arm reading bears on I-061's no-present-position rule when a window ends near today.",
       "closeWhen": "A reader shown a zoomed window can tell a blank row from missing data (the row says its period lies outside the window, or equivalent), proved by one pre-registered cold walker or a source-pinned test of the wording; or a recorded decision that a blank row needs no word, with the reason. Any wording for cut-off arms is checked against I-061 (no present position).",
-      "nextEvaluation": "2026-10-29",
+      "nextEvaluation": "2026-11-02",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-strip-near-chart.mjs https://sinusoidalhistory.com — regression for the strip only; this row's proof is a walk or a wording pin",
-      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: 'the walker's five residuals as named rows or a named deferral … especially … rows that go empty in a zoomed window carry no word'). Folds two walk residuals: empty rows and cut-off crests.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
+      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: 'the walker's five residuals as named rows or a named deferral … especially … rows that go empty in a zoomed window carry no word'). Folds two walk residuals: empty rows and cut-off crests.\n\n2026-10-27 (light day, P5): readCommand NOT run — it is a Playwright browser check, and David's light day excludes walks and heavy local jobs (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28; the read is still owed.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-02 on the hygiene draft (ACCEPTED). readCommand run and stamped: check-strip-near-chart prod 390x664 TOGETHER, all 10 rows and the strip on one screen, 131px spare, RESULT PASS. Layout regression only; it cannot see whether a blank row in a zoomed window carries a word. Proof (walk or wording pin) not in.",
       "created": "2026-10-25",
-      "updated": "2026-10-27",
-      "lastEvaluated": "2026-10-27",
+      "updated": "2026-10-29",
+      "lastEvaluated": "2026-10-29",
       "readCommandLastRun": "2026-10-29T15:22:18.938Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 28021,
@@ -2112,11 +2112,11 @@
       "identified": "2026-10-25",
       "description": "I-066 cold walk on production 963782f4 (docs/walks/2026-10-25-i066.md): 'Headline: it still says \"Long-wave history, 1600–2050\" while the chart shows 1801–1951.' The phone dek in src/app/(app)/page.tsx (sm:hidden span) is static text describing the site's full span; since I-066 it sits on the same screen as a zoomed chart, so the two years can disagree in view.",
       "closeWhen": "A reader who zooms on a phone is not shown two different spans as the chart's years (the dek no longer reads as the chart's current window, or it follows the window), proved by one pre-registered cold walker or a source-pinned test; or a recorded decision to keep the dek as is, with the reason.",
-      "nextEvaluation": "2026-10-29",
+      "nextEvaluation": "2026-11-03",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"Long-wave history, 1600\" -- src/app — presence of the static phone dek; this row's proof is a decision or a walk",
-      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: '… and the phone header still says 1600–2050 after a zoom'). Walk residual from the I-066 cold walk.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
+      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: '… and the phone header still says 1600–2050 after a zoom'). Walk residual from the I-066 cold walk.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/app/(app)/page.tsx:63 still reads Long-wave history, 1600–2050. No walk, test or recorded decision yet.",
       "created": "2026-10-25",
-      "updated": "2026-10-27",
+      "updated": "2026-10-29",
       "readCommandLastRun": "2026-10-29T15:18:46.486Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 3765,
@@ -2124,7 +2124,7 @@
         "lines": 1,
         "sha256": "95f9cb1dc233c26c"
       },
-      "lastEvaluated": "2026-10-27"
+      "lastEvaluated": "2026-10-29"
     },
     {
       "id": "I-071",
@@ -2136,11 +2136,11 @@
       "identified": "2026-10-25",
       "description": "I-066 cold walk on production 963782f4 (docs/walks/2026-10-25-i066.md): 'I aimed at 1800–1950 and got 1801–1951. Harmless, but slightly odd.' and 'after zooming there is no left-edge year label, so the starting year can only be read from the text.' The strip turns pixels to years with Math.round(xScale.invert(…)) (src/components/TimeRangeBrush.tsx brush end handler), so a drag lands on whole years, not round ones; the overview axis labels round years inside the window only (CycleOverview tick row). Both are reading precision, not wrong years: the status line and readout name the exact window.",
       "closeWhen": "A recorded decision on each: snap drag ends to round years (or not), and label the window's left edge on the zoomed axis (or not), with the reason; if either changes, check-brush-widened still passes and one pre-registered walker reads the window from the axis.",
-      "nextEvaluation": "2026-10-29",
+      "nextEvaluation": "2026-11-04",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"Math.round(xScale.invert\" -- src/components/TimeRangeBrush.tsx — the year rounding in place; this row's proof is a decision",
-      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f). Folds two minor walk residuals (off-by-one year, no left axis label). The hint pill not returning after 'All' was NOT minted: it is dismissed once per browser by design (sh.brushHintSeen).\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.",
+      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f). Folds two minor walk residuals (off-by-one year, no left axis label). The hint pill not returning after 'All' was NOT minted: it is dismissed once per browser by design (sh.brushHintSeen).\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-04 on the hygiene draft (ACCEPTED). readCommand stamped: TimeRangeBrush.tsx:121-122 still rounds with Math.round(xScale.invert(...)). The row closes on two recorded decisions (snap drag ends; label the left edge), neither made yet.",
       "created": "2026-10-25",
-      "updated": "2026-10-27",
+      "updated": "2026-10-29",
       "readCommandLastRun": "2026-10-29T15:19:03.544Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 2053,
@@ -2148,7 +2148,7 @@
         "lines": 2,
         "sha256": "36d7940a9571d280"
       },
-      "lastEvaluated": "2026-10-27"
+      "lastEvaluated": "2026-10-29"
     }
   ],
   "knownPatterns": [
