@@ -363,7 +363,13 @@ for (const c of cycles.filter((x) => x.question)) {
       console.log(`UNREAD ${tag} — no hand-written theorist for this claim cycle; refusing`);
       continue;
     }
-    const notEvidence = `This page draws one period of a wave around the peak year this site uses for ${theorist}'s cycle. It is not a forecast, and not evidence for or against the cycle.`;
+    // I-065 (2026-10-29): a period that has not ended is cut at today, and the box says so.
+    // Recomputed here from the period and peak, sharing no code with cycleMath.
+    const halfP = c.period_years / 2;
+    const cutNow = c.reference_peak_year + halfP > new Date().getUTCFullYear();
+    const notEvidence = cutNow
+      ? `This page draws a wave around the peak year this site uses for ${theorist}'s cycle, from its ${Math.round(c.reference_peak_year - halfP)} trough up to today; the rest of that period has not happened yet. It is not a forecast, and not evidence for or against the cycle.`
+      : `This page draws one period of a wave around the peak year this site uses for ${theorist}'s cycle. It is not a forecast, and not evidence for or against the cycle.`;
     const reasons = expectedReasons(c.id);
     if (!reasons) {
       unread++;

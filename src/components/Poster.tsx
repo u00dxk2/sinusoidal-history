@@ -115,7 +115,7 @@ export default function Poster({ cycles }: PosterProps) {
                 className="font-display-italic text-ink-soft"
                 style={{ fontStyle: "italic" }}
               >
-                one period each
+                each drawn once
               </span>
             </h1>
           </div>

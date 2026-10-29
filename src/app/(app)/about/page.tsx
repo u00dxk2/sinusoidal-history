@@ -43,8 +43,9 @@ export default function About() {
           side.
         </p>
         <p>
-          Each curve is one period of a pure sinusoid built from a period and a
-          single reference peak, each taken from the theory or, where it gives
+          Each curve is a single period of a pure sinusoid, cut at today where that
+          period has not ended yet, built from a period and a single reference
+          peak, each taken from the theory or, where it gives
           none, chosen by this site and documented on the cycle&apos;s page. That
           is a naïve choice on purpose. One fixed period and peak per cycle means that when two
           theories disagree on this chart, the difference reflects the
@@ -55,7 +56,7 @@ export default function About() {
 
       <section className="mt-10 space-y-3.5 text-[16px] leading-[1.65] text-ink/85">
         <h2 className="font-display text-[24px] tracking-tight text-ink mb-2">
-          Why each cycle is drawn as one period
+          Why each cycle is drawn once, not as a repeating wave
         </h2>
         <p>
           Nine of the ten peak years on this site fall between 1945 and 2020.
@@ -71,9 +72,10 @@ export default function About() {
           across 1600–2050, and with peaks that recent, nearly every wave
           crested again somewhere near the present. Readers took those repeat
           crests as the site saying the cycles peak now, which no one here
-          claims. So each cycle is now drawn as one period - a single rise and
-          fall centred on its reference peak, stopping at today - and no page
-          says where the present sits on a cycle.
+          claims. So each cycle is now drawn as at most one period - a single
+          rise and fall centred on its reference peak, cut at today where that
+          period has not ended yet - and no page says where the present sits on
+          a cycle.
         </p>
         <p>
           A few specifics, since the choices matter. Huntington dated his

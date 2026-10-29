@@ -16,7 +16,7 @@ export async function GET() {
     {
       error: "gone",
       retired: "2026-10-21",
-      note: "This site no longer states where a year sits on any cycle. Each cycle is drawn as one period around its reference peak, up to the present.",
+      note: "This site no longer states where a year sits on any cycle. Each cycle is drawn as at most one period around its reference peak, cut at the present.",
       see: [`${SITE_URL}/api/v1/cycles`, `${SITE_URL}/cycles`],
     },
     { status: 410, headers: HEADERS }

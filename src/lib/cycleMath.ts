@@ -24,6 +24,18 @@ export function drawnPeriod(
   };
 }
 
+/**
+ * Whether the drawn period stops at today because the period has not ended yet
+ * (Perez and Turchin in 2026). Prose that says a cycle "is drawn as one period"
+ * is false for these, so it branches on this (I-065).
+ */
+export function periodCutAtToday(cycle: Cycle, currentYear: number): boolean {
+  return (
+    drawnPeriod(cycle, currentYear).to <
+    cycle.reference_peak_year + cycle.period_years / 2
+  );
+}
+
 /** The part of [start, end] inside the cycle's drawn period, or null. */
 export function drawnSpan(
   cycle: Cycle,

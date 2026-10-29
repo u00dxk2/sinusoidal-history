@@ -356,7 +356,8 @@ export default function Methods() {
         </h2>
         <p>
           The chart&apos;s axis runs 1600–2050; each curve covers one period
-          around its reference peak, up to the present. Every data series has
+          around its reference peak, cut at the present where that period has
+          not ended yet. Every data series has
           its own, shorter coverage.
           DW-NOMINATE: 46th–118th Congress (1879–2023); Fernald TFP
           annual series 1948–present, displayed 1948–present (the 1948 and

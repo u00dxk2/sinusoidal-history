@@ -4,7 +4,12 @@ import HashLink from "@/components/HashLink";
 import { notFound } from "next/navigation";
 import { cycles } from "@/data/cycles";
 import type { Cycle, DataSeries } from "@/data/types";
-import { drawnPeriod, drawnSpan, sampleDrawnPeriod } from "@/lib/cycleMath";
+import {
+  drawnPeriod,
+  drawnSpan,
+  periodCutAtToday,
+  sampleDrawnPeriod,
+} from "@/lib/cycleMath";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import {
   confidenceGloss,
@@ -132,6 +137,7 @@ export default async function CyclePage({ params }: Params) {
   // The extrema of the one drawn period only (I-061): the old list ran across
   // 1600-2050 and named Dalio's 2025 repeat.
   const period = drawnPeriod(cycle, new Date().getUTCFullYear());
+  const cutAtToday = periodCutAtToday(cycle, new Date().getUTCFullYear());
   const peaks = peakYearsInRange(cycle, period.from, period.to);
   const troughs = troughYearsInRange(cycle, period.from, period.to);
   const provenanceHref = series
@@ -153,7 +159,7 @@ export default async function CyclePage({ params }: Params) {
   // verdict (I-047, I-048). The other pages keep the I-033 order, curve first. No page says
   // where the present sits on the curve (I-061, David 2026-10-21); the "where this year
   // sits" sentence and its link to /state/<year> were here until then.
-  const claim = claimAnswer(cycle);
+  const claim = claimAnswer(cycle, year);
   const claimPage = Boolean(claim && verdict);
   const curveFigure = (
     <CurveFigure
@@ -318,7 +324,7 @@ export default async function CyclePage({ params }: Params) {
               states it at all. */}
           {claimPage && (
             <p id="not-evidence" className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
-              {claimNotEvidence(cycle)}
+              {claimNotEvidence(cycle, year)}
             </p>
           )}
           {!claimPage && reasons}
@@ -472,17 +478,18 @@ export default async function CyclePage({ params }: Params) {
           {confidenceGloss(cycle.confidence_level)}. It grades the
           theorist&apos;s own evidence for the period; a paired data series is
           a separate comparison this site added. Every cycle on this site
-          is drawn as one period of a pure sinusoid, built from the
-          theory&apos;s stated period and one documented reference peak — a
-          deliberately naïve construction, so that disagreement between
-          theories rather than parameter fitting is what you see. See{" "}
+          is drawn as a single period of a pure sinusoid, cut at today where that
+          period has not ended yet, built from the theory&apos;s stated period
+          and one documented reference peak — a deliberately naïve
+          construction, so that disagreement between theories rather than
+          parameter fitting is what you see. See{" "}
           <Link
             href="/about"
             className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
           >
             about
           </Link>{" "}
-          for why this site draws one period and not a repeating wave.
+          for why this site draws a single period and not a repeating wave.
         </p>
       </section>
 
@@ -492,8 +499,11 @@ export default async function CyclePage({ params }: Params) {
         </h2>
         <p className="text-[14px] leading-relaxed text-ink-soft mb-4">
           Computed from period {cycle.period_years} and reference peak{" "}
-          {cycle.reference_peak_year}, over the one period this site draws
-          ({Math.round(period.from)}–{Math.round(period.to)}). These are
+          {cycle.reference_peak_year}, over{" "}
+          {cutAtToday
+            ? `the part of its one period this site draws, up to today (${Math.round(period.from)}–${Math.round(period.to)}; the period has not ended yet).`
+            : `the one period this site draws (${Math.round(period.from)}–${Math.round(period.to)}).`}{" "}
+          These are
           positions of{" "}<em>this construction</em>, not dates claimed by the
           theorist.
         </p>

@@ -141,7 +141,7 @@ export default function CycleFacet({
       {mode === "normal" && !verdictLine && <ClosedVerdict cycle={cycle} />}
 
       {/* No phase word and no now-line anywhere on a card (I-061, David
-          2026-10-21): the curve is one period around the stored peak, and no
+          2026-10-21): the curve is at most one period around the stored peak, and no
           surface says where the present sits on it. The expanded card lost its
           phase line on 2026-10-18 (I-054), the closed card its tag on 10-17
           (I-048); the embed kept both until I-061. */}
@@ -477,7 +477,7 @@ function FacetChart({
       role="img"
       aria-label={
         cyclePoints.length > 0
-          ? `${cycle.name} curve from ${Math.round(cyclePoints[0].year)} to ${Math.round(cyclePoints[cyclePoints.length - 1].year)}, one period around its reference peak`
+          ? `${cycle.name} curve from ${Math.round(cyclePoints[0].year)} to ${Math.round(cyclePoints[cyclePoints.length - 1].year)}, ${cyclePoints[cyclePoints.length - 1].year - cyclePoints[0].year >= cycle.period_years ? "one period" : "part of one period"} around its reference peak`
           : `${cycle.name}: its one drawn period falls outside ${startYear} to ${endYear}`
       }
       className="block mt-1"
