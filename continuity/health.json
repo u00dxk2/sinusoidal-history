@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T16:36:04.616Z",
+  "generatedAt": "2026-10-29T17:42:06.024Z",
   "projectPath": "C:\\dev\\skylark\\sinusoidal-cycles",
   "itemCount": 77,
   "knownPatternCount": 5,
@@ -9,9 +9,17 @@
     {
       "check": "PARKED_SIGNAL_APPROACHING",
       "severity": "info",
+      "id": "I-037",
+      "title": "A writer pasting the /embed/docs snippets got frames that cut off what each snippet promised: the Huntington 'calibration' embed showed no curve and calibrated nothing",
+      "message": "I-037 signal due in 3d (2026-11-01)",
+      "suggested": "Prepare to evaluate: \"Delivery: production reads check-embed-snippets 42/42 (MET 2026-10-12 ~01:45 MT, live 8bb4dd4). Encounter: decided on 2026-11-01 by one read of a Render request-log line for /embed — if the logs carry a Referer, add an embedding-page leg to crawl-read and keep this row open for it; if they do not, close this row as delivered with the encounter blind by construction (no instrument can see a third-party page that embeds us).\""
+    },
+    {
+      "check": "PARKED_SIGNAL_APPROACHING",
+      "severity": "info",
       "id": "I-043",
       "title": "A reader who follows a cycle page's 'All 19 re-pairings' link lands on /methods' cell list, whose first paragraph opens with 'bootstrap p against the AR(1) red-noise null … Holm correction'",
-      "message": "I-043 signal due in 1d (2026-10-28)",
+      "message": "I-043 signal due in 1d (2026-10-30)",
       "suggested": "Prepare to evaluate: \"CROSS_GRID_LEAD leads with plain language on /methods and /methods.md, and a fresh walker landing from a cycle page's link reads the first screen without stalling on the null/Holm terms; or a recorded decision that the lead stays as written.\""
     },
     {
@@ -19,7 +27,7 @@
       "severity": "info",
       "id": "I-049",
       "title": "Multi-sentence cycle descriptions end without a full stop and read as cut off",
-      "message": "I-049 signal due in 1d (2026-10-28)",
+      "message": "I-049 signal due in 1d (2026-10-30)",
       "suggested": "Prepare to evaluate: \"Every cycles.json short_description follows one stated punctuation convention, matching public/about.md, with the rendered-text multiset showing only those terminal stops changed.\""
     },
     {
@@ -27,7 +35,7 @@
       "severity": "info",
       "id": "I-051",
       "title": "Claim page: /cycles/dalio answers \"Is Ray Dalio's Big Cycle peaking?\" verdict-first; does search find it?",
-      "message": "I-051 signal due in 3d (2026-10-30)",
+      "message": "I-051 signal due in 1d (2026-10-30)",
       "suggested": "Prepare to evaluate: \"The pre-registered Search Console read on 2026-10-30 (window: 2026-10-16 to 2026-10-30; read on 2026-11-02 if 10-30 is still empty, Search Console lags ~3 days) gives a verdict for EACH of three legs, judged alone: Dalio, Strauss-Howe (Fourth Turning), Turchin (secular cycle). A leg reads 'moved' at >= 4 named-query impressions for that theorist in the window, OR any such query at mean position <= 30; otherwise 'not moved yet' with the next read dated. Baselines (2026-07-01..10-16): Dalio 6 named impressions at 49.5-60; Strauss-Howe 0; Turchin 0. Clicks are reported, not judged.\""
     },
     {
@@ -35,7 +43,7 @@
       "severity": "info",
       "id": "I-058",
       "title": "Home overlay hover readout prints \"currently <phase>\", and /poster prints each cycle's current phase",
-      "message": "I-058 signal due in 1d (2026-10-28)",
+      "message": "I-058 signal due in 2d (2026-10-31)",
       "suggested": "Prepare to evaluate: \"Neither the overlay readout nor /poster prints a current-year phase word, read on production (a DOM count like check-open-card-position, extended or new, with a red arm on the current code); or a recorded decision that either keeps it.\""
     },
     {
@@ -43,63 +51,15 @@
       "severity": "info",
       "id": "I-063",
       "title": "The home glance figure's one-period humps bunch between 1945 and 2020 and read as convergence until the editor's note",
-      "message": "I-063 signal due in 1d (2026-10-28)",
+      "message": "I-063 signal due in 1d (2026-10-30)",
       "suggested": "Prepare to evaluate: \"The glance figure's first screen says, in place, why its humps cluster (or the clustering is no longer drawn), proved by one pre-registered cold walker at 390x664 on production who does not read the figure as convergence; or a recorded decision against it.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-065",
-      "title": "Three surfaces still say each cycle is \"drawn as one period\" although each is cut at today (llms.txt, the poster's description, the home summary sentence)",
-      "message": "I-065 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"The three surfaces say \"at most one period … cut at today\" (or an equally true narrower sentence), with countWords.test.ts moved with the home sentence; the readCommand finds no hit.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-067",
-      "title": "The zoom strip's handles cover the tick labels they sit on, so the box's edges cannot be read from the strip",
-      "message": "I-067 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"With a selection on the strip at 390x664, every century label inside the strip is readable (not overlapped by a handle), measured by element-box overlap on production; or a recorded decision that the status line's years are enough.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-068",
-      "title": "A recent zoom window reads \"…–2050\", past today, though every curve stops at today",
-      "message": "I-068 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"A reader shown a recent window can tell that nothing is drawn after today (the readout or axis says so, or the axis ends at today), proved by one pre-registered cold walker or a source-pinned test of the wording; or a recorded decision to keep the 2050 axis as is, with the reason.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-069",
-      "title": "In a zoomed window, rows whose drawn period falls outside it go blank and cut-off curves carry no word",
-      "message": "I-069 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"A reader shown a zoomed window can tell a blank row from missing data (the row says its period lies outside the window, or equivalent), proved by one pre-registered cold walker or a source-pinned test of the wording; or a recorded decision that a blank row needs no word, with the reason. Any wording for cut-off arms is checked against I-061 (no present position).\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-070",
-      "title": "The phone header still says 1600–2050 after the reader zooms the chart to a narrower window",
-      "message": "I-070 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"A reader who zooms on a phone is not shown two different spans as the chart's years (the dek no longer reads as the chart's current window, or it follows the window), proved by one pre-registered cold walker or a source-pinned test; or a recorded decision to keep the dek as is, with the reason.\""
-    },
-    {
-      "check": "PARKED_SIGNAL_APPROACHING",
-      "severity": "info",
-      "id": "I-071",
-      "title": "Small zoom readings: a drag aimed at 1800–1950 reads 1801–1951, and the zoomed axis has no left-edge year",
-      "message": "I-071 signal due in 1d (2026-10-28)",
-      "suggested": "Prepare to evaluate: \"A recorded decision on each: snap drag ends to round years (or not), and label the window's left edge on the zoomed axis (or not), with the reason; if either changes, check-brush-widened still passes and one pre-registered walker reads the window from the axis.\""
     },
     {
       "check": "MODIFIED_ITEM_LAST_24H",
       "severity": "info",
       "id": "I-043",
       "title": "A reader who follows a cycle page's 'All 19 re-pairings' link lands on /methods' cell list, whose first paragraph opens with 'bootstrap p against the AR(1) red-noise null … Holm correction'",
-      "message": "Item I-043 notes modified in last 24h (diff hash 3c8b8a97); investigate before per-day judgment.",
+      "message": "Item I-043 notes modified in last 24h (diff hash 81c1ecdd); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -107,7 +67,15 @@
       "severity": "info",
       "id": "I-049",
       "title": "Multi-sentence cycle descriptions end without a full stop and read as cut off",
-      "message": "Item I-049 notes modified in last 24h (diff hash 1022e43a); investigate before per-day judgment.",
+      "message": "Item I-049 notes modified in last 24h (diff hash 6d800587); investigate before per-day judgment.",
+      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "I-051",
+      "title": "Claim page: /cycles/dalio answers \"Is Ray Dalio's Big Cycle peaking?\" verdict-first; does search find it?",
+      "message": "Item I-051 notes modified in last 24h (diff hash 07785ba5); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -115,7 +83,7 @@
       "severity": "info",
       "id": "I-058",
       "title": "Home overlay hover readout prints \"currently <phase>\", and /poster prints each cycle's current phase",
-      "message": "Item I-058 notes modified in last 24h (diff hash 2e4fe39a); investigate before per-day judgment.",
+      "message": "Item I-058 notes modified in last 24h (diff hash b9c8900b); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -123,15 +91,7 @@
       "severity": "info",
       "id": "I-063",
       "title": "The home glance figure's one-period humps bunch between 1945 and 2020 and read as convergence until the editor's note",
-      "message": "Item I-063 notes modified in last 24h (diff hash 255c542a); investigate before per-day judgment.",
-      "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
-    },
-    {
-      "check": "MODIFIED_ITEM_LAST_24H",
-      "severity": "info",
-      "id": "I-065",
-      "title": "Three surfaces still say each cycle is \"drawn as one period\" although each is cut at today (llms.txt, the poster's description, the home summary sentence)",
-      "message": "Item I-065 notes modified in last 24h (diff hash e36ca214); investigate before per-day judgment.",
+      "message": "Item I-063 notes modified in last 24h (diff hash 056ecdf8); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -139,7 +99,7 @@
       "severity": "info",
       "id": "I-067",
       "title": "The zoom strip's handles cover the tick labels they sit on, so the box's edges cannot be read from the strip",
-      "message": "Item I-067 notes modified in last 24h (diff hash 4c44ea70); investigate before per-day judgment.",
+      "message": "Item I-067 notes modified in last 24h (diff hash d13d26b0); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -147,7 +107,7 @@
       "severity": "info",
       "id": "I-068",
       "title": "A recent zoom window reads \"…–2050\", past today, though every curve stops at today",
-      "message": "Item I-068 notes modified in last 24h (diff hash 6a262b93); investigate before per-day judgment.",
+      "message": "Item I-068 notes modified in last 24h (diff hash f4e8aef3); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -155,7 +115,7 @@
       "severity": "info",
       "id": "I-069",
       "title": "In a zoomed window, rows whose drawn period falls outside it go blank and cut-off curves carry no word",
-      "message": "Item I-069 notes modified in last 24h (diff hash 55fd1a72); investigate before per-day judgment.",
+      "message": "Item I-069 notes modified in last 24h (diff hash dde74c12); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -163,7 +123,7 @@
       "severity": "info",
       "id": "I-070",
       "title": "The phone header still says 1600–2050 after the reader zooms the chart to a narrower window",
-      "message": "Item I-070 notes modified in last 24h (diff hash 60f53c7e); investigate before per-day judgment.",
+      "message": "Item I-070 notes modified in last 24h (diff hash 3335c991); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
@@ -171,31 +131,48 @@
       "severity": "info",
       "id": "I-071",
       "title": "Small zoom readings: a drag aimed at 1800–1950 reads 1801–1951, and the zoomed axis has no left-edge year",
-      "message": "Item I-071 notes modified in last 24h (diff hash d46f9f2d); investigate before per-day judgment.",
+      "message": "Item I-071 notes modified in last 24h (diff hash f198d22a); investigate before per-day judgment.",
       "suggested": "Compare against the prior closeWhen / notes — was scope expanded? was a date moved without explicit decision?"
     },
     {
       "check": "MODIFIED_ITEM_LAST_24H",
       "severity": "info",
-      "id": "bulk-5b2e7c9b",
-      "message": "Commit 5b2e7c9b modified 1 CLOSED row(s) in one write — bulk-collapsed (e.g. I-057). Open rows, if any, are itemized above. One compaction/bulk edit is one event, not 1 findings.",
-      "suggested": "git show 5b2e7c9b --stat — confirm the bulk write was the intended one."
+      "id": "bulk-f35c5d5b",
+      "message": "Commit f35c5d5b modified 1 CLOSED row(s) in one write — bulk-collapsed (e.g. I-036). Open rows, if any, are itemized above. One compaction/bulk edit is one event, not 1 findings.",
+      "suggested": "git show f35c5d5b --stat — confirm the bulk write was the intended one."
+    },
+    {
+      "check": "MODIFIED_ITEM_LAST_24H",
+      "severity": "info",
+      "id": "bulk-7ded2d57",
+      "message": "Commit 7ded2d57 modified 1 CLOSED row(s) in one write — bulk-collapsed (e.g. I-065). Open rows, if any, are itemized above. One compaction/bulk edit is one event, not 1 findings.",
+      "suggested": "git show 7ded2d57 --stat — confirm the bulk write was the intended one."
     },
     {
       "check": "UNTRACKED_COMMITS",
       "severity": "info",
-      "count": 2,
-      "message": "2 commit(s) in last 48h not in any item's linkedCommits[] (mentions in prose fields like explanation/notes don't count by design)",
+      "count": 4,
+      "message": "4 commit(s) in last 48h not in any item's linkedCommits[] (mentions in prose fields like explanation/notes don't count by design)",
       "commits": [
         {
-          "hash": "6bfcac8",
-          "subject": "fix(I-066): the strip checker requires every overview row (Codex r1)",
-          "date": "2026-10-25"
+          "hash": "9ffe14b",
+          "subject": "fix(copy): Turchin claim sentence no longer than the whole form (I-065)",
+          "date": "2026-10-29"
         },
         {
-          "hash": "646e89a",
-          "subject": "feat(I-066): the zoom strip sits under the chart it zooms",
-          "date": "2026-10-25"
+          "hash": "5e8e417",
+          "subject": "fix(copy): Codex r2 on 36c9da0 — \"at most one period\" everywhere it is collective (I-065)",
+          "date": "2026-10-29"
+        },
+        {
+          "hash": "36c9da0",
+          "subject": "fix(copy): Codex r1 on 46090ff — cut-period labels, period attribution (I-065)",
+          "date": "2026-10-29"
+        },
+        {
+          "hash": "46090ff",
+          "subject": "fix(copy): say a cut cycle is cut, not \"one period\" (I-065)",
+          "date": "2026-10-29"
         }
       ],
       "suggested": "Verify each is reflected in changelog/shipped log, or link via item.linkedCommits[], or add to items.json.meta.untrackedCommits with a rationale."
@@ -207,12 +184,6 @@
       "title": "Search results show sinusoidalhistory.com near the top of the page now, and nobody clicks yet",
       "message": "count-triggered (`>=100 impressions`) but no `verdictDenominator` names the population — what counts toward N decides the verdict (buddha-ur D-029: an approved instrument was REVERSED post-approval by population arithmetic nobody had written down).",
       "suggested": "Add verdictDenominator: \"<the population, precisely>\" (e.g. \"action-qualified persons, lifetime\" / \"5-star prompt taps since 2026-06-15\")."
-    },
-    {
-      "check": "DUE_DATE_CONCENTRATION",
-      "severity": "warn",
-      "id": "10/18 on 2026-10-28",
-      "message": "10 of 18 dated open items land on ONE day (2026-10-28): I-043, I-049, I-058, I-063, I-065, I-067, I-068, I-069, +2 more. Individually reasonable, collectively a wall (reels 2026-07-18: 23/30 — no single day absorbs that). Stagger deliberately: re-date by real signal-arrival, not by habit-copying one date."
     },
     {
       "check": "STALE_HOLD",
@@ -237,25 +208,25 @@
   ],
   "counts": {
     "critical": 0,
-    "warn": 4,
-    "info": 24
+    "warn": 3,
+    "info": 20
   },
   "suppressedCount": 0,
   "actionsOnlyMode": false,
   "clockReconciliation": {
     "multiClockItems": 6,
-    "scanned": 18,
+    "scanned": 17,
     "byType": {},
     "lines": [],
     "rows": [],
-    "summary": "CLOCK-RECONCILIATION: 6 item(s) with ≥2 clocks of 18 scanned, 0 finding(s).",
-    "liveScanned": 18,
+    "summary": "CLOCK-RECONCILIATION: 6 item(s) with ≥2 clocks of 17 scanned, 0 finding(s).",
+    "liveScanned": 17,
     "noClockItems": 0,
     "noClockExempt": 0,
     "noClockUnexplained": 0,
     "noClockRed": false,
     "declaration": {
-      "population": "18 live (open/monitoring) row(s) of 18 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
+      "population": "17 live (open/monitoring) row(s) of 17 scanned for a DUE clock; 0 carry none — 0 exempt-with-reason, 0 unexplained.",
       "blindTo": "terminal rows (owed no due date); whether a PRESENT due date is correct or honest — PRESENCE only; the dated count here counts upcoming-triggers-only fields (dueDate/fireDate/onDate) that SIGNAL_DATE_MISSING's own floor does not, so the two floors can differ by a row."
     }
   },
