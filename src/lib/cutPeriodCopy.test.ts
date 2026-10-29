@@ -44,7 +44,10 @@ describe("cycle page copy for a cut period (I-065)", () => {
       expect(page).not.toContain("the theory&#x27;s stated period");
       if (!periodCutAtToday(c, 2026)) continue;
       cutPages++;
-      const rest = page.replace(/\b(at most one|part of (its |the )?one)\b/gi, "");
+      // Markup AND visible text: aria-labels live in the markup, and "one <em>period</em>"
+      // reads "one period" only once tags are gone (Codex r3, LOW).
+      const text = `${page}\n${page.replace(/<[^>]+>/g, "")}`;
+      const rest = text.replace(/\b(at most one|part of (its |the )?one)\b/gi, "");
       const hit = rest.match(/.{0,80}\b(single|one)( full)?( \d+-year)? period\b.{0,40}/i);
       expect(hit?.[0] ?? null, c.id).toBeNull();
     }
