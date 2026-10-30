@@ -22,9 +22,12 @@ export function glanceVerdictLine(cycles: Cycle[]): string | null {
  * calibration moves any peak (the drawing is then theirs, not the theorists'), null when the
  * peaks do not bunch, and null when the brushed range does not draw the whole window, because
  * the sentence would then explain a picture that is not there (Codex r1).
- * "By its theorist or by this site": several anchors are this project's own constructions
- * (Huntington's and Schlesinger Jr.'s midpoints, Perez's turning point, cycles.json), so the
- * peaks are not all theorists' climaxes (Codex r1, REFUTED-AS-WRITTEN on the first wording).
+ * It claims provenance, never a cause. Two Codex rounds refuted a causal clause in turn: r1
+ * "the theorists whose climaxes land in our era" (several anchors are this project's own
+ * constructions: Huntington's and Schlesinger Jr.'s midpoints, Perez's turning point), r2
+ * "because … a selection effect" (the rationales say where each anchor came from, not why the
+ * set clusters). So the line states what the anchors are and denies only that they are
+ * evidence of agreement; the editor's note carries the selection-effect argument.
  * No position: it names where the peaks are, never where the present sits on a curve (I-061).
  */
 export const CLUSTER_FROM = 1945;
@@ -45,7 +48,7 @@ export function glanceClusterLine(
     (c) => c.reference_peak_year >= CLUSTER_FROM && c.reference_peak_year <= CLUSTER_TO,
   ).length;
   if (inside * 2 <= stored.length) return null;
-  return `${countWord(inside)} of the ${countWordLower(stored.length)} peak years fall between ${CLUSTER_FROM} and ${CLUSTER_TO} because each was anchored in our era, by its theorist or by this site: a selection effect, not agreement.`;
+  return `${countWord(inside)} of the ${countWordLower(stored.length)} peak years fall between ${CLUSTER_FROM} and ${CLUSTER_TO}. They are anchors, set by the theorists or by this site, not evidence that the cycles agree.`;
 }
 
 /** glanceVerdictLine's rule over the headlines alone (undefined = a cycle with no card). */

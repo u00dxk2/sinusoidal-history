@@ -177,7 +177,7 @@ export default function Viz({
           onChange={setRange}
         />
         {/* I-063 (2026-10-30): both production walkers read the overview's bunched humps as
-            convergence until the editor's note, four screens down. The reason sits here, under
+            convergence until the editor's note, four screens down. What the anchors are sits here, under
             the strip, because the rows and strip have 9px spare at 360x560 (I-066): any line
             inside the figure would push the strip off that screen. Phone only, like the figure. */}
         {clusterLine && (

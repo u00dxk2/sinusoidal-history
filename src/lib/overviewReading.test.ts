@@ -49,7 +49,7 @@ describe("glanceClusterLine", () => {
 
   it("states today's ten, counted from the stored peaks", () => {
     expect(glanceClusterLine(cycles, cycles, DEFAULT)).toBe(
-      "Nine of the ten peak years fall between 1945 and 2020 because each was anchored in our era, by its theorist or by this site: a selection effect, not agreement.",
+      "Nine of the ten peak years fall between 1945 and 2020. They are anchors, set by the theorists or by this site, not evidence that the cycles agree.",
     );
   });
 
@@ -61,18 +61,26 @@ describe("glanceClusterLine", () => {
     expect(glanceClusterLine(cycles, cycles, DEFAULT)!.startsWith(`${countWord(inside.length)} of the `)).toBe(true);
   });
 
-  // Codex r1: several anchors are this site's constructions, so the line never calls them all
-  // the theorists' own climaxes; the anchor rationales say which are which.
-  it("does not attribute every peak to its theorist", () => {
-    const constructed = cycles.filter((c) =>
-      /editorial choice|this project's construction|interval midpoint|mathematical convenience/i.test(
+  // Codex r1 + r2 refuted a causal clause twice ("theorists whose climaxes…", "because … a
+  // selection effect"), so the shape changed: the line states provenance and denies evidence,
+  // and claims no cause. Among the nine in-window anchors, at least one is this site's own
+  // construction, which is why it says "or by this site".
+  it("claims provenance, not a cause, and names the site as a source of anchors", () => {
+    const inWindow = cycles.filter(
+      (c) => c.reference_peak_year >= CLUSTER_FROM && c.reference_peak_year <= CLUSTER_TO,
+    );
+    const constructed = inWindow.filter((c) =>
+      /this project's construction|interval midpoint|mathematical convenience|we use/i.test(
         c.reference_peak_rationale,
       ),
     );
-    expect(constructed.length).toBeGreaterThan(0);
+    expect(constructed.map((c) => c.id)).toEqual(
+      expect.arrayContaining(["kondratiev", "huntington", "schlesinger_jr", "perez"]),
+    );
     const line = glanceClusterLine(cycles, cycles, DEFAULT)!;
-    expect(line).toMatch(/by its theorist or by this site/);
-    expect(line).not.toMatch(/theorists whose|their climaxes|climax/i);
+    expect(line).toMatch(/set by the theorists or by this site/);
+    expect(line).toMatch(/not evidence that the cycles agree/);
+    expect(line).not.toMatch(/\bbecause\b|\bso\b|selection|caus|climax|theorists whose/i);
   });
 
   it("says nothing once a calibration moves a peak, and nothing when the peaks do not bunch", () => {
@@ -89,6 +97,14 @@ describe("glanceClusterLine", () => {
     // Not aligned with the stored list: a different length, or the same peaks in another order.
     expect(glanceClusterLine(cycles, cycles.slice(1), DEFAULT)).toBeNull();
     expect(glanceClusterLine(cycles, [...cycles].reverse(), DEFAULT)).toBeNull();
+    // Codex r2: two cycles share 1970, so swapping them leaves every peak year in place and only
+    // the id check can refuse it.
+    const a = cycles.findIndex((c) => c.id === "schlesinger_jr");
+    const b = cycles.findIndex((c) => c.id === "turchin_fathers_sons");
+    expect(cycles[a].reference_peak_year).toBe(cycles[b].reference_peak_year);
+    const swapped = [...cycles];
+    [swapped[a], swapped[b]] = [swapped[b], swapped[a]];
+    expect(glanceClusterLine(cycles, swapped, DEFAULT)).toBeNull();
   });
 
   it("needs a strict majority inside the window: an exact half says nothing", () => {
@@ -104,6 +120,10 @@ describe("glanceClusterLine", () => {
     expect(glanceClusterLine(cycles, cycles, { start: 1800, end: 1950 })).toBeNull();
     expect(glanceClusterLine(cycles, cycles, { start: 1950, end: 2100 })).toBeNull();
     expect(glanceClusterLine(cycles, cycles, { start: 1900, end: 2050 })).not.toBeNull();
+    // Inclusive at both ends of the window.
+    expect(glanceClusterLine(cycles, cycles, { start: 1945, end: 2020 })).not.toBeNull();
+    expect(glanceClusterLine(cycles, cycles, { start: 1946, end: 2020 })).toBeNull();
+    expect(glanceClusterLine(cycles, cycles, { start: 1945, end: 2019 })).toBeNull();
   });
 
   // I-061: names where the peaks are, never where the present sits on a curve.
