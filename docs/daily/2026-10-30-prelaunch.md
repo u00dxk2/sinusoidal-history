@@ -2,11 +2,33 @@
 
 ## BLUF
 
-Full day (the orchestrator's kickoff: "FULL day across the portfolio"). P1 selects **I-063**: the home page's "Theory shapes" glance figure draws nine of ten humps bunched between 1945 and 2020, and both production walkers on 10-22 read that as convergence until they reached the editor's note about four screens down. Today's change puts the reason (each theory is anchored to a recent peak, a selection effect) in place, under the figure. I-051's Search Console read ran: all three named-query legs read **not moved yet** (0 named impressions each; 36 of 40 impressions anonymized, so 0 is a floor). CI green, live = head. Nothing waits on David.
+Full day (the orchestrator's kickoff: "FULL day across the portfolio"). **I-063 shipped, live fdcef477, CI green:** on phones the home page now says, under the zoom strip, "Nine of the ten peak years fall between 1945 and 2020. They are anchors, set by the theorists or by this site, not evidence that the cycles agree." The cold walk HELD by its bar, but only narrowly ("Partly. The picture says yes and the words say no"). The row stays open because the line sits on the second screen, not the first its close condition names. Three Codex rounds: two REJECTs, both fixed, then ACCEPT. I-051 Search Console: all three named-query legs **not moved yet** (0 named impressions each; 36 of 40 impressions anonymized, so 0 is a floor; next read 11-02). Nothing waits on David.
 
 ## What changed
 
-Nothing shipped yet (P1 is selection only).
+[P3 — Product-work loop]
+
+**I-063 shipped, held narrowly, kept open.** Kind: improve.
+
+- **Commits:** 493f59d (the line + tests), d56383c (Codex r1 fixes), e9282cd (r2 shape change), fdcef47 (docs). CI ci.yml green on fdcef47. Delivery: `check-deployed-sha-drift --service sinusoidal-history` reads in-sync, live fdcef477 = head.
+- **Before → after, live:** before, nothing between the figure and the editor's note (about four screens down) said why nine humps bunch. After, phone only, under the strip: "Nine of the ten peak years fall between 1945 and 2020. They are anchors, set by the theorists or by this site, not evidence that the cycles agree." It is counted from the stored peaks (`glanceClusterLine`, `src/lib/overviewReading.ts`), and it is null when a calibration moves a peak or a brushed range doesn't draw 1945–2020. The rendered `main` multiset on the local build vs production: +1 line on phone, 0 on desktop (153 lines).
+- **Placement:** the line sits under the strip, not inside the figure. Measured on production before the change, the rows and strip have 9px spare at 360x560 (`check-strip-near-chart`, I-066), so a line inside the figure would push the strip off that screen. Live on fdcef477: rows + line share one 390x664 window (599 of 664px); at 360x560 and 320x568 they don't (declared ceiling). Regression reads on fdcef477: strip 360x560 TOGETHER 9px (unchanged), `check-entry-folds` 320x568 13/13 (home 12px, unchanged), `check-glance-now-mark` 2/2 CLEAN.
+- **Codex, read-only, three rounds (banner `workdir` checked each time):**
+  - r1 on 493f59d: REJECT, 2 MED, both CONFIRMED and fixed in d56383c. The wording over-attributed ("the theorists whose climaxes land in our era"; Huntington, Schlesinger Jr. and Perez anchors are this site's constructions), and the line showed at `/?range=1600-1750` where no bunching is drawn.
+  - r2 on d56383c: REJECT, 1 MED, CONFIRMED. "because … a selection effect" claimed a cause the rationales can't carry. This was the second round to refute a causal clause, so the shape changed rather than the words (portable rule 2): the line states provenance and denies evidence. Fixed in e9282cd.
+  - r3 on e9282cd: ACCEPT, no findings, every clause HOLDS.
+  - r2's first launch was voided by the low-memory reap. It never got past start, and the verdict file at that path was a stale earlier-round file. It was rerun on the orchestrator's go-ahead (ccd38b68), with the verdict written to a new file.
+- **Instrument:** `src/lib/overviewReading.test.ts` `glanceClusterLine` (8 legs). Red-armed: `CLUSTER_FROM` 1946 → 2 failed; range guard removed → 1 failed; "because of a selection effect" re-added → 1 failed.
+- **Sibling sweep:** the same over-attribution has 7 hits on 6 surfaces (ConvergenceNote, /about page + .md, /colophon page + .md, llms.txt), minted as **I-072** (11-05). They weren't changed today because those surfaces are mirrored and the note's shape came from two failed walks.
+- **Walk** (`docs/walks/2026-10-30-i063.md`, pre-registered, synthetic N=1, fdcef477): HELD by its bar, narrowly. "Partly. The picture says yes and the words say no … the bunching is real on the chart but probably means nothing"; "It tells me the positions were chosen, not found in data."
+- **Not closed:** the row's `closeWhen` says "first screen", and the walker found the line only on the second: "a reader who stops at screen 0 gets the bunched picture with no reason for it". I-063 → monitoring, 11-03.
+- **Encounter:** blind (no client analytics by standing choice). The readable event is a home-page Search Console impression after 10-30, about 3 days later.
+
+<!-- findings:begin -->
+- The walk's pre-registered bar was looser than I-063's own `closeWhen`: it omitted "first screen". The walker measured exactly that gap, so a HELD by the bar did not close the row. Next time, copy the row's close condition into the bar verbatim.
+- Claiming less had a reader cost. After two Codex rounds, the provenance-only line is true, and the walker said it "does not tell me why the chosen anchors happen to cluster".
+- The low-memory reap left a stale same-named verdict file at the review's output path. Each review round now writes to a new dated file name.
+<!-- findings:end -->
 
 ## Recommendation
 
