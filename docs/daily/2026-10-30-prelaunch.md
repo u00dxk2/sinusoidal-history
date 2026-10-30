@@ -65,6 +65,26 @@ Full day (the orchestrator's kickoff: "FULL day across the portfolio"). **I-063 
 
 ## State Appendix
 
+### Close
+
+[P5 — Delta-only close]
+
+ACTION: DEFERRED — built and live (fdcef477), acceptance not met: the line is on the second screen, and I-063's closeWhen asks for the first · trigger 2026-11-03 (first-screen decision) · item I-063 · P3 1605ec0d
+
+- **Since P3:** the manager review (29e8d250) read DEFERRED, the same way the lane did. Nothing else on the surface changed.
+- **Ledger delta:**
+  - I-063: monitoring, 11-03; the decision is spelled out in its notes.
+  - I-043 → 11-03, I-049 → 11-03, I-051 → 11-02 (hygiene draft, 3 of 3 accepted).
+  - I-072 minted (11-05).
+- **Due gates:** `check-due-gates-dispositioned.mjs` → "verdict: CLEAR", snapshot CURRENT (taken 2026-10-30), 4 of 4 dispositioned.
+- **Hygiene draft:**
+  - READ-MUTATED: none (3 reads guarded).
+  - check-wait-justification: RESULT: PASS, 0 warn.
+  - check-engineering-zero: RESULT: PASS, 0 findings for this lane.
+- **Receipt:** P3's receipt (1605ec0d) still holds; nothing to restate.
+- **Pending reads:** 10-31 I-058 · 11-01 I-037 · 11-02 I-051, I-067, I-069 · 11-03 I-063 decision, I-043, I-049, I-068, I-070, I-027 · 11-04 I-032, I-071, W-005 · 11-05 I-072.
+- **Still unmeasured:** whether the axis labels stopping at 2000 (the subtitle says 1600–2050) confuse readers. The manager review raised it as a HYPOTHESIS.
+
 ### Section 0
 
 - **Primer:** `docs/cold-starts/2026-10-29.md` read (no 10-30 primer; the newest on or before today).
