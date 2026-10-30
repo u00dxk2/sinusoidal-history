@@ -22,6 +22,7 @@ import {
   formatRange,
 } from "@/lib/urlState";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
+import { glanceClusterLine } from "@/lib/overviewReading";
 
 interface VizProps {
   cycles: Cycle[];
@@ -103,6 +104,10 @@ export default function Viz({
       }),
     [cycles, overrides]
   );
+  const clusterLine = useMemo(
+    () => glanceClusterLine(cycles, effectiveCycles),
+    [cycles, effectiveCycles]
+  );
 
   const setRange = useCallback(
     (start: number, end: number) => {
@@ -171,6 +176,15 @@ export default function Viz({
           visibleEndYear={visibleEndYear}
           onChange={setRange}
         />
+        {/* I-063 (2026-10-30): both production walkers read the overview's bunched humps as
+            convergence until the editor's note, four screens down. The reason sits here, under
+            the strip, because the rows and strip have 9px spare at 360x560 (I-066): any line
+            inside the figure would push the strip off that screen. Phone only, like the figure. */}
+        {clusterLine && (
+          <p data-glance-cluster className="sm:hidden -mt-2 text-[13px] leading-snug text-ink-soft">
+            {clusterLine}
+          </p>
+        )}
         <Tabs
           value={tab}
           onValueChange={(v) =>

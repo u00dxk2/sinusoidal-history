@@ -1,5 +1,5 @@
 import type { Cycle } from "@/data/types";
-import { countWordLower } from "./countWords";
+import { countWord, countWordLower } from "./countWords";
 import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsUp";
 
 /**
@@ -12,6 +12,29 @@ import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsU
  */
 export function glanceVerdictLine(cycles: Cycle[]): string | null {
   return glanceVerdictFromHeadlines(cycles.map((c) => holdsUpCard(c)?.headline));
+}
+
+/**
+ * Why the glance figure's humps bunch, said on the figure's own screen (I-063). Both production
+ * walkers on 2026-10-22 read nine humps between 1945 and 2020 as convergence "until you read the
+ * note", which sits about four screens down (ConvergenceNote). Same reason as the note, counted
+ * from the data so it cannot go stale. It speaks for the STORED peaks only: null once a reader's
+ * calibration moves any peak (the drawing is then theirs, not the theorists'), and null when the
+ * peaks do not bunch, because the sentence would then explain a picture that is not there.
+ * No position: it names where the peaks are, never where the present sits on a curve (I-061).
+ */
+export const CLUSTER_FROM = 1945;
+export const CLUSTER_TO = 2020;
+
+export function glanceClusterLine(stored: Cycle[], drawn: Cycle[]): string | null {
+  if (stored.length === 0 || drawn.length !== stored.length) return null;
+  const moved = drawn.some((c, i) => c.reference_peak_year !== stored[i].reference_peak_year);
+  if (moved) return null;
+  const inside = stored.filter(
+    (c) => c.reference_peak_year >= CLUSTER_FROM && c.reference_peak_year <= CLUSTER_TO,
+  ).length;
+  if (inside * 2 <= stored.length) return null;
+  return `${countWord(inside)} of the ${countWordLower(stored.length)} peaks fall between ${CLUSTER_FROM} and ${CLUSTER_TO} because we read the theorists whose climaxes land in our era: a selection effect, not agreement.`;
 }
 
 /** glanceVerdictLine's rule over the headlines alone (undefined = a cycle with no card). */
