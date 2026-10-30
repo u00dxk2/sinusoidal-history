@@ -105,8 +105,8 @@ export default function Viz({
     [cycles, overrides]
   );
   const clusterLine = useMemo(
-    () => glanceClusterLine(cycles, effectiveCycles),
-    [cycles, effectiveCycles]
+    () => glanceClusterLine(cycles, effectiveCycles, range),
+    [cycles, effectiveCycles, range]
   );
 
   const setRange = useCallback(

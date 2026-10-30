@@ -19,22 +19,33 @@ export function glanceVerdictLine(cycles: Cycle[]): string | null {
  * walkers on 2026-10-22 read nine humps between 1945 and 2020 as convergence "until you read the
  * note", which sits about four screens down (ConvergenceNote). Same reason as the note, counted
  * from the data so it cannot go stale. It speaks for the STORED peaks only: null once a reader's
- * calibration moves any peak (the drawing is then theirs, not the theorists'), and null when the
- * peaks do not bunch, because the sentence would then explain a picture that is not there.
+ * calibration moves any peak (the drawing is then theirs, not the theorists'), null when the
+ * peaks do not bunch, and null when the brushed range does not draw the whole window, because
+ * the sentence would then explain a picture that is not there (Codex r1).
+ * "By its theorist or by this site": several anchors are this project's own constructions
+ * (Huntington's and Schlesinger Jr.'s midpoints, Perez's turning point, cycles.json), so the
+ * peaks are not all theorists' climaxes (Codex r1, REFUTED-AS-WRITTEN on the first wording).
  * No position: it names where the peaks are, never where the present sits on a curve (I-061).
  */
 export const CLUSTER_FROM = 1945;
 export const CLUSTER_TO = 2020;
 
-export function glanceClusterLine(stored: Cycle[], drawn: Cycle[]): string | null {
+export function glanceClusterLine(
+  stored: Cycle[],
+  drawn: Cycle[],
+  range: { start: number; end: number },
+): string | null {
   if (stored.length === 0 || drawn.length !== stored.length) return null;
-  const moved = drawn.some((c, i) => c.reference_peak_year !== stored[i].reference_peak_year);
+  if (range.start > CLUSTER_FROM || range.end < CLUSTER_TO) return null;
+  const moved = drawn.some(
+    (c, i) => c.id !== stored[i].id || c.reference_peak_year !== stored[i].reference_peak_year,
+  );
   if (moved) return null;
   const inside = stored.filter(
     (c) => c.reference_peak_year >= CLUSTER_FROM && c.reference_peak_year <= CLUSTER_TO,
   ).length;
   if (inside * 2 <= stored.length) return null;
-  return `${countWord(inside)} of the ${countWordLower(stored.length)} peaks fall between ${CLUSTER_FROM} and ${CLUSTER_TO} because we read the theorists whose climaxes land in our era: a selection effect, not agreement.`;
+  return `${countWord(inside)} of the ${countWordLower(stored.length)} peak years fall between ${CLUSTER_FROM} and ${CLUSTER_TO} because each was anchored in our era, by its theorist or by this site: a selection effect, not agreement.`;
 }
 
 /** glanceVerdictLine's rule over the headlines alone (undefined = a cycle with no card). */
