@@ -24,10 +24,9 @@ export default function ConvergenceNote() {
           <span className="font-medium text-ink">Not evidence that the cycles agree.</span>{" "}
           Nine of the ten peak years here fall between 1945 and 2020. Some are dates the
           theorists themselves gave; others are this site&apos;s choices, such as the midpoint of
-          a range a theorist named or one year picked from a window. Select any cycle to see
-          where its year comes from, and drag the range strip to see how much that choice is
-          doing. This site draws each cycle as at most one period around its peak, cut at today,
-          rather than a wave repeating into the present.
+          a range a theorist named or one year picked from a window. Each cycle&apos;s own page
+          says where its year comes from. This site draws each cycle as at most one period
+          around its peak, cut at today, rather than a wave repeating into the present.
         </p>
       </div>
     </aside>

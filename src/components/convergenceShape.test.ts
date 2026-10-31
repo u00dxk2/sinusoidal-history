@@ -16,29 +16,51 @@ const src = (name: string) => readFileSync(join(process.cwd(), "src", "component
 const SITE_OVERCLAIM =
   /each theorist|anchored (the|their) cycle|anchor their forecasts|we read (them|these)|their (climaxes|forecasts) (happen to )?land|selection effect|don't get republished/i;
 
-// Every site surface that explains the cluster: the pages, their markdown mirrors and the
-// crawler summary. A new surface joins this list. Ceiling (declared): README.md is fixed too but
-// not pinned here, because its changelog lines quote the old wording as history.
-const CLUSTER_SURFACES = [
-  "src/components/ConvergenceNote.tsx",
-  "src/app/(app)/about/page.tsx",
-  "public/about.md",
-  "src/app/(app)/colophon/page.tsx",
-  "public/colophon.md",
-  "public/llms.txt",
+// Every surface that explains the cluster: the pages, their markdown mirrors, the crawler
+// summary and the README's editorial paragraph. A new surface joins this list. README.md is read
+// only between its two markers, because its changelog lines quote the old wording as history.
+const CLUSTER_SURFACES: { path: string; from?: string; to?: string }[] = [
+  { path: "src/components/ConvergenceNote.tsx" },
+  { path: "src/app/(app)/about/page.tsx" },
+  { path: "public/about.md" },
+  { path: "src/app/(app)/colophon/page.tsx" },
+  { path: "public/colophon.md" },
+  { path: "public/llms.txt" },
+  { path: "README.md", from: "The headline editorial point", to: "## Status" },
 ];
 
+// Visible prose of a surface. Source files: whole-line `//` comments and block comments are
+// dropped (they quote the old wording), never a `//` inside a line, which is a URL (Codex r1 on
+// 34f2e56). Tags become spaces, so a phrase split by markup still reads as one.
+function prose(path: string, raw: string): string {
+  let text = raw;
+  if (/\.tsx?$/.test(path)) {
+    text = text.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/^\s*\/\/.*$/gm, " ");
+    text = text.replace(/\{" "\}/g, " ").replace(/<[^>]*>/g, " ");
+  }
+  return text.replace(/&apos;/g, "'").replace(/\s+/g, " ");
+}
+
 describe("no surface says the theorists anchored the peaks (I-072)", () => {
-  for (const path of CLUSTER_SURFACES) {
+  for (const { path, from, to } of CLUSTER_SURFACES) {
     it(path, () => {
-      let text = readFileSync(join(process.cwd(), path), "utf8");
-      // Code comments explaining the change quote the old wording; read prose only. Only in
-      // source files: in markdown, `//` is the start of a URL.
-      if (/\.tsx?$/.test(path)) text = text.replace(/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, "");
-      const prose = text.replace(/&apos;/g, "'").replace(/\{" "\}/g, " ").replace(/\s+/g, " ");
-      expect(prose).not.toMatch(SITE_OVERCLAIM);
+      let raw = readFileSync(join(process.cwd(), path), "utf8");
+      if (from && to) {
+        const start = raw.indexOf(from);
+        const end = raw.indexOf(to, start);
+        expect(start, `${path}: "${from}" marker`).toBeGreaterThan(-1);
+        expect(end, `${path}: "${to}" marker`).toBeGreaterThan(start);
+        raw = raw.slice(start, end);
+      }
+      expect(prose(path, raw)).not.toMatch(SITE_OVERCLAIM);
     });
   }
+
+  it("reads a phrase split by markup and one after a URL on the same line", () => {
+    expect(prose("x.tsx", "a selection <em>effect</em> b")).toMatch(SITE_OVERCLAIM);
+    expect(prose("x.tsx", 'href="https://x.org" each theorist')).toMatch(SITE_OVERCLAIM);
+    expect(prose("x.tsx", "// a selection effect, quoted in a comment")).not.toMatch(SITE_OVERCLAIM);
+  });
 });
 
 // The note's visible text in source order: JSX tags, `{" "}` and the entity unescaped.
