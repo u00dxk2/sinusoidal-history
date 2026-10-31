@@ -10,6 +10,37 @@ import { BRUSH_CAPTION, widenedNote } from "./TimeRangeBrush";
 
 const src = (name: string) => readFileSync(join(process.cwd(), "src", "components", name), "utf8");
 
+// I-072: the over-attribution, in every wording it has been published in on this site: the
+// theorists anchored the peaks, we read them because their peaks land now, and the cluster is
+// a selection effect. Each alternative is a phrase that was live on 2026-10-30.
+const SITE_OVERCLAIM =
+  /each theorist|anchored (the|their) cycle|anchor their forecasts|we read (them|these)|their (climaxes|forecasts) (happen to )?land|selection effect|don't get republished/i;
+
+// Every site surface that explains the cluster: the pages, their markdown mirrors and the
+// crawler summary. A new surface joins this list. Ceiling (declared): README.md is fixed too but
+// not pinned here, because its changelog lines quote the old wording as history.
+const CLUSTER_SURFACES = [
+  "src/components/ConvergenceNote.tsx",
+  "src/app/(app)/about/page.tsx",
+  "public/about.md",
+  "src/app/(app)/colophon/page.tsx",
+  "public/colophon.md",
+  "public/llms.txt",
+];
+
+describe("no surface says the theorists anchored the peaks (I-072)", () => {
+  for (const path of CLUSTER_SURFACES) {
+    it(path, () => {
+      let text = readFileSync(join(process.cwd(), path), "utf8");
+      // Code comments explaining the change quote the old wording; read prose only. Only in
+      // source files: in markdown, `//` is the start of a URL.
+      if (/\.tsx?$/.test(path)) text = text.replace(/\/\/[^\n]*|\/\*[\s\S]*?\*\//g, "");
+      const prose = text.replace(/&apos;/g, "'").replace(/\{" "\}/g, " ").replace(/\s+/g, " ");
+      expect(prose).not.toMatch(SITE_OVERCLAIM);
+    });
+  }
+});
+
 // The note's visible text in source order: JSX tags, `{" "}` and the entity unescaped.
 function noteText(source: string): string {
   const body = source.slice(source.indexOf("<aside"), source.indexOf("</aside>"));
@@ -40,7 +71,20 @@ describe("the editor's note has no display line (I-055)", () => {
     for (const m of first.matchAll(/convergence/gi)) {
       expect(first.slice(Math.max(0, m.index! - 4), m.index)).toBe("not ");
     }
-    expect(first).toMatch(/selection effect/i);
+    // I-072 (2026-10-31): this pin required "selection effect", a CAUSE the cycles.json
+    // rationales cannot carry (Codex r2 on I-063: UNVERIFIABLE). The first sentence now states
+    // the correction the site can stand behind: the clustered years are not evidence.
+    expect(first).toMatch(/not evidence/i);
+  });
+
+  // I-072: several reference peaks are this site's own constructions (Huntington's interval
+  // midpoint, Schlesinger Jr.'s "this project's construction", Khaldun's editorial choice), so the
+  // note says where the years come from and never that the theorists anchored them.
+  it("names both sources of the peak years and claims no cause for the cluster", () => {
+    const text = noteText(source);
+    expect(text).toMatch(/dates the theorists themselves gave/);
+    expect(text).toMatch(/this site's choices/);
+    expect(text).not.toMatch(SITE_OVERCLAIM);
   });
 
   // I-066: the strip moved from under this note to above the tabs, so a direction word goes stale.

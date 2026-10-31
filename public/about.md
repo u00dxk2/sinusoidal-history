@@ -12,7 +12,7 @@ Each curve is at most one period of a pure sinusoid, cut at today where that per
 
 ## Why each cycle is drawn once, not as a repeating wave
 
-Nine of the ten peak years on this site fall between 1945 and 2020. That is not evidence the theories converge - it is a selection effect. Each theorist wrote in a moment that felt consequential and anchored the cycle, consciously or not, to a recent peak. And we read these particular theorists today precisely because their forecasts land in our era. The ones whose cycles peaked quietly in 1880 don't get republished.
+Nine of the ten peak years on this site fall between 1945 and 2020. That is not evidence the theories converge. Some of those years are dates the theorists themselves gave; others are this site's choices, such as the midpoint of a range a theorist named or one year picked from a window. Each cycle's peak calibration, listed below, says which.
 
 Until October 2026 this site drew each cycle as a wave repeating across 1600–2050, and with peaks that recent, nearly every wave crested again somewhere near the present. Readers took those repeat crests as the site saying the cycles peak now, which no one here claims. So each cycle is now drawn as at most one period - a single rise and fall centred on its reference peak, cut at today where that period has not ended yet - and no page says where the present sits on a cycle.
 

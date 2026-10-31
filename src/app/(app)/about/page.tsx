@@ -60,12 +60,11 @@ export default function About() {
         </h2>
         <p>
           Nine of the ten peak years on this site fall between 1945 and 2020.
-          That is not evidence the theories converge - it is a selection
-          effect. Each theorist wrote in a moment that felt consequential and
-          anchored the cycle, consciously or not, to a recent peak. And we read
-          these particular theorists today precisely because their forecasts
-          land in our era. The ones whose cycles peaked quietly in 1880
-          don&apos;t get republished.
+          That is not evidence the theories converge. Some of those years are
+          dates the theorists themselves gave; others are this site&apos;s
+          choices, such as the midpoint of a range a theorist named or one year
+          picked from a window. Each cycle&apos;s peak calibration, listed
+          below, says which.
         </p>
         <p>
           Until October 2026 this site drew each cycle as a wave repeating

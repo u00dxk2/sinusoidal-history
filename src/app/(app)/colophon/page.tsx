@@ -101,10 +101,10 @@ export default function Colophon() {
         </h2>
         <p>
           Nine of the ten peak years here fall between 1945 and 2020. That
-          isn&apos;t convergence - it is a selection effect. Each theorist wrote in a
-          moment that felt consequential and anchored their cycle there; we
-          read them precisely because their climaxes land in our era. The
-          site says it on the home page, on{" "}
+          isn&apos;t convergence. Some are dates the theorists themselves gave;
+          others are this site&apos;s choices, such as the midpoint of a range a
+          theorist named or one year picked from a window. The site says it on
+          the home page, on{" "}
           <Link
             href="/about"
             className="underline underline-offset-[3px] decoration-ink/30 hover:decoration-ink transition-colors"

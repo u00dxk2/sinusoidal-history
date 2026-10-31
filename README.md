@@ -31,9 +31,10 @@ that visible. See `/methods` for the data-side caveats and `/about` for the
 intellectual-honesty disclaimer.
 
 The headline editorial point: nine of the ten reference peaks fall between
-1945 and 2020, and that is a **selection effect**, not convergence — theorists writing today
-anchor their forecasts to the world they live in, and we read them precisely
-because their climaxes land in our era. The site says this on the home page,
+1945 and 2020, and that is **not convergence** — some of those years are dates
+the theorists themselves gave, others are this site's choices (the midpoint of a
+range a theorist named, or one year picked from a window), and each cycle's page
+says which. The site says this on the home page,
 on `/about`, and on `/colophon`.
 
 ## Status
@@ -318,7 +319,7 @@ src/
     FacetTimeAxis.tsx         Shared bottom axis
     CycleOverlay.tsx          Single-SVG overlay (Overlay tab)
     TimeRangeBrush.tsx        D3 brush + preset buttons
-    ConvergenceNote.tsx       "Selection effect" call-out
+    ConvergenceNote.tsx       Editor's note: the clustered peaks are not evidence
     Poster.tsx                Print broadside
     ui/                       shadcn primitives
   data/

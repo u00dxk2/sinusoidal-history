@@ -4,6 +4,10 @@
 // read the line as the site's headline because the label sat under it. So the shape changed
 // instead of the words: the label leads, everything is body size, and the first sentence names
 // the correction, not the pattern. Pinned by convergenceShape.test.ts.
+// I-072 (2026-10-31): the note no longer says WHY the peaks cluster ("a selection effect",
+// "theorists … anchor their forecasts", "we read them because"). Several anchors are this
+// site's own constructions (cycles.json rationales), and Codex found the selection-effect cause
+// unverifiable from them. It states where the years come from and denies they are evidence.
 export default function ConvergenceNote() {
   return (
     <aside
@@ -17,13 +21,13 @@ export default function ConvergenceNote() {
           Editor&apos;s note
         </p>
         <p className="mt-1.5 text-[14px] sm:text-[15px] leading-relaxed text-ink-soft max-w-2xl">
-          <span className="font-medium text-ink">A selection effect, not convergence.</span>{" "}
-          Theorists writing today anchor their forecasts to the world they live in, and we read
-          them precisely because their climaxes happen to land in our era. That is why nine of
-          the ten peak years here fall between 1945 and 2020, and why this site draws each cycle
-          as at most one period around its peak, cut at today, rather than a wave repeating into
-          the present. Drag the range strip or select any cycle to see how much the peak-year
-          choice is doing.
+          <span className="font-medium text-ink">Not evidence that the cycles agree.</span>{" "}
+          Nine of the ten peak years here fall between 1945 and 2020. Some are dates the
+          theorists themselves gave; others are this site&apos;s choices, such as the midpoint of
+          a range a theorist named or one year picked from a window. Select any cycle to see
+          where its year comes from, and drag the range strip to see how much that choice is
+          doing. This site draws each cycle as at most one period around its peak, cut at today,
+          rather than a wave repeating into the present.
         </p>
       </div>
     </aside>
