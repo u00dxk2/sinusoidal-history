@@ -1850,7 +1850,7 @@
     {
       "id": "I-058",
       "title": "Home overlay hover readout prints \"currently <phase>\", and /poster prints each cycle's current phase",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1859,20 +1859,22 @@
       "closeWhen": "Neither the overlay readout nor /poster prints a current-year phase word, read on production (a DOM count like check-open-card-position, extended or new, with a red arm on the current code); or a recorded decision that either keeps it.",
       "nextEvaluation": "2026-10-31",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"currently {phaseLabel\" -- src/components — presence; the row's proof is the production count",
-      "notes": "2026-10-18 (round 1, P5): minted at the close per manager review (35a7b77e), which asked to check both and mint them if they held. Both held by source read.\n\n2026-10-27 (light day, P5): source at the live commit 575a4427 has no phase word in src/components/CycleOverlay.tsx or Poster.tsx (`git grep -n -i -E \"currently|phaseLabel|phase label\"` → no lines; positive control: the stored literal \"currently {phaseLabel\" matched 1 line at 9849b93~1, so the literal can fire). Likely fixed by I-061 (9849b93). Not closed: closeWhen asks for a production DOM count, and /poster is client-rendered (server snap of https://sinusoidalhistory.com/poster → 2 lines, \"Loading poster…\"), so only a browser read answers it. `--run I-058` cannot stamp this row: a git grep with no match exits 1 in ~60ms and the runner records FAST_FAIL_EMPTY. Re-dated to 2026-10-28.\n\n2026-10-28 (light day, P5): `git grep -n \"currently {phaseLabel\" -- src/components` at HEAD 920b000 → no lines, same as 10-27. Positive control from 10-27: the literal matched 1 line at 9849b93~1. Not closed on that empty grep (orchestrator P1 approval, msg 246e281a). The closeWhen asks for a production DOM count on the overlay and on /poster, which renders client-side, and a light day runs no Playwright. Re-dated to 2026-10-31.",
+      "notes": "2026-10-18 (round 1, P5): minted at the close per manager review (35a7b77e), which asked to check both and mint them if they held. Both held by source read.\n\n2026-10-27 (light day, P5): source at the live commit 575a4427 has no phase word in src/components/CycleOverlay.tsx or Poster.tsx (`git grep -n -i -E \"currently|phaseLabel|phase label\"` → no lines; positive control: the stored literal \"currently {phaseLabel\" matched 1 line at 9849b93~1, so the literal can fire). Likely fixed by I-061 (9849b93). Not closed: closeWhen asks for a production DOM count, and /poster is client-rendered (server snap of https://sinusoidalhistory.com/poster → 2 lines, \"Loading poster…\"), so only a browser read answers it. `--run I-058` cannot stamp this row: a git grep with no match exits 1 in ~60ms and the runner records FAST_FAIL_EMPTY. Re-dated to 2026-10-28.\n\n2026-10-28 (light day, P5): `git grep -n \"currently {phaseLabel\" -- src/components` at HEAD 920b000 → no lines, same as 10-27. Positive control from 10-27: the literal matched 1 line at 9849b93~1. Not closed on that empty grep (orchestrator P1 approval, msg 246e281a). The closeWhen asks for a production DOM count on the overlay and on /poster, which renders client-side, and a light day runs no Playwright. Re-dated to 2026-10-31. | Production Playwright read 2026-10-31 (1440x900): overlay readout 10/10 curves (focus + mouse hover) and /poster (111 lines, 10 rows) print 0 current-year phase words; the only hits are theory descriptions with no year (Kondratiev trough, Dalio rising/declining); matchers fire on the pre-I-061 templates (9849b93~1). Stored git-grep read is UNRUNNABLE (FAST_FAIL_EMPTY), so it is not the evidence.",
       "created": "2026-10-18",
-      "updated": "2026-10-28",
+      "updated": "2026-10-31",
       "readCommandLastSpawnError": {
-        "at": "2026-10-27T16:18:55.294Z",
+        "at": "2026-10-31T16:37:34.848Z",
         "code": "FAST_FAIL_EMPTY",
-        "reason": "exit 1 with ZERO bytes of output in 60ms (under the 200ms floor) — too fast to have read anything",
+        "stage": "shell-started",
+        "reason": "exit 1 with ZERO bytes of output in 94ms (under the 200ms floor) — no reading came back; why it exited is not established",
         "command": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"currently {phaseLabel\" -- src/components"
       },
       "readCommandUnstampable": {
-        "at": "2026-10-27T16:18:55.294Z",
-        "reason": "command-not-runnable-here (FAST_FAIL_EMPTY) — exit 1 with ZERO bytes of output in 60ms (under the 200ms floor) — too fast to have read anything — the child never executed, so a runner-manufactured exit code would not be evidence about the read. Fix the runnable for the interpreter this box actually has, or waive it."
+        "at": "2026-10-31T16:37:34.848Z",
+        "reason": "command-not-runnable-here (FAST_FAIL_EMPTY) — exit 1 with ZERO bytes of output in 94ms (under the 200ms floor) — no reading came back; why it exited is not established — a SHELL PROCESS STARTED; whether the reader itself executed is NOT established (the code and reason say what the shell returned), and anything the shell parsed first (a redirect creates or truncates its target file) DID happen; no reading was established, so a runner-manufactured exit code would not be evidence about the read. Fix the runnable for the interpreter this box actually has, or waive it."
       },
-      "lastEvaluated": "2026-10-28"
+      "lastEvaluated": "2026-10-31",
+      "closedAt": "2026-10-31"
     },
     {
       "id": "I-059",
@@ -2175,7 +2177,7 @@
     {
       "id": "I-072",
       "title": "The selection-effect prose says every theorist anchored their cycle in our era, but several anchors are this site's own constructions",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2184,9 +2186,44 @@
       "closeWhen": "Every surface that says why the peaks cluster states anchor provenance truly (theorist or this site) and makes no causal claim the rationales cannot carry, with each page and its .md mirror changed in one commit, a Codex claims pass returning no REFUTED-AS-WRITTEN, and the rendered-text multiset showing only those sentences changed; or a recorded decision that the selection-effect argument stays as written.",
       "nextEvaluation": "2026-11-05",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -E \"Each theorist wrote|anchored the cycle|we read (them|these)|their climaxes\" -- src public",
-      "notes": "2026-10-30 (P3, full day): minted from I-063's Codex r1 sibling sweep (7 hits, 6 surfaces). I-063's own line (src/lib/overviewReading.ts glanceClusterLine) was fixed by claiming provenance only (e9282cd, Codex r3 ACCEPT); reuse that shape here: 'They are anchors, set by the theorists or by this site, not evidence that the cycles agree.'",
+      "notes": "2026-10-30 (P3, full day): minted from I-063's Codex r1 sibling sweep (7 hits, 6 surfaces). I-063's own line (src/lib/overviewReading.ts glanceClusterLine) was fixed by claiming provenance only (e9282cd, Codex r3 ACCEPT); reuse that shape here: 'They are anchors, set by the theorists or by this site, not evidence that the cycles agree.' | 2026-10-31 (full day, P5): CLOSED, closeWhen met (manager review a1ed6b53: COMPLETED). 34f2e56 changed every surface with its .md mirror in one commit (ConvergenceNote, /about + about.md, /colophon + colophon.md, llms.txt, README); cf263a8 + 1b0681e fixed Codex r1/r2. Codex r2 claims pass (81e941e..cf263a8): every added sentence HOLDS, no REFUTED-AS-WRITTEN. Live 1b0681e6 (check-deployed-sha-drift in-sync; CI ci.yml green on 1b0681e): live main innerText (/ at 390x664 159→159 lines, 1440x900 153→153) and check-rendered-text snaps (/about 87→87, /colophon 39→39) show exactly one line swapped per surface. Guard: src/components/convergenceShape.test.ts (19 legs, red-armed 3x). Follow-ups on their own rows: the Search Console encounter read (W-006, 2026-11-03) and CITATION.cff's leftover \"selection effect\" line (I-073). Receipt correction: the P3 receipt's \"bug row I-072\" named the action row; this lane has no standing no-analytics row (items.json searched for an analytics/instrument title: none), so the blind encounter is carried by W-006.",
       "created": "2026-10-30",
-      "updated": "2026-10-30"
+      "updated": "2026-10-31",
+      "closedAt": "2026-10-31",
+      "lastEvaluated": "2026-10-31"
+    },
+    {
+      "id": "W-006",
+      "title": "After I-072 (live 1b0681e6, 2026-10-31), does anyone reach the pages whose clustered-peaks prose changed?",
+      "status": "open",
+      "type": "watch",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-31",
+      "description": "I-072 rewrote the 'why the peak years cluster' prose on the home editor's note, /about, /colophon, their .md mirrors and llms.txt. The site has no client analytics by standing choice, so a reader of the new sentence leaves no trace; Search Console page impressions are the only instrument that can see an arrival. October baseline (gsc-read.mjs --start 2026-10-01, read 2026-10-31): / 13 impressions, /about 9, /colophon 1. Search Console lags about 3 days.",
+      "closeWhen": "A page-grouped Search Console read (gsc-read.mjs) dated on or after 2026-11-03 shows at least one impression on / or /about dated after 2026-10-31 (an encounter: the changed surface was shown to someone), or zero with its window named, in which case re-date to the next read rather than close.",
+      "nextEvaluation": "2026-11-03",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-11-01 — page-grouped impressions per page; the read is / and /about rows after the I-072 deploy",
+      "notes": "2026-10-31 (P5): minted on the manager review (a1ed6b53): 'The ONE thing the close must record: the pending Search Console read, an impression on /about or / dated after 2026-10-31, read on or after 2026-11-03 (gsc-read.mjs, page-grouped).' An impression is exposure (the page was shown in search), not a read of the sentence; there is no instrument for the sentence itself.",
+      "created": "2026-10-31",
+      "updated": "2026-10-31",
+      "onTrigger": "On 2026-11-03 run the readCommand; record the / and /about impressions dated after 2026-10-31 in notes. One or more on either page closes the row as an encounter; zero (window named) re-dates it to the next read."
+    },
+    {
+      "id": "I-073",
+      "title": "CITATION.cff still says the site makes the 'selection effect visible by construction', which the site no longer claims",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-10-31",
+      "description": "I-072 (34f2e56, live 1b0681e6) removed the selection-effect explanation from every site surface, because the cycles.json rationales record where each anchor came from, not a selection rule (Codex r2 on I-063: UNVERIFIABLE). CITATION.cff still carries it: line 21, abstract, 'it makes the role of calibration, theorist motivation, and selection effect visible by construction', and line 34, keyword 'selection effect'. CITATION.cff is outward metadata: GitHub's 'Cite this repository' box reads it from main, and Zenodo reads it at the next tagged release.",
+      "closeWhen": "CITATION.cff's abstract no longer claims the site makes a selection effect visible (it states what the site shows: calibration and peak-year choice), the keyword is dropped or justified, and a claims pass by the other model family returns no REFUTED-AS-WRITTEN; or a recorded decision that the line stays.",
+      "nextEvaluation": "2026-12-01",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i \"selection effect\" -- CITATION.cff",
+      "notes": "2026-10-31 (P5): minted on the manager review (a1ed6b53, SUGGESTION: 'give it a dated row of its own'). Trigger: the next Zenodo release, or 2026-12-01, whichever comes first. Not changed on 10-31: it is outward archive metadata and a change carries its own claims pass.",
+      "created": "2026-10-31",
+      "updated": "2026-10-31"
     }
   ],
   "knownPatterns": [

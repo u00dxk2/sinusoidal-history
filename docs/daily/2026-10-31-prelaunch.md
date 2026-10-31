@@ -75,3 +75,21 @@ USER-VISIBLE: The home editor's note, /about, /colophon and their .md and llms.t
 - CI: `check-ci-status --workflow ci.yml` → GREEN, 81e941e005. Drift: `check-deployed-sha-drift --service sinusoidal-history` → in-sync, live 81e941e0 = head.
 - Harness: running 2.1.316 · fleet UNIFORM (28 of 28) · installed 2.1.316 (SAME).
 - Recs yesterday: 1, the I-063 packet. Executed (e9282cd, live fdcef477), and it stays open: the first-screen decision is carrying to 11-03 (manager review 29e8d250: DEFERRED).
+
+### Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-072 · P3 74e95ffb
+
+- **Since P3:** the manager review (a1ed6b53) read COMPLETED, defects none. Its delivery read: check-deployed-sha-drift in-sync, live 5bf38498 (docs-only, descends from 1b0681e).
+- **Receipt correction (the review's SUGGESTION):** the P3 receipt's "bug row I-072" named the action row. This lane has no standing no-analytics row (items.json searched for an analytics/instrument title: no match), so the blind encounter now sits on W-006. The ship line is otherwise unchanged.
+- **Ledger delta:**
+  - I-072 closed (closeWhen met: one commit with mirrors, Codex r2 no REFUTED-AS-WRITTEN, one line swapped per surface on production).
+  - I-058 closed (hygiene draft ACCEPTED): production Playwright read, 0 current-year phase words on the overlay readout (10/10 curves) and /poster (10 rows).
+  - W-006 minted (2026-11-03): Search Console impressions on / or /about after 2026-10-31, `gsc-read.mjs --start 2026-11-01`.
+  - I-073 minted (2026-12-01 or the next Zenodo release): CITATION.cff:21 and :34 still say "selection effect".
+- **Due gates:** `check-due-gates-dispositioned.mjs` → "verdict: CLEAR", snapshot CURRENT (taken 2026-10-31), 1 of 1 dispositioned.
+- **Hygiene draft:** 1 line — 1 accepted · 0 amended · 0 rejected. READ-MUTATED: none (1 read guarded). check-wait-justification PASS (0 warn, no expired until). check-engineering-zero PASS (0 findings, 0 unreadable).
+- **Pending reads:** 11-01 I-037. 11-02 I-051, I-067, I-069. 11-03 I-027, I-043, I-049, I-063 (first-screen decision), I-068, I-070, W-006. 11-04 I-032, I-071, W-005. 11-06 I-034. 12-01 I-025, I-042, I-073.
+- **UNRESOLVED:** none.
