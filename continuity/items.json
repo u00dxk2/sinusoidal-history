@@ -1381,15 +1381,15 @@
       "id": "I-037",
       "type": "issue",
       "priority": "P3",
-      "status": "monitoring",
+      "status": "closed",
       "identified": "2026-10-11",
       "owner": "sinusoidal-cycles",
       "title": "A writer pasting the /embed/docs snippets got frames that cut off what each snippet promised: the Huntington 'calibration' embed showed no curve and calibrated nothing",
       "hypothesis": "OBSERVED (synthetic Flow 3 walk, 2026-10-11 round 4 P1, N=1): pasted cross-origin at 390x844 and 1440x900, state-only showed 5 of 10 rows (content 666/679px in a 360px frame), the Huntington snippet showed a header and 'RISING' with no curve (489/501 in 280), the overlay hid its chart on a phone (1528 in 620), and every frame hid its 'via Sinusoidal History' attribution. Manager review 3e286b33 (REDIRECT) added: the single-cycle curve is 60px in 'normal' mode, a calibration is disclosed only by an md+ 'cal' tag, and facet headers in embeds are buttons wired to a no-op. Measured on top of that: Huntington's published peak IS 1968, so the docs' 'with calibration' example overrode nothing.",
-      "notes": "2026-10-11 (round 4 P3, manager review 3e286b33 REDIRECT): minted at build time. Fix: snippet heights hold the whole embed (700 / 500 / 1070; the facet stack stays a declared scroller and the overlay is declared wide-only in the docs); a single-cycle facets embed drops the summary panel and draws a 200px curve with its year axis; any override prints a visible line naming it and the site's published value; embed facet headers are labels (readOnly), not no-op buttons; the Huntington example now overrides to 1972. Guard: scripts/check-embed-snippets.mjs (pastes the served snippets cross-origin, rules 0-6 in its header), spawned by src/lib/check-embed-snippets.test.ts. Codex r1 on f5a2e8e: 1 product defect (a period-only override did not name the site's reference peak, contract (5)) and 6 check weaknesses (rebuilt the iframe instead of pasting it; no population/row/painted-curve check; geometry-only visibility; loose disclosure match; programmatic clicks; docs note read from raw HTML), all CONFIRMED and fixed in the follow-up commit: the wording lives in src/lib/embedCalibration.ts (unit-tested), and the check rebuilds the exact clause from /api/v1/cycles. Selftest 33/33. Red arm: production 25/42 (17 legs FAIL) before the deploy; local build 42/42. (Round 1's numbers were production 24/39, 15 FAIL.) Codex r2 on 28bbb07: 4 check weaknesses, 3 of them SECOND appearances of r1 classes (empty/missing curve passing via the data path; geometry visibility missing clipped rows and hidden child spans; a frame stuck on its fallback passing) plus hover effects certifying a dead click. Per the stop-patching rule the check changed SHAPE instead of gaining matchers: the components set structural marks (path[data-curve=theory], span[data-calibration-for]), visibility is a hit-test at each line box's centre, the disclosure span must equal the rebuilt clause exactly, rule 6 is stated as 'every embed button is a toggle whose aria-pressed flips on a pointer click', and a frame that never hydrates FAILs. Selftest 38/38; local 42/42; production 25/42 (17 FAIL). Codex r3 on 69d5c94: 2 findings, each the THIRD appearance of a class (a zero-width stroke would pass the curve leg; the docs-note leg skipped the hit-test). Per the rule, no third matcher: both legs' CLAIMS were narrowed to what their code checks (curve leg: marked theory path geometry + stroke colour/opacity, 'paint not judged'; docs-note leg: 'presence, not readability'), stated in the header. The painted line is evidenced by frame instead (scratchpad hun-358.png, 2026-10-12, the 200px Huntington curve with its calibration line). Review loop stopped at r3. Ceiling stated in the script header (two sampled widths; a button proves it does something, not what its label says).\n\n2026-10-12 (round 4 P3 delivery): pushed 29cb8df..8bb4dd4; CI GREEN on 8bb4dd4; check-deployed-sha-drift in-sync, live 8bb4dd43 = head. check-embed-snippets on production 42/42 (25/42 before the deploy). check-year-position 95/95 (unchanged surfaces still hold). CORRECTION to the P1 packet: it said an embed encounter would show as a non-sinusoidalhistory.com Referer in the monthly crawl-read. scripts/crawl-read.mjs has no Referer field (0 matches), so that read cannot see one; the encounter is blind, and closeWhen now names the read that decides whether it can ever be seen.",
+      "notes": "2026-10-11 (round 4 P3, manager review 3e286b33 REDIRECT): minted at build time. Fix: snippet heights hold the whole embed (700 / 500 / 1070; the facet stack stays a declared scroller and the overlay is declared wide-only in the docs); a single-cycle facets embed drops the summary panel and draws a 200px curve with its year axis; any override prints a visible line naming it and the site's published value; embed facet headers are labels (readOnly), not no-op buttons; the Huntington example now overrides to 1972. Guard: scripts/check-embed-snippets.mjs (pastes the served snippets cross-origin, rules 0-6 in its header), spawned by src/lib/check-embed-snippets.test.ts. Codex r1 on f5a2e8e: 1 product defect (a period-only override did not name the site's reference peak, contract (5)) and 6 check weaknesses (rebuilt the iframe instead of pasting it; no population/row/painted-curve check; geometry-only visibility; loose disclosure match; programmatic clicks; docs note read from raw HTML), all CONFIRMED and fixed in the follow-up commit: the wording lives in src/lib/embedCalibration.ts (unit-tested), and the check rebuilds the exact clause from /api/v1/cycles. Selftest 33/33. Red arm: production 25/42 (17 legs FAIL) before the deploy; local build 42/42. (Round 1's numbers were production 24/39, 15 FAIL.) Codex r2 on 28bbb07: 4 check weaknesses, 3 of them SECOND appearances of r1 classes (empty/missing curve passing via the data path; geometry visibility missing clipped rows and hidden child spans; a frame stuck on its fallback passing) plus hover effects certifying a dead click. Per the stop-patching rule the check changed SHAPE instead of gaining matchers: the components set structural marks (path[data-curve=theory], span[data-calibration-for]), visibility is a hit-test at each line box's centre, the disclosure span must equal the rebuilt clause exactly, rule 6 is stated as 'every embed button is a toggle whose aria-pressed flips on a pointer click', and a frame that never hydrates FAILs. Selftest 38/38; local 42/42; production 25/42 (17 FAIL). Codex r3 on 69d5c94: 2 findings, each the THIRD appearance of a class (a zero-width stroke would pass the curve leg; the docs-note leg skipped the hit-test). Per the rule, no third matcher: both legs' CLAIMS were narrowed to what their code checks (curve leg: marked theory path geometry + stroke colour/opacity, 'paint not judged'; docs-note leg: 'presence, not readability'), stated in the header. The painted line is evidenced by frame instead (scratchpad hun-358.png, 2026-10-12, the 200px Huntington curve with its calibration line). Review loop stopped at r3. Ceiling stated in the script header (two sampled widths; a button proves it does something, not what its label says).\n\n2026-10-12 (round 4 P3 delivery): pushed 29cb8df..8bb4dd4; CI GREEN on 8bb4dd4; check-deployed-sha-drift in-sync, live 8bb4dd43 = head. check-embed-snippets on production 42/42 (25/42 before the deploy). check-year-position 95/95 (unchanged surfaces still hold). CORRECTION to the P1 packet: it said an embed encounter would show as a non-sinusoidalhistory.com Referer in the monthly crawl-read. scripts/crawl-read.mjs has no Referer field (0 matches), so that read cannot see one; the encounter is blind, and closeWhen now names the read that decides whether it can ever be seen. | check-embed-snippets prod 42/42 PASS 2026-11-01; Render request logs carry no Referer (0 of 1,500 lines, 21 on /embed*): closed as delivered, encounter blind by construction per closeWhen",
       "closeWhen": "Delivery: production reads check-embed-snippets 42/42 (MET 2026-10-12 ~01:45 MT, live 8bb4dd4). Encounter: decided on 2026-11-01 by one read of a Render request-log line for /embed — if the logs carry a Referer, add an embedding-page leg to crawl-read and keep this row open for it; if they do not, close this row as delivered with the encounter blind by construction (no instrument can see a third-party page that embeds us).",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-embed-snippets.mjs https://sinusoidalhistory.com",
-      "readCommandLastRun": "2026-10-12T07:45:00.000Z",
+      "readCommandLastRun": "2026-11-01T15:57:57.733Z",
       "readCommandLastExit": 0,
       "nextEvaluation": "2026-11-01",
       "waitingFor": "The 2026-11-01 read of whether Render request logs carry a Referer for /embed (this lane's own read).",
@@ -1406,8 +1406,14 @@
         "8bb4dd4"
       ],
       "created": "2026-10-11",
-      "updated": "2026-10-12",
-      "lastEvaluated": "2026-10-12"
+      "updated": "2026-11-01",
+      "lastEvaluated": "2026-11-01",
+      "readCommandLastDurationMs": 33837,
+      "readCommandLastOutputRef": {
+        "lines": 47,
+        "sha256": "15ae7310f61b949f"
+      },
+      "closedAt": "2026-11-01"
     },
     {
       "id": "I-038",
@@ -2129,7 +2135,7 @@
     {
       "id": "I-070",
       "title": "The phone header still says 1600–2050 after the reader zooms the chart to a narrower window",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2138,9 +2144,9 @@
       "closeWhen": "A reader who zooms on a phone is not shown two different spans as the chart's years (the dek no longer reads as the chart's current window, or it follows the window), proved by one pre-registered cold walker or a source-pinned test; or a recorded decision to keep the dek as is, with the reason.",
       "nextEvaluation": "2026-11-03",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"Long-wave history, 1600\" -- src/app — presence of the static phone dek; this row's proof is a decision or a walk",
-      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: '… and the phone header still says 1600–2050 after a zoom'). Walk residual from the I-066 cold walk.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/app/(app)/page.tsx:63 still reads Long-wave history, 1600–2050. No walk, test or recorded decision yet.",
+      "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f: '… and the phone header still says 1600–2050 after a zoom'). Walk residual from the I-066 cold walk.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/app/(app)/page.tsx:63 still reads Long-wave history, 1600–2050. No walk, test or recorded decision yet. | 2026-11-01 (full day, P3 541268c7 · manager review ac972b44 COMPLETED): shipped e064df6 + c13b646 (Codex r1 fixes), CI ci.yml green on c13b646, live in-sync (c13b646a, then the docs-only b76ea61c). The phone dek now reads \"Long-wave theories of history.\" (was \"Long-wave history, 1600–2050.\"). closeWhen met on its source-pinned-test arm: src/lib/phoneDek.test.ts, red-armed (old line → the four-digit leg FAILED; restored 3/3). Live: check-rendered-text diff of the morning production snapshot vs production RED at line 13 only, multiset 24 lines / 21 distinct both sides; check-entry-folds 13/13 at 320x568 and 360x560. Codex r1 REJECT (3 overclaims in comments and test, fixed), r2 APPROVE. Encounter: blind (no client analytics). The one readable proxy, Search Console impressions on / dated 2026-11-02 or later (the first whole day after the ~16:20Z 11-01 deploy), is carried on W-006, which reads the same page with the same command on 2026-11-03.",
       "created": "2026-10-25",
-      "updated": "2026-10-29",
+      "updated": "2026-11-01",
       "readCommandLastRun": "2026-10-29T15:18:46.486Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 3765,
@@ -2148,7 +2154,12 @@
         "lines": 1,
         "sha256": "95f9cb1dc233c26c"
       },
-      "lastEvaluated": "2026-10-29"
+      "lastEvaluated": "2026-11-01",
+      "closedAt": "2026-11-01",
+      "linkedCommits": [
+        "e064df6",
+        "c13b646"
+      ]
     },
     {
       "id": "I-071",
@@ -2204,9 +2215,9 @@
       "closeWhen": "A page-grouped Search Console read (gsc-read.mjs) dated on or after 2026-11-03 shows at least one impression on / or /about dated after 2026-10-31 (an encounter: the changed surface was shown to someone), or zero with its window named, in which case re-date to the next read rather than close.",
       "nextEvaluation": "2026-11-03",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-11-01 — page-grouped impressions per page; the read is / and /about rows after the I-072 deploy",
-      "notes": "2026-10-31 (P5): minted on the manager review (a1ed6b53): 'The ONE thing the close must record: the pending Search Console read, an impression on /about or / dated after 2026-10-31, read on or after 2026-11-03 (gsc-read.mjs, page-grouped).' An impression is exposure (the page was shown in search), not a read of the sentence; there is no instrument for the sentence itself.",
+      "notes": "2026-10-31 (P5): minted on the manager review (a1ed6b53): 'The ONE thing the close must record: the pending Search Console read, an impression on /about or / dated after 2026-10-31, read on or after 2026-11-03 (gsc-read.mjs, page-grouped).' An impression is exposure (the page was shown in search), not a read of the sentence; there is no instrument for the sentence itself.\n\n | 2026-11-01 (P5, manager review ac972b44): W-006 also carries I-070's encounter read. I-070 (closed 11-01) changed the phone line on / to \"Long-wave theories of history.\", live ~16:20Z 2026-11-01. Search Console rows are whole days, so only / impressions dated 2026-11-02 or later count as I-070 exposure. On the 11-03 read, record the / impressions dated 2026-11-02+ separately; if Search Console has no 11-02 row yet (it lags about 3 days), re-check that leg on 2026-11-05 before closing this row.",
       "created": "2026-10-31",
-      "updated": "2026-10-31",
+      "updated": "2026-11-01",
       "onTrigger": "On 2026-11-03 run the readCommand; record the / and /about impressions dated after 2026-10-31 in notes. One or more on either page closes the row as an encounter; zero (window named) re-dates it to the next read."
     },
     {

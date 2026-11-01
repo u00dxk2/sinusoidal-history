@@ -60,6 +60,18 @@ USER-VISIBLE: A phone reader's first line under the home H1 now reads "Long-wave
   - (b) Owed child rows in the orchestrator's ledger: none (kickoff read "rows owed to you": 0 of 781).
   - (c) State reads marked CROSSED: none. Read: dated gates (1 owed, in (a)), rows owed 0, board cards 0, queued rows 0, stale-actionable 1 of 18 (no CROSSED marker), missingLinkedCommits swept nothing.
 
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-070 · P3 541268c7
+
+- **State since the P3 post:** live moved c13b646a → b76ea61c (docs-only; `check-deployed-sha-drift` in-sync, manager-verified c13b646 is an ancestor). The receipt is unchanged.
+- **Hygiene draft:** 1 line — 1 accepted · 0 amended · 0 rejected. I-037 closed as drafted. READ-MUTATED, quoted: "READ-MUTATED I-037 src/lib/phoneDek.test.ts — NOT named in the readCommand: may be the lane's own concurrent P3 edit; lane checks". It was: this lane's own new test file. check-wait-justification: PASS (32 of 80 carry it, 0 warn). check-engineering-zero: PASS (0 findings, 0 unreadable).
+- **Ledger delta:** I-037 closed (delivered; encounter blind by construction). I-070 closed (source-pinned-test arm met; linkedCommits e064df6, c13b646). W-006 notes: now also carries I-070's encounter leg, / impressions dated 2026-11-02 or later, read 11-03, re-check 11-05 if no 11-02 row yet.
+- **Due gates:** `check-due-gates-dispositioned.mjs` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-11-01).
+- **Pending reads:** W-006 2026-11-03 (I-072 + I-070 legs). I-068 2026-11-03 (zoom readout).
+
 ## State Appendix
 
 ### Section 0

@@ -1,0 +1,53 @@
+# read-output sidecar for I-037 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-embed-snippets.mjs https://sinusoidalhistory.com
+# ran: 2026-11-01T15:57:57.733Z · exit: 0
+# lines: 47 · sha256: 15ae7310f61b949f (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+4 snippets on https://sinusoidalhistory.com/embed/docs
+PASS  docs serve the state-only and the calibrated single-cycle snippet
+PASS  /embed?view=state-only frameable  — 200 csp=frame-ancestors * xfo=""
+PASS  /embed?view=facets&range=modern frameable  — 200 csp=frame-ancestors * xfo=""
+PASS  /embed?view=facets&cycles=huntington&peak.huntington=1972 frameable  — 200 csp=frame-ancestors * xfo=""
+PASS  /embed?view=facets&cycles=huntington&peak.huntington=1972 peak.huntington=1972 calibrates something  — published 1968
+PASS  /embed?view=overlay&range=modern frameable  — 200 csp=frame-ancestors * xfo=""
+PASS  docs carry the overlay's 'wider than 640px' note in its own block (presence, not readability)
+PASS  390 /embed?view=state-only frame loads
+PASS  390 /embed?view=state-only no horizontal overflow  — scrollWidth 358 / 358
+PASS  390 /embed?view=state-only fits its frame, attribution visible  — content 700px in 700px, footer seen
+PASS  390 /embed?view=state-only shows every cycle's row  — 10 of 10 rows visible, the API has 10
+PASS  390 /embed?view=state-only no dead tap targets (0 buttons)
+PASS  390 /embed?view=facets&range=modern frame loads
+PASS  390 /embed?view=facets&range=modern no horizontal overflow  — scrollWidth 358 / 358
+      390 /embed?view=facets&range=modern: declared scroller, content 2616px in 900px
+PASS  390 /embed?view=facets&range=modern no dead tap targets (0 buttons)
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 frame loads
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 no horizontal overflow  — scrollWidth 358 / 358
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 fits its frame, attribution visible  — content 540px in 540px, footer seen
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 huntington chart ≥180px, visible, with its marked theory path (paint not judged)  — 184px (path 143px), visible, "Huntington — creedal passion curve from 1942 to 20"
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 discloses huntington's calibration beside the site's reference peak  — "Huntington — creedal passion, peak 1972 (the site's reference peak is 1968)"
+PASS  390 /embed?view=facets&cycles=huntington&peak.huntington=1972 no dead tap targets (0 buttons)
+PASS  390 /embed?view=overlay&range=modern frame loads
+PASS  390 /embed?view=overlay&range=modern no horizontal overflow  — scrollWidth 358 / 358
+      390 /embed?view=overlay&range=modern: declared wide-only (the docs-note leg above judges whether the writer is told), content 1528px in 1070px
+PASS  390 /embed?view=overlay&range=modern no dead tap targets (19 buttons)
+PASS  1440 /embed?view=state-only frame loads
+PASS  1440 /embed?view=state-only no horizontal overflow  — scrollWidth 680 / 680
+PASS  1440 /embed?view=state-only fits its frame, attribution visible  — content 700px in 700px, footer seen
+PASS  1440 /embed?view=state-only shows every cycle's row  — 10 of 10 rows visible, the API has 10
+PASS  1440 /embed?view=state-only no dead tap targets (0 buttons)
+PASS  1440 /embed?view=facets&range=modern frame loads
+PASS  1440 /embed?view=facets&range=modern no horizontal overflow  — scrollWidth 680 / 680
+      1440 /embed?view=facets&range=modern: declared scroller, content 2519px in 900px
+PASS  1440 /embed?view=facets&range=modern no dead tap targets (0 buttons)
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 frame loads
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 no horizontal overflow  — scrollWidth 680 / 680
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 fits its frame, attribution visible  — content 540px in 540px, footer seen
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 huntington chart ≥180px, visible, with its marked theory path (paint not judged)  — 184px (path 143px), visible, "Huntington — creedal passion curve from 1942 to 20"
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 discloses huntington's calibration beside the site's reference peak  — "Huntington — creedal passion, peak 1972 (the site's reference peak is 1968)"
+PASS  1440 /embed?view=facets&cycles=huntington&peak.huntington=1972 no dead tap targets (0 buttons)
+PASS  1440 /embed?view=overlay&range=modern frame loads
+PASS  1440 /embed?view=overlay&range=modern no horizontal overflow  — scrollWidth 680 / 680
+PASS  1440 /embed?view=overlay&range=modern fits its frame, attribution visible  — content 1070px in 1070px, footer seen
+PASS  1440 /embed?view=overlay&range=modern no dead tap targets (19 buttons)
+42/42 PASS
