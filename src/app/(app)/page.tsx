@@ -59,8 +59,13 @@ export default function Home() {
                 are a figure, not controls. 2026-09-22.
                 The phone line used to restate the H1 ("Ten cycles … on one
                 axis") and wrapped to two lines at 320. It now says what the
-                H1 does not — the subject and the span — in one. 2026-09-24. */}
-            <span className="sm:hidden">Long-wave history, 1600–2050.</span>
+                H1 does not — the subject and the span — in one. 2026-09-24.
+                The span came out (I-070, 2026-11-01): "1600–2050" called 24
+                years past today "history" though every curve stops at today
+                (I-061), and it kept naming 1600–2050 after a zoom showed a
+                narrower window. With no year in it, the line cannot
+                contradict the chart below it. phoneDek.test.ts pins that. */}
+            <span className="sm:hidden">Long-wave theories of history.</span>
           </p>
           <p className="hidden sm:block mt-3 text-[13px] text-ink-soft italic font-display-italic">
             Click a row to focus one cycle; drag the brush below to zoom in
