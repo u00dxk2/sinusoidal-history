@@ -57,9 +57,12 @@ describe("periodSideOutside", () => {
 });
 
 describe("outsideWindowWords", () => {
-  it("names the side and nothing else: no year, no position", () => {
-    expect(outsideWindowWords("before")).toBe("drawn before these years");
-    expect(outsideWindowWords("after")).toBe("drawn after these years");
+  // Codex r1 (dfaea61): "drawn after these years" was false when the period
+  // only touches the window's edge, so the words claim only that nothing is
+  // drawn here, and the arrow gives the side.
+  it("says nothing is drawn here and points to the side: no year, no position", () => {
+    expect(outsideWindowWords("before")).toBe("← none drawn in these years");
+    expect(outsideWindowWords("after")).toBe("none drawn in these years →");
     for (const side of ["before", "after"] as const) {
       const words = outsideWindowWords(side);
       expect(words).not.toMatch(/\d/);
@@ -75,8 +78,20 @@ describe("overviewRowReading with a side", () => {
     const head = holdsUpCard(perez)!.headline;
     expect(overviewRowReading(perez)).toBe(` (55-year cycle). ${head}.`);
     expect(overviewRowReading(perez, "after")).toBe(
-      ` (55-year cycle). ${head}. Its wave is drawn after these years.`,
+      ` (55-year cycle). ${head}. None of its wave is drawn in these years; it starts at or after their end.`,
     );
+    const khaldun = byId("khaldun");
+    expect(overviewRowReading(khaldun, "before")).toBe(
+      ` (120-year cycle). ${holdsUpCard(khaldun)!.headline}. None of its wave is drawn in these years; it ends at or before their start.`,
+    );
+  });
+
+  it("stays true at an exact edge touch (Codex r1's 1805–1955 case)", () => {
+    // Schlesinger Jr. is drawn from 1955: a window ending at 1955 draws nothing.
+    const s = byId("schlesinger_jr");
+    expect(drawnPeriod(s, YEAR).from).toBe(1955);
+    expect(periodSideOutside(s, 1805, 1955, YEAR)).toBe("after");
+    expect(overviewRowReading(s, "after")).toContain("starts at or after their end");
   });
 });
 

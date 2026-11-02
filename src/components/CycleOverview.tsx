@@ -257,9 +257,7 @@ function OverviewRow({
               fill="currentColor"
               className="font-display-italic italic text-ink-soft"
             >
-              {outside === "after"
-                ? `${outsideWindowWords(outside)} →`
-                : `← ${outsideWindowWords(outside)}`}
+              {outsideWindowWords(outside)}
             </text>
           )}
         </g>
