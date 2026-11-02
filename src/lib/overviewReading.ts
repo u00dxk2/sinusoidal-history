@@ -71,8 +71,10 @@ export function glanceVerdictFromHeadlines(heads: (string | undefined)[]): strin
  * walk B read the ring on Dalio's crest at the bold 2026 line as "peaking now"
  * beside two visible verdicts, so the figure lost every mark at the current
  * year and the spoken row loses its "curve <phase> in <year>" with it. The
- * sentence is the same at every brush range. The headline is holdsUpCard's, so
- * it cannot drift from the card and the cycle page.
+ * period and verdict are the same at every brush range; only when the window
+ * holds none of the drawn wave does it add the outside-window sentence (I-069).
+ * The headline is holdsUpCard's, so it cannot drift from the card and the cycle
+ * page.
  */
 export function overviewRowReading(
   cycle: Cycle,
