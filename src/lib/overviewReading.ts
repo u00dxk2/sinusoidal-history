@@ -74,8 +74,24 @@ export function glanceVerdictFromHeadlines(heads: (string | undefined)[]): strin
  * sentence is the same at every brush range. The headline is holdsUpCard's, so
  * it cannot drift from the card and the cycle page.
  */
-export function overviewRowReading(cycle: Cycle): string {
+export function overviewRowReading(
+  cycle: Cycle,
+  outside: "before" | "after" | null = null,
+): string {
   const card = holdsUpCard(cycle);
   const verdict = card ? ` ${card.headline}.` : "";
-  return ` (${cycle.period_years}-year cycle).${verdict}`;
+  const where = outside ? ` Its wave is ${outsideWindowWords(outside)}.` : "";
+  return ` (${cycle.period_years}-year cycle).${verdict}${where}`;
+}
+
+/**
+ * What a glance row says when the brushed window holds none of its drawn wave
+ * (I-069). The 10-25 cold walk zoomed to 1801–1951 and read the blank Schlesinger
+ * Jr. and Perez rows as missing data. Each row draws one period (I-061), so a
+ * narrow window can hold none of it; the row then says which side of the
+ * window the wave is drawn on. "These years" are the axis under the rows. It
+ * names a side, never a year and never where the present sits.
+ */
+export function outsideWindowWords(side: "before" | "after"): string {
+  return `drawn ${side} these years`;
 }

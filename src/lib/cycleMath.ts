@@ -50,6 +50,27 @@ export function drawnSpan(
 }
 
 /**
+ * Which side of [start, end] the cycle's drawn period lies on, when the window
+ * holds none of it (I-069): the cases where `drawnSpan` is null. Null while the
+ * window draws any of the period. A period that only TOUCHES the window at one
+ * edge (period.to === start, or period.from === end) draws nothing there, so it
+ * counts as outside, on that side. It names a side of the window, never where
+ * the present sits (I-061).
+ */
+export function periodSideOutside(
+  cycle: Cycle,
+  start: number,
+  end: number,
+  currentYear: number
+): "before" | "after" | null {
+  if (drawnSpan(cycle, start, end, currentYear)) return null;
+  const p = drawnPeriod(cycle, currentYear);
+  if (p.to <= start) return "before";
+  if (p.from >= end) return "after";
+  return null;
+}
+
+/**
  * Points of the drawn period inside [start, end], every `step` years, with
  * both ends of the span included exactly. Empty when the window holds none
  * of it.

@@ -5,7 +5,12 @@ import { line as d3Line, curveCatmullRom } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
 import { cycleTheorist } from "@/lib/cycleRoutes";
-import { glanceVerdictLine, overviewRowReading } from "@/lib/overviewReading";
+import {
+  glanceVerdictLine,
+  outsideWindowWords,
+  overviewRowReading,
+} from "@/lib/overviewReading";
+import { periodSideOutside } from "@/lib/cycleMath";
 import {
   useContainerWidth,
   useCycleValues,
@@ -152,6 +157,11 @@ export default function CycleOverview({
   );
 }
 
+/** The drawable width inside a row's chart area (both PAD insets removed). */
+function innerWidthOf(chartWidth: number): number {
+  return Math.max(0, chartWidth - PAD * 2);
+}
+
 function OverviewRow({
   cycle,
   chartWidth,
@@ -181,9 +191,22 @@ function OverviewRow({
   }, [points, xScale, yScale]);
 
   const theorist = cycleTheorist(cycle);
+  // I-069: a window that holds none of the row's one drawn wave left the row
+  // blank, and the 10-25 cold walk read that as missing data. Same current year
+  // as useCycleValues, so the word and the (empty) curve cannot disagree.
+  const outside = periodSideOutside(
+    cycle,
+    startYear,
+    endYear,
+    new Date().getUTCFullYear()
+  );
 
   return (
-    <li data-overview-id={cycle.id} style={{ height: ROW_H }}>
+    <li
+      data-overview-id={cycle.id}
+      data-outside-window={outside ?? undefined}
+      style={{ height: ROW_H }}
+    >
       {/* The visible name is the button's name; the reading the curve shows
           follows it as sr-only text. */}
       <button
@@ -203,7 +226,7 @@ function OverviewRow({
         <span className="font-display text-[12px] leading-none tracking-tight text-ink truncate">
           {theorist}
           {/* No position, because the row draws none (overviewReading.ts). */}
-          <span className="sr-only">{overviewRowReading(cycle)} Opens its card.</span>
+          <span className="sr-only">{overviewRowReading(cycle, outside)} Opens its card.</span>
         </span>
       </span>
       <svg
@@ -221,6 +244,24 @@ function OverviewRow({
             strokeOpacity={0.85}
             strokeLinecap="round"
           />
+          {/* At the edge the wave lies beyond, so the word points at it. Soft
+              ink, not the row colour: it is a caption for the empty row. */}
+          {outside && (
+            <text
+              data-outside-word
+              x={outside === "after" ? innerWidthOf(chartWidth) : 0}
+              y={ROW_H / 2}
+              textAnchor={outside === "after" ? "end" : "start"}
+              dominantBaseline="central"
+              fontSize={11}
+              fill="currentColor"
+              className="font-display-italic italic text-ink-soft"
+            >
+              {outside === "after"
+                ? `${outsideWindowWords(outside)} →`
+                : `← ${outsideWindowWords(outside)}`}
+            </text>
+          )}
         </g>
       </svg>
       </button>
