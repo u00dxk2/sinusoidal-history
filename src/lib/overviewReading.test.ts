@@ -20,7 +20,7 @@ import { readFileSync } from "node:fs";
 // rendered width; a font or tracking change voids the budget (re-measure, see overviewReading.ts).
 describe("glanceCaption", () => {
   it("says the peaks were chosen and none is confirmed while the verdict line holds", () => {
-    expect(glanceCaption(glanceVerdictLine(cycles))).toBe("Peaks chosen · none confirmed");
+    expect(glanceCaption(glanceVerdictLine(cycles))).toBe("Peaks chosen · no cycle confirmed");
   });
 
   it("falls back to the claim-free caption when the verdict line has nothing to state", () => {
@@ -34,7 +34,8 @@ describe("glanceCaption", () => {
   });
 
   it("is what the figure renders", () => {
-    const src = readFileSync("src/components/CycleOverview.tsx", "utf8");
+    // Resolved from this file, not the cwd (Codex r1: run from src/ it read src/src/...).
+    const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
     expect(src).toMatch(/\{glanceCaption\(verdictLine\)\}/);
   });
 });
