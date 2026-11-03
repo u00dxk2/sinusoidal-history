@@ -1,31 +1,88 @@
 # read-output sidecar for I-027 — written by check-due-gates-dispositioned --run
 # readCommand: npm --prefix C:/dev/skylark/sinusoidal-cycles audit --audit-level=high
-# ran: 2026-10-20T06:08:42.660Z · exit: 1
-# lines: 25 · sha256: 206d47478f66a579 (first 16 hex of the output below)
+# ran: 2026-11-03T15:05:12.141Z · exit: 0
+# lines: 82 · sha256: 47d784abd1e2e738 (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
 # npm audit report
 
-braces  *
-Severity: high
-braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
+minimatch  <11.0.1
+Severity: moderate
+minimatch has potential denial of service via globparts amplification - https://github.com/advisories/GHSA-g3hv-75wg-m249
 fix available via `npm audit fix --force`
-Will install eslint-config-next@14.2.35, which is a breaking change
-node_modules/braces
-  micromatch  >=0.2.0
-  Depends on vulnerable versions of braces
-  node_modules/micromatch
-    fast-glob  *
-    Depends on vulnerable versions of micromatch
-    node_modules/fast-glob
-      @next/eslint-plugin-next  >=14.3.0-canary.0
-      Depends on vulnerable versions of fast-glob
-      node_modules/@next/eslint-plugin-next
-        eslint-config-next  >=14.3.0-canary.0
-        Depends on vulnerable versions of @next/eslint-plugin-next
-        node_modules/eslint-config-next
+Will install eslint@4.0.0, which is a breaking change
+node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch
+node_modules/minimatch
+  @eslint/config-array  *
+  Depends on vulnerable versions of minimatch
+  node_modules/@eslint/config-array
+    eslint  0.7.1 - 2.0.0-rc.1 || >=4.1.0
+    Depends on vulnerable versions of @eslint-community/eslint-utils
+    Depends on vulnerable versions of @eslint/config-array
+    Depends on vulnerable versions of @eslint/eslintrc
+    Depends on vulnerable versions of minimatch
+    node_modules/eslint
+      @eslint-community/eslint-utils  *
+      Depends on vulnerable versions of eslint
+      node_modules/@eslint-community/eslint-utils
+        @next/eslint-plugin-next  >=16.3.0-canary.0
+        Depends on vulnerable versions of @eslint-community/eslint-utils
+        node_modules/@next/eslint-plugin-next
+          eslint-config-next  >=10.2.1-canary.2
+          Depends on vulnerable versions of @next/eslint-plugin-next
+          Depends on vulnerable versions of eslint
+          Depends on vulnerable versions of eslint-plugin-import
+          Depends on vulnerable versions of eslint-plugin-jsx-a11y
+          Depends on vulnerable versions of eslint-plugin-react
+          Depends on vulnerable versions of typescript-eslint
+          node_modules/eslint-config-next
+        @typescript-eslint/utils  *
+        Depends on vulnerable versions of @eslint-community/eslint-utils
+        Depends on vulnerable versions of @typescript-eslint/typescript-estree
+        Depends on vulnerable versions of eslint
+        node_modules/@typescript-eslint/utils
+          @typescript-eslint/eslint-plugin  *
+          Depends on vulnerable versions of @typescript-eslint/parser
+          Depends on vulnerable versions of @typescript-eslint/type-utils
+          Depends on vulnerable versions of @typescript-eslint/utils
+          Depends on vulnerable versions of eslint
+          node_modules/@typescript-eslint/eslint-plugin
+          typescript-eslint  *
+          Depends on vulnerable versions of @typescript-eslint/eslint-plugin
+          Depends on vulnerable versions of @typescript-eslint/parser
+          Depends on vulnerable versions of @typescript-eslint/typescript-estree
+          Depends on vulnerable versions of @typescript-eslint/utils
+          Depends on vulnerable versions of eslint
+          node_modules/typescript-eslint
+      @typescript-eslint/parser  *
+      Depends on vulnerable versions of @typescript-eslint/typescript-estree
+      Depends on vulnerable versions of eslint
+      node_modules/@typescript-eslint/parser
+      @typescript-eslint/type-utils  >=5.62.1-alpha.0
+      Depends on vulnerable versions of @typescript-eslint/typescript-estree
+      Depends on vulnerable versions of @typescript-eslint/utils
+      Depends on vulnerable versions of eslint
+      node_modules/@typescript-eslint/type-utils
+  @eslint/eslintrc  0.0.1 || >=0.1.1
+  Depends on vulnerable versions of minimatch
+  node_modules/@eslint/eslintrc
+  @typescript-eslint/typescript-estree  >=6.16.0
+  Depends on vulnerable versions of minimatch
+  node_modules/@typescript-eslint/typescript-estree
+  eslint-plugin-import  >=1.15.0
+  Depends on vulnerable versions of minimatch
+  node_modules/eslint-plugin-import
+  eslint-plugin-jsx-a11y  >=6.5.0
+  Depends on vulnerable versions of minimatch
+  node_modules/eslint-plugin-jsx-a11y
+  eslint-plugin-react  >=7.23.0
+  Depends on vulnerable versions of minimatch
+  node_modules/eslint-plugin-react
 
-5 high severity vulnerabilities
+16 moderate severity vulnerabilities
+
+To address issues that do not require attention, run:
+  npm audit fix
 
 To address all issues (including breaking changes), run:
   npm audit fix --force

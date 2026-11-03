@@ -1,0 +1,9 @@
+# read-output sidecar for W-006 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-11-01
+# ran: 2026-11-03T15:02:14.090Z · exit: 0
+# lines: 3 · sha256: 83a07abccbaba6ac (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+window 2026-11-01..2026-11-03 (sc-domain:sinusoidalhistory.com) TOTAL clicks=0 impressions=5 position=13.8
+  https://sinusoidalhistory.com/about  clicks=0 impressions=3 position=6.7
+  https://sinusoidalhistory.com/cycles  clicks=0 impressions=2 position=24.5
