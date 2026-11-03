@@ -70,3 +70,30 @@ USER-VISIBLE: A phone reader of the home page now sees, on the first screen abov
 - **Prep (no commit), baseline:** `check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568` → "OK: 13 of 13 entry-page legs answer on the first screen", home 12px spare (tightest: /cycles/perez 5px).
 - **Bus:** P1 task-complete 7a02fe5c; listener-confirm status 25bf6386.
 - **Due-gates snapshot:** `check-due-gates-dispositioned.mjs --snapshot` → "snapshot written — 6 gate(s) due on/before 2026-11-03" (I-027, I-043, I-049, I-063, I-068, W-006).
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item I-063 · P3 455a5323
+
+- **Acceptance:** met, per manager review b17b6181 ("COMPLETED"). It took its own 320x568 production read: the caption sits at top 292, one line, visible. "no cycle confirmed" is accepted as the equivalent of "none confirmed".
+- **Since P3:** the walk doc's time was wrong ("~09:50 MT"); the walk ran ~08:40 MT, now corrected. Status c206deaf ("P5 not queued +30m") gave the P3 time as 14:43Z; the correct time is 15:43Z (08:43 MT), and 1e9edcc3 corrects that claim. Nothing user-facing changed after P3.
+- **Walk ceiling (review):** walked at 390x664 only; 320x568 was measured, not walked. At 390 the full verdict sentence was also on screen (y≈620). At 320x568 it sits just below the fold (top 584), so the smallest phone gets the caption alone. This is written into I-063's notes.
+- **Hygiene draft:** 5 lines, 4 accepted · 1 amended · 0 rejected.
+  - I-027 ACCEPTED, closed (npm audit: 0 high, 0 critical). The 16 moderate are a different advisory (minimatch, dev-only, no non-breaking fix); no new row.
+  - I-043 UNDECIDED → AMENDED to (a), re-dated 11-05. This is the fourth re-date, so the next full day selects it or records a decision.
+  - I-049 ACCEPTED → 11-06.
+  - I-068 ACCEPTED → 11-06.
+  - W-006 ACCEPTED → 11-05. The I-072 leg is met (/about 3 impressions); only the I-070 `/` leg remains.
+  - READ-MUTATED ×3 on I-027 (`src/components/CycleOverview.tsx`, `src/lib/overviewReading.ts`, `src/lib/overviewReading.test.ts`): all three are this lane's own 0009f81, committed during the read window. `npm audit` writes no source; status af3670d6.
+  - check-wait-justification: "RESULT: PASS — 32 of 81 row(s) carry `waitJustification`; 0 warn / 0 info". check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable".
+- **Ledger delta:**
+  - Closed: I-063, I-027.
+  - Re-dated: I-043 and W-006 → 11-05; I-049 and I-068 → 11-06, each with a notes line.
+  - Minted as candidate rows on the review's instruction: I-075 (who chose the peaks, 11-10), I-076 (which cycle has no record, 11-10), I-077 (unlabeled hump heights, 11-12), I-078 (calibrated-state verdict scope from Codex r2, P4, 11-12).
+- **Due-gate verification:** `check-due-gates-dispositioned.mjs` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned." · "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-11-03)".
+- **Receipt:** P3's receipt stands unchanged (exposure blind · bug row I-063; no outcome read exists beyond the synthetic walk).
+- **Pending reads:** 11-04 I-032, I-071, W-005 · 11-05 I-043, W-006 (`/` leg) · 11-06 I-034, I-049, I-068 · 11-09 I-074 · 11-10 I-075, I-076 · 11-12 I-077, I-078 · 11-16 I-051 · 12-01 I-025, I-042, I-073.
+- **UNRESOLVED:** none.
+- **codexCalls:** 2 (both at P3; none at the close).
