@@ -6,6 +6,7 @@ import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
 import { cycleTheorist } from "@/lib/cycleRoutes";
 import {
+  glanceCaption,
   glanceVerdictLine,
   outsideWindowWords,
   overviewRowReading,
@@ -108,8 +109,9 @@ export default function CycleOverview({
             row has 12px to spare at 320x568 (check-entry-folds). Since
             2026-10-16 it carries the verdict too, the only place a verdict
             fits a 320x568 first screen; it falls back to the old words the
-            moment the line below has nothing it may state. */}
-        {verdictLine ? "Theory shapes · none confirmed" : "Theory shapes, not findings"}
+            moment the line below has nothing it may state. Since 2026-11-03
+            (I-063) it also says the peaks were chosen: see glanceCaption. */}
+        {glanceCaption(verdictLine)}
       </figcaption>
       <ul className="list-none m-0 p-0">
         {cycles.map((cycle) => (

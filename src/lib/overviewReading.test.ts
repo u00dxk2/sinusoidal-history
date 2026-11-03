@@ -4,12 +4,40 @@ import { countWord } from "@/lib/countWords";
 import {
   CLUSTER_FROM,
   CLUSTER_TO,
+  GLANCE_CAPTION_MAX_CHARS,
+  glanceCaption,
   glanceClusterLine,
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
   overviewRowReading,
 } from "@/lib/overviewReading";
 import { holdsUpCard } from "@/lib/holdsUp";
+import { readFileSync } from "node:fs";
+
+// I-063 (2026-11-03): the caption is the figure's one first-screen line on every phone. It says
+// the peaks were chosen beside I-048's verdict, and it must stay one line at 320px: 33 characters,
+// measured on production (288px box, 8.58px per character). Ceiling: a character count, not a
+// rendered width; a font or tracking change voids the budget (re-measure, see overviewReading.ts).
+describe("glanceCaption", () => {
+  it("says the peaks were chosen and none is confirmed while the verdict line holds", () => {
+    expect(glanceCaption(glanceVerdictLine(cycles))).toBe("Peaks chosen · none confirmed");
+  });
+
+  it("falls back to the claim-free caption when the verdict line has nothing to state", () => {
+    expect(glanceCaption(null)).toBe("Theory shapes, not findings");
+  });
+
+  it("fits the measured one-line budget at 320px in both states", () => {
+    for (const v of [glanceVerdictLine(cycles), null]) {
+      expect(glanceCaption(v).length).toBeLessThanOrEqual(GLANCE_CAPTION_MAX_CHARS);
+    }
+  });
+
+  it("is what the figure renders", () => {
+    const src = readFileSync("src/components/CycleOverview.tsx", "utf8");
+    expect(src).toMatch(/\{glanceCaption\(verdictLine\)\}/);
+  });
+});
 
 // I-048: the glance figure's visible verdict, counted from the cards' headlines.
 describe("glanceVerdictLine", () => {

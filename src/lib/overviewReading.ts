@@ -51,6 +51,24 @@ export function glanceClusterLine(
   return `${countWord(inside)} of the ${countWordLower(stored.length)} peak years fall between ${CLUSTER_FROM} and ${CLUSTER_TO}. They are anchors, set by the theorists or by this site, not evidence that the cycles agree.`;
 }
 
+/**
+ * The glance figure's caption, its one line on every phone's first screen (I-063, 2026-11-03).
+ * Walkers read the nine humps bunched between 1945 and 2020 as the cycles agreeing; the line
+ * saying the peak years are anchors (glanceClusterLine) sits under the strip, on the second
+ * screen. So the caption itself says the peaks were chosen, beside I-048's "none confirmed".
+ * "Chosen" holds at every range and every calibration: a stored peak is a theorist's date or
+ * this site's choice (I-072), a calibrated one is the reader's. So it does not follow
+ * glanceClusterLine's null rules, and the caption does not flip when a reader zooms.
+ * Budget, measured on production 2026-11-03: the caption box is 288px at 320px wide and the
+ * font sets 8.58px per character, so it holds 33 characters on one line. A second line costs
+ * 16px and the home first screen has 12px spare at 320x568 (check-entry-folds).
+ */
+export const GLANCE_CAPTION_MAX_CHARS = 33;
+
+export function glanceCaption(verdictLine: string | null): string {
+  return verdictLine ? "Peaks chosen · none confirmed" : "Theory shapes, not findings";
+}
+
 /** glanceVerdictLine's rule over the headlines alone (undefined = a cycle with no card). */
 export function glanceVerdictFromHeadlines(heads: (string | undefined)[]): string | null {
   const untestable = heads.filter((h) => h === NOT_TESTABLE_HEADLINE).length;
