@@ -9,7 +9,6 @@ import { dataSeries } from "@/data/series";
 import {
   countWord,
   countWordLower,
-  cyclesIndexDescription,
   cyclesIndexTitle,
   homeDek,
   homeGateLine,
@@ -64,7 +63,6 @@ describe("the count surfaces derive from the data", () => {
       "each drawn as at most one period of a pure sinusoid around one documented peak, cut at today;",
     );
     expect(cyclesIndexTitle(cycles.length)).toBe("The ten cycles");
-    expect(cyclesIndexDescription(cycles.length).startsWith("Ten long-wave cycles of history - ")).toBe(true);
   });
 
   it("each moves with the count", () => {
@@ -72,7 +70,6 @@ describe("the count surfaces derive from the data", () => {
     expect(posterStandfirst(11).startsWith("Eleven ")).toBe(true);
     expect(homeDek(11, 10)).toContain("ten of the eleven carry");
     expect(cyclesIndexTitle(11)).toBe("The eleven cycles");
-    expect(cyclesIndexDescription(11).startsWith("Eleven ")).toBe(true);
   });
 
   it("no source file types a count back in", () => {
@@ -93,7 +90,8 @@ describe("the count surfaces derive from the data", () => {
     );
     expect(home).not.toMatch(new RegExp(`${COUNT_WORD} cycles,|${COUNT_WORD} of the ${COUNT_WORD}|\\d+ of the \\d+`));
     expect(index).toContain("cyclesIndexTitle(cycles.length)");
-    expect(index).toContain("cyclesIndexDescription(cycles.length)");
+    // W-005: the description's count comes from holdsUpOverall over the cycles themselves.
+    expect(index).toContain("cyclesIndexDescription(cycles)");
     expect(index).not.toMatch(new RegExp(`"The ${COUNT_WORD} cycles"|"${COUNT_WORD} long-wave cycles`));
   });
 });
@@ -136,18 +134,8 @@ const HOME_DEK_NAME: Record<string, string> = {
   strauss_howe: "Strauss-Howe",
   modelski: "Modelski",
 };
-const INDEX_NAME: Record<string, string> = {
-  khaldun: "Khaldun",
-  kondratiev: "Kondratiev",
-  huntington: "Huntington",
-  schlesinger_jr: "Schlesinger Jr.",
-  perez: "Perez",
-  turchin: "Turchin's secular cycle",
-  turchin_fathers_sons: "Turchin's fathers-and-sons",
-  dalio: "Dalio",
-  strauss_howe: "Strauss-Howe",
-  modelski: "Modelski",
-};
+// The /cycles description left this list on 2026-11-04 (W-005): a 160-character search snippet
+// names three theorists a searcher types, not all ten (holdsUp.test.ts pins which).
 
 // The poster footer's "Drawn from Khaldun · Kondratiev · …" roster (I-006's own list, Poster.tsx),
 // read from the source between "Drawn from" and its closing </div>, whitespace collapsed.
@@ -164,7 +152,6 @@ describe("the hand-written name lists cover every cycle", () => {
 
   for (const [label, map, text] of [
     ["home dek", HOME_DEK_NAME, homeDek(cycles.length, dataSeries.length)],
-    ["/cycles description", INDEX_NAME, cyclesIndexDescription(cycles.length)],
     ["poster roster", HOME_DEK_NAME, posterRoster],
   ] as const) {
     it(`${label} names each cycle id`, () => {

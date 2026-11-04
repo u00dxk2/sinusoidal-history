@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import HashLink from "@/components/HashLink";
 import { cycles } from "@/data/cycles";
-import { cyclesIndexDescription, cyclesIndexTitle } from "@/lib/countWords";
 import {
   confidenceGloss,
   confidenceLabel,
   cycleRoutePath,
   seriesForCycle,
 } from "@/lib/cycleRoutes";
-import { holdsUpOverallAlt } from "@/lib/holdsUp";
+import { cyclesIndexTitle } from "@/lib/countWords";
+import { CYCLES_INDEX_TITLE, cyclesIndexDescription, holdsUpOverallAlt } from "@/lib/holdsUp";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
@@ -18,8 +18,11 @@ import VerdictTable from "@/components/VerdictTable";
 // The verdict list's rows with no record: the same rule as VerdictTable's UNPAIRED.
 const unpairedCount = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id === c.id)).length;
 
-const TITLE = cyclesIndexTitle(cycles.length);
-const DESCRIPTION = cyclesIndexDescription(cycles.length);
+// The search title asks the question; the H1 stays the index's name (a longer H1 would move the
+// phone fold, which check-entry-folds budgets).
+const TITLE = CYCLES_INDEX_TITLE;
+const H1 = cyclesIndexTitle(cycles.length);
+const DESCRIPTION = cyclesIndexDescription(cycles);
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -203,7 +206,7 @@ export default function CyclesIndex() {
           Index · By ascending period
         </p>
         <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[34px] sm:text-[clamp(40px,6vw,56px)]">
-          {TITLE}
+          {H1}
         </h1>
         <div className="editorial-rule mt-3 sm:mt-4" />
         <p className="mt-3 sm:mt-4 text-[15px] leading-[1.55] sm:text-[16px] sm:leading-[1.6] text-ink/85">

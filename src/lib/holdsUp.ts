@@ -111,6 +111,22 @@ export function holdsUpOverall(all: Cycle[]): HoldsUpCard {
   return overallAnswer(all.length, testable);
 }
 
+// W-005 (2026-11-04): the /cycles search result. /cycles was the page Search Console showed most
+// (44 of 123 impressions since 09-20, position 7.2, 0 clicks), and its result read "The ten cycles"
+// over a list of ten names: nothing said the page answers whether they hold up. The title asks
+// the question; the description keeps three names a searcher types (the only non-brand queries
+// on record were Dalio's), gives holdsUpOverall's answer, and ends on what the page still gives.
+// Budgets, Google's truncation points: the RENDERED title (the layout appends " · Sinusoidal
+// History") <= 60 characters, the description <= 160. holdsUp.test.ts pins both.
+
+/** The /cycles index title, before the layout's " · Sinusoidal History" suffix. */
+export const CYCLES_INDEX_TITLE = "Do history's cycles hold up?";
+
+/** The /cycles index meta description (the search snippet; also og:, twitter: and JSON-LD). */
+export function cyclesIndexDescription(all: Cycle[]): string {
+  return `Dalio, Strauss-Howe, Turchin: do the cycles hold up? ${holdsUpOverall(all).headline}. Each with its period, peak and source.`;
+}
+
 /** The detail line on a main card drawn with a changed period or peak (`/og?period.<id>=`). */
 export const CALIBRATED_CARD_NOTE =
   "This card draws changed periods or peaks; the verdicts are for the stored ones.";

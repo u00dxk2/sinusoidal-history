@@ -12,6 +12,8 @@ import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { metadata as cyclesMetadata } from "@/app/(app)/cycles/page";
 import {
   CALIBRATED_CARD_NOTE,
+  CYCLES_INDEX_TITLE,
+  cyclesIndexDescription,
   holdsUpAlt,
   holdsUpCard,
   holdsUpOverall,
@@ -161,5 +163,62 @@ describe("I-056: the main share card answers its own question", () => {
     expect(route.includes("snapshotCard(effective, true)")).toBe(true);
     expect(/calibrated\s*\?\s*CALIBRATED_CARD_NOTE\s*:\s*`\$\{answer\.detail\}/.test(route)).toBe(true);
     expect(CALIBRATED_CARD_NOTE).toContain("the verdicts are for the stored ones");
+  });
+});
+
+// W-005 (2026-11-04): the /cycles search result asks the reader's question and answers it.
+// Budgets are Google's truncation points, measured on the RENDERED title (the layout's template
+// appends " · Sinusoidal History", read from layout.tsx source because vitest cannot load
+// next/font). Ceiling: a character count, not the pixel width Google actually truncates at.
+describe("W-005: the /cycles search result asks and answers", () => {
+  const layout = readFileSync(join(process.cwd(), "src", "app", "layout.tsx"), "utf8");
+  const suffix = layout.match(/template: `%s(.*?)\$\{SITE_NAME\}`/);
+  const siteName = readFileSync(join(process.cwd(), "src", "lib", "siteConfig.ts"), "utf8").match(
+    /SITE_NAME = "([^"]+)"/,
+  );
+
+  it("the rendered title asks the question in 60 characters or fewer", () => {
+    expect(suffix, "layout title template not found").not.toBeNull();
+    expect(siteName, "SITE_NAME not found").not.toBeNull();
+    const rendered = `${CYCLES_INDEX_TITLE}${suffix![1]}${siteName![1]}`;
+    expect(rendered).toBe("Do history's cycles hold up? · Sinusoidal History");
+    expect(rendered.length).toBeLessThanOrEqual(60);
+    expect(cyclesMetadata.title).toBe(CYCLES_INDEX_TITLE);
+  });
+
+  it("the description names three theorists, gives the overall answer, and fits 160", () => {
+    const d = cyclesIndexDescription(cycles);
+    expect(d).toBe(
+      "Dalio, Strauss-Howe, Turchin: do the cycles hold up? Not yet: none of the ten is testable on the record that exists. Each with its period, peak and source.",
+    );
+    expect(d).toContain(`${holdsUpOverall(cycles).headline}.`);
+    expect(d.length).toBeLessThanOrEqual(160);
+    // Every theorist it names is a cycle on this site.
+    for (const name of ["Dalio", "Strauss-Howe", "Turchin"]) {
+      expect(cycles.some((c) => c.name.includes(name)), name).toBe(true);
+    }
+  });
+
+  it("the answer moves with the verdicts and stays inside 160 at the longest headline", () => {
+    // The longest headline overallAnswer can give for ten cycles is the "Not yet" one; a
+    // testable count shortens it. Built from a stand-in so the budget holds once one is testable.
+    for (const testable of [0, 1, 3, 10]) {
+      const headline = overallAnswer(cycles.length, testable).headline;
+      const d = cyclesIndexDescription(cycles).replace(holdsUpOverall(cycles).headline, headline);
+      expect(d.length, `${testable} testable`).toBeLessThanOrEqual(160);
+    }
+  });
+
+  it("og:, twitter: and the JSON-LD carry the same text", () => {
+    const d = cyclesIndexDescription(cycles);
+    expect(cyclesMetadata.description).toBe(d);
+    expect(cyclesMetadata.openGraph?.description).toBe(d);
+    expect(cyclesMetadata.openGraph?.title).toBe(CYCLES_INDEX_TITLE);
+    expect(cyclesMetadata.twitter?.description).toBe(d);
+    const page = readFileSync(join(process.cwd(), "src", "app", "(app)", "cycles", "page.tsx"), "utf8");
+    expect(page).toMatch(/"@type": "DefinedTermSet",[\s\S]*?description: DESCRIPTION,/);
+    // The H1 keeps the index's name (a longer H1 moves the phone fold).
+    expect(page).toContain("{H1}");
+    expect(page).not.toMatch(/Not yet: none of|Do history's cycles/);
   });
 });

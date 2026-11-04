@@ -61,12 +61,10 @@ export function homeGateLine(eligible: number, total: number): string {
     : `${count}.`;
 }
 
-/** The /cycles index title. */
+/**
+ * The /cycles index H1. Since W-005 (2026-11-04) it is the H1 only: the page's `<title>` and
+ * meta description ask and answer the question instead (holdsUp.ts, CYCLES_INDEX_TITLE).
+ */
 export function cyclesIndexTitle(cycleCount: number): string {
   return `The ${countWordLower(cycleCount)} cycles`;
-}
-
-/** The /cycles index meta description (the search snippet). */
-export function cyclesIndexDescription(cycleCount: number): string {
-  return `${countWord(cycleCount)} long-wave cycles of history - Schlesinger Jr., Turchin's fathers-and-sons, Kondratiev, Perez, Huntington, Dalio, Strauss-Howe, Modelski, Khaldun, Turchin's secular cycle - each with its period, reference peak, sourcing, and paired data series.`;
 }
