@@ -22,7 +22,7 @@ const unpairedCount = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_
 // phone fold, which check-entry-folds budgets).
 const TITLE = CYCLES_INDEX_TITLE;
 const H1 = cyclesIndexTitle(cycles.length);
-const DESCRIPTION = cyclesIndexDescription(cycles);
+const DESCRIPTION = cyclesIndexDescription();
 
 export const metadata: Metadata = {
   title: TITLE,

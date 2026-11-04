@@ -12,6 +12,7 @@ import { countWord, countWordLower } from "@/lib/countWords";
 import { seriesForCycle } from "@/lib/cycleRoutes";
 import {
   SPECTRAL_STATE_LABELS,
+  spectralHeadline,
   spectralVerdictForCycle,
   type SpectralVerdictRow,
 } from "@/lib/spectral";
@@ -115,16 +116,35 @@ export function holdsUpOverall(all: Cycle[]): HoldsUpCard {
 // (44 of 123 impressions since 09-20, position 7.2, 0 clicks), and its result read "The ten cycles"
 // over a list of ten names: nothing said the page answers whether they hold up. The title asks
 // the question; the description keeps three names a searcher types (the only non-brand queries
-// on record were Dalio's), gives holdsUpOverall's answer, and ends on what the page still gives.
+// on record were Dalio's), answers from the frozen verdict headline (the /cycles lede's source),
+// and ends on what the page still gives.
 // Budgets, Google's truncation points: the RENDERED title (the layout appends " · Sinusoidal
 // History") <= 60 characters, the description <= 160. holdsUp.test.ts pins both.
 
 /** The /cycles index title, before the layout's " · Sinusoidal History" suffix. */
 export const CYCLES_INDEX_TITLE = "Do history's cycles hold up?";
 
+/**
+ * The snippet's answer, about the RECORDS (the frozen primary pairings), never "the ten cycles":
+ * one cycle has no paired record here at all ("Not tested", not "Not testable"), so a sentence
+ * counting the ten as untestable was false for it (Codex r1, MED). "Long enough" is the 3.0-period
+ * gate; the no-record cycle is covered by "no record on this site … them".
+ */
+export function cyclesIndexAnswer(eligible: number, total: number): string {
+  if (eligible === 0) return "No record on this site is long enough to test them yet";
+  return `${countWord(eligible)} of the ${countWordLower(total)} records on this site ${eligible === 1 ? "is" : "are"} long enough to test`;
+}
+
+/** The snippet around an answer: pure, so a test can call it at every count. */
+export function cyclesIndexSnippet(answer: string): string {
+  return `Dalio, Strauss-Howe, Turchin: do the cycles hold up? ${answer}. Each with its period, peak and source.`;
+}
+
 /** The /cycles index meta description (the search snippet; also og:, twitter: and JSON-LD). */
-export function cyclesIndexDescription(all: Cycle[]): string {
-  return `Dalio, Strauss-Howe, Turchin: do the cycles hold up? ${holdsUpOverall(all).headline}. Each with its period, peak and source.`;
+export function cyclesIndexDescription(): string {
+  return cyclesIndexSnippet(
+    cyclesIndexAnswer(spectralHeadline.eligible_primary, spectralHeadline.total_primary),
+  );
 }
 
 /** The detail line on a main card drawn with a changed period or peak (`/og?period.<id>=`). */
