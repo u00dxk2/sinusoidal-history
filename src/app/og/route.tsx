@@ -5,8 +5,8 @@ import { sampleDrawnPeriod } from "@/lib/cycleMath";
 import { clampCycleOverride } from "@/lib/cycleOverrides";
 import {
   CALIBRATED_CARD_NOTE,
+  MAIN_CARD_EYEBROW,
   holdsUpCard,
-  holdsUpOverall,
 } from "@/lib/holdsUp";
 import { ogMainStandfirst } from "@/lib/countWords";
 import { customCard, memoCard } from "@/lib/ogCardCache";
@@ -99,16 +99,13 @@ export async function GET(request: Request) {
 // year>" with a bar per cycle giving its "current position on the trough → peak → trough
 // swing" until I-061 (David 2026-10-21): no surface says where the present sits on a
 // cycle. Each row now draws the cycle's one period on a shared axis, as the home figure
-// does, with its period and reference peak. Under the masthead, the answer (I-056).
+// does, with its period and reference peak. Under the masthead, what the card draws, at a
+// size a phone-width preview still shows. It carried a counted testability answer from I-056
+// (2026-10-23) until I-079 (2026-11-04), which found both its sentences overclaimed
+// (holdsUp.ts). The line under it is the calibrated note only, on a calibrated card.
 function snapshotCard(effective: Cycle[], calibrated: boolean) {
   const currentYear = new Date().getUTCFullYear();
-  // The stored cycles, never `effective`: the verdicts were judged at the stored periods.
-  const answer = holdsUpOverall(cycles);
-  // One line either way: the note and the standfirst together wrap and push the last row's
-  // curve into the footer rule (rendered 2026-10-23).
-  const answerDetail = calibrated
-    ? CALIBRATED_CARD_NOTE
-    : `${answer.detail} ${ogMainStandfirst(cycles.length)}`;
+  const standfirst = ogMainStandfirst(cycles.length);
 
   const left = effective.slice(0, Math.ceil(effective.length / 2));
   const right = effective.slice(Math.ceil(effective.length / 2));
@@ -152,7 +149,7 @@ function snapshotCard(effective: Cycle[], calibrated: boolean) {
               opacity: 0.35,
             }}
           />
-          <div style={{ display: "flex" }}>None confirmed</div>
+          <div style={{ display: "flex" }}>{MAIN_CARD_EYEBROW}</div>
         </div>
 
         {/* Masthead */}
@@ -175,8 +172,8 @@ function snapshotCard(effective: Cycle[], calibrated: boolean) {
           >
             Do the cycles hold up?
           </div>
-          {/* The answer, at a size a phone-width link preview still shows (I-056). It was only
-              the eyebrow's "None confirmed" until 2026-10-23. */}
+          {/* What the card draws, at a size a phone-width link preview still shows (I-056's
+              size, I-079's words: no testability claim). */}
           <div
             style={{
               display: "flex",
@@ -187,19 +184,21 @@ function snapshotCard(effective: Cycle[], calibrated: boolean) {
               marginTop: 12,
             }}
           >
-            {answer.headline}.
+            {standfirst}
           </div>
-          <div
-            style={{
-              display: "flex",
-              fontSize: 18,
-              color: INK_SOFT,
-              marginTop: 8,
-              fontStyle: "italic",
-            }}
-          >
-            {answerDetail}
-          </div>
+          {calibrated ? (
+            <div
+              style={{
+                display: "flex",
+                fontSize: 18,
+                color: INK_SOFT,
+                marginTop: 8,
+                fontStyle: "italic",
+              }}
+            >
+              {CALIBRATED_CARD_NOTE}
+            </div>
+          ) : null}
           <div
             style={{
               display: "flex",

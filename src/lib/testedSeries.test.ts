@@ -18,7 +18,7 @@ import {
   CALIBRATED_CARD_NOTE,
   holdsUpAlt,
   holdsUpCard,
-  holdsUpOverall,
+  MAIN_CARD_EYEBROW,
   holdsUpOverallAlt,
 } from "@/lib/holdsUp";
 
@@ -244,10 +244,10 @@ describe("I-028: no cycle page whose verdict is ineligible says a test ran", () 
     expect(holdsUpAlt(cycle)).not.toMatch(TEST_RAN);
   });
 
-  // I-056 (2026-10-23): the main share card's answer line and the alt that carries it.
-  it("main share card answer and alt", () => {
-    const overall = holdsUpOverall(cycles);
-    expect(`${overall.headline}. ${overall.detail}`).not.toMatch(TEST_RAN);
+  // I-056 (2026-10-23) gave the main share card an answer line; I-079 (2026-11-04) removed it.
+  // Its eyebrow and the alt that carries the card are still read.
+  it("main share card eyebrow and alt", () => {
+    expect(MAIN_CARD_EYEBROW).not.toMatch(TEST_RAN);
     expect(holdsUpOverallAlt(cycles)).not.toMatch(TEST_RAN);
     expect(CALIBRATED_CARD_NOTE).not.toMatch(TEST_RAN);
   });

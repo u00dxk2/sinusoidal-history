@@ -8,7 +8,7 @@
 // reads the card text and its alt; src/lib/testedSeries.test.ts).
 
 import type { Cycle } from "@/data/types";
-import { countWord, countWordLower } from "@/lib/countWords";
+import { ogMainStandfirst } from "@/lib/countWords";
 import { seriesForCycle } from "@/lib/cycleRoutes";
 import {
   SPECTRAL_STATE_LABELS,
@@ -78,38 +78,19 @@ export function holdsUpAlt(cycle: Cycle): string {
   return card ? `Does it hold up? ${card.headline}. ${card.detail}` : "";
 }
 
-/**
- * The main share card's answer to its own headline, "Do the cycles hold up?" (I-056). Until
- * 2026-10-23 it answered only in a small eyebrow, which a chat app's phone-width preview shrinks
- * past reading. The words are the per-cycle cards' ("testable on the record that exists", "the
- * 3.0 full periods this site requires before testing").
- */
-export function overallAnswer(total: number, testable: number): HoldsUpCard {
-  const of = `of the ${countWordLower(total)}`;
-  if (testable === 0) {
-    return {
-      headline: `Not yet: none ${of} is testable on the record that exists`,
-      detail: "No record covers the 3.0 full periods this site requires before testing.",
-    };
-  }
-  // Not "each cycle's page": a cycle with no paired series has no verdict (Codex r1, LOW).
-  return {
-    headline: `${countWord(testable)} ${of} ${testable === 1 ? "is" : "are"} testable on the record that exists`,
-    detail: "Each paired cycle's page gives its verdict.",
-  };
-}
+// The main share card (/og) once answered its headline here, from I-056 (2026-10-23):
+// "Not yet: none of the ten is testable on the record that exists" over "No record covers the
+// 3.0 full periods this site requires before testing." Both overclaimed (I-079, 2026-11-04):
+// the first counts the unpaired fathers-and-sons cycle, which has no verdict at all, and the
+// second is false for cross-grid records that clear the gate (Dalio x V-Dem, 3.15 periods).
+// The same class refuted three /cycles snippet drafts that day, so the card now makes NO
+// testability claim (portable rule 2; the orchestrator's call on consult b29504de). Under "Do the
+// cycles hold up?" it says what it draws; the eyebrow's "None confirmed" stays, because every
+// eligible verdict on file (19 cross-grid rows) reads NO_SIGNIFICANT_TARGET_POWER. Each cycle's
+// own page carries its scoped verdict.
 
-/**
- * {@link overallAnswer} for the site's cycles at their STORED periods, counted from the frozen
- * verdict rows. Pass the stored cycles, never a calibrated copy: the verdicts are keyed by id and
- * were judged at the stored period, so a shorter period override would make "no record covers
- * the 3.0 full periods" false on that card (Codex r1, MED). A calibrated card says so instead
- * ({@link CALIBRATED_CARD_NOTE}).
- */
-export function holdsUpOverall(all: Cycle[]): HoldsUpCard {
-  const testable = all.filter((c) => spectralVerdictForCycle(c.id)?.eligible).length;
-  return overallAnswer(all.length, testable);
-}
+/** The main card's eyebrow: no verdict on file confirms a cycle (all eligible rows found no power). */
+export const MAIN_CARD_EYEBROW = "None confirmed";
 
 // W-005 (2026-11-04): the /cycles search result. /cycles was the page Search Console showed most
 // (44 of 123 impressions since 09-20, position 7.2, 0 clicks), and its result read "The ten cycles"
@@ -141,8 +122,10 @@ export const CYCLES_INDEX_DESCRIPTION =
 export const CALIBRATED_CARD_NOTE =
   "This card draws changed periods or peaks; the verdicts are for the stored ones.";
 
-/** The main card's og:image alt: the question, its answer, and what the card draws. */
+/**
+ * The main card's og:image alt: what the image shows, in its order (eyebrow, question, the line
+ * under it, the rows). No testability claim, as on the card (I-079).
+ */
 export function holdsUpOverallAlt(all: Cycle[]): string {
-  const { headline, detail } = holdsUpOverall(all);
-  return `Do the cycles hold up? ${headline}. ${detail} Each cycle drawn as at most one period around its reference peak, cut at today`;
+  return `${MAIN_CARD_EYEBROW}. Do the cycles hold up? ${ogMainStandfirst(all.length)} Each cycle drawn as at most one period around its reference peak, cut at today`;
 }

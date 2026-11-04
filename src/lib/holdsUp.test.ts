@@ -16,9 +16,8 @@ import {
   CYCLES_INDEX_TITLE,
   holdsUpAlt,
   holdsUpCard,
-  holdsUpOverall,
   holdsUpOverallAlt,
-  overallAnswer,
+  MAIN_CARD_EYEBROW,
 } from "@/lib/holdsUp";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
@@ -102,37 +101,37 @@ describe("I-032: the share card carries the page's verdict", () => {
   );
 });
 
-// I-056 (2026-10-23): the main share card asks "Do the cycles hold up?" at headline size and
-// answered only in its small eyebrow ("None confirmed"). A chat app shows it ~350px wide, so the
-// answer moved under the masthead. Expected counts come from verdicts.json off disk.
-describe("I-056: the main share card answers its own question", () => {
-  const eligible = cycles.filter((c) => primary.find((r) => r.cycle_id === c.id)?.eligible);
+// I-056 (2026-10-23) put a counted answer under the main card's "Do the cycles hold up?";
+// I-079 (2026-11-04) took it out: "none of the ten is testable" counted the unpaired cycle, and
+// "No record covers the 3.0 full periods" is false for cross-grid records that clear the gate.
+// The card now says what it draws. Verdict states come from verdicts.json off disk.
+type AnyRow = { state: string; eligible: boolean };
+const verdictFile: { primary: AnyRow[]; cross_grid: AnyRow[] } = JSON.parse(
+  readFileSync(join(process.cwd(), "public", "data", "spectral", "verdicts.json"), "utf8"),
+);
+// The vocabulary a testability claim needs (as in the W-005 snippet leg). Ceiling: a word ban.
+const TESTABILITY = /testab|record|gate|full periods|not yet|\bof the\b/i;
 
-  it("none of the ten is testable today, and no record reaches 3.0 periods", () => {
-    expect(eligible.length).toBe(0);
-    expect(Math.max(...primary.map((r) => r.cycles_covered))).toBeLessThan(3);
-    expect(holdsUpOverall(cycles)).toEqual({
-      headline: "Not yet: none of the ten is testable on the record that exists",
-      detail: "No record covers the 3.0 full periods this site requires before testing.",
-    });
+describe("I-079: the main share card makes no testability claim", () => {
+  it("the eyebrow's 'None confirmed' holds: no verdict on file confirms a cycle", () => {
+    expect(MAIN_CARD_EYEBROW).toBe("None confirmed");
+    const all = [...verdictFile.primary, ...verdictFile.cross_grid];
+    expect(all.length).toBeGreaterThan(0);
+    // Every eligible row (a test that ran) found no power; the rest never ran.
+    for (const r of all) {
+      if (r.eligible) expect(r.state).toBe("NO_SIGNIFICANT_TARGET_POWER");
+      else expect(r.state).toBe("INSUFFICIENT_DATA");
+    }
+    // Positive control: some tests did run, so "none confirmed" is a reading, not a default.
+    expect(all.some((r) => r.eligible)).toBe(true);
   });
 
-  it("the answer moves with the count, and stops saying 'not yet' once one is testable", () => {
-    expect(overallAnswer(11, 0).headline).toBe(
-      "Not yet: none of the eleven is testable on the record that exists",
-    );
-    expect(overallAnswer(10, 1).headline).toBe("One of the ten is testable on the record that exists");
-    expect(overallAnswer(10, 3).headline).toBe("Three of the ten are testable on the record that exists");
-    expect(overallAnswer(10, 3).headline).not.toContain("Not yet");
-    // A cycle with no paired series has no verdict, so the detail cannot say "each cycle's page".
-    expect(overallAnswer(10, 3).detail).toBe("Each paired cycle's page gives its verdict.");
-  });
-
-  it("the home and /cycles og:image alt carry the same answer", () => {
+  it("the home and /cycles og:image alt describe the card, with no testability claim", () => {
     const alt = holdsUpOverallAlt(cycles);
-    const { headline, detail } = holdsUpOverall(cycles);
-    expect(alt).toContain(`${headline}. ${detail}`);
-    expect(alt).toContain("cut at today");
+    expect(alt).toBe(
+      "None confirmed. Do the cycles hold up? Ten long-wave cycles of history, on one shared axis. Each cycle drawn as at most one period around its reference peak, cut at today",
+    );
+    expect(alt).not.toMatch(TESTABILITY);
     const images = cyclesMetadata.openGraph?.images as { url: string; alt: string }[];
     expect(images[0].url).toBe("/og");
     expect(images[0].alt).toBe(alt);
@@ -146,22 +145,24 @@ describe("I-056: the main share card answers its own question", () => {
   // passed with the large answer block deleted, so the answer's font size is read too.
   const route = readFileSync(join(process.cwd(), "src", "app", "og", "route.tsx"), "utf8");
 
-  it("the og route draws the answer from the helper, at the stored periods", () => {
-    expect(route.includes("holdsUpOverall(cycles)")).toBe(true);
-    // A calibrated copy would let a period override contradict the frozen verdicts.
-    expect(route.includes("holdsUpOverall(effective)")).toBe(false);
-    expect(/Not yet: none of/.test(route)).toBe(false);
+  it("the og route draws no testability claim and no removed helper", () => {
+    // The source carries comments about the removed sentence, so it is read for the helpers and
+    // the sentences themselves, not the whole vocabulary.
+    expect(route).not.toMatch(/holdsUpOverall\(|overallAnswer\(|answer\.headline|answer\.detail/);
+    expect(route).not.toMatch(/is testable on the record|No record covers/);
+    expect(route.includes("{MAIN_CARD_EYEBROW}")).toBe(true);
+    expect(route.includes("const standfirst = ogMainStandfirst(cycles.length);")).toBe(true);
   });
 
-  it("the answer line renders at 30px or more", () => {
-    const block = route.match(/fontSize: (\d+),[^<]*?>\s*\{answer\.headline\}\./);
-    expect(block, "no div rendering {answer.headline}. with its own fontSize").not.toBeNull();
+  it("the line under the question renders at 30px or more", () => {
+    const block = route.match(/fontSize: (\d+),[^<]*?>\s*\{standfirst\}/);
+    expect(block, "no div rendering {standfirst} with its own fontSize").not.toBeNull();
     expect(Number(block![1])).toBeGreaterThanOrEqual(30);
   });
 
-  it("a calibrated card says its verdicts are for the stored periods", () => {
+  it("a calibrated card says its verdicts are for the stored periods, and only it", () => {
     expect(route.includes("snapshotCard(effective, true)")).toBe(true);
-    expect(/calibrated\s*\?\s*CALIBRATED_CARD_NOTE\s*:\s*`\$\{answer\.detail\}/.test(route)).toBe(true);
+    expect(/\{calibrated \? \([\s\S]*?\{CALIBRATED_CARD_NOTE\}[\s\S]*?\) : null\}/.test(route)).toBe(true);
     expect(CALIBRATED_CARD_NOTE).toContain("the verdicts are for the stored ones");
   });
 });
