@@ -9,7 +9,7 @@ import {
   seriesForCycle,
 } from "@/lib/cycleRoutes";
 import { cyclesIndexTitle } from "@/lib/countWords";
-import { CYCLES_INDEX_TITLE, cyclesIndexDescription, holdsUpOverallAlt } from "@/lib/holdsUp";
+import { CYCLES_INDEX_DESCRIPTION, CYCLES_INDEX_TITLE, holdsUpOverallAlt } from "@/lib/holdsUp";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
@@ -22,7 +22,7 @@ const unpairedCount = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_
 // phone fold, which check-entry-folds budgets).
 const TITLE = CYCLES_INDEX_TITLE;
 const H1 = cyclesIndexTitle(cycles.length);
-const DESCRIPTION = cyclesIndexDescription();
+const DESCRIPTION = CYCLES_INDEX_DESCRIPTION;
 
 export const metadata: Metadata = {
   title: TITLE,

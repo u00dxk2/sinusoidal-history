@@ -12,10 +12,8 @@ import { cycleSlug, seriesForCycle } from "@/lib/cycleRoutes";
 import { metadata as cyclesMetadata } from "@/app/(app)/cycles/page";
 import {
   CALIBRATED_CARD_NOTE,
+  CYCLES_INDEX_DESCRIPTION,
   CYCLES_INDEX_TITLE,
-  cyclesIndexAnswer,
-  cyclesIndexDescription,
-  cyclesIndexSnippet,
   holdsUpAlt,
   holdsUpCard,
   holdsUpOverall,
@@ -168,7 +166,7 @@ describe("I-056: the main share card answers its own question", () => {
   });
 });
 
-// W-005 (2026-11-04): the /cycles search result asks the reader's question and answers it.
+// W-005 (2026-11-04): the /cycles search result asks the reader's question and says the page answers it.
 // Budgets are Google's truncation points, measured on the RENDERED title (the layout's template
 // appends " · Sinusoidal History", read from layout.tsx source because vitest cannot load
 // next/font). Ceiling: a character count, not the pixel width Google actually truncates at.
@@ -179,11 +177,6 @@ describe("W-005: the /cycles search result asks and answers", () => {
   const siteName = readFileSync(join(process.cwd(), "src", "lib", "siteConfig.ts"), "utf8").match(
     /SITE_NAME = "([^"]+)"/,
   );
-  // The verdict counts off disk, not through the helper under test.
-  const headline: { eligible_primary: number; total_primary: number } = JSON.parse(
-    readFileSync(join(process.cwd(), "public", "data", "spectral", "verdicts.json"), "utf8"),
-  ).headline;
-
   it("the rendered title asks the question in 60 characters or fewer", () => {
     expect(template, "layout title template not found").not.toBeNull();
     expect(siteName, "SITE_NAME not found").not.toBeNull();
@@ -194,35 +187,28 @@ describe("W-005: the /cycles search result asks and answers", () => {
     expect(cyclesMetadata.title).toBe(CYCLES_INDEX_TITLE);
   });
 
-  it("today: no record reaches the gate, and the snippet says so about the records", () => {
-    expect(headline.eligible_primary).toBe(0);
-    expect(headline.total_primary).toBe(primary.length);
-    const d = cyclesIndexDescription();
+  it("the description names three theorists, asks the test question, and fits 160", () => {
+    const d = CYCLES_INDEX_DESCRIPTION;
     expect(d).toBe(
-      "Dalio, Strauss-Howe, Turchin: do the cycles hold up? No record on this site is long enough to test them yet. Each with its period, peak and source.",
+      "Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source, and whether this site's data is long enough to test it.",
     );
     expect(d.length).toBeLessThanOrEqual(160);
-    // Codex r1 (MED): one cycle has no record, so the snippet never counts the ten as untestable.
-    expect(d).not.toMatch(/of the ten|none of the/i);
     for (const name of ["Dalio", "Strauss-Howe", "Turchin"]) {
       expect(cycles.some((c) => c.name.includes(name)), name).toBe(true);
     }
   });
 
-  it("at every possible count the answer is the count, and fits 160", () => {
-    const total = headline.total_primary;
-    for (let eligible = 1; eligible <= total; eligible++) {
-      const answer = cyclesIndexAnswer(eligible, total);
-      expect(answer).toMatch(new RegExp(` of the nine records on this site ${eligible === 1 ? "is" : "are"} long enough to test$`));
-      expect(answer).not.toContain("yet");
-      const d = cyclesIndexSnippet(answer);
-      expect(d.length, `${eligible} of ${total}`).toBeLessThanOrEqual(160);
-    }
-    expect(cyclesIndexSnippet(cyclesIndexAnswer(0, total)).length).toBeLessThanOrEqual(160);
+  // Codex r1 and r2 each refuted a COUNTED answer (an unpaired cycle; cross-grid records that do
+  // clear the gate). The snippet states no quantity of cycles or records; this leg keeps one from
+  // coming back. A count belongs on the page, where its scope fits.
+  it("states no verdict count or quantifier over the cycles or records", () => {
+    expect(CYCLES_INDEX_DESCRIPTION).not.toMatch(
+      /\b(none|no record|no cycle|all|every|of the|zero|\d+)\b|\b(one|two|three|four|five|six|seven|eight|nine|ten) (of|cycles?|records?)\b/i,
+    );
   });
 
   it("og:, twitter: and the JSON-LD carry the same text", () => {
-    const d = cyclesIndexDescription();
+    const d = CYCLES_INDEX_DESCRIPTION;
     expect(cyclesMetadata.description).toBe(d);
     expect(cyclesMetadata.openGraph?.description).toBe(d);
     expect(cyclesMetadata.openGraph?.title).toBe(CYCLES_INDEX_TITLE);
@@ -232,6 +218,6 @@ describe("W-005: the /cycles search result asks and answers", () => {
     expect(page).toMatch(/"@type": "DefinedTermSet",[\s\S]*?description: DESCRIPTION,/);
     // The H1 keeps the index's name (a longer H1 moves the phone fold).
     expect(page).toContain("{H1}");
-    expect(page).not.toMatch(/No record on this site|Do history's cycles/);
+    expect(page).not.toMatch(/whether this site's data is long enough|Do history's cycles/);
   });
 });

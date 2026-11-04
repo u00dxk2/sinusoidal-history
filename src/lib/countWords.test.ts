@@ -90,8 +90,8 @@ describe("the count surfaces derive from the data", () => {
     );
     expect(home).not.toMatch(new RegExp(`${COUNT_WORD} cycles,|${COUNT_WORD} of the ${COUNT_WORD}|\\d+ of the \\d+`));
     expect(index).toContain("cyclesIndexTitle(cycles.length)");
-    // W-005: the description's counts come from the frozen verdict headline (holdsUp.ts).
-    expect(index).toContain("cyclesIndexDescription()");
+    // W-005: the description carries no count at all now (holdsUp.ts, CYCLES_INDEX_DESCRIPTION).
+    expect(index).toContain("CYCLES_INDEX_DESCRIPTION");
     expect(index).not.toMatch(new RegExp(`"The ${COUNT_WORD} cycles"|"${COUNT_WORD} long-wave cycles`));
   });
 });
