@@ -68,3 +68,25 @@ USER-VISIBLE: A searcher shown /cycles now sees "Do history's cycles hold up? ·
 - North Star: the binding constraint is retention and word of mouth. Today's change moves the step before either (a searcher's decision to arrive), and it is reported as unmeasured past Search Console.
 - Recs yesterday: the 11-03 recommendation was the I-063 selection, now **executed** (d592db7 live, walk HELD, closed in 6afd9e9).
 - Due snapshot: "3 gate(s) due on/before 2026-11-04" (I-032, I-071, W-005). W-005 and I-032 reads were run and stamped today.
+
+## Close
+
+[P5 — Delta-only close]
+
+ACTION: COMPLETED · item W-005 (+ I-079) · P3 adb53b4b
+
+Acceptance in force: the packet's, as amended by the orchestrator's ruling on consult b29504de (68ed5c04): no testability claim in the snippet; fix the main card today. Met: both live on f59afc8f (check-deployed-sha-drift in-sync), the rendered title measured on the page (49 characters), the /og PNG fetched and read after deploy, and Codex r4 claims-only APPROVE. Manager review d4bba72f: COMPLETED, no defects ("process nit: two codexCalls lines" in the P3 body).
+
+**State changed since the P3 post:** none on the product. The manager's HYPOTHESIS that chat hosts may cache the old card is recorded on I-079.
+
+**Ledger delta (continuity-edit, each with its evidence in the row's notes):**
+- **W-005 RE-POINTED, not closed** (an amendment to the review's "close", with reason). Its original closeWhen is met (123 impressions ≥ 100 since 09-20, 1 click, on `/`). This close prompt's rule keeps a shipped change that still owes an outcome read in `monitoring`, and a closed row's read never comes due. New closeWhen: the outcome read of today's snippet. nextEvaluation 2027-01-04 (~100 post-change /cycles impressions at ~1.5 a day). readCommand `gsc-read.mjs --start 2026-11-05`. waitJustification updated.
+- **I-032 CLOSED.** Frames leg read 2026-10-10 (its waitJustification). Encounter leg answered by W-005's note (none observable at 1 click / 123 impressions; crawl-read has no Referer).
+- **I-079 CLOSED** (minted at P3 from Codex r3; fixed in f59afc8). Its mint note's "beside I-034 (the share-card row)" is corrected in the notes: I-034 is the local-suite timeout row.
+- **I-071 RE-DATED** 11-04 → 11-18 (no decision made).
+
+**Hygiene draft** (`tmp/hygiene-draft-sinusoidal-cycles-2026-11-04.md`, 2 lines): 1 accepted · 1 amended · 0 rejected. I-071 ACCEPTED. I-032 AMENDED: closed (its conditional branch met by W-005's note), with the draft's note corrected, because only Turchin's card was re-read today, not all ten. READ-MUTATED: "none — 2 reads guarded (I-032, I-071)". Checks: check-wait-justification PASS ("0 warn / 0 info"); check-engineering-zero PASS ("lane sinusoidal-cycles: 0 findings, 0 unreadable"). W-005's waitJustification was edited after the helper ran; it has an until, loadBearing, unWait and owner.
+
+**Verify:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-11-04): I-032 closed, I-071 → 11-18, W-005 → 2027-01-04.
+
+**Pending reads:** 11-05 I-043 (select or decide, no fifth re-date) and W-006 (`/` leg); 11-18 I-071; 2027-01-04 W-005 (the /cycles click-through outcome). Receipt: P3's stands unchanged (exposure blind, row W-005).
