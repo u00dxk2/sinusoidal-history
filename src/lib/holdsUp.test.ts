@@ -187,23 +187,24 @@ describe("W-005: the /cycles search result asks and answers", () => {
     expect(cyclesMetadata.title).toBe(CYCLES_INDEX_TITLE);
   });
 
-  it("the description names three theorists, asks the test question, and fits 160", () => {
+  it("the description names three theorists, asks the question, and fits 160", () => {
     const d = CYCLES_INDEX_DESCRIPTION;
-    expect(d).toBe(
-      "Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source, and whether this site's data is long enough to test it.",
-    );
+    expect(d).toBe("Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source.");
     expect(d.length).toBeLessThanOrEqual(160);
     for (const name of ["Dalio", "Strauss-Howe", "Turchin"]) {
       expect(cycles.some((c) => c.name.includes(name)), name).toBe(true);
     }
   });
 
-  // Codex r1 and r2 each refuted a COUNTED answer (an unpaired cycle; cross-grid records that do
-  // clear the gate). The snippet states no quantity of cycles or records; this leg keeps one from
-  // coming back. A count belongs on the page, where its scope fits.
-  it("states no verdict count or quantifier over the cycles or records", () => {
+  // Codex r1-r3 each refuted a testability claim (an unpaired cycle; cross-grid records that do
+  // clear the gate; a page that judges only primary pairings). The snippet makes none; this leg
+  // refuses the VOCABULARY such a claim needs, rather than trying to recognise a quantifier
+  // (r3 LOW: "Most", "Both", "Nine theories" slipped a quantifier regex). Ceiling: a vocabulary
+  // ban, so a testability claim in words it does not list still passes; the exact pin above is
+  // the other half.
+  it("makes no testability or verdict claim", () => {
     expect(CYCLES_INDEX_DESCRIPTION).not.toMatch(
-      /\b(none|no record|no cycle|all|every|of the|zero|\d+)\b|\b(one|two|three|four|five|six|seven|eight|nine|ten) (of|cycles?|records?)\b/i,
+      /test|record|data|series|pair|gate|verdict|confirm|evidence|check|none|not yet|\d/i,
     );
   });
 

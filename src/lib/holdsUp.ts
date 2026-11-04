@@ -128,13 +128,14 @@ export const CYCLES_INDEX_TITLE = "Do history's cycles hold up?";
  * It states NO verdict count, on purpose. Two Codex rounds refuted a counted answer in a row:
  * "none of the ten is testable on the record that exists" (false for the unpaired tenth cycle,
  * r1) and "no record on this site is long enough to test them" (false: cross-grid records such as
- * Dalio x V-Dem clear the gate, r2). The day before, the same tested/testable split was argued on
- * the glance caption. Portable rule 2: the shape changed instead, and the snippet now names what
- * the page gives each of the ten, with the test question as a "whether" clause, true for all ten.
- * The page itself carries the counted answer, with the scope a 160-character snippet cannot hold.
+ * Dalio x V-Dem clear the gate, r2), and so was a "whether this site's data is long enough"
+ * clause (the page judges only each cycle's primary pairing, r3). The day before, the same
+ * tested/testable split was argued on the glance caption. Portable rule 2, and the orchestrator's
+ * call on consult b29504de: the snippet makes NO testability claim. It asks the question and names
+ * what the page shows for each of the ten. The scoped answer lives on the page, with its caveats.
  */
 export const CYCLES_INDEX_DESCRIPTION =
-  "Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source, and whether this site's data is long enough to test it.";
+  "Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source.";
 
 /** The detail line on a main card drawn with a changed period or peak (`/og?period.<id>=`). */
 export const CALIBRATED_CARD_NOTE =
