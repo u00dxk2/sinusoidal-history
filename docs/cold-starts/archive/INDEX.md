@@ -1,0 +1,48 @@
+# Archived cold-start primers
+
+Moved here 2026-11-04 (MT) in the housekeeping night (docs/housekeeping/2026-11-04-inventory.md). Primer readers list only date-named files directly in `docs/cold-starts/`, so nothing reads this folder. Six older primers stay in place because `continuity/items.json` or `docs/daily-config.md` cites them: 2026-08-19, 2026-09-09, 2026-09-20, 2026-09-22, 2026-09-23, 2026-10-05. Older daily reports cite these files at their old path, `docs/cold-starts/<date>.md`; they now live here under the same name.
+
+- `2026-08-14.md`
+- `2026-08-15.md`
+- `2026-08-17.md`
+- `2026-08-20.md`
+- `2026-08-22.md`
+- `2026-08-24.md`
+- `2026-08-25.md`
+- `2026-08-30.md`
+- `2026-09-17.md`
+- `2026-09-18.md`
+- `2026-09-19.md`
+- `2026-09-21.md`
+- `2026-09-25.md`
+- `2026-09-26.md`
+- `2026-09-27.md`
+- `2026-09-28.md`
+- `2026-09-29.md`
+- `2026-09-30.md`
+- `2026-10-01.md`
+- `2026-10-02.md`
+- `2026-10-03.md`
+- `2026-10-04.md`
+- `2026-10-06.md`
+- `2026-10-07.md`
+- `2026-10-08.md`
+- `2026-10-09.md`
+- `2026-10-10.md`
+- `2026-10-11.md`
+- `2026-10-12.md`
+- `2026-10-13.md`
+- `2026-10-14.md`
+- `2026-10-15.md`
+- `2026-10-16.md`
+- `2026-10-17.md`
+- `2026-10-18.md`
+- `2026-10-19.md`
+- `2026-10-20.md`
+- `2026-10-21.md`
+- `2026-10-22.md`
+- `2026-10-23.md`
+- `2026-10-24.md`
+- `2026-10-25.md`
+- `2026-10-26.md`
+- `2026-10-27.md`
