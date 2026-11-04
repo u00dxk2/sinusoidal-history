@@ -1138,9 +1138,16 @@
         "unWait": "the 2026-11-04 page-only read reaches ~100 impressions, or position moves back over 20",
         "owner": "sinusoidal-cycles"
       },
-      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.\n\n | 2026-10-10 (cycle 4 close): the 2026-11-04 read also carries I-032's encounter read: in the Render request logs (scripts/crawl-read.mjs), look for a non-crawler referral to a /cycles page from a messaging or social host. One such request is readable at N >= 1; a link-preview fetch is a scraper and does not count. I-032 closes or re-dates on that read (manager review dd90ef3f).\n\n | 2026-10-11 (cycle 6, I-035): META DESCRIPTION CHANGE on two pages, logged before the 11-04 read. /cycles/kondratiev: \"plotted against US TFP growth (5-yr rolling).\" became \"plotted against US TFP growth (annual, unsmoothed).\"; /cycles/turchin: \"plotted against US Top 1% Wealth Share.\" became \"plotted against US top 1% wealth share (1913 onward).\". The same text feeds og:description, twitter:description and the JSON-LD WebPage description. Titles unchanged; the other eight descriptions unchanged. Reason: the page figure now draws the record the verdict counts (Codex review of f5cb55b). Read click-through on these two pages with this date in mind.",
+      "notes": "2026-10-07 (P5): minted per W-001's onTrigger; W-001 closed the same day with its two questions answered.\n\n | 2026-10-10 (cycle 4 close): the 2026-11-04 read also carries I-032's encounter read: in the Render request logs (scripts/crawl-read.mjs), look for a non-crawler referral to a /cycles page from a messaging or social host. One such request is readable at N >= 1; a link-preview fetch is a scraper and does not count. I-032 closes or re-dates on that read (manager review dd90ef3f).\n\n | 2026-10-11 (cycle 6, I-035): META DESCRIPTION CHANGE on two pages, logged before the 11-04 read. /cycles/kondratiev: \"plotted against US TFP growth (5-yr rolling).\" became \"plotted against US TFP growth (annual, unsmoothed).\"; /cycles/turchin: \"plotted against US Top 1% Wealth Share.\" became \"plotted against US top 1% wealth share (1913 onward).\". The same text feeds og:description, twitter:description and the JSON-LD WebPage description. Titles unchanged; the other eight descriptions unchanged. Reason: the page figure now draws the record the verdict counts (Codex review of f5cb55b). Read click-through on these two pages with this date in mind.\n\n | 2026-11-04 (full day, P3): TITLE + META DESCRIPTION CHANGE on /cycles, logged before any read that judges it. Read this morning (--run W-005, stamped in readCommandLastRun): 09-20..11-04 TOTAL clicks=1 impressions=123 position=7.7; / 1 click of 17 @3.6; /cycles 0 of 44 @7.2 (rule of three: 0/44 bounds CTR under ~6.8%, so the read does not show underperformance). Change, commit 778c994: <title> \"The ten cycles · Sinusoidal History\" became \"Do history's cycles hold up? · Sinusoidal History\"; description \"Ten long-wave cycles of history - Schlesinger Jr., … - each with its period, reference peak, sourcing, and paired data series.\" became \"Dalio, Strauss-Howe, Turchin: do the cycles hold up? Not yet: none of the ten is testable on the record that exists. Each with its period, peak and source.\" The same text feeds og:, twitter: and the JSON-LD DefinedTermSet. H1 unchanged. Judge /cycles click-through only on impressions dated after the deploy (Google re-renders snippets on its own schedule).\n\n | 2026-11-04 (P3, correction to the note above): the description that ships is NOT the 778c994 text. Codex r1 refuted \"none of the ten is testable on the record that exists\" (false for the unpaired tenth cycle), so 5293574 ships: \"Dalio, Strauss-Howe, Turchin: do the cycles hold up? No record on this site is long enough to test them yet. Each with its period, peak and source.\" The title is as above. Judge against this text.\n\n | 2026-11-04 (P3, final text, supersedes both notes above): Codex r2 and r3 refuted the next two drafts too (cross-grid records clear the gate; the page judges only primary pairings). On consult b29504de the orchestrator called option (a): no testability claim. Commit b60a8fd: description \"Dalio, Strauss-Howe, Turchin: do the cycles hold up? Each one's period, peak and source.\" Title unchanged from the first note: \"Do history's cycles hold up? · Sinusoidal History\". Judge /cycles click-through against this text, on impressions dated after its deploy.",
       "created": "2026-10-07",
-      "updated": "2026-10-11"
+      "updated": "2026-11-04",
+      "readCommandLastRun": "2026-11-04T15:11:41.345Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 1971,
+      "readCommandLastOutputRef": {
+        "lines": 12,
+        "sha256": "5bc976381b52aa16"
+      }
     },
     {
       "id": "I-029",
@@ -1263,6 +1270,13 @@
         "loadBearing": "delivery is proven on production (live 6014bb12, ten card frames and alts read 2026-10-10); closeWhen needs an encounter read and the site has no client analytics, so a share is invisible until a referral from a messaging host shows in the request logs or W-005 reads click-through",
         "unWait": "on 2026-11-04 W-005's read (and that month's crawl-read) says whether any share or referral arrived, for a per-cycle card OR the main /og card (I-056, live 92fa188b since 2026-10-23); I-032 closes or re-dates on that",
         "owner": "sinusoidal-cycles"
+      },
+      "readCommandLastRun": "2026-11-04T15:30:17.574Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 2461,
+      "readCommandLastOutputRef": {
+        "lines": 1,
+        "sha256": "073fc00f1bb556e7"
       }
     },
     {
@@ -2180,9 +2194,9 @@
       "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f). Folds two minor walk residuals (off-by-one year, no left axis label). The hint pill not returning after 'All' was NOT minted: it is dismissed once per browser by design (sh.brushHintSeen).\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-04 on the hygiene draft (ACCEPTED). readCommand stamped: TimeRangeBrush.tsx:121-122 still rounds with Math.round(xScale.invert(...)). The row closes on two recorded decisions (snap drag ends; label the left edge), neither made yet.",
       "created": "2026-10-25",
       "updated": "2026-10-29",
-      "readCommandLastRun": "2026-10-29T15:19:03.544Z",
+      "readCommandLastRun": "2026-11-04T15:30:23.604Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 2053,
+      "readCommandLastDurationMs": 1787,
       "readCommandLastOutputRef": {
         "lines": 2,
         "sha256": "36d7940a9571d280"
@@ -2327,6 +2341,22 @@
       "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181), from Codex r2 on d592db7 (its calibrated-state half, dispositioned PLAUSIBLE, pre-existing). P4: no observed reader failure.",
       "created": "2026-11-03",
       "updated": "2026-11-03"
+    },
+    {
+      "id": "I-079",
+      "title": "The main share card says 'none of the ten is testable' and 'No record covers the 3.0 full periods', and both overclaim",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-04",
+      "description": "Codex r3 on 677d52c (2026-11-04, W-005 review), MED, STATIC, dispositioned CONFIRMED against source: overallAnswer in src/lib/holdsUp.ts:87-100 renders 'Not yet: none of the ten is testable on the record that exists' and 'No record covers the 3.0 full periods this site requires before testing.' on the main share card (/og, src/app/og/route.tsx) and in the og:image alt on /, /cycles and every page without its own card (holdsUpOverallAlt). The first counts the unpaired fathers-and-sons cycle as untestable, though it has no paired record and its verdict is 'Not tested'. The second is contradicted by cross-grid records that clear the gate (verdicts.json: Dalio x V-Dem 3.15 periods; fathers-and-sons x V-Dem 4.72). Live since I-056 (92fa188, 2026-10-23). This is the same defect class that refuted three /cycles snippet drafts on 11-04, so per portable rule 2 the fix should claim less (scope it to the primary pairings, or drop the count), not add clauses. No reader has been observed misreading it.",
+      "closeWhen": "The main card's answer and its alt say only what the frozen primary verdicts establish (e.g. scoped to each cycle's designated pairing, with the unpaired cycle not counted as untestable), pinned by holdsUp.test.ts, with a Codex claims pass reporting no REFUTED-AS-WRITTEN clause; or a recorded decision, with the reason, that the current wording stands.",
+      "nextEvaluation": "2026-11-06",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"is testable on the record that exists\" -- src/lib/holdsUp.ts — the overclaiming headline still in the helper; this row's proof is a test plus a claims pass, or a recorded decision",
+      "notes": "2026-11-04 (full day, P3): minted from Codex r3 on 677d52c (W-005 review), pre-existing, outside that diff. Not reworded under review (rule 2). Dated 11-06 beside I-034 (the share-card row).\n\n | 2026-11-04 (P3): fixed the same day on the orchestrator's call (consult b29504de): \"a false statement on a public surface right now, so fix it TODAY\". Commit f59afc8: the card's answer line and detail removed; under \"Do the cycles hold up?\" it now reads \"Ten long-wave cycles of history, on one shared axis.\"; eyebrow \"None confirmed\" kept (all 19 eligible verdicts read NO_SIGNIFICANT_TARGET_POWER, pinned with a positive control); the alt follows the image. overallAnswer/holdsUpOverall deleted. Closes on Codex r4's claims pass plus the live PNG read after deploy.",
+      "created": "2026-11-04",
+      "updated": "2026-11-04"
     }
   ],
   "knownPatterns": [

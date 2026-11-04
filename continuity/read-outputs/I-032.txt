@@ -1,0 +1,7 @@
+# read-output sidecar for I-032 — written by check-due-gates-dispositioned --run
+# readCommand: node -e "fetch('https://sinusoidalhistory.com/og?cycle=turchin').then(async r=>{require('fs').writeFileSync('C:/dev/skylark/sinusoidal-cycles/tmp/og-turchin-read.png',Buffer.from(await r.arrayBuffer()));console.log(r.status,r.headers.get('content-type'))})"
+# ran: 2026-11-04T15:30:17.574Z · exit: 0
+# lines: 1 · sha256: 073fc00f1bb556e7 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+200 image/png
