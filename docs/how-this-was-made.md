@@ -1,5 +1,16 @@
 # how this was made
 
+> **Corrections added 2026-11-04 by this repo's maintenance agent. These are not David's words, and his April text below is unchanged.** A claims check found that these sentences no longer hold or were never backed:
+>
+> - "The site is at `sinusoidal-history.skylarkcreations.com`": the canonical site is `sinusoidalhistory.com`, and the old subdomain redirects to it.
+> - "A real data series paired with each": Phase 1 below paired six of the original seven. Perez had no series then.
+> - "five rough phases": the list below labels six, Phase 0 to Phase 5.
+> - "Every cycle on the chart peaks near the present": nine of the ten reference peaks fall between 1945 and 2020, and Khaldun's does not. Since 2026-10-21 each cycle is drawn as one period, and no page says where the present sits on a cycle.
+> - "it is publication bias. Each theorist wrote in a moment that felt consequential and anchored their cycle there": the site has withdrawn both. Some peak years are dates the theorists gave and others are this site's choices, and the site claims no cause for the clustering.
+> - "one knob per cycle (the calibration year)": there are two adjustable values, the reference peak and the period.
+> - "The data files live in `/src/data`": the definitions do. The CSVs and their provenance files are in `public/data`.
+> - "the test suite (45 cases) is in `/src/lib/cycleMath.test.ts`": that file holds 7 cases today, and the suite spans many files.
+
 Mark R and I were on a phone call Friday - both of us walking, both on our own loops. He pitched what he called "the sinusoidal pattern of history": could you plot Khaldun's 5 stages, Huntington's 60-year cycles, and the rest as actual sine waves on one axis, and see where they net out? He also raised counterfactuals and alternate-history maps as related territory. I told him I'd take a swing.
 
 The image stuck. Seven theorists - Ibn Khaldun in the 14th century, Kondratiev in the 1920s, Huntington in the early '80s, Perez in the 2000s, Turchin and Dalio and Strauss-Howe in our present - all drawing different sine curves on the same canvas. None of them coordinating across six centuries.

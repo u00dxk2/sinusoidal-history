@@ -2,7 +2,7 @@
 
 > **Superseded in part, 2026-08-20 (noted 2026-09-16).** The canonical production
 > domain is now **`sinusoidalhistory.com`**; the subdomain below, the `.org` and the
-> `www` variants all 301 to it with paths preserved (`CHANGELOG.md`). The Render and
+> `www` variants all permanently redirect (308) to it with paths preserved (`next.config.ts`). The Render and
 > DNS mechanics in this doc still hold — read the hostname as historical, not as the
 > target to verify against.
 
@@ -35,10 +35,10 @@ If recreating from scratch, the dashboard configuration:
 - **Plan:** Starter ($7/mo). Free tier sleeps after 15 min and breaks
   social-card scrapers like Bluesky/Twitter, so don't.
 - **Environment Variable:** `NODE_VERSION = 22`
-- **Auto-Deploy:** on
+- **Auto-Deploy:** after CI checks pass (`checksPass`, since 2026-10-05)
 - **Health Check Path:** `/`
 
-`render.yaml` records the same config — Render will detect it but the
+`render.yaml` records part of this config (not the region or branch) — Render will detect it but the
 dashboard settings take precedence.
 
 ## 3. Add the custom domain in Render

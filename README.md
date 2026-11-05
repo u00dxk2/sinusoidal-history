@@ -64,12 +64,15 @@ site as it was at each phase.
 
 Phase 15 shipped (August 2026): the spectral verdict. Every cycle–series
 pairing now carries a pre-registered statistical answer to "does this series
-contain significant power at the theory's exact stated period?" — harmonic
+contain significant power at the period this site uses for the theory?" — harmonic
 regression at exactly 1/P against an AR(1)/AR(2) red-noise null, parametric
 bootstrap, Holm correction, all frozen in a committed manifest before any
 results. The headline is the finding: **0 of the 9 paired constructions
-reach the 3.0-full-periods eligibility gate** — every record is too short to
-test its claim, so no pairing gets a p-value at all. Per-cycle figures and a
+reach the 3.0-full-periods eligibility gate** — each designated record is too short to
+test its claim, so no designated pairing gets a p-value. (Corrected 2026-11-04:
+19 cross-grid re-pairings do clear the gate, and all 19 read
+NO_SIGNIFICANT_TARGET_POWER. The stored periods mix theorist figures, range
+midpoints and derived values; see fact-check round 5.) Per-cycle figures and a
 machine-readable `/data/spectral/verdicts.json` ship with the site;
 protocol on `/methods`, reproducer at `scripts/spectral_verdict.py`.
 
@@ -161,7 +164,7 @@ prompts and reports. Notable corrections during the audit:
   sinusoid, not peaks; rationale rewritten to show the real alignment
   (sinusoid prior peak 1870 ≈ Civil War, but ~90y off from the Revolution).
 
-The site is post-fact-check and treats Phase 11 as the reference state. Older
+Round 4 was folded in Phase 11; round 5 (2026-08-24) and later phases have changed the site since. Older
 snapshots are superseded.
 
 ## Stack
@@ -175,7 +178,7 @@ snapshots are superseded.
 - `nuqs` for URL-state
 - `html-to-image` for poster PNG export
 - Vitest for unit tests
-- No database, no auth, no user input — read-only public site
+- No database, no auth, no accounts, no write API; chart controls take client-side input only
 
 ## Local run
 
@@ -374,9 +377,9 @@ CITATION.cff                  Citation metadata
 ## Sharing
 
 The load-bearing UI state is in the URL — tab, focused cycle, time range,
-and per-cycle calibration overrides. (A few ephemeral toggles — overlay
-series visibility, the pinned year, event-marker visibility — are local
-state and reset on reload.)
+and per-cycle calibration overrides. (Some display state, such as overlay
+series visibility, is local
+and resets on reload.)
 `?tab=facets&focus=huntington&range=1900-2050&peak.huntington=1968` opens
 the app with Huntington focused at peak 1968, zoomed to 1900+. Send that
 link and the recipient sees what you see.
@@ -436,7 +439,7 @@ in `src/data/cycles.json`.
 ## Non-goals (still deferred)
 
 - No open-ended spectral search. The spectral verdict tests each pairing only
-  at its theory's stated period, under a protocol frozen before the results
+  at the period this site stores for its theory, under a protocol frozen before the results
   (`/methods`, spectral testing). Cross-correlation at varying lags is listed
   there as future work, and wavelets are deliberately excluded.
 - No backend or saved server-side configurations — URL state is the share

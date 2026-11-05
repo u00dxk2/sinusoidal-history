@@ -10,7 +10,7 @@ One line for every top-level file and folder in `docs/`. Dated files are records
 - `daily/`: the daily report of record, `<MT-date>-prelaunch.md`. The Command Center fetches these by date, so none is moved.
 - `evidence/`: before/after captures backing one item (`2026-10-11-i031`).
 - `frames/`: dated viewport screenshots from ship verification. Frames from 09-17 to 09-25 are in `frames/archive/2026-09/` with an `INDEX.md`.
-- `housekeeping/`: housekeeping-night inventories (`2026-11-04-inventory.md`).
+- `housekeeping/`: housekeeping-night records (`2026-11-04-inventory.md`, `2026-11-04-claims-pass.md`).
 - `specs/`: pre-registered build specs. `spectral-verdict-build-spec.md` is the frozen spectral pre-registration.
 - `walks/`: cold-reader walk reports per item (W-00x, I-0xx), with captures in `walks/frames/`.
 

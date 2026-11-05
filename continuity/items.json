@@ -2362,6 +2362,22 @@
       "updated": "2026-11-04",
       "closedAt": "2026-11-04",
       "lastEvaluated": "2026-11-04"
+    },
+    {
+      "id": "I-080",
+      "title": "Public pages carry sentences the 11-04 claims pass could not back, among them Metz \"later withdrew it\" and llms.txt \"every record is too short\"",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-04",
+      "description": "Overnight claims pass (docs/housekeeping/2026-11-04-claims-pass.md, findings 1, 4, 6-11, 13, 14, 18). These sit on public pages and mirrors, so they were not changed on a no-product night. In order: (7) about.md:51 and cycles.json:25, 'Metz, who once reported K-wave evidence, later withdrew it': stronger than the only held source, which says Metz 2011 is 'skeptical'; not shown false. (11) llms.txt:71 'every record is too short': false as worded, 19 cross-grid rows are eligible. (9, 10) methods.md:189 Korotayev & Tsirel and Turchin characterisations: only the internal spec repeats them. (6) about.md:47 'most cited single year'. (8) about.md:161 'most developed quantitative literature of the ten'. (1) 'the theory's own/exact stated period' on colophon, methods, /cycles, llms: several stored periods are midpoints or derived (round 5 item 8). (13) llms.txt:86 'post-fact-check Phase 11'. (14) stale 'Last updated' footers. (18) colophon 'five rough phases' lists six; David's first-person page. (4) CITATION.cff:19 'theorist motivation' goes with I-073.",
+      "closeWhen": "Each listed sentence is either backed by a held source (page quote or full text read), or narrowed on the page and its mirror in the same commit, or recorded as deliberately kept with the reason. The Metz sentence needs the text of Metz 2011 read, or the narrower wording the held source supports.",
+      "nextEvaluation": "2026-11-11",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"later withdrew it\" -- src/data/cycles.json public/about.md — a hit means the Metz sentence still stands; the row's proof is a source read or a shipped narrowing",
+      "linkedCommits": [],
+      "created": "2026-11-04",
+      "updated": "2026-11-04"
     }
   ],
   "knownPatterns": [
