@@ -16,13 +16,14 @@ this repo needs to keep goes below the END marker.
 
 **JSX whitespace hazard (live-verified 2026-08-24):** this Next's compiler strips the edge whitespace of any JSX text node that spans multiple source lines — including a space on the *same line* as an adjacent inline element or `{expression}`. `the {year} reading` rendered as "the 2026reading"; `<em>estimation</em> conventionally` as "estimationconventionally"; the symmetric case (`…anchored to the\n<code>…`) too. Single-line text nodes are safe. Rule when writing prose JSX: at every junction with an inline element or expression, write the space as an explicit `{" "}` (or keep the whole text node on one line). A site-wide sweep landed 2026-08-24; verify new prose against the rendered HTML, not the source.
 
-**Re-measured on the 16.3.5 bump (2026-09-17): the hazard did not reproduce in the two cases probed.** A throwaway route written in exactly the hazardous shape — `the {year} reading` and `<em>estimation</em> conventionally`, both spanning source lines, neither using `{" "}` — prerendered as `the <!-- -->2026<!-- --> reading` and `<em>estimation</em> conventionally`, spaces intact. Two probes are not a proof that the compiler was fixed in general. So the paragraph above describes 16.2.4, which is where it was live-verified; it is kept because this repo's prose still carries the explicit `{" "}` the sweep added, and because the rule is version-scoped, not retired. **Keep writing `{" "}`** — it renders one space either way (HTML collapses whitespace), it is what every existing junction uses, and it is the only form that is correct on both versions. If a future bump is reverted, the hazard comes back with it. Re-run the probe rather than trusting either version's reputation.
+**Re-measured on the 16.3.5 bump (2026-09-17): the hazard did not reproduce in the two cases probed.** A throwaway route written in exactly the hazardous shape — `the {year} reading` and `<em>estimation</em> conventionally`, both spanning source lines, neither using `{" "}` — prerendered as `the <!-- -->2026<!-- --> reading` and `<em>estimation</em> conventionally`, spaces intact. Two probes are not a proof that the compiler was fixed in general. So the paragraph above describes 16.2.4, which is where it was live-verified; it is kept because this repo's prose still carries the explicit `{" "}` the sweep added, and because the rule is version-scoped, not retired. **Keep writing `{" "}`** — it renders one space either way (HTML collapses whitespace), it is what every existing junction uses, and it is the only form that is correct on both versions. If a future bump is reverted, the hazard comes back with it. Re-run the probe rather than trusting either version's reputation. (Not re-probed on 16.4.1, the version installed as of 2026-11-04; the rule above is unchanged.)
 
 <!-- BEGIN:prose-mirror-invariant -->
 # CI, the commit hook, and where the traffic numbers come from (all new 2026-09-16)
 
-`.github/workflows/ci.yml` runs lint, typecheck, test and build on every push and PR
-to `main`. **Since 2026-10-05 Render deploys only after CI passes** (`autoDeployTrigger:
+`.github/workflows/ci.yml` runs a dependency audit (`npm audit --omit=dev
+--audit-level=critical`, before `npm ci`), then lint, typecheck, test and build, on every
+push and PR to `main`. **Since 2026-10-05 Render deploys only after CI passes** (`autoDeployTrigger:
 checksPass`, I-026; read it with `scripts/read-render-deploy-trigger.mjs`, exit 0). A red
 run therefore holds the deploy: a push is not live until its CI is green AND its deploy row
 reads live, so read both before calling a ship delivered. Run only the gate you touched
@@ -51,42 +52,7 @@ impressions, clicks, position — who was *shown* the site. `scripts/crawl-read.
 from a query-grouped read** — Search Console anonymizes low-volume queries and their
 clicks vanish with the rows; page-only grouping is the one whose totals are whole.
 
-# Prove the words did not move: the rendered-text gate
-
-Before a refactor or a dependency bump, snapshot what a reader sees; after it, diff:
-
-```bash
-node scripts/check-rendered-text.mjs snap .next/server/app before.txt   # or a URL
-node scripts/check-rendered-text.mjs diff before.txt .next/server/app   # exit 0 same, 3 changed
-```
-
-A source is a URL, an `.html` file, a directory of them (`.next/server/app` after a build), or a
-saved snapshot. It compares VISIBLE text only: whitespace runs collapse, as HTML's do, so a
-one-space change is invisible — and CSS is not compared at all, because a framework bump rewrites
-the emitted CSS bytes without changing a style (per-build `@font-face` `url()` tokens, KP-004).
-Layout belongs to frames, not to this. `--selftest` carries the red arms and CI runs it through
-`src/lib/check-rendered-text.test.ts`.
-
-**It is BLIND to anything the browser renders, and on the home page that is the whole
-chart** (measured 2026-09-21). The snapshot reads server-rendered HTML; `Viz` and
-everything under it — the ten facets, the editor's note, the brush, the "State of the
-cycles" panel — arrive client-side, so `/` snaps to 25 lines and a re-order of those
-blocks reads GREEN with nothing compared. The positive control that proves it: a word
-changed inside `ConvergenceNote`, and later reverted, did not register either. **For a
-change inside `Viz`, the proof is the rendered `main` innerText line multiset** — load
-both sides in Playwright, split `innerText`, sort, compare (123 lines, 82 distinct on
-2026-09-21, identical against production). Use this gate for server-rendered prose,
-where it is still the right instrument.
-
-**`diff` is an ORDER gate, and on a re-ordering it goes RED and is RIGHT to** (learned the slow way
-2026-09-20, on the `/cycles` re-order). It compares visible text line-index by line-index, so moving
-a paragraph reports RED at the first moved line even though not one word changed. Two failure modes
-follow, and the second is the dangerous one: reading that RED as "the page broke", or learning to
-wave it through — after which a genuine prose deletion inside a future re-order rides out on the
-habit. **What proves a re-order safe is the line MULTISET**: `snap` both sides, sort, compare. On
-09-20 that was 216 lines and 166 distinct on both sides, identical, and the adversarial review
-reproduced it independently. Note the same command run BUILT-vs-PRODUCTION after a deploy asks a
-different question — "does production serve what I built" — and there GREEN is the expected answer.
+**The rendered-text gate** (`scripts/check-rendered-text.mjs` snap/diff, run before a refactor or a dependency bump) lives in `docs/rendered-text-gate.md`. Read it first: it is BLIND to everything `Viz` renders client-side (the whole home chart), and `diff` is an ORDER gate, so a re-order goes RED and the line multiset is the proof.
 
 # Keep prose mirrors in sync
 
@@ -102,7 +68,7 @@ When you edit one, edit the other in the same commit. Do not assume one is canon
 <!-- END:prose-mirror-invariant -->
 
 <!-- BEGIN:new-cycle-checklist -->
-# Adding or renaming a cycle: what is automatic, and what isn't
+# Adding or renaming a cycle, and the one-period / no-present-position rule (I-061)
 
 Since Phase 12, most per-cycle surfaces derive from `src/data/cycles.json` and need no edit when a cycle is added:
 
@@ -117,7 +83,7 @@ Two surfaces are **hand-written** and will silently go stale:
 - `public/llms.txt` — the "Per-cycle pages" bullet list, plus the ascending-period ordering in the intro
 - `public/about.md` — the mirror needs a new `### <name>` block *and* its `- **Page:**` line (see the prose-mirror rule above)
 
-**Claim pages (since 2026-10-15).** An optional `question` on a cycle in `cycles.json` (Turchin, Dalio and Strauss-Howe today) makes its page answer that question: the title, H1, description tags and a FAQPage come from `src/lib/claimQuestion.ts`, and the verdict box moves ABOVE the curve carrying `#not-evidence` (what the drawing is; no position since I-061). A new claim page adds no route and needs no sitemap edit, but `check-holds-up-line` judges it whole-text (its claim legs refuse a verdict form they do not state), `seriesOverlay.test.ts` pins its verdict-first order, and `public/llms.txt` names the question by hand.
+**Claim pages (since 2026-10-15).** An optional `question` on a cycle in `cycles.json` (Turchin, Dalio and Strauss-Howe today) makes its page answer that question: the title, description and FAQPage are built in `src/lib/cycleRoutes.ts`, the H1 in `src/app/(app)/cycles/[id]/page.tsx`, and the answer text in `src/lib/claimQuestion.ts`; the verdict box moves ABOVE the curve carrying `#not-evidence` (what the drawing is; no position since I-061). A new claim page adds no route and needs no sitemap edit, but `check-holds-up-line` judges it whole-text (its claim legs refuse a verdict form they do not state), `seriesOverlay.test.ts` pins its verdict-first order, and `public/llms.txt` names the question by hand.
 
 Renaming a cycle's `id` changes its URL. Slugs are the id with underscores swapped for hyphens (`strauss_howe` → `/cycles/strauss-howe`), so an id change is a redirect-worthy URL change, not a cosmetic edit.
 <!-- END:new-cycle-checklist -->
@@ -134,25 +100,8 @@ python scripts/audit_cycle_rationales.py
 Read every row alongside the rationale prose. The Strauss-Howe round-4 finding ("2020 is a trough" — wrong, cos ≈ +0.15 rising arm) and the Turchin internal-sweep finding (parenthetical sequence at cos ≈ −0.81, not peaks) both survived three earlier fact-check rounds because nobody did the arithmetic. Don't be the next round.
 <!-- END:cycle-rationale-math-rule -->
 
-<!-- BEGIN:reproducible-data-pipeline -->
-# Every derived data series gets a committed build script
+<!-- BEGIN:data-pipeline-pointer -->
+# Data pipeline and the spectral-verdict invariant: read `docs/data-pipeline.md` first
 
-If a CSV in `public/data/` is anything other than a near-pass-through of an upstream file (filtering rows, splicing series, rolling averages, log-transforms, country-aggregate filtering, etc.), there must be a corresponding `scripts/build_<slug>.py` that reproduces it from the upstream URL — committed, self-documenting, and runnable from repo root. The Maddison and Fernald rebuilds (Phase 7) are the canonical examples; the Stimson script (Phase 10) follows the same pattern.
-
-The build scripts do not run automatically. The CSVs are committed for stability and provenance, with a sibling `<slug>.source.md` documenting retrieval date, transform, and caveats. Re-run the script when refreshing data, then re-commit the CSV with an updated `Retrieved:` date in the source.md.
-<!-- END:reproducible-data-pipeline -->
-
-<!-- BEGIN:spectral-verdict-invariant -->
-# The spectral verdict is manifested: pairings and data are frozen together
-
-Adding a cycle, changing a pairing, changing a `period_years`, or refreshing
-any inference CSV in `public/data/` invalidates the spectral verdict. The
-run enforces this — `scripts/spectral_verdict.py` pins input-CSV sha256s and
-pairing periods inside `scripts/spectral/analysis-manifest.yaml` and aborts
-on mismatch. The required sequence: update the frozen plan in
-`spectral_verdict.py`, `--write-manifest`, commit the manifest, `--selftest`,
-then `--run` (99,999 draws) and re-commit `public/data/spectral/`
-(verdicts.json + figures). Never hand-edit verdicts.json, the figures, or
-the manifest. TFP inference uses `us_tfp_growth_annual.csv` (unsmoothed) —
-the rolled display CSV is banned from inference and the selftest checks that.
-<!-- END:spectral-verdict-invariant -->
+Adding or refreshing a CSV in `public/data/`, adding a cycle, changing a pairing or a `period_years`: read `docs/data-pipeline.md` before you start. It holds two rules moved there whole on 2026-11-04: every derived series gets a committed `scripts/build_<slug>.py`, and **the spectral verdict is manifested** (`scripts/spectral_verdict.py` aborts on a manifest mismatch; never hand-edit `public/data/spectral/`). This is the "AGENTS.md invariant" that the script's abort message and `testedSeries.test.ts` refer to.
+<!-- END:data-pipeline-pointer -->
