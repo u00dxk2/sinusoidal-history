@@ -157,6 +157,11 @@ export default function About() {
               <p className="mt-1.5 text-[11px] tracking-wide text-ink-soft/70 font-mono">
                 {c.source}
               </p>
+              {c.caveat && (
+                <p className="mt-1.5 text-[13px] leading-relaxed text-ink-soft font-display-italic">
+                  Caveat: {c.caveat}
+                </p>
+              )}
             </li>
           ))}
         </ul>
@@ -210,9 +215,10 @@ export default function About() {
           three-peak claim (1870, 1920, 1970) from a single 2012 paper by the
           same author as the 150-year secular cycle - not independent
           corroboration - and its observed pattern is sharply peaked, not
-          sinusoidal. Four cycles (Schlesinger Jr., Strauss-Howe, Modelski,
-          and Turchin fathers-and-sons) carry an inline caveat surfaced in
-          the focused-facet view; treat those caveats as part of the claim.
+          sinusoidal. Five cycles (Kondratiev, Schlesinger Jr., Strauss-Howe,
+          Modelski, and Turchin fathers-and-sons) carry an inline caveat, shown
+          above, on each one&apos;s own page and in the focused-facet view; treat
+          those caveats as part of the claim.
         </p>
         <p>
           Treat this tool as a way of making those judgments visible and

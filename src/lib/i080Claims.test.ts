@@ -12,7 +12,9 @@
 // other words still passes; the exact llms headline and the source-line read are the other half.
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
+import About from "@/app/(app)/about/page";
 import { cycles } from "@/data/cycles";
 import { CROSS_GRID_LEAD, CROSS_GRID_NOTE } from "@/components/CrossGridList";
 
@@ -64,6 +66,40 @@ describe("I-080 llms.txt verdict headline matches verdicts.json", () => {
 
   it("no longer says every record is too short", () => {
     expect(llms).not.toContain("every record is too short");
+  });
+});
+
+// Codex r1 on ffb87e8 (LOW, CONFIRMED, pre-existing): about.md carried every cycle's caveat while
+// the /about page rendered none, and both said "Four cycles … carry an inline caveat" when
+// cycles.json gives five (Kondratiev was missing). The page now renders the caveats and both
+// mirrors name all five.
+describe("I-080 /about renders the caveats about.md carries, and counts them right", () => {
+  const withCaveat = cycles.filter((c) => c.caveat);
+  const named = "Five cycles (Kondratiev, Schlesinger Jr., Strauss-Howe, Modelski, and Turchin fathers-and-sons) carry an inline caveat";
+
+  it("the named list is exactly the cycles that carry a caveat", () => {
+    expect(withCaveat.map((c) => c.id).sort()).toEqual(
+      ["kondratiev", "modelski", "schlesinger_jr", "strauss_howe", "turchin_fathers_sons"],
+    );
+    expect(named.startsWith("Five")).toBe(withCaveat.length === 5);
+  });
+
+  it("the /about page renders each caveat and the corrected count", () => {
+    const html = renderToStaticMarkup(About())
+      .replace(/<!-- -->/g, "")
+      .replace(/&#x27;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/\s+/g, " ");
+    for (const c of withCaveat) expect(html).toContain(`Caveat: ${c.caveat}`);
+    expect(html).toContain(named);
+    expect(html).not.toContain("Four cycles");
+  });
+
+  it("about.md says the same", () => {
+    const md = read("public", "about.md");
+    for (const c of withCaveat) expect(md).toContain(`*Caveat:* ${c.caveat}`);
+    expect(md).toContain(named);
+    expect(md).not.toContain("Four cycles");
   });
 });
 
