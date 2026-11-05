@@ -17,6 +17,20 @@ and see where they net out. The full build journal — what was AI, what was
 human, where it got hard — lives at
 [`docs/how-this-was-made.md`](docs/how-this-was-made.md).
 
+## Start here (agents)
+
+1. `AGENTS.md` (loaded through `CLAUDE.md`): the rules that bite on every edit.
+2. `docs/cold-starts/<latest MT date>.md`: the newest primer and its first action.
+3. `continuity/items.json`: open items (I-0xx) and watches (W-0xx), each with its `nextEvaluation` date.
+4. `docs/daily-config.md`: where state lives, the CI and deploy reads, the traffic instruments.
+5. `docs/README.md`: one line for every docs/ file and folder.
+6. Data truth: `src/data/cycles.json`, `src/data/series.json`, `public/data/spectral/verdicts.json` (written only by `scripts/spectral_verdict.py`).
+7. Gates: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`. CI runs all four plus `npm audit`, and Render deploys only after CI is green.
+8. David's rulings, verbatim and dated: `docs/answers/<date>.md`.
+9. Before changing a cycle, a pairing, a period or a data CSV: `docs/data-pipeline.md`.
+
+The "Status" section below is history, phase by phase.
+
 ## What it is (and isn't)
 
 It **is** a side-by-side comparison tool for seeing where different long-wave
@@ -155,7 +169,7 @@ snapshots are superseded.
 - Next.js 16 (app router) + TypeScript strict mode
 - Tailwind CSS v4 + shadcn/ui (Tabs, Slider, Toggle, Tooltip, ScrollArea) on
   Radix UI primitives
-- D3 for the viz (`d3-scale`, `d3-shape`, `d3-brush`, `d3-selection`)
+- D3 for the viz (`d3`, plus `d3-brush`)
 - Fraunces variable serif for editorial typography
 - `papaparse` for CSV ingestion
 - `nuqs` for URL-state
@@ -177,7 +191,7 @@ Then open http://localhost:3000.
 ```bash
 npm run test        # vitest — run math + cross-ref tests once
 npm run test:watch  # vitest in watch mode
-npm run typecheck   # tsc --noEmit
+npm run typecheck   # tsc --noEmit -p tsconfig.test.json (test files included)
 npm run lint        # eslint
 npm run build       # next build (production)
 npm start           # run the built app
@@ -225,6 +239,7 @@ provenance.
 | `confidence_level`          | `"narrative"`, `"empirical-contested"`, `"empirical"`, or `"quantitative"`. |
 | `color`                     | Hex color for the curve and legend swatch.                     |
 | `caveat`                    | Optional inline caveat surfaced in the focused-facet view.     |
+| `question`                  | Optional. Makes the cycle's page a claim page that answers this question (Turchin, Dalio and Strauss-Howe today). |
 
 ### Data series — `src/data/series.json` + `public/data/*.csv`
 
@@ -283,7 +298,7 @@ rescaled to [-1, 1] using their own min/max over the visible window. The
 calibration drawer reports a Pearson correlation and explicitly does not
 report a p-value (Pearson significance tests are anti-conservative on
 autocorrelated time series). See `/methods` for the full story on
-normalization, Pearson, and why spectral analysis is deferred.
+normalization, Pearson, and the pre-registered spectral test.
 
 ## Project structure
 
@@ -300,18 +315,17 @@ src/
       page.tsx                Home (interactive overlay)
       cycles/page.tsx         Index of the ten cycles, by ascending period
       cycles/[id]/page.tsx    One static page per cycle (10 prerendered)
-      state/[year]/page.tsx   The annual reading (2026+), a citable permalink
       about/page.tsx          The argument and disclaimer
       methods/page.tsx        Data provenance and methodology
       colophon/page.tsx       Note from the maker
     embed/                    Chromeless iframe-safe routes
     poster/                   Print broadside with PNG download
-    api/v1/                   JSON API: cycles, series, state?year= (CORS *)
+    api/v1/                   JSON API: cycles, series (CORS *); state answers 410
     og/                       Dynamic 1200×630 OpenGraph card
     sitemap.ts, robots.ts     SEO/crawler endpoints
   components/
     Viz.tsx                   Tabs, range, focus state
-    NowSummaryPanel.tsx       "State of the cycles" masthead
+    NowSummaryPanel.tsx       The verdict panel (each cycle's verdict, no reading of the present)
     FacetView.tsx             Stack of CycleFacet rows
     CycleFacet.tsx            One cycle's row + chart + legend; expanded, it
                               carries the period + peak sliders and Pearson r
@@ -330,26 +344,26 @@ src/
     series.test.ts
     types.ts
   lib/
-    cycleMath.ts              sineAtYear, phasePosition, phasePositionLabel
-    stateOfCycles.ts          The annual reading + next-extrema derivation
+    cycleMath.ts              sineAtYear, drawnPeriod, sampleDrawnPeriod (one period, cut at today)
     cycleMath.test.ts
     seriesMath.ts             normalizeSeries, pearsonCorrelation
     seriesMath.test.ts
     hooks.ts                  useTimeScale, useVisibleData, etc.
     useCsvSeries.ts           React hook to fetch + parse a CSV
     utils.ts                  cn() — tailwind classname merger
-docs/
+docs/                         See docs/README.md for every file and folder
   how-this-was-made.md        Build journal — paired with /colophon
-  fact-check-prompt.md        Round-1 audit prompt
-  fact-check-2026-04-25.md    Round-1 audit report
-  fact-check-prompt-round-2.md
-  fact-check-2026-04-25-round-2.md
-  fact-check-prompt-round-3-self-contained.md
-  fact-check-2026-04-25-round-3-blocked.md
+  fact-check-*.md             External fact-check prompts and reports, rounds 1-5
+continuity/
+  items.json                  Open items and watches, with their read commands
 scripts/
-  build_us_world_gdp_share.py Reproducible Maddison rebuild
-  build_us_tfp_growth.py      Reproducible Fernald TFP rebuild
+  build_*.py                  Reproducible data rebuilds (Maddison, Fernald, Stimson, HATCH)
   verify_tfp.py               TFP derivation verifier
+  audit_cycle_rationales.py   cos-math audit of the rationale prose
+  spectral_verdict.py         The pre-registered spectral verdict (manifest in spectral/)
+  check-*.mjs                 Rendered-page checkers named by continuity rows, plus
+                              check-staged-secrets.mjs (the pre-commit scanner)
+  gsc-read.mjs, crawl-read.mjs  Search Console and crawler reads
   inspect.mjs                 Playwright capture script (dev only)
 render.yaml                   Render Web Service blueprint
 components.json               shadcn config
@@ -394,10 +408,11 @@ cycle ids use underscores.
 
 ## Deploying
 
-See [`DEPLOY.md`](DEPLOY.md) for the full Render + Squarespace DNS
-walkthrough. Short version: Render Blueprint reads `render.yaml`, you add
-a `sinusoidal-history` CNAME at Squarespace pointing at the Render
-hostname, done. Cert is automatic.
+See [`DEPLOY.md`](DEPLOY.md) for the Render walkthrough and the DNS history.
+Short version: the Render Blueprint reads `render.yaml`, and Render deploys
+`main` only after CI passes (`autoDeployTrigger: checksPass`). The canonical
+domain is `sinusoidalhistory.com`; the original subdomain, `.org` and `www`
+redirect to it with paths preserved.
 
 ## Citing
 
@@ -420,8 +435,10 @@ in `src/data/cycles.json`.
 
 ## Non-goals (still deferred)
 
-- No spectral analysis (FFT, wavelets, Lomb-Scargle) — flagged on `/methods`
-  as future work; the simple sinusoid is part of the editorial honesty.
+- No open-ended spectral search. The spectral verdict tests each pairing only
+  at its theory's stated period, under a protocol frozen before the results
+  (`/methods`, spectral testing). Cross-correlation at varying lags is listed
+  there as future work, and wavelets are deliberately excluded.
 - No backend or saved server-side configurations — URL state is the share
   mechanism.
 - No real-time data updates — annual snapshots are fine; the rebuild
