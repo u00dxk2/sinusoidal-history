@@ -26,6 +26,8 @@ describe("I-080 Kondratiev caveat says only what the held source says", () => {
   it("drops the withdrawal and the unsourced Solomou clause", () => {
     expect(caveat.length).toBeGreaterThan(0);
     expect(caveat).not.toMatch(/withdr|renunciation|Solomou/i);
+    // Codex r2: "the most-cited long-wave theory" is a ranking no held source makes.
+    expect(caveat).not.toMatch(/most[- ]cited/i);
   });
 
   it("names Metz 1992 as reporting weak periodicity and Metz (2011) as skeptical, as the source does", () => {
@@ -88,11 +90,37 @@ describe("I-080 /about renders the caveats about.md carries, and counts them rig
     const html = renderToStaticMarkup(About())
       .replace(/<!-- -->/g, "")
       .replace(/&#x27;/g, "'")
-      .replace(/&amp;/g, "&")
+      .replace(/&quot;/g, '"').replace(/&amp;/g, "&")
       .replace(/\s+/g, " ");
     for (const c of withCaveat) expect(html).toContain(`Caveat: ${c.caveat}`);
     expect(html).toContain(named);
     expect(html).not.toContain("Four cycles");
+  });
+
+  // Codex r2: presence is not placement. Each caveat sits inside its own cycle's entry (after
+  // that cycle's source, before the next cycle's name), exactly once, and above the disclaimer.
+  it("each caveat renders once, in its own cycle's entry, above the disclaimer", () => {
+    const html = renderToStaticMarkup(About())
+      .replace(/<!-- -->/g, "")
+      .replace(/&#x27;/g, "'")
+      .replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+      .replace(/\s+/g, " ");
+    const disclaimer = html.indexOf("Intellectual-honesty disclaimer");
+    expect(disclaimer).toBeGreaterThan(0);
+    cycles.forEach((c, i) => {
+      const start = html.indexOf(`>${c.name}</a>`);
+      const next = i + 1 < cycles.length ? html.indexOf(`>${cycles[i + 1].name}</a>`, start + 1) : disclaimer;
+      expect(start).toBeGreaterThan(0);
+      expect(next).toBeGreaterThan(start);
+      const entry = html.slice(start, next);
+      if (c.caveat) {
+        expect(html.split(`Caveat: ${c.caveat}`).length - 1).toBe(1);
+        expect(entry.indexOf(c.source)).toBeGreaterThan(0);
+        expect(entry.indexOf(`Caveat: ${c.caveat}`)).toBeGreaterThan(entry.indexOf(c.source));
+      } else {
+        expect(entry).not.toContain("Caveat: ");
+      }
+    });
   });
 
   it("about.md says the same", () => {
