@@ -48,7 +48,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 
 *Source:* Kondratiev, "Bol'shie tsikly kon'yunktury" (1925); abridged English: "The Long Waves in Economic Life," *Review of Economic Statistics* 17(6) (1935).
 
-*Caveat:* The periodicity claim has published renunciations - Metz, who once reported K-wave evidence, later withdrew it, and Solomou's long-run studies find no regular wave. Spectral detections (e.g. Korotayev & Tsirel 2010) remain contested. The wave is kept here as the most-cited long-wave theory, not as settled empirics.
+*Caveat:* The periodicity claim is contested. Spectral analyses report some periodicity at weak significance (Metz 1992; Korotayev & Tsirel 2010), while other studies, among them Metz (2011) and Diebolt & Doliger, are skeptical. The wave is kept here as the most-cited long-wave theory, not as settled empirics.
 
 ### Huntington — creedal passion
 

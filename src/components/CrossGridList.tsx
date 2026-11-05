@@ -38,7 +38,7 @@ export const CROSS_GRID_SUMMARY = `The ${CROSS_GRID_ROWS.length} re-pairings, ce
 // cycle page's link reads before the first row, so it carries no statistical term; the note
 // after the rows keeps the technical statement (I-043, walk C 2026-10-13).
 export const CROSS_GRID_LEAD =
-  "Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in brackets repeats the check against a second model of drift, explained below the list.";
+  "Each row borrows one theory's period and sets it against a series that theory is not paired with. Each p says how often random drift alone would fit that period at least this well; only a p below 0.05 could count, and none here is. The number in parentheses repeats the check against a second model of drift, explained below the list.";
 
 // The plain sentence claims only what drift is and that the bracket is a second opinion: two
 // rounds of describing HOW the two models differ overclaimed (per-year lag on a biennial series,
@@ -46,7 +46,7 @@ export const CROSS_GRID_LEAD =
 // The note opens in plain words because the lead promises the second model is "explained
 // below the list", and a technical-only note left the walker without it (I-043).
 export const CROSS_GRID_NOTE =
-  "In plain words: drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the bracketed one is a second opinion on the first. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the bracketed p is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
+  "In plain words: drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the one in parentheses is a second opinion on the first. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the p in parentheses is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.";
 
 export default function CrossGridList() {
   return (
