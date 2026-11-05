@@ -17,7 +17,9 @@ Scope: this repository and `sinusoidalhistory.com`. Out of scope: the hosting pr
 ## What the site is, in security terms
 
 - A static reference site. No accounts, no sessions, no cookies, no user data.
-- Three read-only JSON endpoints under `/api/v1/`, derived from data files committed here.
+- Two read-only JSON endpoints under `/api/v1/` (`cycles`, `series`), derived from data
+  files committed here. A third, `/api/v1/state`, was retired on 2026-10-21 and answers
+  410 Gone.
 - No runtime secrets: nothing under `src/` reads `process.env`, and the site needs no
   credential to build or serve.
 
@@ -33,8 +35,8 @@ Scope: this repository and `sinusoidalhistory.com`. Out of scope: the hosting pr
   carry secret-shaped content; it is installed by `npm install`, so a clone that never
   ran it has no hook.
 - **Dependabot alerts** are enabled.
-- **Inline JSON-LD is escaped** through one helper (`src/lib/jsonLdHtml.ts`), used by all
-  three pages that emit it. The helper is unit-tested; no automated check yet stops a new
+- **Inline JSON-LD is escaped** through one helper (`src/lib/jsonLdHtml.ts`), used by both
+  pages that emit it (`/cycles` and `/cycles/<slug>`). The helper is unit-tested; no automated check yet stops a new
   page from bypassing it.
 
 ## Known gaps, stated plainly

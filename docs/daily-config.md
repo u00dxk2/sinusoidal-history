@@ -32,7 +32,7 @@ There is **no `docs/daily-reports/`**. Do not go looking for one.
 |---|---|
 | Daily report of record (rail days, since 2026-09-16) | `docs/daily/<MT-date>-prelaunch.md` — this repo is **public**: write it for a stranger (no personal emails, no board-card text) |
 | Cold-start primer | `docs/cold-starts/<MT-date>.md` — multi-session, each close-out appends a section |
-| Ship log | `CHANGELOG.md` |
+| Ship log | `docs/daily/<MT-date>-prelaunch.md` (the "What changed" section) + `continuity/items.json` notes. `CHANGELOG.md` is history up to 2026-10-11 and is no longer updated (retired 2026-11-04). |
 | Tracked items + known patterns | `continuity/items.json` |
 | Narrative record across sessions | agent memory (`MEMORY.md` index) |
 

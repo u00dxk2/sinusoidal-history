@@ -26,50 +26,52 @@ journey-walk); update when a surface is added or a flow's steps change.
    spectral headline count, derived from `verdicts.json`) and an "On this page"
    jump list over the six sections.
 2. First viewport. **Phone (<640px):** masthead, H1, a one-line dek, then
-   "Every cycle, at a glance" — ten 24px rows, one curve per cycle on the
-   facets' shared axis with today's dot, year labels, and (on the Facets tab
-   only) the caption "Each in detail below — tap one to focus and
-   calibrate." All ten curves clear a 390x664
+   the glance figure — ten 24px rows, one curve per cycle on the facets'
+   shared axis, each drawn as one period around its reference peak and cut at
+   today, with no mark on the current year (I-048, I-061), year labels, and a
+   one-line caption that carries the verdict and says the peaks were chosen
+   (`glanceCaption`, `CycleOverview.tsx`; it read "Every cycle, at a glance"
+   until I-048). All ten curves clear a 390x664
    screen (since 2026-09-22; 1 of 10 before, 6 of 10 at 360x560). The rows are
    a figure, not controls — a 24px row cannot meet the 44px tap floor — which
    is why the dek no longer says "tap a row". **Desktop (≥640px):** masthead,
    H1, dek, tabs (Facets default; Overlay; Calibrate), and the first facet
-   charts. Until 2026-09-21 the "State of the cycles" panel and the editor's
-   note came first, and the first curve sat at 1381px on a 390x664 phone and
+   charts. Until 2026-09-21 the summary panel (then "State of the cycles", now
+   the verdict panel) and the editor's note came first, and the first curve sat at 1381px on a 390x664 phone and
    1113px on a 1440x900 desktop — below the fold at both.
-3. Scroll: (phone: tabs →) ten facet charts → shared time axis → editor's
-   note → range brush → "State of the cycles" summary panel → closing note
-   (methods link + spectral-headline sentence).
+3. Scroll: (phone: glance figure →) range strip, directly under the chart it
+   zooms since I-066 → tabs → ten facet charts → shared time axis → editor's
+   note → verdict panel (`NowSummaryPanel`; "State of the cycles" until I-061,
+   with no reading of the present since) → closing note (methods link +
+   spectral-headline sentence).
 4. Focus a cycle: summary-row select (scrolls to the facet since 2026-08-24)
    or facet-title click. Focused facet = expanded chart + axis + rationale +
    caveat + **Full page →** + CALIBRATE: two sliders (reference peak year,
    period) with their min/max, "published <value>" beside a moved value, a
    "reset to published" link, and a live Pearson r labelled "Diagnostic, not
-   a test statistic". Moving the peak re-labels the phase live. The slider
+   a test statistic". No card shows a phase word or a now-line (I-061,
+   2026-10-21); before that, moving the peak re-labelled the phase live. The slider
    track was invisible on production until 2026-09-26 (undefined shadcn
    colour tokens; journey-walk 2026-09-26 F1).
-5. `/cycles/<slug>`: header (confidence tier + gloss) → "Does it hold up?" →
-   one sentence saying where this cycle's curve puts the current year (phase,
-   cos, next high/low; "Every cycle in <year> →" to `/state/<year>`; since
-   2026-09-29 — a searcher landing on the theorist's name asks "where are we
-   now?", and the page used to leave it to the extrema row; it sits below the
-   verdict, ~780-874px down at 390x664, so it is not on a phone's first screen)
-   → period/peak/paired list → curve figure → peak
-   calibration → extrema table → paired series (CSV ↓ / upstream /
+5. `/cycles/<slug>`: header (confidence tier + gloss) → "Does it hold up?"
+   (on the three claim pages, Turchin, Dalio and Strauss-Howe, the H1 is the
+   cycle's `question` and the verdict box sits above the curve) → period/peak/
+   paired list → curve figure (one period, cut at today) → peak calibration →
+   the extrema of the one drawn period ("Where this curve plots its
+   extrema") → paired series (CSV ↓ / upstream /
    provenance) → spectral verdict (verdict line → plain-English → figure →
    downloads → protocol links) → Reuse this (copy attribution) → open-in-chart
-   CTA → footer.
-6. Exit paths: `/state/<year>` (annual permalink), `/methods`, `/cycles`
-   index, `/about`.
+   CTA → footer. Until I-061 (2026-10-21) a sentence here said where the
+   curve puts the current year and linked to `/state/<year>`; both are gone.
+6. Exit paths: `/methods`, `/cycles` index, `/about`.
 
 ## 2. Cite/reuse — arriving scholar or writer
 
-1. Arrive on `/state/<year>` (dated permalink, often via citation) or a
-   `/cycles/<slug>` page directly.
-2. `/state/<year>`: reading table (rows link to cycle pages) → "Citing this
-   page" (suggested citation, DOI, frozen edition CSV) → API links.
-3. `/cycles/<slug>`: CSV + provenance + figure SVG/PNG + copy-attribution.
-4. `/poster`: PNG download (pannable on mobile since 2026-08-24).
+1. Arrive on a `/cycles/<slug>` page directly, often via a citation. An old
+   `/state/<year>` link redirects permanently (308) to `/cycles` since
+   2026-10-21; the frozen 2026 edition stays at `/data/state-2026.csv`.
+2. `/cycles/<slug>`: CSV + provenance + figure SVG/PNG + copy-attribution.
+3. `/poster`: PNG download (pannable on mobile since 2026-08-24).
 
 ## 3. Embed — a writer placing the chart in their own page
 

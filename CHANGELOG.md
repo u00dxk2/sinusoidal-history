@@ -1,5 +1,11 @@
 # Changelog
 
+> **History up to 2026-10-11; no longer updated (retired 2026-11-04).** Ships since then are
+> recorded in the daily reports (`docs/daily/<MT-date>-prelaunch.md`, "What changed") and in
+> the notes of `continuity/items.json`. Entries below describe the site as it was on their
+> date: for example, the "where this year sits" sentence in the first entry was removed on
+> 2026-10-21 (I-061).
+
 ## Cycle pages name the curve height; every count derives from the data (2026-10-11 day)
 
 - **The "where this year sits" sentence on every /cycles/<slug> page names its number** (I-036).

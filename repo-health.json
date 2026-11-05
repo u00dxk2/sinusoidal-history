@@ -26,7 +26,7 @@
   "publicEndpoints": [
     { "path": "/api/v1/cycles", "note": "read-only JSON derived from src/data/cycles.json" },
     { "path": "/api/v1/series", "note": "read-only JSON derived from src/data/series.json" },
-    { "path": "/api/v1/state", "note": "read-only JSON: each cycle's computed phase for a year" }
+    { "path": "/api/v1/state", "note": "retired 2026-10-21 (I-061): answers 410 Gone and serves no data" }
   ],
   "secrets": {
     "runtime": "none. Nothing under src/ reads process.env; the site needs no credential to build or serve.",
