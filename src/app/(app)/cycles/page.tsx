@@ -126,7 +126,7 @@ const MORE: Record<
       "https://www.e-elgar.com/shop/usd/technological-revolutions-and-financial-capital-9781840649222.html",
   },
   turchin: {
-    text: "Peter Turchin spent decades modeling animal population dynamics and then turned the same mathematics on human history. Ages of Discord (2016) applies his structural-demographic theory to the United States since 1780: when elite aspirants multiply faster than elite positions and ordinary incomes stagnate, competition curdles into political violence, and the state either weathers the storm or doesn't. His fitted American cycle runs about 150 years. In 2010 he put a forecast in Nature - instability peaking in the 2020s - which is both why this cycle gets the most attention here and why it deserves the most care: one realized oscillation is a case study, not a periodicity.",
+    text: "Peter Turchin spent decades modeling animal population dynamics and then turned the same mathematics on human history. Ages of Discord (2016) applies his structural-demographic theory to the United States since 1780: when elite aspirants multiply faster than elite positions and ordinary incomes stagnate, competition curdles into political violence, and the state either weathers the storm or doesn't. His modern American cycle runs about 150 years. In 2010 he put a forecast in Nature - instability peaking in the 2020s - which is both why this cycle gets the most attention here and why it deserves the most care: one realized oscillation is a case study, not a periodicity.",
     sourceLabel: "Ages of Discord (Beresta Books, 2016)",
     sourceUrl: "https://peterturchin.com/ages-of-discord/",
   },

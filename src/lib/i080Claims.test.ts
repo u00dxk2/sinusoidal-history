@@ -145,6 +145,8 @@ describe("I-080 remaining sentences say only what a held source says", () => {
     "colophon.md": read("public", "colophon.md"),
     "colophon/page.tsx": read("src", "app", "(app)", "colophon", "page.tsx"),
     "llms.txt": read("public", "llms.txt"),
+    // Codex r1 on f071c56: /cycles carried "His fitted American cycle"; the surface list missed it.
+    "cycles/page.tsx": read("src", "app", "(app)", "cycles", "page.tsx"),
   };
   // Flatten JSX line wraps and the entities these pages use, so a phrase split across source lines matches.
   const flat = (s: string) => s.replace(/\{" "\}/g, " ").replace(/&amp;/g, "&").replace(/&apos;/g, "'").replace(/\s+/g, " ");
@@ -154,9 +156,12 @@ describe("I-080 remaining sentences say only what a held source says", () => {
       /most cited single year/i, // row 6
       /most developed quantitative/i, // row 8
       /only after replacing|never retracted|significant Kondratiev wave/i, // row 9
-      /one realized oscillation|no formal spectral test/i, // row 10
+      // row 10: the claim ATTRIBUTED to Turchin. /cycles keeps "one realized oscillation is a case
+      // study" deliberately: it is the site's own framing, not a report of what Turchin says.
+      /reports the ~150-year cycle as one realized oscillation|no formal spectral test/i,
       /post-fact-check Phase/i, // row 13
       /five rough phases/i, // row 18
+      /fitted parameter|fitted American cycle/i, // Codex r1: no held source says the period was fitted
     ];
     for (const [name, text] of Object.entries(surfaces)) {
       for (const re of banned) expect({ name, hit: re.test(flat(text)) }).toEqual({ name, hit: false });
@@ -183,11 +188,13 @@ describe("I-080 remaining sentences say only what a held source says", () => {
   it("the Turchin literature sentence names the books the source cites, on both /about mirrors", () => {
     expect(source).toContain("Turchin & Nefedov, *Secular Cycles* (Princeton, 2009)");
     expect(source).toContain("*Ages of Discord* (Beresta Books, 2016)");
+    // Codex r1: pin the whole sentence, not a prefix, so the clause after "but" is held too (fact-check :93).
+    expect(source).toContain("pre-modern agrarian cycles spanning **~200–300 years**. The 150y figure aligns with the **modern American cycle** in *Ages of Discord* (2016)");
     expect(flat(surfaces["about.md"])).toContain(
-      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, *Secular Cycles*, 2009; Turchin, *Ages of Discord*, 2016), but",
+      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, *Secular Cycles*, 2009; Turchin, *Ages of Discord*, 2016), but the 150-year period belongs to the modern American cycle in *Ages of Discord*; the pre-modern agrarian cycles in *Secular Cycles* run roughly 200–300 years. Dalio's",
     );
     expect(flat(surfaces["about/page.tsx"])).toContain(
-      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, <em>Secular Cycles</em>, 2009; Turchin, <em>Ages of Discord</em>, 2016), but",
+      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, <em>Secular Cycles</em>, 2009; Turchin, <em>Ages of Discord</em>, 2016), but the 150-year period belongs to the modern American cycle in <em>Ages of Discord</em>; the pre-modern agrarian cycles in <em>Secular Cycles</em> run roughly 200–300 years. Dalio's",
     );
   });
 
