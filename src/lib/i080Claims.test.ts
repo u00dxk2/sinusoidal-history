@@ -196,6 +196,14 @@ describe("I-080 remaining sentences say only what a held source says", () => {
     expect(flat(surfaces["about/page.tsx"])).toContain(
       "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, <em>Secular Cycles</em>, 2009; Turchin, <em>Ages of Discord</em>, 2016), but the 150-year period belongs to the modern American cycle in <em>Ages of Discord</em>; the pre-modern agrarian cycles in <em>Secular Cycles</em> run roughly 200–300 years. Dalio's",
     );
+    // Codex r2: a source read cannot see JSX joining words, so check the RENDERED page too.
+    const html = renderToStaticMarkup(About())
+      .replace(/<!-- -->/g, "").replace(/&#x27;/g, "'").replace(/&amp;/g, "&")
+      .replace(/<\/?em>/g, "").replace(/\s+/g, " ");
+    expect(html).toContain(
+      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, Secular Cycles, 2009; Turchin, Ages of Discord, 2016), but the 150-year period belongs to the modern American cycle in Ages of Discord; the pre-modern agrarian cycles in Secular Cycles run roughly 200–300 years. Dalio's",
+    );
+    expect(surfaces["cycles/page.tsx"]).toContain("His modern American cycle runs about 150 years.");
   });
 
   it("each page's Last updated stamp equals its mirror's", () => {

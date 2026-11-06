@@ -192,7 +192,7 @@ export default function About() {
           {" "}Turchin, <em>Ages of Discord</em>, 2016), but the 150-year
           period belongs to the modern American cycle in{" "}
           <em>Ages of Discord</em>; the pre-modern agrarian cycles in{" "}
-          <em>Secular Cycles</em> run roughly 200–300 years. Dalio&apos;s Big Cycle is a
+          <em>Secular Cycles</em>{" "}run roughly 200–300 years. Dalio&apos;s Big Cycle is a
           popularised composite, not a peer-reviewed measurement, and his own
           stated peak year for US power is the 1950s, not 1945 (we use 1950).
           Strauss-Howe is generational theory - influential in popular
