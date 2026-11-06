@@ -187,8 +187,10 @@ export default function About() {
           &quot;quantitative.&quot;)
         </p>
         <p>
-          Turchin&apos;s secular cycles have the most developed quantitative
-          literature of the ten, but the 150-year period for the modern
+          Turchin&apos;s secular cycles are set out in a quantitative
+          literature (Turchin &amp; Nefedov,{" "}<em>Secular Cycles</em>, 2009;
+          {" "}Turchin, <em>Ages of Discord</em>, 2016), but the 150-year
+          period for the modern
           American cycle is a fitted parameter. Dalio&apos;s Big Cycle is a
           popularised composite, not a peer-reviewed measurement, and his own
           stated peak year for US power is the 1950s, not 1945 (we use 1950).
@@ -241,7 +243,7 @@ export default function About() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-08-19
+        Last updated: 2026-11-06
       </footer>
     </article>
   );

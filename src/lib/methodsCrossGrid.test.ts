@@ -105,7 +105,7 @@ describe("/methods says what the cross-grid re-pairings found", () => {
   it("/methods renders exactly the list between its bounding paragraphs, once", () => {
     const list = renderToStaticMarkup(createElement(CrossGridList));
     const start = html.indexOf("one ~54–55-year statement.</p>");
-    const end = html.indexOf("<p>The failed-detection precedents");
+    const end = html.indexOf("<p>The precedents that shaped this design");
     expect(start).toBeGreaterThan(-1);
     expect(end).toBeGreaterThan(start);
     expect(html.slice(start + "one ~54–55-year statement.</p>".length, end)).toBe(list);
@@ -144,7 +144,7 @@ describe("/methods says what the cross-grid re-pairings found", () => {
       `\n\n${CROSS_GRID_NOTE}`;
     const anchor = "one ~54–55-year statement.";
     const start = md.indexOf(anchor);
-    const end = md.indexOf("\n\nThe failed-detection precedents");
+    const end = md.indexOf("\n\nThe precedents that shaped this design");
     expect(start).toBeGreaterThan(-1);
     expect(end).toBeGreaterThan(start);
     expect(md.slice(start + anchor.length, end)).toBe(expected);
@@ -172,7 +172,7 @@ describe("/methods says what the cross-grid re-pairings found", () => {
     const start = md.indexOf(head) + head.length;
     const lead = md.slice(start, md.indexOf(`- ${ORACLE_ROWS[0].pair}`, start));
     const rowEnd = md.indexOf(lastRow.detail, start) + lastRow.detail.length;
-    const after = md.slice(rowEnd, md.indexOf("\n\nThe failed-detection precedents"));
+    const after = md.slice(rowEnd, md.indexOf("\n\nThe precedents that shaped this design"));
     for (const term of JARGON) expect(lead).not.toContain(term);
     for (const term of ["AR(1)", "AR(2)", "Holm"]) expect(after).toContain(term);
   });

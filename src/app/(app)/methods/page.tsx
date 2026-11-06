@@ -336,15 +336,13 @@ export default function Methods() {
         </p>
         <CrossGridList />
         <p>
-          The failed-detection precedents that shaped this design: Korotayev
-          &amp; Tsirel (2010) report a significant Kondratiev wave only after
-          replacing the World War years with geometric means, on a record of
-          at most three cycles - contested, never retracted. Kuznets&apos;s
+          The precedents that shaped this design: spectral analyses of the
+          Kondratiev wave (Korotayev &amp; Tsirel 2010; Metz 1992) report
+          some periodicity at weak significance, and the wave remains
+          contested. Kuznets&apos;s
           ~20-year swings were killed as a moving-average artifact (Adelman
           1965; Howrey 1968), the direct ancestor of this site&apos;s
-          unsmoothed-TFP rule. Turchin himself reports the ~150-year cycle as
-          one realized oscillation and offers no formal spectral test -
-          candor this page treats as the standard. Method references: Mann
+          unsmoothed-TFP rule. Method references: Mann
           &amp; Lees (1996); Torrence &amp; Compo (1998); Hamilton (2018);
           Meyers (2012).
         </p>
@@ -476,7 +474,7 @@ export default function Methods() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-09-17
+        Last updated: 2026-11-06
       </footer>
     </article>
   );

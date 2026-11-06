@@ -51,7 +51,7 @@ export default function Colophon() {
           On the AI part
         </h2>
         <p>
-          I built this with Claude Code (Opus 4.7) over five rough phases across
+          I built this with Claude Code (Opus 4.7) in rough phases across
           a few days. The model writes D3 plumbing fast and doesn&apos;t typo.
           It is reliably worse than me at noticing when a chart is dishonest.
           Every commit went through me. Every cycle&apos;s reference peak is a
@@ -144,7 +144,7 @@ export default function Colophon() {
             David Kooi · Skylark Creations · April 2026
           </p>
           <p className="mt-2 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-            Last updated: 2026-04-26
+            Last updated: 2026-11-06
           </p>
         </div>
       </div>

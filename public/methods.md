@@ -186,7 +186,7 @@ Before any spectrum, an eligibility gate: a pairing is testable only if its reco
 
 In plain words: drift here means slow wandering that can happen with no repeating cycle, and each p checks against a different model of that drift, so the one in parentheses is a second opinion on the first. In technical terms: the first p is the bootstrap p against the AR(1) red-noise null, before any correction; the p in parentheses is the same test against the AR(2) null. Below 0.05 would cross the unadjusted threshold; Holm correction still decides significance.
 
-The failed-detection precedents that shaped this design: Korotayev & Tsirel (2010) report a significant Kondratiev wave only after replacing the World War years with geometric means, on a record of at most three cycles - contested, never retracted. Kuznets's ~20-year swings were killed as a moving-average artifact (Adelman 1965; Howrey 1968), the direct ancestor of this site's unsmoothed-TFP rule. Turchin himself reports the ~150-year cycle as one realized oscillation and offers no formal spectral test - candor this page treats as the standard. Method references: Mann & Lees (1996); Torrence & Compo (1998); Hamilton (2018); Meyers (2012).
+The precedents that shaped this design: spectral analyses of the Kondratiev wave (Korotayev & Tsirel 2010; Metz 1992) report some periodicity at weak significance, and the wave remains contested. Kuznets's ~20-year swings were killed as a moving-average artifact (Adelman 1965; Howrey 1968), the direct ancestor of this site's unsmoothed-TFP rule. Method references: Mann & Lees (1996); Torrence & Compo (1998); Hamilton (2018); Meyers (2012).
 
 ## Missing and sparse data
 
@@ -210,4 +210,4 @@ See each series' per-source provenance file for full retrieval and processing no
 
 ---
 
-*Last updated: 2026-09-17*
+*Last updated: 2026-11-06*

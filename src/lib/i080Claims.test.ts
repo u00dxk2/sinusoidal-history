@@ -131,6 +131,76 @@ describe("I-080 /about renders the caveats about.md carries, and counts them rig
   });
 });
 
+// I-080 legs 3-8 (2026-11-06): claims-pass rows 6, 8, 9, 10, 13, 14 and 18. Each sentence either now
+// says only what docs/fact-check-2026-04-25.md holds, or is cut. Same ceiling as above: a word ban
+// plus required phrases, so a new unsupported claim in other words still passes.
+describe("I-080 remaining sentences say only what a held source says", () => {
+  const source = read("docs", "fact-check-2026-04-25.md");
+  const surfaces: Record<string, string> = {
+    "cycles.json": read("src", "data", "cycles.json"),
+    "about.md": read("public", "about.md"),
+    "about/page.tsx": read("src", "app", "(app)", "about", "page.tsx"),
+    "methods.md": read("public", "methods.md"),
+    "methods/page.tsx": read("src", "app", "(app)", "methods", "page.tsx"),
+    "colophon.md": read("public", "colophon.md"),
+    "colophon/page.tsx": read("src", "app", "(app)", "colophon", "page.tsx"),
+    "llms.txt": read("public", "llms.txt"),
+  };
+  // Flatten JSX line wraps and the entities these pages use, so a phrase split across source lines matches.
+  const flat = (s: string) => s.replace(/\{" "\}/g, " ").replace(/&amp;/g, "&").replace(/&apos;/g, "'").replace(/\s+/g, " ");
+
+  it("no surface carries a sentence the claims pass could not back", () => {
+    const banned = [
+      /most cited single year/i, // row 6
+      /most developed quantitative/i, // row 8
+      /only after replacing|never retracted|significant Kondratiev wave/i, // row 9
+      /one realized oscillation|no formal spectral test/i, // row 10
+      /post-fact-check Phase/i, // row 13
+      /five rough phases/i, // row 18
+    ];
+    for (const [name, text] of Object.entries(surfaces)) {
+      for (const re of banned) expect({ name, hit: re.test(flat(text)) }).toEqual({ name, hit: false });
+    }
+  });
+
+  it("the Kondratiev anchor rationale uses the held source's wording, mirrored in about.md", () => {
+    const rationale = cycles.find((c) => c.id === "kondratiev")?.reference_peak_rationale ?? "";
+    expect(source).toContain("often clustering around the 1973–74 stagflation episode. We use 1973 as a conventional anchor.");
+    expect(source).toContain("Mandel preferred 1968");
+    expect(rationale).toContain("variously dated the turning point between 1968 and 1974 (Mandel preferred 1968)");
+    expect(rationale).toContain("often clustering around the 1973–74 stagflation episode; we use 1973 as a conventional anchor.");
+    expect(surfaces["about.md"]).toContain(`*Peak calibration:* ${rationale}`);
+  });
+
+  it("the Korotayev & Tsirel sentence claims only weak significance, on both /methods mirrors", () => {
+    expect(source).toContain("Spectral analyses (Korotayev–Tsirel 2010, Metz 1992) report some periodicity at weak significance");
+    const sentence =
+      "spectral analyses of the Kondratiev wave (Korotayev & Tsirel 2010; Metz 1992) report some periodicity at weak significance, and the wave remains contested.";
+    expect(flat(surfaces["methods.md"])).toContain(sentence);
+    expect(flat(surfaces["methods/page.tsx"])).toContain(sentence);
+  });
+
+  it("the Turchin literature sentence names the books the source cites, on both /about mirrors", () => {
+    expect(source).toContain("Turchin & Nefedov, *Secular Cycles* (Princeton, 2009)");
+    expect(source).toContain("*Ages of Discord* (Beresta Books, 2016)");
+    expect(flat(surfaces["about.md"])).toContain(
+      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, *Secular Cycles*, 2009; Turchin, *Ages of Discord*, 2016), but",
+    );
+    expect(flat(surfaces["about/page.tsx"])).toContain(
+      "Turchin's secular cycles are set out in a quantitative literature (Turchin & Nefedov, <em>Secular Cycles</em>, 2009; Turchin, <em>Ages of Discord</em>, 2016), but",
+    );
+  });
+
+  it("each page's Last updated stamp equals its mirror's", () => {
+    const stamp = (s: string) => s.match(/Last updated: (\d{4}-\d{2}-\d{2})/)?.[1];
+    for (const page of ["about", "methods", "colophon"]) {
+      const tsx = stamp(surfaces[`${page}/page.tsx`]);
+      expect(tsx).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect({ page, md: stamp(surfaces[`${page}.md`]) }).toEqual({ page, md: tsx });
+    }
+  });
+});
+
 describe("I-043 rider: the /methods lead and note name the marks the rows print", () => {
   it("says parentheses, not brackets", () => {
     for (const text of [CROSS_GRID_LEAD, CROSS_GRID_NOTE, read("public", "methods.md")]) {

@@ -12,7 +12,7 @@ A few notes, since people ask.
 
 ## On the AI part
 
-I built this with Claude Code (Opus 4.7) over five rough phases across a few days. The model writes D3 plumbing fast and doesn't typo. It is reliably worse than me at noticing when a chart is dishonest. Every commit went through me. Every cycle's reference peak is a choice I made and can defend. The footer line — *cycles are contested, this is a comparison tool, not prophecy* — is what I actually believe. The model is fast scaffolding, not authorship.
+I built this with Claude Code (Opus 4.7) in rough phases across a few days. The model writes D3 plumbing fast and doesn't typo. It is reliably worse than me at noticing when a chart is dishonest. Every commit went through me. Every cycle's reference peak is a choice I made and can defend. The footer line — *cycles are contested, this is a comparison tool, not prophecy* — is what I actually believe. The model is fast scaffolding, not authorship.
 
 ## On the math
 
@@ -34,4 +34,4 @@ Source: [u00dxk2/sinusoidal-history](https://github.com/u00dxk2/sinusoidal-histo
 
 David Kooi · Skylark Creations · April 2026
 
-*Last updated: 2026-04-26*
+*Last updated: 2026-11-06*

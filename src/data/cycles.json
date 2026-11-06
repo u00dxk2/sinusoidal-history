@@ -17,7 +17,7 @@
     "short_description": "~50–60 year economic long wave: technological expansion → plateau → stagnation → trough. Kondratiev traced it in price, interest-rate, and production series reaching back to the 1780s",
     "period_years": 54,
     "reference_peak_year": 1973,
-    "reference_peak_rationale": "Conventional anchor inside the post-WWII K-wave's 1968–1974 turning-point window (oil shock + Bretton Woods end). Other revivalists prefer 1968 (Mandel) or 1971; we use 1973 as the most cited single year.",
+    "reference_peak_rationale": "Conventional anchor inside the post-WWII K-wave's 1968–1974 turning-point window (oil shock + Bretton Woods end). K-wave revivalists variously dated the turning point between 1968 and 1974 (Mandel preferred 1968), often clustering around the 1973–74 stagflation episode; we use 1973 as a conventional anchor.",
     "amplitude_normalized": 1.0,
     "source": "Kondratiev, 'Bol'shie tsikly kon'yunktury' (1925); abridged English: 'The Long Waves in Economic Life,' Review of Economic Statistics 17(6) (1935)",
     "confidence_level": "empirical-contested",
