@@ -98,8 +98,9 @@ export default function About() {
           anchor at the midpoint (~1970), a project construction, but
           Schlesinger himself expected the next liberal turn shortly before
           or after 1990, which a strict 30-year-from-1970 sinusoid does not
-          reproduce - read his curve as a stylization of his stated period,
-          not as his own forecast.
+          reproduce - read his curve as a stylization of a 30-year period this
+          site derived from the dated eras of his scheme, not as his own
+          forecast.
         </p>
         <p>
           None of this makes the theories worthless. It does mean the
@@ -244,7 +245,7 @@ export default function About() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-11-06
+        Last updated: 2026-11-07
       </footer>
     </article>
   );

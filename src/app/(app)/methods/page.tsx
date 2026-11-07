@@ -70,7 +70,7 @@ export default function Methods() {
           </Link>
         </p>
         <p>
-          {`The result to read first: under a pre-registered spectral protocol, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the theory's own period.`}{" "}
+          {`The result to read first: under a pre-registered spectral protocol, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} pairings have a record long enough (three full periods) to be tested at the period this site uses for the theory.`}{" "}
           <HashLink href="#spectral-testing" className={link}>
             How the test works →
           </HashLink>
@@ -262,7 +262,7 @@ export default function Methods() {
             reading why none of them clears the gate. Each row lands on that cycle page's
             answer block (#does-it-hold-up). */}
         <p>
-          {`Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the theory's stated cycle; ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} do.`}
+          {`Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory;${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} do.`}
         </p>
         <VerdictTable />
         <p>
@@ -277,11 +277,12 @@ export default function Methods() {
             /data/spectral/verdicts.json
           </a>{" "}
           with one figure per pairing. The question is narrow: does the paired
-          series contain significant power at the theory&apos;s exact stated
-          period, above an autocorrelated (red-noise) null? In plain terms:
-          does the data actually repeat at the rhythm the theory names, more
-          strongly than slow-drifting noise would produce by chance?
-          Frequencies are
+          series contain significant power at exactly the period this site
+          uses for the theory, above an autocorrelated (red-noise) null? In
+          plain terms: does the data actually repeat at that rhythm, more
+          strongly than slow-drifting noise would produce by chance? The
+          stored periods mix theorists&apos; own figures, midpoints of stated
+          ranges and values this site derived. Frequencies are
           never fitted or scanned - the test is a harmonic regression at
           exactly 1/P (cosine + sine + linear trend) compared by likelihood
           ratio against the same model without the sinusoid, with the p-value
@@ -474,7 +475,7 @@ export default function Methods() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-11-06
+        Last updated: 2026-11-07
       </footer>
     </article>
   );

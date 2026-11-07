@@ -11,8 +11,8 @@ they are never hand-edited. Full pre-registration:
 
 ## Method, in two sentences
 
-For each pairing the verdict is a harmonic regression at the theory's exact
-stated period (cosine + sine + linear trend) tested by likelihood ratio
+For each pairing the verdict is a harmonic regression at exactly the period
+this site uses for the theory (cosine + sine + linear trend) tested by likelihood ratio
 against the same model without the sinusoid, with significance calibrated by
 parametric bootstrap from a fitted AR(1) red-noise null, re-checked against
 an AR(2) null, and Holm-corrected within pre-registered families — run only

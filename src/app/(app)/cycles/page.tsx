@@ -210,7 +210,7 @@ export default function CyclesIndex() {
         </h1>
         <div className="editorial-rule mt-3 sm:mt-4" />
         <p className="mt-3 sm:mt-4 text-[15px] leading-[1.55] sm:text-[16px] sm:leading-[1.6] text-ink/85">
-          {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at their stated period — that takes at least three full cycles of data.`}{" "}
+          {`By this site's own test, ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories have a record long enough to check at the period this site uses for each — that takes at least three full cycles of data.`}{" "}
           {/* An in-page link to the per-cycle verdicts, which sit below all ten
               entries — 3103px down at 390x664 before this (I-015, cold walk
               2026-09-30). It replaced a link to /methods#spectral-testing, which
@@ -402,8 +402,9 @@ export default function CyclesIndex() {
         className="mt-14"
       >
         <p className="text-[16px] leading-[1.65] text-ink/85">
-          Each theory is drawn as a pure sinusoid from its own stated period and
-          a single documented reference peak. Nine of the ten are paired with
+          Each theory is drawn as a pure sinusoid from one period (the
+          theorist&apos;s own figure, the midpoint of a stated range, or a value
+          this site derived) and a single documented reference peak. Nine of the ten are paired with
           a real long-run data series. The arrow under each entry opens the
           longer story - what the theory actually claims, and the primary text
           where it&apos;s defined. Follow a cycle for its calibration

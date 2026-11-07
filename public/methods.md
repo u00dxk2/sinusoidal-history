@@ -8,7 +8,7 @@
 
 **In brief.** This site draws 10 historical cycle theories as pure sinusoids on one shared time axis, with a real data series overlaid on 9 of them. [See the chart](https://sinusoidalhistory.com/).
 
-The result to read first: under a pre-registered spectral protocol, 0 of the 9 pairings have a record long enough (three full periods) to be tested at the theory's own period. [How the test works](#spectral-testing).
+The result to read first: under a pre-registered spectral protocol, 0 of the 9 pairings have a record long enough (three full periods) to be tested at the period this site uses for the theory. [How the test works](#spectral-testing).
 
 ## Data sources
 
@@ -141,7 +141,7 @@ Better tools for cyclic data include cross-correlation at varying lags, the Four
 
 ## Spectral testing
 
-Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the theory's stated cycle; 0 of the 9 do.
+Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory; 0 of the 9 do.
 
 | Cycle | Period | Record | Periods of 3.0 | Years short | Verdict |
 |---|---|---|---|---|---|
@@ -158,7 +158,7 @@ Every verdict, one row per pairing. A pairing is testable only when its record s
 
 *Record is the span of the series each verdict is judged on — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. Years short is how much longer that record would need to be to reach three periods.*
 
-Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidalhistory.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at the theory's exact stated period, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at the rhythm the theory names, more strongly than slow-drifting noise would produce by chance? Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
+Since August 2026 every cycle–series pairing carries a pre-registered spectral verdict, computed by a committed script (`scripts/spectral_verdict.py`) from a frozen analysis manifest and published at [/data/spectral/verdicts.json](https://sinusoidalhistory.com/data/spectral/verdicts.json) with one figure per pairing. The question is narrow: does the paired series contain significant power at exactly the period this site uses for the theory, above an autocorrelated (red-noise) null? In plain terms: does the data actually repeat at that rhythm, more strongly than slow-drifting noise would produce by chance? The stored periods mix theorists' own figures, midpoints of stated ranges and values this site derived. Frequencies are never fitted or scanned - the test is a harmonic regression at exactly 1/P (cosine + sine + linear trend) compared by likelihood ratio against the same model without the sinusoid, with the p-value calibrated by parametric bootstrap (99,999 draws) from a fitted AR(1) null and re-checked against an AR(2) null. Multiple tests are Holm-corrected within pre-registered families. The multitaper spectrum on each figure (NW = 2, K = 3) is the descriptive picture only; it is never the verdict. Inference always runs on unsmoothed, uninterpolated records: TFP on Fernald's raw annual `dtfp_util` (never the 5-year-averaged display series) and the wealth series only from its annual 1913+ span.
 
 Before any spectrum, an eligibility gate: a pairing is testable only if its record spans at least 3.0 full target periods - a deliberately conservative site rule, not a theorem (period *estimation* conventionally wants ~5). Below the gate the verdict is INSUFFICIENT_DATA and no code path emits a p-value; the test suite enforces that, not just convention. There are exactly four verdict states, each shown in the tables in the words that follow it: INSUFFICIENT_DATA ("Insufficient data — no test possible"), NO_SIGNIFICANT_TARGET_POWER ("No significant target power"), MODEL_SENSITIVE ("Model-sensitive — no verdict": the AR(1) and AR(2) nulls disagree at the Holm-adjusted threshold, so no verdict is claimed), and SIGNIFICANT_TARGET_POWER ("Significant target power"). The 2026 run's headline: **0 of the 9 paired constructions reach the gate** - none of these records is long enough to clear it, which is itself the finding. INSUFFICIENT_DATA is an eligibility outcome - the site declines to run its test below three periods - not evidence that the data contain no information about the cycle. A secondary cross-grid panel re-pairs each period with every series long enough to clear the gate: 19 re-pairings, not the site's claims. Under either null, none reaches p < 0.05 even before any correction (lowest unadjusted p 0.094), so none survives Holm correction. They are listed below, and in [the full table (machine-readable)](https://sinusoidalhistory.com/data/spectral/verdicts.json). A 54- and a 55-year period differ by 0.000337 cycles per year - separating them would take a ~3,000-year record under the Rayleigh resolution criterion, a spectral-resolution heuristic rather than a bound on every parametric method - so no verdict text distinguishes Kondratiev from Perez; every result in that band is one ~54–55-year statement.
 
@@ -210,4 +210,4 @@ See each series' per-source provenance file for full retrieval and processing no
 
 ---
 
-*Last updated: 2026-11-06*
+*Last updated: 2026-11-07*

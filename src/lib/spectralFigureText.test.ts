@@ -22,10 +22,11 @@ describe("spectral figure text", () => {
 
   it("keeps the protocol sentence on an eligible record", () => {
     // No primary record is eligible in this freeze, so the eligible arm is a
-    // constructed row; it must read exactly as the caption did before I-021.
+    // constructed row; it reads as the caption did before I-021, except that I-080 (2026-11-07)
+    // narrowed "the exact stated period": for five theories the period is a midpoint or derived.
     const eligible: SpectralVerdictRow = { ...kondratiev, eligible: true, state: "NO_SIGNIFICANT_TARGET_POWER" };
     expect(protocolCaptionLead(eligible, 99999)).toBe(
-      "Pre-registered harmonic-regression test at the exact stated period against an AR(1) red-noise null (99,999 bootstrap draws), gated on the record covering at least 3.0 full periods.",
+      "Pre-registered harmonic-regression test at exactly the period this site uses for the theory, against an AR(1) red-noise null (99,999 bootstrap draws), gated on the record covering at least 3.0 full periods.",
     );
     expect(figureTargetBandLine(eligible)).toBe("Target period 54 years · No significant target power");
   });

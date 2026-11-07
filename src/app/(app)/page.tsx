@@ -83,8 +83,8 @@ export default function Home() {
       <section className="mt-10 sm:mt-14 max-w-2xl">
         <div className="editorial-rule mb-5" />
         <p className="text-[14px] leading-relaxed text-ink-soft">
-          The cycle curves are pure sinusoids from each theory&apos;s declared
-          period and a single calibration date. The overlaid data series are
+          The cycle curves are pure sinusoids, each built from one period this
+          site uses for the theory and a single calibration date. The overlaid data series are
           the rawest available proxies we could source. See{" "}
           <a
             href="/methods"

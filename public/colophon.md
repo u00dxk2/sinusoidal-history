@@ -16,7 +16,7 @@ I built this with Claude Code (Opus 4.7) in rough phases across a few days. The 
 
 ## On the math
 
-Each cycle is a single sinusoid built from the theory's own period and one explicitly documented peak. That's deliberately naïve. The cycles aren't real with more fidelity than that, and the simple math keeps the calibration drawer doing the most consequential work - move the peak year, watch the correlation move.
+Each cycle is a single sinusoid built from one period per theory (a theorist's own figure, the midpoint of a stated range, or a value this site derived) and one explicitly documented peak. That's deliberately naïve. The cycles aren't real with more fidelity than that, and the simple math keeps the calibration drawer doing the most consequential work - move the peak year, watch the correlation move.
 
 ## On the data
 
@@ -34,4 +34,4 @@ Source: [u00dxk2/sinusoidal-history](https://github.com/u00dxk2/sinusoidal-histo
 
 David Kooi · Skylark Creations · April 2026
 
-*Last updated: 2026-11-06*
+*Last updated: 2026-11-07*

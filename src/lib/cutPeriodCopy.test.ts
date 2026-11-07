@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import CyclePage from "@/app/(app)/cycles/[id]/page";
 import { cycles } from "@/data/cycles";
 import { periodCutAtToday } from "@/lib/cycleMath";
+import { periodProvenanceHits } from "@/lib/periodProvenanceBan";
 
 // I-065 (2026-10-29): a period that has not ended is cut at today, so a cycle page must not
 // call Turchin's drawing "one period"; a whole period keeps the words. Date pinned so the
@@ -42,6 +43,8 @@ describe("cycle page copy for a cut period (I-065)", () => {
     for (const c of cycles) {
       const page = await html(c.id.replace(/_/g, "-"));
       expect(page).not.toContain("the theory&#x27;s stated period");
+      // I-080 row 1: the shared ban, so this page check and i080Claims cannot drift apart.
+      expect({ id: c.id, hits: periodProvenanceHits(page) }).toEqual({ id: c.id, hits: [] });
       if (!periodCutAtToday(c, 2026)) continue;
       cutPages++;
       // Markup AND visible text: aria-labels live in the markup, and "one <em>period</em>"

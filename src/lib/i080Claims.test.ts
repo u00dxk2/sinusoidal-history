@@ -17,6 +17,7 @@ import { describe, expect, it } from "vitest";
 import About from "@/app/(app)/about/page";
 import { cycles } from "@/data/cycles";
 import { CROSS_GRID_LEAD, CROSS_GRID_NOTE } from "@/components/CrossGridList";
+import { periodProvenanceHits } from "@/lib/periodProvenanceBan";
 
 const read = (...p: string[]) => readFileSync(join(process.cwd(), ...p), "utf8");
 
@@ -213,6 +214,66 @@ describe("I-080 remaining sentences say only what a held source says", () => {
       expect(tsx).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect({ page, md: stamp(surfaces[`${page}.md`]) }).toEqual({ page, md: tsx });
     }
+  });
+});
+
+// I-080 row 1 (2026-11-07): "the theory's own / exact stated period". Round 5 item 8
+// (docs/fact-check-2026-08-24-round-5.md:18) holds that five theories give no explicit period, so
+// every surface says "the period this site uses for the theory" or names the period's provenance.
+describe("I-080 row 1: no surface calls a period the theory's own or stated period", () => {
+  const surfaces: Record<string, string> = {
+    "cycles.json": read("src", "data", "cycles.json"),
+    "about.md": read("public", "about.md"),
+    "about/page.tsx": read("src", "app", "(app)", "about", "page.tsx"),
+    "methods.md": read("public", "methods.md"),
+    "methods/page.tsx": read("src", "app", "(app)", "methods", "page.tsx"),
+    "colophon.md": read("public", "colophon.md"),
+    "colophon/page.tsx": read("src", "app", "(app)", "colophon", "page.tsx"),
+    "cycles/page.tsx": read("src", "app", "(app)", "cycles", "page.tsx"),
+    "page.tsx (home)": read("src", "app", "(app)", "page.tsx"),
+    "llms.txt": read("public", "llms.txt"),
+    "spectralFigureText.ts": read("src", "lib", "spectralFigureText.ts"),
+    "spectral.source.md": read("public", "data", "spectral", "spectral.source.md"),
+    "stimson_policy_mood.source.md": read("public", "data", "stimson_policy_mood.source.md"),
+  };
+  const flat = (s: string) => s.replace(/\{" "\}/g, " ").replace(/&apos;/g, "'").replace(/\s+/g, " ");
+
+  it("the held source says five periods are not explicit in the primary text", () => {
+    expect(read("docs", "fact-check-2026-08-24-round-5.md")).toContain(
+      "Modelski (range), Schlesinger (derived), Khaldun, Strauss-Howe, Dalio don't meet",
+    );
+  });
+
+  it("no surface carries a banned phrase", () => {
+    for (const [name, text] of Object.entries(surfaces)) {
+      expect({ name, hits: periodProvenanceHits(text) }).toEqual({ name, hits: [] });
+    }
+  });
+
+  it("each /methods sentence says the period this site uses, on both mirrors", () => {
+    for (const name of ["methods.md", "methods/page.tsx"]) {
+      const t = flat(surfaces[name]);
+      expect({ name, ok: t.includes("to be tested at the period this site uses for the theory.") }).toEqual({ name, ok: true });
+      expect({ name, ok: t.includes("at least 3.0 full periods of the cycle, at the period this site uses for the theory;") }).toEqual({ name, ok: true });
+      expect({ name, ok: t.includes("significant power at exactly the period this site uses for the theory, above an autocorrelated (red-noise) null?") }).toEqual({ name, ok: true });
+      expect({ name, ok: t.includes("The stored periods mix theorists' own figures, midpoints of stated ranges and values this site derived.") }).toEqual({ name, ok: true });
+    }
+  });
+
+  it("the colophon names the period's provenance, on both mirrors", () => {
+    const s = "Each cycle is a single sinusoid built from one period per theory (a theorist's own figure, the midpoint of a stated range, or a value this site derived) and one explicitly documented peak.";
+    expect(flat(surfaces["colophon.md"])).toContain(s);
+    expect(flat(surfaces["colophon/page.tsx"])).toContain(s);
+  });
+
+  it("the Schlesinger caveat says the 30 years is this site's derivation, mirrored in about.md", () => {
+    const caveat = cycles.find((c) => c.id === "schlesinger_jr")?.caveat ?? "";
+    const phrase = "a 30-year period this site derived from the dated eras of his scheme";
+    expect(caveat).toContain(phrase);
+    expect(surfaces["about.md"]).toContain(`*Caveat:* ${caveat}`);
+    expect(flat(surfaces["about/page.tsx"])).toContain(phrase);
+    // The derivation the phrase names is the rationale's own: midpoints 29 and 31 years apart.
+    expect(cycles.find((c) => c.id === "schlesinger_jr")?.reference_peak_rationale).toContain("intervals of 29 and 31 years, averaging 30");
   });
 });
 
