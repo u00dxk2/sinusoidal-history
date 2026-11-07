@@ -16,7 +16,7 @@ I built this with Claude Code (Opus 4.7) in rough phases across a few days. The 
 
 ## On the math
 
-Each cycle is a single sinusoid built from one period per theory (a theorist's own figure, the midpoint of a stated range, or a value this site derived) and one explicitly documented peak. That's deliberately naïve. The cycles aren't real with more fidelity than that, and the simple math keeps the calibration drawer doing the most consequential work - move the peak year, watch the correlation move.
+Each cycle is a single sinusoid built from one period per theory (for some theories the theorist's own figure, for others the midpoint of a stated range or a value this site derived) and one explicitly documented peak. That's deliberately naïve. The cycles aren't real with more fidelity than that, and the simple math keeps the calibration drawer doing the most consequential work - move the peak year, watch the correlation move.
 
 ## On the data
 

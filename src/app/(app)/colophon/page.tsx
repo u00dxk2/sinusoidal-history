@@ -64,9 +64,10 @@ export default function Colophon() {
           On the math
         </h2>
         <p>
-          Each cycle is a single sinusoid built from one period per theory (a
-          theorist&apos;s own figure, the midpoint of a stated range, or a value
-          this site derived) and one explicitly documented peak. That&apos;s deliberately
+          Each cycle is a single sinusoid built from one period per theory
+          (for some theories the theorist&apos;s own figure, for others the
+          midpoint of a stated range or a value this site derived) and one
+          explicitly documented peak. That&apos;s deliberately
           naïve. The cycles aren&apos;t real with more fidelity than that, and
           the simple math keeps the calibration drawer doing the most
           consequential work - move the peak year, watch the correlation move.

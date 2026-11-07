@@ -10,11 +10,12 @@
 // Rider (I-043): the /methods lead and note said "brackets" while the rows print parentheses.
 // Ceiling: the caveat legs are a word ban plus required phrases, so a new unsupported claim in
 // other words still passes; the exact llms headline and the source-line read are the other half.
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import About from "@/app/(app)/about/page";
+import Methods from "@/app/(app)/methods/page";
 import { cycles } from "@/data/cycles";
 import { CROSS_GRID_LEAD, CROSS_GRID_NOTE } from "@/components/CrossGridList";
 import { periodProvenanceHits } from "@/lib/periodProvenanceBan";
@@ -244,10 +245,52 @@ describe("I-080 row 1: no surface calls a period the theory's own or stated peri
     );
   });
 
-  it("no surface carries a banned phrase", () => {
-    for (const [name, text] of Object.entries(surfaces)) {
-      expect({ name, hits: periodProvenanceHits(text) }).toEqual({ name, hits: [] });
+  // Codex r1 on 9b9b33c (MEDIUM): a 13-file allowlist let conflict_deaths.source.md through. The
+  // ban now walks every served text file: public/**/*.md + llms.txt, src/data/*.json, and every
+  // non-test .ts/.tsx under src/app, src/components and src/lib (minus the ban list itself).
+  const served = (() => {
+    const out: string[] = [];
+    const walk = (dir: string, keep: (f: string) => boolean) => {
+      for (const f of readdirSync(join(process.cwd(), dir), { recursive: true }) as string[]) {
+        const rel = join(dir, f);
+        if (keep(rel) && statSync(join(process.cwd(), rel)).isFile()) out.push(rel);
+      }
+    };
+    const code = (f: string) => /\.tsx?$/.test(f) && !/\.test\.tsx?$/.test(f) && !f.endsWith("periodProvenanceBan.ts");
+    walk("public", (f) => f.endsWith(".md") || f.endsWith("llms.txt"));
+    walk(join("src", "data"), (f) => f.endsWith(".json"));
+    for (const d of ["app", "components", "lib"]) walk(join("src", d), code);
+    return out;
+  })();
+
+  it("the served-text walk reaches the surfaces the named list holds (positive control)", () => {
+    expect(served.length).toBeGreaterThan(Object.keys(surfaces).length);
+    for (const f of ["conflict_deaths.source.md", "stimson_policy_mood.source.md", "spectral.source.md", "llms.txt", "cycles.json", "series.json", "spectralFigureText.ts", "CrossGridList.tsx"]) {
+      expect({ f, found: served.some((s) => s.endsWith(f)) }).toEqual({ f, found: true });
     }
+  });
+
+  it("no served text file carries a banned phrase", () => {
+    for (const name of served) {
+      expect({ name, hits: periodProvenanceHits(readFileSync(join(process.cwd(), name), "utf8")) }).toEqual({ name, hits: [] });
+    }
+  });
+
+  it("the Khaldun pairing note no longer credits Khaldun with the period or the anchor", () => {
+    const note = read("public", "data", "conflict_deaths.source.md");
+    expect(note).not.toMatch(/Khaldun's anchoring|roughly every 120 years/);
+    expect(note).toContain("this site draws it with a roughly 120-year period");
+    expect(note).toContain("The cycle's 1789 anchor is this site's editorial choice, not Khaldun's");
+  });
+
+  // Codex r1 (LOW): a source pin ending at the semicolon passed while the page rendered "theory;0".
+  it("the rendered /methods page carries the spectral intro whole, spaces intact", () => {
+    const html = renderToStaticMarkup(Methods())
+      .replace(/<!-- -->/g, "").replace(/&#x27;/g, "'").replace(/\s+/g, " ");
+    expect(html).toContain(
+      "A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory; 0 of the 9 do.",
+    );
+    expect(html).toContain("to be tested at the period this site uses for the theory.");
   });
 
   it("each /methods sentence says the period this site uses, on both mirrors", () => {
@@ -261,7 +304,8 @@ describe("I-080 row 1: no surface calls a period the theory's own or stated peri
   });
 
   it("the colophon names the period's provenance, on both mirrors", () => {
-    const s = "Each cycle is a single sinusoid built from one period per theory (a theorist's own figure, the midpoint of a stated range, or a value this site derived) and one explicitly documented peak.";
+    // Codex r1: "for some … for others" is non-exhaustive on purpose; no held line classifies Khaldun's 120.
+    const s = "Each cycle is a single sinusoid built from one period per theory (for some theories the theorist's own figure, for others the midpoint of a stated range or a value this site derived) and one explicitly documented peak.";
     expect(flat(surfaces["colophon.md"])).toContain(s);
     expect(flat(surfaces["colophon/page.tsx"])).toContain(s);
   });

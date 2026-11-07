@@ -262,7 +262,7 @@ export default function Methods() {
             reading why none of them clears the gate. Each row lands on that cycle page's
             answer block (#does-it-hold-up). */}
         <p>
-          {`Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory;${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} do.`}
+          {`Every verdict, one row per pairing. A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory; ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} do.`}
         </p>
         <VerdictTable />
         <p>

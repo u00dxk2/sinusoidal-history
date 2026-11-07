@@ -24,7 +24,7 @@ From the source CSV:
 
 ## Why this series pairs with Khaldun
 
-Khaldun's dynastic cycle describes periodic breakdown of political order — roughly every 120 years. We use conflict-death rate as a rough proxy for "state breakdown intensity." The two World Wars dominate the series, which also roughly aligns with Khaldun's anchoring of the late-1700s collapse period.
+Khaldun's dynastic cycle describes periodic breakdown of political order; this site draws it with a roughly 120-year period. We use conflict-death rate as a rough proxy for "state breakdown intensity." The two World Wars dominate the series. The cycle's 1789 anchor is this site's editorial choice, not Khaldun's: he made no claim about European history.
 
 ## Caveats (important)
 

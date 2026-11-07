@@ -402,9 +402,10 @@ export default function CyclesIndex() {
         className="mt-14"
       >
         <p className="text-[16px] leading-[1.65] text-ink/85">
-          Each theory is drawn as a pure sinusoid from one period (the
-          theorist&apos;s own figure, the midpoint of a stated range, or a value
-          this site derived) and a single documented reference peak. Nine of the ten are paired with
+          Each theory is drawn as a pure sinusoid from one period (for some
+          theories the theorist&apos;s own figure, for others the midpoint of a
+          stated range or a value this site derived) and a single documented
+          reference peak. Nine of the ten are paired with
           a real long-run data series. The arrow under each entry opens the
           longer story - what the theory actually claims, and the primary text
           where it&apos;s defined. Follow a cycle for its calibration
