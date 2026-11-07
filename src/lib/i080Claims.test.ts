@@ -257,7 +257,8 @@ describe("I-080 row 1: no surface calls a period the theory's own or stated peri
       }
     };
     const code = (f: string) => /\.tsx?$/.test(f) && !/\.test\.tsx?$/.test(f) && !f.endsWith("periodProvenanceBan.ts");
-    walk("public", (f) => f.endsWith(".md") || f.endsWith("llms.txt"));
+    // Codex r2 (MEDIUM): verdicts.json's lay_text renders on every cycle page, so public JSON is walked too.
+    walk("public", (f) => f.endsWith(".md") || f.endsWith("llms.txt") || f.endsWith(".json"));
     walk(join("src", "data"), (f) => f.endsWith(".json"));
     for (const d of ["app", "components", "lib"]) walk(join("src", d), code);
     return out;
@@ -265,8 +266,20 @@ describe("I-080 row 1: no surface calls a period the theory's own or stated peri
 
   it("the served-text walk reaches the surfaces the named list holds (positive control)", () => {
     expect(served.length).toBeGreaterThan(Object.keys(surfaces).length);
-    for (const f of ["conflict_deaths.source.md", "stimson_policy_mood.source.md", "spectral.source.md", "llms.txt", "cycles.json", "series.json", "spectralFigureText.ts", "CrossGridList.tsx"]) {
+    for (const f of ["conflict_deaths.source.md", "stimson_policy_mood.source.md", "spectral.source.md", "llms.txt", "verdicts.json", "cycles.json", "series.json", "spectralFigureText.ts", "CrossGridList.tsx"]) {
       expect({ f, found: served.some((s) => s.endsWith(f)) }).toEqual({ f, found: true });
+    }
+    // Codex r2 (LOW): one exact path per walked tree, so a dropped tree cannot hide behind the count.
+    for (const p of [
+      join("public", "methods.md"),
+      join("public", "data", "spectral", "verdicts.json"),
+      join("src", "data", "cycles.json"),
+      join("src", "app", "(app)", "methods", "page.tsx"),
+      join("src", "app", "(app)", "cycles", "[id]", "page.tsx"),
+      join("src", "components", "CrossGridList.tsx"),
+      join("src", "lib", "spectralFigureText.ts"),
+    ]) {
+      expect({ p, found: served.includes(p) }).toEqual({ p, found: true });
     }
   });
 
@@ -287,9 +300,10 @@ describe("I-080 row 1: no surface calls a period the theory's own or stated peri
   it("the rendered /methods page carries the spectral intro whole, spaces intact", () => {
     const html = renderToStaticMarkup(Methods())
       .replace(/<!-- -->/g, "").replace(/&#x27;/g, "'").replace(/\s+/g, " ");
-    expect(html).toContain(
-      "A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory; 0 of the 9 do.",
-    );
+    const intro = "A pairing is testable only when its record spans at least 3.0 full periods of the cycle, at the period this site uses for the theory; 0 of the 9 do.";
+    // Codex r2 (LOW): exactly once, so a duplicate elsewhere on the page cannot mask a regression here.
+    expect(html.split(intro).length - 1).toBe(1);
+    expect(html).not.toContain("theory;0");
     expect(html).toContain("to be tested at the period this site uses for the theory.");
   });
 
