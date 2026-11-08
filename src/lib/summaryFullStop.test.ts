@@ -17,7 +17,17 @@ import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 
 const read = (...p: string[]) => readFileSync(join(process.cwd(), ...p), "utf8");
-const paragraphs = (md: string) => md.replace(/\r\n/g, "\n").split(/\n{2,}/).map((p) => p.trim());
+const paragraphs = (md: string) => md.split(/\n{2,}/).map((p) => p.trim());
+// One "### " section per cycle or series. Each summary is looked up in ITS OWN section (the one
+// carrying its page or provenance link), so a stale copy elsewhere in the file cannot satisfy it.
+const sections = (md: string) => md.replace(/\r\n/g, "\n").split(/\n(?=### )/);
+const sectionWith = (md: string, marker: string) => {
+  const hits = sections(md).filter((s) => s.startsWith("### ") && s.includes(marker));
+  expect(hits, `exactly one section carries ${marker}`).toHaveLength(1);
+  return paragraphs(hits[0]);
+};
+// Exactly one terminal full stop, nothing after it: rejects "..", a missing stop and trailing space.
+const ENDS_IN_ONE_STOP = /[^.\s]\.$/;
 
 // series id -> [what series.json says, what methods.md says instead]
 const METHODS_MIRROR_WORDING: Record<string, [string, string]> = {
@@ -34,38 +44,40 @@ describe("I-049 every summary ends with a full stop", () => {
   it.each(cycles.map((c) => [c.id, c.short_description]))(
     "cycle %s summary ends in '.'",
     (_id, d) => {
-      expect(d.trimEnd().endsWith(".")).toBe(true);
+      expect(d).toMatch(ENDS_IN_ONE_STOP);
     },
   );
 
   it.each(dataSeries.map((s) => [s.id, s.short_description]))(
     "series %s summary ends in '.'",
     (_id, d) => {
-      expect(d.trimEnd().endsWith(".")).toBe(true);
+      expect(d).toMatch(ENDS_IN_ONE_STOP);
     },
   );
 });
 
 describe("I-049 each summary appears verbatim in its mirror", () => {
-  const about = paragraphs(read("public", "about.md"));
-  const methods = paragraphs(read("public", "methods.md"));
+  const about = read("public", "about.md");
+  const methods = read("public", "methods.md");
 
   it.each(cycles.map((c) => [c.id, c.short_description]))(
-    "about.md carries cycle %s's summary as a paragraph",
-    (_id, d) => {
+    "about.md carries cycle %s's summary in its own section",
+    (id, d) => {
+      const own = sectionWith(about, `/cycles/${id.replace(/_/g, "-")}\n`);
       // about.md italicises book titles the data writes plain (Turchin's two books).
-      const plain = about.map((p) => p.replace(/\*([^*]+)\*/g, "$1"));
+      const plain = own.map((p) => p.replace(/\*([^*]+)\*/g, "$1"));
       expect(plain).toContain(d);
     },
   );
 
-  it.each(dataSeries.map((s) => [s.id, s.short_description]))(
-    "methods.md carries series %s's summary as a paragraph",
-    (id, d) => {
+  it.each(dataSeries.map((s) => [s.id, s.short_description, s.data_file]))(
+    "methods.md carries series %s's summary in its own section",
+    (id, d, dataFile) => {
+      const own = sectionWith(methods, dataFile.replace(/\.csv$/, ".source.md"));
       const swap = METHODS_MIRROR_WORDING[id];
-      if (swap) expect(d).toContain(swap[0]);
+      if (swap) expect(d.split(swap[0])).toHaveLength(2);
       const expected = swap ? d.replace(swap[0], swap[1]) : d;
-      expect(methods).toContain(expected);
+      expect(own).toContain(expected);
     },
   );
 });
