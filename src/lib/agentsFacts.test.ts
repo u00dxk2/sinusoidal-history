@@ -38,7 +38,7 @@ describe("what AGENTS.md says matches the file that defines it", () => {
 
   it("test files leave the build tsconfig and come back through npm run typecheck", () => {
     const tsconfig = read("tsconfig.json");
-    for (const entry of ["**/*.test.ts", "**/*.test.tsx", "vitest.config.ts"]) {
+    for (const entry of ["**/*.test.ts", "**/*.test.tsx", "vitest.config.mts"]) {
       expect(tsconfig).toContain(`"${entry}"`);
     }
     const pkg = JSON.parse(read("package.json"));

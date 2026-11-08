@@ -32,7 +32,7 @@ locally and let CI be the full battery.
 **Test files are excluded from the BUILD tsconfig, and that is deliberate** (2026-09-17, with
 the 16.3.5 bump). This Next type-checks whatever is in scope during `next build`, and test files
 import vitest, a devDependency a production install can prune — so `tsconfig.json` excludes
-`**/*.test.ts(x)` and `vitest.config.ts`. They are still type-checked: `npm run typecheck` runs
+`**/*.test.ts(x)` and `vitest.config.mts`. They are still type-checked: `npm run typecheck` runs
 `tsconfig.test.json`, which puts them back, and CI runs that script. If you add a test and want
 tsc to see it, run `npm run typecheck`, not `npx tsc --noEmit`.
 

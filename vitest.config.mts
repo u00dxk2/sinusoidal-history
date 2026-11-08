@@ -1,5 +1,10 @@
 import { defineConfig } from "vitest/config";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+// An ES module has no __dirname; Vite's current config loader injects one, the native loader
+// its warning names would not.
+const here = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
@@ -11,7 +16,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(here, "./src"),
     },
   },
 });
