@@ -41,5 +41,8 @@
   "2026-10-29": [
     "MISSING_VERDICT_DENOMINATOR",
     "STALE_HOLD"
+  ],
+  "2026-11-07": [
+    "UNTRACKED_COMMITS"
   ]
 }
