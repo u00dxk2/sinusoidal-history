@@ -7,7 +7,7 @@ import { widenToMinSpan } from "@/lib/urlState";
  * short drag near the present landed on the Modern window ("a slow Modern button"). The strip now
  * names the outcome and the window the chart shows, never the years the reader dragged (I-062).
  */
-export type BrushOutcome = "chosen" | "widened" | "moved" | "reset";
+type BrushOutcome = "chosen" | "widened" | "moved" | "reset";
 
 export interface BrushResult {
   outcome: BrushOutcome;

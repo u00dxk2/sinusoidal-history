@@ -39,12 +39,12 @@ function lowestP(cells: SpectralVerdictRow[]): string {
   return Math.min(...cells.map((c) => c.p!)).toFixed(3);
 }
 
-export type CrossGridDirections = {
+type CrossGridDirections = {
   period: SpectralVerdictRow[];
   record: SpectralVerdictRow[];
 };
 
-export function crossGridDirections(cycleId: string): CrossGridDirections | null {
+function crossGridDirections(cycleId: string): CrossGridDirections | null {
   const verdict = spectralVerdictForCycle(cycleId);
   if (!verdict) return null;
   return {

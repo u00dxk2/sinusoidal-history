@@ -7,7 +7,7 @@ import type { Cycle } from "@/data/types";
  * Shared by the page (urlState.ts) and the /og share card so one URL draws
  * one picture on both (SIN-S1, 2026-10-05).
  */
-export function clampOverrideValue(
+function clampOverrideValue(
   value: number | null,
   min: number,
   max: number

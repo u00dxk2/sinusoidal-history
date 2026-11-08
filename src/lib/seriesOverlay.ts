@@ -73,7 +73,7 @@ export function judgedRecord(cycle: Cycle): JudgedRecord | null {
 export const MISSING_CLAUSE = "A shape that looks alike is not a test.";
 
 /** The span a test needs: this site's pre-registered floor, in full periods of the claim. */
-export const REQUIRED_PERIODS = 3;
+const REQUIRED_PERIODS = 3;
 
 /**
  * The earlier years a test would need: the stretch just before the

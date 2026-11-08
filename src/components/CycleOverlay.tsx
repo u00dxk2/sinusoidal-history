@@ -5,7 +5,7 @@ import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import type { Cycle, DataSeries } from "@/data/types";
 import { sampleDrawnPeriod } from "@/lib/cycleMath";
-import { normalizeSeries, type SeriesPoint } from "@/lib/seriesMath";
+import { normalizeSeries } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { useContainerWidth } from "@/lib/hooks";
@@ -560,6 +560,3 @@ function SeriesHoverInfo({
     </div>
   );
 }
-
-// Re-export for tests / external use.
-export type { SeriesPoint };
