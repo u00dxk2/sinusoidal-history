@@ -68,7 +68,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 1970
 - **Page:** https://sinusoidalhistory.com/cycles/schlesinger-jr
 
-~30-year alternation of American politics between 'public purpose' (liberal/reform) and 'private interest' (conservative/consolidation) eras; the phase lengths are historical approximations of roughly 15–17 years, not fixed half-waves
+~30-year alternation of American politics between 'public purpose' (liberal/reform) and 'private interest' (conservative/consolidation) eras; the phase lengths are historical approximations of roughly 15–17 years, not fixed half-waves.
 
 *Peak calibration:* Midpoint of the most recently completed liberal era in the conventional tabulation of Schlesinger Jr.'s scheme (1962–1978). The midpoint is this project's construction, not a peak date Schlesinger states. Taking the midpoints of his dated liberal eras gives roughly 1910 (Progressive), 1939 (New Deal), and 1970 (1960s/Great Society) - intervals of 29 and 31 years, averaging 30 - which is where the 30-year period comes from. The framework descends from Arthur Schlesinger Sr., whose *Paths to the Present* (1949) tabulated eleven alternating liberal and conservative periods through 1947 averaging 16.55 years each, implying a same-mood recurrence nearer 33 years; his son's streamlined twentieth-century scheme runs closer to 30, and 30 is what is plotted. Note: Schlesinger Jr. himself expected the next liberal turn shortly before or after 1990; a strict 30-year clock from 1970 would put the next cosine peak at 2000 (this site draws only the one period, 1955–1985). Our midpoint-anchored cosine is not his forecast of a liberal turn around 1990 - a plain demonstration of how sensitive a fixed sinusoid is to the anchor and period chosen.
 
@@ -82,7 +82,7 @@ Each has its own page with the full calibration rationale, sourcing, and paired-
 - **Reference peak:** 2000
 - **Page:** https://sinusoidalhistory.com/cycles/perez
 
-~50–60 year wave in how each technological revolution is absorbed: installation (finance chases the new technology into a bubble) → turning point (the crash) → deployment (the technology actually spreads - the golden age)
+~50–60 year wave in how each technological revolution is absorbed: installation (finance chases the new technology into a bubble) → turning point (the crash) → deployment (the technology actually spreads - the golden age).
 
 *Peak calibration:* Anchored to Perez's 'Turning Point' (2000–2001), the dot-com crash she identifies as the inflection between Installation and Deployment phases of the ICT surge. Her own term is 'turning point,' not peak; we map it to the sinusoid's peak as a mathematical convenience. Read 2000 as the financial-frenzy peak that ends the Installation phase, not a claimed 'paradigm peak' - and note that Perez's 2009 'double bubble' paper treats the dot-com crash and the 2008 credit crash as two parts of one structural episode, which makes any single-year Turning Point a stylization.
 
@@ -132,7 +132,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 - **Reference peak:** 1945
 - **Page:** https://sinusoidalhistory.com/cycles/modelski
 
-~100–120 year long cycle of world leadership - global war → world power → delegitimation → deconcentration - tracked through naval and global-reach preponderance. Plotted here at 110 years, the midpoint of his stated range
+~100–120 year long cycle of world leadership - global war → world power → delegitimation → deconcentration - tracked through naval and global-reach preponderance. Plotted here at 110 years, the midpoint of his stated range.
 
 *Peak calibration:* Start of the US world-power phase in Modelski's own dating: Table 2.1 of *Long Cycles in World Politics* (1987, p. 40) dates the American cycle's phases 1914–1945 (global war) and 1945–1973 (world power), and Table 2.2 (p. 42) dates US oceanic supremacy from 1944, when the US crossed his threshold of one-half of the world's capital-ship assets. The 110-year period is this project's midpoint of the '100 to 120 years' range Modelski states in his encyclopedia treatment ('Long Cycles in Global Politics,' UNESCO-EOLSS), where he also warns that the long cycle 'does not connote strict cycles' - treat the fixed sinusoid as a stylization he explicitly disclaims. The 1987 book brackets the same range: it reports that 'in four of the cases, the average interval of time between the attainment of naval preponderance by one power and by its successor is 120 years' (p. 42) and speaks of 'the recurrence of global wars at intervals of about one century' (p. 218). This site draws the one period around 1945 (1890–2000). Repeated back from 1945, a 110-year cosine would put its earlier peaks at 1835, 1725, 1615, and 1505, against Modelski's own world-power phase starts of 1815 (Britain II), 1714 (Britain I), 1609 (the Netherlands), and 1516 (Portugal): misses of +20, +11, +6, and −11 years. The fixed period reproduces his sequence only loosely, and the drift grows toward the present.
 
@@ -146,7 +146,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 - **Reference peak:** 1970
 - **Page:** https://sinusoidalhistory.com/cycles/turchin-fathers-sons
 
-~50-year 'bi-generation' oscillation in US political violence, superimposed on the longer secular cycle - spikes of unrest roughly every two generations, once living memory of the last convulsion fades
+~50-year 'bi-generation' oscillation in US political violence, superimposed on the longer secular cycle - spikes of unrest roughly every two generations, once living memory of the last convulsion fades.
 
 *Peak calibration:* Most recent stated peak, in Turchin's own words: 'a 50-year oscillation superimposed on the secular cycle, with peaks around 1870, 1920, and 1970' (*Journal of Peace Research* 49(4), 2012). This site draws the one period around 1970 (1945–1995). Repeated, a 50-year wave from that peak would land its prior peaks exactly on his other two stated peaks (1870 and 1920) and its next at 2020. Turchin himself extends the sequence to 'around 2020' in the same paper, while explicitly calling that a simple projection rather than a scientific prediction; it also coincides with the instability forecast of his separate 150-year secular cycle, so the two Turchin constructions would peak together at 2020 by construction, not as corroboration. The paper attributes the mechanism to the 'fathers-and-sons' dynamic - an additional process he treats as distinct from the core structural-demographic theory - and prefers the term 'bi-generation cycles,' with recurrence 'roughly two generations (40–60 years)'; 50 is the headline number and the one used here.
 
@@ -164,4 +164,4 @@ Treat this tool as a way of making those judgments visible and comparable, not a
 
 ---
 
-*Last updated: 2026-11-07*
+*Last updated: 2026-11-08*

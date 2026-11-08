@@ -245,7 +245,7 @@ export default function About() {
       </section>
 
       <footer className="mt-12 pt-4 border-t border-rule/30 text-[11px] tracking-[0.2em] uppercase text-ink-soft/70 font-mono">
-        Last updated: 2026-11-07
+        Last updated: 2026-11-08
       </footer>
     </article>
   );

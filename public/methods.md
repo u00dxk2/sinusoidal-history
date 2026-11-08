@@ -88,7 +88,7 @@ Rough proxy for Khaldun-style state-breakdown intensity. Log-transformed because
 
 **Paired with:** Schlesinger Jr. — liberal/conservative cycle.
 
-Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, estimated from ~150 repeated survey items via the dyad-ratios algorithm; annual, 1952–2024
+Stimson's Policy Mood index - composite measure of US public preference for liberal vs. conservative domestic policy, estimated from ~150 repeated survey items via the dyad-ratios algorithm; annual, 1952–2024.
 
 The closest thing on this site to a direct measurement: an independently constructed index of mass preferences over the scope of domestic government, which is one component of Schlesinger Jr.'s public-purpose vs. private-interest rhythm, not the whole of it. Stimson's own reading of the series stresses shorter, thermostatic swings rather than a fixed ~30-year cycle; the pairing sets his data against Schlesinger's period, it does not report his endorsement of it. Coverage starts 1952.
 
@@ -100,7 +100,7 @@ The closest thing on this site to a direct measurement: an independently constru
 
 **Paired with:** Modelski — long cycle of world leadership.
 
-The largest single economy's share of the summed GDP of the countries Maddison covers that year, with the leader named per year (Maddison Project Database 2023, 2011 PPP $); trimmed to 1870+, and the covered-country denominator grows over time - see provenance. The rule - largest economy - is mechanical, fixed without reference to Modelski's leadership succession
+The largest single economy's share of the summed GDP of the countries Maddison covers that year, with the leader named per year (Maddison Project Database 2023, 2011 PPP $); trimmed to 1870+, and the covered-country denominator grows over time - see provenance. The rule - largest economy - is mechanical, fixed without reference to Modelski's leadership succession.
 
 Economic size as a deliberately imperfect correlate of world leadership - a proxy for a correlate of Modelski's naval/global-reach construct, not the construct itself. Mechanical by design (the largest economy per year, never hand-picking his hegemons), so its divergences show: under Maddison PPP the 1870–1881 leader is Qing China (not Britain, Modelski's naval leader) and China leads again from 2014. The series' all-time maximum, 31.6% in 1945, falls on the reference peak - a descriptive coincidence under a denominator whose coverage is thinnest early, not independent validation of the theory.
 
@@ -112,7 +112,7 @@ Economic size as a deliberately imperfect correlate of world leadership - a prox
 
 **Paired with:** Carlota Perez — techno-economic paradigm.
 
-Experimental, site-derived composite from HATCH 2.0 national adoption series - not a measure published by the HATCH authors: the median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption; annual 1865–2023, with the contributing-technology count published per year
+Experimental, site-derived composite from HATCH 2.0 national adoption series - not a measure published by the HATCH authors: the median, across ~105 US technology series, of within-technology z-scored 5-year log-changes in adoption; annual 1865–2023, with the contributing-technology count published per year.
 
 Perez's construct is economy-wide diffusion and deployment of a techno-economic paradigm - not asset prices - so a diffusion composite is the nearest measurable analogue public long-run data allows. Read it with its construction in view: each technology is standardized against its own full history, so S-curve maturity is built into the score, and the persistent negativity after the 1970s is substantially an artifact of that normalization and of an aging panel, not evidence that real diffusion slowed. The transform contains no Perez dates, period, or phase parameters (the build script is committed for audit), and the result is visible on the chart: no local peak at 2000.
 
@@ -210,4 +210,4 @@ See each series' per-source provenance file for full retrieval and processing no
 
 ---
 
-*Last updated: 2026-11-07*
+*Last updated: 2026-11-08*
