@@ -170,7 +170,7 @@ snapshots are superseded.
 ## Stack
 
 - Next.js 16 (app router) + TypeScript strict mode
-- Tailwind CSS v4 + shadcn/ui (Tabs, Slider, Toggle, Tooltip, ScrollArea) on
+- Tailwind CSS v4 + shadcn/ui (Tabs, Slider, Tooltip) on
   Radix UI primitives
 - D3 for the viz (`d3`, plus `d3-brush`)
 - Fraunces variable serif for editorial typography

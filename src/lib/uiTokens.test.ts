@@ -47,7 +47,7 @@ const files = readdirSync(uiDir).filter((f) => f.endsWith(".tsx"));
 
 describe("ui/* colour utilities resolve to theme tokens", () => {
   it("finds the vendored primitives", () => {
-    expect(files).toEqual(expect.arrayContaining(["tabs.tsx", "toggle.tsx", "scroll-area.tsx", "slider.tsx"]));
+    expect(files).toEqual(expect.arrayContaining(["tabs.tsx", "slider.tsx", "tooltip.tsx"]));
   });
 
   for (const f of files) {
