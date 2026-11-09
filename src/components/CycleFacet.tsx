@@ -7,6 +7,8 @@ import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { holdsUpCard } from "@/lib/holdsUp";
+import { periodSideOutside, pointsSideOutside } from "@/lib/cycleMath";
+import { facetOutsideWords, outsideWindowWords } from "@/lib/overviewReading";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import {
@@ -173,6 +175,7 @@ export default function CycleFacet({
           width={width}
           startYear={startYear}
           endYear={endYear}
+          currentYear={currentYear}
         />
       )}
 
@@ -470,15 +473,35 @@ function FacetChart({
     return lineGen(normalized) ?? "";
   }, [series, normalized, xScale, yScale]);
 
+  // I-074: a window can hold none of the theory's one drawn period, none of the
+  // paired data, or neither; an empty chart under a legend naming both lines
+  // read as missing data (the 10-25 walk, on the glance rows). `cycle` is the
+  // effective (calibrated) cycle, so the word moves with the curve. The data
+  // side is judged only once the CSV has loaded without error.
+  const theorySide = periodSideOutside(cycle, startYear, endYear, currentYear);
+  const dataSide =
+    series && !csv.loading && csv.error === null
+      ? pointsSideOutside(
+          csv.points.map((p) => p.year),
+          startYear,
+          endYear
+        )
+      : null;
+  const outsideWord = facetOutsideWords(theorySide, dataSide, series !== undefined);
+  const theoryLabel =
+    cyclePoints.length > 0
+      ? `${cycle.name} curve from ${Math.round(cyclePoints[0].year)} to ${Math.round(cyclePoints[cyclePoints.length - 1].year)}, ${cyclePoints[cyclePoints.length - 1].year - cyclePoints[0].year >= cycle.period_years ? "one period" : "part of one period"} around its reference peak`
+      : `${cycle.name}: its one drawn period falls outside ${startYear} to ${endYear}`;
+
   return (
     <svg
       width={width}
       height={height}
       role="img"
       aria-label={
-        cyclePoints.length > 0
-          ? `${cycle.name} curve from ${Math.round(cyclePoints[0].year)} to ${Math.round(cyclePoints[cyclePoints.length - 1].year)}, ${cyclePoints[cyclePoints.length - 1].year - cyclePoints[0].year >= cycle.period_years ? "one period" : "part of one period"} around its reference peak`
-          : `${cycle.name}: its one drawn period falls outside ${startYear} to ${endYear}`
+        dataSide
+          ? `${theoryLabel}; its paired data draws no line in these years`
+          : theoryLabel
       }
       className="block mt-1"
     >
@@ -511,8 +534,63 @@ function FacetChart({
             strokeLinecap="round"
           />
         )}
+        {outsideWord && (
+          <OutsideWord
+            words={outsideWord.words}
+            side={outsideWord.side}
+            innerWidth={innerWidth}
+            y={height / 2}
+            theory={theorySide}
+            data={dataSide}
+          />
+        )}
       </g>
     </svg>
+  );
+}
+
+/**
+ * The I-074 word, inside the chart area: it costs no height, and the empty
+ * plot is where the reader looks for the missing line. At the edge the line
+ * lies beyond, so the arrow points at it; with no single side it is centred.
+ * A paper halo keeps it legible where a drawn line crosses it. Ink, not
+ * ink-soft: the collapsed card is drawn at 65% opacity, and ink-soft there
+ * would fall under 4.5:1 on paper.
+ */
+function OutsideWord({
+  words,
+  side,
+  innerWidth,
+  y,
+  theory,
+  data,
+}: {
+  words: string;
+  side: "before" | "after" | null;
+  innerWidth: number;
+  y: number;
+  theory?: "before" | "after" | null;
+  data?: "before" | "after" | null;
+}) {
+  return (
+    <text
+      data-outside-word
+      data-outside-theory={theory ?? undefined}
+      data-outside-data={data ?? undefined}
+      x={side === "after" ? innerWidth : side === "before" ? 0 : innerWidth / 2}
+      y={y}
+      textAnchor={side === "after" ? "end" : side === "before" ? "start" : "middle"}
+      dominantBaseline="central"
+      fontSize={11}
+      fill="currentColor"
+      stroke="var(--paper)"
+      strokeWidth={3}
+      strokeLinejoin="round"
+      style={{ paintOrder: "stroke" }}
+      className="font-display-italic italic text-ink"
+    >
+      {words}
+    </text>
   );
 }
 
@@ -521,11 +599,13 @@ function CollapsedSparkline({
   width,
   startYear,
   endYear,
+  currentYear,
 }: {
   cycle: Cycle;
   width: number;
   startYear: number;
   endYear: number;
+  currentYear: number;
 }) {
   const innerWidth = Math.max(0, width - 8);
   const height = 18;
@@ -534,7 +614,7 @@ function CollapsedSparkline({
     () => scaleLinear().domain([-1, 1]).range([height - 1, 1]),
     []
   );
-  const points = useCycleValues(cycle, startYear, endYear, 1);
+  const points = useCycleValues(cycle, startYear, endYear, 1, currentYear);
   const path = useMemo(() => {
     const lineGen = d3Line<{ year: number; value: number }>()
       .x((d) => xScale(d.year))
@@ -542,17 +622,24 @@ function CollapsedSparkline({
       .curve(curveCatmullRom.alpha(0.5));
     return lineGen(points) ?? "";
   }, [points, xScale, yScale]);
+  // The sparkline draws the theory only, so the glance rows' own words are true here.
+  const outside = periodSideOutside(cycle, startYear, endYear, currentYear);
 
   return (
     <svg
       width={width}
       height={height}
       role="img"
-      aria-label={`${cycle.name} sparkline`}
+      aria-label={
+        outside
+          ? `${cycle.name} sparkline: none of its wave is drawn in these years`
+          : `${cycle.name} sparkline`
+      }
       className="block"
     >
       <g transform="translate(4,0)">
         <path
+          data-curve="theory"
           d={path}
           fill="none"
           stroke={cycle.color}
@@ -560,6 +647,15 @@ function CollapsedSparkline({
           strokeOpacity={0.7}
           strokeLinecap="round"
         />
+        {outside && (
+          <OutsideWord
+            words={outsideWindowWords(outside)}
+            side={outside}
+            innerWidth={innerWidth}
+            y={height / 2}
+            theory={outside}
+          />
+        )}
       </g>
     </svg>
   );

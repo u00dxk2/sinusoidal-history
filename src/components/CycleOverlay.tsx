@@ -4,7 +4,9 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import type { Cycle, DataSeries } from "@/data/types";
-import { sampleDrawnPeriod } from "@/lib/cycleMath";
+import { periodSideOutside, sampleDrawnPeriod } from "@/lib/cycleMath";
+import { cycleTheorist } from "@/lib/cycleRoutes";
+import { namedOutsideWords } from "@/lib/overviewReading";
 import { normalizeSeries } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
@@ -94,6 +96,23 @@ export default function CycleOverlay({
     });
   }, [effectiveCycles, xScale, yScale, startYear, endYear, currentYear]);
 
+  // I-074: the cycles this window draws none of, from the EFFECTIVE (calibrated)
+  // cycles, so a calibrated peak or period moves the word with the curve. A
+  // cycle toggled off is not listed: it is not drawn on purpose.
+  const outsideRows = useMemo(
+    () =>
+      effectiveCycles
+        .filter((c) => activeCycleIds.has(c.id))
+        .map((c) => ({
+          cycle: c,
+          side: periodSideOutside(c, startYear, endYear, currentYear),
+        }))
+        .filter(
+          (r): r is { cycle: Cycle; side: "before" | "after" } => r.side !== null
+        ),
+    [effectiveCycles, activeCycleIds, startYear, endYear, currentYear]
+  );
+
   const tickYears = useMemo(() => {
     const ticks: number[] = [];
     const step = innerWidth < 500 ? 100 : 50;
@@ -137,7 +156,11 @@ export default function CycleOverlay({
         // "1600 to 2050" told every screen reader the same span whatever was drawn
         // (sibling sweep of the 2026-09-22 overview defect; CycleFacet already
         // interpolates).
-        aria-label={`Overlay of historical cycle theories and data series from ${startYear} to ${endYear}`}
+        aria-label={`Overlay of historical cycle theories and data series from ${startYear} to ${endYear}${
+          outsideRows.length > 0
+            ? `. None drawn in these years: ${outsideRows.map((r) => cycleTheorist(r.cycle)).join(", ")}`
+            : ""
+        }`}
         width={width}
         height={height}
         className="block"
@@ -219,6 +242,35 @@ export default function CycleOverlay({
               }}
             />
           ))}
+
+          {/* I-074: one line per cycle this window draws none of, stacked in the
+              corner on the side its wave lies beyond, so an empty plot does not
+              read as missing data. Inside the plot: it costs no height. */}
+          {(["after", "before"] as const).map((side) =>
+            outsideRows
+              .filter((r) => r.side === side)
+              .map((r, i) => (
+                <text
+                  key={`${side}-${r.cycle.id}`}
+                  data-outside-word
+                  data-outside-id={r.cycle.id}
+                  data-outside-theory={side}
+                  x={side === "after" ? innerWidth : 0}
+                  y={12 + i * 16}
+                  textAnchor={side === "after" ? "end" : "start"}
+                  dominantBaseline="central"
+                  fontSize={12}
+                  fill="currentColor"
+                  stroke="var(--paper)"
+                  strokeWidth={3}
+                  strokeLinejoin="round"
+                  style={{ paintOrder: "stroke" }}
+                  className="font-display-italic italic text-ink"
+                >
+                  {namedOutsideWords(cycleTheorist(r.cycle), side)}
+                </text>
+              ))
+          )}
 
           {/* No now-line and no click-to-pin year panel (I-061, David
               2026-10-21): the overlay says nothing about where any year sits on

@@ -3,9 +3,16 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { cycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
-import { drawnPeriod, periodSideOutside } from "./cycleMath";
-import { outsideWindowWords, overviewRowReading } from "./overviewReading";
+import { dataSeries } from "@/data/series";
+import { drawnPeriod, periodSideOutside, pointsSideOutside } from "./cycleMath";
+import {
+  facetOutsideWords,
+  namedOutsideWords,
+  outsideWindowWords,
+  overviewRowReading,
+} from "./overviewReading";
 import { holdsUpCard } from "./holdsUp";
+import { parseCsvSeries } from "./csvSeries";
 
 // I-069 (2026-11-02). The 10-25 cold walk zoomed the glance figure to
 // 1801–1951 and read the blank Schlesinger Jr. and Perez rows as missing data.
@@ -92,6 +99,131 @@ describe("overviewRowReading with a side", () => {
     expect(drawnPeriod(s, YEAR).from).toBe(1955);
     expect(periodSideOutside(s, 1805, 1955, YEAR)).toBe("after");
     expect(overviewRowReading(s, "after")).toContain("starts at or after their end");
+  });
+});
+
+// I-074 (2026-11-09): the facet cards and the desktop overlay, the glance rows'
+// siblings. Production at ?range=1801-1951 drew Schlesinger Jr.'s and Perez's
+// theory curves empty with no word (live 66962f4a); Schlesinger Jr.'s paired
+// Policy Mood starts in 1952, so its data line was missing too.
+const seriesYears = (cycleId: string): number[] => {
+  const s = dataSeries.find((x) => x.associated_cycle_id === cycleId);
+  if (!s) throw new Error(`no series for ${cycleId}`);
+  const text = readFileSync(resolve(__dirname, "../../public", `.${s.data_file}`), "utf8");
+  return parseCsvSeries(text, s.year_column, s.value_column, s.transform).map((p) => p.year);
+};
+
+describe("pointsSideOutside", () => {
+  it("puts Policy Mood after 1801–1951 and leaves HATCH drawn there (the real CSVs)", () => {
+    expect(pointsSideOutside(seriesYears("schlesinger_jr"), 1801, 1951)).toBe("after");
+    expect(pointsSideOutside(seriesYears("perez"), 1801, 1951)).toBeNull();
+  });
+
+  it("needs two points inside to draw, and counts an edge touch as outside", () => {
+    expect(pointsSideOutside([1952, 1953], 1801, 1951)).toBe("after");
+    expect(pointsSideOutside([1951, 1952], 1801, 1951)).toBe("after");
+    expect(pointsSideOutside([1950, 1951], 1801, 1951)).toBeNull();
+    expect(pointsSideOutside([1700, 1801], 1801, 1951)).toBe("before");
+  });
+
+  it("says nothing for no points (loading) or points straddling the window", () => {
+    expect(pointsSideOutside([], 1801, 1951)).toBeNull();
+    expect(pointsSideOutside([1700, 2000], 1801, 1951)).toBeNull();
+  });
+});
+
+describe("facetOutsideWords", () => {
+  it("names the missing line on a paired card, so it is never false beside a drawn one", () => {
+    expect(facetOutsideWords("after", null, true)).toEqual({
+      words: "theory: none drawn in these years →",
+      side: "after",
+    });
+    expect(facetOutsideWords("after", "after", true)).toEqual({
+      words: "theory and data: none drawn in these years →",
+      side: "after",
+    });
+    expect(facetOutsideWords(null, "before", true)).toEqual({
+      words: "← data: none drawn in these years",
+      side: "before",
+    });
+  });
+
+  it("gives no arrow when theory and data are missing on different sides", () => {
+    expect(facetOutsideWords("after", "before", true)).toEqual({
+      words: "theory and data: none drawn in these years",
+      side: null,
+    });
+  });
+
+  it("uses the glance rows' own words on an unpaired card, and none when all is drawn", () => {
+    expect(facetOutsideWords("after", null, false)?.words).toBe(outsideWindowWords("after"));
+    expect(facetOutsideWords("before", null, false)?.words).toBe(outsideWindowWords("before"));
+    expect(facetOutsideWords(null, null, true)).toBeNull();
+    expect(facetOutsideWords(null, null, false)).toBeNull();
+  });
+
+  it("reads the two production cards right at 1801–1951", () => {
+    const s = facetOutsideWords(
+      periodSideOutside(byId("schlesinger_jr"), 1801, 1951, YEAR),
+      pointsSideOutside(seriesYears("schlesinger_jr"), 1801, 1951),
+      true,
+    );
+    expect(s?.words).toBe("theory and data: none drawn in these years →");
+    const p = facetOutsideWords(
+      periodSideOutside(byId("perez"), 1801, 1951, YEAR),
+      pointsSideOutside(seriesYears("perez"), 1801, 1951),
+      true,
+    );
+    expect(p?.words).toBe("theory: none drawn in these years →");
+  });
+
+  it("follows a calibrated cycle, not the stored one", () => {
+    // Schlesinger Jr. calibrated to peak 1940 is drawn 1925–1955: inside 1801–1951.
+    const calibrated = { ...byId("schlesinger_jr"), reference_peak_year: 1940 };
+    expect(periodSideOutside(calibrated, 1801, 1951, YEAR)).toBeNull();
+  });
+
+  it("puts Ibn Khaldun before the Modern preset the embed snippets use", () => {
+    expect(periodSideOutside(byId("khaldun"), 1900, 2050, YEAR)).toBe("before");
+    expect(pointsSideOutside(seriesYears("khaldun"), 1900, 2050)).toBeNull();
+  });
+
+  it("keeps the claims rule: no year, no present position, in every form", () => {
+    const sides = ["before", "after", null] as const;
+    const all = sides.flatMap((t) =>
+      sides.flatMap((d) =>
+        [true, false].map((paired) => facetOutsideWords(t, d, paired)?.words ?? ""),
+      ),
+    );
+    all.push(namedOutsideWords("Schlesinger Jr.", "after"), namedOutsideWords("Ibn Khaldun", "before"));
+    for (const words of all) {
+      expect(words).not.toMatch(/\d/);
+      for (const w of ["now", "today", "present", "rising", "peaking", "falling", "troughing"])
+        expect(words).not.toContain(w);
+    }
+  });
+});
+
+describe("the facet card and the overlay wire the word in (source check)", () => {
+  const facet = readFileSync(resolve(__dirname, "../components/CycleFacet.tsx"), "utf8");
+  const overlay = readFileSync(resolve(__dirname, "../components/CycleOverlay.tsx"), "utf8");
+
+  it("FacetChart judges the theory and the loaded data, and draws the word", () => {
+    expect(facet).toMatch(/periodSideOutside\(cycle,\s*startYear,\s*endYear,\s*currentYear\)/);
+    expect(facet).toMatch(/!csv\.loading && csv\.error === null/);
+    expect(facet).toContain("facetOutsideWords(theorySide, dataSide, series !== undefined)");
+    expect(facet).toContain("data-outside-word");
+  });
+
+  it("the collapsed sparkline carries the glance word and says so to a screen reader", () => {
+    expect(facet).toContain("outsideWindowWords(outside)");
+    expect(facet).toContain("sparkline: none of its wave is drawn in these years");
+  });
+
+  it("the overlay derives from the effective cycles and names each missing one", () => {
+    expect(overlay).toMatch(/effectiveCycles\s*\.filter\(\(c\) => activeCycleIds\.has\(c\.id\)\)/);
+    expect(overlay).toContain("periodSideOutside(c, startYear, endYear, currentYear)");
+    expect(overlay).toContain("namedOutsideWords(cycleTheorist(r.cycle), side)");
   });
 });
 

@@ -121,5 +121,51 @@ export function overviewRowReading(
  * false there (Codex r1). It names no year and never where the present sits.
  */
 export function outsideWindowWords(side: "before" | "after"): string {
-  return side === "after" ? "none drawn in these years →" : "← none drawn in these years";
+  return withArrow(NONE_DRAWN, side);
+}
+
+const NONE_DRAWN = "none drawn in these years";
+
+function withArrow(words: string, side: "before" | "after"): string {
+  return side === "after" ? `${words} →` : `← ${words}`;
+}
+
+/**
+ * The word a facet card's chart carries when the window draws none of its
+ * theory curve, none of its paired data line, or neither (I-074, the glance
+ * rows' sibling). A card with a paired series draws two lines under a legend
+ * naming both, so a bare "none drawn" beside a drawn data line would be false
+ * as read: the word names which line is missing. An unpaired card has one
+ * line, so it carries the glance rows' own words. The arrow points to the side
+ * the missing line is on; when theory and data are missing on different sides
+ * there is no single side, so there is no arrow. Same claims rule as the glance
+ * rows (I-069): no year, no present position, true at an exact edge touch.
+ * `data` is null while the series is loading, failed, or draws a line.
+ */
+export function facetOutsideWords(
+  theory: "before" | "after" | null,
+  data: "before" | "after" | null,
+  paired: boolean,
+): { words: string; side: "before" | "after" | null } | null {
+  const arrowed = (words: string, side: "before" | "after") => ({
+    words: withArrow(words, side),
+    side,
+  });
+  if (!paired) return theory ? arrowed(NONE_DRAWN, theory) : null;
+  if (theory && data) {
+    const both = `theory and data: ${NONE_DRAWN}`;
+    return theory === data ? arrowed(both, theory) : { words: both, side: null };
+  }
+  if (theory) return arrowed(`theory: ${NONE_DRAWN}`, theory);
+  if (data) return arrowed(`data: ${NONE_DRAWN}`, data);
+  return null;
+}
+
+/**
+ * One line of the desktop overlay's I-074 list: the overlay draws every cycle
+ * on one plot, so the word has to name which one is missing. Theory only: the
+ * overlay's data lines are toggled separately and are not judged here.
+ */
+export function namedOutsideWords(name: string, side: "before" | "after"): string {
+  return withArrow(`${name}: ${NONE_DRAWN}`, side);
 }

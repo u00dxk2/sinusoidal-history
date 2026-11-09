@@ -71,6 +71,29 @@ export function periodSideOutside(
 }
 
 /**
+ * Which side of [start, end] a paired data series lies on, when the window
+ * draws none of its line (I-074): fewer than two of its points fall inside
+ * [start, end] (inclusive, as `useVisibleData` filters), so no segment is drawn.
+ * "after" when every point is at or after `end`, "before" when every point is
+ * at or before `start`: the same edge-touch rule as `periodSideOutside`. Null
+ * while a line is drawn, for no points (a series not yet loaded must not
+ * read as outside), or when the points straddle the window without a segment
+ * in it.
+ */
+export function pointsSideOutside(
+  years: readonly number[],
+  start: number,
+  end: number
+): "before" | "after" | null {
+  if (years.length === 0) return null;
+  const inside = years.filter((y) => y >= start && y <= end).length;
+  if (inside >= 2) return null;
+  if (years.every((y) => y >= end)) return "after";
+  if (years.every((y) => y <= start)) return "before";
+  return null;
+}
+
+/**
  * Points of the drawn period inside [start, end], every `step` years, with
  * both ends of the span included exactly. Empty when the window holds none
  * of it.
