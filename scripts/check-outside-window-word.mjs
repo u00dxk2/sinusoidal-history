@@ -62,9 +62,15 @@ export function expectedFacetWord(theory, data, paired, collapsed) {
   return null;
 }
 
-/** A path draws a line only with a segment after its first move ("Mx,yZ" alone draws nothing). */
+/**
+ * A path draws a line only with a segment after its first move ("Mx,yZ" alone draws nothing), and
+ * only when every coordinate is a finite number: d3 writes "NaN" for a non-finite coordinate, and
+ * its "a" once read as an arc command (Codex r2). Stated rule, not a matcher: any non-finite
+ * token makes the path read as blank.
+ */
 export function drawsLine(d) {
-  return typeof d === "string" && /[LCHVQSA]/i.test(d.slice(1));
+  if (typeof d !== "string" || /NaN|Infinity/.test(d)) return false;
+  return /[LCHVQSA]/i.test(d.slice(1));
 }
 
 /**
@@ -259,6 +265,7 @@ function selftest() {
     ["a blank data line the oracle says is drawn is a defect", judgeCard({ theoryBlank: false, dataBlank: true, words: [] }, null, { theory: null, data: null })?.kind === "line-blank-against-oracle"],
     ["lines and word as the oracle says pass", judgeCard({ theoryBlank: true, dataBlank: true, words: ["theory and data: none drawn in these years →"] }, "theory and data: none drawn in these years →", { theory: "after", data: "after" }) === null],
     ["a lone move draws no line", !drawsLine("M10,20Z") && !drawsLine("") && drawsLine("M10,20L30,40")],
+    ["a non-finite coordinate draws no line (Codex r2)", !drawsLine("M10,NaNZ") && !drawsLine("M10,20L30,NaN") && !drawsLine("M0,0LInfinity,1")],
     ["ink-soft at 65% on paper fails 4.5:1", contrast(blend([0x4a, 0x4a, 0x48], [0xfa, 0xfa, 0xf6], 0.65), [0xfa, 0xfa, 0xf6]) < 4.5],
     ["ink at 65% on paper passes 4.5:1", contrast(blend([0x1a, 0x1a, 0x1a], [0xfa, 0xfa, 0xf6], 0.65), [0xfa, 0xfa, 0xf6]) >= 4.5],
   ];
