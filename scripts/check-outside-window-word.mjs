@@ -5,6 +5,8 @@
 // 2026-11-09) Schlesinger Jr. and Perez showed blank theory curves on the facet cards and the
 // overlay, and Schlesinger Jr.'s paired Policy Mood (from 1952) was missing too. This reads every
 // facet card (normal, open, collapsed, the Calibrate tab, an embed) and the overlay, and asks:
+//   - every theory line (and, on an open or normal paired card, the data line) is drawn or blank
+//     exactly as the oracle says, so a right word beside a wrong line is caught (Codex r1);
 //   - a card or overlay cycle whose line is missing carries the expected word;
 //   - a card whose lines are all drawn carries no word;
 //   - each word reads at 4.5:1 or better against the nearest opaque background.
@@ -15,7 +17,8 @@
 // The expected words come from THIS script's own oracle (cycles.json and the CSVs the origin
 // serves), never from the site's src/lib, so a shared bug cannot agree with itself.
 // Exit 0 every case clean · 1 a defect · 2 a page or element missing.
-// NOT read: paint (a word could be drawn off the visible plot), touch, dark mode, and the
+// NOT read: paint (a word could be drawn off the visible plot), touch, dark mode, calibration,
+// the CSV loading and error states (unit-tested in src/lib/outsideWindow.test.ts), and the
 // overlay's DATA lines (they toggle separately; a data series with no points in the window is not
 // judged there). Contrast ignores semi-transparent layers between the text and the first opaque
 // background, and multiplies ancestor opacity into the text colour.
@@ -59,9 +62,23 @@ export function expectedFacetWord(theory, data, paired, collapsed) {
   return null;
 }
 
-/** Judge one facet card's reading against the oracle. */
-export function judgeCard(card, expected) {
+/** A path draws a line only with a segment after its first move ("Mx,yZ" alone draws nothing). */
+export function drawsLine(d) {
+  return typeof d === "string" && /[LCHVQSA]/i.test(d.slice(1));
+}
+
+/**
+ * Judge one facet card's reading against the oracle. The lines are judged too (Codex r1): a word
+ * that matches the oracle is still wrong if the page drew the line it says is missing, or left
+ * blank a line the oracle says is drawn. `oracle.theory` / `oracle.data` are the sides (null =
+ * drawn); `card.dataBlank` is undefined where no data line is read (collapsed, unpaired).
+ */
+export function judgeCard(card, expected, oracle = {}) {
   const words = card.words.map((w) => w.trim());
+  if ("theory" in oracle && Boolean(oracle.theory) !== card.theoryBlank)
+    return { kind: oracle.theory ? "line-drawn-against-oracle" : "line-blank-against-oracle", detail: "theory" };
+  if ("data" in oracle && card.dataBlank !== undefined && Boolean(oracle.data) !== card.dataBlank)
+    return { kind: oracle.data ? "line-drawn-against-oracle" : "line-blank-against-oracle", detail: "data" };
   if (expected === null) {
     if (words.length > 0) return { kind: "word-on-drawn", detail: words.join(" | ") };
     if (card.theoryBlank) return { kind: "blank-without-word" };
@@ -108,8 +125,11 @@ async function run(origin) {
     const lines = (await res.text()).trim().split(/\r?\n/);
     const head = lines[0].split(",");
     const yi = head.indexOf(s.year_column), vi = head.indexOf(s.value_column);
-    csvYears[s.associated_cycle_id] = lines.slice(1).map((l) => l.split(","))
-      .filter((r) => r[vi] !== undefined && r[vi] !== "" && Number.isFinite(Number(r[vi])))
+    // Same keep rule as the site's parseCsvSeries: Number(year) and Number(value) both finite, so an
+    // empty value counts (Number("") is 0) and a missing column does not (Codex r1). No quoted
+    // fields are handled: the year and value columns of these CSVs carry none (declared).
+    csvYears[s.associated_cycle_id] = lines.slice(1).filter((l) => l.trim() !== "").map((l) => l.split(","))
+      .filter((r) => Number.isFinite(Number(r[yi])) && Number.isFinite(Number(r[vi])))
       .map((r) => Number(r[yi]));
   }
   const browser = await chromium.launch();
@@ -136,12 +156,13 @@ async function run(origin) {
         const words = (root) => [...root.querySelectorAll("[data-outside-word]")].map((el) => ({ text: el.textContent, id: el.getAttribute("data-outside-id"), ...style(el) }));
         const cards = [...document.querySelectorAll("[data-facet-id]")].filter((el) => el.getBoundingClientRect().height > 0).map((el) => ({
           id: el.getAttribute("data-facet-id"),
-          theoryBlank: [...el.querySelectorAll('path[data-curve="theory"]')].every((p) => !(p.getAttribute("d") || "")),
-          theoryPaths: el.querySelectorAll('path[data-curve="theory"]').length,
+          theoryDs: [...el.querySelectorAll('path[data-curve="theory"]')].map((p) => p.getAttribute("d") || ""),
+          dataDs: [...el.querySelectorAll('path[data-curve="data"]')].map((p) => p.getAttribute("d") || ""),
           words: words(el),
         }));
         const svg = document.querySelector('svg[aria-label^="Overlay of historical"]');
-        return { cards, overlay: svg ? words(svg) : null, docHeight: document.documentElement.scrollHeight };
+        const overlayDs = svg ? Object.fromEntries([...svg.querySelectorAll('path[data-curve="theory"]')].map((p) => [p.getAttribute("data-cycle-id"), p.getAttribute("d") || ""])) : null;
+        return { cards, overlay: svg ? words(svg) : null, overlayDs, docHeight: document.documentElement.scrollHeight };
       });
       const defects = [];
       let minContrast = Infinity, judged = 0;
@@ -154,7 +175,7 @@ async function run(origin) {
       if (c.kind === "facets") {
         const expectN = c.only ? 1 : cycles.length;
         const cards = c.only ? read.cards.filter((k) => k.id === c.only) : read.cards;
-        if (cards.length !== expectN || cards.some((k) => k.theoryPaths === 0)) {
+        if (cards.length !== expectN || cards.some((k) => k.theoryDs.length === 0)) {
           console.log(`${c.name}: MISSING — ${cards.length} of ${expectN} cards, or a card with no theory path`);
           worst = Math.max(worst, 2); await ctx.close(); continue;
         }
@@ -162,8 +183,20 @@ async function run(origin) {
           const cy = cycles.find((x) => x.id === card.id);
           const paired = series.some((s) => s.associated_cycle_id === card.id);
           const collapsed = c.focus !== undefined && c.focus !== card.id;
-          const exp = expectedFacetWord(theorySide(cy, c.start, c.end), paired ? dataSide(csvYears[card.id], c.start, c.end) : null, paired, collapsed);
-          const v = judgeCard({ theoryBlank: card.theoryBlank, words: card.words.map((w) => w.text) }, exp);
+          const tSide = theorySide(cy, c.start, c.end);
+          const dSide = paired ? dataSide(csvYears[card.id], c.start, c.end) : null;
+          const exp = expectedFacetWord(tSide, dSide, paired, collapsed);
+          // A collapsed card draws no data line, and an unpaired one has none: judge data only where it is drawn.
+          const judgeData = paired && !collapsed;
+          const v = judgeCard(
+            {
+              theoryBlank: !card.theoryDs.some(drawsLine),
+              dataBlank: judgeData ? !card.dataDs.some(drawsLine) : undefined,
+              words: card.words.map((w) => w.text),
+            },
+            exp,
+            judgeData ? { theory: tSide, data: dSide } : { theory: tSide },
+          );
           judged++;
           if (v) defects.push(`${v.kind} ${card.id}${v.detail ? ` (${v.detail})` : ""}`);
         }
@@ -171,9 +204,15 @@ async function run(origin) {
         if (!read.overlay) { console.log(`${c.name}: MISSING — no overlay svg`); worst = Math.max(worst, 2); await ctx.close(); continue; }
         const want = cycles.map((cy) => [cy, theorySide(cy, c.start, c.end)]).filter(([, s]) => s);
         const got = new Map(read.overlay.map((w) => [w.id, w.text.trim()]));
+        for (const cy of cycles) {
+          const d = read.overlayDs?.[cy.id];
+          if (d === undefined) { defects.push(`missing theory path ${cy.id}`); continue; }
+          const outside = want.some(([w]) => w.id === cy.id);
+          if (outside === drawsLine(d)) defects.push(`${outside ? "line-drawn-against-oracle" : "line-blank-against-oracle"} theory ${cy.id}`);
+        }
         for (const [cy, side] of want) {
           judged++;
-          const exp = arrow(`${cy.name.split("—")[0].trim()}: ${NONE}`, side);
+          const exp = arrow(`${cy.name.split("—")[0].trim()} theory: ${NONE}`, side);
           if (!got.has(cy.id)) defects.push(`blank-without-word ${cy.id} (expected "${exp}")`);
           else if (got.get(cy.id) !== exp) defects.push(`wrong-word ${cy.id} (got "${got.get(cy.id)}", expected "${exp}")`);
         }
@@ -214,6 +253,12 @@ function selftest() {
     ["a word on a drawn card is a defect", judgeCard({ theoryBlank: false, words: ["none drawn in these years →"] }, null)?.kind === "word-on-drawn"],
     ["a bare word beside a drawn data line is the wrong word", judgeCard({ theoryBlank: true, words: ["none drawn in these years →"] }, "theory: none drawn in these years →")?.kind === "wrong-word"],
     ["the right word passes", judgeCard({ theoryBlank: true, words: ["theory: none drawn in these years →"] }, "theory: none drawn in these years →") === null],
+    // Codex r1 red arms: the right word beside a line the page drew, or a line it left blank.
+    ["the right word beside a drawn theory curve is a defect", judgeCard({ theoryBlank: false, words: ["theory: none drawn in these years →"] }, "theory: none drawn in these years →", { theory: "after" })?.kind === "line-drawn-against-oracle"],
+    ["a data word beside a drawn data line is a defect", judgeCard({ theoryBlank: false, dataBlank: false, words: ["data: none drawn in these years →"] }, "data: none drawn in these years →", { theory: null, data: "after" })?.kind === "line-drawn-against-oracle"],
+    ["a blank data line the oracle says is drawn is a defect", judgeCard({ theoryBlank: false, dataBlank: true, words: [] }, null, { theory: null, data: null })?.kind === "line-blank-against-oracle"],
+    ["lines and word as the oracle says pass", judgeCard({ theoryBlank: true, dataBlank: true, words: ["theory and data: none drawn in these years →"] }, "theory and data: none drawn in these years →", { theory: "after", data: "after" }) === null],
+    ["a lone move draws no line", !drawsLine("M10,20Z") && !drawsLine("") && drawsLine("M10,20L30,40")],
     ["ink-soft at 65% on paper fails 4.5:1", contrast(blend([0x4a, 0x4a, 0x48], [0xfa, 0xfa, 0xf6], 0.65), [0xfa, 0xfa, 0xf6]) < 4.5],
     ["ink at 65% on paper passes 4.5:1", contrast(blend([0x1a, 0x1a, 0x1a], [0xfa, 0xfa, 0xf6], 0.65), [0xfa, 0xfa, 0xf6]) >= 4.5],
   ];

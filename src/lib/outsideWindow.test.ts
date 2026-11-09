@@ -196,6 +196,9 @@ describe("facetOutsideWords", () => {
       ),
     );
     all.push(namedOutsideWords("Schlesinger Jr.", "after"), namedOutsideWords("Ibn Khaldun", "before"));
+    // The overlay line names the THEORY: Perez's HATCH line is drawn beside it (Codex r1).
+    expect(namedOutsideWords("Carlota Perez", "after")).toBe("Carlota Perez theory: none drawn in these years →");
+    expect(namedOutsideWords("Ibn Khaldun", "before")).toBe("← Ibn Khaldun theory: none drawn in these years");
     for (const words of all) {
       expect(words).not.toMatch(/\d/);
       for (const w of ["now", "today", "present", "rising", "peaking", "falling", "troughing"])
@@ -204,6 +207,9 @@ describe("facetOutsideWords", () => {
   });
 });
 
+// CEILING (Codex r1 LOW): these are SOURCE checks. They pin the calls and the JSX that renders the
+// word, but a guard edited to `false && …` would still pass. What a reader sees is read on
+// production by scripts/check-outside-window-word.mjs (9 cases, its own oracle).
 describe("the facet card and the overlay wire the word in (source check)", () => {
   const facet = readFileSync(resolve(__dirname, "../components/CycleFacet.tsx"), "utf8");
   const overlay = readFileSync(resolve(__dirname, "../components/CycleOverlay.tsx"), "utf8");
@@ -212,18 +218,20 @@ describe("the facet card and the overlay wire the word in (source check)", () =>
     expect(facet).toMatch(/periodSideOutside\(cycle,\s*startYear,\s*endYear,\s*currentYear\)/);
     expect(facet).toMatch(/!csv\.loading && csv\.error === null/);
     expect(facet).toContain("facetOutsideWords(theorySide, dataSide, series !== undefined)");
+    expect(facet).toMatch(/\{outsideWord && \(\s*<OutsideWord\s+words=\{outsideWord\.words\}/);
     expect(facet).toContain("data-outside-word");
   });
 
   it("the collapsed sparkline carries the glance word and says so to a screen reader", () => {
-    expect(facet).toContain("outsideWindowWords(outside)");
+    expect(facet).toMatch(/\{outside && \(\s*<OutsideWord\s+words=\{outsideWindowWords\(outside\)\}/);
     expect(facet).toContain("sparkline: none of its wave is drawn in these years");
   });
 
   it("the overlay derives from the effective cycles and names each missing one", () => {
     expect(overlay).toMatch(/effectiveCycles\s*\.filter\(\(c\) => activeCycleIds\.has\(c\.id\)\)/);
     expect(overlay).toContain("periodSideOutside(c, startYear, endYear, currentYear)");
-    expect(overlay).toContain("namedOutsideWords(cycleTheorist(r.cycle), side)");
+    expect(overlay).toMatch(/>\s*\{namedOutsideWords\(cycleTheorist\(r\.cycle\), side\)\}\s*<\/text>/);
+    expect(overlay).toContain("No theory curve drawn in these years:");
   });
 });
 

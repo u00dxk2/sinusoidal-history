@@ -158,7 +158,7 @@ export default function CycleOverlay({
         // interpolates).
         aria-label={`Overlay of historical cycle theories and data series from ${startYear} to ${endYear}${
           outsideRows.length > 0
-            ? `. None drawn in these years: ${outsideRows.map((r) => cycleTheorist(r.cycle)).join(", ")}`
+            ? `. No theory curve drawn in these years: ${outsideRows.map((r) => cycleTheorist(r.cycle)).join(", ")}`
             : ""
         }`}
         width={width}
@@ -203,6 +203,8 @@ export default function CycleOverlay({
               <g key={cycle.id}>
                 <title>{`${cycle.name} (period ${cycle.period_years}y)`}</title>
                 <path
+                  data-curve="theory"
+                  data-cycle-id={cycle.id}
                   d={d}
                   fill="none"
                   stroke={cycle.color}

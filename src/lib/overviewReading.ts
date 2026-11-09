@@ -163,9 +163,11 @@ export function facetOutsideWords(
 
 /**
  * One line of the desktop overlay's I-074 list: the overlay draws every cycle
- * on one plot, so the word has to name which one is missing. Theory only: the
- * overlay's data lines are toggled separately and are not judged here.
+ * on one plot, so the word has to name which one is missing, and that it is
+ * the theory curve: the cycle's paired data line can be drawn beside it
+ * (Perez's HATCH at 1801–1951; Codex r1 and round 0). The overlay's data lines
+ * are toggled separately and are not judged here.
  */
 export function namedOutsideWords(name: string, side: "before" | "after"): string {
-  return withArrow(`${name}: ${NONE_DRAWN}`, side);
+  return withArrow(`${name} theory: ${NONE_DRAWN}`, side);
 }

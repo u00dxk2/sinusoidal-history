@@ -526,6 +526,7 @@ function FacetChart({
         />
         {seriesPath && series && (
           <path
+            data-curve="data"
             d={seriesPath}
             fill="none"
             stroke={series.color}
