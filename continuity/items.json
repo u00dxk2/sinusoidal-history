@@ -2271,7 +2271,7 @@
     {
       "id": "I-074",
       "title": "In a zoomed window, facet cards and the desktop overlay can draw none of a cycle's wave and carry no word (I-069's sibling)",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2280,9 +2280,18 @@
       "closeWhen": "A production read at ?range=1801-1951 (390x664 for the facets, a desktop width for the overlay) shows whether those surfaces draw an empty curve area for Schlesinger Jr. and Perez; if they do, either they carry a word that passes the I-069 claims rule (no year, no present position, true at an exact edge touch), proved by a source-pinned test, or a recorded decision says the glance rows' word is enough, with the reason.",
       "nextEvaluation": "2026-11-09",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-strip-near-chart.mjs https://sinusoidalhistory.com — regression for the strip only; this row's proof is a production read of the facet cards and overlay at a narrow window",
-      "notes": "2026-11-02 (full day, P5): minted at the close on the manager review's instruction (3dc26b40: 'decide in writing whether the facet-card / desktop-overlay blank case becomes its own row with a nextCheckDate'). Decision: yes, its own row, dated 11-09 to stay off 11-03's heavy day. Reuse outsideWindowWords/periodSideOutside (src/lib/overviewReading.ts, src/lib/cycleMath.ts) so the wording cannot drift from the glance rows.",
+      "notes": "2026-11-02 (full day, P5): minted at the close on the manager review's instruction (3dc26b40: 'decide in writing whether the facet-card / desktop-overlay blank case becomes its own row with a nextCheckDate'). Decision: yes, its own row, dated 11-09 to stay off 11-03's heavy day. Reuse outsideWindowWords/periodSideOutside (src/lib/overviewReading.ts, src/lib/cycleMath.ts) so the wording cannot drift from the glance rows. | 2026-11-09 (full day, P5): CLOSED as delivered (source-pinned-test arm of the closeWhen). The production read at ?range=1801-1951 on live 66962f4a showed both surfaces blank with no word: Schlesinger Jr. and Perez had empty theory paths on the facet cards (390x664) and on the overlay (1280x800). Commits 821076b (words, test, checker), a40f732 (Codex r1 fixes), 8cc351f (Codex r2 fix), a56378d (AGENTS.md heading only). CI ci.yml green on a56378d70a. Live a56378d7 in sync per check-deployed-sha-drift --wait. A card now names the missing line inside its chart (\"theory and data: none drawn in these years →\" on Schlesinger Jr., whose Policy Mood starts in 1952; \"theory: …\" on Perez, whose HATCH line is drawn). The collapsed and unpaired cards use the glance words. The overlay lists \"<Name> theory: none drawn in these years\". Test src/lib/outsideWindow.test.ts has 22 tests, red-armed by restoring the old CycleFacet.tsx (2 failed, 20 passed). New checker scripts/check-outside-window-word.mjs covers 9 production cases with its own oracle; on 66962f4a it went FAIL/MISSING, on a56378d7 9 of 9 OK, min contrast 5.30:1. Regressions on production: strip TOGETHER 131px, embed snippets 42/42, holds-up-line 46/46. Codex read-only reviews: r1 found 2 MED and 1 LOW, r2 found 1 MED, r3 found no defect; all fixed. Manager review b62bd7af: COMPLETED. Encounter blind by construction: a zoom sets only a query string and there are no client analytics by standing choice (card 1e069bb4, docs/evangelism-bar.md:30). No separate row for that blindness was minted, because it is the standing choice, not a defect. Outcome open, with no reader read. Residuals: (1) the overlay's data chips carry no word when their series has no points in the window; filed as I-081. (2) A paired card whose data points straddle the window, fewer than two inside, would draw no data line and carry no word. NOT filed: no current CSV reaches it at the 150-year minimum window. Trigger: adding a series, or refreshing one, so that it has an internal gap of 150 years or more. At that point, extend pointsSideOutside and the checker oracle together.",
       "created": "2026-11-02",
-      "updated": "2026-11-02"
+      "updated": "2026-11-09",
+      "readCommandLastRun": "2026-11-09T16:18:22.915Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 12614,
+      "readCommandLastOutputRef": {
+        "lines": 2,
+        "sha256": "f9f02ef3cd68eb2c"
+      },
+      "closedAt": "2026-11-09",
+      "lastEvaluated": "2026-11-09"
     },
     {
       "id": "I-075",
@@ -2392,6 +2401,22 @@
         "sha256": "e3b0c44298fc1c14"
       },
       "onTrigger": "On 2026-11-11, run `node C:/dev/skylark/sinusoidal-cycles/scripts/crawl-read.mjs --days 7` (slow by design, Render API backoff). Count crawler fetches of /llms.txt, /about.md or /methods.md dated after 2026-11-07 18:17Z (the a781cf5 deploy). N=1 is readable. At least one fetch: close the row as delivered to a crawler. None: record \"no-arrival 0 of <fetches in window>\" and re-date once to the next monthly crawl read. All copy legs (1-8 and row 1) are shipped; this read is the only thing left on the row."
+    },
+    {
+      "id": "I-081",
+      "title": "On the desktop overlay, a data series with no points in the zoomed window keeps its chip lit and carries no word",
+      "status": "open",
+      "type": "issue",
+      "priority": "P4",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-09",
+      "description": "I-074 (2026-11-09, 821076b) gave the overlay a word for each THEORY curve the window draws none of. The overlay's data series toggle separately and were left out of scope (declared in scripts/check-outside-window-word.mjs). At ?range=1801-1951 the Policy Mood series (from 1952) draws no line, yet its chip in the Data legend stays active with no word (CycleOverlay.tsx DataSeriesPath returns null; SeriesLegendItem shows only loading/unavailable). The same missing-data reading I-069 and I-074 fixed elsewhere. Source read only; not walked.",
+      "closeWhen": "At ?range=1801-1951 on production (1280x800), the overlay tells a reader that Policy Mood draws no line in these years (a word on the chip or in the plot, passing the I-069 claims rule: no year, no present position, true at an exact edge touch), proved by a source-pinned test and a checker leg; or a recorded decision that the theory list is enough, with the reason.",
+      "nextEvaluation": "2026-11-17",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-outside-window-word.mjs https://sinusoidalhistory.com — regression for the I-074 words; this row's proof is a production read of the overlay's data chips at ?range=1801-1951 or a recorded decision",
+      "notes": "2026-11-09 (full day, P5): minted at the close on the manager review's instruction (b62bd7af: 'the two candidate residual rows ... each with a trigger or an explicit decision not to file it'). Reachable today (Policy Mood at 1801-1951), so filed. Dated 11-17 to stay off the 11-10 and 11-12 walls. Reuse pointsSideOutside (src/lib/cycleMath.ts) and the overviewReading word family so the wording cannot drift.",
+      "created": "2026-11-09",
+      "updated": "2026-11-09"
     }
   ],
   "knownPatterns": [
