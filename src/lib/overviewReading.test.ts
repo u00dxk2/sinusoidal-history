@@ -71,6 +71,15 @@ describe("glanceVerdictLine", () => {
     expect(glanceVerdictLine(cycles)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
   });
 
+  // Codex r1 on 91fa65e: the assertions above call the function, so a figure that rendered other
+  // text would still pass. Pin that the figure computes this line and paints it in its verdict
+  // paragraph. Ceiling: a source pin, not a render; the production in-page read is the proof.
+  it("is what the figure renders", () => {
+    const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
+    expect(src).toMatch(/const verdictLine = useMemo\(\(\) => glanceVerdictLine\(cycles\), \[cycles\]\);/);
+    expect(src).toMatch(/data-glance-verdict[\s\S]{0,200}?>\s*\{verdictLine\}\s*<\/p>/);
+  });
+
   it("drops a clause whose count is zero", () => {
     const paired = cycles.filter((c) => holdsUpCard(c)?.headline === "Not testable on the record that exists");
     expect(glanceVerdictLine(paired)).toBe(
