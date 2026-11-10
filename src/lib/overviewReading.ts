@@ -1,5 +1,6 @@
 import type { Cycle } from "@/data/types";
 import { countWord, countWordLower } from "./countWords";
+import { cycleTheorist } from "./cycleRoutes";
 import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsUp";
 
 /**
@@ -11,8 +12,19 @@ import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsU
  * would then be a claim this rule cannot state.
  */
 export function glanceVerdictLine(cycles: Cycle[]): string | null {
-  return glanceVerdictFromHeadlines(cycles.map((c) => holdsUpCard(c)?.headline));
+  return glanceVerdictFromHeadlines(
+    cycles.map((c) => holdsUpCard(c)?.headline),
+    cycles.map(cycleTheorist),
+  );
 }
+
+/**
+ * The verdict line's measured budget (I-076, 2026-11-10). It sits on the first screen at 390x664
+ * (top y=620; at 320x568 and 360x560 it starts below the fold). Setting candidate wordings in
+ * place on production: 118 characters held two lines with 33px spare, 125 broke to a third line
+ * ending at y=674, past the fold. A character count, not a rendered width: a font change voids it.
+ */
+export const GLANCE_VERDICT_MAX_CHARS = 118;
 
 /**
  * Why the glance figure's humps bunch, said on the figure's own screen (I-063). Both production
@@ -71,16 +83,30 @@ export function glanceCaption(verdictLine: string | null): string {
   return verdictLine ? "Peaks chosen · no cycle confirmed" : "Theory shapes, not findings";
 }
 
-/** glanceVerdictLine's rule over the headlines alone (undefined = a cycle with no card). */
-export function glanceVerdictFromHeadlines(heads: (string | undefined)[]): string | null {
+/**
+ * glanceVerdictLine's rule over the headlines (undefined = a cycle with no card). `names` runs
+ * parallel to `heads`, each the name the cycle's row shows (cycleTheorist).
+ * I-076: the 11-03 walker asked "one has no record on this site: which one?", so a single
+ * no-series cycle is named; two or more are counted, which keeps the line inside its two-line
+ * budget. "No data series", not "no record" (round 0): /methods tests that cycle's period against
+ * other cycles' records, so what it lacks is a series of its own (NO_SERIES_REASON). "None is
+ * confirmed", not "None of these ten": the two counts already add up to the rows, and the
+ * shorter opening is what lets the name fit.
+ */
+export function glanceVerdictFromHeadlines(
+  heads: (string | undefined)[],
+  names: string[] = [],
+): string | null {
   const untestable = heads.filter((h) => h === NOT_TESTABLE_HEADLINE).length;
-  const noRecord = heads.filter((h) => h === NO_SERIES_HEADLINE).length;
-  if (heads.length === 0 || untestable + noRecord !== heads.length) return null;
+  const noSeries = heads.flatMap((h, i) => (h === NO_SERIES_HEADLINE ? [names[i]] : []));
+  if (heads.length === 0 || untestable + noSeries.length !== heads.length) return null;
+  const named = noSeries.length === 1 && noSeries[0] ? noSeries[0] : null;
   const parts = [
     untestable && `${countWordLower(untestable)} cannot be tested on the record that exists`,
-    noRecord && `${countWordLower(noRecord)} ${noRecord === 1 ? "has" : "have"} no record on this site`,
+    noSeries.length &&
+      `${named ?? countWordLower(noSeries.length)} ${noSeries.length === 1 ? "has" : "have"} no data series on this site`,
   ].filter(Boolean);
-  return `None of these ${countWordLower(heads.length)} is confirmed: ${parts.join(", and ")}.`;
+  return `None is confirmed: ${parts.join(", and ")}.`;
 }
 
 /**

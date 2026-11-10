@@ -5,13 +5,15 @@ import {
   CLUSTER_FROM,
   CLUSTER_TO,
   GLANCE_CAPTION_MAX_CHARS,
+  GLANCE_VERDICT_MAX_CHARS,
   glanceCaption,
   glanceClusterLine,
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
   overviewRowReading,
 } from "@/lib/overviewReading";
-import { holdsUpCard } from "@/lib/holdsUp";
+import { holdsUpCard, NO_SERIES_HEADLINE } from "@/lib/holdsUp";
+import { cycleTheorist } from "@/lib/cycleRoutes";
 import { readFileSync } from "node:fs";
 
 // I-063 (2026-11-03): the caption is the figure's one first-screen line on every phone. It says
@@ -41,23 +43,44 @@ describe("glanceCaption", () => {
 });
 
 // I-048: the glance figure's visible verdict, counted from the cards' headlines.
+// I-076 (2026-11-10): it names the one cycle with no data series, by the name its row shows. The
+// 11-03 walker asked "one has no record on this site: which one?". "Data series", not "record"
+// (round 0): the site does test this cycle's 50-year period against other cycles' records
+// (/methods), so what it lacks is a series of its own, which is NO_SERIES_REASON's own claim.
 describe("glanceVerdictLine", () => {
-  it("states today's ten in words, counted from the card headlines", () => {
+  it("states today's ten in words, counted from the card headlines, naming the one with no series", () => {
     expect(glanceVerdictLine(cycles)).toBe(
-      "None of these ten is confirmed: nine cannot be tested on the record that exists, and one has no record on this site.",
+      "None is confirmed: nine cannot be tested on the record that exists, and Turchin (50y) has no data series on this site.",
     );
+  });
+
+  it("names exactly the cycle whose card says Not tested, by its row name", () => {
+    const noRecord = cycles.filter((c) => holdsUpCard(c)?.headline === NO_SERIES_HEADLINE);
+    expect(noRecord).toHaveLength(1);
+    expect(glanceVerdictLine(cycles)).toContain(`, and ${cycleTheorist(noRecord[0])} has no data series on this site.`);
+    // Two Turchin cycles share the surname ("Peter Turchin" is the other), so the name must be
+    // the row's own, qualifier included.
+    expect(cycleTheorist(noRecord[0])).toBe("Turchin (50y)");
+  });
+
+  // Measured on production 2026-11-10 by setting candidate wordings in place: at 390x664 (the
+  // first-screen size the line sits on) 118 characters held two lines with 33px to spare and 125
+  // broke to a third ending at y=674, past the fold. Ceiling: a character count, not a rendered
+  // width; a font change voids it (re-measure, see overviewReading.ts).
+  it("fits the measured two-line budget at 390x664", () => {
+    expect(glanceVerdictLine(cycles)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
   });
 
   it("drops a clause whose count is zero", () => {
     const paired = cycles.filter((c) => holdsUpCard(c)?.headline === "Not testable on the record that exists");
     expect(glanceVerdictLine(paired)).toBe(
-      `None of these nine is confirmed: nine cannot be tested on the record that exists.`,
+      `None is confirmed: nine cannot be tested on the record that exists.`,
     );
   });
 
   it("says nothing once any headline is not one of the two untested forms", () => {
     const today = cycles.map((c) => holdsUpCard(c)?.headline);
-    expect(glanceVerdictFromHeadlines(today)).toBe(glanceVerdictLine(cycles));
+    expect(glanceVerdictFromHeadlines(today, cycles.map(cycleTheorist))).toBe(glanceVerdictLine(cycles));
     // One tested verdict, whatever it says: "none is confirmed" is no longer this rule's to state.
     expect(glanceVerdictFromHeadlines([...today.slice(1), "Tested — consistent"])).toBeNull();
     // A cycle with no card at all.
@@ -65,9 +88,22 @@ describe("glanceVerdictLine", () => {
     expect(glanceVerdictFromHeadlines([])).toBeNull();
   });
 
-  it("agrees in number with a plural no-record clause", () => {
-    expect(glanceVerdictFromHeadlines(["Not tested", "Not tested"])).toBe(
-      "None of these two is confirmed: two have no record on this site.",
+  it("agrees in number with a plural no-record clause, and counts rather than names two or more", () => {
+    expect(glanceVerdictFromHeadlines(["Not tested", "Not tested"], ["A", "B"])).toBe(
+      "None is confirmed: two have no data series on this site.",
+    );
+  });
+
+  it("names one no-series cycle only when its name is given, else counts it", () => {
+    expect(glanceVerdictFromHeadlines(["Not tested"], ["Somebody (9y)"])).toBe(
+      "None is confirmed: Somebody (9y) has no data series on this site.",
+    );
+    expect(glanceVerdictFromHeadlines(["Not tested"])).toBe(
+      "None is confirmed: one has no data series on this site.",
+    );
+    // The name is the no-series cycle's own, never a neighbour's.
+    expect(glanceVerdictFromHeadlines(["Not testable on the record that exists", "Not tested"], ["X", "Y"])).toBe(
+      "None is confirmed: one cannot be tested on the record that exists, and Y has no data series on this site.",
     );
   });
 });
