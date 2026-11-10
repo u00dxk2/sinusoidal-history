@@ -1312,7 +1312,7 @@
     {
       "id": "I-034",
       "title": "Under fleet load the local full suite fails on spawned-selftest tests with fixed timeouts, so a local red is not evidence about the change",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -1323,16 +1323,24 @@
       "nextEvaluation": "2026-11-10",
       "readCommand": "npm --prefix C:/dev/skylark/sinusoidal-cycles test -- src/lib/checkStagedSecrets.test.ts",
       "waitingFor": "Nothing and nobody: this lane's own tests. Dated with I-027 so it is not a fresh substrate ship on a product day.",
-      "notes": "2026-10-11 (cycle 5 close): minted on the manager review's instruction (7447a3fb) to carry the finding.\n\n | 2026-10-12 (round 4 night, evidence for this row): two more local full-suite reds under fleet memory pressure, both timeouts and both clean on their own. bareCos.test.ts \"no file in it has one\" took 6.1s against the 5s limit at 28bbb07; alone it passed with the tests taking 642ms, and the full re-run at the same commit was green 304/304. checkStagedSecrets.test.ts \"passes its own selftest\" took 68s against the 60s limit at 3d9541a, with 8.7 GB free and vitest's import phase at 206s. CI was GREEN on 8bb4dd4, the same code.\n\n | 2026-10-20 (round 3, P5): 1 of the 3 consecutive runs the unWait asks for: verify-with-receipt -- npm test on 45bf10c GREEN, 40 files / 377 tests, after waiting in the fleet heavy-gate queue (an earlier attempt that night was reaped by the low-memory reaper before reaching the runner, 62437b3f; not a test result). Two more runs owed under normal load; re-dated 2026-10-23, not run at midnight to keep heavy jobs one at a time.\n\n2026-10-23 (day round 1, P5): hygiene draft line AMENDED. Read NOT run: the readCommand is the full suite, and David ruled 2026-10-21 that no local full verify is queued while CI is green (CI ci.yml green on 92fa188b06, ebdc180639 and 8a31ce1 today). The old unWait (three local full-suite runs) conflicts with that ruling, so it is re-scoped to a cheap measured run of the load-sensitive files alone, and the row is re-dated to 2026-11-06 (wait until moved with it). Still 1 of the old 3 runs on record (10-20, 45bf10c).\n\n | 2026-11-06 (full day, P5): hygiene draft ACCEPTED. Read NOT run: the old readCommand was the full local suite, excluded by David's 2026-10-21 ruling while CI is green (green on e230fc25). readCommand re-pointed to the unWait's per-file run (src/lib/checkStagedSecrets.test.ts alone); re-dated 11-06 -> 11-10, which also moves waitJustification.until so the wait does not expire. check-year-position.test.ts, named in the 10-10 hypothesis, no longer exists.\n\n | 2026-11-07 (P3): waitJustification.until was still 2026-11-06. The 11-06 note said it moved with the re-date to 11-10, but it had not. check-wait-justification read WAIT_UNTIL_EXPIRED I-034 (hygiene helper). Set to 2026-11-10, the row's nextEvaluation. No other field changed.",
+      "notes": "2026-10-11 (cycle 5 close): minted on the manager review's instruction (7447a3fb) to carry the finding.\n\n | 2026-10-12 (round 4 night, evidence for this row): two more local full-suite reds under fleet memory pressure, both timeouts and both clean on their own. bareCos.test.ts \"no file in it has one\" took 6.1s against the 5s limit at 28bbb07; alone it passed with the tests taking 642ms, and the full re-run at the same commit was green 304/304. checkStagedSecrets.test.ts \"passes its own selftest\" took 68s against the 60s limit at 3d9541a, with 8.7 GB free and vitest's import phase at 206s. CI was GREEN on 8bb4dd4, the same code.\n\n | 2026-10-20 (round 3, P5): 1 of the 3 consecutive runs the unWait asks for: verify-with-receipt -- npm test on 45bf10c GREEN, 40 files / 377 tests, after waiting in the fleet heavy-gate queue (an earlier attempt that night was reaped by the low-memory reaper before reaching the runner, 62437b3f; not a test result). Two more runs owed under normal load; re-dated 2026-10-23, not run at midnight to keep heavy jobs one at a time.\n\n2026-10-23 (day round 1, P5): hygiene draft line AMENDED. Read NOT run: the readCommand is the full suite, and David ruled 2026-10-21 that no local full verify is queued while CI is green (CI ci.yml green on 92fa188b06, ebdc180639 and 8a31ce1 today). The old unWait (three local full-suite runs) conflicts with that ruling, so it is re-scoped to a cheap measured run of the load-sensitive files alone, and the row is re-dated to 2026-11-06 (wait until moved with it). Still 1 of the old 3 runs on record (10-20, 45bf10c).\n\n | 2026-11-06 (full day, P5): hygiene draft ACCEPTED. Read NOT run: the old readCommand was the full local suite, excluded by David's 2026-10-21 ruling while CI is green (green on e230fc25). readCommand re-pointed to the unWait's per-file run (src/lib/checkStagedSecrets.test.ts alone); re-dated 11-06 -> 11-10, which also moves waitJustification.until so the wait does not expire. check-year-position.test.ts, named in the 10-10 hypothesis, no longer exists.\n\n | 2026-11-07 (P3): waitJustification.until was still 2026-11-06. The 11-06 note said it moved with the re-date to 11-10, but it had not. check-wait-justification read WAIT_UNTIL_EXPIRED I-034 (hygiene helper). Set to 2026-11-10, the row's nextEvaluation. No other field changed. | 2026-11-10 (P5): closed on the hygiene draft. --run I-034 exit 0: checkStagedSecrets.test.ts alone 1/1 passed, tests 37.85s against its 180s timeout whose measured reason is in the file; the other spawning tests carry 60s timeouts with reasons (closeWhen clause 2). bareCos and check-entry-folds tests no longer spawn.",
       "created": "2026-10-11",
-      "updated": "2026-11-07",
+      "updated": "2026-11-10",
       "waitJustification": {
         "until": "2026-11-10",
         "loadBearing": "the local full suite times out only under fleet memory pressure (bareCos 6.1s, checkStagedSecrets 68s on 10-11); CI green on the same code is the gate meanwhile, and today's two local runs passed (304 and 305 tests)",
         "unWait": "re-scoped 2026-10-23 to David's 2026-10-21 ruling (no local full verify queued while CI is green): on 2026-11-06 measure the load-sensitive tests ALONE (one spawned-selftest file at a time, e.g. bareCos.test.ts and checkStagedSecrets.test.ts, cheap, not the full suite) and size their timeouts from that run with the reason in the test file -> close; a full local run is counted toward the old three only if one is taken anyway from a free heavy-gate slot",
         "owner": "sinusoidal-cycles"
       },
-      "lastEvaluated": "2026-11-06"
+      "lastEvaluated": "2026-11-10",
+      "readCommandLastRun": "2026-11-10T15:48:23.395Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 53847,
+      "readCommandLastOutputRef": {
+        "lines": 11,
+        "sha256": "8d802bd8d3f09dec"
+      },
+      "closedAt": "2026-11-10"
     },
     {
       "id": "I-035",
@@ -2116,19 +2124,19 @@
       "identified": "2026-10-24",
       "description": "I-064 cold walk on production 98e9b557 (docs/walks/2026-10-24-i064.md): 'Any recent window runs to 2050, past today. A reader may wonder what is being drawn for 2026–2050.' The chart axis runs to DEFAULT_YEAR_RANGE.end = 2050 (src/lib/siteConfig.ts) and the Modern preset is 1900–2050, while since I-061 every curve is cut at the current year (sampleDrawnPeriod). The strip's status line ('Chart now shows 1900–2050') and the 'showing' readout name 2050 without saying nothing is drawn past today. Wording or axis question, not a math error.",
       "closeWhen": "A reader shown a recent window can tell that nothing is drawn after today (the readout or axis says so, or the axis ends at today), proved by one pre-registered cold walker or a source-pinned test of the wording; or a recorded decision to keep the 2050 axis as is, with the reason.",
-      "nextEvaluation": "2026-11-10",
+      "nextEvaluation": "2026-11-13",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"end: 2050\" -- src/lib/siteConfig.ts — presence of the 2050 axis end; this row's proof is a decision or a walk",
-      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk. Touches I-061's 'stop at today' ruling: any change to the axis end is checked against it.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/lib/siteConfig.ts:15 still reads end: 2050. No walk, wording pin or recorded decision yet; the full day went to I-065.\n\n | 2026-11-03 (full day, P5): hygiene draft ACCEPTED, re-dated 11-03 → 11-06. Read: --run I-068 exit 0, \"src/lib/siteConfig.ts:15:  end: 2050,\"; no walk, wording pin or recorded decision yet. Today's selection went to I-063.\n\n | 2026-11-06 (full day, P5): hygiene draft ACCEPTED, re-dated 11-06 -> 11-10. Read: --run I-068 exit 0, \"src/lib/siteConfig.ts:15:  end: 2050,\" (same sidecar sha as 11-03). No walk, wording pin or recorded decision; today's selection went to I-080.",
+      "notes": "2026-10-24 (day round 1, P5): minted at the close on the manager review's instruction (e1fc7408: 'mint each one or name why not'). Walk residual from the I-064 cold walk. Touches I-061's 'stop at today' ruling: any change to the axis end is checked against it.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-03 on the hygiene draft (ACCEPTED). readCommand stamped: src/lib/siteConfig.ts:15 still reads end: 2050. No walk, wording pin or recorded decision yet; the full day went to I-065.\n\n | 2026-11-03 (full day, P5): hygiene draft ACCEPTED, re-dated 11-03 → 11-06. Read: --run I-068 exit 0, \"src/lib/siteConfig.ts:15:  end: 2050,\"; no walk, wording pin or recorded decision yet. Today's selection went to I-063.\n\n | 2026-11-06 (full day, P5): hygiene draft ACCEPTED, re-dated 11-06 -> 11-10. Read: --run I-068 exit 0, \"src/lib/siteConfig.ts:15:  end: 2050,\" (same sidecar sha as 11-03). No walk, wording pin or recorded decision; today's selection went to I-080.\n\n | 2026-11-10 (P5): hygiene draft ACCEPTED, re-dated 11-10 -> 11-13. Read: --run I-068 exit 0, src/lib/siteConfig.ts:15 end: 2050 (sha 8b15d49306bdd611, same as 11-03 and 11-06). Fifth re-date with nothing moved; the next look should record the keep-2050 decision or change the axis end (closeWhen allows either), not re-date again. Today's selection went to I-076.",
       "created": "2026-10-24",
-      "updated": "2026-11-06",
-      "readCommandLastRun": "2026-11-06T16:17:37.126Z",
+      "updated": "2026-11-10",
+      "readCommandLastRun": "2026-11-10T15:47:03.887Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 2203,
+      "readCommandLastDurationMs": 1599,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "8b15d49306bdd611"
       },
-      "lastEvaluated": "2026-11-06"
+      "lastEvaluated": "2026-11-10"
     },
     {
       "id": "I-069",
@@ -2303,16 +2311,24 @@
       "identified": "2026-11-03",
       "description": "I-063 (2026-11-03, d592db7) made the phone glance caption read 'Peaks chosen · no cycle confirmed'. The first-screen walker read it as intended ('someone picked where each peak goes, so the positions are choices, not measurements') but asked 'Peaks chosen: chosen by whom?' and said 'I could not tell from this screen whether the peaks come from the theorists or from the site.' The answer (I-072: 'some are the theorists' dates, others this site's choices') sits on the second screen, under the strip and in the editor's note. The caption has 0 characters spare at 320 (33 of 33).",
       "closeWhen": "A cold walker who stops at the home first screen (390x664, production) can say who chose the peaks (theorists or this site), or a recorded decision that the second-screen answer is enough, with the reason.",
-      "nextEvaluation": "2026-11-10",
+      "nextEvaluation": "2026-11-13",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — the home first screen's spare (12px on 2026-11-03), the budget any first-screen word spends; this row's proof is a walk, a build or a recorded decision",
-      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.",
+      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.\n\n | 2026-11-10 (P5): hygiene draft AMENDED, re-dated 11-10 -> 11-13. Read: --run I-075 exit 0, / 12px spare at 320x568, 13 of 13 OK. Re-measured after I-076 shipped (live eeab357d): check-entry-folds 320x568 still / 12px spare, so the new verdict line spends none of the caption's budget (it starts at y=584, below that fold). The caption sits at its 33-char ceiling and screen 2 already says the anchors were set by the theorists or by this site (glanceClusterLine); the open question is a wording decision at a fixed width, not a new fact.",
       "created": "2026-11-03",
-      "updated": "2026-11-03"
+      "updated": "2026-11-10",
+      "readCommandLastRun": "2026-11-10T15:24:43.661Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 37825,
+      "readCommandLastOutputRef": {
+        "lines": 15,
+        "sha256": "3ea51d6233dbbc16"
+      },
+      "lastEvaluated": "2026-11-10"
     },
     {
       "id": "I-076",
       "title": "The home verdict line says one cycle 'has no record on this site' without naming it",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2320,10 +2336,19 @@
       "description": "The visible verdict line under the glance figure reads 'None of these ten is confirmed: nine cannot be tested on the record that exists, and one has no record on this site.' The 2026-11-03 walker asked 'one has no record on this site: which one? I guess Turchin (50y), because its row says Not tested, but I am not sure.' The line is counted from holdsUpCard headlines (glanceVerdictLine, src/lib/overviewReading.ts) and names no cycle.",
       "closeWhen": "The verdict line (or the row it points at) lets a cold reader name the cycle with no record, proved by a source-pinned test or one walker; or a recorded decision that the row's own 'Not tested' is enough.",
       "nextEvaluation": "2026-11-10",
-      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 360 --height 560 — the home spare at 360x560 (4px on 2026-11-03), the tightest budget a longer verdict line would spend; this row's proof is a test, a walk or a recorded decision",
-      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.",
+      "readCommand": "npm --prefix C:/dev/skylark/sinusoidal-cycles test -- src/lib/overviewReading.test.ts — re-pointed 2026-11-10: the line names the no-series cycle, and its 118-char cap is the two-line budget at 390x664 (measured on production at live eeab357d: 2 lines, y=620-656). The old 360x560 entry-folds read measured the strip; the line starts at y=584, below that fold",
+      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words. | 2026-11-10 (full day, P5): closed. Shipped 91fa65e + eeab357, CI ci.yml green on eeab357d50, live eeab357d (check-deployed-sha-drift --service sinusoidal-history --wait: in-sync). The home verdict line now reads \"None is confirmed: nine cannot be tested on the record that exists, and Turchin (50y) has no data series on this site.\" Production in-page read at 390x664: 2 lines, y=620-656. check-entry-folds 13/13 at 320x568 (/ 12px) and 360x560 (/ 4px), unchanged; check-holds-up-line 46/46; check-embed-snippets 42/42. \"data series\", not \"record\" (round 0: /methods tests this cycle's 50y period against five other records). Codex r1: 1 MED finding (test did not cover the rendered sentence), CONFIRMED, fixed in eeab357. readCommand re-pointed to the test pin (the 360x560 read measured the strip; the line sits below that fold). Encounter blind (no client analytics, card 1e069bb4); outcome open, with no read to wait on, so closed on the acceptance as I-074 was. Manager review: COMPLETED (afb6cbc4).",
       "created": "2026-11-03",
-      "updated": "2026-11-03"
+      "updated": "2026-11-10",
+      "readCommandLastRun": "2026-11-10T15:23:52.766Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 30348,
+      "readCommandLastOutputRef": {
+        "lines": 15,
+        "sha256": "c2cc01215dbed644"
+      },
+      "closedAt": "2026-11-10",
+      "lastEvaluated": "2026-11-10"
     },
     {
       "id": "I-077",
@@ -2339,7 +2364,14 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — the home first screen's spare (12px on 2026-11-03), the budget any first-screen word spends; this row's proof is a walk, a build or a recorded decision",
       "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.",
       "created": "2026-11-03",
-      "updated": "2026-11-03"
+      "updated": "2026-11-03",
+      "readCommandLastRun": "2026-11-10T15:24:43.661Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 37825,
+      "readCommandLastOutputRef": {
+        "lines": 15,
+        "sha256": "3ea51d6233dbbc16"
+      }
     },
     {
       "id": "I-078",

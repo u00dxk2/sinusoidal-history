@@ -1,0 +1,17 @@
+# read-output sidecar for I-034 — written by check-due-gates-dispositioned --run
+# readCommand: npm --prefix C:/dev/skylark/sinusoidal-cycles test -- src/lib/checkStagedSecrets.test.ts
+# ran: 2026-11-10T15:48:23.395Z · exit: 0
+# lines: 11 · sha256: 8d802bd8d3f09dec (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+> sinusoidal-cycles@0.1.0 test
+> vitest run src/lib/checkStagedSecrets.test.ts
+
+
+ RUN  v4.1.12 C:/dev/skylark/sinusoidal-cycles
+
+
+ Test Files  1 passed (1)
+      Tests  1 passed (1)
+   Start at  08:47:40
+   Duration  41.51s (transform 39ms, setup 0ms, import 69ms, tests 37.85s, environment 0ms)
