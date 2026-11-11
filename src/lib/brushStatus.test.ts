@@ -12,6 +12,9 @@ import {
   resolveBrushEnd,
 } from "./brushStatus";
 import { DEFAULT_YEAR_RANGE, RANGE_PRESET_OPTIONS } from "./siteConfig";
+import { parseCsvSeries } from "./csvSeries";
+import seriesJson from "@/data/series.json";
+import annotationsJson from "@/data/annotations.json";
 
 const FULL = { fullStart: 1600, fullEnd: 2050 };
 const MODERN = { visibleStart: 1900, visibleEnd: 2050 };
@@ -152,6 +155,28 @@ describe("drawnEndNote: a window past the current year says nothing is drawn aft
     const s = brushStatus({ outcome: "chosen", start: 1750, end: 2050 }, 2031);
     expect(s.rest).toMatch(/Nothing is drawn after 2031\.$/);
     expect(drawnEndNote(2050, 2031)).toMatch(/after 2031$/);
+  });
+});
+
+// The note is true of the data only because of what the data files hold: neither the series
+// parser nor the event layer caps at the current year (Codex r1 on 0042ee4). These legs make a
+// row or an event dated after it fail here, before the readout can say something false.
+describe("nothing the chart loads is dated after the current year", () => {
+  const year = new Date().getUTCFullYear();
+
+  it("every series the chart loads ends by the current year", () => {
+    expect(seriesJson.length).toBeGreaterThan(0);
+    for (const s of seriesJson) {
+      const text = readFileSync(join(process.cwd(), "public", s.data_file), "utf8");
+      const points = parseCsvSeries(text, s.year_column, s.value_column);
+      expect(points.length, s.data_file).toBeGreaterThan(0);
+      expect(points[points.length - 1].year, s.data_file).toBeLessThanOrEqual(year);
+    }
+  });
+
+  it("every event marker is dated by the current year", () => {
+    expect(annotationsJson.length).toBeGreaterThan(0);
+    for (const a of annotationsJson) expect(a.year, a.id).toBeLessThanOrEqual(year);
   });
 });
 
