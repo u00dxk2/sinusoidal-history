@@ -11,9 +11,10 @@ const origin = process.argv[2] || "https://sinusoidalhistory.com";
 const [vw, vh] = (process.argv[3] || "390x664").split("x").map(Number);
 // I-068 (2026-11-11): the readout is `[data-range-readout]` and no longer starts "showing". A
 // window past the current year adds "· nothing drawn after <year>", or "· none drawn after <year>"
-// under 340px (one span is display:none at each width, so innerText reads only the shown one).
+// under 345px, the component's max-[345px] (one span is display:none at each width, so innerText
+// reads only the shown one). brushStatus.test.ts pins the two boundaries together.
 const YEAR = new Date().getUTCFullYear();
-const NOTE = `${vw < 340 ? "none" : "nothing"} drawn after ${YEAR}`;
+const NOTE = `${vw < 345 ? "none" : "nothing"} drawn after ${YEAR}`;
 // null when the readout is missing (a build before I-068), so the run reads RED instead of timing out.
 const readoutOf = async (p) => {
   const loc = p.locator("[data-range-readout]");
@@ -135,6 +136,9 @@ const falseMoves = out.filter((r) => r.mode === "still-at-preset" && r.status !=
 const i064 = process.argv[4] === "--preset-return" ? named.length === drags.length && shifted.length === 0 && pans.length === 1 && panOk.length === 1 && falseMoves.length === 0 : true;
 // I-068: on the first load (no tap) the readout says nothing is drawn after the current year.
 const loadedOk = drags.filter((r) => r.loaded === `1600–2050 · ${NOTE}`);
-const ok = loadedOk.length === drags.length && drags.every((r) => r.note && r.visible && r.showing === `1900–2050 · ${NOTE}` && /^Widened to 150 years, the shortest view this chart draws\.$/.test(r.note)) && stale.length === 0 && lost.length === 0 && handleMissed.length === 0 && i064;
-console.log(`RESULT: ${ok ? "PASS" : "RED"} — ${drags.filter((r) => r.note && r.visible).length} of ${drags.length} drags show a visible widening reason; ${stale.length} stale note(s) after a preset return; ${lost.length} note(s) erased by a no-op press; ${handleMissed.length} handle press(es) that missed the handle; I-064: ${named.length} of ${drags.length} name the Modern window, ${shifted.length} moved the strip, ${panOk.length} of ${pans.length} pans say they moved, ${falseMoves.length} still press(es) at a preset that said something; I-068: ${loadedOk.length} of ${drags.length} first loads read "1600–2050 · ${NOTE}" (${origin})`);
+// Codex r2: every recorded Modern-window readout is asserted, not only the drags'.
+const modernReads = out.filter((r) => ["noop-press", "noop-handle", "preset-return"].includes(r.mode));
+const modernBad = modernReads.filter((r) => r.showing !== `1900–2050 · ${NOTE}`);
+const ok = loadedOk.length === drags.length && modernBad.length === 0 &&drags.every((r) => r.note && r.visible && r.showing === `1900–2050 · ${NOTE}` && /^Widened to 150 years, the shortest view this chart draws\.$/.test(r.note)) && stale.length === 0 && lost.length === 0 && handleMissed.length === 0 && i064;
+console.log(`RESULT: ${ok ? "PASS" : "RED"} — ${drags.filter((r) => r.note && r.visible).length} of ${drags.length} drags show a visible widening reason; ${stale.length} stale note(s) after a preset return; ${lost.length} note(s) erased by a no-op press; ${handleMissed.length} handle press(es) that missed the handle; I-064: ${named.length} of ${drags.length} name the Modern window, ${shifted.length} moved the strip, ${panOk.length} of ${pans.length} pans say they moved, ${falseMoves.length} still press(es) at a preset that said something; I-068: ${loadedOk.length} of ${drags.length} first loads read "1600–2050 · ${NOTE}", ${modernBad.length} of ${modernReads.length} Modern readouts wrong (${origin})`);
 process.exit(ok ? 0 : 3);

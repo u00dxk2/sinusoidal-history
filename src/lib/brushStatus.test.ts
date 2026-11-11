@@ -194,8 +194,17 @@ describe("TimeRangeBrush renders the drawn-end note in its readout", () => {
 
   it("puts each form in the readout, one per width", () => {
     const readout = src.slice(src.indexOf("data-range-readout"), src.indexOf("RANGE_PRESET_OPTIONS.map"));
-    expect(readout).toMatch(/data-range-drawn-end\b[^>]*max-\[339px\]:hidden[^>]*>\s*\{endNote\}/);
-    expect(readout).toMatch(/data-range-drawn-end-narrow[^>]*hidden max-\[339px\]:inline[^>]*>\s*\{endNoteNarrow\}/);
+    expect(readout).toMatch(/data-range-drawn-end\b[^>]*max-\[345px\]:hidden[^>]*>\s*\{endNote\}/);
+    expect(readout).toMatch(/data-range-drawn-end-narrow[^>]*hidden max-\[345px\]:inline[^>]*>\s*\{endNoteNarrow\}/);
+  });
+
+  // Codex r2: one boundary for the component and the production checker, or a width between
+  // them reads a false RED.
+  it("the production checker switches forms at the component's width", () => {
+    const checker = readFileSync(join(process.cwd(), "scripts", "check-brush-widened.mjs"), "utf8");
+    const bp = Number(/max-\[(\d+)px\]:hidden/.exec(src)?.[1]);
+    expect(bp).toBe(345);
+    expect(checker).toContain(`vw < ${bp} ? "none" : "nothing"`);
   });
 
   it("is handed Viz's UTC year", () => {

@@ -88,8 +88,9 @@ export function drawnEndNote(end: number, currentYear: number): string | null {
 }
 
 /**
- * The same fact in the readout's narrowest form. At 320px the full note pushes the readout off
- * the "Range" label's line (+24px row height on production, 2026-11-11), and "none" fits.
+ * The same fact in the readout's narrowest form, shown under 345px. The full note pushed the
+ * readout off the "Range" label's line at 338px and below on production (+24px row height,
+ * 2026-11-11); "none" fits at 320px.
  */
 export function drawnEndNoteNarrow(end: number, currentYear: number): string | null {
   return end > currentYear ? `none drawn after ${currentYear}` : null;

@@ -221,7 +221,7 @@ export default function TimeRangeBrush({
             360x560 screen (I-066). From sm up it sits at the row's right end, as before. */}
         {/* I-068 (2026-11-11): "showing" made room for the drawn-end note, which must stay on
             the label's line. Measured on production: "showing 1600–2050 · nothing drawn after
-            2026" left that line at 320-390px; without "showing" it stays at 360px and up, and
+            2026" left that line at 320-390px; without "showing" it stays from 339px up, and
             the "none" form stays at 320px. */}
         <span
           data-range-readout
@@ -231,10 +231,13 @@ export default function TimeRangeBrush({
           {endNote && endNoteNarrow && (
             <>
               {" · "}
-              <span data-range-drawn-end className="max-[339px]:hidden">
+              {/* Tailwind 4 compiles max-[345px] to (width < 345px), Codex r2. The long form
+                  left the label's line at 338px and fit at 339px on production; 345 keeps a few
+                  pixels for font differences. scripts/check-brush-widened.mjs uses the same 345. */}
+              <span data-range-drawn-end className="max-[345px]:hidden">
                 {endNote}
               </span>
-              <span data-range-drawn-end-narrow className="hidden max-[339px]:inline">
+              <span data-range-drawn-end-narrow className="hidden max-[345px]:inline">
                 {endNoteNarrow}
               </span>
             </>
