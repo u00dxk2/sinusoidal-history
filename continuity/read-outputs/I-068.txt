@@ -1,7 +1,17 @@
 # read-output sidecar for I-068 — written by check-due-gates-dispositioned --run
-# readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "end: 2050" -- src/lib/siteConfig.ts
-# ran: 2026-11-10T15:47:03.887Z · exit: 0
-# lines: 1 · sha256: 8b15d49306bdd611 (first 16 hex of the output below)
+# readCommand: npm --prefix C:/dev/skylark/sinusoidal-cycles test -- src/lib/brushStatus.test.ts
+# ran: 2026-11-11T16:38:23.417Z · exit: 0
+# lines: 11 · sha256: 6ba3c587de4e5095 (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
-src/lib/siteConfig.ts:15:  end: 2050,
+> sinusoidal-cycles@0.1.0 test
+> vitest run src/lib/brushStatus.test.ts
+
+
+ RUN  v4.1.12 C:/dev/skylark/sinusoidal-cycles
+
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  09:38:22
+   Duration  935ms (transform 235ms, setup 0ms, import 316ms, tests 35ms, environment 0ms)

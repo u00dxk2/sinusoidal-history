@@ -1,0 +1,1466 @@
+  rate-limited on page 31; waiting 24s
+  rate-limited on page 61; waiting 47s
+  rate-limited on page 91; waiting 47s
+
+sinusoidal-history — crawl read, last 7d
+14967 request log lines, 1437 from known crawlers
+
+Who hit the site:
+  12865  browser-ish
+    679  other bot
+    510  unknown (no UA)
+    347  OAI-SearchBot
+    231  Googlebot
+    155  self / tooling
+     63  Bingbot
+     42  ClaudeBot
+     23  PerplexityBot
+     22  GPTBot
+     16  Meta/Facebook
+     14  Amazonbot
+
+Crawler hits by path:
+  2026-11-04T15:30:41.050556236Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-04T15:31:19.643219763Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-04T15:57:07.343184231Z  200  /cycles/turchin              Amazonbot
+  2026-11-04T16:13:44.06813533Z  200  /                            other bot
+  2026-11-04T16:19:30.929070226Z  200  /data/spectral/schlesinger_jr.svg Bingbot
+  2026-11-04T16:26:33.144718225Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-04T16:28:56.211841357Z  200  /robots.txt                  PerplexityBot
+  2026-11-04T16:28:56.513201642Z  200  /cycles/khaldun              PerplexityBot
+  2026-11-04T16:55:07.987264234Z  200  /data/spectral/verdicts.json other bot
+  2026-11-04T16:58:18.593699811Z  200  /                            other bot
+  2026-11-04T17:22:31.304591248Z  200  /data/vdem_libdem.source.md  other bot
+  2026-11-04T17:57:02.629886695Z  200  /cycles/strauss-howe         other bot
+  2026-11-04T17:58:29.04459291Z  200  /cycles                      OAI-SearchBot
+  2026-11-04T18:00:23.604473471Z  200  /data/spectral/dalio.svg     Bingbot
+  2026-11-04T18:00:56.141566043Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-04T18:00:56.778688547Z  200  /?_rsc=dQHSU0lG7G5d5BTC      OAI-SearchBot
+  2026-11-04T18:00:57.430267354Z  200  /?_rsc=0AHALR-v7OTgkbrM      OAI-SearchBot
+  2026-11-04T18:00:58.410845273Z  200  /_next/static/chunks/32bpu1qcqtpjv.js OAI-SearchBot
+  2026-11-04T18:00:58.519099585Z  200  /_next/static/chunks/3kh05xu6qvzou.js OAI-SearchBot
+  2026-11-04T18:06:07.69612719Z  200  /cycles/huntington           other bot
+  2026-11-04T18:07:46.854092784Z  200  /                            other bot
+  2026-11-04T18:07:47.104452495Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico other bot
+  2026-11-04T18:15:25.418236861Z  200  /data/spectral/strauss_howe.svg other bot
+  2026-11-04T18:26:34.057239846Z  200  /methods                     Amazonbot
+  2026-11-04T18:30:21.538632676Z  200  /?tab=calibrate&focus=turchin&arrive=1 other bot
+  2026-11-04T18:31:28.885007823Z  200  /robots.txt                  other bot
+  2026-11-04T18:31:44.119661928Z  200  /data/spectral/huntington.svg other bot
+  2026-11-04T18:31:45.001843733Z  200  /?focus=perez                other bot
+  2026-11-04T18:31:59.316696068Z  200  /data/spectral/khaldun.svg   other bot
+  2026-11-04T18:32:14.554512031Z  200  /data/spectral/turchin.svg   other bot
+  2026-11-04T18:32:29.770071118Z  200  /data/spectral/perez.svg     other bot
+  2026-11-04T18:32:45.010625884Z  200  /data/conflict_deaths.csv    other bot
+  2026-11-04T18:33:00.216502041Z  200  /data/spectral/dalio.svg     other bot
+  2026-11-04T18:33:07.802422373Z  200  /robots.txt                  Googlebot
+  2026-11-04T18:33:15.43465171Z  200  /data/us_tfp_growth.csv      other bot
+  2026-11-04T18:34:29.490186723Z  200  /robots.txt                  other bot
+  2026-11-04T18:34:29.608510814Z  200  /cycles/perez                other bot
+  2026-11-04T18:48:49.356276755Z  200  /?focus=schlesinger_jr       other bot
+  2026-11-04T18:55:47.050765668Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-04T19:02:57.182062334Z  200  /                            other bot
+  2026-11-04T19:17:25.313155894Z  200  /robots.txt                  other bot
+  2026-11-04T19:17:25.689616071Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-04T19:18:15.935556276Z  200  /og?cycle=schlesinger_jr     Bingbot
+  2026-11-04T19:31:29.339525501Z  200  /about                       other bot
+  2026-11-04T19:35:47.039200996Z  200  /                            OAI-SearchBot
+  2026-11-04T19:42:36.854993282Z  200  /?focus=modelski             other bot
+  2026-11-04T19:45:28.016327097Z  308  /sitemap.xml                 GPTBot
+  2026-11-04T19:45:28.146970118Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-04T19:45:28.449699341Z  200  /sitemap.xml                 GPTBot
+  2026-11-04T19:45:28.585161228Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-04T19:46:19.23865245Z  200  /robots.txt                  other bot
+  2026-11-04T19:46:19.417648868Z  200  /                            other bot
+  2026-11-04T19:47:04.592004035Z  200  /_next/static/chunks/3kh05xu6qvzou.js OAI-SearchBot
+  2026-11-04T19:47:05.291692424Z  200  /?_rsc=5CB68i4pnAekjehf      OAI-SearchBot
+  2026-11-04T19:47:05.636479924Z  200  /_next/static/chunks/32bpu1qcqtpjv.js OAI-SearchBot
+  2026-11-04T19:47:06.013316662Z  200  /about?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-04T19:47:06.339651764Z  200  /?_rsc=lxbBaZJUjdur4gLV      OAI-SearchBot
+  2026-11-04T19:47:06.803153732Z  200  /about?_rsc=2-6pyX8CQH9RhIPK OAI-SearchBot
+  2026-11-04T19:47:07.111090677Z  200  /data/us_world_gdp_share.csv OAI-SearchBot
+  2026-11-04T19:47:07.174053975Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-04T19:47:07.241585162Z  200  /data/us_tfp_growth.csv      OAI-SearchBot
+  2026-11-04T19:47:07.410031415Z  200  /data/stimson_policy_mood.csv OAI-SearchBot
+  2026-11-04T19:47:07.459093377Z  200  /data/conflict_deaths.csv    OAI-SearchBot
+  2026-11-04T19:47:07.848888418Z  200  /data/wid_top1_wealth.csv    OAI-SearchBot
+  2026-11-04T19:47:07.879867723Z  200  /data/vdem_libdem.csv        OAI-SearchBot
+  2026-11-04T19:47:07.93015147Z  200  /data/dw_nominate.csv        OAI-SearchBot
+  2026-11-04T19:47:09.199711661Z  200  /data/perez_tech_diffusion.csv OAI-SearchBot
+  2026-11-04T19:47:12.832612199Z  200  /data/leading_power_gdp_share.csv OAI-SearchBot
+  2026-11-04T19:47:17.221204643Z  200  /embed/docs?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-04T19:47:18.143943361Z  200  /embed/docs?_rsc=-c0oercenhC82gEq OAI-SearchBot
+  2026-11-04T20:34:25.358304007Z  301  /                            other bot
+  2026-11-04T20:34:25.906269832Z  200  /                            other bot
+  2026-11-04T20:35:49.171856617Z  200  /methods                     other bot
+  2026-11-04T20:37:12.123567555Z  200  /cycles/modelski             other bot
+  2026-11-04T20:38:35.603342971Z  200  /about                       other bot
+  2026-11-04T20:39:58.808267554Z  200  /embed?view=facets&range=modern other bot
+  2026-11-04T20:46:12.097532088Z  200  /methods                     OAI-SearchBot
+  2026-11-04T20:48:30.131295476Z  200  /poster?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:30.143849025Z  200  /methods?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:30.27712684Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-04T20:48:30.43704708Z  200  /cycles?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:30.456828564Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-04T20:48:31.248153147Z  200  /about?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:31.271161664Z  200  /poster?_rsc=yy-SqRqaVp_mQISh OAI-SearchBot
+  2026-11-04T20:48:32.153487814Z  200  /methods?_rsc=je_vF3c1O8wnxCLI OAI-SearchBot
+  2026-11-04T20:48:32.197767061Z  200  /_next/static/chunks/07wmq22av05p5.js OAI-SearchBot
+  2026-11-04T20:48:32.303828Z  200  /_next/static/chunks/32bpu1qcqtpjv.js OAI-SearchBot
+  2026-11-04T20:48:32.939239116Z  200  /about?_rsc=jRcgGg3t-PRFSBaC OAI-SearchBot
+  2026-11-04T20:48:33.524634162Z  200  /?_rsc=epBHvCzed33p_ZDo      OAI-SearchBot
+  2026-11-04T20:48:34.394298659Z  200  /_next/static/chunks/3kh05xu6qvzou.js OAI-SearchBot
+  2026-11-04T20:48:37.08884969Z  200  /cycles/schlesinger-jr?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:37.346379662Z  200  /cycles/kondratiev?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:37.512577877Z  200  /cycles/huntington?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:37.593442408Z  200  /cycles/perez?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:38.634483473Z  200  /cycles/modelski?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:38.711944504Z  200  /cycles/dalio?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:39.212236146Z  200  /cycles/strauss-howe?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:39.212645639Z  200  /cycles/khaldun?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:39.498599428Z  200  /cycles/turchin?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:39.91536801Z  200  /cycles/turchin-fathers-sons?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:40.082054394Z  200  /embed/docs?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:40.707807837Z  200  /colophon?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-04T20:48:40.759905391Z  200  /cycles/kondratiev?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:40.768953387Z  200  /cycles/perez?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:41.055826136Z  200  /cycles/schlesinger-jr?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:41.467492397Z  200  /cycles/huntington?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:41.646511105Z  200  /cycles/dalio?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:41.884914075Z  200  /cycles/strauss-howe?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:42.462646752Z  200  /cycles/khaldun?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:42.530081636Z  200  /cycles/modelski?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:42.778247347Z  200  /cycles/turchin?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:43.730830455Z  200  /cycles/turchin-fathers-sons?_rsc=L-KEsbKtXkKzNblc OAI-SearchBot
+  2026-11-04T20:48:43.852601305Z  200  /colophon?_rsc=9hTVSsci5gYrFWb0 OAI-SearchBot
+  2026-11-04T20:48:44.773634789Z  200  /embed/docs?_rsc=Ycsvvtx_550yo1q7 OAI-SearchBot
+  2026-11-04T21:03:52.398897697Z  200  /data/dw_nominate.csv        other bot
+  2026-11-04T21:05:06.04377454Z  200  /about                       other bot
+  2026-11-04T21:06:03.767292076Z  200  /cycles/modelski             other bot
+  2026-11-04T21:08:02.006916299Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-04T21:11:26.881654458Z  301  /robots.txt                  Meta/Facebook
+  2026-11-04T21:11:27.331099028Z  200  /robots.txt                  Meta/Facebook
+  2026-11-04T21:27:15.398254246Z  200  /?focus=turchin              Bingbot
+  2026-11-04T21:47:54.884959797Z  200  /robots.txt                  other bot
+  2026-11-04T21:47:55.004002584Z  200  /about                       other bot
+  2026-11-04T21:56:45.103068056Z  200  /poster                      other bot
+  2026-11-04T22:00:42.085203955Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-04T22:01:51.308417229Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-04T22:01:53.308706755Z  200  /?_rsc=Ue6KMIhxh5zKRTq8      OAI-SearchBot
+  2026-11-04T22:01:54.870102309Z  200  /?_rsc=YzmS7Kdk7n7GmyGR      OAI-SearchBot
+  2026-11-04T22:01:55.799682233Z  200  /_next/static/chunks/32bpu1qcqtpjv.js OAI-SearchBot
+  2026-11-04T22:01:56.699462826Z  200  /_next/static/chunks/3kh05xu6qvzou.js OAI-SearchBot
+  2026-11-04T22:03:01.325090731Z  200  /cycles                      other bot
+  2026-11-04T22:10:43.62800302Z  200  /colophon                    other bot
+  2026-11-04T22:22:55.550562902Z  200  /embed/docs                  other bot
+  2026-11-04T22:56:37.996907078Z  200  /robots.txt                  Meta/Facebook
+  2026-11-04T23:16:10.816199709Z  301  /data/spectral/schlesinger_jr.svg Bingbot
+  2026-11-04T23:22:10.320355596Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-04T23:22:10.481810756Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-04T23:24:37.877081947Z  200  /?focus=dalio                other bot
+  2026-11-04T23:31:17.322945388Z  200  /llms.txt                    other bot
+  2026-11-05T00:01:38.124145915Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-05T00:02:35.688625526Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-05T01:16:28.390643819Z  200  /cycles/dalio                other bot
+  2026-11-05T01:31:46.933828596Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T01:31:47.040965944Z  200  /?focus=perez                OAI-SearchBot
+  2026-11-05T01:33:01.831730493Z  301  /robots.txt                  Googlebot
+  2026-11-05T01:33:02.111033757Z  308  /robots.txt                  Googlebot
+  2026-11-05T02:19:43.083818276Z  200  /robots.txt                  other bot
+  2026-11-05T02:19:43.399735738Z  200  /                            other bot
+  2026-11-05T02:20:01.695769438Z  200  /robots.txt                  other bot
+  2026-11-05T02:20:02.065233289Z  200  /data/perez_tech_diffusion.csv other bot
+  2026-11-05T02:55:23.801951563Z  200  /robots.txt                  ClaudeBot
+  2026-11-05T02:55:23.933116902Z  200  /embed?range=modern&view=facets ClaudeBot
+  2026-11-05T02:59:40.321718487Z  200  /_next/static/chunks/3ca93cfuyyw1k.css ClaudeBot
+  2026-11-05T02:59:40.364760066Z  200  /_next/static/chunks/32bpu1qcqtpjv.js ClaudeBot
+  2026-11-05T02:59:47.961912573Z  200  /_next/static/chunks/20g-9kmvd2qwc.js ClaudeBot
+  2026-11-05T03:00:06.228613524Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-05T03:00:17.931576624Z  200  /embed/docs                  Bingbot
+  2026-11-05T03:00:19.592634545Z  200  /_next/static/chunks/3ahm7lz2tg5uq.js ClaudeBot
+  2026-11-05T03:09:58.423363953Z  200  /                            other bot
+  2026-11-05T03:13:31.594489264Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-05T03:14:29.083821052Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-05T03:20:44.271371073Z  200  /robots.txt                  other bot
+  2026-11-05T03:21:11.014102135Z  200  /cycles                      other bot
+  2026-11-05T03:23:54.048445712Z  200  /                            other bot
+  2026-11-05T03:24:16.023128228Z  200  /robots.txt                  other bot
+  2026-11-05T03:43:53.999852904Z  200  /sitemap.xml                 ClaudeBot
+  2026-11-05T03:47:40.440119698Z  200  /methods                     ClaudeBot
+  2026-11-05T03:47:40.92117902Z  200  /embed/docs                  ClaudeBot
+  2026-11-05T03:47:41.325268258Z  200  /poster                      ClaudeBot
+  2026-11-05T03:47:41.828300642Z  200  /cycles                      ClaudeBot
+  2026-11-05T03:47:42.341412461Z  200  /about                       ClaudeBot
+  2026-11-05T03:47:42.845819698Z  200  /colophon                    ClaudeBot
+  2026-11-05T03:47:50.166863012Z  200  /cycles/modelski             ClaudeBot
+  2026-11-05T03:47:50.346561337Z  200  /cycles/dalio                ClaudeBot
+  2026-11-05T03:47:50.652934781Z  200  /cycles/perez                ClaudeBot
+  2026-11-05T03:47:51.125103186Z  200  /cycles/turchin              ClaudeBot
+  2026-11-05T03:47:51.643822856Z  200  /cycles/khaldun              ClaudeBot
+  2026-11-05T03:47:54.347592023Z  200  /cycles/strauss-howe         ClaudeBot
+  2026-11-05T03:47:54.363005373Z  200  /cycles/kondratiev           ClaudeBot
+  2026-11-05T03:47:54.653178009Z  200  /cycles/schlesinger-jr       ClaudeBot
+  2026-11-05T03:47:55.213522584Z  200  /cycles/huntington           ClaudeBot
+  2026-11-05T03:47:55.724035731Z  200  /cycles/turchin-fathers-sons ClaudeBot
+  2026-11-05T03:50:19.72097209Z  200  /?focus=modelski             ClaudeBot
+  2026-11-05T03:50:20.040850025Z  200  /_next/static/chunks/1xfdon1mwwlgi.js ClaudeBot
+  2026-11-05T03:50:27.497646092Z  200  /?focus=dalio                ClaudeBot
+  2026-11-05T03:50:27.5085745Z  200  /?focus=perez                ClaudeBot
+  2026-11-05T03:50:31.862833773Z  200  /?focus=turchin              ClaudeBot
+  2026-11-05T03:50:32.301161516Z  200  /?focus=khaldun              ClaudeBot
+  2026-11-05T03:51:22.208950758Z  200  /_next/static/chunks/0631ac0kaqv2c.js ClaudeBot
+  2026-11-05T03:51:22.50119438Z  200  /_next/static/chunks/0j_yb9_ro7pgi.js ClaudeBot
+  2026-11-05T03:51:27.332707075Z  200  /embed?cycles=huntington&peak.huntington=1972&view=facets ClaudeBot
+  2026-11-05T03:51:27.345855683Z  200  /_next/static/chunks/07wmq22av05p5.js ClaudeBot
+  2026-11-05T03:51:33.511405809Z  200  /embed?view=state-only       ClaudeBot
+  2026-11-05T03:51:34.342568104Z  200  /embed?range=modern&view=overlay ClaudeBot
+  2026-11-05T03:52:54.875396299Z  200  /?focus=strauss_howe         ClaudeBot
+  2026-11-05T03:52:55.272511604Z  200  /_next/static/chunks/2xt1bdh-60q29.js ClaudeBot
+  2026-11-05T03:52:55.77397398Z  200  /_next/static/chunks/3kh05xu6qvzou.js ClaudeBot
+  2026-11-05T03:52:59.394663523Z  200  /?focus=schlesinger_jr       ClaudeBot
+  2026-11-05T03:52:59.815523284Z  200  /?focus=kondratiev           ClaudeBot
+  2026-11-05T03:53:03.493416706Z  200  /?focus=huntington           ClaudeBot
+  2026-11-05T03:53:03.900589363Z  200  /?focus=turchin_fathers_sons ClaudeBot
+  2026-11-05T04:29:48.757077668Z  200  /sitemap.xml                 GPTBot
+  2026-11-05T04:39:11.592826617Z  200  /cycles?utm_source=openai    other bot
+  2026-11-05T04:48:02.444709986Z  200  /_next/static/chunks/32bpu1qcqtpjv.js OAI-SearchBot
+  2026-11-05T04:48:05.332429316Z  200  /_next/static/chunks/3kh05xu6qvzou.js OAI-SearchBot
+  2026-11-05T04:48:27.069413681Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-05T05:10:34.663348139Z  200  /cycles/perez                other bot
+  2026-11-05T05:11:05.854531771Z  200  /?focus=turchin_fathers_sons other bot
+  2026-11-05T05:49:22.782623886Z  200  /?focus=modelski             other bot
+  2026-11-05T06:02:28.196241597Z  200  /sitemap.xml                 other bot
+  2026-11-05T06:06:06.277454688Z  200  /robots.txt                  PerplexityBot
+  2026-11-05T06:06:06.282530809Z  200  /about                       PerplexityBot
+  2026-11-05T06:06:06.411100679Z  200  /cycles/schlesinger-jr       PerplexityBot
+  2026-11-05T06:06:08.763043843Z  200  /cycles                      PerplexityBot
+  2026-11-05T06:06:08.920469302Z  200  /                            PerplexityBot
+  2026-11-05T06:06:08.921646885Z  200  /methods                     PerplexityBot
+  2026-11-05T06:06:09.962914327Z  200  /colophon                    PerplexityBot
+  2026-11-05T06:08:08.619445696Z  200  /cycles/strauss-howe         other bot
+  2026-11-05T06:08:21.695338167Z  301  /og?cycle=dalio              Bingbot
+  2026-11-05T06:09:30.076832297Z  200  /robots.txt                  other bot
+  2026-11-05T06:09:30.609568435Z  200  /?focus=turchin              other bot
+  2026-11-05T06:10:21.467701438Z  308  /robots.txt                  other bot
+  2026-11-05T06:10:22.198061799Z  200  /robots.txt                  other bot
+  2026-11-05T06:11:38.758016377Z  308  /                            other bot
+  2026-11-05T06:11:38.895899613Z  200  /                            other bot
+  2026-11-05T06:12:19.111638745Z  308  /robots.txt                  other bot
+  2026-11-05T06:12:19.247838391Z  200  /robots.txt                  other bot
+  2026-11-05T06:37:40.953131816Z  200  /robots.txt                  other bot
+  2026-11-05T06:37:41.070280041Z  200  /embed?view=state-only       other bot
+  2026-11-05T06:39:50.190697234Z  200  /robots.txt                  other bot
+  2026-11-05T06:39:50.950748582Z  200  /sitemap.xml                 other bot
+  2026-11-05T06:48:54.393249231Z  200  /embed?view=overlay&range=modern other bot
+  2026-11-05T07:07:49.308180994Z  200  /embed?view=facets&range=modern other bot
+  2026-11-05T07:08:22.592486352Z  200  /cycles/strauss-howe         other bot
+  2026-11-05T07:09:20.578412097Z  200  /cycles/strauss-howe         other bot
+  2026-11-05T07:31:03.150221531Z  200  /robots.txt                  Googlebot
+  2026-11-05T07:31:24.77645694Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T07:46:08.04191031Z  200  /embed?view=facets&cycles=huntington&peak.huntington=1972 other bot
+  2026-11-05T07:51:30.684757262Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T07:51:30.755847202Z  200  /?_rsc=rrdNdFxd4oovPsmS      OAI-SearchBot
+  2026-11-05T07:51:33.770170436Z  200  /?_rsc=rrdNdFxd4oovPsmS&focus=dalio OAI-SearchBot
+  2026-11-05T07:51:36.132379763Z  200  /?_rsc=rrdNdFxd4oovPsmS&arrive=1&focus=dalio&tab=calibrate OAI-SearchBot
+  2026-11-05T07:57:55.631417918Z  200  /data/leading_power_gdp_share.csv other bot
+  2026-11-05T08:21:51.921435978Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-05T08:55:06.383479632Z  200  /                            other bot
+  2026-11-05T09:08:19.729815775Z  200  /robots.txt                  other bot
+  2026-11-05T09:08:20.094416073Z  200  /data/us_tfp_growth.csv      other bot
+  2026-11-05T09:16:16.785623939Z  200  /robots.txt                  other bot
+  2026-11-05T09:18:06.513462337Z  200  /about                       other bot
+  2026-11-05T09:19:04.036076696Z  200  /cycles/modelski             other bot
+  2026-11-05T09:42:41.865108212Z  200  /?focus=khaldun              OAI-SearchBot
+  2026-11-05T09:57:02.640338357Z  301  /robots.txt                  Meta/Facebook
+  2026-11-05T09:57:03.099851644Z  308  /robots.txt                  Meta/Facebook
+  2026-11-05T09:57:03.508285377Z  200  /robots.txt                  Meta/Facebook
+  2026-11-05T10:01:04.677702095Z  301  /                            other bot
+  2026-11-05T10:01:04.993920838Z  308  /robots.txt                  Meta/Facebook
+  2026-11-05T10:01:05.400336836Z  200  /robots.txt                  Meta/Facebook
+  2026-11-05T10:01:05.833873359Z  308  /                            other bot
+  2026-11-05T10:01:06.45463374Z  200  /                            other bot
+  2026-11-05T10:01:06.807142899Z  200  /_next/static/chunks/2n5qeheznvl4u.js other bot
+  2026-11-05T10:01:06.832048655Z  200  /_next/static/chunks/2xt1bdh-60q29.js other bot
+  2026-11-05T10:01:06.860227913Z  200  /_next/static/chunks/1x6obpmlu1_c2.js other bot
+  2026-11-05T10:01:06.869208941Z  200  /_next/static/chunks/3kh05xu6qvzou.js other bot
+  2026-11-05T10:01:06.874262633Z  200  /_next/static/chunks/01k-tg_y0oa-h.js other bot
+  2026-11-05T10:01:06.875960471Z  200  /_next/static/chunks/2axic2cm0ljv4.js other bot
+  2026-11-05T10:01:06.88082575Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js other bot
+  2026-11-05T10:01:06.927924544Z  200  /_next/static/chunks/01s_f_3qlcqtb.js other bot
+  2026-11-05T10:01:06.944637119Z  200  /_next/static/media/caa3a2e1cccd8315-s.p.0wgildi0cnwt9.woff2 other bot
+  2026-11-05T10:01:06.945662382Z  200  /_next/static/media/54fc36028e2bb174-s.p.20jfceqj9zyw9.woff2 other bot
+  2026-11-05T10:01:06.961153546Z  200  /_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2 other bot
+  2026-11-05T10:01:07.024113384Z  200  /_next/static/chunks/273cfbt3o4ftg.js other bot
+  2026-11-05T10:01:07.060136488Z  200  /_next/static/chunks/3ca93cfuyyw1k.css other bot
+  2026-11-05T10:01:07.174076098Z  200  /_next/static/chunks/3_-t55fctjofo.js other bot
+  2026-11-05T10:01:07.488885974Z  200  /data/leading_power_gdp_share.csv other bot
+  2026-11-05T10:01:07.512189433Z  200  /data/dw_nominate.csv        other bot
+  2026-11-05T10:01:07.517137762Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico other bot
+  2026-11-05T10:01:07.548078156Z  200  /data/stimson_policy_mood.csv other bot
+  2026-11-05T10:01:07.569515027Z  200  /cycles?_rsc=5CB68i4pnAekjehf other bot
+  2026-11-05T10:01:07.580993621Z  200  /about?_rsc=5CB68i4pnAekjehf other bot
+  2026-11-05T10:01:07.605470253Z  200  /data/wid_top1_wealth.csv    other bot
+  2026-11-05T10:01:07.610919731Z  200  /data/us_tfp_growth.csv      other bot
+  2026-11-05T10:01:07.625807892Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-05T10:01:07.658368278Z  200  /poster?_rsc=5CB68i4pnAekjehf other bot
+  2026-11-05T10:01:07.659167816Z  200  /data/conflict_deaths.csv    other bot
+  2026-11-05T10:01:07.703970186Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-05T10:01:07.801004898Z  200  /data/perez_tech_diffusion.csv other bot
+  2026-11-05T10:01:07.96781746Z  200  /about?_rsc=2-6pyX8CQH9RhIPK other bot
+  2026-11-05T10:01:08.01592921Z  200  /_next/static/chunks/07wmq22av05p5.js other bot
+  2026-11-05T10:01:08.057138225Z  200  /_next/static/chunks/0j_yb9_ro7pgi.js other bot
+  2026-11-05T10:01:08.06046416Z  404  /_next/static/chunks/11v2e47v7rmtc.css other bot
+  2026-11-05T10:01:50.676389512Z  200  /                            other bot
+  2026-11-05T10:04:00.09104621Z  200  /?focus=huntington           other bot
+  2026-11-05T11:02:19.610626967Z  200  /robots.txt                  Googlebot
+  2026-11-05T12:06:57.972705233Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-05T12:07:55.387608218Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-05T12:19:55.063918913Z  200  /                            other bot
+  2026-11-05T12:46:42.147503077Z  200  /_next/static/chunks/273cfbt3o4ftg.js OAI-SearchBot
+  2026-11-05T13:18:36.416876392Z  200  /cycles/khaldun?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-05T13:18:39.376298545Z  200  /?_rsc=5CB68i4pnAekjehf      OAI-SearchBot
+  2026-11-05T13:27:34.332921972Z  200  /cycles/kondratiev           other bot
+  2026-11-05T13:27:52.477051664Z  200  /cycles/turchin              other bot
+  2026-11-05T13:28:11.633378197Z  200  /cycles/khaldun              other bot
+  2026-11-05T13:28:31.005931694Z  200  /cycles/huntington           other bot
+  2026-11-05T13:28:50.030623244Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-05T13:29:09.156054894Z  200  /cycles/dalio                other bot
+  2026-11-05T13:31:29.732861045Z  200  /robots.txt                  Googlebot
+  2026-11-05T13:31:29.946510376Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-05T13:31:29.965128671Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-05T13:31:29.97450808Z  200  /_next/static/chunks/01s_f_3qlcqtb.js Googlebot
+  2026-11-05T14:45:37.505949182Z  200  /methods                     other bot
+  2026-11-05T15:13:06.118728913Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-05T15:25:00.720545973Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-05T15:25:01.072146106Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T15:26:31.959834575Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-05T15:27:29.297220112Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-05T15:31:13.872560745Z  200  /robots.txt                  Bingbot
+  2026-11-05T15:31:21.204340395Z  200  /og?cycle=turchin            Bingbot
+  2026-11-05T15:38:24.302967624Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-05T15:38:24.618810827Z  200  /robots.txt                  other bot
+  2026-11-05T15:55:19.524423584Z  200  /embed/docs                  other bot
+  2026-11-05T16:09:45.190454913Z  200  /robots.txt                  other bot
+  2026-11-05T16:09:46.820466014Z  200  /?utm_source=growyoursitetraffic.shop other bot
+  2026-11-05T16:52:40.190286296Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T17:04:56.314358617Z  200  /robots.txt                  other bot
+  2026-11-05T17:04:56.667143104Z  200  /data/conflict_deaths.csv    other bot
+  2026-11-05T17:18:47.511952809Z  301  /                            other bot
+  2026-11-05T17:18:48.944045864Z  200  /                            other bot
+  2026-11-05T17:28:23.525304444Z  200  /cycles                      OAI-SearchBot
+  2026-11-05T17:29:11.770311357Z  200  /cycles/modelski             other bot
+  2026-11-05T17:49:12.3124102Z  301  /robots.txt                  Googlebot
+  2026-11-05T17:49:12.511483661Z  308  /robots.txt                  Googlebot
+  2026-11-05T17:52:41.601109418Z  301  /og?cycle=turchin            Bingbot
+  2026-11-05T17:58:22.921825466Z  301  /robots.txt                  other bot
+  2026-11-05T17:58:23.566067091Z  200  /robots.txt                  other bot
+  2026-11-05T18:55:47.005929029Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-05T19:11:25.184858211Z  200  /?_rsc=qzxQjRSgBBqL4DIG      OAI-SearchBot
+  2026-11-05T19:30:27.986181615Z  200  /robots.txt                  other bot
+  2026-11-05T19:30:28.111536514Z  200  /sitemap.xml                 other bot
+  2026-11-05T19:41:34.332320683Z  200  /robots.txt                  other bot
+  2026-11-05T19:42:05.453971613Z  200  /cycles/huntington           other bot
+  2026-11-05T19:47:23.932944834Z  308  /sitemap.xml                 GPTBot
+  2026-11-05T19:47:23.975514115Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-05T19:47:24.223236067Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T19:47:24.282090515Z  200  /sitemap.xml                 GPTBot
+  2026-11-05T20:04:38.177886659Z  200  /robots.txt                  Googlebot
+  2026-11-05T20:34:13.039836394Z  200  /_next/static/chunks/0j_yb9_ro7pgi.js OAI-SearchBot
+  2026-11-05T20:38:10.792041772Z  200  /robots.txt                  Meta/Facebook
+  2026-11-05T20:46:11.943436909Z  200  /methods                     OAI-SearchBot
+  2026-11-05T20:50:32.251253402Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-05T20:50:32.576253092Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-05T20:50:32.621063269Z  200  /poster?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-05T20:50:32.865101724Z  200  /cycles?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-05T20:50:34.278861371Z  200  /?_rsc=epBHvCzed33p_ZDo      OAI-SearchBot
+  2026-11-05T20:50:34.936549155Z  200  /methods?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-05T20:50:35.307050716Z  200  /about?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-05T20:50:36.413004602Z  200  /poster?_rsc=yy-SqRqaVp_mQISh OAI-SearchBot
+  2026-11-05T20:50:36.415365574Z  200  /methods?_rsc=je_vF3c1O8wnxCLI OAI-SearchBot
+  2026-11-05T20:50:36.515662945Z  200  /_next/static/chunks/1ok76d6cxht1x.js OAI-SearchBot
+  2026-11-05T20:50:37.710844151Z  200  /_next/static/chunks/07wmq22av05p5.js OAI-SearchBot
+  2026-11-05T20:50:37.750823372Z  200  /about?_rsc=jRcgGg3t-PRFSBaC OAI-SearchBot
+  2026-11-05T20:50:42.199656999Z  200  /cycles?_rsc=PueYW8RRZwC14raz OAI-SearchBot
+  2026-11-05T21:05:35.697653885Z  200  /?_rsc=dQHSU0lG7G5d5BTC      OAI-SearchBot
+  2026-11-05T21:08:02.123910911Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-05T21:16:45.68293561Z  200  /?_rsc=L9MQamjdp8dmHegf&focus=kondratiev OAI-SearchBot
+  2026-11-05T21:16:46.93182908Z  200  /?_rsc=L9MQamjdp8dmHegf&arrive=1&focus=kondratiev&tab=calibrate OAI-SearchBot
+  2026-11-05T21:16:48.077185812Z  200  /?_rsc=L9MQamjdp8dmHegf      OAI-SearchBot
+  2026-11-05T21:25:21.681364368Z  200  /about                       other bot
+  2026-11-05T21:26:19.062568303Z  200  /cycles/modelski             other bot
+  2026-11-05T21:34:37.861423588Z  301  /robots.txt                  Googlebot
+  2026-11-05T21:34:38.062046316Z  308  /robots.txt                  Googlebot
+  2026-11-05T21:39:38.496402963Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-05T22:00:41.970643737Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-05T23:02:18.255769091Z  200  /llms.txt                    other bot
+  2026-11-05T23:10:15.598009942Z  200  /methods.md                  other bot
+  2026-11-05T23:16:34.229842263Z  301  /robots.txt                  Googlebot
+  2026-11-05T23:16:34.429233209Z  308  /robots.txt                  Googlebot
+  2026-11-05T23:32:52.283737433Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-05T23:41:58.168947137Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T00:02:33.44656657Z  200  /robots.txt                  Googlebot
+  2026-11-06T00:02:33.849055552Z  200  /cycles/dalio                Googlebot
+  2026-11-06T00:02:34.397554739Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-06T00:02:34.434933959Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-06T00:02:34.465342965Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-06T00:02:34.530787029Z  200  /_next/static/chunks/01s_f_3qlcqtb.js Googlebot
+  2026-11-06T00:02:34.893632754Z  200  /data/spectral/dalio.svg     Googlebot
+  2026-11-06T00:02:38.925994768Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-06T00:02:38.954517797Z  200  /_next/static/chunks/1xfdon1mwwlgi.js Googlebot
+  2026-11-06T00:02:38.965217781Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-06T00:02:38.982283658Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-06T00:02:39.087902644Z  200  /_next/static/chunks/01s_f_3qlcqtb.js Googlebot
+  2026-11-06T00:02:39.955348937Z  200  /data/spectral/dalio.svg     Googlebot
+  2026-11-06T00:43:00.323336213Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-06T00:43:57.553706234Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-06T00:46:22.236543536Z  200  /cycles/khaldun              Bingbot
+  2026-11-06T01:04:39.841561549Z  200  /?_rsc=Ue6KMIhxh5zKRTq8      OAI-SearchBot
+  2026-11-06T01:36:43.759113603Z  200  /cycles/dalio                other bot
+  2026-11-06T01:40:08.268233746Z  200  /cycles/turchin              other bot
+  2026-11-06T02:26:00.165859701Z  200  /                            other bot
+  2026-11-06T02:37:01.574634313Z  301  /robots.txt                  Googlebot
+  2026-11-06T02:37:01.964216706Z  308  /robots.txt                  Googlebot
+  2026-11-06T02:50:14.516592202Z  200  /data/wid_top1_wealth.csv    other bot
+  2026-11-06T03:29:51.888456109Z  200  /cycles/huntington           Amazonbot
+  2026-11-06T03:33:48.391441244Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-06T03:37:36.760253991Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-06T03:41:20.343801222Z  308  /robots.txt                  other bot
+  2026-11-06T03:41:20.674852353Z  200  /robots.txt                  other bot
+  2026-11-06T03:41:21.026818946Z  308  /robots.txt                  other bot
+  2026-11-06T03:41:21.205201597Z  200  /robots.txt                  other bot
+  2026-11-06T03:41:21.392631789Z  308  /                            other bot
+  2026-11-06T03:41:21.571979263Z  200  /                            other bot
+  2026-11-06T03:41:27.149806428Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-06T03:42:51.069856124Z  200  /colophon.md                 other bot
+  2026-11-06T03:44:14.215579825Z  200  /robots.txt                  other bot
+  2026-11-06T04:08:54.611681492Z  200  /cycles/modelski             other bot
+  2026-11-06T04:20:25.980338763Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-06T04:34:24.797427216Z  200  /sitemap.xml                 GPTBot
+  2026-11-06T04:45:16.00949867Z  200  /robots.txt                  other bot
+  2026-11-06T04:45:16.29718413Z  200  /sitemap.xml                 other bot
+  2026-11-06T04:45:19.651757823Z  200  /about                       other bot
+  2026-11-06T04:45:22.955556647Z  200  /cycles                      other bot
+  2026-11-06T04:45:26.189312614Z  200  /poster                      other bot
+  2026-11-06T04:45:29.409196831Z  200  /methods                     other bot
+  2026-11-06T04:45:32.623585686Z  200  /colophon                    other bot
+  2026-11-06T04:45:35.820990836Z  200  /embed/docs                  other bot
+  2026-11-06T04:48:26.84164676Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-06T05:31:38.008565521Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-06T05:34:47.71355664Z  200  /cycles/dalio                other bot
+  2026-11-06T05:53:53.033503682Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T05:53:57.473995772Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-06T05:54:03.129915567Z  200  /data/spectral/dalio.svg     OAI-SearchBot
+  2026-11-06T05:55:24.707617026Z  200  /llms.txt                    other bot
+  2026-11-06T06:39:02.804281807Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-06T06:56:48.045465936Z  308  /robots.txt                  Googlebot
+  2026-11-06T07:00:36.497272046Z  200  /robots.txt                  other bot
+  2026-11-06T07:00:36.934254686Z  200  /?arrive=1&focus=khaldun&tab=calibrate other bot
+  2026-11-06T07:25:31.162221405Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-06T07:25:31.363844322Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T07:35:50.066398126Z  200  /cycles/kondratiev           other bot
+  2026-11-06T07:44:56.755404553Z  308  /robots.txt                  Googlebot
+  2026-11-06T08:09:48.138920245Z  200  /                            other bot
+  2026-11-06T09:00:23.351408939Z  200  /robots.txt                  other bot
+  2026-11-06T09:00:23.731130721Z  200  /                            other bot
+  2026-11-06T09:00:53.263729041Z  200  /cycles/perez                other bot
+  2026-11-06T09:01:26.848863103Z  200  /_next/static/chunks/1ok76d6cxht1x.js other bot
+  2026-11-06T09:01:27.996037556Z  200  /_next/static/chunks/273cfbt3o4ftg.js other bot
+  2026-11-06T09:01:29.533527423Z  200  /_next/static/chunks/3kh05xu6qvzou.js other bot
+  2026-11-06T09:30:20.042200487Z  200  /robots.txt                  other bot
+  2026-11-06T09:30:20.931136263Z  200  /cycles/strauss-howe         other bot
+  2026-11-06T09:32:43.655460899Z  200  /robots.txt                  other bot
+  2026-11-06T09:34:31.869530528Z  200  /about                       other bot
+  2026-11-06T09:40:12.373228892Z  200  /                            other bot
+  2026-11-06T09:45:46.892187564Z  200  /og?cycle=strauss_howe       Bingbot
+  2026-11-06T09:47:57.765200614Z  200  /cycles/modelski             other bot
+  2026-11-06T09:48:09.357430712Z  200  /cycles/dalio                other bot
+  2026-11-06T10:40:27.823773848Z  301  /robots.txt                  Googlebot
+  2026-11-06T10:40:28.188505927Z  200  /robots.txt                  Googlebot
+  2026-11-06T10:40:28.334032781Z  301  /                            Googlebot
+  2026-11-06T11:30:31.848689879Z  200  /embed/docs                  Bingbot
+  2026-11-06T11:41:04.274542009Z  200  /cycles/khaldun              other bot
+  2026-11-06T11:42:39.815063101Z  200  /robots.txt                  other bot
+  2026-11-06T11:55:56.853951236Z  301  /robots.txt                  Googlebot
+  2026-11-06T11:55:57.19842307Z  200  /robots.txt                  Googlebot
+  2026-11-06T12:06:31.124783511Z  308  /robots.txt                  Googlebot
+  2026-11-06T12:11:18.874004453Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-06T12:52:34.603262312Z  200  /cycles/huntington           Googlebot
+  2026-11-06T13:00:38.607589956Z  200  /robots.txt                  Googlebot
+  2026-11-06T13:00:38.639105654Z  200  /sitemap.xml                 Googlebot
+  2026-11-06T13:06:00.466232499Z  308  /robots.txt                  Googlebot
+  2026-11-06T13:09:30.20689697Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-06T13:10:27.057293603Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-06T13:15:11.851309611Z  308  /state/2026                  other bot
+  2026-11-06T13:15:11.987831926Z  200  /cycles                      other bot
+  2026-11-06T13:47:38.637479859Z  308  /robots.txt                  Googlebot
+  2026-11-06T14:14:51.044834404Z  301  /robots.txt                  other bot
+  2026-11-06T14:14:54.478877026Z  308  /robots.txt                  other bot
+  2026-11-06T14:14:56.819447532Z  301  /robots.txt                  other bot
+  2026-11-06T14:14:57.6278965Z  308  /robots.txt                  other bot
+  2026-11-06T14:14:59.725481389Z  200  /robots.txt                  other bot
+  2026-11-06T14:15:00.345912313Z  301  /                            other bot
+  2026-11-06T14:15:00.564556056Z  308  /                            other bot
+  2026-11-06T14:15:00.777570596Z  200  /                            other bot
+  2026-11-06T14:15:09.832949452Z  301  /robots.txt                  other bot
+  2026-11-06T14:15:13.705640956Z  301  /                            other bot
+  2026-11-06T14:15:15.578358216Z  200  /                            other bot
+  2026-11-06T14:25:26.426916167Z  200  /cycles/khaldun              other bot
+  2026-11-06T15:09:50.623210951Z  200  /robots.txt                  PerplexityBot
+  2026-11-06T15:09:51.06912196Z  200  /poster                      PerplexityBot
+  2026-11-06T15:09:51.087055617Z  200  /                            PerplexityBot
+  2026-11-06T15:09:51.724333462Z  308  /robots.txt                  PerplexityBot
+  2026-11-06T15:09:54.289037028Z  200  /robots.txt                  PerplexityBot
+  2026-11-06T15:09:56.437650817Z  308  /                            PerplexityBot
+  2026-11-06T15:10:00.78490413Z  200  /                            PerplexityBot
+  2026-11-06T15:25:32.973502721Z  200  /cycles/schlesinger-jr       PerplexityBot
+  2026-11-06T15:25:42.856881594Z  200  /methods                     PerplexityBot
+  2026-11-06T15:34:04.028849902Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T15:43:00.697437946Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-06T15:43:58.035799881Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-06T16:15:37.771199325Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-06T16:15:44.966843853Z  200  /robots.txt                  Meta/Facebook
+  2026-11-06T16:29:18.963170969Z  200  /                            other bot
+  2026-11-06T16:45:27.54561449Z  200  /robots.txt                  Googlebot
+  2026-11-06T16:45:28.136607196Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-06T17:02:17.457717295Z  200  /?arrive=1&focus=dalio&tab=calibrate other bot
+  2026-11-06T17:08:58.042233382Z  200  /cycles                      OAI-SearchBot
+  2026-11-06T17:08:58.052332232Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T17:20:33.565026246Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-06T17:20:34.863984108Z  200  /cycles/turchin-fathers-sons?_rsc=dQHSU0lG7G5d5BTC OAI-SearchBot
+  2026-11-06T17:20:36.765222596Z  200  /cycles/turchin-fathers-sons?_rsc=SpG4WyqV0bA67PT7 OAI-SearchBot
+  2026-11-06T18:08:22.964512778Z  308  /robots.txt                  Bingbot
+  2026-11-06T18:08:23.29638357Z  200  /robots.txt                  Bingbot
+  2026-11-06T18:08:23.352994839Z  308  /robots.txt                  Bingbot
+  2026-11-06T18:08:23.42024383Z  200  /robots.txt                  Bingbot
+  2026-11-06T18:22:56.528915644Z  200  /                            other bot
+  2026-11-06T18:55:47.188091978Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-06T19:10:28.631361401Z  200  /?_rsc=qzxQjRSgBBqL4DIG&focus=strauss_howe OAI-SearchBot
+  2026-11-06T19:10:30.971771299Z  200  /?_rsc=qzxQjRSgBBqL4DIG&arrive=1&focus=strauss_howe&tab=calibrate OAI-SearchBot
+  2026-11-06T19:51:50.859453122Z  308  /sitemap.xml                 GPTBot
+  2026-11-06T19:51:50.942079625Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-06T19:51:51.123940632Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T19:51:51.163492414Z  200  /sitemap.xml                 GPTBot
+  2026-11-06T20:03:07.22549008Z  308  /state/2026                  other bot
+  2026-11-06T20:43:18.679293064Z  200  /                            other bot
+  2026-11-06T20:43:19.135045724Z  200  /robots.txt                  other bot
+  2026-11-06T20:46:11.836277917Z  200  /methods                     OAI-SearchBot
+  2026-11-06T20:48:07.757860756Z  200  /methods?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:08.426947884Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-06T20:48:09.033296873Z  200  /cycles?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:09.564011411Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-06T20:48:11.413919128Z  200  /methods?_rsc=je_vF3c1O8wnxCLI OAI-SearchBot
+  2026-11-06T20:48:11.554827451Z  200  /?_rsc=epBHvCzed33p_ZDo      OAI-SearchBot
+  2026-11-06T20:48:11.775776962Z  200  /about?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:13.035006535Z  200  /about?_rsc=jRcgGg3t-PRFSBaC OAI-SearchBot
+  2026-11-06T20:48:13.181039284Z  200  /poster?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:13.338039498Z  200  /_next/static/chunks/0b0qszv92gow2.js OAI-SearchBot
+  2026-11-06T20:48:18.155443182Z  200  /poster?_rsc=yy-SqRqaVp_mQISh OAI-SearchBot
+  2026-11-06T20:48:20.121185849Z  200  /_next/static/chunks/07wmq22av05p5.js OAI-SearchBot
+  2026-11-06T20:48:23.357328368Z  200  /cycles/kondratiev?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:23.417917022Z  200  /cycles/huntington?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:48:23.445276312Z  200  /cycles/schlesinger-jr?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-06T20:49:17.656922086Z  200  /                            other bot
+  2026-11-06T21:08:01.948815538Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-06T21:32:53.568212724Z  200  /data/perez_tech_diffusion.csv other bot
+  2026-11-06T22:00:41.883457643Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-06T22:12:08.565315339Z  200  /                            other bot
+  2026-11-06T22:52:21.242265725Z  200  /robots.txt                  other bot
+  2026-11-06T22:52:21.619893889Z  200  /sitemap.xml                 other bot
+  2026-11-06T23:23:47.666273732Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T23:25:56.366718633Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-06T23:25:56.568475602Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-06T23:32:28.792246722Z  200  /robots.txt                  other bot
+  2026-11-06T23:32:29.850669534Z  200  /                            other bot
+  2026-11-06T23:58:59.54514264Z  200  /?focus=schlesinger_jr       other bot
+  2026-11-07T00:03:04.561940713Z  200  /sitemap.xml                 other bot
+  2026-11-07T00:18:19.043833046Z  200  /robots.txt                  other bot
+  2026-11-07T00:20:03.43930532Z  200  /                            other bot
+  2026-11-07T00:38:45.647046061Z  200  /data/spectral/khaldun.svg   Bingbot
+  2026-11-07T00:39:50.969589006Z  200  /robots.txt                  other bot
+  2026-11-07T00:40:06.175454812Z  200  /                            other bot
+  2026-11-07T00:40:21.398445645Z  200  /data/dw_nominate.csv        other bot
+  2026-11-07T00:40:36.605400875Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-07T00:40:51.78916748Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-07T00:41:10.196077988Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-07T00:41:25.405839418Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-07T00:41:40.653014892Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-07T00:41:56.162191098Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-07T01:05:40.897102148Z  200  /?_rsc=Ue6KMIhxh5zKRTq8&arrive=1&focus=turchin&tab=calibrate OAI-SearchBot
+  2026-11-07T01:05:43.971621978Z  200  /?_rsc=Ue6KMIhxh5zKRTq8&focus=turchin OAI-SearchBot
+  2026-11-07T01:14:34.744002608Z  200  /about.md                    other bot
+  2026-11-07T01:15:13.600022431Z  200  /robots.txt                  other bot
+  2026-11-07T01:18:22.86410216Z  200  /                            other bot
+  2026-11-07T01:18:46.545090437Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-07T01:55:01.002254789Z  200  /cycles/dalio                other bot
+  2026-11-07T02:10:46.279146537Z  200  /og?cycle=khaldun            Bingbot
+  2026-11-07T02:12:31.789981905Z  404  /cycles/khaldun-spectral.svg Bingbot
+  2026-11-07T02:32:11.167969835Z  200  /llms.txt                    other bot
+  2026-11-07T03:01:24.875872268Z  200  /?arrive=1&focus=schlesinger_jr&tab=calibrate other bot
+  2026-11-07T03:23:05.83223199Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-07T03:58:42.693633523Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-07T03:59:18.670114356Z  308  /                            other bot
+  2026-11-07T03:59:39.807800533Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-07T04:29:35.512638325Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-07T04:35:00.822557502Z  200  /sitemap.xml                 GPTBot
+  2026-11-07T04:43:57.425002119Z  301  /robots.txt                  other bot
+  2026-11-07T04:43:57.893503778Z  200  /robots.txt                  other bot
+  2026-11-07T04:48:27.078018002Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-07T04:53:19.197542367Z  200  /embed/docs                  other bot
+  2026-11-07T05:18:59.114493805Z  200  /                            other bot
+  2026-11-07T05:58:57.381432733Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T06:09:14.982389Z  301  /                            other bot
+  2026-11-07T06:18:53.690182493Z  301  /                            other bot
+  2026-11-07T06:56:12.840882886Z  200  /                            other bot
+  2026-11-07T07:24:56.693032428Z  200  /robots.txt                  other bot
+  2026-11-07T07:24:58.082104967Z  200  /?arrive=1&focus=strauss_howe&tab=calibrate other bot
+  2026-11-07T07:32:50.479548473Z  200  /poster                      other bot
+  2026-11-07T07:35:18.046863147Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T07:40:15.300321952Z  404  /ads.txt                     other bot
+  2026-11-07T07:40:15.375250471Z  308  /ads.txt                     other bot
+  2026-11-07T07:40:16.04885757Z  404  /ads.txt                     other bot
+  2026-11-07T07:40:16.191285502Z  404  /ads.txt                     other bot
+  2026-11-07T07:40:16.761127036Z  308  /ads.txt                     other bot
+  2026-11-07T07:40:17.272273934Z  404  /ads.txt                     other bot
+  2026-11-07T07:45:56.66428254Z  200  /robots.txt                  other bot
+  2026-11-07T07:45:57.087293824Z  200  /llms.txt                    other bot
+  2026-11-07T07:46:03.654506663Z  200  /cycles/dalio                other bot
+  2026-11-07T07:46:09.712714802Z  200  /cycles/perez                other bot
+  2026-11-07T07:46:15.465885305Z  200  /cycles/khaldun              other bot
+  2026-11-07T07:46:21.939708552Z  200  /cycles/turchin              other bot
+  2026-11-07T07:46:28.772979472Z  200  /cycles/modelski             other bot
+  2026-11-07T07:46:35.058692906Z  200  /cycles/huntington           other bot
+  2026-11-07T07:46:41.283644155Z  200  /cycles/kondratiev           other bot
+  2026-11-07T07:46:48.721378041Z  200  /cycles/strauss-howe         other bot
+  2026-11-07T07:46:54.697767723Z  200  /embed?view=state-only       other bot
+  2026-11-07T07:47:00.86869085Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-07T07:47:06.59135878Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-07T07:47:12.723824597Z  200  /embed?view=facets&range=modern other bot
+  2026-11-07T07:47:19.301977441Z  200  /embed?view=overlay&range=modern other bot
+  2026-11-07T07:47:25.217358654Z  200  /embed?view=facets&cycles=huntington&peak.huntington=1972 other bot
+  2026-11-07T07:52:37.414047659Z  200  /robots.txt                  Googlebot
+  2026-11-07T07:52:37.587981392Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-07T07:54:27.565607777Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-07T09:02:30.526387155Z  200  /?arrive=1&focus=perez&tab=calibrate other bot
+  2026-11-07T10:10:40.050036534Z  301  /robots.txt                  Bingbot
+  2026-11-07T10:10:40.322236232Z  200  /robots.txt                  Bingbot
+  2026-11-07T10:10:40.354779639Z  301  /robots.txt                  Bingbot
+  2026-11-07T10:10:40.387070696Z  200  /robots.txt                  Bingbot
+  2026-11-07T10:11:00.443653928Z  301  /data/spectral/kondratiev.svg Bingbot
+  2026-11-07T10:20:02.327761956Z  308  /robots.txt                  Bingbot
+  2026-11-07T10:20:02.539352742Z  200  /robots.txt                  Bingbot
+  2026-11-07T10:20:02.564926557Z  308  /robots.txt                  Bingbot
+  2026-11-07T10:20:02.683838928Z  200  /robots.txt                  Bingbot
+  2026-11-07T10:20:07.297437832Z  308  /og                          Bingbot
+  2026-11-07T10:34:51.480363304Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-07T10:35:55.101358949Z  200  /                            other bot
+  2026-11-07T10:43:58.319779291Z  200  /data/dw_nominate.csv        other bot
+  2026-11-07T10:52:43.826175659Z  301  /data/spectral/modelski.svg  Bingbot
+  2026-11-07T10:53:10.725343794Z  200  /cycles                      other bot
+  2026-11-07T10:54:43.548659391Z  200  /robots.txt                  other bot
+  2026-11-07T10:57:52.83006724Z  200  /                            other bot
+  2026-11-07T11:44:01.595122874Z  200  /                            other bot
+  2026-11-07T12:13:37.145791642Z  200  /about                       Bingbot
+  2026-11-07T13:09:52.423203496Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-07T13:28:48.313428432Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-07T13:29:45.772298925Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-07T13:39:00.271873035Z  200  /cycles/dalio                other bot
+  2026-11-07T13:58:02.230279078Z  200  /robots.txt                  Googlebot
+  2026-11-07T13:58:02.403316857Z  200  /?tab=calibrate&focus=huntington&arrive=1 Googlebot
+  2026-11-07T13:58:33.686953506Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-07T13:58:33.698042295Z  200  /_next/static/chunks/0b0qszv92gow2.js Googlebot
+  2026-11-07T13:58:33.698316282Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-07T13:58:33.714983597Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-07T13:58:33.718852541Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T13:58:34.272681667Z  200  /data/dw_nominate.csv        Googlebot
+  2026-11-07T13:58:34.312781314Z  200  /data/dw_nominate.csv        Googlebot
+  2026-11-07T14:02:04.812440975Z  200  /about.md                    other bot
+  2026-11-07T14:54:38.383628467Z  410  /api/v1/state?year=2026      other bot
+  2026-11-07T15:16:19.620450157Z  200  /og?cycle=modelski           Bingbot
+  2026-11-07T15:26:20.395908904Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-07T15:26:20.608653095Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T16:00:34.755998719Z  200  /robots.txt                  other bot
+  2026-11-07T16:02:19.214265916Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-07T16:10:44.703032126Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-07T16:15:45.459602947Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-07T16:38:47.081893996Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-07T16:52:12.317829016Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T16:58:11.173047223Z  200  /data/us_tfp_growth.csv      other bot
+  2026-11-07T18:06:26.183715703Z  200  /cycles                      OAI-SearchBot
+  2026-11-07T18:09:44.715398664Z  200  /?_rsc=dQHSU0lG7G5d5BTC      OAI-SearchBot
+  2026-11-07T18:09:44.872394019Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-07T18:09:45.667446509Z  200  /?_rsc=0AHALR-v7OTgkbrM      OAI-SearchBot
+  2026-11-07T18:55:46.868737Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-07T19:02:54.562164038Z  200  /robots.txt                  Bingbot
+  2026-11-07T19:03:00.693481142Z  200  /?focus=turchin              Bingbot
+  2026-11-07T19:55:08.918537204Z  308  /sitemap.xml                 GPTBot
+  2026-11-07T19:55:08.973737833Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-07T19:55:09.166895367Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T19:55:09.28504006Z  200  /sitemap.xml                 GPTBot
+  2026-11-07T20:00:01.289296584Z  308  /robots.txt                  Googlebot
+  2026-11-07T20:00:01.5237488Z  200  /robots.txt                  Googlebot
+  2026-11-07T20:00:02.140558412Z  308  /                            Googlebot
+  2026-11-07T20:00:02.62852115Z  200  /                            Googlebot
+  2026-11-07T20:00:26.413475757Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:00:29.77113228Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-07T20:00:32.518247928Z  200  /_next/static/chunks/1l6u0vukvu213.js Googlebot
+  2026-11-07T20:00:35.031480359Z  200  /_next/static/chunks/2xt1bdh-60q29.js Googlebot
+  2026-11-07T20:00:35.868152481Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-07T20:00:37.191031904Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-07T20:00:38.314056297Z  200  /data/perez_tech_diffusion.csv Googlebot
+  2026-11-07T20:00:38.367026884Z  200  /data/us_tfp_growth.csv      Googlebot
+  2026-11-07T20:00:38.367567295Z  200  /data/vdem_libdem.csv        Googlebot
+  2026-11-07T20:00:38.376233812Z  200  /data/stimson_policy_mood.csv Googlebot
+  2026-11-07T20:00:38.401158782Z  200  /data/leading_power_gdp_share.csv Googlebot
+  2026-11-07T20:00:38.402672922Z  200  /data/wid_top1_wealth.csv    Googlebot
+  2026-11-07T20:00:38.453696544Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:00:38.481416697Z  200  /data/dw_nominate.csv        Googlebot
+  2026-11-07T20:00:38.534884399Z  200  /data/conflict_deaths.csv    Googlebot
+  2026-11-07T20:01:18.065582159Z  301  /robots.txt                  Googlebot
+  2026-11-07T20:01:18.31263681Z  301  /                            Googlebot
+  2026-11-07T20:01:57.731217341Z  200  /                            Googlebot
+  2026-11-07T20:01:57.753296579Z  200  /                            Googlebot
+  2026-11-07T20:01:59.258180038Z  308  /                            Googlebot
+  2026-11-07T20:01:59.265640347Z  308  /                            Googlebot
+  2026-11-07T20:02:00.434882065Z  308  /                            Googlebot
+  2026-11-07T20:02:05.476472106Z  200  /_next/static/chunks/2xt1bdh-60q29.js Googlebot
+  2026-11-07T20:02:05.504635946Z  200  /_next/static/chunks/1l6u0vukvu213.js Googlebot
+  2026-11-07T20:02:05.508555347Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-07T20:02:05.52015831Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-07T20:02:05.521707231Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:02:05.523925234Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-07T20:02:06.054716179Z  200  /data/wid_top1_wealth.csv    Googlebot
+  2026-11-07T20:02:06.071376294Z  200  /data/us_tfp_growth.csv      Googlebot
+  2026-11-07T20:02:06.08129853Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:02:06.110671183Z  200  /data/stimson_policy_mood.csv Googlebot
+  2026-11-07T20:02:06.117967553Z  200  /data/vdem_libdem.csv        Googlebot
+  2026-11-07T20:02:06.137034934Z  200  /data/leading_power_gdp_share.csv Googlebot
+  2026-11-07T20:02:06.137427338Z  200  /data/perez_tech_diffusion.csv Googlebot
+  2026-11-07T20:02:06.145046249Z  200  /data/conflict_deaths.csv    Googlebot
+  2026-11-07T20:02:06.151743128Z  200  /data/dw_nominate.csv        Googlebot
+  2026-11-07T20:02:06.439506173Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-07T20:02:06.456119056Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-07T20:02:06.465552434Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:02:06.493294413Z  200  /_next/static/chunks/1l6u0vukvu213.js Googlebot
+  2026-11-07T20:02:06.503484128Z  200  /_next/static/chunks/01s_f_3qlcqtb.js Googlebot
+  2026-11-07T20:02:06.559905393Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-07T20:02:06.572408569Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-07T20:02:07.495034476Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-07T20:02:07.971090767Z  200  /data/perez_tech_diffusion.csv Googlebot
+  2026-11-07T20:02:07.971213876Z  200  /data/us_tfp_growth.csv      Googlebot
+  2026-11-07T20:02:08.011411663Z  200  /data/stimson_policy_mood.csv Googlebot
+  2026-11-07T20:02:08.024621347Z  200  /data/dw_nominate.csv        Googlebot
+  2026-11-07T20:02:08.037549Z  200  /data/conflict_deaths.csv    Googlebot
+  2026-11-07T20:02:08.050709105Z  200  /data/vdem_libdem.csv        Googlebot
+  2026-11-07T20:02:08.070316786Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:02:08.073395019Z  200  /data/wid_top1_wealth.csv    Googlebot
+  2026-11-07T20:02:08.157577082Z  200  /data/leading_power_gdp_share.csv Googlebot
+  2026-11-07T20:02:24.622163126Z  200  /                            Googlebot
+  2026-11-07T20:02:24.8282022Z  301  /                            Googlebot
+  2026-11-07T20:02:39.742595613Z  308  /                            Googlebot
+  2026-11-07T20:03:29.59571094Z  200  /                            Googlebot
+  2026-11-07T20:03:30.045440338Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-07T20:03:30.071808681Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-07T20:03:30.087132598Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:03:30.145043345Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-07T20:03:30.176338416Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-07T20:03:30.202875726Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-07T20:03:30.218479695Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-07T20:03:30.313509171Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-07T20:03:30.319658223Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:03:30.340133444Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-07T20:03:30.342550193Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-07T20:03:30.419038768Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-07T20:03:31.148182883Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:03:31.208084828Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:03:37.038129255Z  200  /methods                     other bot
+  2026-11-07T20:03:41.098587178Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-07T20:03:41.552757791Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-07T20:03:41.58681687Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-07T20:03:42.015372146Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-07T20:03:42.116275325Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-07T20:03:42.154921186Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-07T20:03:43.691885546Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T20:05:39.388569638Z  200  /robots.txt                  other bot
+  2026-11-07T20:39:11.325117051Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-07T20:46:11.88084857Z  200  /methods                     OAI-SearchBot
+  2026-11-07T21:08:01.867364525Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-07T21:40:04.765861971Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-07T22:00:41.930919346Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-07T22:08:38.771226699Z  200  /robots.txt                  Googlebot
+  2026-11-07T22:08:45.435369426Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-07T22:08:50.910054689Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-07T22:56:04.700839932Z  301  /og?cycle=kondratiev         Bingbot
+  2026-11-07T22:58:50.572461404Z  200  /llms.txt                    other bot
+  2026-11-07T23:19:25.426230472Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-07T23:49:12.56841155Z  200  /embed/docs?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:15.437752917Z  200  /colophon?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:17.970172002Z  200  /methods?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:19.749292631Z  200  /cycles/dalio?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:21.292192115Z  200  /cycles/turchin-fathers-sons?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:22.5121219Z  200  /cycles?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:23.494166334Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-07T23:49:24.244828537Z  200  /cycles/turchin?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:25.045094546Z  200  /cycles/khaldun?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:25.365639534Z  200  /cycles/perez?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:25.898281165Z  200  /poster?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:26.373251842Z  200  /cycles/modelski?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:26.888998226Z  200  /cycles/kondratiev?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:27.390346825Z  200  /cycles/schlesinger-jr?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:27.924783974Z  200  /cycles/huntington?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:28.374188353Z  200  /about?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:49:28.947655542Z  200  /cycles/strauss-howe?_rsc=7De7cLFeOb9rJxf- OAI-SearchBot
+  2026-11-07T23:52:20.550398459Z  200  /robots.txt                  Googlebot
+  2026-11-08T00:17:02.708044714Z  308  /robots.txt                  Googlebot
+  2026-11-08T00:17:03.481524763Z  308  /                            Googlebot
+  2026-11-08T00:51:13.053193173Z  200  /?focus=khaldun              Googlebot
+  2026-11-08T00:51:29.493089113Z  200  /_next/static/chunks/3kh05xu6qvzou.js Googlebot
+  2026-11-08T01:04:05.377075202Z  200  /robots.txt                  Googlebot
+  2026-11-08T01:04:05.646021201Z  200  /                            Googlebot
+  2026-11-08T01:04:40.610657319Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-08T01:04:40.611201509Z  200  /_next/static/chunks/01k-tg_y0oa-h.js Googlebot
+  2026-11-08T01:31:46.849963799Z  200  /?focus=perez                OAI-SearchBot
+  2026-11-08T01:35:14.649298789Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-08T01:36:12.036014949Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-08T01:49:58.247806503Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-08T02:05:05.278595146Z  200  /api/v1/series               other bot
+  2026-11-08T02:08:43.603654312Z  200  /data/spectral/huntington.svg other bot
+  2026-11-08T02:28:45.249208311Z  200  /?tab=calibrate&focus=huntington&arrive=1 other bot
+  2026-11-08T02:56:52.282854504Z  200  /embed?view=overlay&range=modern other bot
+  2026-11-08T02:58:15.869008088Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-08T02:59:39.816624088Z  200  /data/spectral/schlesinger_jr.svg other bot
+  2026-11-08T03:01:03.038545896Z  200  /data/perez_tech_diffusion.source.md other bot
+  2026-11-08T03:02:26.589504095Z  200  /?tab=calibrate&focus=schlesinger_jr&arrive=1 other bot
+  2026-11-08T03:03:49.741116153Z  200  /?focus=turchin              other bot
+  2026-11-08T03:12:59.867565782Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-08T03:24:43.807250548Z  200  /?_rsc=5CB68i4pnAekjehf      OAI-SearchBot
+  2026-11-08T03:24:43.830478005Z  200  /cycles?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:44.276610961Z  200  /methods?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:44.685903899Z  200  /about?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:45.027972066Z  200  /poster?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:46.227085041Z  200  /_next/static/chunks/1l6u0vukvu213.js OAI-SearchBot
+  2026-11-08T03:24:47.067210798Z  200  /_next/static/chunks/3x98vbp99ri_2.css OAI-SearchBot
+  2026-11-08T03:24:47.659040436Z  200  /data/perez_tech_diffusion.csv OAI-SearchBot
+  2026-11-08T03:24:48.535054406Z  200  /cycles/perez?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:50.063512456Z  200  /data/perez_tech_diffusion.csv OAI-SearchBot
+  2026-11-08T03:24:50.869769919Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-08T03:24:53.630041259Z  200  /colophon?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T03:24:54.042596835Z  200  /embed/docs?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-08T04:08:47.462705548Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-08T04:22:11.488555146Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-08T04:24:53.496135448Z  200  /                            other bot
+  2026-11-08T04:36:36.935132661Z  200  /sitemap.xml                 GPTBot
+  2026-11-08T04:45:13.747045507Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-08T04:48:26.89173542Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-08T05:37:14.300580801Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T06:35:34.890741394Z  200  /robots.txt                  Googlebot
+  2026-11-08T06:35:35.08242945Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-08T06:35:35.082983961Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-08T06:35:35.254363692Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-08T06:35:35.688026878Z  200  /data/spectral/huntington.svg Googlebot
+  2026-11-08T07:26:44.499179489Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-08T07:26:44.63690059Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T07:51:37.687982743Z  200  /_next/static/chunks/3x98vbp99ri_2.css OAI-SearchBot
+  2026-11-08T08:22:15.887280776Z  200  /?_rsc=rrdNdFxd4oovPsmS      OAI-SearchBot
+  2026-11-08T08:22:18.972085779Z  200  /?_rsc=rrdNdFxd4oovPsmS&focus=dalio OAI-SearchBot
+  2026-11-08T08:22:21.195174104Z  200  /?_rsc=rrdNdFxd4oovPsmS&arrive=1&focus=dalio&tab=calibrate OAI-SearchBot
+  2026-11-08T09:23:09.66811614Z  308  /state/2026                  other bot
+  2026-11-08T09:23:09.901828476Z  200  /cycles                      other bot
+  2026-11-08T09:24:32.884353333Z  200  /cycles/strauss-howe         other bot
+  2026-11-08T09:25:56.123172629Z  200  /?tab=calibrate&focus=kondratiev&arrive=1 other bot
+  2026-11-08T09:42:41.854998598Z  200  /?focus=khaldun              OAI-SearchBot
+  2026-11-08T09:48:42.315350877Z  200  /data/dw_nominate.csv        other bot
+  2026-11-08T10:18:22.967884923Z  301  /og                          Bingbot
+  2026-11-08T10:24:26.625204058Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-08T10:24:26.77149143Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T10:24:51.439648574Z  308  /                            GPTBot
+  2026-11-08T10:37:52.398713175Z  200  /robots.txt                  Googlebot
+  2026-11-08T10:37:52.496055031Z  200  /                            Googlebot
+  2026-11-08T10:38:01.172912066Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-08T10:38:01.197562932Z  200  /_next/static/chunks/3x98vbp99ri_2.css Googlebot
+  2026-11-08T10:46:33.591247393Z  200  /robots.txt                  Meta/Facebook
+  2026-11-08T11:25:26.111584621Z  200  /robots.txt                  other bot
+  2026-11-08T11:25:26.491328595Z  200  /?focus=dalio                other bot
+  2026-11-08T11:25:33.899266602Z  200  /?focus=perez                other bot
+  2026-11-08T11:25:42.061184065Z  200  /?focus=khaldun              other bot
+  2026-11-08T11:25:49.209957239Z  200  /?focus=turchin              other bot
+  2026-11-08T11:25:56.71143416Z  200  /?focus=modelski             other bot
+  2026-11-08T11:26:03.755110812Z  200  /?focus=huntington           other bot
+  2026-11-08T11:26:10.840670131Z  200  /?focus=kondratiev           other bot
+  2026-11-08T11:26:17.737767485Z  200  /?focus=strauss_howe         other bot
+  2026-11-08T11:26:26.06476855Z  200  /?focus=schlesinger_jr       other bot
+  2026-11-08T11:26:33.783477391Z  200  /?focus=turchin_fathers_sons other bot
+  2026-11-08T11:26:41.021980945Z  200  /?tab=calibrate&focus=dalio&arrive=1 other bot
+  2026-11-08T11:26:49.543948265Z  200  /?tab=calibrate&focus=perez&arrive=1 other bot
+  2026-11-08T11:26:56.828665602Z  200  /?tab=calibrate&focus=khaldun&arrive=1 other bot
+  2026-11-08T11:27:03.78246726Z  200  /?tab=calibrate&focus=turchin&arrive=1 other bot
+  2026-11-08T11:27:10.600808499Z  200  /?tab=calibrate&focus=modelski&arrive=1 other bot
+  2026-11-08T11:27:17.538861375Z  200  /?tab=calibrate&focus=huntington&arrive=1 other bot
+  2026-11-08T11:27:24.677207904Z  200  /?tab=calibrate&focus=kondratiev&arrive=1 other bot
+  2026-11-08T11:27:31.887404117Z  200  /?tab=calibrate&focus=strauss_howe&arrive=1 other bot
+  2026-11-08T11:27:39.77207375Z  200  /?tab=calibrate&focus=schlesinger_jr&arrive=1 other bot
+  2026-11-08T12:45:42.20686884Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T12:45:42.314416766Z  200  /_next/static/chunks/1l6u0vukvu213.js OAI-SearchBot
+  2026-11-08T12:46:50.035058488Z  200  /data/spectral/modelski.svg  other bot
+  2026-11-08T13:25:26.084480141Z  200  /data/spectral/dalio.svg     other bot
+  2026-11-08T13:46:20.789699656Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-08T13:53:48.966581408Z  308  /robots.txt                  Googlebot
+  2026-11-08T13:53:49.252654918Z  200  /robots.txt                  Googlebot
+  2026-11-08T13:53:49.407123603Z  308  /                            Googlebot
+  2026-11-08T13:53:55.399335515Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js Googlebot
+  2026-11-08T13:53:55.427887875Z  200  /_next/static/chunks/3x98vbp99ri_2.css Googlebot
+  2026-11-08T13:53:55.45015814Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-08T13:53:55.615422736Z  200  /_next/static/chunks/1l6u0vukvu213.js Googlebot
+  2026-11-08T13:53:56.293241558Z  200  /data/leading_power_gdp_share.csv Googlebot
+  2026-11-08T13:53:56.54521195Z  200  /data/us_world_gdp_share.csv Googlebot
+  2026-11-08T13:53:58.507705526Z  200  /data/wid_top1_wealth.csv    Googlebot
+  2026-11-08T13:53:58.617697467Z  200  /data/us_tfp_growth.csv      Googlebot
+  2026-11-08T13:53:58.718516909Z  200  /data/stimson_policy_mood.csv Googlebot
+  2026-11-08T13:53:58.747417741Z  200  /data/perez_tech_diffusion.csv Googlebot
+  2026-11-08T13:53:58.748038245Z  200  /data/conflict_deaths.csv    Googlebot
+  2026-11-08T13:53:58.902187275Z  200  /data/vdem_libdem.csv        Googlebot
+  2026-11-08T14:13:17.138657251Z  200  /robots.txt                  other bot
+  2026-11-08T14:15:07.575992054Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-08T14:27:35.455157938Z  200  /cycles/kondratiev           other bot
+  2026-11-08T14:28:58.975965919Z  200  /colophon.md                 other bot
+  2026-11-08T15:27:01.283175466Z  200  /robots.txt                  other bot
+  2026-11-08T15:27:01.651696615Z  200  /sitemap.xml                 other bot
+  2026-11-08T15:37:41.356035976Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T16:01:17.428035044Z  200  /robots.txt                  other bot
+  2026-11-08T16:01:17.861661987Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-08T16:08:06.61106142Z  200  /sitemap.xml                 other bot
+  2026-11-08T16:21:46.286405765Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-08T16:27:29.782858488Z  200  /embed?view=facets&cycles=huntington&peak.huntington=1972 other bot
+  2026-11-08T16:28:57.425923981Z  200  /data/state-2026.csv         other bot
+  2026-11-08T16:32:26.981448493Z  200  /robots.txt                  Bingbot
+  2026-11-08T16:32:46.421058137Z  200  /data/state-2026.csv         Bingbot
+  2026-11-08T16:33:16.878568064Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-08T16:39:00.493321999Z  200  /robots.txt                  Googlebot
+  2026-11-08T16:39:20.300340129Z  200  /cycles/huntington           Googlebot
+  2026-11-08T16:59:53.217610522Z  200  /cycles                      OAI-SearchBot
+  2026-11-08T17:35:29.725826881Z  200  /embed/docs                  other bot
+  2026-11-08T18:00:19.608226591Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-08T18:18:49.731703441Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-08T18:55:46.987013786Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T18:55:47.163325765Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-08T19:25:30.601248288Z  200  /?_rsc=qzxQjRSgBBqL4DIG      OAI-SearchBot
+  2026-11-08T19:43:02.723694829Z  200  /robots.txt                  other bot
+  2026-11-08T19:44:19.833884979Z  200  /cycles/strauss-howe         other bot
+  2026-11-08T19:55:42.86281546Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-08T19:55:42.96028134Z  308  /sitemap.xml                 GPTBot
+  2026-11-08T19:55:43.035890842Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T19:55:43.31736383Z  200  /sitemap.xml                 GPTBot
+  2026-11-08T19:59:20.462357371Z  308  /state/2026                  other bot
+  2026-11-08T20:07:19.882191251Z  200  /cycles/kondratiev           other bot
+  2026-11-08T20:22:33.486519622Z  200  /cycles/modelski             other bot
+  2026-11-08T20:24:15.179384232Z  200  /sitemap.xml                 other bot
+  2026-11-08T20:32:29.354769376Z  200  /robots.txt                  other bot
+  2026-11-08T20:32:29.737841672Z  200  /methods                     other bot
+  2026-11-08T20:32:55.6516168Z  200  /_next/static/chunks/3x98vbp99ri_2.css other bot
+  2026-11-08T20:36:15.43018819Z  200  /robots.txt                  Googlebot
+  2026-11-08T20:36:15.662422245Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-08T20:44:05.202571813Z  200  /?focus=khaldun              Bingbot
+  2026-11-08T20:44:38.037404528Z  200  /_next/static/chunks/2f6ts-zvehhpi.js Bingbot
+  2026-11-08T20:44:38.127612626Z  200  /_next/static/chunks/273cfbt3o4ftg.js Bingbot
+  2026-11-08T20:44:38.877770228Z  200  /_next/static/chunks/3kh05xu6qvzou.js Bingbot
+  2026-11-08T20:44:43.017732629Z  200  /_next/static/chunks/3x98vbp99ri_2.css Bingbot
+  2026-11-08T20:44:54.874344652Z  200  /_next/static/chunks/2xt1bdh-60q29.js Bingbot
+  2026-11-08T20:46:11.805180436Z  200  /methods                     OAI-SearchBot
+  2026-11-08T20:47:29.37434104Z  200  /llms.txt                    other bot
+  2026-11-08T20:57:10.379747911Z  200  /?focus=perez                Googlebot
+  2026-11-08T20:57:24.109520962Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-08T20:57:24.256872449Z  200  /_next/static/chunks/2f6ts-zvehhpi.js Googlebot
+  2026-11-08T20:57:25.860412201Z  200  /_next/static/chunks/273cfbt3o4ftg.js Googlebot
+  2026-11-08T20:57:26.02989176Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-08T21:00:28.002288642Z  200  /data/conflict_deaths.csv    Bingbot
+  2026-11-08T21:00:28.051468497Z  304  /data/conflict_deaths.csv    Bingbot
+  2026-11-08T21:01:47.995000816Z  308  /robots.txt                  Googlebot
+  2026-11-08T21:02:29.405145798Z  200  /about                       other bot
+  2026-11-08T21:08:01.864025015Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-08T21:35:43.413443582Z  200  /                            other bot
+  2026-11-08T21:44:07.024109631Z  200  /data/vdem_libdem.source.md  other bot
+  2026-11-08T21:57:57.856036244Z  301  /robots.txt                  other bot
+  2026-11-08T21:57:58.252595193Z  200  /robots.txt                  other bot
+  2026-11-08T22:00:39.804123421Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-08T22:00:40.758664822Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-08T22:07:29.03072484Z  200  /about.md                    other bot
+  2026-11-08T22:17:29.049681831Z  200  /colophon.md                 other bot
+  2026-11-08T22:18:36.489186761Z  200  /robots.txt                  PerplexityBot
+  2026-11-08T22:18:37.122016223Z  200  /cycles/schlesinger-jr       PerplexityBot
+  2026-11-08T22:27:29.04342652Z  200  /poster                      other bot
+  2026-11-08T22:32:08.415182747Z  200  /_next/static/chunks/07wmq22av05p5.js other bot
+  2026-11-08T22:32:09.342943485Z  200  /_next/static/chunks/2f6ts-zvehhpi.js other bot
+  2026-11-08T22:32:34.041867225Z  200  /robots.txt                  Googlebot
+  2026-11-08T22:33:01.795997023Z  200  /cycles/huntington           Googlebot
+  2026-11-08T22:37:29.038210335Z  200  /colophon                    other bot
+  2026-11-08T22:40:38.551730441Z  200  /?_rsc=Ue6KMIhxh5zKRTq8      OAI-SearchBot
+  2026-11-08T22:40:39.140823928Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-08T22:40:39.992489654Z  200  /?_rsc=YzmS7Kdk7n7GmyGR      OAI-SearchBot
+  2026-11-08T22:40:41.342928819Z  200  /_next/static/chunks/2f6ts-zvehhpi.js OAI-SearchBot
+  2026-11-08T22:40:43.924488847Z  200  /data/spectral/turchin.svg   OAI-SearchBot
+  2026-11-08T22:46:18.645285571Z  200  /cycles/strauss-howe         PerplexityBot
+  2026-11-08T22:46:23.467045082Z  200  /methods                     PerplexityBot
+  2026-11-08T22:46:25.997644704Z  200  /colophon                    PerplexityBot
+  2026-11-08T23:27:04.031600817Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-08T23:27:04.437105488Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-08T23:46:37.300540723Z  301  /robots.txt                  Googlebot
+  2026-11-08T23:46:37.517387213Z  308  /robots.txt                  Googlebot
+  2026-11-09T00:31:56.649906582Z  200  /data/spectral/schlesinger_jr.svg Bingbot
+  2026-11-09T00:55:29.752491662Z  200  /data/spectral/perez.svg     other bot
+  2026-11-09T01:31:46.885200871Z  200  /?focus=perez                OAI-SearchBot
+  2026-11-09T01:31:46.934210458Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T01:38:53.003809461Z  200  /embed/docs                  other bot
+  2026-11-09T01:56:33.944712952Z  200  /og?cycle=huntington         Bingbot
+  2026-11-09T01:57:23.021306189Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-09T01:58:44.522986554Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-09T02:01:43.347105719Z  200  /cycles/turchin              other bot
+  2026-11-09T02:03:47.620807111Z  200  /?focus=dalio                other bot
+  2026-11-09T02:34:27.307384889Z  200  /robots.txt                  other bot
+  2026-11-09T02:34:27.673415063Z  200  /methods.md                  other bot
+  2026-11-09T02:41:22.469045006Z  200  /llms.txt                    other bot
+  2026-11-09T03:00:42.196791122Z  200  /robots.txt                  other bot
+  2026-11-09T03:01:11.352612905Z  200  /cycles                      other bot
+  2026-11-09T03:28:10.769765107Z  200  /robots.txt                  other bot
+  2026-11-09T03:28:10.904126306Z  200  /                            other bot
+  2026-11-09T03:36:41.104083274Z  200  /data/spectral/dalio.svg     Bingbot
+  2026-11-09T03:57:42.325660091Z  200  /robots.txt                  Bingbot
+  2026-11-09T04:24:29.062072225Z  200  /cycles/turchin-fathers-sons Amazonbot
+  2026-11-09T04:37:07.445906925Z  200  /_next/static/chunks/2f6ts-zvehhpi.js OAI-SearchBot
+  2026-11-09T04:38:46.756473293Z  200  /sitemap.xml                 GPTBot
+  2026-11-09T04:48:26.875809027Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-09T05:07:20.396541673Z  200  /?_rsc=5CB68i4pnAekjehf      OAI-SearchBot
+  2026-11-09T05:19:53.065747696Z  200  /cycles                      other bot
+  2026-11-09T05:25:32.511350232Z  200  /                            other bot
+  2026-11-09T05:42:12.397747639Z  200  /robots.txt                  other bot
+  2026-11-09T05:42:27.615587029Z  200  /data/spectral/huntington.svg other bot
+  2026-11-09T05:42:42.858385973Z  200  /data/spectral/khaldun.svg   other bot
+  2026-11-09T05:42:58.059768822Z  200  /data/spectral/turchin.svg   other bot
+  2026-11-09T05:43:13.557686277Z  200  /data/spectral/perez.svg     other bot
+  2026-11-09T05:43:28.766442071Z  200  /data/conflict_deaths.csv    other bot
+  2026-11-09T05:43:43.967679624Z  200  /data/spectral/dalio.svg     other bot
+  2026-11-09T05:43:59.165014132Z  200  /data/us_tfp_growth.csv      other bot
+  2026-11-09T06:14:05.707398738Z  308  /robots.txt                  Googlebot
+  2026-11-09T06:17:20.88784773Z  404  /api/llms.txt                other bot
+  2026-11-09T06:17:21.086049156Z  200  /robots.txt                  other bot
+  2026-11-09T06:17:21.279893804Z  200  /                            other bot
+  2026-11-09T06:17:21.49824065Z  404  /.well-known/llms.txt        other bot
+  2026-11-09T06:20:26.115903352Z  200  /                            other bot
+  2026-11-09T06:38:10.461031797Z  200  /robots.txt                  Googlebot
+  2026-11-09T06:39:49.460647382Z  301  /og?cycle=schlesinger_jr     Bingbot
+  2026-11-09T07:04:26.73596248Z  200  /robots.txt                  Googlebot
+  2026-11-09T07:05:37.573045774Z  200  /favicon.ico                 Googlebot
+  2026-11-09T07:27:42.282150126Z  200  /robots.txt                  Meta/Facebook
+  2026-11-09T07:54:57.834155265Z  200  /sitemap.xml                 other bot
+  2026-11-09T07:54:58.608796836Z  200  /robots.txt                  other bot
+  2026-11-09T07:54:59.006814259Z  200  /                            other bot
+  2026-11-09T08:03:50.006191084Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-09T08:11:30.440414472Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-09T08:17:15.969810915Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-09T08:26:36.340610024Z  200  /robots.txt                  other bot
+  2026-11-09T08:26:36.531951639Z  404  /.well-known/tdmrep.json     other bot
+  2026-11-09T08:26:37.279494892Z  200  /sitemap.xml                 other bot
+  2026-11-09T08:26:37.83184374Z  404  /.well-known/security.txt    other bot
+  2026-11-09T08:26:38.134367351Z  200  /                            other bot
+  2026-11-09T08:26:38.336570354Z  200  /robots.txt                  other bot
+  2026-11-09T08:26:38.443684301Z  200  /about                       other bot
+  2026-11-09T08:26:38.720863163Z  200  /cycles                      other bot
+  2026-11-09T08:26:39.183293864Z  200  /cycles/khaldun              other bot
+  2026-11-09T08:26:39.72698442Z  200  /poster                      other bot
+  2026-11-09T08:26:39.835375907Z  200  /cycles/kondratiev           other bot
+  2026-11-09T08:26:39.880285263Z  200  /cycles/huntington           other bot
+  2026-11-09T08:26:40.207671099Z  200  /methods                     other bot
+  2026-11-09T08:26:40.275628498Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-09T08:26:40.738060904Z  200  /cycles/perez                other bot
+  2026-11-09T08:26:40.763257578Z  200  /cycles/turchin              other bot
+  2026-11-09T08:26:40.812906472Z  200  /llms.txt                    other bot
+  2026-11-09T08:26:41.068931936Z  200  /colophon                    other bot
+  2026-11-09T08:26:41.270715292Z  200  /about.md                    other bot
+  2026-11-09T08:26:41.364648278Z  200  /cycles/dalio                other bot
+  2026-11-09T08:26:41.42257388Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js other bot
+  2026-11-09T08:26:41.674907158Z  200  /cycles/strauss-howe         other bot
+  2026-11-09T08:26:41.750485456Z  200  /_next/static/chunks/01k-tg_y0oa-h.js other bot
+  2026-11-09T08:26:42.018083307Z  200  /_next/static/chunks/01s_f_3qlcqtb.js other bot
+  2026-11-09T08:26:42.182008455Z  200  /_next/static/chunks/2axic2cm0ljv4.js other bot
+  2026-11-09T08:26:42.358698681Z  200  /_next/static/chunks/turbopack-2c3mg3r-05n1w.js other bot
+  2026-11-09T08:26:42.430558013Z  200  /_next/static/chunks/3_-t55fctjofo.js other bot
+  2026-11-09T08:26:42.454242308Z  200  /_next/static/chunks/2n5qeheznvl4u.js other bot
+  2026-11-09T08:26:42.600602472Z  200  /_next/static/chunks/2xt1bdh-60q29.js other bot
+  2026-11-09T08:26:43.002076382Z  200  /_next/static/chunks/2f6ts-zvehhpi.js other bot
+  2026-11-09T08:26:43.01304405Z  200  /_next/static/chunks/3kh05xu6qvzou.js other bot
+  2026-11-09T08:26:43.019916921Z  200  /_next/static/chunks/273cfbt3o4ftg.js other bot
+  2026-11-09T08:48:10.488723976Z  200  /robots.txt                  other bot
+  2026-11-09T08:48:10.843139713Z  200  /                            other bot
+  2026-11-09T08:48:27.472535923Z  200  /robots.txt                  other bot
+  2026-11-09T08:48:28.299394199Z  200  /                            other bot
+  2026-11-09T09:00:54.901528933Z  200  /cycles                      other bot
+  2026-11-09T09:29:59.916698587Z  308  /robots.txt                  other bot
+  2026-11-09T09:30:00.510338539Z  200  /robots.txt                  other bot
+  2026-11-09T09:30:00.715268502Z  308  /                            other bot
+  2026-11-09T09:30:00.991397453Z  200  /                            other bot
+  2026-11-09T09:30:01.378389908Z  200  /robots.txt                  other bot
+  2026-11-09T09:31:18.908401833Z  200  /data/wid_top1_wealth.csv    other bot
+  2026-11-09T09:38:00.646225415Z  301  /                            other bot
+  2026-11-09T09:38:00.926285663Z  308  /                            other bot
+  2026-11-09T09:38:01.090517902Z  200  /                            other bot
+  2026-11-09T09:42:42.069148719Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T09:42:42.100651978Z  200  /?focus=khaldun              OAI-SearchBot
+  2026-11-09T09:44:28.708812742Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-09T09:44:28.724219879Z  200  /data/conflict_deaths.csv    OAI-SearchBot
+  2026-11-09T09:44:31.561218666Z  200  /data/conflict_deaths.csv    OAI-SearchBot
+  2026-11-09T09:50:54.752826101Z  200  /data/conflict_deaths.csv    other bot
+  2026-11-09T09:57:01.401701802Z  200  /cycles                      other bot
+  2026-11-09T10:41:27.003519046Z  200  /?focus=huntington           OAI-SearchBot
+  2026-11-09T12:40:14.613317544Z  200  /robots.txt                  other bot
+  2026-11-09T12:42:02.650375746Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-09T12:54:09.091973429Z  200  /                            Amazonbot
+  2026-11-09T13:09:21.509337941Z  200  /?tab=calibrate&focus=strauss_howe&arrive=1 other bot
+  2026-11-09T13:10:43.759762037Z  200  /cycles/perez                other bot
+  2026-11-09T14:04:32.965545999Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-09T15:07:52.226086172Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-09T15:08:50.255649824Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-09T15:27:32.711846087Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-09T15:27:32.888320125Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T15:53:17.242180848Z  200  /embed/docs                  Amazonbot
+  2026-11-09T16:09:16.481071879Z  200  /about                       other bot
+  2026-11-09T16:10:14.892064425Z  200  /cycles/modelski             other bot
+  2026-11-09T16:29:51.976914531Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T16:51:32.363822711Z  200  /cycles                      OAI-SearchBot
+  2026-11-09T16:52:38.805632028Z  200  /?_rsc=dQHSU0lG7G5d5BTC      OAI-SearchBot
+  2026-11-09T16:52:39.896710373Z  200  /?_rsc=0AHALR-v7OTgkbrM      OAI-SearchBot
+  2026-11-09T16:52:41.237926557Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-09T16:56:38.325972204Z  200  /cycles/perez                Amazonbot
+  2026-11-09T17:01:23.8661089Z  200  /robots.txt                  other bot
+  2026-11-09T17:01:24.313813894Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-09T17:52:56.734009216Z  200  /data/spectral/turchin.svg   other bot
+  2026-11-09T18:31:13.336189549Z  200  /?focus=huntington           other bot
+  2026-11-09T18:39:04.97467674Z  200  /cycles/kondratiev           Amazonbot
+  2026-11-09T18:55:46.985110186Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-09T19:33:36.939988058Z  200  /methods                     other bot
+  2026-11-09T19:37:14.130100535Z  200  /sitemap.xml                 other bot
+  2026-11-09T19:37:54.493064969Z  200  /                            other bot
+  2026-11-09T19:40:30.599658936Z  200  /robots.txt                  other bot
+  2026-11-09T19:57:05.947819554Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-09T19:57:05.951280986Z  308  /sitemap.xml                 GPTBot
+  2026-11-09T19:57:06.112583643Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T19:57:06.31287223Z  200  /sitemap.xml                 GPTBot
+  2026-11-09T20:09:07.261545141Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-09T20:22:33.040214033Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-09T20:46:11.885761851Z  200  /methods                     OAI-SearchBot
+  2026-11-09T20:49:48.074429291Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-09T20:49:51.713970146Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-09T20:49:53.356718202Z  200  /?_rsc=epBHvCzed33p_ZDo      OAI-SearchBot
+  2026-11-09T20:49:54.428769123Z  200  /_next/static/chunks/2dxijcieh5r0o.js OAI-SearchBot
+  2026-11-09T20:49:54.631014486Z  200  /_next/static/chunks/0hbxkms0qc50x.js OAI-SearchBot
+  2026-11-09T20:49:54.699370073Z  200  /_next/static/chunks/3rk2opm7msfhi.js OAI-SearchBot
+  2026-11-09T20:56:29.611504244Z  200  /embed?view=facets&cycles=huntington&peak.huntington=1968 other bot
+  2026-11-09T21:08:01.873855498Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-09T21:10:41.876426205Z  200  /?_rsc=L9MQamjdp8dmHegf      OAI-SearchBot
+  2026-11-09T21:10:43.752797119Z  200  /?_rsc=L9MQamjdp8dmHegf&focus=kondratiev OAI-SearchBot
+  2026-11-09T21:10:45.31900891Z  200  /?_rsc=L9MQamjdp8dmHegf&arrive=1&focus=kondratiev&tab=calibrate OAI-SearchBot
+  2026-11-09T21:22:50.05375644Z  200  /?focus=perez                other bot
+  2026-11-09T21:24:30.042821311Z  200  /cycles/strauss-howe         Amazonbot
+  2026-11-09T21:50:30.301251346Z  308  /                            other bot
+  2026-11-09T21:50:30.335831454Z  200  /                            other bot
+  2026-11-09T21:50:30.812318382Z  200  /                            other bot
+  2026-11-09T21:50:31.081298275Z  200  /robots.txt                  other bot
+  2026-11-09T21:50:31.340951574Z  308  /robots.txt                  other bot
+  2026-11-09T21:50:31.410113827Z  200  /llms.txt                    other bot
+  2026-11-09T21:50:31.654682802Z  200  /robots.txt                  other bot
+  2026-11-09T21:50:31.690148152Z  404  /.well-known/ai-plugin.json  other bot
+  2026-11-09T21:50:31.870714406Z  308  /llms.txt                    other bot
+  2026-11-09T21:50:31.870806125Z  404  /.well-known/ucp             other bot
+  2026-11-09T21:50:32.131840755Z  404  /.well-known/gpc.json        other bot
+  2026-11-09T21:50:32.162546735Z  200  /llms.txt                    other bot
+  2026-11-09T21:50:32.707172946Z  308  /.well-known/ai-plugin.json  other bot
+  2026-11-09T21:50:32.763418043Z  200  /about                       other bot
+  2026-11-09T21:50:33.20312846Z  404  /team                        other bot
+  2026-11-09T21:50:33.222480378Z  404  /.well-known/ai-plugin.json  other bot
+  2026-11-09T21:50:33.412605321Z  308  /.well-known/ucp             other bot
+  2026-11-09T21:50:33.416477339Z  404  /our-team                    other bot
+  2026-11-09T21:50:33.602286491Z  404  /.well-known/ucp             other bot
+  2026-11-09T21:50:33.62073177Z  404  /pages/team                  other bot
+  2026-11-09T21:50:33.766496313Z  308  /.well-known/gpc.json        other bot
+  2026-11-09T21:50:33.811783346Z  404  /about/team                  other bot
+  2026-11-09T21:50:34.279503925Z  404  /.well-known/gpc.json        other bot
+  2026-11-09T21:50:34.294527332Z  404  /meet-the-team               other bot
+  2026-11-09T21:50:34.486806406Z  308  /about                       other bot
+  2026-11-09T21:50:34.750620836Z  404  /ads.txt                     other bot
+  2026-11-09T21:50:35.048507664Z  200  /about                       other bot
+  2026-11-09T21:50:35.461423357Z  308  /team                        other bot
+  2026-11-09T21:50:36.062654602Z  404  /team                        other bot
+  2026-11-09T21:50:36.66604999Z  308  /our-team                    other bot
+  2026-11-09T21:50:37.099130338Z  404  /our-team                    other bot
+  2026-11-09T21:50:37.292544258Z  308  /pages/team                  other bot
+  2026-11-09T21:50:37.764035959Z  404  /pages/team                  other bot
+  2026-11-09T21:50:38.089716912Z  308  /about/team                  other bot
+  2026-11-09T21:50:38.26807312Z  404  /about/team                  other bot
+  2026-11-09T21:50:38.700791631Z  308  /meet-the-team               other bot
+  2026-11-09T21:50:38.975095448Z  404  /meet-the-team               other bot
+  2026-11-09T21:50:40.270363775Z  308  /ads.txt                     other bot
+  2026-11-09T21:50:40.589354751Z  404  /ads.txt                     other bot
+  2026-11-09T21:54:45.769335629Z  200  /data/spectral/strauss_howe.svg other bot
+  2026-11-09T21:58:10.370699334Z  200  /?tab=calibrate&focus=huntington&arrive=1 Bingbot
+  2026-11-09T22:00:42.056075175Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-09T22:51:56.626623202Z  200  /robots.txt                  other bot
+  2026-11-09T22:57:31.665314464Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-09T22:57:34.005771959Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-09T22:57:34.342650913Z  200  /?_rsc=Ue6KMIhxh5zKRTq8      OAI-SearchBot
+  2026-11-09T22:57:34.892747016Z  200  /about                       other bot
+  2026-11-09T22:57:35.379315415Z  200  /?_rsc=YzmS7Kdk7n7GmyGR      OAI-SearchBot
+  2026-11-09T22:57:36.68672033Z  200  /_next/static/chunks/3rk2opm7msfhi.js OAI-SearchBot
+  2026-11-09T22:57:36.706307287Z  200  /_next/static/chunks/2dxijcieh5r0o.js OAI-SearchBot
+  2026-11-09T22:57:36.761566394Z  200  /_next/static/chunks/0hbxkms0qc50x.js OAI-SearchBot
+  2026-11-09T22:58:03.971955433Z  200  /data/spectral/turchin.svg   OAI-SearchBot
+  2026-11-09T23:03:21.148741901Z  200  /methods                     other bot
+  2026-11-09T23:08:29.332117467Z  200  /poster                      other bot
+  2026-11-09T23:08:32.986066074Z  200  /robots.txt                  Googlebot
+  2026-11-09T23:09:01.708365733Z  200  /cycles/kondratiev           Googlebot
+  2026-11-09T23:13:50.588495873Z  200  /colophon                    other bot
+  2026-11-09T23:19:31.061495147Z  200  /embed/docs                  other bot
+  2026-11-09T23:24:56.981280873Z  200  /cycles                      other bot
+  2026-11-09T23:39:53.25284359Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T00:25:09.93408739Z  200  /robots.txt                  Meta/Facebook
+  2026-11-10T00:46:42.706234208Z  200  /og?cycle=turchin            Bingbot
+  2026-11-10T00:53:06.767464931Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-10T01:31:46.850943918Z  200  /?focus=perez                OAI-SearchBot
+  2026-11-10T01:34:05.759349523Z  308  /robots.txt                  Googlebot
+  2026-11-10T01:52:35.485707535Z  200  /                            other bot
+  2026-11-10T02:06:13.329365958Z  200  /about                       Amazonbot
+  2026-11-10T02:21:22.570488669Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-10T03:18:56.990542546Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-10T03:19:54.11692959Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-10T03:23:58.533470845Z  200  /?focus=turchin              Bingbot
+  2026-11-10T03:44:58.020113815Z  200  /llms.txt                    other bot
+  2026-11-10T04:18:26.05905011Z  200  /about                       other bot
+  2026-11-10T04:24:34.588392207Z  200  /cycles/dalio                Bingbot
+  2026-11-10T04:29:56.829695832Z  200  /cycles/modelski             other bot
+  2026-11-10T04:35:52.270245229Z  200  /_next/static/chunks/2dxijcieh5r0o.js OAI-SearchBot
+  2026-11-10T04:35:55.227402687Z  200  /_next/static/chunks/0hbxkms0qc50x.js OAI-SearchBot
+  2026-11-10T04:35:57.74336249Z  200  /_next/static/chunks/3rk2opm7msfhi.js OAI-SearchBot
+  2026-11-10T04:38:54.784658065Z  200  /sitemap.xml                 GPTBot
+  2026-11-10T04:40:19.065892863Z  200  /robots.txt                  Meta/Facebook
+  2026-11-10T04:48:27.044106492Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-10T05:03:31.001262735Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T05:11:07.834669127Z  200  /robots.txt                  Googlebot
+  2026-11-10T06:13:27.358337288Z  200  /                            other bot
+  2026-11-10T06:13:34.08740938Z  200  /robots.txt                  other bot
+  2026-11-10T07:27:55.116121996Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-10T07:27:55.275276174Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T07:39:00.921075894Z  200  /cycles/khaldun              other bot
+  2026-11-10T07:58:32.865551382Z  200  /                            other bot
+  2026-11-10T08:05:09.767098322Z  200  /poster                      other bot
+  2026-11-10T08:43:16.439885975Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-10T08:45:09.786904836Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-10T08:55:33.112283192Z  200  /                            other bot
+  2026-11-10T09:09:53.459683402Z  200  /robots.txt                  Googlebot
+  2026-11-10T09:33:30.938701487Z  308  /robots.txt                  Bingbot
+  2026-11-10T09:33:31.132147615Z  200  /robots.txt                  Bingbot
+  2026-11-10T09:33:31.1591302Z  308  /robots.txt                  Bingbot
+  2026-11-10T09:33:31.200962055Z  200  /robots.txt                  Bingbot
+  2026-11-10T09:33:38.920598891Z  308  /                            Bingbot
+  2026-11-10T09:42:38.932949937Z  200  /?focus=khaldun              OAI-SearchBot
+  2026-11-10T09:52:50.172592419Z  200  /data/vdem_libdem.source.md  other bot
+  2026-11-10T09:56:26.734507947Z  301  /robots.txt                  other bot
+  2026-11-10T09:56:27.006932029Z  200  /robots.txt                  other bot
+  2026-11-10T10:09:13.278010378Z  200  /og?cycle=dalio              Bingbot
+  2026-11-10T10:21:00.928660245Z  200  /robots.txt                  other bot
+  2026-11-10T10:21:01.31669104Z  200  /sitemap.xml                 other bot
+  2026-11-10T10:39:16.687540905Z  200  /robots.txt                  Googlebot
+  2026-11-10T10:39:16.849470088Z  200  /_next/static/chunks/1xfdon1mwwlgi.js Googlebot
+  2026-11-10T10:39:16.904543068Z  200  /_next/static/chunks/3x98vbp99ri_2.css Googlebot
+  2026-11-10T10:39:16.92804811Z  200  /_next/static/chunks/2n5qeheznvl4u.js Googlebot
+  2026-11-10T10:39:17.000889393Z  200  /_next/static/chunks/3_-t55fctjofo.js Googlebot
+  2026-11-10T10:39:17.107385004Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-10T10:39:17.74786417Z  200  /data/spectral/schlesinger_jr.svg Googlebot
+  2026-11-10T10:41:26.845399307Z  200  /?focus=huntington           OAI-SearchBot
+  2026-11-10T11:03:19.403110061Z  200  /methods                     other bot
+  2026-11-10T11:07:40.534230344Z  308  /robots.txt                  Googlebot
+  2026-11-10T11:41:56.292201523Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T11:49:08.558161295Z  200  /robots.txt                  other bot
+  2026-11-10T11:49:08.823327175Z  404  /llms-full.txt               other bot
+  2026-11-10T11:53:36.63703168Z  200  /colophon                    other bot
+  2026-11-10T11:54:30.824228196Z  200  /                            other bot
+  2026-11-10T11:59:30.524506571Z  200  /embed?view=facets&cycles=huntington&peak.huntington=1972 other bot
+  2026-11-10T12:04:30.121136658Z  200  /robots.txt                  Googlebot
+  2026-11-10T12:21:34.466732872Z  200  /cycles                      other bot
+  2026-11-10T12:49:08.106986771Z  200  /about                       other bot
+  2026-11-10T12:57:29.588516115Z  200  /methods                     other bot
+  2026-11-10T13:10:06.151329015Z  200  /robots.txt                  other bot
+  2026-11-10T13:11:53.316802487Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-10T13:16:28.332517698Z  200  /?tab=calibrate&focus=dalio&arrive=1 other bot
+  2026-11-10T13:33:12.458760598Z  200  /robots.txt                  other bot
+  2026-11-10T13:33:12.725617405Z  200  /cycles/dalio                other bot
+  2026-11-10T13:40:32.705661767Z  200  /robots.txt                  Googlebot
+  2026-11-10T13:40:43.52900798Z  200  /cycles/khaldun              Googlebot
+  2026-11-10T13:44:17.618300984Z  200  /                            other bot
+  2026-11-10T13:47:05.582363787Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-10T13:47:05.789696411Z  200  /robots.txt                  other bot
+  2026-11-10T13:53:36.555233424Z  200  /embed?view=facets&range=modern other bot
+  2026-11-10T13:54:59.785060774Z  200  /data/spectral/verdicts.json other bot
+  2026-11-10T14:17:08.402397119Z  200  /cycles/khaldun              other bot
+  2026-11-10T14:32:18.908364203Z  200  /og?cycle=khaldun            other bot
+  2026-11-10T14:32:29.223107818Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-10T14:49:38.489423007Z  308  /robots.txt                  other bot
+  2026-11-10T14:49:38.803853998Z  200  /robots.txt                  other bot
+  2026-11-10T14:49:39.41115917Z  308  /                            other bot
+  2026-11-10T14:49:39.690143045Z  200  /                            other bot
+  2026-11-10T15:07:28.259495061Z  200  /cycles/khaldun              Amazonbot
+  2026-11-10T15:19:30.651477897Z  301  /                            other bot
+  2026-11-10T15:19:30.91135828Z  200  /                            other bot
+  2026-11-10T15:21:07.446708492Z  200  /poster                      other bot
+  2026-11-10T15:31:16.013446338Z  200  /robots.txt                  other bot
+  2026-11-10T15:31:16.305528761Z  200  /cycles/huntington           other bot
+  2026-11-10T15:31:17.412339838Z  200  /cycles/khaldun              other bot
+  2026-11-10T15:31:18.333453524Z  200  /cycles/kondratiev           other bot
+  2026-11-10T15:31:19.290798116Z  200  /cycles/modelski             other bot
+  2026-11-10T15:31:20.3027419Z  200  /cycles/perez                other bot
+  2026-11-10T15:31:21.297388144Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-10T15:31:22.286566292Z  200  /cycles/strauss-howe         other bot
+  2026-11-10T15:31:23.31148532Z  200  /cycles/turchin              other bot
+  2026-11-10T15:31:24.306634027Z  200  /cycles/turchin-fathers-sons other bot
+  2026-11-10T15:34:23.638334899Z  301  /robots.txt                  Googlebot
+  2026-11-10T15:34:23.863420868Z  308  /robots.txt                  Googlebot
+  2026-11-10T15:36:19.667787533Z  200  /cycles/strauss-howe         other bot
+  2026-11-10T15:36:45.993170466Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-10T15:37:03.427506024Z  200  /robots.txt                  other bot
+  2026-11-10T15:40:36.91051222Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T16:00:23.432212924Z  200  /robots.txt                  other bot
+  2026-11-10T16:00:25.027297149Z  200  /?tab=calibrate&focus=dalio&arrive=1 other bot
+  2026-11-10T16:19:44.288380273Z  200  /?focus=dalio                Bingbot
+  2026-11-10T16:23:46.853715329Z  200  /about                       other bot
+  2026-11-10T16:39:08.028092671Z  200  /cycles/modelski             other bot
+  2026-11-10T16:53:36.939926737Z  200  /robots.txt                  Googlebot
+  2026-11-10T16:53:37.169367632Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-10T17:04:42.741324011Z  200  /robots.txt                  other bot
+  2026-11-10T17:04:42.755114478Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-10T17:07:10.226208852Z  200  /                            other bot
+  2026-11-10T17:07:10.583756972Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico other bot
+  2026-11-10T17:36:00.990468903Z  200  /                            other bot
+  2026-11-10T17:46:09.23239227Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T18:14:13.7670132Z  200  /cycles                      OAI-SearchBot
+  2026-11-10T18:17:20.763456012Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-10T18:17:21.408096472Z  200  /?_rsc=dQHSU0lG7G5d5BTC      OAI-SearchBot
+  2026-11-10T18:17:23.237226144Z  200  /?_rsc=0AHALR-v7OTgkbrM      OAI-SearchBot
+  2026-11-10T18:17:24.439208825Z  200  /_next/static/chunks/2so4y2spkv_jc.js OAI-SearchBot
+  2026-11-10T18:55:47.01567381Z  200  /cycles/strauss-howe         OAI-SearchBot
+  2026-11-10T18:57:52.329795606Z  200  /data/spectral/strauss_howe.svg OAI-SearchBot
+  2026-11-10T19:51:55.76181972Z  200  /robots.txt                  Googlebot
+  2026-11-10T19:52:12.210603011Z  200  /robots.txt                  Meta/Facebook
+  2026-11-10T19:57:20.514793089Z  200  /?_rsc=qzxQjRSgBBqL4DIG&arrive=1&focus=strauss_howe&tab=calibrate OAI-SearchBot
+  2026-11-10T19:57:23.479051069Z  200  /?_rsc=qzxQjRSgBBqL4DIG&focus=strauss_howe OAI-SearchBot
+  2026-11-10T19:59:32.845745157Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-10T19:59:32.848699448Z  308  /sitemap.xml                 GPTBot
+  2026-11-10T19:59:33.044866775Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T19:59:33.187615994Z  200  /sitemap.xml                 GPTBot
+  2026-11-10T20:21:25.16993048Z  308  /robots.txt                  other bot
+  2026-11-10T20:21:25.560128449Z  200  /robots.txt                  other bot
+  2026-11-10T20:21:25.869876499Z  308  /                            other bot
+  2026-11-10T20:46:11.842330788Z  200  /methods                     OAI-SearchBot
+  2026-11-10T20:47:59.123662185Z  200  /?_rsc=7De7cLFeOb9rJxf-      OAI-SearchBot
+  2026-11-10T20:47:59.429221678Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-10T20:48:00.229936809Z  200  /?_rsc=epBHvCzed33p_ZDo      OAI-SearchBot
+  2026-11-10T20:48:00.946226592Z  200  /_next/static/chunks/2so4y2spkv_jc.js OAI-SearchBot
+  2026-11-10T20:52:26.158440341Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-10T20:53:23.463377664Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-10T21:08:01.909616521Z  200  /cycles/kondratiev           OAI-SearchBot
+  2026-11-10T21:10:22.250391347Z  200  /data/spectral/kondratiev.svg OAI-SearchBot
+  2026-11-10T21:46:05.727627726Z  200  /                            other bot
+  2026-11-10T22:00:42.049109485Z  200  /cycles/turchin              OAI-SearchBot
+  2026-11-10T22:59:32.905337657Z  200  /?_rsc=Ue6KMIhxh5zKRTq8      OAI-SearchBot
+  2026-11-10T22:59:33.300413553Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-10T22:59:33.858567053Z  200  /?_rsc=YzmS7Kdk7n7GmyGR      OAI-SearchBot
+  2026-11-10T22:59:35.130101219Z  200  /_next/static/chunks/2so4y2spkv_jc.js OAI-SearchBot
+  2026-11-10T22:59:37.98925248Z  200  /data/spectral/turchin.svg   OAI-SearchBot
+  2026-11-10T23:09:48.025543413Z  200  /robots.txt                  Googlebot
+  2026-11-10T23:10:35.813251049Z  200  /methods                     other bot
+  2026-11-10T23:15:54.380466631Z  200  /robots.txt                  other bot
+  2026-11-10T23:15:56.449005554Z  200  /?tab=calibrate&focus=huntington&arrive=1 other bot
+  2026-11-10T23:15:58.391234303Z  200  /?tab=calibrate&focus=khaldun&arrive=1 other bot
+  2026-11-10T23:16:00.198934908Z  200  /?tab=calibrate&focus=kondratiev&arrive=1 other bot
+  2026-11-10T23:16:02.058129833Z  200  /?tab=calibrate&focus=modelski&arrive=1 other bot
+  2026-11-10T23:16:04.318519461Z  200  /?tab=calibrate&focus=perez&arrive=1 other bot
+  2026-11-10T23:16:06.154081811Z  200  /?tab=calibrate&focus=schlesinger_jr&arrive=1 other bot
+  2026-11-10T23:16:08.212733041Z  200  /?tab=calibrate&focus=strauss_howe&arrive=1 other bot
+  2026-11-10T23:16:09.943577311Z  200  /?tab=calibrate&focus=turchin&arrive=1 other bot
+  2026-11-10T23:28:48.563807559Z  308  /robots.txt                  OAI-SearchBot
+  2026-11-10T23:28:48.769741351Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-10T23:48:35.354570315Z  200  /robots.txt                  Googlebot
+  2026-11-10T23:48:35.580410176Z  200  /cycles/huntington           Googlebot
+  2026-11-11T00:12:04.618302794Z  200  /cycles/huntington           other bot
+  2026-11-11T00:46:22.982201308Z  200  /_next/static/chunks/1-nqmp1rl8kqt.js Googlebot
+  2026-11-11T00:46:22.982793981Z  200  /_next/static/chunks/1x6obpmlu1_c2.js Googlebot
+  2026-11-11T00:46:23.006197778Z  200  /_next/static/chunks/01s_f_3qlcqtb.js Googlebot
+  2026-11-11T00:46:23.013168011Z  200  /_next/static/chunks/3x98vbp99ri_2.css Googlebot
+  2026-11-11T00:46:23.123651351Z  200  /_next/static/chunks/2axic2cm0ljv4.js Googlebot
+  2026-11-11T00:46:23.580189065Z  200  /data/spectral/schlesinger_jr.svg Googlebot
+  2026-11-11T01:17:15.092857905Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-11T01:39:00.640924114Z  200  /robots.txt                  Meta/Facebook
+  2026-11-11T01:49:53.118087732Z  200  /methods                     other bot
+  2026-11-11T01:52:44.884168743Z  200  /colophon                    other bot
+  2026-11-11T02:39:45.849121346Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-11T03:43:05.771314829Z  200  /data/wid_top1_wealth.source.md other bot
+  2026-11-11T03:44:03.082218893Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-11T03:51:20.522709603Z  200  /data/stimson_policy_mood.source.md other bot
+  2026-11-11T04:02:46.683173563Z  200  /cycles/dalio                Amazonbot
+  2026-11-11T04:38:04.067856461Z  301  /robots.txt                  Googlebot
+  2026-11-11T04:38:04.279147709Z  308  /robots.txt                  Googlebot
+  2026-11-11T04:40:27.808636022Z  200  /sitemap.xml                 GPTBot
+  2026-11-11T04:40:27.890498764Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-11T04:47:22.734272282Z  200  /cycles/schlesinger-jr       other bot
+  2026-11-11T04:48:26.894806587Z  200  /cycles/dalio                OAI-SearchBot
+  2026-11-11T04:52:46.083378138Z  200  /?tab=calibrate&focus=modelski&arrive=1 other bot
+  2026-11-11T05:08:32.777698141Z  200  /robots.txt                  Googlebot
+  2026-11-11T05:08:52.246296705Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-11T05:19:27.59844087Z  200  /embed?view=state-only       other bot
+  2026-11-11T05:21:03.319807527Z  200  /cycles/modelski             other bot
+  2026-11-11T05:30:26.341446445Z  200  /cycles/schlesinger-jr       Googlebot
+  2026-11-11T06:49:32.759336866Z  200  /cycles/schlesinger-jr       Amazonbot
+  2026-11-11T07:05:47.886630776Z  301  /robots.txt                  other bot
+  2026-11-11T07:05:48.106993293Z  308  /robots.txt                  other bot
+  2026-11-11T07:41:31.217857956Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-11T09:13:09.605688157Z  200  /data/leading_power_gdp_share.source.md other bot
+  2026-11-11T09:15:03.82079211Z  200  /                            other bot
+  2026-11-11T09:15:03.948501831Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico other bot
+  2026-11-11T10:06:54.425918134Z  200  /robots.txt                  other bot
+  2026-11-11T10:07:09.622048812Z  200  /data/dw_nominate.csv        other bot
+  2026-11-11T10:07:24.832706183Z  200  /data/conflict_deaths.source.md other bot
+  2026-11-11T10:07:40.050306835Z  200  /data/us_tfp_growth.source.md other bot
+  2026-11-11T10:07:55.250567467Z  200  /data/dw_nominate.source.md  other bot
+  2026-11-11T10:08:12.639352776Z  200  /data/vdem_libdem.csv        other bot
+  2026-11-11T10:08:31.291602454Z  200  /data/us_world_gdp_share.csv other bot
+  2026-11-11T10:08:46.835782676Z  200  /data/us_world_gdp_share.source.md other bot
+  2026-11-11T10:13:29.469406646Z  200  /colophon                    Amazonbot
+  2026-11-11T10:41:26.84353902Z  200  /robots.txt                  OAI-SearchBot
+  2026-11-11T10:41:26.860696916Z  200  /?focus=huntington           OAI-SearchBot
+  2026-11-11T11:15:26.684631649Z  200  /robots.txt                  other bot
+  2026-11-11T11:17:15.220719747Z  200  /methods                     other bot
+  2026-11-11T11:43:49.88117182Z  200  /_next/static/chunks/2so4y2spkv_jc.js OAI-SearchBot
+  2026-11-11T11:43:50.071647878Z  200  /cycles?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:50.089036352Z  200  /?_rsc=5CB68i4pnAekjehf      OAI-SearchBot
+  2026-11-11T11:43:50.113591118Z  200  /methods?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:50.723333715Z  200  /embed/docs?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:50.997029363Z  200  /data/dw_nominate.csv        OAI-SearchBot
+  2026-11-11T11:43:51.115676708Z  200  /poster?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:51.238725718Z  200  /data/dw_nominate.csv        OAI-SearchBot
+  2026-11-11T11:43:51.411745386Z  200  /favicon.ico?favicon.2vob68tjqpejf.ico OAI-SearchBot
+  2026-11-11T11:43:52.532734506Z  200  /colophon?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:52.699711027Z  200  /?_rsc=lxbBaZJUjdur4gLV      OAI-SearchBot
+  2026-11-11T11:43:52.781543962Z  200  /about?_rsc=5CB68i4pnAekjehf OAI-SearchBot
+  2026-11-11T11:43:53.700993416Z  200  /methods?_rsc=btQfSxEDh0ZLxeN3 OAI-SearchBot
+  2026-11-11T11:43:53.97805926Z  200  /about?_rsc=2-6pyX8CQH9RhIPK OAI-SearchBot
+  2026-11-11T11:43:54.285076685Z  200  /cycles?_rsc=6Wh1RlPiK07d5x3g OAI-SearchBot
+  2026-11-11T11:43:58.768446376Z  200  /poster?_rsc=_JB-K_jLkpuVmDni OAI-SearchBot
+  2026-11-11T11:44:00.185477555Z  200  /_next/static/chunks/35w_ouudbfo54.js OAI-SearchBot
+  2026-11-11T11:44:03.085316816Z  200  /colophon?_rsc=wj3lvODC_DCXcgSv OAI-SearchBot
+  2026-11-11T11:44:03.228123454Z  200  /embed/docs?_rsc=-c0oercenhC82gEq OAI-SearchBot
+  2026-11-11T13:33:18.901063783Z  200  /og                          other bot
+  2026-11-11T13:46:45.139253195Z  308  /robots.txt                  Googlebot
+  2026-11-11T13:59:49.403286909Z  200  /                            other bot
+  2026-11-11T14:29:23.794470117Z  200  /cycles/khaldun              other bot
+  2026-11-11T14:48:34.470924333Z  200  /data/conflict_deaths.source.md other bot
+
+178 crawler request(s) did NOT return 2xx and are excluded from coverage.
+
+Google: 231 hit(s). Crawl is happening — GSC would now add impressions/queries.
+Phase 12 routes: 224 crawler hit(s) on /cycles* (2xx only).
+
+[exited with code 0]

@@ -1,6 +1,6 @@
 # read-output sidecar for I-080 — written by check-due-gates-dispositioned --run
 # readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -E "theory.?s (own|exact|declared)( stated)? period|(its own|their|his|her|the exact) stated period|theory.?s stated (cycle|period)|declared period|rhythm the theory names" -- public src ":!*.test.ts" ":!*.test.tsx" ":!src/lib/periodProvenanceBan.ts"
-# ran: 2026-11-07T18:17:51.824Z · exit: 1
+# ran: 2026-11-11T15:41:37.559Z · exit: 1
 # lines: 0 · sha256: e3b0c44298fc1c14 (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
