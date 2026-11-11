@@ -76,14 +76,37 @@ export function widenedNote(span: number): string {
   return `Widened to ${span} years, the shortest view this chart draws.`;
 }
 
-export function brushStatus(r: BrushResult): { widened: string | null; rest: string } {
+/**
+ * I-068 (2026-11-11): the axis runs to 2050 (kept on purpose), but nothing after the current
+ * year is drawn: no curve (I-061, `drawnPeriod` cuts at the current year) and no data point (no
+ * CSV row in public/data is dated later). A window that runs past the current year says so.
+ * These words do not say "curves stop at today", because for most cycles the drawn period ends
+ * earlier (manager review 22f7531a). Returns null for a window that ends by the current year.
+ */
+export function drawnEndNote(end: number, currentYear: number): string | null {
+  return end > currentYear ? `nothing drawn after ${currentYear}` : null;
+}
+
+/**
+ * The same fact in the readout's narrowest form. At 320px the full note pushes the readout off
+ * the "Range" label's line (+24px row height on production, 2026-11-11), and "none" fits.
+ */
+export function drawnEndNoteNarrow(end: number, currentYear: number): string | null {
+  return end > currentYear ? `none drawn after ${currentYear}` : null;
+}
+
+export function brushStatus(
+  r: BrushResult,
+  currentYear: number,
+): { widened: string | null; rest: string } {
   const preset = RANGE_PRESET_OPTIONS.find(
     (p) => p.id !== "all" && p.start === r.start && p.end === r.end,
   );
-  const window =
+  const shown =
     r.outcome === "reset"
       ? `Chart now shows every year, ${r.start}–${r.end}.`
       : `Chart now shows ${r.start}–${r.end}${preset ? `, the same as ${preset.label}` : ""}.`;
+  const window = r.end > currentYear ? `${shown} Nothing is drawn after ${currentYear}.` : shown;
   return {
     widened: r.outcome === "widened" ? widenedNote(r.end - r.start) : null,
     rest:

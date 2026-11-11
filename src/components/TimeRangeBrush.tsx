@@ -4,7 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { brushX, type D3BrushEvent } from "d3-brush";
 import { select } from "d3-selection";
 import { useContainerWidth, useTimeScale } from "@/lib/hooks";
-import { brushStatus, nextStatus, resolveBrushEnd, type BrushResult } from "@/lib/brushStatus";
+import {
+  brushStatus,
+  drawnEndNote,
+  drawnEndNoteNarrow,
+  nextStatus,
+  resolveBrushEnd,
+  type BrushResult,
+} from "@/lib/brushStatus";
 import { RANGE_PRESET_OPTIONS } from "@/lib/siteConfig";
 import { cn } from "@/lib/utils";
 
@@ -35,6 +42,8 @@ interface TimeRangeBrushProps {
   visibleStartYear: number;
   visibleEndYear: number;
   onChange: (start: number, end: number) => void;
+  /** UTC, like Viz's: the year nothing is drawn after (I-068). */
+  currentYear?: number;
 }
 
 const HEIGHT = 78;
@@ -48,6 +57,7 @@ export default function TimeRangeBrush({
   visibleStartYear,
   visibleEndYear,
   onChange,
+  currentYear = new Date().getUTCFullYear(),
 }: TimeRangeBrushProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(containerRef, 800);
@@ -193,8 +203,12 @@ export default function TimeRangeBrush({
   // hides it); a preset tap clears it outright, and the next gesture replaces it.
   const said =
     status && status.start === visibleStartYear && status.end === visibleEndYear
-      ? brushStatus(status)
+      ? brushStatus(status, currentYear)
       : null;
+  // I-068: on every load, preset and URL window that runs past the current year, the readout
+  // says nothing is drawn after it. Two spans, one per width, so a reader sees one sentence.
+  const endNote = drawnEndNote(visibleEndYear, currentYear);
+  const endNoteNarrow = drawnEndNoteNarrow(visibleEndYear, currentYear);
 
   return (
     <div className="space-y-3" ref={containerRef}>
@@ -205,8 +219,26 @@ export default function TimeRangeBrush({
         {/* On a phone the readout shares the label's line and the buttons wrap under both; it was
             a third line of its own, which kept the tenth overview row and the strip off one
             360x560 screen (I-066). From sm up it sits at the row's right end, as before. */}
-        <span className="text-[11px] text-ink-soft ml-auto font-mono tabular-nums sm:order-last">
-          showing <span className="text-ink">{range}</span>
+        {/* I-068 (2026-11-11): "showing" made room for the drawn-end note, which must stay on
+            the label's line. Measured on production: "showing 1600–2050 · nothing drawn after
+            2026" left that line at 320-390px; without "showing" it stays at 360px and up, and
+            the "none" form stays at 320px. */}
+        <span
+          data-range-readout
+          className="text-[11px] text-ink-soft ml-auto font-mono tabular-nums sm:order-last"
+        >
+          <span className="text-ink">{range}</span>
+          {endNote && endNoteNarrow && (
+            <>
+              {" · "}
+              <span data-range-drawn-end className="max-[339px]:hidden">
+                {endNote}
+              </span>
+              <span data-range-drawn-end-narrow className="hidden max-[339px]:inline">
+                {endNoteNarrow}
+              </span>
+            </>
+          )}
         </span>
         <div className="flex flex-wrap gap-1 max-sm:basis-full">
           {RANGE_PRESET_OPTIONS.map((preset) => {

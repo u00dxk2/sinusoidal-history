@@ -175,6 +175,7 @@ export default function Viz({
           visibleStartYear={visibleStartYear}
           visibleEndYear={visibleEndYear}
           onChange={setRange}
+          currentYear={currentYear}
         />
         {/* I-063 (2026-10-30): both production walkers read the overview's bunched humps as
             convergence until the editor's note, four screens down. What the anchors are sits here, under
