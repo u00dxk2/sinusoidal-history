@@ -5,6 +5,9 @@ import {
   CLUSTER_FROM,
   CLUSTER_TO,
   GLANCE_CAPTION_MAX_CHARS,
+  GLANCE_HEIGHT_LABEL,
+  GLANCE_HEIGHT_LABEL_MAX_CHARS,
+  GLANCE_HEIGHT_READING,
   GLANCE_VERDICT_MAX_CHARS,
   glanceCaption,
   glanceClusterLine,
@@ -39,6 +42,36 @@ describe("glanceCaption", () => {
     // Resolved from this file, not the cwd (Codex r1: run from src/ it read src/src/...).
     const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
     expect(src).toMatch(/\{glanceCaption\(verdictLine\)\}/);
+  });
+});
+
+// I-077 (2026-11-12): the figure says what a hump's height means. The 11-03 cold walker read
+// height as strength ("I assume height means strength, but that is a guess", the row's words).
+// The label is only true while every cycle draws at unit amplitude, so that is pinned here too.
+describe("glance height label", () => {
+  it("is true of the data: every cycle draws at unit amplitude", () => {
+    expect(cycles.length).toBeGreaterThan(0);
+    for (const c of cycles) expect([c.id, c.amplitude_normalized]).toEqual([c.id, 1]);
+  });
+
+  it("says height is shape, not size, in the visible label and the screen-reader sentence", () => {
+    expect(GLANCE_HEIGHT_LABEL).toBe("height: shape, not size");
+    expect(GLANCE_HEIGHT_READING).toMatch(/shape/);
+    expect(GLANCE_HEIGHT_READING).toMatch(/not a measured size/);
+  });
+
+  it("fits the measured budget beside the year ticks", () => {
+    expect(GLANCE_HEIGHT_LABEL.length).toBeLessThanOrEqual(GLANCE_HEIGHT_LABEL_MAX_CHARS);
+  });
+
+  it("is what the figure renders: label visible, sentence outside any aria-hidden wrapper", () => {
+    const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
+    const label = src.match(/<span\s+data-glance-height-label[\s\S]*?\{GLANCE_HEIGHT_READING\}<\/span>/);
+    expect(label).not.toBeNull();
+    // The outer label span carries no aria-hidden; only the terse visible words do.
+    expect(label![0].split(">")[0]).not.toMatch(/aria-hidden/);
+    expect(label![0]).toMatch(/<span aria-hidden>\{GLANCE_HEIGHT_LABEL\}<\/span>/);
+    expect(label![0]).toMatch(/<span className="sr-only">\{GLANCE_HEIGHT_READING\}<\/span>/);
   });
 });
 

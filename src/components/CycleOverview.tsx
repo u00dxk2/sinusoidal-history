@@ -6,6 +6,8 @@ import { scaleLinear } from "d3-scale";
 import type { Cycle } from "@/data/types";
 import { cycleTheorist } from "@/lib/cycleRoutes";
 import {
+  GLANCE_HEIGHT_LABEL,
+  GLANCE_HEIGHT_READING,
   glanceCaption,
   glanceVerdictLine,
   outsideWindowWords,
@@ -126,16 +128,29 @@ export default function CycleOverview({
           />
         ))}
       </ul>
-      <div aria-hidden className="relative h-4 mt-1" style={{ marginLeft: NAME_COL }}>
-        {ticks.map((t) => (
-          <span
-            key={t.year}
-            className="absolute top-0 -translate-x-1/2 font-mono text-[11px] leading-4 tabular-nums text-ink-soft/80"
-            style={{ left: t.x }}
-          >
-            {t.year}
-          </span>
-        ))}
+      <div className="flex h-4 mt-1">
+        {/* I-077: what a hump's height means, in the name column's empty
+            strip beside the year ticks, so it costs no height. The visible
+            words are terse; a screen reader gets the sentence. */}
+        <span
+          data-glance-height-label
+          className="flex-shrink-0 pr-2 overflow-hidden whitespace-nowrap font-display-italic italic text-[11px] leading-4 text-ink-soft"
+          style={{ width: NAME_COL }}
+        >
+          <span aria-hidden>{GLANCE_HEIGHT_LABEL}</span>
+          <span className="sr-only">{GLANCE_HEIGHT_READING}</span>
+        </span>
+        <div aria-hidden className="relative h-4 flex-1 min-w-0">
+          {ticks.map((t) => (
+            <span
+              key={t.year}
+              className="absolute top-0 -translate-x-1/2 font-mono text-[11px] leading-4 tabular-nums text-ink-soft/80"
+              style={{ left: t.x }}
+            >
+              {t.year}
+            </span>
+          ))}
+        </div>
       </div>
       {/* I-048: the verdict, VISIBLE, under the curves it answers. The 10-15
           walk read Dalio's dot on its crest as the site agreeing, and the
