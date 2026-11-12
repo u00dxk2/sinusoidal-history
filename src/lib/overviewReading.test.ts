@@ -56,8 +56,11 @@ describe("glance height label", () => {
 
   it("says height is shape, not size, in the visible label and the screen-reader sentence", () => {
     expect(GLANCE_HEIGHT_LABEL).toBe("height: shape, not size");
-    expect(GLANCE_HEIGHT_READING).toMatch(/shape/);
-    expect(GLANCE_HEIGHT_READING).toMatch(/not a measured size/);
+    // Pinned whole (Codex r1): round 0 refuted "each hump … the same on every row" for a wave cut
+    // by the window or by today, so the "full wave" qualifier must not drift off.
+    expect(GLANCE_HEIGHT_READING).toBe(
+      "A full wave reaches the same height on every row: the height is the curve's shape, not a measured size.",
+    );
   });
 
   it("fits the measured budget beside the year ticks", () => {
@@ -72,6 +75,15 @@ describe("glance height label", () => {
     expect(label![0].split(">")[0]).not.toMatch(/aria-hidden/);
     expect(label![0]).toMatch(/<span aria-hidden>\{GLANCE_HEIGHT_LABEL\}<\/span>/);
     expect(label![0]).toMatch(/<span className="sr-only">\{GLANCE_HEIGHT_READING\}<\/span>/);
+    // No hidden ancestor (Codex r1): the label is the first child of the tick row's un-hidden flex
+    // wrapper, BEFORE the aria-hidden tick container opens, and the figure itself is not hidden.
+    expect(src).toMatch(
+      /<div className="flex h-4 mt-1">\s*\{\/\*[\s\S]*?\*\/\}\s*<span\s+data-glance-height-label/,
+    );
+    expect(src.indexOf("data-glance-height-label")).toBeLessThan(
+      src.indexOf('<div aria-hidden className="relative h-4 flex-1'),
+    );
+    expect(src.match(/<figure[^>]*>/)![0]).not.toMatch(/aria-hidden/);
   });
 });
 
