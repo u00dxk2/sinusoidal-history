@@ -67,6 +67,13 @@ describe("glance height label", () => {
     expect(GLANCE_HEIGHT_LABEL.length).toBeLessThanOrEqual(GLANCE_HEIGHT_LABEL_MAX_CHARS);
   });
 
+  // CEILING (Codex r2, 2026-11-12): this is a SOURCE pin, not an accessibility or layout check.
+  // Two rounds found the same class: a text match on CycleOverview.tsx can be dodged (an extra
+  // aria-hidden wrapper, display:none, a per-row y scale) while every assertion passes. So it is
+  // not patched further. What proves the label is visible and read is the rendered DOM on the
+  // served page: the post-deploy in-page read (box > 0, no aria-hidden ancestor, clear of the
+  // first tick), recorded on I-077. A harmless reorder of the pinned classes fails here loudly;
+  // update the pin with it.
   it("is what the figure renders: label visible, sentence outside any aria-hidden wrapper", () => {
     const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
     const label = src.match(/<span\s+data-glance-height-label[\s\S]*?\{GLANCE_HEIGHT_READING\}<\/span>/);
