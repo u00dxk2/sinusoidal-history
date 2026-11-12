@@ -2322,9 +2322,9 @@
       "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.\n\n | 2026-11-10 (P5): hygiene draft AMENDED, re-dated 11-10 -> 11-13. Read: --run I-075 exit 0, / 12px spare at 320x568, 13 of 13 OK. Re-measured after I-076 shipped (live eeab357d): check-entry-folds 320x568 still / 12px spare, so the new verdict line spends none of the caption's budget (it starts at y=584, below that fold). The caption sits at its 33-char ceiling and screen 2 already says the anchors were set by the theorists or by this site (glanceClusterLine); the open question is a wording decision at a fixed width, not a new fact.",
       "created": "2026-11-03",
       "updated": "2026-11-10",
-      "readCommandLastRun": "2026-11-10T15:24:43.661Z",
+      "readCommandLastRun": "2026-11-12T15:54:47.222Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 37825,
+      "readCommandLastDurationMs": 38601,
       "readCommandLastOutputRef": {
         "lines": 15,
         "sha256": "3ea51d6233dbbc16"
@@ -2366,18 +2366,19 @@
       "identified": "2026-11-03",
       "description": "The 2026-11-03 first-screen walker: 'There are no y-axis numbers. I assume height means strength, but that is a guess.' and 'The humps' heights have no label, so I did not know what they mean.' Each glance row draws one period of a unit sinusoid (I-061), so the height is the curve's shape, not a measured magnitude. A reader who reads height as strength may compare cycles on a quantity the site does not claim.",
       "closeWhen": "A cold walker can say what a hump's height means (the curve's shape, not a measured size), or a recorded decision that it needs no label, with the reason.",
-      "nextEvaluation": "2026-11-12",
+      "nextEvaluation": "2026-11-19",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — the home first screen's spare (12px on 2026-11-03), the budget any first-screen word spends; this row's proof is a walk, a build or a recorded decision",
-      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.",
+      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.\n\n2026-11-12 (P3, cdb4bda..626ce16, live 626ce16d): built, NOT closed. The glance figure now shows \"height: shape, not size\" under the name column beside the year ticks; screen readers get \"A full wave reaches the same height on every row: the height is the curve's shape, not a measured size.\" Production DOM read at 320x568, 360x560, 390x664, 414x896: 4 of 4 OK (text 91.1px ends x=107.1, first tick 122.8, row 16px at an unchanged top, no aria-hidden ancestor). check-entry-folds 320x568: 13 of 13, / 12px spare. Limit: at 320x568 the tick row starts at y=560, so the label is half below the fold there; whole at 390x664. Tests: overviewReading.test.ts \"glance height label\" (amplitude_normalized pinned at 1 on every cycle; the render pin is a SOURCE pin with a declared ceiling, Codex r2). Pending read: the next cold walk, asked what a hump's height means (this row's closeWhen), re-check 2026-11-19. Encounter blind (card 1e069bb4). Manager review af0ec75a: COMPLETED.",
       "created": "2026-11-03",
-      "updated": "2026-11-03",
-      "readCommandLastRun": "2026-11-10T15:24:43.661Z",
+      "updated": "2026-11-12",
+      "readCommandLastRun": "2026-11-12T15:54:47.222Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 37825,
+      "readCommandLastDurationMs": 38601,
       "readCommandLastOutputRef": {
         "lines": 15,
         "sha256": "3ea51d6233dbbc16"
-      }
+      },
+      "lastEvaluated": "2026-11-12"
     },
     {
       "id": "I-078",
@@ -2389,11 +2390,19 @@
       "identified": "2026-11-03",
       "description": "Codex r2 on d592db7 (2026-11-03): Viz passes calibrated cycles (overrides applied) to CycleOverview, while holdsUpCard reads frozen verdicts by id, so 'Peaks chosen · no cycle confirmed' and the visible verdict line keep stating the stored verdicts over curves the reader moved. Pre-existing since I-048 (the old caption 'Theory shapes · none confirmed' had the same scope); not introduced by I-063. STATIC: no reader has been observed misreading it.",
       "closeWhen": "On a calibrated chart the caption/verdict either says it speaks for the stored cycles (or drops the verdict), pinned by a test; or a recorded decision that the stored verdict is the right reading there, with the reason.",
-      "nextEvaluation": "2026-11-12",
+      "nextEvaluation": "2026-11-19",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n \"glanceCaption(verdictLine)\" -- src/components/CycleOverview.tsx — the caption still reads the stored-cycle verdict; this row's proof is a test or a recorded decision",
-      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181), from Codex r2 on d592db7 (its calibrated-state half, dispositioned PLAUSIBLE, pre-existing). P4: no observed reader failure.",
+      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181), from Codex r2 on d592db7 (its calibrated-state half, dispositioned PLAUSIBLE, pre-existing). P4: no observed reader failure.\n\n2026-11-12 (P5): re-dated 11-12 -> 11-19 from the hygiene draft. --run I-078 exit 0, one line CycleOverview.tsx:114 {glanceCaption(verdictLine)}, unchanged since 11-03. I-077's edit (626ce16) did not touch the caption or verdict line, so the calibrated-state question is still open; closeWhen needs a test or a recorded decision.",
       "created": "2026-11-03",
-      "updated": "2026-11-03"
+      "updated": "2026-11-12",
+      "readCommandLastRun": "2026-11-12T16:05:36.521Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 422,
+      "readCommandLastOutputRef": {
+        "lines": 1,
+        "sha256": "13e3fec2e49232bc"
+      },
+      "lastEvaluated": "2026-11-12"
     },
     {
       "id": "I-079",

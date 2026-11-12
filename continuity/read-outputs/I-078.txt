@@ -1,0 +1,7 @@
+# read-output sidecar for I-078 — written by check-due-gates-dispositioned --run
+# readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "glanceCaption(verdictLine)" -- src/components/CycleOverview.tsx
+# ran: 2026-11-12T16:05:36.521Z · exit: 0
+# lines: 1 · sha256: 13e3fec2e49232bc (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+src/components/CycleOverview.tsx:114:        {glanceCaption(verdictLine)}
