@@ -83,7 +83,8 @@ export const GLANCE_CAPTION_MAX_CHARS = 33;
  * numbers. I assume height means strength, but that is a guess." Every row
  * draws amplitude_normalized * cos(...) on a fixed [-1, 1] scale, and amplitude_normalized is 1.0
  * on every cycle (overviewReading.test.ts pins it; a calibration moves only the period and the
- * peak year), so the height is the curve's shape and the same on every row. /methods says the
+ * peak year), so the height is the curve's shape, and a full wave reaches the same height on every
+ * row (a wave cut by the window or by today shows less of it). /methods says the
  * same thing: "visual peak heights do not represent real-world magnitudes, only relative shape
  * over time". Not a position on any cycle (I-061).
  * It sits under the name column, beside the year ticks, so it spends no first-screen height.
@@ -94,9 +95,11 @@ export const GLANCE_CAPTION_MAX_CHARS = 33;
 export const GLANCE_HEIGHT_LABEL = "height: shape, not size";
 export const GLANCE_HEIGHT_LABEL_MAX_CHARS = 23;
 
-/** The label's words for a screen reader: the visible label is terse, and the tick row is hidden. */
-// Round 0 (2026-11-12): "each hump … the same on every row" was false for a wave cut by the window
-// or by today, and for a row with no wave, so the sameness is said of a FULL wave only.
+/**
+ * The label's words for a screen reader: the visible label is terse, and the tick row is hidden.
+ * Round 0 (2026-11-12): "each hump … the same on every row" was false for a wave cut by the window
+ * or by today, and for a row with no wave, so the sameness is said of a FULL wave only.
+ */
 export const GLANCE_HEIGHT_READING =
   "A full wave reaches the same height on every row: the height is the curve's shape, not a measured size.";
 
