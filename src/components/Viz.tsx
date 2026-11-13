@@ -22,7 +22,7 @@ import {
   formatRange,
 } from "@/lib/urlState";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
-import { glanceClusterLine } from "@/lib/overviewReading";
+import { glanceClusterLine, peaksMoved } from "@/lib/overviewReading";
 
 interface VizProps {
   cycles: Cycle[];
@@ -160,6 +160,7 @@ export default function Viz({
             endYear={visibleEndYear}
             detailBelow={tab === "facets"}
             onSelect={handleSelectCycleFromSummary}
+            peaksMoved={peaksMoved(cycles, effectiveCycles)}
           />
         </div>
         {/* I-066 (2026-10-25): the strip used to follow the ten facet rows, so on a

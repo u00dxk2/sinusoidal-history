@@ -61,6 +61,9 @@ interface CycleOverviewProps {
   detailBelow: boolean;
   /** Opens a cycle's card (switches to the facets tab if needed). */
   onSelect: (id: string) => void;
+  /** True once a reader has calibrated any peak year: the caption then
+      stops calling the peaks the site's (I-075). */
+  peaksMoved: boolean;
 }
 
 export default function CycleOverview({
@@ -69,6 +72,7 @@ export default function CycleOverview({
   endYear,
   detailBelow,
   onSelect,
+  peaksMoved,
 }: CycleOverviewProps) {
   const ref = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(ref, 358);
@@ -112,8 +116,9 @@ export default function CycleOverview({
             2026-10-16 it carries the verdict too, the only place a verdict
             fits a 320x568 first screen; it falls back to the old words the
             moment the line below has nothing it may state. Since 2026-11-03
-            (I-063) it also says the peaks were chosen: see glanceCaption. */}
-        {glanceCaption(verdictLine)}
+            (I-063) it also says the peaks were chosen, and since 2026-11-13
+            (I-075) whose they are: see glanceCaption. */}
+        {glanceCaption(verdictLine, peaksMoved)}
       </figcaption>
       <ul className="list-none m-0 p-0">
         {cycles.map((cycle) => (

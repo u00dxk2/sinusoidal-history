@@ -14,6 +14,7 @@ import {
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
   overviewRowReading,
+  peaksMoved,
 } from "@/lib/overviewReading";
 import { holdsUpCard, NO_SERIES_HEADLINE } from "@/lib/holdsUp";
 import { cycleTheorist } from "@/lib/cycleRoutes";
@@ -24,24 +25,62 @@ import { readFileSync } from "node:fs";
 // measured on production (288px box, 8.58px per character). Ceiling: a character count, not a
 // rendered width; a font or tracking change voids the budget (re-measure, see overviewReading.ts).
 describe("glanceCaption", () => {
-  it("says the peaks were chosen and none is confirmed while the verdict line holds", () => {
-    expect(glanceCaption(glanceVerdictLine(cycles))).toBe("Peaks chosen · no cycle confirmed");
+  // I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?". Round 0 read every
+  // stored peak's rationale in cycles.json: each involves a step by this site (a midpoint, one year
+  // picked from a window, a theorist's date mapped to the drawn peak), so the stored caption names
+  // the site. A peak the reader has moved is the reader's, so the caption goes back to "chosen".
+  it("says the stored peaks are the site's and no cycle is confirmed while the verdict line holds", () => {
+    expect(glanceCaption(glanceVerdictLine(cycles), false)).toBe("Site's peaks · no cycle confirmed");
+  });
+
+  it("says only that the peaks were chosen once a reader has moved one", () => {
+    expect(glanceCaption(glanceVerdictLine(cycles), true)).toBe("Peaks chosen · no cycle confirmed");
   });
 
   it("falls back to the claim-free caption when the verdict line has nothing to state", () => {
-    expect(glanceCaption(null)).toBe("Theory shapes, not findings");
+    expect(glanceCaption(null, false)).toBe("Theory shapes, not findings");
+    expect(glanceCaption(null, true)).toBe("Theory shapes, not findings");
   });
 
-  it("fits the measured one-line budget at 320px in both states", () => {
+  it("fits the measured one-line budget at 320px in every state", () => {
     for (const v of [glanceVerdictLine(cycles), null]) {
-      expect(glanceCaption(v).length).toBeLessThanOrEqual(GLANCE_CAPTION_MAX_CHARS);
+      for (const moved of [false, true]) {
+        expect(glanceCaption(v, moved).length).toBeLessThanOrEqual(GLANCE_CAPTION_MAX_CHARS);
+      }
     }
   });
 
-  it("is what the figure renders", () => {
+  it("is what the figure renders, told by the chart whether a peak was moved", () => {
     // Resolved from this file, not the cwd (Codex r1: run from src/ it read src/src/...).
     const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
-    expect(src).toMatch(/\{glanceCaption\(verdictLine\)\}/);
+    expect(src).toMatch(/\{glanceCaption\(verdictLine, peaksMoved\)\}/);
+    const viz = readFileSync(new URL("../components/Viz.tsx", import.meta.url), "utf8");
+    expect(viz).toMatch(/peaksMoved=\{peaksMoved\(cycles, effectiveCycles\)\}/);
+  });
+});
+
+describe("peaksMoved", () => {
+  it("is false for the stored peaks, and for a changed period alone", () => {
+    expect(peaksMoved(cycles, cycles)).toBe(false);
+    const stretched = cycles.map((c) => ({ ...c, period_years: c.period_years + 5 }));
+    expect(peaksMoved(cycles, stretched)).toBe(false);
+  });
+
+  it("is true once any one peak year moves", () => {
+    for (let i = 0; i < cycles.length; i++) {
+      const moved = cycles.map((c, j) => (j === i ? { ...c, reference_peak_year: c.reference_peak_year + 1 } : c));
+      expect(peaksMoved(cycles, moved), cycles[i].id).toBe(true);
+    }
+  });
+
+  it("is true when the drawn list does not line up with the stored one", () => {
+    expect(peaksMoved(cycles, cycles.slice(1))).toBe(true);
+    // Two cycles share 1970, so a swap keeps every year in place and only the id check sees it.
+    const a = cycles.findIndex((c) => c.id === "schlesinger_jr");
+    const b = cycles.findIndex((c) => c.id === "turchin_fathers_sons");
+    const swapped = [...cycles];
+    [swapped[a], swapped[b]] = [swapped[b], swapped[a]];
+    expect(peaksMoved(cycles, swapped)).toBe(true);
   });
 });
 

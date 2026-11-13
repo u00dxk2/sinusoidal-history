@@ -68,9 +68,10 @@ export function glanceClusterLine(
  * Walkers read the nine humps bunched between 1945 and 2020 as the cycles agreeing; the line
  * saying the peak years are anchors (glanceClusterLine) sits under the strip, on the second
  * screen. So the caption itself says the peaks were chosen, beside I-048's verdict.
- * "Chosen" holds at every range and every calibration: a stored peak is a theorist's date or
- * this site's choice (I-072), a calibrated one is the reader's. So it does not follow
- * glanceClusterLine's null rules, and the caption does not flip when a reader zooms.
+ * Since I-075 (2026-11-13) it says whose the stored peaks are ("Site's peaks"), and goes back to
+ * "Peaks chosen" once a reader calibrates a peak, since that peak is then the reader's (see
+ * glanceCaption). Neither form depends on the range, so the caption does not flip when a reader
+ * zooms, and it does not follow glanceClusterLine's null rules.
  * Budget, measured on production 2026-11-03: the caption box is 288px at 320px wide and the
  * font sets 8.58px per character, so it holds 33 characters on one line. A second line costs
  * 16px and the home first screen has 12px spare at 320x568 (check-entry-folds).
@@ -103,10 +104,31 @@ export const GLANCE_HEIGHT_LABEL_MAX_CHARS = 23;
 export const GLANCE_HEIGHT_READING =
   "A full wave reaches the same height on every row: the height is the curve's shape, not a measured size.";
 
-export function glanceCaption(verdictLine: string | null): string {
+/**
+ * Whether a reader has moved any peak year off the stored one (a calibration). A changed period
+ * alone moves no peak. A drawn list that does not line up with the stored one, by length or by
+ * id, counts as moved, so the caption falls back to the words that hold for any peak.
+ */
+export function peaksMoved(stored: Cycle[], drawn: Cycle[]): boolean {
+  if (stored.length !== drawn.length) return true;
+  return stored.some(
+    (c, i) => drawn[i].id !== c.id || drawn[i].reference_peak_year !== c.reference_peak_year,
+  );
+}
+
+/**
+ * I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?". Round 0 read every
+ * stored peak's rationale in cycles.json: each involves a step by this site, such as a midpoint, one
+ * year picked from a window, or a theorist's date mapped to the drawn peak. So while the peaks are
+ * the stored ones, the caption says they are the site's. A peak the reader has moved is the
+ * reader's, so then the caption says only "chosen", which holds for any peak.
+ */
+export function glanceCaption(verdictLine: string | null, moved: boolean): string {
   // "no cycle", not "none" (Codex r1): beside "Peaks chosen", "none confirmed" read as "none of
-  // the peaks", and the verdict is about cycles. 33 characters, 283.1px of the 288px box at 320.
-  return verdictLine ? "Peaks chosen · no cycle confirmed" : "Theory shapes, not findings";
+  // the peaks", and the verdict is about cycles. Both peak words are 12 characters, so each
+  // caption is 33: 283.1px of the 288px box at 320 in this monospace face.
+  if (!verdictLine) return "Theory shapes, not findings";
+  return moved ? "Peaks chosen · no cycle confirmed" : "Site's peaks · no cycle confirmed";
 }
 
 /**
