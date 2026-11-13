@@ -25,15 +25,15 @@ import { readFileSync } from "node:fs";
 // measured on production (288px box, 8.58px per character). Ceiling: a character count, not a
 // rendered width; a font or tracking change voids the budget (re-measure, see overviewReading.ts).
 describe("glanceCaption", () => {
-  // I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?". Round 0 read every
-  // stored peak's rationale in cycles.json: each involves a step by this site (a midpoint, one year
-  // picked from a window, a theorist's date mapped to the drawn peak), so the stored caption names
-  // the site. A peak the reader has moved is the reader's, so the caption goes back to "chosen".
+  // I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?"
+  // (docs/walks/2026-11-03-i063.md). Each stored rationale in cycles.json describes how this site
+  // adopted the peak it draws, so the stored caption names the site (the peaks it uses, not that it
+  // invented every date). While a drawn peak differs from its stored year, the caption says "chosen".
   it("says the stored peaks are the site's and no cycle is confirmed while the verdict line holds", () => {
     expect(glanceCaption(glanceVerdictLine(cycles), false)).toBe("Site's peaks · no cycle confirmed");
   });
 
-  it("says only that the peaks were chosen once a reader has moved one", () => {
+  it("says only that the peaks were chosen while a drawn peak differs from its stored year", () => {
     expect(glanceCaption(glanceVerdictLine(cycles), true)).toBe("Peaks chosen · no cycle confirmed");
   });
 
@@ -66,10 +66,12 @@ describe("peaksMoved", () => {
     expect(peaksMoved(cycles, stretched)).toBe(false);
   });
 
-  it("is true once any one peak year moves", () => {
+  it("is true when any one peak year differs, and false again when it is moved back", () => {
     for (let i = 0; i < cycles.length; i++) {
       const moved = cycles.map((c, j) => (j === i ? { ...c, reference_peak_year: c.reference_peak_year + 1 } : c));
       expect(peaksMoved(cycles, moved), cycles[i].id).toBe(true);
+      const back = moved.map((c, j) => (j === i ? { ...c, reference_peak_year: cycles[i].reference_peak_year } : c));
+      expect(peaksMoved(cycles, back), cycles[i].id).toBe(false);
     }
   });
 

@@ -61,8 +61,8 @@ interface CycleOverviewProps {
   detailBelow: boolean;
   /** Opens a cycle's card (switches to the facets tab if needed). */
   onSelect: (id: string) => void;
-  /** True once a reader has calibrated any peak year: the caption then
-      stops calling the peaks the site's (I-075). */
+  /** True while any drawn peak year differs from its stored year (a reader's
+      calibration): the caption then stops calling the peaks the site's (I-075). */
   peaksMoved: boolean;
 }
 

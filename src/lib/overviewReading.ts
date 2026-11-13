@@ -68,9 +68,9 @@ export function glanceClusterLine(
  * Walkers read the nine humps bunched between 1945 and 2020 as the cycles agreeing; the line
  * saying the peak years are anchors (glanceClusterLine) sits under the strip, on the second
  * screen. So the caption itself says the peaks were chosen, beside I-048's verdict.
- * Since I-075 (2026-11-13) it says whose the stored peaks are ("Site's peaks"), and goes back to
- * "Peaks chosen" once a reader calibrates a peak, since that peak is then the reader's (see
- * glanceCaption). Neither form depends on the range, so the caption does not flip when a reader
+ * Since I-075 (2026-11-13) it says whose the stored peaks are ("Site's peaks"), and says
+ * "Peaks chosen" while any drawn peak differs from its stored year, since that peak is then the
+ * reader's (see glanceCaption). Neither form depends on the range, so the caption does not flip when a reader
  * zooms, and it does not follow glanceClusterLine's null rules.
  * Budget, measured on production 2026-11-03: the caption box is 288px at 320px wide and the
  * font sets 8.58px per character, so it holds 33 characters on one line. A second line costs
@@ -105,7 +105,8 @@ export const GLANCE_HEIGHT_READING =
   "A full wave reaches the same height on every row: the height is the curve's shape, not a measured size.";
 
 /**
- * Whether a reader has moved any peak year off the stored one (a calibration). A changed period
+ * Whether any drawn peak year currently differs from its stored one (a calibration; a peak moved
+ * back to its stored year counts as unmoved). A changed period
  * alone moves no peak. A drawn list that does not line up with the stored one, by length or by
  * id, counts as moved, so the caption falls back to the words that hold for any peak.
  */
@@ -117,11 +118,13 @@ export function peaksMoved(stored: Cycle[], drawn: Cycle[]): boolean {
 }
 
 /**
- * I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?". Round 0 read every
- * stored peak's rationale in cycles.json: each involves a step by this site, such as a midpoint, one
- * year picked from a window, or a theorist's date mapped to the drawn peak. So while the peaks are
- * the stored ones, the caption says they are the site's. A peak the reader has moved is the
- * reader's, so then the caption says only "chosen", which holds for any peak.
+ * I-075 (2026-11-13): the 11-03 walker asked "Peaks chosen: chosen by whom?"
+ * (docs/walks/2026-11-03-i063.md). The stored rationales in cycles.json (reference_peak_rationale)
+ * each describe how this site adopted the peak it draws: a midpoint, one year picked from a window,
+ * a theorist's date or turning point mapped to the drawn crest, or a peak the theorist states (Turchin's
+ * 1970 for fathers-and-sons, adopted as given). So "Site's peaks" means the peaks this site uses, not
+ * that it invented every date. While any drawn peak differs from its stored year, that peak is the
+ * reader's, so the caption says only "chosen", which holds for any peak.
  */
 export function glanceCaption(verdictLine: string | null, moved: boolean): string {
   // "no cycle", not "none" (Codex r1): beside "Peaks chosen", "none confirmed" read as "none of
