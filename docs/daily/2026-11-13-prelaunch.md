@@ -90,4 +90,22 @@ P1 (selection and prep) is recorded below.
   - Step 0.6, Codex: the kickoff's `[codex-probe: GREEN …]` line is the probe (16:33:15Z).
   - Step 0.7, CI and deploy: CI GREEN at c1a0296 (kickoff read, run 43264411433). `check-deployed-sha-drift --service sinusoidal-history`: in-sync, live c1a02967 = head. Not a stop.
   - Step 0.10, yesterday's recommendations: I-077 re-check is 11-19, I-078 is 11-19. Neither is due today.
-- **Codex calls this phase:** 0 (`--codex-reason probed-declined`: the probe is green, and P1 has no words for Codex to review yet). Round 0 is same-family by rule (`codex-review.md` § 2); Codex reviews the words at P3.
+- **Codex calls this phase:** 0 (`--codex-reason probed-declined`: the probe is green, and P1 has no words for Codex to review yet)
+
+### Close
+
+ACTION: COMPLETED · item I-075 · P3 48026406. Build acceptance 1-5 is met (manager review 3cdbe1f8). Acceptance 6 (the walk) came back AMBIGUOUS, so the outcome stays open on the row.
+
+- **No state change since the P3 post.** Production is still live bd23f36c (10807d3 is docs only).
+- **Hygiene draft:** 0 lines (0 accepted · 0 amended · 0 rejected). READ-MUTATED: none. check-wait-justification: PASS (32 of 88 carry a wait, 0 warn). check-engineering-zero: PASS, 0 findings and 0 unreadable for this lane.
+- **Ledger delta (`continuity-edit`):**
+  - I-075: note appended (build, live reads, walk verdict).
+  - I-075: re-dated 11-13 → **11-17**, for a re-walk with a FRESH walker on the same prompt and the same bar (`docs/walks/2026-11-13-i075.md`). HELD closes the row. NOT HELD or AMBIGUOUS again takes the recorded-decision path, with both walks as the reason. Any new wording goes through round 0 first.
+  - I-075: linkedCommits set to badd80e and bd23f36.
+  - I-077: note appended with the walker's height remark ("reads as 'equally strong'"), as input for its 11-19 re-check.
+- **Pre-session working-tree files:**
+  - `continuity/continuity-disposition-events.jsonl` is committed. Its 4 lines are 11-12's close edits (the I-077 and I-078 re-dates and notes), which were never committed.
+  - `continuity/read-outputs/I-027.partial.txt` is deleted. It was an 11-03 `--run` killed at its cap, 0 bytes, self-labelled "NOT a reading".
+- **Due-gate verification: UNRESOLVED.** The no-flag `check-due-gates-dispositioned` (the snapshot comparison) was refused by the Claude Code permission classifier at the close, and it was not retried. The read-only `--print` gave "0 gate(s) due on/before 2026-11-13 … RESULT: PASS". The morning snapshot held I-075 alone, and I-075 is now re-dated to 11-17.
+- **Pending reads:** 11-15 I-049 · 11-16 I-051 · 11-17 I-075 (re-walk), I-081 · 11-18 I-071 · 11-19 I-077, I-078.
+- **Receipt:** P3's line stands unchanged. Exposure is blind (bug row I-075), and no outcome read exists.. Round 0 is same-family by rule (`codex-review.md` § 2); Codex reviews the words at P3.
