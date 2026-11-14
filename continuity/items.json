@@ -2469,6 +2469,38 @@
       "notes": "2026-11-09 (full day, P5): minted at the close on the manager review's instruction (b62bd7af: 'the two candidate residual rows ... each with a trigger or an explicit decision not to file it'). Reachable today (Policy Mood at 1801-1951), so filed. Dated 11-17 to stay off the 11-10 and 11-12 walls. Reuse pointsSideOutside (src/lib/cycleMath.ts) and the overviewReading word family so the wording cannot drift.",
       "created": "2026-11-09",
       "updated": "2026-11-09"
+    },
+    {
+      "id": "W-007",
+      "type": "watch",
+      "priority": "P3",
+      "status": "open",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-14",
+      "title": "Dependabot #62: minimatch 10.2.5 (lint-only, transitive) has a DoS advisory whose only fix is a major version its parent will not take",
+      "hypothesis": "Alert #62 opened 2026-11-14T06:59Z (GHSA-g3hv-75wg-m249, medium): minimatch >= 7.0.0, < 11.0.1 is vulnerable, first_patched 11.0.1 only. In this lock the affected copy is node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch 10.2.5 (dev, required ^10.2.2); the root minimatch 3.1.5 is outside the range. Both versions were in the lock at 93f2ad0, before the 2026-11-13 refactor, so the refactor did not introduce it; the advisory is new. It runs only inside eslint over this repo's own globs, never in the deployed app (scope development).",
+      "onTrigger": "Re-read the alert (gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/62) and the advisory's ranges. If @typescript-eslint/typescript-estree publishes a release that accepts minimatch 11.x, or a 10.x backport appears, take it as a patch/minor bump through the normal gate and close. Never force an npm override to a major the parent does not accept.",
+      "closeWhen": "Alert #62 reads fixed or dismissed-with-reason on GitHub, or the lock no longer carries a minimatch in >= 7.0.0, < 11.0.1.",
+      "readCommand": "gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/62 --jq .state",
+      "nextEvaluation": "2026-11-28",
+      "waitingFor": "An upstream @typescript-eslint release that accepts minimatch 11.x, or a 10.x backport.",
+      "waitJustification": {
+        "until": "2026-11-28",
+        "loadBearing": "the only fix today is a major bump the parent's ^10.2.2 range rejects; forcing it is a riskier change than a lint-time DoS on our own globs",
+        "unWait": "a parent release or backport that a patch/minor bump can take",
+        "owner": "sinusoidal-cycles"
+      },
+      "engineeringZeroWaivers": [
+        {
+          "alert": 62,
+          "until": "2026-11-28",
+          "reason": "Minted 2026-11-14 at the refactor close. Re-read gh api alerts/62 today: minimatch GHSA-g3hv-75wg-m249, vulnerable >= 7.0.0, < 11.0.1, first_patched 11.0.1 only (no 9.x/10.x backport); affected copy 10.2.5 under @typescript-eslint/typescript-estree (^10.2.2), dev scope, lint-time only. Same advisory and date as frolic R-286 (#212). Un-waive and fix when a parent release accepts 11.x."
+        }
+      ],
+      "notes": "2026-11-14 (refactor close): minted to carry the engineering-zero waiver for #62; check-engineering-zero read RED on it at this close.",
+      "created": "2026-11-14",
+      "updated": "2026-11-14",
+      "lastEvaluated": "2026-11-14"
     }
   ],
   "knownPatterns": [
