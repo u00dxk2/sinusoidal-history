@@ -1,0 +1,16 @@
+# read-output sidecar for I-081 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-outside-window-word.mjs https://sinusoidalhistory.com
+# ran: 2026-11-14T17:34:38.503Z · exit: 0
+# lines: 10 · sha256: 008f108a0b6c9041 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+facets 1801-1951 @390: OK — judged 10 · words 2 · min contrast 16.63:1
+facets 1801-1951 open Schlesinger Jr. @390: OK — judged 10 · words 2 · min contrast 5.30:1
+facets 1801-1951 open Perez @390: OK — judged 10 · words 2 · min contrast 5.30:1
+calibrate 1801-1951 Schlesinger Jr. @390: OK — judged 1 · words 1 · min contrast 16.63:1
+facets 1801-1951 @1280: OK — judged 10 · words 2 · min contrast 16.63:1
+facets 1900-2050 @390: OK — judged 10 · words 1 · min contrast 16.63:1
+overlay 1801-1951 @1280: OK — judged 2 · words 2 · min contrast 16.63:1
+embed facets modern @680: OK — judged 10 · words 1 · min contrast 16.63:1
+embed overlay modern @680x1070: OK — judged 1 · words 1 · min contrast 16.63:1 · page 1070px of 1070
+RESULT: PASS (exit 0)
