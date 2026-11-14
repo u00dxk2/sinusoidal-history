@@ -23,8 +23,9 @@
 // Exit 0 every case clean · 1 a defect · 2 a page or element missing.
 // NOT read: paint (a word could be drawn off the visible plot, and the one-point dot is judged by
 // its path, not its pixels), touch, dark mode, calibration, the CSV loading and error states
-// (unit-tested in src/lib/outsideWindow.test.ts), and toggled-off Data chips (every case loads with
-// all series on). Contrast ignores semi-transparent layers between the text and the first opaque
+// (unit-tested in src/lib/outsideWindow.test.ts), toggled-off Data chips (every case loads with
+// all series on), a chip's computed accessible name (its textContent is read), and a chip whose
+// own CSV fetch disagrees with its line's separate fetch (Codex r1). Contrast ignores semi-transparent layers between the text and the first opaque
 // background, and multiplies ancestor opacity into the text colour.
 
 import { readFileSync } from "node:fs";
@@ -197,7 +198,9 @@ async function run(origin) {
             if (!bg && b.length >= 3 && (b.length < 4 || b[3] === 1)) bg = b.slice(0, 3);
             node = node.parentElement;
           }
-          return { fg: rgb(getComputedStyle(el).fill).slice(0, 3), alpha, bg: bg || [255, 255, 255] };
+          // SVG text paints with `fill`, HTML text (the I-081 chip word) with `color` (Codex r1 on 927a088).
+          const paint = el instanceof SVGElement ? getComputedStyle(el).fill : getComputedStyle(el).color;
+          return { fg: rgb(paint).slice(0, 3), alpha, bg: bg || [255, 255, 255] };
         };
         const words = (root) => [...root.querySelectorAll("[data-outside-word]")].map((el) => ({ text: el.textContent, id: el.getAttribute("data-outside-id"), ...style(el) }));
         const cards = [...document.querySelectorAll("[data-facet-id]")].filter((el) => el.getBoundingClientRect().height > 0).map((el) => ({
@@ -271,7 +274,10 @@ async function run(origin) {
         for (const id of got.keys()) if (!want.some(([cy]) => cy.id === id)) defects.push(`word-on-drawn ${id}`);
         if (c.frame && read.docHeight > c.frame) defects.push(`frame ${read.docHeight}px > ${c.frame}px`);
         // I-081: every Data chip, all on at load.
-        if (read.chips.length !== series.length) defects.push(`missing data chips: ${read.chips.length} of ${series.length}`);
+        // Every series exactly once, by name: a count alone misses a duplicate standing in for a missing chip (Codex r1).
+        const chipNames = read.chips.map((k) => k.name).sort().join("|");
+        const seriesNames = series.map((s) => s.name).sort().join("|");
+        if (chipNames !== seriesNames) defects.push(`data chips do not match the series one-to-one: got ${read.chips.length} [${chipNames}]`);
         for (const chip of read.chips) {
           const years = csvYearsByName[chip.name];
           if (!years) { defects.push(`unknown data chip "${chip.name}"`); continue; }
