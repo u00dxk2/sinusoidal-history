@@ -16,11 +16,15 @@
 //
 // The expected words come from THIS script's own oracle (cycles.json and the CSVs the origin
 // serves), never from the site's src/lib, so a shared bug cannot agree with itself.
+// I-081 (2026-11-14) added the overlay's Data chips: a series with NO point in the window draws no
+// line, so its chip must carry the word, and a series with any point inside (one point paints a
+// dot, read on production) must carry none. The same narrowed rule now judges facet data lines.
+//
 // Exit 0 every case clean · 1 a defect · 2 a page or element missing.
-// NOT read: paint (a word could be drawn off the visible plot), touch, dark mode, calibration,
-// the CSV loading and error states (unit-tested in src/lib/outsideWindow.test.ts), and the
-// overlay's DATA lines (they toggle separately; a data series with no points in the window is not
-// judged there). Contrast ignores semi-transparent layers between the text and the first opaque
+// NOT read: paint (a word could be drawn off the visible plot, and the one-point dot is judged by
+// its path, not its pixels), touch, dark mode, calibration, the CSV loading and error states
+// (unit-tested in src/lib/outsideWindow.test.ts), and toggled-off Data chips (every case loads with
+// all series on). Contrast ignores semi-transparent layers between the text and the first opaque
 // background, and multiplies ancestor opacity into the text colour.
 
 import { readFileSync } from "node:fs";
@@ -43,11 +47,31 @@ export function theorySide(c, start, end, year = YEAR) {
   return null;
 }
 
+// A data line is missing only when NO point is in [start, end] inclusive: one point inside is
+// painted as a dot (I-081, read on production at 1730-1880 and 1802-1952).
 export function dataSide(years, start, end) {
   if (!years || years.length === 0) return null;
-  if (years.filter((y) => y >= start && y <= end).length >= 2) return null;
-  if (years.every((y) => y >= end)) return "after";
-  if (years.every((y) => y <= start)) return "before";
+  if (years.some((y) => y >= start && y <= end)) return null;
+  if (years.every((y) => y > end)) return "after";
+  if (years.every((y) => y < start)) return "before";
+  return null;
+}
+
+/** The word a Data chip should carry; null when it should carry none. */
+export function expectedChipWord(side) {
+  return side ? arrow(NONE, side) : null;
+}
+
+/**
+ * Judge one overlay Data chip: its word against the oracle, and its line against the word (a
+ * right word beside a drawn line, or a blank line with no word, is a defect either way).
+ */
+export function judgeChip(chip, side) {
+  const exp = expectedChipWord(side);
+  if (Boolean(side) === chip.lineDrawn) return { kind: side ? "line-drawn-against-oracle" : "line-blank-against-oracle" };
+  if (exp === null) return chip.word === null ? null : { kind: "word-on-drawn", detail: chip.word };
+  if (chip.word === null) return { kind: "blank-without-word", detail: `expected "${exp}"` };
+  if (chip.word.trim() !== exp) return { kind: "wrong-word", detail: `got "${chip.word.trim()}", expected "${exp}"` };
   return null;
 }
 
@@ -71,6 +95,16 @@ export function expectedFacetWord(theory, data, paired, collapsed) {
 export function drawsLine(d) {
   if (typeof d !== "string" || /NaN|Infinity/.test(d)) return false;
   return /[LCHVQSA]/i.test(d.slice(1));
+}
+
+/**
+ * A data path puts a MARK on the plot when it draws a line or is a lone finite move: one point is
+ * written "Mx,yZ", and the round line cap paints it as a dot (I-081, read on production). Theory
+ * paths keep `drawsLine`: an edge touch there writes an empty path.
+ */
+export function drawsMark(d) {
+  if (typeof d !== "string" || /NaN|Infinity/.test(d)) return false;
+  return drawsLine(d) || /^M-?[\d.]+,-?[\d.]+Z?$/.test(d.trim());
 }
 
 /**
@@ -118,6 +152,10 @@ const CASES = [
   { name: "facets 1801-1951 @1280", path: "/?range=1801-1951&tab=facets", w: 1280, h: 800, start: 1801, end: 1951, kind: "facets" },
   { name: "facets 1900-2050 @390", path: "/?range=1900-2050&tab=facets", w: 390, h: 664, start: 1900, end: 2050, kind: "facets" },
   { name: "overlay 1801-1951 @1280", path: "/?range=1801-1951&tab=overlay", w: 1280, h: 800, start: 1801, end: 1951, kind: "overlay" },
+  // I-081: one interior point (DW-NOMINATE holds only 1879) and one edge point (Policy Mood's 1952) are drawn as dots.
+  { name: "overlay 1730-1880 @1280", path: "/?range=1730-1880&tab=overlay", w: 1280, h: 800, start: 1730, end: 1880, kind: "overlay" },
+  { name: "overlay 1802-1952 @1280", path: "/?range=1802-1952&tab=overlay", w: 1280, h: 800, start: 1802, end: 1952, kind: "overlay" },
+  { name: "facets 1802-1952 open Schlesinger Jr. @1280", path: "/?range=1802-1952&tab=facets&focus=schlesinger_jr", w: 1280, h: 800, start: 1802, end: 1952, kind: "facets", focus: "schlesinger_jr", only: "schlesinger_jr" },
   { name: "embed facets modern @680", path: "/embed?view=facets&range=modern", w: 680, h: 900, start: 1900, end: 2050, kind: "facets" },
   { name: "embed overlay modern @680x1070", path: "/embed?view=overlay&range=modern", w: 680, h: 1070, start: 1900, end: 2050, kind: "overlay", frame: 1070 },
 ];
@@ -125,6 +163,7 @@ const CASES = [
 async function run(origin) {
   const { chromium } = await import("playwright");
   const csvYears = {};
+  const csvYearsByName = {};
   for (const s of series) {
     const res = await fetch(new URL(s.data_file, origin));
     if (!res.ok) { console.log(`MISSING ${s.data_file}: HTTP ${res.status}`); return 2; }
@@ -137,6 +176,7 @@ async function run(origin) {
     csvYears[s.associated_cycle_id] = lines.slice(1).filter((l) => l.trim() !== "").map((l) => l.split(","))
       .filter((r) => Number.isFinite(Number(r[yi])) && Number.isFinite(Number(r[vi])))
       .map((r) => Number(r[yi]));
+    csvYearsByName[s.name] = csvYears[s.associated_cycle_id];
   }
   const browser = await chromium.launch();
   let worst = 0;
@@ -168,7 +208,13 @@ async function run(origin) {
         }));
         const svg = document.querySelector('svg[aria-label^="Overlay of historical"]');
         const overlayDs = svg ? Object.fromEntries([...svg.querySelectorAll('path[data-curve="theory"]')].map((p) => [p.getAttribute("data-cycle-id"), p.getAttribute("d") || ""])) : null;
-        return { cards, overlay: svg ? words(svg) : null, overlayDs, docHeight: document.documentElement.scrollHeight };
+        // I-081: the data paths are labelled "<series name> data"; a series that draws nothing has none.
+        const dataDs = svg ? Object.fromEntries([...svg.querySelectorAll("path[aria-label$=' data']")].map((p) => [p.getAttribute("aria-label").slice(0, -" data".length), p.getAttribute("d") || ""])) : null;
+        const chips = [...document.querySelectorAll('[aria-label="Data series toggles"] button')].map((b) => {
+          const w = b.querySelector("[data-series-empty]");
+          return { name: b.querySelector(".font-medium")?.textContent ?? "", pressed: b.getAttribute("aria-pressed"), word: w ? w.textContent : null, wordStyle: w ? style(w) : null };
+        });
+        return { cards, overlay: svg ? words(svg) : null, overlayDs, dataDs, chips, docHeight: document.documentElement.scrollHeight };
       });
       const defects = [];
       let minContrast = Infinity, judged = 0;
@@ -197,7 +243,7 @@ async function run(origin) {
           const v = judgeCard(
             {
               theoryBlank: !card.theoryDs.some(drawsLine),
-              dataBlank: judgeData ? !card.dataDs.some(drawsLine) : undefined,
+              dataBlank: judgeData ? !card.dataDs.some(drawsMark) : undefined,
               words: card.words.map((w) => w.text),
             },
             exp,
@@ -224,6 +270,23 @@ async function run(origin) {
         }
         for (const id of got.keys()) if (!want.some(([cy]) => cy.id === id)) defects.push(`word-on-drawn ${id}`);
         if (c.frame && read.docHeight > c.frame) defects.push(`frame ${read.docHeight}px > ${c.frame}px`);
+        // I-081: every Data chip, all on at load.
+        if (read.chips.length !== series.length) defects.push(`missing data chips: ${read.chips.length} of ${series.length}`);
+        for (const chip of read.chips) {
+          const years = csvYearsByName[chip.name];
+          if (!years) { defects.push(`unknown data chip "${chip.name}"`); continue; }
+          if (chip.pressed !== "true") { defects.push(`data chip off at load "${chip.name}"`); continue; }
+          judged++;
+          const d = read.dataDs?.[chip.name];
+          const v = judgeChip({ word: chip.word, lineDrawn: drawsMark(d) }, dataSide(years, c.start, c.end));
+          if (v) defects.push(`${v.kind} data "${chip.name}"${v.detail ? ` (${v.detail})` : ""}`);
+          if (chip.wordStyle) {
+            allWords.push({ text: chip.word, ...chip.wordStyle });
+            const ratio = contrast(blend(chip.wordStyle.fg, chip.wordStyle.bg, chip.wordStyle.alpha), chip.wordStyle.bg);
+            minContrast = Math.min(minContrast, ratio);
+            if (ratio < 4.5) defects.push(`low-contrast ${ratio.toFixed(2)}:1 "${chip.word}"`);
+          }
+        }
       }
       const words = allWords.length;
       console.log(`${c.name}: ${defects.length === 0 ? "OK" : "DEFECT"} — judged ${judged} · words ${words} · min contrast ${words ? minContrast.toFixed(2) + ":1" : "n/a"}${c.frame ? ` · page ${read.docHeight}px of ${c.frame}` : ""}`);
@@ -246,8 +309,18 @@ function selftest() {
     ["an edge touch is outside (drawn from 1955, window to 1955)", theorySide(sj, 1805, 1955, 2026) === "after"],
     ["Ibn Khaldun is before 1900-2050", theorySide(kh, 1900, 2050, 2026) === "before"],
     ["Policy Mood from 1952 is after 1801-1951", dataSide([1952, 1953, 2024], 1801, 1951) === "after"],
-    ["one point inside draws no line", dataSide([1951, 1952], 1801, 1951) === "after"],
+    ["one point on the edge is drawn (a dot, I-081)", dataSide([1951, 1952], 1801, 1951) === null],
+    ["one interior point is drawn (DW-NOMINATE 1879 at 1730-1880)", dataSide([1879, 1881], 1730, 1880) === null],
+    ["no point inside: after", dataSide([1879, 1881], 1728, 1878) === "after"],
+    ["no point inside: before", dataSide([1700, 1800], 1801, 1951) === "before"],
     ["two points inside draw", dataSide([1950, 1951], 1801, 1951) === null],
+    ["a lone move is a mark, not a line", drawsMark("M1033.067,216Z") && !drawsLine("M1033.067,216Z") && !drawsMark("") && !drawsMark(undefined) && !drawsMark("M10,NaNZ")],
+    // I-081 red arms: the production state before the chip word, and a word left on a drawn series.
+    ["an empty series' chip with no word is a defect", judgeChip({ word: null, lineDrawn: false }, "after")?.kind === "blank-without-word"],
+    ["a word on a drawn series' chip is a defect", judgeChip({ word: "none drawn in these years →", lineDrawn: true }, null)?.kind === "word-on-drawn"],
+    ["a word beside a dot the oracle says is drawn is a defect", judgeChip({ word: "none drawn in these years →", lineDrawn: true }, "after")?.kind === "line-drawn-against-oracle"],
+    ["the right chip word passes", judgeChip({ word: "none drawn in these years →", lineDrawn: false }, "after") === null],
+    ["a drawn series with no word passes", judgeChip({ word: null, lineDrawn: true }, null) === null],
     ["no points is not judged", dataSide([], 1801, 1951) === null],
     ["paired, both missing, one side", expectedFacetWord("after", "after", true, false) === "theory and data: none drawn in these years →"],
     ["paired, theory missing only", expectedFacetWord("after", null, true, false) === "theory: none drawn in these years →"],

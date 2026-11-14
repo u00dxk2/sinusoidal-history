@@ -4,9 +4,9 @@ import { useMemo, useRef, useState, useCallback } from "react";
 import { scaleLinear } from "d3-scale";
 import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import type { Cycle, DataSeries } from "@/data/types";
-import { periodSideOutside, sampleDrawnPeriod } from "@/lib/cycleMath";
+import { periodSideOutside, pointsSideOutside, sampleDrawnPeriod } from "@/lib/cycleMath";
 import { cycleTheorist } from "@/lib/cycleRoutes";
-import { namedOutsideWords } from "@/lib/overviewReading";
+import { namedOutsideWords, outsideWindowWords } from "@/lib/overviewReading";
 import { normalizeSeries } from "@/lib/seriesMath";
 import { useCsvSeries } from "@/lib/useCsvSeries";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
@@ -286,6 +286,8 @@ export default function CycleOverlay({
           series={dataSeries}
           activeIds={activeSeriesIds}
           hoveredId={hoveredSeriesId}
+          startYear={startYear}
+          endYear={endYear}
           onToggle={toggleSeries}
           onHover={setHoveredSeriesId}
         />
@@ -462,6 +464,8 @@ interface SeriesLegendProps {
   series: DataSeries[];
   activeIds: Set<string>;
   hoveredId: string | null;
+  startYear: number;
+  endYear: number;
   onToggle: (id: string) => void;
   onHover: (id: string | null) => void;
 }
@@ -470,6 +474,8 @@ function SeriesLegend({
   series,
   activeIds,
   hoveredId,
+  startYear,
+  endYear,
   onToggle,
   onHover,
 }: SeriesLegendProps) {
@@ -488,6 +494,8 @@ function SeriesLegend({
           series={s}
           active={activeIds.has(s.id)}
           highlighted={hoveredId === s.id}
+          startYear={startYear}
+          endYear={endYear}
           onToggle={() => onToggle(s.id)}
           onHover={(h) => onHover(h ? s.id : null)}
         />
@@ -500,22 +508,39 @@ function SeriesLegendItem({
   series,
   active,
   highlighted,
+  startYear,
+  endYear,
   onToggle,
   onHover,
 }: {
   series: DataSeries;
   active: boolean;
   highlighted: boolean;
+  startYear: number;
+  endYear: number;
   onToggle: () => void;
   onHover: (h: boolean) => void;
 }) {
-  const { loading, error } = useCsvSeries(
+  const { points, loading, error } = useCsvSeries(
     series.data_file,
     series.year_column,
     series.value_column,
     series.transform
   );
   const unavailable = !loading && error !== null;
+  // I-081: a zoomed window can hold none of a series' points (Policy Mood, from
+  // 1952, at 1801–1951), so its line is not drawn while its chip stays lit. The
+  // chip then says so, in the glance rows' words, and as part of the button's
+  // name a screen reader hears it too. Judged only once the CSV has loaded, and
+  // only for a series that is on: a toggled-off one is not drawn on purpose.
+  const emptySide =
+    active && !loading && error === null
+      ? pointsSideOutside(
+          points.map((p) => p.year),
+          startYear,
+          endYear
+        )
+      : null;
   return (
     <button
       type="button"
@@ -547,6 +572,11 @@ function SeriesLegendItem({
       )}
       {unavailable && (
         <span className="text-amber-600 text-xs">data unavailable</span>
+      )}
+      {emptySide && (
+        <span data-series-empty={emptySide} className="text-ink text-xs italic">
+          {outsideWindowWords(emptySide)}
+        </span>
       )}
     </button>
   );

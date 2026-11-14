@@ -243,7 +243,9 @@ export function facetOutsideWords(
  * on one plot, so the word has to name which one is missing, and that it is
  * the theory curve: the cycle's paired data line can be drawn beside it
  * (Perez's HATCH at 1801–1951; Codex r1 and round 0). The overlay's data lines
- * are toggled separately and are not judged here.
+ * are toggled separately: their word sits on each one's Data chip (I-081),
+ * where the chip already names the series, so it is the glance rows' own
+ * `outsideWindowWords`.
  */
 export function namedOutsideWords(name: string, side: "before" | "after"): string {
   return withArrow(`${name} theory: ${NONE_DRAWN}`, side);

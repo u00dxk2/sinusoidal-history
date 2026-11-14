@@ -71,14 +71,18 @@ export function periodSideOutside(
 }
 
 /**
- * Which side of [start, end] a paired data series lies on, when the window
- * draws none of its line (I-074): fewer than two of its points fall inside
- * [start, end] (inclusive, as `useVisibleData` filters), so no segment is drawn.
- * "after" when every point is at or after `end`, "before" when every point is
- * at or before `start`: the same edge-touch rule as `periodSideOutside`. Null
- * while a line is drawn, for no points (a series not yet loaded must not
- * read as outside), or when the points straddle the window without a segment
- * in it.
+ * Which side of [start, end] a data series lies on, when the window holds NONE
+ * of its points (I-074, narrowed by I-081). The charts filter points to
+ * [start, end] inclusive, and a single point there is still painted: d3 writes
+ * it as a lone "Mx,yZ", which a round line cap draws as a dot (read on
+ * production 2026-11-14 at ?range=1730-1880 and, at an exact edge, 1802-1952).
+ * So "none drawn" holds only when no point is inside: "after" when every point
+ * is after `end`, "before" when every point is before `start`. Unlike the
+ * theory curve, a point ON the edge is drawn, so it counts as inside. Null
+ * while any point is inside, for no points (a series not yet loaded must not
+ * read as outside), or when the points straddle the window with none in it
+ * (unreachable today: the widest gap in any series is 30 years, the narrowest
+ * window 150).
  */
 export function pointsSideOutside(
   years: readonly number[],
@@ -86,10 +90,8 @@ export function pointsSideOutside(
   end: number
 ): "before" | "after" | null {
   if (years.length === 0) return null;
-  const inside = years.filter((y) => y >= start && y <= end).length;
-  if (inside >= 2) return null;
-  if (years.every((y) => y >= end)) return "after";
-  if (years.every((y) => y <= start)) return "before";
+  if (years.every((y) => y > end)) return "after";
+  if (years.every((y) => y < start)) return "before";
   return null;
 }
 

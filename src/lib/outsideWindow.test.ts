@@ -119,11 +119,28 @@ describe("pointsSideOutside", () => {
     expect(pointsSideOutside(seriesYears("perez"), 1801, 1951)).toBeNull();
   });
 
-  it("needs two points inside to draw, and counts an edge touch as outside", () => {
+  // I-081 (2026-11-14): one point inside is still painted, as a dot (a lone "Mx,yZ" under a round
+  // cap; read on production at 1730-1880 and, on the edge, 1802-1952), so "none drawn" needs NO
+  // point inside. A point ON an edge is inside: the charts filter [start, end] inclusively.
+  it("is outside only when no point is inside, and a point on an edge is inside", () => {
     expect(pointsSideOutside([1952, 1953], 1801, 1951)).toBe("after");
-    expect(pointsSideOutside([1951, 1952], 1801, 1951)).toBe("after");
+    expect(pointsSideOutside([1700, 1800], 1801, 1951)).toBe("before");
+    expect(pointsSideOutside([1951, 1952], 1801, 1951)).toBeNull();
+    expect(pointsSideOutside([1700, 1801], 1801, 1951)).toBeNull();
     expect(pointsSideOutside([1950, 1951], 1801, 1951)).toBeNull();
-    expect(pointsSideOutside([1700, 1801], 1801, 1951)).toBe("before");
+  });
+
+  it("keeps one interior point drawn (DW-NOMINATE at 1730–1880 holds only 1879)", () => {
+    const dw = dataSeries.find((x) => x.id === "dw_nominate_polarization")!;
+    const years = parseCsvSeries(
+      readFileSync(resolve(__dirname, "../../public", `.${dw.data_file}`), "utf8"),
+      dw.year_column,
+      dw.value_column,
+      dw.transform,
+    ).map((p) => p.year);
+    expect(years.filter((y) => y >= 1730 && y <= 1880)).toEqual([1879]);
+    expect(pointsSideOutside(years, 1730, 1880)).toBeNull();
+    expect(pointsSideOutside(years, 1728, 1878)).toBe("after");
   });
 
   it("says nothing for no points (loading) or points straddling the window", () => {
@@ -209,7 +226,8 @@ describe("facetOutsideWords", () => {
 
 // CEILING (Codex r1 LOW): these are SOURCE checks. They pin the calls and the JSX that renders the
 // word, but a guard edited to `false && …` would still pass. What a reader sees is read on
-// production by scripts/check-outside-window-word.mjs (9 cases, its own oracle).
+// production by scripts/check-outside-window-word.mjs (12 cases, its own oracle; the overlay's Data
+// chips since I-081).
 describe("the facet card and the overlay wire the word in (source check)", () => {
   const facet = readFileSync(resolve(__dirname, "../components/CycleFacet.tsx"), "utf8");
   const overlay = readFileSync(resolve(__dirname, "../components/CycleOverlay.tsx"), "utf8");
@@ -232,6 +250,12 @@ describe("the facet card and the overlay wire the word in (source check)", () =>
     expect(overlay).toContain("periodSideOutside(c, startYear, endYear, currentYear)");
     expect(overlay).toMatch(/>\s*\{namedOutsideWords\(cycleTheorist\(r\.cycle\), side\)\}\s*<\/text>/);
     expect(overlay).toContain("No theory curve drawn in these years:");
+  });
+
+  it("each Data chip judges its loaded, active series and shows the glance word (I-081)", () => {
+    expect(overlay).toMatch(/active && !loading && error === null\s*\?\s*pointsSideOutside\(\s*points\.map\(\(p\) => p\.year\),\s*startYear,\s*endYear\s*\)/);
+    expect(overlay).toMatch(/\{emptySide && \(\s*<span data-series-empty=\{emptySide\}[^>]*>\s*\{outsideWindowWords\(emptySide\)\}/);
+    expect(overlay).toMatch(/<SeriesLegend\s[^>]*startYear=\{startYear\}\s+endYear=\{endYear\}/);
   });
 });
 
