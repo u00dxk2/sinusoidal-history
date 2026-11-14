@@ -172,7 +172,7 @@ snapshots are superseded.
 - Next.js 16 (app router) + TypeScript strict mode
 - Tailwind CSS v4 + shadcn/ui (Tabs, Slider, Tooltip) on
   Radix UI primitives
-- D3 for the viz (`d3`, plus `d3-brush`)
+- D3 for the viz (`d3-scale`, `d3-shape`, `d3-selection`, `d3-brush`)
 - Fraunces variable serif for editorial typography
 - `papaparse` for CSV ingestion
 - `nuqs` for URL-state
