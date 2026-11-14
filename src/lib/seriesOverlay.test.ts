@@ -17,7 +17,7 @@ import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
 const { start, end } = DEFAULT_YEAR_RANGE;
-// CurveFigure's own geometry (page.tsx), I-033 shape (a): on a page with a record, a 900x164
+// CurveFigure's own geometry (src/components/CycleCurveFigure.tsx), I-033 shape (a): on a page with a record, a 900x164
 // viewBox, the curve in y 0–104, the record in its own strip at y 116–164 with 5 units of
 // padding inside it. The two bands share only x.
 const W = 900;
