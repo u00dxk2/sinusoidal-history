@@ -1697,12 +1697,12 @@
       "notes": "2026-10-15 (P5 close, day round): minted from the I-047 GREEN walk's copy note and the sibling sweep that showed the defect is the convention, not one string. Dated with I-043's 10-20 copy step.\n\n | 2026-10-20 (round 3, P5): read via due-gates --run: /cycles snap 314 lines. No change shipped to short_description tonight; still dated with I-043 copy work; re-check 2026-10-21.\n\n | 2026-10-21 (day round 1, P5): hygiene draft ACCEPTED. `--run I-049` exit 0, /cycles snap 314 lines; no short_description full-stop convention shipped. The helper's two READ-MUTATED lines (src/data/cycles.json, public/about.md) were this lane's own concurrent I-061 edit to dalio.reference_peak_rationale, not this row's fix. Both walkers on 10-21 again noticed the Dalio summary ends without a full stop. Re-dated 2026-10-22.\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-28 (light day, P5): re-dated 10-28 → 10-30 on the orchestrator's P1 approval (msg 246e281a, \"close none on an empty grep\"). The proof is a walk, a decision or a copy build, and a light day runs none of them. Its stored readCommand was not re-run today. The last stamped read is 2026-10-27, in continuity/read-outputs/.\n\n | 2026-10-30 (full day, P5): hygiene draft ACCEPTED. --run I-049 exit 0, /cycles snap 313 lines; none of the 10 short_description lines in src/data/cycles.json ends in a full stop, so the convention has not shipped. Not selected today (I-063 was). Re-dated 10-30 -> 11-03.\n\n | 2026-11-03 (full day, P5): hygiene draft ACCEPTED, re-dated 11-03 → 11-06. Read: --run I-049 exit 0, /cycles snap 313 lines; cycles.json short_description lines ending in a full stop: 0 of 10, so the convention has not shipped. Copy work not selected today (I-063 was).\n\n | 2026-11-06 (full day, P5): hygiene draft ACCEPTED, re-dated 11-06 -> 11-10. Read: --run I-049 exit 0, /cycles snap 313 lines (same sidecar sha as 11-03); cycles.json short_description lines ending in a full stop: 0 of 10. Copy work not selected today (I-080 was). This is the 7th re-date since 10-20 on the same read: the next look decides the convention or records a hold with its reason, not another re-date.\n\n2026-11-08 (full day, P5): convention DECIDED and SHIPPED, live 3d7d2cff (94bc547 copy + test, 3d7d2cf test-only Codex r1 fixes; CI ci.yml green on 3d7d2cff70). Every cycles.json (10 of 10) and series.json (9 of 9, added by manager review 72682128) short_description ends in one full stop, mirrored in about.md and methods.md; methods.md:31 and :55 differ from series.json on purpose (\"see caveats below\") and summaryFullStop.test.ts pins both exactly. closeWhen met: production after-snaps vs the morning's before-snaps, line by line: /cycles 10, /about 10 (+1 stamp), /methods 9 (+1 stamp), /cycles/dalio 2 lines gained exactly one terminal \".\" and 0 other lines changed across 861 (check-deployed-sha-drift --wait: live 3d7d2cff in sync). --run I-049 exit 0, /cycles snap 313 lines. Status open -> monitoring, NOT closed: the manager review (f48e2192) asked to close it AND to date a Search Console read for 11-15; the P5 rule keeps a row with a read still owed at monitoring, so the read lives here. Encounter blind by standing choice (no client analytics, card 1e069bb4); outcome open.",
       "created": "2026-10-15",
       "updated": "2026-11-08",
-      "readCommandLastRun": "2026-11-08T17:41:17.098Z",
+      "readCommandLastRun": "2026-11-15T17:14:57.195Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 1020,
+      "readCommandLastDurationMs": 1959,
       "readCommandLastOutputRef": {
-        "lines": 1,
-        "sha256": "d0a9dde4d7b75492"
+        "lines": 9,
+        "sha256": "cc2ab1f8689b603d"
       },
       "lastEvaluated": "2026-11-08",
       "onTrigger": "On 2026-11-15, run node C:/dev/skylark/sinusoidal-cycles/scripts/gsc-read.mjs --start 2026-11-08 (page-only grouping) and record page impressions on /cycles, /about, /methods and /cycles/dalio since the 3d7d2cff deploy (2026-11-08 17:20Z). This is a proxy for who was shown the stopped summaries, never for reading; the encounter stays blind by standing choice (card 1e069bb4). Record the four counts and close the row; the outcome stays open (no reader read exists)."
@@ -2510,6 +2510,21 @@
       "created": "2026-11-14",
       "updated": "2026-11-14",
       "lastEvaluated": "2026-11-14"
+    },
+    {
+      "id": "I-082",
+      "title": "Each /cycles entry named only its paired series; its verdict and how far short its record is sat in the table ~3,000px below the ten entries",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-15",
+      "description": "Source read 2026-11-15 (P1 2930fba7): /cycles entries printed only 'Paired data - <series>' (src/app/(app)/cycles/page.tsx:303-307 before 2f533e3); the per-pairing verdict and years short lived only in VerdictTable, after the roster. /cycles had 12 of the site's 22 Search Console impressions 11-08..11-15 (I-049 read). Kondratiev and Turchin are judged on a different cut from the series their entry names (I-030, I-035), so their entry must name the judged record. STATIC: no reader has been observed missing the answer.",
+      "closeWhen": "On production /cycles each of the 9 paired entries carries its own years-short line matching its VerdictTable row (Kondratiev and Turchin naming the judged record) and the unpaired entry says it is not tested; pinned by src/lib/cyclesIndexVerdict.test.ts; check-entry-folds 320x568 still 13 of 13.",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i082-cycles.txt — the ten entry lines; the regression is npm test (src/lib/cyclesIndexVerdict.test.ts)",
+      "notes": "2026-11-15 (P3): shipped 2f533e3 (feature) + b0da386 (test hardening, Codex r1), live b0da386f, CI ci.yml green on b0da386f5c. Production before (313 lines) -> after (323 lines): line multiset differs by exactly the 10 new entry lines, 0 removed. check-entry-folds 320x568: 13 of 13, /cycles 7px spare (unchanged). Codex r1 (gpt-6-astra, read-only, banner workdir matched): 0 defects; all 10 strings and the llms.txt line HOLD. Encounter blind: no client analytics by standing choice (card 1e069bb4); Search Console sees impressions on /cycles, never a read of an entry. Outcome open.",
+      "created": "2026-11-15",
+      "updated": "2026-11-15"
     }
   ],
   "knownPatterns": [
