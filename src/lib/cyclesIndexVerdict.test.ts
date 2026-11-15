@@ -82,6 +82,32 @@ describe("/cycles: each entry states its own verdict", () => {
     });
   }
 
+  // Codex r1 on 2f533e3 named these two as what the substring checks above cannot see.
+  it("each verdict line sits in the entry itself, before the closed 'longer story' panel", () => {
+    for (const c of cycleList) {
+      const start = html.indexOf(`href="/cycles/${c.id.replace(/_/g, "-")}"`);
+      const li = html.slice(start, html.indexOf("</li>", start));
+      const verdictAt = li.indexOf(`data-entry-verdict="${c.id}"`);
+      expect(verdictAt, c.id).toBeGreaterThan(-1);
+      const detailsAt = li.indexOf("<details");
+      if (detailsAt > -1) expect(verdictAt, c.id).toBeLessThan(detailsAt);
+      // The line's own opening tag, whole (attributes render in prop order, so class follows).
+      const tag = li.slice(li.lastIndexOf("<", verdictAt), li.indexOf(">", verdictAt) + 1);
+      expect(tag, c.id).toMatch(/^<p /);
+      expect(tag, c.id).not.toMatch(/\b(hidden|sr-only|invisible)\b/);
+    }
+  });
+
+  it("each entry's shortfall equals the verdict table's row for the same cycle", () => {
+    for (const v of verdicts) {
+      const rowStart = html.indexOf(`data-verdict-id="${v.cycle_id}"`);
+      expect(rowStart, v.cycle_id).toBeGreaterThan(-1);
+      const row = decode(html.slice(rowStart, html.indexOf("</li>", rowStart)));
+      const tableShort = row.match(/needs (\d+) more years/)?.[1];
+      expect(entryText(v.cycle_id)).toContain(`is ${tableShort} years too short.`);
+    }
+  });
+
   it("the two different cuts are exactly Kondratiev and Turchin", () => {
     const differ = verdicts
       .filter((v) => seriesList.find((s) => s.associated_cycle_id === v.cycle_id)?.id !== v.series_id)
