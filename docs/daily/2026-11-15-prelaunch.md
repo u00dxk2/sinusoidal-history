@@ -93,3 +93,18 @@ P1 (selection and prep) is recorded below.
 - Kickoff: orchestrator f6a3845d (2026-11-15T16:59:51Z), body file sha256 84ac1e28…, VERIFIED.
 - Composer state reads (16:59:19Z): HEAD CI GREEN (run 43629430290), queued rows 0, stale-actionable 0 of 11, report artifact PENDING (this file).
 - Search Console still lists `/state/2026` (1 impression). That route redirects permanently to /cycles since I-061 (2026-10-21), so this is an index that has not caught up, not a served page.
+
+### Close
+
+ACTION: COMPLETED · item I-082 · P3 23766ea3
+
+- **Since the P3 post:** the manager review 4c23310d read the served /cycles page and found 10 of 10 entry lines, with the judged record named on Kondratiev and Turchin. It found no defects. Live is 9b387588, the docs commit after b0da386. The receipt is unchanged: P3's line still holds, the encounter is blind, and the outcome is open.
+- **Hygiene draft:** 1 line — 1 accepted · 0 amended · 0 rejected. I-049 was closed with the four counts. Its closeWhen was met on 11-08 (live 3d7d2cff).
+  - READ-MUTATED: none, with 1 read guarded.
+  - check-wait-justification: "RESULT: PASS — 33 of 89 row(s) carry `waitJustification`; 0 warn / 0 info".
+  - check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver" (Dependabot #62 until 2026-11-28, W-007).
+- **Ledger delta:** I-082 was minted at P3 and closed at P5 on its closeWhen: live 10 of 10 lines, judged names on both cuts, the test red-armed and the folds 13 of 13. Its encounter is blind under I-082 and no reader read is dated. I-049 closed. Nothing was re-dated.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-15).
+- **Pending reads:** I-051 11-16 · I-075 re-walk 11-17 · I-071 11-18 · I-077, I-078 11-19 · W-007 11-28.
+- **Primer:** `docs/cold-starts/2026-11-15.md`.
+- **codexCalls:** 1 (r1 read-only review of 2f533e3, gpt-6-astra).
