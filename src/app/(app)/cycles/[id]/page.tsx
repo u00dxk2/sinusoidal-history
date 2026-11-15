@@ -34,6 +34,7 @@ import {
   spectralDraws,
   spectralHeadline,
   spectralVerdictForCycle,
+  yearsShortOfFloor,
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
 import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
@@ -188,7 +189,7 @@ export default async function CyclePage({ params }: Params) {
             : `The record this verdict is judged on — a different cut of the paired series from the one drawn on the chart, named in the verdict below — runs ${verdict.span_years} years: `}
         {`${periodsCovered(verdict)} this site requires before it will run a test on ${aYear(verdict.period_years)} claim.`}
         {!verdict.eligible &&
-          ` Roughly ${Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years))} more years of that measurement would reach the floor.`}
+          ` Roughly ${yearsShortOfFloor(verdict)} more years of that measurement would reach the floor.`}
       </p>
       <p className="mt-2.5 text-[15px] leading-[1.6] text-ink/85">
         {`This is not a verdict about this theory in particular: ${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired constructions on this site clear that floor. Long-cycle claims are hard to test because the records are short, not because the theorists are careless.`}

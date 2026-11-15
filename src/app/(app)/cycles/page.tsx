@@ -12,7 +12,15 @@ import { cyclesIndexTitle } from "@/lib/countWords";
 import { CYCLES_INDEX_DESCRIPTION, CYCLES_INDEX_TITLE, holdsUpOverallAlt } from "@/lib/holdsUp";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
-import { spectralHeadline, spectralPrimary } from "@/lib/spectral";
+import {
+  SPECTRAL_STATE_LABELS,
+  spectralHeadline,
+  spectralPrimary,
+  spectralVerdictForCycle,
+  yearsShortOfFloor,
+} from "@/lib/spectral";
+import { judgedCut } from "@/lib/testedSeries";
+import type { Cycle, DataSeries } from "@/data/types";
 import VerdictTable from "@/components/VerdictTable";
 
 // The verdict list's rows with no record: the same rule as VerdictTable's UNPAIRED.
@@ -45,6 +53,21 @@ export const metadata: Metadata = {
 };
 
 const byPeriod = [...cycles].sort((a, b) => a.period_years - b.period_years);
+
+// Each entry's own verdict, under its "Paired data" line (2026-11-15). Before this the answer
+// sat only in the verdict table below all ten entries, ~3,000px down on a phone. The years short
+// is what differs per entry, so it carries the sentence; the state label would read the same
+// nine times. It is a RECORD-length shortfall: the records end between 2011 and 2025, so the
+// words never say "N years from now". Kondratiev and Turchin are judged on a different cut from
+// the series their entry names (I-030, I-035), so their sentence names the judged record.
+function entryVerdict(cycle: Cycle, series: DataSeries | undefined): string {
+  const verdict = spectralVerdictForCycle(cycle.id);
+  if (!verdict) return "Not tested: there is no paired record to test it against.";
+  if (verdict.eligible) return `${SPECTRAL_STATE_LABELS[verdict.state]}.`;
+  const tested = judgedCut(series?.id, verdict.series_id);
+  const record = tested ? `the record it is judged on, ${tested.name},` : "its record";
+  return `Can't be tested yet: ${record} is ${yearsShortOfFloor(verdict)} years too short.`;
+}
 
 // The published "excluded and why" list. Hand-written by design: exclusion
 // reasons are editorial judgments with citations, not derivable data. Every
@@ -304,6 +327,12 @@ export default function CyclesIndex() {
                   {series
                     ? `Paired data - ${series.name}`
                     : "No paired data series this round"}
+                </p>
+                <p
+                  data-entry-verdict={cycle.id}
+                  className="mt-1 text-[14px] leading-snug text-ink"
+                >
+                  {entryVerdict(cycle, series)}
                 </p>
               </div>
               {more && (

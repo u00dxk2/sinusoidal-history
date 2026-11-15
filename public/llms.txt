@@ -11,7 +11,7 @@ Headline editorial point: nine of the ten reference peaks fall between 1945 and 
 ## Pages
 
 - [Home](https://sinusoidalhistory.com/): The interactive overlay chart with ten cycle facets, a calibration drawer, and a time-range brush. Hero: "Ten cycles, one axis."
-- [Cycles index](https://sinusoidalhistory.com/cycles): All ten cycles by ascending period, each linking to its own page, plus the published "considered and excluded" list with reasons and citations.
+- [Cycles index](https://sinusoidalhistory.com/cycles): All ten cycles by ascending period, each linking to its own page and saying how many years too short its record is to test (or that it has no paired record), plus the published "considered and excluded" list with reasons and citations.
 - [Methods](https://sinusoidalhistory.com/methods): Data provenance, transformations, normalization choices, why Pearson r is a diagnostic and not a test statistic, and the pre-registered spectral-testing protocol (harmonic regression at exactly the period this site uses for the theory vs an AR(1)/AR(2) red-noise null, 3.0-period eligibility gate, four verdict states). Per-series source citations and license terms.
 - [About](https://sinusoidalhistory.com/about): The argument. Why this exists, why the site draws at most one period of each cycle instead of repeating the wave, the ten cycles in this version, the intellectual-honesty disclaimer.
 - [Colophon](https://sinusoidalhistory.com/colophon): A note from the maker. How the site was built, what was AI, what was human, the AI-collaboration framing, the convergence problem.

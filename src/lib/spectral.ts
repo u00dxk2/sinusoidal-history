@@ -54,6 +54,18 @@ export function spectralVerdictForCycle(
   return verdicts.primary.find((r) => r.cycle_id === cycleId) ?? null;
 }
 
+/**
+ * How many more years of record a pairing needs to reach the site's 3.0-period floor; 0 once
+ * eligible. From the exact span, never the rounded cycles_covered (that rounding overstates it
+ * by a year on four of the nine rows). One copy for the verdict table, each cycle page's
+ * "Does it hold up?" box and the /cycles entries.
+ */
+export function yearsShortOfFloor(verdict: SpectralVerdictRow): number {
+  return verdict.eligible
+    ? 0
+    : Math.max(0, Math.ceil(3 * verdict.period_years - verdict.span_years));
+}
+
 export const spectralPrimary = verdicts.primary;
 export const spectralCrossGrid = verdicts.cross_grid;
 export const spectralHeadline = verdicts.headline;

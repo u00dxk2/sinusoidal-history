@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cycles } from "@/data/cycles";
 import { cycleRoutePath, cycleTheorist } from "@/lib/cycleRoutes";
-import { SPECTRAL_STATE_LABELS, spectralPrimary } from "@/lib/spectral";
+import { SPECTRAL_STATE_LABELS, spectralPrimary, yearsShortOfFloor } from "@/lib/spectral";
 
 // One row per primary verdict, in verdicts.json order (ascending period). Every value is
 // read from the frozen verdicts.json; the shortfall uses the exact span, never the rounded
@@ -9,7 +9,7 @@ import { SPECTRAL_STATE_LABELS, spectralPrimary } from "@/lib/spectral";
 const VERDICT_ROWS = spectralPrimary.map((v) => ({
   v,
   cycle: cycles.find((c) => c.id === v.cycle_id)!,
-  yearsShort: v.eligible ? 0 : Math.max(0, Math.ceil(3 * v.period_years - v.span_years)),
+  yearsShort: yearsShortOfFloor(v),
 }));
 const UNPAIRED = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id === c.id));
 
