@@ -2566,6 +2566,22 @@
       "updated": "2026-11-16",
       "closedAt": "2026-11-16",
       "lastEvaluated": "2026-11-16"
+    },
+    {
+      "id": "I-085",
+      "title": "Re-run the JSX-whitespace probe on Next 16.4.5 (installed 2026-11-16, not probed)",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-16",
+      "description": "AGENTS.md (JSX whitespace section) asks for the probe to be re-run on every Next bump rather than trusting either version's reputation. It was last run on 16.3.5 (2026-09-17: the hazard did not reproduce in 2 cases), not on 16.4.1 (2026-11-04) and not on 16.4.5 (e3a9aa2, 2026-11-16, for Dependabot #63/#64). It was skipped on 11-16 because the probe needs a local `next build` and two local `npm install` runs had just stalled in reify; `npm ci` later restored node_modules (next 16.4.5, `npm ls`). Production text is unaffected either way: every junction in the repo already uses explicit {\" \"}, and the 7-page rendered-text diff a8dbba2 -> e3a9aa2 was identical.",
+      "closeWhen": "A throwaway route written in the hazardous shape (`the {year} reading` and `<em>estimation</em> conventionally`, each spanning source lines, no {\" \"}) is built with next 16.4.5, and the prerendered HTML is read for both spaces. The result (reproduced or not) is written into AGENTS.md's version line, and the throwaway route is deleted, not committed.",
+      "nextEvaluation": "2026-11-18",
+      "readCommand": "npm --prefix C:/dev/skylark/sinusoidal-cycles ls next — confirm 16.4.5, then build the throwaway route and read its .next/server/app/<route>.html",
+      "notes": "2026-11-16 (P5 round 2): minted on the manager review's instruction (7a60ad2b: 'give it a dated row or a date in AGENTS.md, not an open line'). Dated 11-18, beside I-071, so it stays out of the 11-17 I-075 walk and I-083.",
+      "created": "2026-11-16",
+      "updated": "2026-11-16"
     }
   ],
   "knownPatterns": [

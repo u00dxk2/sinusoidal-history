@@ -153,3 +153,14 @@ The manager review (b1f9c6c2) approved the change and added one check: a phone-w
 - **Encounter / outcome:** not applicable. No reader-visible change.
 - **Incident (this host):** a full local `npm install` stalled twice in reify. Both times the process showed zero read/write I/O, no sockets, about 100 fs calls per second, and a half-extracted `node_modules/next`. Both were killed by a PID whose command line was verified. The lockfile was written with `--package-lock-only` instead, so CI's `npm ci` is the install of record. The local `node_modules` stays broken until it is reinstalled. The JSX-whitespace re-probe on 16.4.5 was not run (AGENTS.md now says so).
 - **Hygiene helper:** dispatched at P3 start. Its draft `tmp/hygiene-draft-sinusoidal-cycles-2026-11-16-r2.md` has 0 lines. Wait-justification: "RESULT: PASS — 33 of 92 row(s) carry `waitJustification`; 0 warn / 0 info".
+
+### Close (round 2)
+
+ACTION: COMPLETED · item none (Dependabot #63/#64, GHSA-mfr8-8qww-v76h) · P3 c9700339. Manager review 7a60ad2b: COMPLETED, no defects.
+
+- **State since the P3 post:** live c1d84a90 = head, and e3a9aa2 is its ancestor. The local `node_modules` is restored: one watched `npm ci` exited 0, and `npm ls next eslint-config-next` reads 16.4.5 for both.
+- **Hygiene draft:** 0 lines (0 accepted · 0 amended · 0 rejected). There were no READ-MUTATED lines. The helper ran engineering-zero before the deploy and got RED on #63/#64; re-run after the deploy, it reads "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver". Wait-justification: PASS, 33 of 92.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-11-16).
+- **Ledger delta:** I-085 minted (open, nextEvaluation 2026-11-18): re-run the JSX-whitespace probe on 16.4.5. The manager review asked for a dated row.
+- **Carried:** Dependabot #62 (minimatch) is waived under W-007 until 2026-11-28. It must be fixed or re-dated before then; tomorrow's primer banner says so.
+- **Pending reads:** 11-17 I-075 re-walk, I-083 · 11-18 I-071, I-085 · 11-19 I-077, I-078 · 11-28 W-007.
