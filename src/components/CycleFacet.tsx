@@ -829,9 +829,10 @@ function ExpandedTail({
 
   // The sliders come before the rationale in every expanded facet, so on a
   // phone they sit right under the chart and the curve stays in view while
-  // dragging. With the rationale first, the peak slider sat 686-1071px below
-  // the chart's top on a phone, more than a screen (measured 2026-11-16 on the
-  // Facets tab's focused card; the Calibrate tab had this order since
+  // dragging. With the rationale first, the peak slider sat 686-1412px below
+  // the chart's top on a phone, more than a screen for 17 of 18 cycle-sizes
+  // (measured 2026-11-16 on the Facets tab's focused card, 9 paired cycles at
+  // 390x664 and 320x568; the Calibrate tab had this order since
   // 2026-09-28). At md+ the sliders take the left column. Moved in the DOM, not
   // with CSS `order`, so focus and reading order match what is seen (same rule
   // as Viz's chart-first move, 2026-09-21). Pinned live by

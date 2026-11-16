@@ -2528,6 +2528,41 @@
       "updated": "2026-11-15",
       "closedAt": "2026-11-15",
       "lastEvaluated": "2026-11-15"
+    },
+    {
+      "id": "I-083",
+      "title": "The Kondratiev and Turchin /cycles entries name two different series: the drawn one on the 'Paired data' line and the judged one on the verdict line under it, with the reason ~4,000px down the page",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-16",
+      "description": "Found by the 2026-11-15 night journey walk (docs/journey-walk-2026-11-15.md:13, synthetic N=1) and confirmed in source 2026-11-16 P1: each entry prints `Paired data - ${series.name}` (src/app/(app)/cycles/page.tsx:328) and, one line below, entryVerdict names the judged cut (page.tsx:63-69, judgedCut in src/lib/testedSeries.ts). Kondratiev reads 'US TFP growth (5-yr rolling)' then 'the record it is judged on, US TFP growth (annual, unsmoothed), is 85 years too short'. Turchin has the same shape (drawn from 1820, judged on the 1913 cut); the walk did not name it. The explanation sits ~4,000px lower. A cold reader sees a contradiction on the site's most-shown page (/cycles 22 of 46 impressions 10-31..11-14, I-051 read). The 11-15 pairing was deliberate (primer 2026-11-15 'Non-obvious'), so the fix is a wording change that says why in the same entry. Manager review 4cb13d4c (2026-11-16): 'a factual-claim defect on a public page ... give it a dated row today'.",
+      "closeWhen": "On production /cycles the Kondratiev and Turchin entries each say, in the entry itself, why the record the verdict is judged on differs from the series drawn (e.g. judged on the annual series; the chart draws its 5-year average). The words come from a round-0 fact list and pass a cross-family claims pass before the first commit; a source-pinned test is red on the prior tree; check-entry-folds 320x568 still reads 13 of 13 with /cycles spare at or above 7px.",
+      "nextEvaluation": "2026-11-17",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i083-cycles.txt — read the Kondratiev and Turchin entry lines",
+      "notes": "2026-11-16 (P3): minted on the manager review's instruction (4cb13d4c). Not fixed today: today's change is the focused card's Calibrate order (I-084). Next step on 11-17: dispatch round 0 (the facts each entry can state, with file:line), then write the words. It changes /cycles only, not the home first screen the 11-17 I-075 walk tests.",
+      "created": "2026-11-16",
+      "updated": "2026-11-16"
+    },
+    {
+      "id": "I-084",
+      "title": "On a phone the focused cycle card put a screen of text between its chart and its Calibrate sliders, so a reader dragging a slider could not see the curve move",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-16",
+      "description": "The home page says 'tap one to focus and calibrate' (src/components/CycleOverview.tsx:175). On the Facets tab's focused card, ExpandedTail rendered the description, peak-calibration paragraph, caveat, source and Full page link before the sliders; only the Calibrate tab had controls first (CycleFacet.tsx:190 before 35b22e6). Production 2026-11-16 (697d6d0f): chart top to peak-slider bottom 686-1175px at 390x664 and 747-1412px at 320x568 across the 9 paired cycles; desktop 323px. Source: 2026-11-15 night journey walk finding 1 (docs/journey-walk-2026-11-15.md:11, synthetic N=1), frames 11-12 committed. P1 16003e4f, manager review 4cb13d4c APPROVE.",
+      "closeWhen": "On production, scripts/check-focused-calibrate.mjs reads all PASS at 390x664, 320x568 and 1280x800 for every paired cycle (DOM order, span, mid-drag curve on screen and moved), and the mid-drag frames for Dalio and one short-text cycle at both phone sizes show the curve and the slider in one frame with the curve moved from its before frame, read by a person and cited. check-entry-folds 320x568 still 13 of 13 with / at 12px spare.",
+      "nextEvaluation": "2026-11-16",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-focused-calibrate.mjs https://sinusoidalhistory.com --frames C:/dev/skylark/sinusoidal-cycles/tmp/focused-calibrate-prod",
+      "notes": "2026-11-16 (P3): built 35b22e6 (controls first in every expanded facet, moved in the DOM; controlsFirst removed). Red arm: production 20/81 on 697d6d0f. Local dev 81/81. facetCalibrateOrder.test.ts red 2/3 on the prior tree, green 3/3. Encounter blind: no client analytics by standing choice (card 1e069bb4); a slider drag is client-side and invisible to Search Console.",
+      "linkedCommits": [
+        "35b22e6"
+      ],
+      "created": "2026-11-16",
+      "updated": "2026-11-16"
     }
   ],
   "knownPatterns": [

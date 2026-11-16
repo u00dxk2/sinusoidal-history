@@ -30,5 +30,15 @@ describe("expanded facet: Calibrate before the rationale", () => {
   it("has no switch that could put the rationale first again", () => {
     expect(facet).not.toContain("controlsFirst");
     expect(facet).not.toMatch(/\border-(first|last|\d)\b/);
+    // Codex r1 #5: an inline style can reorder too.
+    expect(facet).not.toMatch(/\border\s*:/);
+  });
+
+  it("keeps the rationale out of the controls block (Codex r1 #5)", () => {
+    const controls = tail.slice(tail.indexOf("const controls ="), tail.lastIndexOf("return ("));
+    expect(controls).toContain("<SliderRow");
+    for (const field of ["short_description", "reference_peak_rationale", "caveat", "cycle.source"]) {
+      expect(controls).not.toContain(field);
+    }
   });
 });

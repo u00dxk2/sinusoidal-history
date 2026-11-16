@@ -4,12 +4,16 @@
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
 // For each paired cycle at /?focus=<id> (Facets tab), at 390x664, 320x568 and 1280x800:
-//   1. order: the Calibrate block comes BEFORE the "Peak calibration" text in the DOM (the block is
-//      moved in the DOM, never with CSS order, so reading and focus order match what is seen);
+//   1. order: both sliders come BEFORE the description and the "Peak calibration" text in the DOM,
+//      and are painted above them (phone) or to their left (desktop), so reading and focus order
+//      match what is seen (the block moves in the DOM, never with CSS order);
 //   2. span: the chart's top and the peak slider's bottom fit one screen (the measure
 //      check-calibrate-tab.mjs takes on the Calibrate tab);
-//   3. drag: with the slider scrolled into view and a real pointer held down mid-drag, the chart's
-//      top is still inside the viewport AND the drawn curve differs from before the drag.
+//   3. drag: the "Reference peak year" slider (found by its label) is dragged with a real pointer;
+//      while it is held, the chart's top and the slider are inside the viewport AND the theory
+//      curve (data-curve="theory", never the late-loading data path) differs from before.
+// Hardened after Codex r1 on 35b22e6 (6 findings, all in this checker and its test). Not seen:
+// paint (a zero-opacity or clipped curve passes; the frames are the person's read), touch input.
 // --frames <dir> saves a before and a mid-drag screenshot per cycle and size, for a person to read.
 // Written 2026-11-16 (the 11-15 journey walk's top finding). Red arm: production 697d6d0f/980737c,
 // where the description and a ~20-line peak-calibration paragraph sat between chart and sliders
@@ -21,10 +25,28 @@ import { mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Codex r1 #1/#6: parse positionally so an origin alone is honoured, and refuse a bare --frames.
 const args = process.argv.slice(2);
-const fi = args.indexOf("--frames");
-const framesDir = fi >= 0 ? args[fi + 1] : null;
-const origin = (args.find((a, i) => !a.startsWith("--") && i !== fi + 1) ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
+let framesDir = null;
+const positional = [];
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === "--frames") {
+    framesDir = args[++i];
+    if (!framesDir || framesDir.startsWith("--")) {
+      console.error("check-focused-calibrate: --frames needs a directory");
+      process.exit(2);
+    }
+  } else if (args[i].startsWith("--")) {
+    console.error(`check-focused-calibrate: unknown flag ${args[i]}`);
+    process.exit(2);
+  } else positional.push(args[i]);
+}
+if (positional.length > 1) {
+  console.error(`check-focused-calibrate: one origin only, got ${positional.join(" ")}`);
+  process.exit(2);
+}
+const origin = (positional[0] ?? "https://sinusoidalhistory.com").replace(/\/$/, "");
+console.log(`origin ${origin}${framesDir ? ` · frames ${framesDir}` : ""}`);
 if (framesDir) mkdirSync(framesDir, { recursive: true });
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -51,7 +73,8 @@ for (const [w, h] of [[390, 664], [320, 568], [1280, 800]]) {
     await page.goto(`${origin}/?focus=${id}`, { waitUntil: "load" });
     const facet = page.locator(`[data-facet-id="${id}"]`).first();
     const svg = facet.locator('svg[role="img"]').first();
-    const slider = facet.locator('[role="slider"]').first();
+    // Codex r1 #3: the PEAK slider by its label, never "the first slider".
+    const slider = facet.getByRole("slider", { name: "Reference peak year" });
     try {
       await svg.waitFor({ timeout: 15000 });
       await slider.waitFor({ timeout: 15000 });
@@ -62,14 +85,23 @@ for (const [w, h] of [[390, 664], [320, 568], [1280, 800]]) {
     }
     await page.waitForTimeout(800); // the paired CSV
 
+    // Codex r1 #5: BOTH sliders must precede the rationale and the description, and the reading
+    // order must match the painted order (a slider above the rationale on screen too).
     const order = await facet.evaluate((el) => {
-      const find = (re) => [...el.querySelectorAll("span")].find((s) => re.test(s.textContent.trim()));
-      const cal = find(/^Calibrate$/i);
-      const peak = find(/^Peak calibration/i);
-      if (!cal || !peak) return `missing ${!cal ? "Calibrate" : ""} ${!peak ? "Peak calibration" : ""}`.trim();
-      return cal.compareDocumentPosition(peak) & Node.DOCUMENT_POSITION_FOLLOWING ? "calibrate-first" : "text-first";
+      const sliders = [...el.querySelectorAll('[role="slider"]')];
+      const peak = [...el.querySelectorAll("span")].find((s) => /^Peak calibration/i.test(s.textContent.trim()));
+      const desc = el.querySelector("p.font-display-italic");
+      if (sliders.length !== 2 || !peak || !desc) return `missing: sliders=${sliders.length} peak=${!!peak} desc=${!!desc}`;
+      const before = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+      const domOk = sliders.every((s) => before(s, peak) && before(s, desc));
+      const lastSlider = sliders[1].getBoundingClientRect();
+      const top = Math.min(peak.getBoundingClientRect().top, desc.getBoundingClientRect().top);
+      // On a one-column phone the rationale is painted BELOW the sliders; in desktop's two columns
+      // it sits beside them, to the right.
+      const paintOk = lastSlider.bottom <= top || lastSlider.right <= desc.getBoundingClientRect().left;
+      return domOk && paintOk ? "sliders-first" : `dom ${domOk ? "ok" : "rationale-first"} · paint ${paintOk ? "ok" : "rationale-first"}`;
     });
-    check(`${tag} ${id}: Calibrate precedes the peak-calibration text in the DOM`, order === "calibrate-first", order);
+    check(`${tag} ${id}: both sliders precede the description and peak-calibration text (DOM and paint)`, order === "sliders-first", order);
 
     const sb = await svg.boundingBox();
     const lb = await slider.boundingBox();
@@ -80,8 +112,14 @@ for (const [w, h] of [[390, 664], [320, 568], [1280, 800]]) {
     // top of the screen (as far as the page allows), which is the most favourable reading.
     await svg.evaluate((el) => el.scrollIntoView({ block: "start" }));
     await page.waitForTimeout(300);
-    const paths = async () =>
-      (await svg.locator("path").evaluateAll((ps) => ps.map((p) => p.getAttribute("d") ?? ""))).join("|");
+    // Codex r1 #2: the THEORY curve only, so a late-loading data path cannot read as a move.
+    const theory = svg.locator('[data-curve="theory"]');
+    if ((await theory.count()) !== 1) {
+      check(`${tag} ${id}: exactly one theory curve in the chart`, false, `count=${await theory.count()}`);
+      await page.close();
+      continue;
+    }
+    const paths = async () => (await theory.getAttribute("d")) ?? "";
     const d0 = await paths();
     if (framesDir) await page.screenshot({ path: join(framesDir, `${tag}-${id}-before.png`) });
     const thumb = await slider.boundingBox();
@@ -94,11 +132,12 @@ for (const [w, h] of [[390, 664], [320, 568], [1280, 800]]) {
     await page.mouse.down();
     await page.mouse.move(tx, cy, { steps: 8 });
     await page.waitForTimeout(250);
+    // Codex r1 #4: every box is read while the pointer is still down, in the captured state.
     const mid = await svg.boundingBox();
+    const thumbMid = await slider.boundingBox();
     const moved = (await paths()) !== d0;
     if (framesDir) await page.screenshot({ path: join(framesDir, `${tag}-${id}-mid-drag.png`) });
     await page.mouse.up();
-    const thumbMid = await slider.boundingBox();
     check(
       `${tag} ${id}: mid-drag, the curve is on screen and has moved`,
       // -1px: scrollIntoView can leave the chart's top a sub-pixel above 0 (it read -0.x on 4 of
