@@ -111,3 +111,45 @@ ACTION: COMPLETED · item I-084 · P3 ea34e18d. The acceptance in force was the 
 - **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-16).
 - **Carried, not reopened** (the manager review asked for a sentence): at 320 wide, the "Reference peak year" label wraps to two lines once its value differs from the published one, which moves the slider about 19px down mid-drag. It stays on screen (342 of 568), and the manager's frames show it too. A one-line fix would keep the label on one line, for example by letting "published 1950" drop below the label. It has no row; tomorrow's agent can fold it into the next touch of the card.
 - **Pending reads:** 11-17 I-075 re-walk (fresh walker, same prompt and bar) · 11-17 I-083 (round 0, then the claims pass, then the words) · 11-18 I-071 · 11-19 I-077, I-078 · 11-28 W-007.
+
+### Round 2 — engineering panel (P1 selection packet)
+
+[P1 — Evidence and choice]
+
+Round 2 covers the engineering panel only (orchestrator kickoff 2026-11-16T22:20Z, a short session).
+
+- **Outcome:** clear Dependabot alerts #63 and #64 by bumping `next` and `eslint-config-next` from 16.4.1 to 16.4.5. No ledger row exists yet; P3 mints one if the review approves. Kind: repair (dependency security).
+- **The user problem:** none that a reader has seen. The panel reads RED for this lane.
+- **Evidence:**
+  - OBSERVED · `check-engineering-zero --project sinusoidal-cycles` at ~22:25Z: "RED sinusoidal-cycles: 2 of 3 open Dependabot alert(s) remain after per-alert waivers [#63, #64] — waived per alert: #62 (until 2026-11-28, W-007)". Exit 3.
+  - OBSERVED · `gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/{63,64}`: both are GHSA-mfr8-8qww-v76h, "Next.js: Information disclosure across root params when a 'use cache' function is called through unstable_cache()", medium severity, runtime scope, direct dependency. #63 is on `package.json` and #64 on `package-lock.json`. The single vulnerable range is `>= 16.3.0, <= 16.4.4`, and the patched version is 16.4.5. The kickoff named the repo `u00dxk2/sinusoidal-cycles`, which 404s; the real repo is `sinusoidal-history`.
+  - OBSERVED · `npm ls next eslint-config-next`: both are 16.4.1, which is inside the vulnerable range. `package.json:29` and `:44` pin both exactly.
+  - OBSERVED · `npm view next time`: 16.4.5 was published 2026-11-03 and 16.4.6 on 2026-11-09. I pick 16.4.5 because it is the fix the advisory names and has been out 13 days. 16.4.6 is a week old.
+  - OBSERVED · searched `src/` for `unstable_cache|'use cache'`: 0 matches. The vulnerable path is not reachable in this code, so this is hygiene, not an exposure.
+  - OBSERVED · open PRs: `gh pr list --repo u00dxk2/sinusoidal-history --state open` returns none. CI on HEAD a8dbba2 is GREEN per the kickoff (run 43914168517).
+  - Sentry: this lane has no RED row on the Sentry leg (same check).
+- **Permission:** a patch-level dependency bump on a lane-owned repo. No card names it, and no ruling forbids it. AGENTS.md says to re-run the JSX-whitespace probe on a Next bump (it was last probed on 16.3.5), and to run the rendered-text gate around a dependency bump (`docs/rendered-text-gate.md`).
+- **Next action:** kind = repair. Take a rendered-text snapshot on the current build, bump both packages to exactly 16.4.5, show the lockfile moved, run lint, typecheck and test, rebuild, and diff the rendered text. Re-run the JSX-whitespace probe on 16.4.5. Then push, wait for CI green and a deploy read in sync, and re-run `check-engineering-zero`. First command:
+
+  ```
+  npm --prefix C:/dev/skylark/sinusoidal-cycles install --save-exact next@16.4.5 eslint-config-next@16.4.5
+  ```
+
+- **Acceptance condition:** `check-engineering-zero --project sinusoidal-cycles` prints no RED for this lane (output quoted), and alerts #63 and #64 read `fixed`. `package-lock.json` resolves `node_modules/next` to 16.4.5. CI is green on the pushed sha, and `check-deployed-sha-drift --wait --service sinusoidal-history --sha <sha>` reads in sync. The rendered-text diff shows no changed line, or every changed line has a named reason.
+- **Delivery and encounter checks:** delivery is the drift read plus the alerts' state. Encounter is not applicable, because readers see no change.
+- **USER-FACING: yes** (a runtime framework bump changes what is served, even if no visible output should change). Paths: `package.json`, `package-lock.json`. Internal: `docs/daily/`, and `continuity/items.json` for a row if minted. AGENTS.md's "Not re-probed on 16.4.1" line gets updated with the probe result.
+- **HYGIENE INPUTS:**
+  - (a) due rows not bearing on the choice: none. Read: `check-due-gates-dispositioned --print` reports "0 gate(s) due on/before 2026-11-16". I did not re-take this morning's snapshot.
+  - (b) owed child rows: none. Read: kickoff "rows owed to you in skylark-site's ledger: 0 of 823".
+  - (c) state reads marked CROSSED: 1. "board cards carrying David's word: 3": 21ece8d9 (deploy guard), 2cf09a9d (/draw), 3784317b (skylark-site leftovers). All three are skylark-site cards marked "governs: unlinked", and none names work for this lane. Disposition: read.
+
+### Round 2 — P3 result
+
+The manager review (b1f9c6c2) approved the change and added one check: a phone-width load of the live home page, because the rendered-text gate cannot see the chart. Kind: corrective dependency work, not progress on a reader outcome.
+
+- **Implementation:** e3a9aa2 bumps `next` and `eslint-config-next` 16.4.1 → 16.4.5. The lockfile moves exactly 12 entries: next, eslint-config-next, @next/env, @next/eslint-plugin-next, and the eight @next/swc-* binaries. A Codex review of e3a9aa2 (`codex exec --sandbox read-only`, banner workdir `C:\dev\skylark\sinusoidal-cycles` checked) found no defects. It reproduced the lockfile/root consistency and the 12-entry scope, and statically found 0 uses of `unstable_cache`, `use cache` or `next/cache` in `src/`. CI ci.yml green on e3a9aa2691.
+- **Delivery:** `check-deployed-sha-drift --wait --service sinusoidal-history --sha e3a9aa26…` reported "OBSERVED after 8 poll(s), 222s — the target is live … live e3a9aa26". The rendered-text gate compared production before (a8dbba2) and after (e3a9aa2) on 7 pages: `/`, `/cycles`, `/methods`, `/about`, `/colophon`, `/cycles/dalio`, `/cycles/kondratiev`. All 7 were "GREEN: identical visible text" (24 / 323 / 350 / 100 / 39 / 98 / 103 lines). The phone home check (Playwright 390x664, isMobile, live) got HTTP 200, 11 `svg[role=img]` (the brush plus 10 cycle curves), 19 non-empty paths and 0 console errors. The frame shows all ten curves drawn.
+- **The bar:** Dependabot #63 and #64 read `fixed` (2026-11-16T22:55:59Z), and the only open alert is #62. `check-engineering-zero --project sinusoidal-cycles` reported "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver" (#62 until 2026-11-28, W-007).
+- **Encounter / outcome:** not applicable. No reader-visible change.
+- **Incident (this host):** a full local `npm install` stalled twice in reify. Both times the process showed zero read/write I/O, no sockets, about 100 fs calls per second, and a half-extracted `node_modules/next`. Both were killed by a PID whose command line was verified. The lockfile was written with `--package-lock-only` instead, so CI's `npm ci` is the install of record. The local `node_modules` stays broken until it is reinstalled. The JSX-whitespace re-probe on 16.4.5 was not run (AGENTS.md now says so).
+- **Hygiene helper:** dispatched at P3 start. Its draft `tmp/hygiene-draft-sinusoidal-cycles-2026-11-16-r2.md` has 0 lines. Wait-justification: "RESULT: PASS — 33 of 92 row(s) carry `waitJustification`; 0 warn / 0 info".
