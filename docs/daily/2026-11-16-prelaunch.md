@@ -100,3 +100,14 @@ P1 (selection and prep) is recorded below.
 | 1280x800 | 323 ✓ | 323 ✓ | 323 ✓ | 323 ✓ |
 
 **I-051 query-grouped read** (scratchpad `gsc-query-read.mjs 2026-10-31 2026-11-14`): "window 2026-10-31..2026-11-14 (sc-domain:sinusoidalhistory.com) TOTAL clicks=1 impressions=46 position=7.4 [query-grouped]" · "cycle of ten clicks=0 impressions=2 position=7.0" · "named-query rows: 1, named impressions 2 of 46".
+
+### Close
+
+ACTION: COMPLETED · item I-084 · P3 ea34e18d. The acceptance in force was the P1 review's (4cb13d4c): a DOM move, and a production frame read for Dalio plus a short-text cycle at 390x664 and 320x568. Both are met (P3 above). Manager review 85255f14: COMPLETED, read on its own frames: 81/81, with Dalio and Perez at 320 moved and in view.
+
+- **State since the P3 post:** live 293ecf51 = head (`check-deployed-sha-drift --service sinusoidal-history`: in-sync). CI ci.yml green on 293ecf5171 (`check-ci-status --workflow ci.yml`, local HEAD). The receipt in ea34e18d still holds, so no new receipt.
+- **Hygiene draft:** 1 line, 1 accepted, 0 amended, 0 rejected. I-051 is closed as "not moved" per its closeWhen. The draft has no READ-MUTATED line: the helper guarded 0 reads, because the lane's own `--run` had already stamped the row. Its checks: wait-justification "RESULT: PASS — 33 of 90 row(s) carry `waitJustification`; 0 warn / 0 info". Engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver" (Dependabot #62 until 2026-11-28, W-007).
+- **Ledger delta:** I-051 closed (not moved). I-084 closed (closeWhen met; encounter blind, so the outcome stays open with no schedulable read). I-083 minted, open, nextEvaluation 2026-11-17.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-16).
+- **Carried, not reopened** (the manager review asked for a sentence): at 320 wide, the "Reference peak year" label wraps to two lines once its value differs from the published one, which moves the slider about 19px down mid-drag. It stays on screen (342 of 568), and the manager's frames show it too. A one-line fix would keep the label on one line, for example by letting "published 1950" drop below the label. It has no row; tomorrow's agent can fold it into the next touch of the card.
+- **Pending reads:** 11-17 I-075 re-walk (fresh walker, same prompt and bar) · 11-17 I-083 (round 0, then the claims pass, then the words) · 11-18 I-071 · 11-19 I-077, I-078 · 11-28 W-007.
