@@ -1754,12 +1754,12 @@
       "created": "2026-10-15",
       "updated": "2026-11-02",
       "lastEvaluated": "2026-11-02",
-      "readCommandLastRun": "2026-11-02T15:23:43.196Z",
+      "readCommandLastRun": "2026-11-16T15:40:28.962Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 2243,
+      "readCommandLastDurationMs": 1275,
       "readCommandLastOutputRef": {
         "lines": 12,
-        "sha256": "5efc074cd6c8487c"
+        "sha256": "255de3861d8e1fc2"
       }
     },
     {
