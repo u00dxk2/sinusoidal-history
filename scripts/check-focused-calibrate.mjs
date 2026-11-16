@@ -4,16 +4,18 @@
 //
 // origin defaults to https://sinusoidalhistory.com. Exit 0 all PASS, 3 any FAIL.
 // For each paired cycle at /?focus=<id> (Facets tab), at 390x664, 320x568 and 1280x800:
-//   1. order: both sliders come BEFORE the description and the "Peak calibration" text in the DOM,
-//      and are painted above them (phone) or to their left (desktop), so reading and focus order
-//      match what is seen (the block moves in the DOM, never with CSS order);
+//   1. order: both sliders come BEFORE the description and the "Peak calibration" text in the DOM
+//      (reading and focus order). DOM only: where things are painted is legs 2-3 and the frames;
 //   2. span: the chart's top and the peak slider's bottom fit one screen (the measure
 //      check-calibrate-tab.mjs takes on the Calibrate tab);
 //   3. drag: the "Reference peak year" slider (found by its label) is dragged with a real pointer;
 //      while it is held, the chart's top and the slider are inside the viewport AND the theory
 //      curve (data-curve="theory", never the late-loading data path) differs from before.
-// Hardened after Codex r1 on 35b22e6 (6 findings, all in this checker and its test). Not seen:
-// paint (a zero-opacity or clipped curve passes; the frames are the person's read), touch input.
+// Hardened after Codex r1 on 35b22e6 (6 findings, all in this checker and its test); narrowed after
+// r2 on dc7d921 (leg 1 is DOM order only). Not seen: paint (a zero-opacity or clipped curve, or
+// text repositioned by CSS between chart and slider without moving the slider, passes leg 1; the
+// span leg still measures the slider's distance from the chart, and the frames are the person's
+// read), touch input.
 // --frames <dir> saves a before and a mid-drag screenshot per cycle and size, for a person to read.
 // Written 2026-11-16 (the 11-15 journey walk's top finding). Red arm: production 697d6d0f/980737c,
 // where the description and a ~20-line peak-calibration paragraph sat between chart and sliders
@@ -85,23 +87,20 @@ for (const [w, h] of [[390, 664], [320, 568], [1280, 800]]) {
     }
     await page.waitForTimeout(800); // the paired CSV
 
-    // Codex r1 #5: BOTH sliders must precede the rationale and the description, and the reading
-    // order must match the painted order (a slider above the rationale on screen too).
+    // Codex r1 #5: BOTH sliders precede BOTH text blocks (the description and the peak-calibration
+    // text) in the DOM, i.e. in reading and focus order. DOM ORDER ONLY, by decision: a paint-order
+    // predicate was tried after r1 and Codex r2 found it still incomplete (the same defect class
+    // twice), so this leg claims less. Where things are PAINTED is the span and mid-drag legs' job
+    // (geometry of the chart and the peak slider), plus the person reading the frames.
     const order = await facet.evaluate((el) => {
       const sliders = [...el.querySelectorAll('[role="slider"]')];
       const peak = [...el.querySelectorAll("span")].find((s) => /^Peak calibration/i.test(s.textContent.trim()));
       const desc = el.querySelector("p.font-display-italic");
       if (sliders.length !== 2 || !peak || !desc) return `missing: sliders=${sliders.length} peak=${!!peak} desc=${!!desc}`;
       const before = (a, b) => !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
-      const domOk = sliders.every((s) => before(s, peak) && before(s, desc));
-      const lastSlider = sliders[1].getBoundingClientRect();
-      const top = Math.min(peak.getBoundingClientRect().top, desc.getBoundingClientRect().top);
-      // On a one-column phone the rationale is painted BELOW the sliders; in desktop's two columns
-      // it sits beside them, to the right.
-      const paintOk = lastSlider.bottom <= top || lastSlider.right <= desc.getBoundingClientRect().left;
-      return domOk && paintOk ? "sliders-first" : `dom ${domOk ? "ok" : "rationale-first"} · paint ${paintOk ? "ok" : "rationale-first"}`;
+      return sliders.every((s) => before(s, peak) && before(s, desc)) ? "sliders-first" : "rationale-first";
     });
-    check(`${tag} ${id}: both sliders precede the description and peak-calibration text (DOM and paint)`, order === "sliders-first", order);
+    check(`${tag} ${id}: both sliders precede the description and peak-calibration text in the DOM`, order === "sliders-first", order);
 
     const sb = await svg.boundingBox();
     const lb = await slider.boundingBox();

@@ -35,7 +35,13 @@ describe("expanded facet: Calibrate before the rationale", () => {
   });
 
   it("keeps the rationale out of the controls block (Codex r1 #5)", () => {
-    const controls = tail.slice(tail.indexOf("const controls ="), tail.lastIndexOf("return ("));
+    // Codex r2 #2: bound the slice to the controls initializer itself (it closes with a line
+    // holding only "  );"), so moving `const about` below it cannot fail this leg.
+    const start = tail.indexOf("const controls =");
+    const close = tail.slice(start).search(/\r?\n {2}\);/);
+    expect(start).toBeGreaterThan(-1);
+    expect(close).toBeGreaterThan(0);
+    const controls = tail.slice(start, start + close);
     expect(controls).toContain("<SliderRow");
     for (const field of ["short_description", "reference_peak_rationale", "caveat", "cycle.source"]) {
       expect(controls).not.toContain(field);
