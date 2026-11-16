@@ -2,11 +2,38 @@
 
 ## BLUF
 
+**P3 shipped it, live dc7d9216 (CI ci.yml green on dc7d921621, deploy in sync).** In every focused cycle card, the Calibrate sliders now sit directly under the chart. On production, `check-focused-calibrate.mjs` read 20 of 81 before and 81 of 81 after, for all 9 paired cycles at 390x664, 320x568 and 1280x800. The chart top to peak slider span is now 323px at every size; it was 686 to 1412px on a phone. The frames I read show the curve moving in the same frame as the slider: Dalio and Huntington at 390 and 320 wide, mid-drag. The home first screen is unchanged (`check-entry-folds` 320x568 13 of 13, `/` 12px spare). Codex r1 found 0 product defects; its 6 findings and r2's 2 were in the new checks and are all addressed. Encounter blind; outcome open (I-084).
+
 **P1 picked one change. When a phone reader taps a cycle on the home page, the Calibrate sliders appear directly under the chart they move.** The home page's own instruction is "tap one to focus and calibrate". Measured on production today, the focused card's chart and its peak slider are never on one screen at a phone width: 0 of 8. At 390x664 the span from chart top to slider bottom is 686 to 935px, and at 320x568 it is 747 to 1071px. Desktop fits, 4 of 4 at 323px. The Calibrate tab already puts the sliders first for this same reason (`CycleFacet.tsx:682-686`); the focused card on the Facets tab does not. The change is layout only, with no new words, and it is outside the 11-17 I-075 re-walk: that walk shoots the home first screen at scroll 0 and taps nothing. Section 0 is clean: CI green on 697d6d0f, deploy in sync. The one due gate, I-051, was read: its three search legs all read "not moved" (Dalio 0, Strauss-Howe 0, Turchin 0 named-query impressions). Nothing is built yet. No commit touches the change until the review.
 
 ## What changed
 
-Nothing user-visible yet. P1 is selection and prep.
+**P3: Calibrate sits directly under the chart in every focused cycle card (I-084).** Shipped 35b22e6 (the change), dc7d921 (Codex r1 fixes to the checks, I-083 and I-084 minted) and 530d612 (the r2 narrowing, internal only). Live dc7d9216, with CI ci.yml green on dc7d921621. Manager review 4cb13d4c: APPROVE, with two corrections. The block must move in the DOM, not with CSS `order`. Acceptance is a frame read.
+
+- **Code:** `ExpandedTail` in `src/components/CycleFacet.tsx` renders `{controls}` then `{about}` unconditionally. The `controlsFirst` switch, which only the Calibrate tab set, is gone. The block moves in the DOM. Desktop changes too: Calibrate takes the left column, as it already did on the Calibrate tab. I chose this over a viewport switch so DOM order equals visual order at every width, with no flip after hydration. No words changed.
+- **New check, red-armed:** `scripts/check-focused-calibrate.mjs`, run per paired cycle at each size.
+  - Legs: DOM order; chart top to peak slider fits one screen; and a held pointer drag of the "Reference peak year" slider. The drag leg requires the chart and slider on screen, and the theory curve moved.
+  - Production before (697d6d0f): 20 of 81. Every order leg failed, and 17 of 18 phone span and drag legs failed (the exception was Huntington at 390, 618px).
+  - Local dev: 81 of 81. Production after (dc7d9216): 81 of 81.
+  - The first local run failed 4 drag legs. Raw chart tops were −0.33 and −0.08px, so it allows −1px.
+- **Source test:** `src/lib/facetCalibrateOrder.test.ts`.
+  - Prior tree: 2 of 3 legs red.
+  - After r1: a mutation moving the peak rationale into `controls` turns the new leg red.
+  - After r2: a mutation moving the caveat into `controls` turns it red.
+- **Codex r1 on 35b22e6** (gpt-6-astra, read-only foreground pipe, banner `workdir` `C:\dev\skylark\sinusoidal-cycles` matched):
+  - Product: 0 defects. No caller changes, the embed and the home first screen cannot mount the changed block, and there is no accessibility or I-061 regression.
+  - 6 findings in the new checks, all fixed in dc7d921: origin ignored without `--frames`; "moved" compared every path, so a late data path could pass; the peak slider was not identified; the slider box was read after mouse-up; the order checks were too narrow; a bare `--frames` was silent.
+- **Codex r2 on dc7d921** (same recipe, banner matched): fixes 1 to 4 and 6 complete. #5 was still incomplete, because a paint-order predicate could stay green with text moved by CSS. That is the same defect class twice, so the order leg now claims DOM order only, and paint stays with the span and drag legs and the frames (530d612). One low false alarm in the test's slice is fixed in the same commit.
+- **Frames read** (production dc7d9216, committed in `docs/evidence/2026-11-16-i084/`):
+  - Dalio 390x664 and 320x568: peak 1950 → 1968, the gold curve shifts right, and r goes −0.175 → −0.021. Chart, slider and thumb are in one frame.
+  - Huntington 390x664 and 320x568: 1968 → 1986, the green curve shifts right, and r goes 0.040 → −0.294.
+  - Observed, not acted on: at 320 wide the "Reference peak year" label wraps to two lines once the value differs from the published one, which moves the slider about 19px down mid-drag. It stays on screen (slider bottom 342 of 568).
+- **No regression:** `check-entry-folds --width 320 --height 568` reads 13 of 13 with `/` at 12px spare, the same as before. Nothing changed on the home first screen the 11-17 I-075 walk tests.
+- **Sibling sweep:** the pattern is sliders separated from their chart. `<Slider|<SliderRow|role="slider"` over `src/` gives 3 hits, all in `ExpandedTail` (two `SliderRow`s and the `Slider` inside `SliderRow`), the surface fixed here.
+- **Encounter:** blind. A slider drag happens client-side, and there are no client analytics, by standing choice (card 1e069bb4). Bug row I-084.
+- **Kondratiev and Turchin /cycles entries:** dated row I-083 for 2026-11-17, per the manager review. Not fixed today.
+
+P1 (selection and prep) is recorded below.
 
 - **Section 0:**
   - Primer: `docs/cold-starts/2026-11-15.md` was read first. No `2026-11-16.md` exists.
