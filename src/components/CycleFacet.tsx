@@ -187,7 +187,6 @@ export default function CycleFacet({
           override={override}
           onChange={onChangeOverride}
           onReset={onResetOverride}
-          controlsFirst={onOpenInFacets !== undefined}
         />
       )}
     </div>
@@ -669,7 +668,6 @@ function ExpandedTail({
   override,
   onChange,
   onReset,
-  controlsFirst = false,
 }: {
   cycle: Cycle;
   effective: Cycle;
@@ -679,11 +677,6 @@ function ExpandedTail({
     o: { period_years?: number; reference_peak_year?: number }
   ) => void;
   onReset: () => void;
-  /** Calibrate tab: the sliders come before the rationale, so on a phone
-      they sit right under the chart and the curve stays in view while
-      dragging. With the rationale first, the peak slider sat ~700px below
-      the chart's top at 390x664. At md+ the sliders take the left column. */
-  controlsFirst?: boolean;
 }) {
   const peakMin = cycle.reference_peak_year - 30;
   const peakMax = cycle.reference_peak_year + 30;
@@ -834,12 +827,19 @@ function ExpandedTail({
     </div>
   );
 
-  // Moved in the DOM, not with CSS `order`, so focus and reading order match
-  // what is seen (same rule as Viz's chart-first move, 2026-09-21).
+  // The sliders come before the rationale in every expanded facet, so on a
+  // phone they sit right under the chart and the curve stays in view while
+  // dragging. With the rationale first, the peak slider sat 686-1071px below
+  // the chart's top on a phone, more than a screen (measured 2026-11-16 on the
+  // Facets tab's focused card; the Calibrate tab had this order since
+  // 2026-09-28). At md+ the sliders take the left column. Moved in the DOM, not
+  // with CSS `order`, so focus and reading order match what is seen (same rule
+  // as Viz's chart-first move, 2026-09-21). Pinned live by
+  // scripts/check-focused-calibrate.mjs.
   return (
     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 text-sm border-t border-rule/30 pt-4">
-      {controlsFirst ? controls : about}
-      {controlsFirst ? about : controls}
+      {controls}
+      {about}
     </div>
   );
 }
