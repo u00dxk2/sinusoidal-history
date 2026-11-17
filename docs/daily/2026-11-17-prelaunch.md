@@ -112,3 +112,21 @@ P1 (selection and prep) is recorded below.
 127: Can't be tested yet: the record it is judged on, US top 1% wealth share (1913 onward), is 339 years too short.
 285: Record is the span of the series each verdict is judged on — for some pairings a different cut from the one drawn on the chart, named on that cycle's page. …
 ```
+
+### Close
+
+ACTION: COMPLETED · item I-083 · P3 63f6ef47. The acceptance in force was the packet's (the row's closeWhen) plus the P1 review's added check that home and the share card read the same. Both are met (P3 above). Manager review 96d05dab: COMPLETED, no defects. It fetched /cycles itself and matched both sentences byte for byte to the ones Codex r1 judged.
+
+- **State since the P3 post:** live 81fa58e1 = head. It carries 379e33b, which the manager review read with `check-deployed-sha-drift`. The receipt in 63f6ef47 still holds, with one label corrected per the review: its `[exposure: blind … bug row I-083]` names the change's own row. The blindness is owned by the standing no-client-analytics choice, not by a bug row.
+- **I-075, read at the close:** the home page's second screen on production 379e33b6 (390x664 isMobile, scroll 664, no taps), line at y=233: "Nine of the ten peak years fall between 1945 and 2020. They are anchors, set by the theorists or by this site, not evidence that the cycles agree." That is the true mixed answer, and it is the split both walkers' hedge pointed at.
+- **Hygiene draft:** 1 line, 0 accepted · 1 amended · 0 rejected.
+  - I-075 close, AMENDED. The draft's note claimed "the second screen answers it" without a read, and the close note now quotes the second-screen sentence read above.
+  - The un-rowed carry (SliderRow label wrap) is not a draft line. It was minted as I-086.
+  - READ-MUTATED, quoted: "READ-MUTATED I-075 src/lib/cyclesIndexVerdict.test.ts — NOT named in the readCommand: may be the lane's own concurrent P3 edit". Confirmed: it was this lane's P3 test edit, made while the fold read ran, and that read writes no source.
+  - Checks: wait-justification "PASS — 33 of 93 row(s) carry `waitJustification`; 0 warn / 0 info". Engineering-zero "PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver" (#62 until 2026-11-28, W-007).
+- **Ledger delta:**
+  - I-075 closed by its closeWhen's recorded-decision path (two AMBIGUOUS walks; the second screen answers it, quoted above; the caption budget is full).
+  - I-083 closed (closeWhen met; encounter blind, outcome open with no schedulable read).
+  - I-086 minted (open, P3, nextEvaluation 2026-11-24): the 320px "Reference peak year" label wrap.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-17).
+- **Pending reads:** 11-18 I-071, I-085 (JSX probe on 16.4.5, needs a local build) · 11-19 I-077, I-078 (phone home first screen; round 0 first) · 11-24 I-086 · 11-28 W-007 (Dependabot #62: fix or re-date).

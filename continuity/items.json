@@ -2312,7 +2312,7 @@
     {
       "id": "I-075",
       "title": "The home caption says the peaks were chosen but not by whom; the walker asked 'chosen by whom?'",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2321,9 +2321,9 @@
       "closeWhen": "A cold walker who stops at the home first screen (390x664, production) can say who chose the peaks (theorists or this site), or a recorded decision that the second-screen answer is enough, with the reason.",
       "nextEvaluation": "2026-11-17",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-entry-folds.mjs https://sinusoidalhistory.com --width 320 --height 568 — the home first screen's spare (12px on 2026-11-03), the budget any first-screen word spends; this row's proof is a walk, a build or a recorded decision",
-      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.\n\n | 2026-11-10 (P5): hygiene draft AMENDED, re-dated 11-10 -> 11-13. Read: --run I-075 exit 0, / 12px spare at 320x568, 13 of 13 OK. Re-measured after I-076 shipped (live eeab357d): check-entry-folds 320x568 still / 12px spare, so the new verdict line spends none of the caption's budget (it starts at y=584, below that fold). The caption sits at its 33-char ceiling and screen 2 already says the anchors were set by the theorists or by this site (glanceClusterLine); the open question is a wording decision at a fixed width, not a new fact.\n\n | 2026-11-13 (P5): BUILD SHIPPED, OUTCOME OPEN. badd80e + bd23f36 (live bd23f36c; CI ci.yml green on bd23f36ccb). The phone home caption reads \"Site's peaks · no cycle confirmed\", and \"Peaks chosen · no cycle confirmed\" while any drawn peak differs from its stored year (peaksMoved). Live DOM read: 4 of 4 widths, both forms, one line. check-entry-folds 320x568: 13/13, / 12px spare. Pre-registered walk docs/walks/2026-11-13-i075.md (synthetic N=1, 390x664, bd23f36c): AMBIGUOUS. (4) \"Can't tell for certain, but I lean towards the website … 'Site's peaks' … the website's own placements, not ones the theorists named\". The HELD clause is met and the hedge touches a NOT HELD clause; the bar is not re-read in the change's favour (manager review 3cdbe1f8). NEXT: re-walk 2026-11-17 with a FRESH walker, the SAME prompt and the SAME bar (the walk file). HELD closes the row; NOT HELD or AMBIGUOUS again takes the recorded-decision path, with both walks as the reason. Any new wording goes through round 0 first. Carry: the walker read \"Site's peaks\" as \"not ones the theorists named\", which is stronger than the caption claims for Turchin fathers-and-sons 1970 (and Modelski 1945).",
+      "notes": "2026-11-03 (full day, P5): minted at the close on the manager review's instruction (b17b6181: 'record the walk residuals as candidate rows'). Source: docs/walks/2026-11-03-i063.md (synthetic N=1, production d592db70, 390x664, first screen only). A candidate, not a confirmed reader failure: one synthetic walker's words.\n\n | 2026-11-10 (P5): hygiene draft AMENDED, re-dated 11-10 -> 11-13. Read: --run I-075 exit 0, / 12px spare at 320x568, 13 of 13 OK. Re-measured after I-076 shipped (live eeab357d): check-entry-folds 320x568 still / 12px spare, so the new verdict line spends none of the caption's budget (it starts at y=584, below that fold). The caption sits at its 33-char ceiling and screen 2 already says the anchors were set by the theorists or by this site (glanceClusterLine); the open question is a wording decision at a fixed width, not a new fact.\n\n | 2026-11-13 (P5): BUILD SHIPPED, OUTCOME OPEN. badd80e + bd23f36 (live bd23f36c; CI ci.yml green on bd23f36ccb). The phone home caption reads \"Site's peaks · no cycle confirmed\", and \"Peaks chosen · no cycle confirmed\" while any drawn peak differs from its stored year (peaksMoved). Live DOM read: 4 of 4 widths, both forms, one line. check-entry-folds 320x568: 13/13, / 12px spare. Pre-registered walk docs/walks/2026-11-13-i075.md (synthetic N=1, 390x664, bd23f36c): AMBIGUOUS. (4) \"Can't tell for certain, but I lean towards the website … 'Site's peaks' … the website's own placements, not ones the theorists named\". The HELD clause is met and the hedge touches a NOT HELD clause; the bar is not re-read in the change's favour (manager review 3cdbe1f8). NEXT: re-walk 2026-11-17 with a FRESH walker, the SAME prompt and the SAME bar (the walk file). HELD closes the row; NOT HELD or AMBIGUOUS again takes the recorded-decision path, with both walks as the reason. Any new wording goes through round 0 first. Carry: the walker read \"Site's peaks\" as \"not ones the theorists named\", which is stronger than the caption claims for Turchin fathers-and-sons 1970 (and Modelski 1945). | 2026-11-17 (P5): CLOSED by the recorded-decision path in the closeWhen (\"a recorded decision that the second-screen answer is enough, with the reason\"). Two fresh walkers (docs/walks/2026-11-13-i075.md, docs/walks/2026-11-17-i075.md; synthetic N=1 each, 390x664, production bd23f36c and f5eb87d6) both named this site from the caption \"Site's peaks · no cycle confirmed\", each hedged (\"can't tell for sure … I lean towards the website\"); judged AMBIGUOUS twice against the pre-registered bar. Decision: the second screen's answer is enough. Read at P5 on production 379e33b6, 390x664 isMobile, scroll 664, no taps: the line at y=233 reads \"Nine of the ten peak years fall between 1945 and 2020. They are anchors, set by the theorists or by this site, not evidence that the cycles agree.\" That is the true answer (round 0 11-13: some peaks are years the theorists state, others are this site's choices), and it is the same split both walkers' hedge pointed at (\"I can't rule out the theorists having stated them\"). Reason not to reword the first screen: the caption budget is full (33/33 chars at 320), and a shorter possessive would claim more than the mixed truth. Any new first-screen wording (I-077, I-078 on 11-19) goes through round 0 first. Read: check-entry-folds 320x568 13 of 13, home 12px spare (--run, 11-17).",
       "created": "2026-11-03",
-      "updated": "2026-11-13",
+      "updated": "2026-11-17",
       "readCommandLastRun": "2026-11-17T17:23:54.274Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 44467,
@@ -2331,11 +2331,12 @@
         "lines": 15,
         "sha256": "3ea51d6233dbbc16"
       },
-      "lastEvaluated": "2026-11-13",
+      "lastEvaluated": "2026-11-17",
       "linkedCommits": [
         "badd80e",
         "bd23f36"
-      ]
+      ],
+      "closedAt": "2026-11-17"
     },
     {
       "id": "I-076",
@@ -2533,7 +2534,7 @@
     {
       "id": "I-083",
       "title": "The Kondratiev and Turchin /cycles entries name two different series: the drawn one on the 'Paired data' line and the judged one on the verdict line under it, with the reason ~4,000px down the page",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P2",
       "owner": "sinusoidal-cycles",
@@ -2542,16 +2543,18 @@
       "closeWhen": "On production /cycles the Kondratiev and Turchin entries each say, in the entry itself, why the record the verdict is judged on differs from the series drawn (e.g. judged on the annual series; the chart draws its 5-year average). The words come from a round-0 fact list and pass a cross-family claims pass before the first commit; a source-pinned test is red on the prior tree; check-entry-folds 320x568 still reads 13 of 13 with /cycles spare at or above 7px.",
       "nextEvaluation": "2026-11-17",
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i083-cycles.txt — read the Kondratiev and Turchin entry lines",
-      "notes": "2026-11-16 (P3): minted on the manager review's instruction (4cb13d4c). Not fixed today: today's change is the focused card's Calibrate order (I-084). Next step on 11-17: dispatch round 0 (the facts each entry can state, with file:line), then write the words. It changes /cycles only, not the home first screen the 11-17 I-075 walk tests.",
+      "notes": "2026-11-16 (P3): minted on the manager review's instruction (4cb13d4c). Not fixed today: today's change is the focused card's Calibrate order (I-084). Next step on 11-17: dispatch round 0 (the facts each entry can state, with file:line), then write the words. It changes /cycles only, not the home first screen the 11-17 I-075 walk tests. | 2026-11-17 (P5): CLOSED, closeWhen met; outcome open with no schedulable read. Shipped bb90e23 + 379e33b, live 379e33b6 (check-deployed-sha-drift --wait: OBSERVED; CI ci.yml green on 379e33b60d). Production /cycles snap :43 and :127 carry the reason sentences; 2 of 9 entries without a reason before, 0 of 9 after. Words from round 0 (46 fact lines); Codex r1 claims pass on the uncommitted diff, before the first commit: 11 of 11 clauses HOLD. Source-pinned test (cyclesIndexVerdict.test.ts) red on the prior tree, 3 of 27. check-entry-folds 320x568: 13 of 13, /cycles 7px spare. Home, both cycle pages and the /og PNG unchanged. Manager review 96d05dab: COMPLETED, no defects. Encounter blind: this row is the change's own row; the blindness is owned by the standing no-client-analytics choice, not by a bug row. No reader has been seen meeting the entry.",
       "created": "2026-11-16",
-      "updated": "2026-11-16",
+      "updated": "2026-11-17",
       "readCommandLastRun": "2026-11-17T17:00:57.743Z",
       "readCommandLastExit": 0,
       "readCommandLastDurationMs": 3619,
       "readCommandLastOutputRef": {
         "lines": 1,
         "sha256": "c7406334c39ec23b"
-      }
+      },
+      "closedAt": "2026-11-17",
+      "lastEvaluated": "2026-11-17"
     },
     {
       "id": "I-084",
@@ -2589,6 +2592,22 @@
       "notes": "2026-11-16 (P5 round 2): minted on the manager review's instruction (7a60ad2b: 'give it a dated row or a date in AGENTS.md, not an open line'). Dated 11-18, beside I-071, so it stays out of the 11-17 I-075 walk and I-083.",
       "created": "2026-11-16",
       "updated": "2026-11-16"
+    },
+    {
+      "id": "I-086",
+      "title": "At 320 wide, the focused card's 'Reference peak year' label wraps once its value differs from the published one, moving the slider ~19px down mid-drag",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-16",
+      "description": "Observed 2026-11-16 in the I-084 production frames (docs/evidence/2026-11-16-i084/, Dalio and Perez at 320x568): the SliderRow label in src/components/CycleFacet.tsx goes to two lines once the peak value differs from the published one ('published 1950' joins the label), so the slider shifts ~19px down while it is being dragged. It stays on screen (slider bottom 342 of 568). Carried with no row on 11-16; rowed at the 11-17 close on the orchestrator's lead ('row it or fix it').",
+      "closeWhen": "At 320x568 on production, dragging the 'Reference peak year' slider in a focused card leaves the slider's top within 2px of where it started (scripts/check-focused-calibrate.mjs drag leg or a frame read), with the label on one line or the 'published' note moved off the label's line.",
+      "nextEvaluation": "2026-11-24",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-focused-calibrate.mjs https://sinusoidalhistory.com — the drag leg at 320x568; read the frames for the label wrap",
+      "notes": "2026-11-17 (P5): minted at close. Fold into the next edit of SliderRow; no change today.",
+      "created": "2026-11-17",
+      "updated": "2026-11-17"
     }
   ],
   "knownPatterns": [
