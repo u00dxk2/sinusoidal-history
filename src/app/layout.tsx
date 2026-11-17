@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import { cycles } from "@/data/cycles";
+import { designPassPreview, designVariant } from "@/lib/designPass";
+import { dpFontVariables } from "@/lib/designPassFonts";
 import { holdsUpOverallAlt } from "@/lib/holdsUp";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
 import "./globals.css";
@@ -69,7 +71,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      // The design pass's two font variables ride here, and only when its build-time flag (or
+      // the local preview switch) is set; unset, this class list is today's. They live in the
+      // root layout because page modules are imported by vitest, where next/font cannot run.
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}${designVariant() || designPassPreview() ? ` ${dpFontVariables}` : ""} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-paper text-ink">
         <NuqsAdapter>{children}</NuqsAdapter>

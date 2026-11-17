@@ -56,6 +56,8 @@ import {
 } from "@/lib/holdsUp";
 import { figureTargetBandLine, protocolCaptionLead } from "@/lib/spectralFigureText";
 import { claimAnswer, claimNotEvidence } from "@/lib/claimQuestion";
+import { designVariant } from "@/lib/designPass";
+import { DP_NO_SERIES_NEXT, DP_NO_SERIES_REASON } from "@/lib/designPassCopy";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -159,6 +161,10 @@ export default async function CyclePage({ params }: Params) {
   // sits" sentence and its link to /state/<year> were here until then.
   const claim = claimAnswer(cycle, year);
   const claimPage = Boolean(claim && verdict);
+  const dp = designVariant() !== null;
+  // The design pass's empty state names the reason the fathers-and-sons cycle's own caveat
+  // gives, so it is used for that cycle only; any other unpaired cycle keeps the shared reason.
+  const dpEmpty = dp && cycle.id === "turchin_fathers_sons";
   const curveFigure = (
     <CurveFigure
       cycle={cycle}
@@ -217,7 +223,12 @@ export default async function CyclePage({ params }: Params) {
     // on 2026-09-26: a 16px gutter like the site header's, a smaller H1, and less
     // space between the breadcrumb, header and verdict. 360 and up are unchanged.
     //   node scripts/check-entry-folds.mjs --width 320 --height 568
-    <article className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-4 max-[360px]:pt-3 pb-10 sm:py-14 [&_p]:max-w-[68ch]">
+    <article
+      // data-dp: the design pass's restyle (globals.css `[data-dp]`), present only when its
+      // build-time flag is set (src/lib/designPass.ts). Unset, the attribute is absent.
+      data-dp={dp ? "" : undefined}
+      className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-4 max-[360px]:pt-3 pb-10 sm:py-14 [&_p]:max-w-[68ch]"
+    >
       <script
         type="application/ld+json"
         // JSON-LD is generated from cycles.json / series.json, never user input.
@@ -367,8 +378,20 @@ export default async function CyclePage({ params }: Params) {
         >
           <BoxLabel name={cycleTheorist(cycle)} />
           <p className="mt-2 sm:mt-2.5 text-[16px] sm:text-[17px] leading-[1.5] text-ink">
-            {`${NO_SERIES_HEADLINE} — ${NO_SERIES_REASON}`}
+            {dpEmpty
+              ? `${NO_SERIES_HEADLINE}. ${DP_NO_SERIES_REASON}`
+              : `${NO_SERIES_HEADLINE} — ${NO_SERIES_REASON}`}
           </p>
+          {dpEmpty && (
+            <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
+              <Link
+                href={cycleChartPath(cycle)}
+                className="inline-flex items-center min-h-11 underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
+              >
+                {DP_NO_SERIES_NEXT} →
+              </Link>
+            </p>
+          )}
           {cycle.caveat && (
             <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
               <HashLink
