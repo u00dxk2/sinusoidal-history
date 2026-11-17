@@ -2,13 +2,52 @@
 
 ## BLUF
 
+**P3 shipped it, live 379e33b6 (CI ci.yml green on 379e33b60d, deploy in sync).** On production /cycles, the Kondratiev and Turchin entries now say in the verdict line itself why the record judged differs from the series drawn. That was 2 of 9 entries with no reason before, and 0 of 9 after. The words came from a round-0 fact list, and a Codex claims pass on the uncommitted diff found all 11 clauses HOLD. The new source-pinned test is red on the prior tree (3 of 27 failed). Home, /cycles/kondratiev, /cycles/turchin and the share card are unchanged: identical text, and an identical share-card PNG hash. `check-entry-folds` 320x568 reads 13 of 13 with /cycles at 7px spare. Encounter blind; outcome open (I-083).
+
 **P1 picked one change. On /cycles, the Kondratiev and Turchin entries will say, in the entry itself, why the record a verdict is judged on differs from the series the chart draws (I-083).** On production today, each entry names one series on its "Paired data" line and a different one on the verdict line under it, with no reason given. The reason sits about 4,000px lower. Kondratiev reads "US TFP growth (5-yr rolling)" and then "the record it is judged on, US TFP growth (annual, unsmoothed), is 85 years too short". /cycles is the site's most-shown page (22 of 46 impressions, 10-31..11-14). Round 0 is dispatched. No words exist yet, and nothing is built until the review.
 
 **The I-075 re-walk ran and came back AMBIGUOUS again.** A fresh walker at 390x664 on production (f5eb87d6) said "I can't tell for sure, but I lean towards 'this website'", citing "SITE'S PEAKS · NO CYCLE CONFIRMED". This is the same shape as 11-13. Per the row's own note, I-075 takes its recorded-decision path at the close, with both walks as the reason. Section 0 is clean: CI green on f5eb87d65a, deploy in sync.
 
 ## What changed
 
-P1 only. Nothing user-facing is built.
+**P3: the Kondratiev and Turchin /cycles entries say why the judged record differs (I-083).** Manager review db248f7a: APPROVE. It added one acceptance check, that the home first screen and the share card read the same after the deploy, and a HYPOTHESIS that the reason, if placed in `holdsUp.ts`, would reach the layout and /og.
+
+- **Code:** bb90e23 (the change) and 379e33b (the r2 test narrowing). A new field, `TestedSeriesNote.entryWhy` (`src/lib/testedSeries.ts`), is appended by `entryVerdict` (`src/app/(app)/cycles/page.tsx`) inside the existing verdict `<p>`, after the pinned "… is N years too short." sentence. The live words:
+  - Kondratiev (`/cycles` snap :43): "The site's interactive chart draws the 5-year average named above; the verdict counts the yearly figures, because an average makes neighbouring years move together and would distort the background-noise model a test compares against."
+  - Turchin (:127): "The site's interactive chart draws the whole series named above, from 1820; the verdict counts only the yearly record, which starts in 1913. The five points before it are rougher estimates from earlier historical sources."
+- **Round 0 → words:** the helper's 46 fact lines. Its four open items were settled from source before any word was written:
+  - the wealth CSV ends in 2024, so 1913-2024 is 111 years;
+  - the manifest records `truncate_min_year: 1913` and no reason, so the Turchin sentence claims no cause for the cut;
+  - Kondratiev's reason is the manifest's own TFP note (`analysis-manifest.yaml:134`);
+  - the fold leg measures the first entry, which is unaffected.
+
+  One self-caught narrowing: "The chart draws" became "The site's interactive chart draws". No /cycles entry draws a chart, and /cycles/turchin's own figure draws from 1913, so the bare form was false of that figure.
+- **Manager HYPOTHESIS (holdsUp reaches the layout and /og): moot as built.** `holdsUp.ts:66-70` reads only `tested.name`, and `entryWhy` is read only at `cycles/page.tsx:71` (Codex r1 confirmed this statically). Live after the deploy: `/` "GREEN: identical visible text (24 lines)"; /og PNG sha256 `93392d8c…` before and after (100,686 bytes).
+- **Codex r1** (claims pass, uncommitted diff on 752e15c; read-only foreground pipe; banner `workdir` `C:\dev\skylark\sinusoidal-cycles` matched; gpt-6-astra): 11 of 11 clauses HOLD. Findings, and what happened to each:
+  - #1 Kondratiev "because" clause unpinned: CONFIRMED, fixed in bb90e23.
+  - #2 wording pins, not source pins: CONFIRMED, fixed in bb90e23. The test now reads the build script's `WINDOW`, the manifest's pairing, transform, cut and TFP note, and the CSV's years.
+  - Layout not seen by the test: DELIBERATE, owned by `check-entry-folds`.
+  - Prior-tree red "not reproduced": REFUTED; I ran it at 10:24.
+  - LOW: no share-card absence test: PLAUSIBLE, covered by the live /og hash read.
+- **Codex r2** (commit bb90e23, same recipe, banner matched): three P2 findings, all the same class as r1 #2 (source pins incomplete). Per the stop-on-second-appearance rule, the test claims less instead of a third patch round (379e33b):
+  - an `NA` point no longer counts: CONFIRMED and fixed;
+  - the display TFP values' relation to the annual file: DELIBERATE, the build script writes both in one run;
+  - the provenance prose: DELIBERATE, checked by round 0 and r1.
+
+  The test comment now names both as not seen.
+- **Red-armed:**
+  - Prior product code (`git stash` of the two product files): 3 failed, 24 passed of 27.
+  - `WINDOW = 5 → 7` in `build_us_tfp_growth.py`: "Expected: The site's interactive chart draws the 7-year average named above" (red).
+  - `1850,NA` in the wealth CSV: "Expected: The four points before it are rougher estimates" (red).
+  - Every mutation was restored with `git checkout`, and the tree was clean after.
+- **Gates:** 149 of 149 in the four touched test files; eslint clean on the three files; `npm run typecheck` clean. CI ci.yml green on 379e33b60d.
+- **Delivery:** `check-deployed-sha-drift --wait --service sinusoidal-history --sha 379e33b6…` → "OBSERVED after 1 poll(s) … live 379e33b6". The live `/cycles` snap (323 lines) carries both sentences. `/cycles/kondratiev` and `/cycles/turchin`: "GREEN: identical visible text" (103 and 102 lines).
+- **Fold:** `check-entry-folds --width 320 --height 568` → "OK: 13 of 13". `/` is at 12px spare, `/cycles` at 7px (the closeWhen floor is ≥7), `/methods` at 1px.
+- **Extremes, read by eye** (`docs/evidence/2026-11-17-i083/`): at 320 wide, Kondratiev's verdict paragraph is 173px tall (9 lines) and Turchin's 154px. At 1280, they are 77px and 58px. None overflows horizontally. The 320 paragraph is long but sits inside its own entry.
+- **Encounter:** blind. There are no client analytics, by standing choice. Search Console sees /cycles impressions, never a read of one line. Bug row: I-083.
+- **Sibling sweep:** the pattern is an entry naming two series without the reason. `judgedCut(` callers in `src/`: /cycles (fixed here), the cycle pages (they carry "Why two labels" and the "Judged on · why? ↓" link), `seriesOverlay.ts` (the key names the judged record) and `cycleRoutes.ts` (meta description). 0 other surfaces print both names with no reason.
+
+P1 (selection and prep) is recorded below.
 
 - **Section 0:**
   - Primer: `docs/cold-starts/2026-11-16.md` was read first. No `2026-11-17.md` exists.
