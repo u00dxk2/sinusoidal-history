@@ -2,6 +2,8 @@
 
 ## BLUF
 
+**Round 2 (afternoon), the design and copy pass: P1 is done and nothing a visitor sees has changed.** Eight before frames from production are committed (`docs/design-pass-2026-11-17/before/`), with `docs/PRODUCT.md` and `docs/DESIGN.md`. The direction is the ten-channel chart-recorder strip, set in IBM Plex Sans Condensed and IBM Plex Serif. Every product fact in the proposed copy comes from a 120-line fact list that Codex judged before any words were written (97 held, 22 were narrowed, 1 could not be proved). Two findings for the review: the strongest headline states the 0-of-9 result and needs its own claims pass, and the live error screen names a cause ("Most likely a CSV failed to load") that source shows is false. P3 builds three variants behind a flag that stays off, and this lane's variant stays off until I-077 and I-078 are read on 11-19 even after David's pick. The round-2 packet is under Recommendation.
+
 **P3 shipped it, live 379e33b6 (CI ci.yml green on 379e33b60d, deploy in sync).** On production /cycles, the Kondratiev and Turchin entries now say in the verdict line itself why the record judged differs from the series drawn. That was 2 of 9 entries with no reason before, and 0 of 9 after. The words came from a round-0 fact list, and a Codex claims pass on the uncommitted diff found all 11 clauses HOLD. The new source-pinned test is red on the prior tree (3 of 27 failed). Home, /cycles/kondratiev, /cycles/turchin and the share card are unchanged: identical text, and an identical share-card PNG hash. `check-entry-folds` 320x568 reads 13 of 13 with /cycles at 7px spare. Encounter blind; outcome open (I-083).
 
 **P1 picked one change. On /cycles, the Kondratiev and Turchin entries will say, in the entry itself, why the record a verdict is judged on differs from the series the chart draws (I-083).** On production today, each entry names one series on its "Paired data" line and a different one on the verdict line under it, with no reason given. The reason sits about 4,000px lower. Kondratiev reads "US TFP growth (5-yr rolling)" and then "the record it is judged on, US TFP growth (annual, unsmoothed), is 85 years too short". /cycles is the site's most-shown page (22 of 46 impressions, 10-31..11-14). Round 0 is dispatched. No words exist yet, and nothing is built until the review.
@@ -100,6 +102,46 @@ P1 (selection and prep) is recorded below.
   - (a) due rows not bearing on the choice: 1. **I-075** (due 11-17): read today. The re-walk came back AMBIGUOUS, the second time, so the recorded-decision path applies (`docs/walks/2026-11-17-i075.md`). Read: `check-due-gates-dispositioned --snapshot` → "2 gate(s) due on/before 2026-11-17". Also one un-rowed carry: the SliderRow "Reference peak year" label wraps at 320 wide (11-16 close). The orchestrator's lead says to row it or fix it, so the close rows it.
   - (b) owed child rows: none. Read: kickoff "rows owed to you in skylark-site's ledger: 0 of 850 considered".
   - (c) state reads marked CROSSED: 2. (1) "dated gates due today: 2": I-075 above, and I-083, which is today's choice. (2) "board cards carrying David's word: 3": 21ece8d9 (deploy guard), 2cf09a9d (/draw), 3784317b (skylark-site leftovers). All three are skylark-site cards marked "governs: unlinked", and none names work for this lane. Disposition: read.
+
+### P1 selection packet (round 2, design and copy pass)
+
+[P1 — Evidence and choice]
+
+Round 2, the design and copy pass (kickoff 988c345c). This P1 is the brief's steps 1 to 6. No CSS exists, no product file changed, and nothing a visitor sees changed.
+
+- **Outcome:** a first-screen and one-flow redesign brief for Sinusoidal History, ready for three variants at P3 behind a flag that stays off. No ledger item: the round's lead names none. Kind: improve.
+- **Scope:** the home first screen, and one flow state: the claim page `/cycles/dalio`, with its empty state (`/cycles/turchin-fathers-sons`, no paired record) and the error state (the 404 and `error.tsx`).
+- **Before frames (step 1), committed:** `docs/design-pass-2026-11-17/before/`, eight PNGs from production (live f478ebd9), first viewport, 1440x900 and 390x844, one heavy-gate admit (35m57s in queue, "RESULT: PASS — 8 of 8 frames"). The four the brief requires: `home-1440.png`, `home-390.png`, `flow-cycle-dalio-1440.png`, `flow-cycle-dalio-390.png`. Also `empty-cycle-no-record-*.png` and `error-not-found-*.png` (HTTP 404). Script: `docs/design-pass-2026-11-17/capture-frames.mjs`; P3 uses the same script for the after frames.
+- **PRODUCT.md (step 2):** `docs/PRODUCT.md`. Who and job are marked HYPOTHESIS (no real reader on record). Three voice traits, a tone rule each for error, empty and success, three anti-references, and the known and unknown lists.
+- **How the known list was made:** round 0: helper 139 lines (120 facts, 19 unverifiable), each with file and line. Then a Codex claims pass ON THE FACT LIST, before any words (model gpt-6.2-sol, read-only foreground pipe, banner workdir `C:\dev\skylark\sinusoidal-cycles` matched): 97 HOLDS, 22 REFUTED-AS-WRITTEN each with a narrower sentence, 1 UNVERIFIABLE-HERE, 4 missing facts added. I took every narrowing as given and did not re-read its cited lines myself: each narrowed sentence claims less than the line it replaces, so using it is the safe direction. All 22 stay PLAUSIBLE until P3 re-reads the ones a shipped sentence rests on. The known list holds only HOLDS lines or the narrowed sentence.
+- **Art direction (step 3):** world = the ten-channel chart-recorder strip. Five worlds listed in `docs/DESIGN.md` with why the tide table and the almanac were rejected (both are forecasts; this site states no present position, I-061).
+- **Registry row:** posted d453461e (22:4xZ). My first draft picked Archivo and Literata from a checkout with no registry file; the orchestrator's notice 52dceef8 showed both claimed, so both were re-picked from the live registry before any CSS: display IBM Plex Sans Condensed 600, text IBM Plex Serif 400/600. Neighbour flagged for the orchestrator: sound-shapes' phonautograph (one stylus line on soot black). Mine differs on ground, grammar and motion; I re-pick the world if told it reads too close.
+- **DESIGN.md (step 4):** `docs/DESIGN.md`. Amber #e9b942 as the one accent, on one action per view (today it is used only for text selection). Warm neutrals; the ten cycle colours are data ink only. Two families, three weights, self-hosted. Spacing 4 to 96 with steps of at least 33%. Radius 2px. No elevation shadow. Motion "ruling first, ink second", with no travelling pen because a moving tip reads as "now".
+- **The tells (step 5):** today's home page carries five of the 2026 set (Fraunces on cream, the italic "one axis.", the "Vol. I" kicker, tracked micro-labels, monospace furniture). Four go. Tracked labels stay in one place with a stated reason (the label half of a header block).
+- **Copy (step 6), in PRODUCT.md, not live:** five headlines, three kept. The plain one: "Ten long-wave theories of history, each drawn once on one time axis." Subhead of two sentences, call to action "Check a cycle against its record" (to /cycles), one error rewrite and one empty-state rewrite.
+- **Two things for the reviewer to weigh:**
+  1. Kept headline 3 states the 0-of-9 result ("By this site's rule, none of those records is long enough to test its cycle"). It is the home page's existing sentence moved up, but short testability claims were refuted three times on the /cycles snippet (I-079). It gets its own claims pass at P3 or is dropped.
+  2. The error screen today says "Most likely a CSV failed to load." Round 0 and Codex both found that false: CSV failures are caught inside the chart. The rewrite states no cause. This is a live wrong sentence, small, and outside the flag question; say if you want it fixed on its own.
+- **Evidence:**
+  - OBSERVED · the eight before frames, production, today.
+  - OBSERVED · source, f478ebd: the round-0 list and its Codex verdict (`tmp/design-pass-round0-facts.md`, `tmp/sinusoidal-cycles-dp-codex-r1-verdict.md`; tmp is not committed, the result is folded into PRODUCT.md).
+  - HYPOTHESIS · who the reader is and what they use today (`docs/evangelism-bar.md`).
+  - MISSING · any real reader's words; `docs/evangelism-evidence.md` and `docs/key-metrics.json` do not exist.
+- **Permission:** lane-owned pages. The round's rule binds: nothing a visitor sees changes without David's pick. This lane adds: the variant stays OFF until I-077 and I-078 are read (due 2026-11-19: round 0, a Codex claims pass on the fact list, then the words), even after his pick. I-075's second-screen line does not move.
+- **Next action (P3, after the review):** re-read the live registry, then build three first-screen variants from different composition families behind the build-time flag `DESIGN_PASS_VARIANT` (unset = today's site; rollback = leave it unset). First command:
+
+  ```
+  git -C C:/dev/skylark/skylark-site fetch origin
+  ```
+
+- **Acceptance (the brief's P1 bar):** before frames committed at the four sizes (met); every product fact in PRODUCT.md and the copy on its known list (met, by the method above); world and display face not in the registry (met at the 15:45 MT read; row posted); scope is the first screen and one flow (met); nothing touches sign-in, payment or data (the site has none).
+- **Delivery and encounter checks:** none at P1; nothing shipped. At P3 the flag is off, so delivery is the frame set and the review page.
+- **USER-FACING: no** for this P1. Paths: `docs/PRODUCT.md`, `docs/DESIGN.md`, `docs/design-pass-2026-11-17/` (script and frames), `docs/daily/2026-11-17-prelaunch.md`. P3 will be yes, behind the flag: `src/app/(app)/page.tsx`, `src/app/(app)/cycles/[id]/page.tsx`, `src/app/error.tsx`, `src/app/not-found.tsx`, `src/app/globals.css`, `src/app/layout.tsx`, font files.
+- **Section 0:** listener 🟢 (posted cde5eaf1). CI `check-ci-status --workflow ci.yml` → "GREEN — 1 completed non-scheduled success(es) for HEAD" on f478ebd926. Drift `--service sinusoidal-history` → "in-sync live f478ebd9 → head f478ebd9". Harness: running 2.1.326 · fleet UNIFORM (25 of 25) · installed 2.1.326 (SAME). Codex: GREEN (kickoff probe), used once. No `--snapshot` taken: the morning snapshot from round 1 stands; `--print` read "0 gate(s) due on/before 2026-11-17".
+- **HYGIENE INPUTS:**
+  - (a) due rows not bearing on the choice: none — read `check-due-gates-dispositioned --print` (0 due) and the kickoff's "dated gates due today: 0".
+  - (b) owed child rows: none — read the kickoff's "rows owed to you in skylark-site's ledger: 0 of 850 considered".
+  - (c) state reads marked CROSSED: 1. "board cards carrying David's word: 3" (21ece8d9, 2cf09a9d, 3784317b): all skylark-site cards, unchanged since first surfaced, none names this lane (`answered-cards`: 0 lane cards, 0 new). Disposition: read.
 
 ## State Appendix
 
