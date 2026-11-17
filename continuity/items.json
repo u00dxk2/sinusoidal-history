@@ -2544,7 +2544,14 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-rendered-text.mjs snap https://sinusoidalhistory.com/cycles C:/dev/skylark/sinusoidal-cycles/tmp/i083-cycles.txt — read the Kondratiev and Turchin entry lines",
       "notes": "2026-11-16 (P3): minted on the manager review's instruction (4cb13d4c). Not fixed today: today's change is the focused card's Calibrate order (I-084). Next step on 11-17: dispatch round 0 (the facts each entry can state, with file:line), then write the words. It changes /cycles only, not the home first screen the 11-17 I-075 walk tests.",
       "created": "2026-11-16",
-      "updated": "2026-11-16"
+      "updated": "2026-11-16",
+      "readCommandLastRun": "2026-11-17T17:00:57.743Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 3619,
+      "readCommandLastOutputRef": {
+        "lines": 1,
+        "sha256": "c7406334c39ec23b"
+      }
     },
     {
       "id": "I-084",

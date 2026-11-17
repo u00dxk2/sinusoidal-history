@@ -591,3 +591,4 @@
 {"at":"2026-11-16T16:33:06.988Z","day":"2026-11-16","tool":"continuity-edit","id":"I-084","op":"set","field":"notes","from":"\"2026-11-16 (P3): built 35b22e6 (controls first in every expanded facet, moved i… [372 chars · sha256:691cb945]","to":"\"2026-11-16 (P3): built 35b22e6 (controls first in every expanded facet, moved i… [1427 chars · sha256:14a662d5]","changed":true,"opNoop":false}
 {"at":"2026-11-16T16:43:38.986Z","day":"2026-11-16","tool":"continuity-edit","id":"I-051","op":"close","field":"status","from":"\"monitoring\"","to":"\"closed\"","changed":true,"opNoop":false}
 {"at":"2026-11-16T16:43:46.338Z","day":"2026-11-16","tool":"continuity-edit","id":"I-084","op":"close","field":"status","from":"\"open\"","to":"\"closed\"","changed":true,"opNoop":false}
+{"at":"2026-11-16T23:08:36.151Z","day":"2026-11-16","tool":"continuity-edit","id":"I-085","op":"mint","field":null,"from":null,"to":"\"open\"","changed":true,"opNoop":false}
