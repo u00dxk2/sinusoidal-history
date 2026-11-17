@@ -140,9 +140,15 @@ describe("/cycles: each entry states its own verdict", () => {
   }
 
   // Source pins (Codex r1 on the uncommitted I-083 change: the wording pins alone could not see
-  // the sources move). Each number the sentences state is read here from the file that fixes it,
+  // the sources move). Each NUMBER the sentences state is read here from the file that fixes it,
   // never from the page's own strings: the build script's window, the manifest's primary pairing,
-  // cut and TFP note, and the wealth CSV's years.
+  // cut and TFP note, and the wealth CSV's dated values.
+  // What this does NOT see, on purpose (Codex r2 found the same class twice, so the test claims
+  // less rather than growing): (a) whether us_tfp_growth.csv's values really are the rolling mean
+  // of the annual file; build_us_tfp_growth.py writes both in one run, and that script is the
+  // check; (b) the provenance words "rougher estimates from earlier historical sources", which
+  // are prose. Round 0 and the r1 claims pass checked them against wid_top1_wealth.source.md:6
+  // and series.json:38-39. Edit the sentence if that provenance changes.
   const manifestText = readFileSync(join(ROOT, "scripts", "spectral", "analysis-manifest.yaml"), "utf8");
   const NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
@@ -180,7 +186,10 @@ describe("/cycles: each entry states its own verdict", () => {
       .trim()
       .split(/\r?\n/)
       .slice(1)
-      .map((row) => Number(row.split(",")[0]));
+      .map((row) => row.split(","))
+      // A point counts only if it carries a value (Codex r2: an "NA" row is not a drawn point).
+      .filter((cells) => cells[1] !== undefined && cells[1].trim() !== "" && Number.isFinite(Number(cells[1])))
+      .map((cells) => Number(cells[0]));
     const v = verdicts.find((x) => x.cycle_id === "turchin")!;
     const cut = Number(manifestBlock(v.series_id).match(/truncate_min_year: (\d+)/)?.[1]);
     expect(cut, "manifest truncate_min_year").toBeGreaterThan(0);
