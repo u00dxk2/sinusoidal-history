@@ -59,14 +59,16 @@ const byPeriod = [...cycles].sort((a, b) => a.period_years - b.period_years);
 // is what differs per entry, so it carries the sentence; the state label would read the same
 // nine times. It is a RECORD-length shortfall: the records end between 2011 and 2025, so the
 // words never say "N years from now". Kondratiev and Turchin are judged on a different cut from
-// the series their entry names (I-030, I-035), so their sentence names the judged record.
+// the series their entry names (I-030, I-035), so their sentence names the judged record, and
+// says why the two differ right there (I-083): the reason used to sit ~4,000px lower.
 function entryVerdict(cycle: Cycle, series: DataSeries | undefined): string {
   const verdict = spectralVerdictForCycle(cycle.id);
   if (!verdict) return "Not tested: there is no paired record to test it against.";
   if (verdict.eligible) return `${SPECTRAL_STATE_LABELS[verdict.state]}.`;
   const tested = judgedCut(series?.id, verdict.series_id);
   const record = tested ? `the record it is judged on, ${tested.name},` : "its record";
-  return `Can't be tested yet: ${record} is ${yearsShortOfFloor(verdict)} years too short.`;
+  const short = `Can't be tested yet: ${record} is ${yearsShortOfFloor(verdict)} years too short.`;
+  return tested ? `${short} ${tested.entryWhy}` : short;
 }
 
 // The published "excluded and why" list. Hand-written by design: exclusion

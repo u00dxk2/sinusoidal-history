@@ -8,6 +8,8 @@
 // Two pairings are judged on a different cut from the series the entry names (Kondratiev's
 // annual TFP, Turchin's 1913-onward wealth share; I-030, I-035), so their verdict words must
 // name the judged record, never pair the shortfall with the drawn series alone.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -31,6 +33,7 @@ const verdicts = (verdictsRaw as unknown as { primary: RawVerdict[] }).primary;
 const seriesList = seriesRaw as unknown as RawSeries[];
 const cycleList = cyclesRaw as unknown as RawCycle[];
 
+const ROOT = process.cwd();
 const html = renderToStaticMarkup(createElement(CyclesIndex));
 
 function decode(s: string): string {
@@ -122,6 +125,87 @@ describe("/cycles: each entry states its own verdict", () => {
     const text = entryText("turchin_fathers_sons");
     expect(text).toContain("Not tested: there is no paired record to test it against.");
     expect(text).not.toMatch(/too short|Can't be tested/);
+  });
+
+  // I-083 (2026-11-17): the two different-cut entries named one series on "Paired data" and
+  // another on the verdict line, with the reason ~4,000px lower. The reason now sits in the
+  // verdict line itself. The facts each pin checks are the round-0 list's: Kondratiev's drawn
+  // file is a 5-year centred rolling mean of the judged annual file (build_us_tfp_growth.py,
+  // manifest note on TFP); Turchin's drawn file runs from 1820 and the manifest cuts the judged
+  // record at 1913 (analysis-manifest.yaml truncate_min_year), with five earlier points.
+  function verdictLine(cycleId: string): string {
+    const at = html.indexOf(`data-entry-verdict="${cycleId}"`);
+    expect(at, cycleId).toBeGreaterThan(-1);
+    return decode(html.slice(html.indexOf(">", at) + 1, html.indexOf("</p>", at)));
+  }
+
+  // Source pins (Codex r1 on the uncommitted I-083 change: the wording pins alone could not see
+  // the sources move). Each number the sentences state is read here from the file that fixes it,
+  // never from the page's own strings: the build script's window, the manifest's primary pairing,
+  // cut and TFP note, and the wealth CSV's years.
+  const manifestText = readFileSync(join(ROOT, "scripts", "spectral", "analysis-manifest.yaml"), "utf8");
+  const NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+
+  function manifestBlock(seriesId: string): string {
+    const m = new RegExp(`^  - id: ${seriesId}\\r?$`, "m").exec(manifestText);
+    expect(m, `manifest has no series ${seriesId}`).toBeTruthy();
+    const at = m!.index;
+    const next = manifestText.slice(at + 1).search(/^(  - id: |primary:)/m);
+    return manifestText.slice(at, next === -1 ? undefined : at + 1 + next);
+  }
+
+  it("Kondratiev's verdict line says why, and each fact matches its source", () => {
+    const window = readFileSync(join(ROOT, "scripts", "build_us_tfp_growth.py"), "utf8").match(
+      /^WINDOW = (\d+)/m,
+    )?.[1];
+    expect(window, "build_us_tfp_growth.py WINDOW").toBeTruthy();
+    const drawn = seriesList.find((s) => s.associated_cycle_id === "kondratiev") as RawSeries & { data_file: string };
+    expect(drawn.data_file).toBe("/data/us_tfp_growth.csv"); // the smoothed file the chart loads
+    const v = verdicts.find((x) => x.cycle_id === "kondratiev")!;
+    expect(manifestText).toMatch(new RegExp(`cycle_id: kondratiev, period_years: \\d+, series_id: ${v.series_id}\\}`));
+    expect(manifestBlock(v.series_id)).toMatch(/transform: none/); // judged on the unsmoothed figures
+    // The reason the sentence gives is the manifest's own TFP note.
+    expect(manifestText).toMatch(/smoothed display CSV \(us_tfp_growth\.csv\) is banned from inference/);
+    expect(manifestText).toMatch(/corrupts the AR fit/);
+
+    const line = verdictLine("kondratiev");
+    expect(line).toContain(`The site's interactive chart draws the ${window}-year average named above`);
+    expect(line).toContain("the verdict counts the yearly figures, because an average makes neighbouring years move together");
+    expect(line).toContain("would distort the background-noise model a test compares against.");
+  });
+
+  it("Turchin's verdict line says why, and each fact matches its source", () => {
+    const drawn = seriesList.find((s) => s.associated_cycle_id === "turchin") as RawSeries & { data_file: string };
+    const years = readFileSync(join(ROOT, "public", drawn.data_file), "utf8")
+      .trim()
+      .split(/\r?\n/)
+      .slice(1)
+      .map((row) => Number(row.split(",")[0]));
+    const v = verdicts.find((x) => x.cycle_id === "turchin")!;
+    const cut = Number(manifestBlock(v.series_id).match(/truncate_min_year: (\d+)/)?.[1]);
+    expect(cut, "manifest truncate_min_year").toBeGreaterThan(0);
+    const before = years.filter((y) => y < cut);
+    const after = years.filter((y) => y >= cut);
+    // "the yearly record, which starts in <cut>": every year from the cut on is present, and it starts there.
+    expect(after[0]).toBe(cut);
+    expect(after.every((y, i) => i === 0 || y === after[i - 1] + 1)).toBe(true);
+    // The points before the cut are not yearly (that is what the sentence leaves out).
+    expect(before.length).toBeGreaterThan(0);
+    expect(before.some((y, i) => i > 0 && y !== before[i - 1] + 1)).toBe(true);
+
+    const line = verdictLine("turchin");
+    expect(line).toContain(`The site's interactive chart draws the whole series named above, from ${years[0]};`);
+    expect(line).toContain(`the verdict counts only the yearly record, which starts in ${cut}.`);
+    expect(line).toContain(`The ${NUMBER_WORDS[before.length]} points before it are rougher estimates`);
+  });
+
+  it("only the different-cut entries carry a drawn-vs-judged reason", () => {
+    for (const v of verdicts) {
+      const paired = seriesList.find((s) => s.associated_cycle_id === v.cycle_id);
+      const line = verdictLine(v.cycle_id);
+      if (paired && paired.id === v.series_id) expect(line, v.cycle_id).not.toContain("interactive chart draws");
+      else expect(line, v.cycle_id).toContain("interactive chart draws");
+    }
   });
 
   it("positive control: the entry slicer does not reach into the next entry", () => {

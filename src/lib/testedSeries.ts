@@ -23,6 +23,12 @@ export type TestedSeriesNote = {
    *  fits on one line down to a 320px phone: "Annual figures, unsmoothed" and "Yearly record
    *  from 1913" each wrapped to two lines at 390 (measured 2026-10-10). */
   judgedOn: string;
+  /** One sentence for the /cycles entry, after its verdict line: why the record judged
+   *  differs from the "Paired data" series named just above it. The entry named one series and
+   *  judged another with the reason ~4,000px down the page (I-083, 2026-11-17). Facts from
+   *  round 0: Kondratiev's reason is the manifest's own TFP note; Turchin's states what the
+   *  1913 cut leaves out and claims no cause, since the manifest records none. */
+  entryWhy: string;
   /** Where the judged record is, so the page's figure draws what the verdict counts (I-035,
    *  2026-10-11). The same file, column and start year as the frozen manifest's entry for
    *  this series_id (scripts/spectral/analysis-manifest.yaml); a test reads the manifest. */
@@ -35,6 +41,8 @@ const NOTES: Record<string, TestedSeriesNote> = {
     whyTwoLabels:
       "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the 5-year rolling average of this series, which is the version the interactive chart draws. The figure at the top of this page draws the annual figures instead, because those are what the verdict counts. The site measures the record's length on the annual figures, and would run any test on them, because a rolling average makes neighbouring years move together and would distort the background-noise model a test compares against.",
     judgedOn: "Annual figures",
+    entryWhy:
+      "The site's interactive chart draws the 5-year average named above; the verdict counts the yearly figures, because an average makes neighbouring years move together and would distort the background-noise model a test compares against.",
     judgedLine: { data_file: "/data/us_tfp_growth_annual.csv", value_column: "dtfp_util_pct" },
   },
   // I-028 (2026-10-08). Reason from wid_top1_wealth.source.md:6 and the CSV itself (5 points
@@ -45,6 +53,8 @@ const NOTES: Record<string, TestedSeriesNote> = {
     whyTwoLabels:
       "Why two labels: the “Paired data” line and section on this page, and the citation at the end, name the whole US Top 1% Wealth Share series, which the interactive chart draws from 1820. The verdict counts only the yearly record, which starts in 1913 with the Saez–Zucman series, and that is what the figure at the top of this page draws. Before 1913 there are just five points (1820, 1850, 1880, 1900 and 1910), rougher estimates from earlier historical sources that the interactive chart joins into one line. They are left out of that yearly record, which is why the figure at the top hatches 1820 to 1910 along with every other year before 1913. So the site measures the record's length from 1913, and would run any test on those yearly figures only.",
     judgedOn: "1913 onward",
+    entryWhy:
+      "The site's interactive chart draws the whole series named above, from 1820; the verdict counts only the yearly record, which starts in 1913. The five points before it are rougher estimates from earlier historical sources.",
     judgedLine: {
       data_file: "/data/wid_top1_wealth.csv",
       value_column: "top1_wealth_share_pct",
