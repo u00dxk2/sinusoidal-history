@@ -21,7 +21,11 @@ import { chromium } from "playwright";
 const here = dirname(fileURLToPath(import.meta.url));
 const args = process.argv.slice(2);
 const step = args[0];
-if (step !== "before" && step !== "after") {
+// before        the live site, taken at P1 (the record)
+// before-local  the SAME local build path as `after`, with the flag off: the like-for-like
+//               partner of `after` for a side-by-side review
+// after         the local build with the selected variant's flag on
+if (step !== "before" && step !== "before-local" && step !== "after") {
   console.error("usage: capture-frames.mjs <before|after> [--base <origin>] [--query <string>]");
   process.exit(2);
 }

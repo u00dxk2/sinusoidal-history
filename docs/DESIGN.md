@@ -91,7 +91,9 @@ Three first-screen variants from different composition families, behind one flag
 - **B. One dominant object.** One cycle's trace against its record, large, under one searched question, with the other nine as an index.
 - **C. The editorial column.** A reading column that states the argument, with the strip as its figure.
 
-**Flag:** build-time environment variable `DESIGN_PASS_VARIANT` (`a`, `b` or `c`). Unset means today's site, and it stays unset on Render. **Rollback:** leave it unset; no data, route or stored state depends on it.
+**Flag:** build-time environment variable `NEXT_PUBLIC_DESIGN_PASS_VARIANT` (`a`, `b` or `c`; `src/lib/designPass.ts`). The `NEXT_PUBLIC_` prefix is there because the error screen is a client component and reads the same switch. Unset means today's site, and it stays unset on Render. **Rollback:** leave it unset; no data, route or stored state depends on it. A second build-time variable, `DESIGN_PASS_PREVIEW=1`, is for local framing only: it prerenders `/design-pass/a`, `/b` and `/c`; without it those addresses are 404s.
+
+**What the flag does not touch:** the chart itself (`Viz` and everything inside it). The new faces apply only to the home masthead, the cycle page's header and verdict box, the 404 and the error screen, so the phone glance caption, height label and verdict line keep today's face, size and words.
 
 ## Constraints every variant keeps
 

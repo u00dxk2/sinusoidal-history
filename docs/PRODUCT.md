@@ -101,9 +101,17 @@ Tests: a stranger reading only the headline knows what this is; can I picture it
 | 4 | Does history move in cycles? Ten theories and the records to check them against. | Cut. A question cannot be proven false, and only nine have a record |
 | 5 | Ten cycles, one axis. (today's) | Cut. A stranger cannot tell cycles of what |
 
+**What P3 built, after a second claims pass on the finished words (Codex r2, 2026-11-17).** None of the three kept headlines survived as written. Headline 1's "each drawn once" was refuted: the page draws each cycle in more than one figure, and two of the ten are cut at today. Headlines 2 and 3 were not offered (the P1 review questioned "one wave each"; headline 3's short testability claim is the class refuted on I-079). The built headline is the narrower one:
+
+> **Ten long-wave theories of history on one time axis.**
+
+It still names the subject, the count and the picture, and it is false if the count changes. The one-period rule moved into the subhead.
+
 ### Subhead
 
-"Each curve is at most one period of a plain wave around a peak year this site documents, and no curve is drawn past today. Nine sit beside a measured series, and each cycle's page says whether that record is long enough for this site to test it."
+As built: "Each curve is at most one period of a plain wave around a peak year this site documents, and no curve is drawn past today. Nine of the ten have paired data, and each of those nine pages says whether the record its verdict uses is long enough for this site to test the cycle."
+
+The second sentence was narrowed by the same pass: the unpaired cycle's page has no record to speak of, and two verdicts are judged on a different cut from the series the chart draws. Variant C adds one sentence, shown only while it is true: "None of the nine primary records covers the 3.0 full periods this site requires before testing."
 
 ### Call to action
 
@@ -112,11 +120,17 @@ Tests: a stranger reading only the headline knows what this is; can I picture it
 ### Error state (`src/app/error.tsx`)
 
 - Heading: "This view hit an unexpected error."
-- Body: "The page could not be drawn. Try it again, or go back to the chart."
+- Body: "This view could not be displayed. Try it again, or go back to the chart." (Narrowed at P3: the boundary covers a view's children, not always the whole page.)
 - Button: "Try again". Link: "Back to the chart" (to `/`).
 - When a reference exists: "Reference: <digest>".
 
-It states no cause, because none is known from that screen. For P3: the button calls `reset`, which this Next version says re-renders without re-fetching (F84); whether it should call `retry` is a code question to settle with the Next docs before the words ship.
+It states no cause, because none is known from that screen. Under the flag the button calls `retry()`, which this Next version documents as re-fetching and re-rendering; `reset()` would replay a failed server response (`node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/error.md`).
+
+### The 404 (`src/app/not-found.tsx`)
+
+- Heading: "There is no page at this address."
+- Body: "It may have moved, or the address may be mistyped."
+- The same two actions: "Check a cycle against its record" (to `/cycles`) and "Back to the chart".
 
 ### Empty state (`/cycles/turchin-fathers-sons`)
 

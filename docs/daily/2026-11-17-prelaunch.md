@@ -2,6 +2,8 @@
 
 ## BLUF
 
+**Round 2, product work: three first screens are built behind a flag that is off, and variant a was picked blind.** On branch `design-pass-2026-11-17` (44f93f5), not merged. A blind Codex judge preferred the ten-channel recorder sheet over both other variants in both orders. Its after frames and like-for-like before frames (one local build path, flag on and off, one run) are in `docs/design-pass-2026-11-17/`. With the flag off a fresh build shows no design-pass element, requests no design-pass font, and answers 404 at the preview address. The phone caption, height label and verdict line read the same in every variant (9 of 9), so the 11-19 reads on I-077 and I-078 still judge those words alone. Nothing a visitor sees has changed. Waiting on David's pick.
+
 **Round 2 (afternoon), the design and copy pass: P1 is done and nothing a visitor sees has changed.** Eight before frames from production are committed (`docs/design-pass-2026-11-17/before/`), with `docs/PRODUCT.md` and `docs/DESIGN.md`. The direction is the ten-channel chart-recorder strip, set in IBM Plex Sans Condensed and IBM Plex Serif. Every product fact in the proposed copy comes from a 120-line fact list that Codex judged before any words were written (97 held, 22 were narrowed, 1 could not be proved). Two findings for the review: the strongest headline states the 0-of-9 result and needs its own claims pass, and the live error screen names a cause ("Most likely a CSV failed to load") that source shows is false. P3 builds three variants behind a flag that stays off, and this lane's variant stays off until I-077 and I-078 are read on 11-19 even after David's pick. The round-2 packet is under Recommendation.
 
 **P3 shipped it, live 379e33b6 (CI ci.yml green on 379e33b60d, deploy in sync).** On production /cycles, the Kondratiev and Turchin entries now say in the verdict line itself why the record judged differs from the series drawn. That was 2 of 9 entries with no reason before, and 0 of 9 after. The words came from a round-0 fact list, and a Codex claims pass on the uncommitted diff found all 11 clauses HOLD. The new source-pinned test is red on the prior tree (3 of 27 failed). Home, /cycles/kondratiev, /cycles/turchin and the share card are unchanged: identical text, and an identical share-card PNG hash. `check-entry-folds` 320x568 reads 13 of 13 with /cycles at 7px spare. Encounter blind; outcome open (I-083).
@@ -11,6 +13,71 @@
 **The I-075 re-walk ran and came back AMBIGUOUS again.** A fresh walker at 390x664 on production (f5eb87d6) said "I can't tell for sure, but I lean towards 'this website'", citing "SITE'S PEAKS · NO CYCLE CONFIRMED". This is the same shape as 11-13. Per the row's own note, I-075 takes its recorded-decision path at the close, with both walks as the reason. Section 0 is clean: CI green on f5eb87d65a, deploy in sync.
 
 ## What changed
+
+### Round 2, the design and copy pass: product work
+
+[P3 — Product-work loop]
+
+Round 2, the design and copy pass (brief steps 7 to 11). Action kind: improve, built behind a flag that is off. Nothing a visitor sees has changed, and nothing is merged to main.
+
+USER-VISIBLE: none — three first-screen variants and the flow restyle are built on branch design-pass-2026-11-17 (44f93f5) behind NEXT_PUBLIC_DESIGN_PASS_VARIANT, which is unset; no visitor sees a change until David picks on the review page and the I-077 and I-078 reads (2026-11-19) are taken.
+
+**For the review page: the like-for-like pair.** Both sets were taken in ONE heavy-gate run from the same capture path: a local `next build` served by `next start` on 127.0.0.1, same script (`capture-frames.mjs`), same viewports (1440x900, 390x844, first viewport), same settle wait, signed out (the site has no sign-in); flag off for before, variant a on for after. Branch `design-pass-2026-11-17`, commit 44f93f5.
+
+Before (flag off):
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\before-local\home-1440.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\before-local\home-390.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\before-local\flow-cycle-dalio-1440.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\before-local\flow-cycle-dalio-390.png
+
+After (variant a):
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\after\home-1440.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\after\home-390.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\after\flow-cycle-dalio-1440.png
+- C:\dev\skylark\sinusoidal-cycles\docs\design-pass-2026-11-17\after\flow-cycle-dalio-390.png
+
+Each folder also holds the empty state (`empty-cycle-no-record-*.png`) and the 404 (`error-not-found-*.png`) at both sizes. The P1 live-site frames stay in `before\` as the record (on main, 2188bd0). The three candidates and the unflagged control are in `variants\`.
+
+**Paths:** `docs/PRODUCT.md`, `docs/DESIGN.md`, `docs/design-pass-2026-11-17/blind-pick.md` (the judge prompt verbatim, all six verdicts). Registry row: d453461e (chart-recorder strip, IBM Plex Sans Condensed 600, IBM Plex Serif 400/600).
+
+**Flag and rollback:** build-time `NEXT_PUBLIC_DESIGN_PASS_VARIANT` = a, b or c (`src/lib/designPass.ts`). Unset = today's site. Rollback = leave it unset; no data, route or stored state depends on it. `DESIGN_PASS_PREVIEW=1` is a local framing switch only.
+
+**The four states**
+
+1. Implementation. Branch commits a3b5e5d and 44f93f5, pushed to the branch only. Three variants from three composition families: a, the ten-channel recorder sheet; b, one cycle's figure with the other nine as an index; c, a reading column with a compact sheet. Under the flag the cycle page's header and verdict box, the 404, the error screen and the no-record empty state take the pass's faces and words. Quirk kept: the phone glance figure, which already is the ten-row strip.
+   - Gates, in the heavy-gate runs: typecheck clean, eslint clean on the pass's files, 134 of 134 tests in six targeted files, `next build` three times (preview, flag off, flag on). Not run: the full suite; CI has not run on this branch (ci.yml runs on main and pull requests).
+   - First variants run FAILED at the tests ("default is not a function": three test files import the cycle page, which imported the next/font module). Fixed by applying the font variables in the root layout only; re-run passed.
+2. Delivery. Not delivered, by the round's rule. Read on a flag-off build in the after run: "flag off: 0 design-pass element(s) on / (want 0)", "0 design-pass font request(s) across 12 loads", "/design-pass/a answers 404". Main is unchanged at 2188bd0 for product code.
+3. Encounter. None possible: the flag is off.
+4. Outcome. Open. The read is David's pick on the review page.
+
+**Checks on the selected variant (a), one admit, re-run once after one real fix**
+- Separability (the P1 review's acceptance): at 390 wide each variant shows the phone caption, height label and verdict line with the same text as the unflagged control, 9 of 9 SAME ("SITE'S PEAKS · NO CYCLE CONFIRMED", "height: shape, not size", "None is confirmed: …"). The chart is not restyled, so their face and size are today's. Their vertical position moves: the home leg of check-entry-folds reads 49px spare at 320x568 against 12px today.
+- Phone folds, flag on: 13 of 13 at 320x568, 360x560 and 390x664.
+- Speed, local server, median of 3, flag off -> on: home 1440 LCP 124 -> 120 ms; home 390 164 -> 100 ms; Dalio 1440 152 -> 220 ms; Dalio 390 148 -> 164 ms; CLS 0 -> 0 on all four. Good for "did the flag make it worse" only. The Dalio 1440 LCP is 68 ms slower, under the script's bar (20% and 100 ms). INP is not measured; one tab click's longest event read 64 -> 56 ms.
+- Reduced motion: 0 of 11 sheet elements animate.
+- Design detectors: 30 findings, exit 3. One was mine and real (the sheet's verdict sentence ran ~136 characters a line at 1280); fixed, and gone in the re-run. The other 30 are 11px text, low-contrast year ticks at 390 and ~90-character lines on the Dalio page: my reading is that they are today's chart and cycle prose, but I did NOT run the detectors on the flag-off build, so that is unconfirmed.
+- Extremes read by eye: 1440 and 390 for all four pages. Seen and left: the cycle page mixes faces below the verdict box (only the header and box are restyled); the empty state stacks two links with a loose gap; the 404 has no site header (as today). Variant c's sheet labels draw at about 9px (Codex r3, LOW); c was not selected.
+
+**Blind pick:** six Codex runs, every pair twice with sides swapped, each in a folder holding only left.png and right.png. a over b in both orders, a over c in both orders; b against c followed the side and is discarded. 1440 frames only: at 390 the three variants are the same screen.
+
+**Claims passes and reviews (Codex gpt-6.2-sol, read-only foreground pipe, banner workdir matched each time)**
+- r1 (P1): the 120-line fact list, before any words.
+- r2: every new sentence, on the uncommitted change. REFUTED "each drawn once" (the headline is now "Ten long-wave theories of history on one time axis."), the subhead's second sentence (narrowed to the nine paired pages and "the record its verdict uses"), and variant c's reuse of the home gate sentence (replaced). Defects CONFIRMED and fixed: the phone secondary link stayed visible; the sheet's label named no rows; `reset` replaced by `retry()` under the flag. Flag leak, separability and no-present-position all held.
+- r3: the committed head 44f93f5. All five strings HOLD. One LOW (variant c's labels), left: not the selected variant. Its suggestion to gloss "primary records" in c's extra sentence is not taken for the same reason.
+- The P1 review's HYPOTHESIS on headline 2 ("one wave each"): not tested, because that headline was dropped rather than offered. Headline 3 was dropped too.
+
+codexCalls: 9 (r1, r2, r3 and six blind judgements)
+adversarialReviews: 2 — EXECUTED (r2 on the working tree, r3 on 44f93f5)
+hygiene helper: DISPATCHED 15:47 MT · draft tmp/hygiene-draft-sinusoidal-cycles-2026-11-17.md PRESENT (round 2 section; wait-justification PASS, engineering-zero PASS, no findings)
+
+**What I did NOT change:** the name, the wave mark, the navigation, every route and URL, the chart (`Viz`) and all its behaviour, the ten cycle colours, the phone caption, height label and verdict line, the verdict strings in `holdsUp.ts`, the prose pages and their mirrors, llms.txt, the share cards, and the unflagged error and 404 words (the false "Most likely a CSV failed to load" is still live, pending the orchestrator's ruling).
+
+**What remains:** David's pick. Then, before the flag is set anywhere: the I-077 and I-078 reads (2026-11-19, round 0 first), a pull request so CI runs on the branch, and a merge-tree read against main. Processes: both local servers were stopped by the PID each run started; the listener and waker rungs are still up for the close.
+
+[standing-rules-hash: 88cc2dc9]
+
+### Round 1
 
 **P3: the Kondratiev and Turchin /cycles entries say why the judged record differs (I-083).** Manager review db248f7a: APPROVE. It added one acceptance check, that the home first screen and the share card read the same after the deploy, and a HYPOTHESIS that the reason, if placed in `holdsUp.ts`, would reach the layout and /og.
 
