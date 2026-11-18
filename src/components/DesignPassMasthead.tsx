@@ -200,9 +200,11 @@ function Sheet({ compact = false }: { compact?: boolean }) {
     <div className="dp-sheet">
       <RecorderStrip compact={compact} />
       {verdict && (
-        <p className={`dp-mark dp-text text-ink ${compact ? "text-[16px] px-4 py-3" : "text-[16px] px-6 py-3"}`}>
-          {verdict}
-        </p>
+        // The rule runs the sheet's width; the sentence is held to a reading measure (the
+        // detector read ~136 characters a line here at 1280 on the first after run).
+        <div className={`dp-mark ${compact ? "px-4 py-3" : "px-6 py-3"}`}>
+          <p className="dp-text text-[16px] leading-[1.5] text-ink max-w-[68ch]">{verdict}</p>
+        </div>
       )}
     </div>
   );
