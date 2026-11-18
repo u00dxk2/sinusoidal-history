@@ -2608,6 +2608,27 @@
       "notes": "2026-11-17 (P5): minted at close. Fold into the next edit of SliderRow; no change today.",
       "created": "2026-11-17",
       "updated": "2026-11-17"
+    },
+    {
+      "id": "I-087",
+      "title": "Design pass variant a is built behind an off flag on branch design-pass-2026-11-17; it waits on David's pick, then the I-077 / I-078 reads, then a pull request with CI and a merge-tree read",
+      "status": "open",
+      "type": "issue",
+      "priority": "P2",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-17",
+      "description": "Round 2 of 2026-11-17 (the design and copy pass) built three home first screens and a restyle of the cycle page header and verdict box, the 404, the error screen and the no-record empty state, behind the build-time flag NEXT_PUBLIC_DESIGN_PASS_VARIANT (unset = today's site). The code is on branch design-pass-2026-11-17 at 44f93f5 and is NOT merged; main carries only docs (2188bd0, 561cd84). A blind Codex judge picked variant a (the ten-channel recorder sheet) over b and c in both side orders (docs/design-pass-2026-11-17/blind-pick.md). Manager review e820267a: DEFERRED by the round's rule. The chain, in order: (1) David's pick on the orchestrator's review page; (2) the I-077 and I-078 reads, due 2026-11-19 (round 0, then a Codex claims pass on the fact list, then the words): the variant stays OFF until they are taken, even after the pick; (3) a pull request so CI runs on the branch, and a git merge-tree read against main, before the flag is set anywhere. Separately open with the orchestrator: whether the false sentence on the live error screen ('Most likely a CSV failed to load.', src/app/error.tsx, unflagged) is corrected on its own; its replacement exists only behind the flag (src/lib/designPassCopy.ts DP_ERROR_BODY). Unconfirmed at close: the 30 design-detector findings on the flag-on build were read as today's chart and prose but the detectors were not run on a flag-off build. Known and left: variant c's sheet labels draw at about 9px (Codex r3, LOW; c not selected); below the verdict box the cycle page keeps today's faces; the empty state stacks two links.",
+      "closeWhen": "Either the selected variant is live (flag set on Render after David's pick, the I-077 and I-078 reads, a green CI run on a pull request from design-pass-2026-11-17 and a clean merge-tree read against main), or a recorded decision that the pass is not shipped, with the branch's fate stated. The error-sentence ruling is recorded on this row when it arrives.",
+      "nextEvaluation": "2026-11-19",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles merge-tree --write-tree origin/main origin/design-pass-2026-11-17 — a clean tree id means the branch still merges; conflicts are named. Then read the board for David's pick (node C:/dev/skylark/skylark-site/scripts/answered-cards.mjs --project sinusoidal-cycles)",
+      "waitJustification": {
+        "unWaitOn": "David's pick on the design-pass review page (assembled by the orchestrator), and the I-077 / I-078 reads of 2026-11-19",
+        "loadBearing": "The round's one rule: nothing a visitor sees changes without David's pick; and the manager review's condition that the variant stays off until the 11-19 reads are taken",
+        "owner": "orchestrator (review page) then sinusoidal-cycles"
+      },
+      "notes": "2026-11-17 (round 2, P5): minted at the close. P1 f1c9d19d, P3 fa0e2c41, registry row d453461e. Frames: docs/design-pass-2026-11-17/before-local and /after (one local build path, flag off and on). Checks on variant a (run-after.mjs, one heavy-gate run, re-run once): flag off 0 design-pass elements, 0 design-pass font requests, /design-pass/a 404; folds 13 of 13 at 320x568, 360x560, 390x664 (home 49px spare at 320x568); reduced motion 0 of 11 animate; separability 9 of 9 SAME. Codex r1 (fact list), r2 (working tree), r3 (44f93f5: all five strings HOLD).",
+      "created": "2026-11-17",
+      "updated": "2026-11-17"
     }
   ],
   "knownPatterns": [

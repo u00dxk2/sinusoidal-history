@@ -239,3 +239,25 @@ ACTION: COMPLETED · item I-083 · P3 63f6ef47. The acceptance in force was the 
   - I-086 minted (open, P3, nextEvaluation 2026-11-24): the 320px "Reference peak year" label wrap.
 - **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-17).
 - **Pending reads:** 11-18 I-071, I-085 (JSX probe on 16.4.5, needs a local build) · 11-19 I-077, I-078 (phone home first screen; round 0 first) · 11-24 I-086 · 11-28 W-007 (Dependabot #62: fix or re-date).
+
+### Close (round 2, the design and copy pass)
+
+ACTION: DEFERRED — built behind an off flag by the round's rule; delivery waits on David's pick · trigger: the pick on the review page, then the I-077 and I-078 reads on 2026-11-19 · item I-087 · P3 fa0e2c41. Manager review e820267a: DEFERRED.
+
+- **Receipt:** unchanged from the P3 post. `USER-VISIBLE: none`: the variants are behind a flag that is unset, so no visitor sees a change.
+- **State since the P3 post:** none in the product. The manager review read production itself: 13 plain signed-out GETs found no design-pass marker, face or headline, and `/design-pass/a|b|c` answer 404.
+- **The pending chain, in order:**
+  1. David's pick on the orchestrator's review page (no date; the orchestrator assembles the page).
+  2. The I-077 and I-078 reads, 2026-11-19: round 0, then a Codex claims pass on the fact list, then the words. The variant stays off until they are taken, even after the pick.
+  3. A pull request from `design-pass-2026-11-17` so CI runs on it, and a merge-tree read against main, before the flag is set anywhere. Read today: `git merge-tree --write-tree origin/main origin/design-pass-2026-11-17` printed one tree id (fe3fd9b4…) and no conflict.
+- **Still with the orchestrator:** whether the false sentence on the live error screen ("Most likely a CSV failed to load.") is corrected on its own. Its replacement exists only behind the flag.
+- **Unconfirmed:** the 30 design-detector findings on the flag-on build. I read them as today's chart and prose, and did not run the detectors on a flag-off build.
+- **Hygiene draft (round 2):** 1 line, 1 accepted · 0 amended · 0 rejected (the line is "none": no due rows, no owed child rows). READ-MUTATED: "none — 0 reads guarded". Checks, quoted from the draft: wait-justification "RESULT: PASS — 33 of 94 row(s) carry `waitJustification`; 0 warn / 0 info"; engineering-zero "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver" (#62 until 2026-11-28, W-007). I-087 was minted after the helper ran and carries a `waitJustification`; the wait check was not re-run.
+- **Ledger delta:** I-087 minted (open, P2, nextEvaluation 2026-11-19): the chain above, with its read command. No other row changed.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", snapshot CURRENT (taken 2026-11-17).
+- **Pending reads:** 11-18 I-071, I-085 · 11-19 I-077, I-078, I-087 · 11-24 I-086 · 11-28 W-007 (Dependabot #62).
+- **For the round's skill notes:**
+  - Lane time: about 135 minutes from the kickoff being read (about 15:00 MT) to the P3 post (17:13 MT).
+  - Heavy-gate waits, five admits: 35m57s (before frames), 30m51s (variants, which then failed at the tests), 5m27s (variants re-run), 7m15s (after), 12m26s (after re-run). About 92 minutes queued in all.
+  - What cost time: the first variants admit waited half an hour and died at a test import I could have caught by running three test files locally first. The registry file did not exist when I picked faces, so both faces were re-picked.
+  - What I would cut: run the cheap gates (typecheck, lint, targeted tests) outside the queue and admit only the build and the browser. Ask for the like-for-like before frames in the brief, so the after admit is written once.
