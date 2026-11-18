@@ -90,3 +90,31 @@
 
 - Kickoff 5747cff4 (body file sha256 1fb8612d…, VERIFIED).
 - Retro carry from 11-17 (Q4, CARRIED → I-087, 11-19): the error screen's false cause. It was already fixed live in 202d75a (I-087 notes). That carry is spent.
+
+### Close
+
+ACTION: COMPLETED · item I-087 · P3 109646c3
+
+- **Manager review 6bde65b1: COMPLETED, no defects.** Its own signed-out `check-rendered-text diff` on /cycles/dalio and /cycles/turchin-fathers-sons was GREEN. Drift: in-sync, live cc8773ca. CI success on b66d8a5 and cc8773c.
+- **SCREENS.md:** 21 rows. DONE 8 · NEXT 5 · HOLD 1 · N/A 7 · UNREACHED 0. The row moved today is "Cycle page, below the verdict box" (NEXT → DONE).
+- **What cost the most time:** the heavy-gate queue. Waits: 25m47s (the flag-on build), 53m28s (the red-arm browser run) and 25m38s (the live browser run), about 105 minutes in all. Second: two Codex rounds, each finding runner defects, which ended in the runner reshape.
+- **Review scope, stated so the count is not over-read:** Codex r1 (aff41df) and r2 (f3be340) reviewed the CSS and the earlier runner. The b66d8a5 runner reshape was NOT cross-family reviewed. Its evidence is its own live runs: BAD on production before the deploy (khaldun 29 of 56 off-face), then PASS after it (552 of 552).
+- **Ledger delta:**
+  - I-087: note appended, stays `monitoring`. Outcome read open, trigger: the next batch or a real reader's words. Next evaluation 2026-11-24.
+  - I-085: closed (P3).
+  - I-071: re-dated 11-18 → 2026-11-25, with the reason.
+  - I-071 and I-085: `--run` stamps.
+- **Hygiene draft:** 2 lines.
+  - I-071, re-date to 11-25: ACCEPTED as drafted.
+  - I-085, UNDECIDED: AMENDED to a close, because the P3 build ran the probe. Closed with its receipt, and AGENTS.md updated.
+  - READ-MUTATED: "none — 1 read guarded".
+  - check-wait-justification: "RESULT: PASS — 34 of 95 row(s) carry `waitJustification`; 0 warn / 0 info".
+  - check-engineering-zero: "RESULT: PASS — … 0 findings, 0 unreadable, WAIVED by a live waiver". The waiver for Dependabot #62 expires 2026-11-28, with W-007.
+- **Due gates:** `check-due-gates-dispositioned` → "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-18).
+- **Pending reads:**
+  - I-077 and I-078 (2026-11-19).
+  - I-087 outcome and the NEXT batch (2026-11-24).
+  - I-086 (2026-11-24).
+  - I-071 (2026-11-25).
+  - W-007 (2026-11-28).
+- **Receipt:** P3's line stands unchanged. The exposure is still blind (bug row I-087).
