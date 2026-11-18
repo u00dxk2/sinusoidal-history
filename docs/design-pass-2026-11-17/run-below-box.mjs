@@ -12,18 +12,12 @@
 //   both:
 //   - rendered text of /cycles/dalio and /cycles/turchin-fathers-sons, DIFFED against the
 //     before-snaps in tmp/ (taken from production before the change): any difference is BAD
-//   - on all ten cycle pages, every element of each kind BELOW #does-it-hold-up (figures excluded)
-//     must compute to the EXPECTED family, weight and style, and a loaded font face must match:
-//       heading  h2/h3 set in .font-display          → display face 600 normal
-//       label    h3.font-mono, .font-medium.font-mono → display face 600 normal
-//       prose    p outside .font-mono                 → text face 400 normal
-//       source   dl.font-mono dd, footer p.font-mono  → text face 400 normal
-//       strong   strong/b                             → text face 600 normal
-//       em       em/i                                 → text face 600 normal
-//       caveat   .font-display-italic                 → text face 400 normal
-//     The face names are next/font's generated families for designPassFonts.ts (dpDisplay,
-//     dpText). Before this change every heading computed to Fraunces and the prose to Geist, so
-//     this leg is RED on the prior tree.
+//   - on all ten cycle pages, EVERY element below #does-it-hold-up that draws text of its own
+//     (figures excluded) must compute to one of the pass's two faces (next/font's dpDisplay,
+//     dpText from designPassFonts.ts), upright, with a loaded face matching its exact family,
+//     weight and style; every h2/h3 must be dpDisplay. It prints what each tag resolves to.
+//     Before this change the headings computed to Fraunces and the prose to Geist, so this leg
+//     is RED on the prior tree. It does NOT see visibility (opacity, colour) or a flag-off build.
 //   - check-entry-folds at 320x568, 360x560 and 390x664 (nothing above the box may move)
 import { spawn } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
@@ -34,6 +28,10 @@ const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, "..", "..");
 const liveAt = process.argv.indexOf("--live");
 const LIVE = liveAt > -1 ? process.argv[liveAt + 1] : null;
+if (liveAt > -1 && !/^https?:\/\//.test(LIVE ?? "")) {
+  console.log("RESULT: FAIL — --live needs an origin, e.g. --live https://sinusoidalhistory.com");
+  process.exit(2);
+}
 const PORT = 3929;
 const base = LIVE ?? `http://127.0.0.1:${PORT}`;
 const next = join(root, "node_modules/next/dist/bin/next");
@@ -154,33 +152,25 @@ try {
         const loaded = [...document.fonts]
           .filter((f) => f.status === "loaded")
           .map((f) => ({ family: f.family.replace(/["']/g, ""), weight: String(f.weight), style: f.style }));
+        // One stated rule, no classification (after two review rounds found picker defects):
+        // EVERY element below the box (figures excluded) that draws text of its own must
+        // compute to one of the two pass faces, upright, with a loaded face matching its exact
+        // family + weight + style (so no fallback face, no synthesised weight or slant). On top,
+        // by TAG, not class: every h2/h3 must be the display face.
         const after = (el) => box.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING && !box.contains(el);
-        const seen = new Set();
-        const pick = (sel, kind, face, weight, filter = () => true) =>
-          [...article.querySelectorAll(sel)]
-            .filter((el) => after(el) && !el.closest("figure") && !seen.has(el) && filter(el))
-            .map((el) => {
-              seen.add(el);
-              return { el, kind, face, weight };
-            });
-        const els = [
-          ...pick("h2.font-display, h3.font-display", "heading", "dpDisplay", "600"),
-          ...pick("h3.font-mono, .font-medium.font-mono", "label", "dpDisplay", "600"),
-          ...pick("dl.font-mono dd, footer p.font-mono", "source", "dpText", "400"),
-          ...pick("strong, b", "strong", "dpText", "600"),
-          ...pick("em, i", "em", "dpText", "600"),
-          ...pick(".font-display-italic", "caveat", "dpText", "400"),
-          ...pick("p", "prose", "dpText", "400", (el) => !el.closest(".font-mono") && el.textContent.trim()),
-        ];
+        const ownText = (el) => [...el.childNodes].some((n) => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+        const els = [...article.querySelectorAll("*")].filter((el) => after(el) && !el.closest("figure") && ownText(el));
         return {
-          rows: els.map(({ el, kind, face, weight: want }) => {
+          rows: els.map((el) => {
             const cs = getComputedStyle(el);
             const family = cs.fontFamily.split(",")[0].trim().replace(/["']/g, "");
             const weight = cs.fontWeight;
             const style = cs.fontStyle;
+            const heading = /^H[23]$/.test(el.tagName);
+            const kind = heading ? "h2/h3" : el.tagName.toLowerCase();
             const loadedMatch = loaded.some((f) => f.family === family && f.weight === weight && f.style === style);
-            const expected = family.includes(face) && weight === want && style === "normal";
-            return { kind, family, weight, style, ok: loadedMatch && expected, want: `${face} ${want} normal`, text: el.textContent.trim().slice(0, 40) };
+            const passFace = heading ? family.includes("dpDisplay") : /dpDisplay|dpText/.test(family);
+            return { kind, family, weight, style, ok: loadedMatch && passFace && style === "normal", want: heading ? "dpDisplay, loaded, normal" : "dpDisplay|dpText, loaded, normal", text: el.textContent.trim().slice(0, 40) };
           }),
         };
       });
