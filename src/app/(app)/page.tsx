@@ -1,5 +1,7 @@
 import { Suspense } from "react";
 import Viz from "@/components/Viz";
+import DesignPassMasthead from "@/components/DesignPassMasthead";
+import { designVariant } from "@/lib/designPass";
 import { cycles } from "@/data/cycles";
 import { dataSeries } from "@/data/series";
 import { annotations } from "@/data/annotations";
@@ -14,11 +16,17 @@ export const metadata = {
 };
 
 export default function Home() {
+  const variant = designVariant();
   return (
     // max-[390px] (width < 390) spacing: the top padding, the masthead's
     // bottom margin and its row gap tighten, so all ten overview rows clear
     // a 360x560 first screen. 390 and up are unchanged. 2026-09-24.
     <div className="max-w-6xl mx-auto px-4 sm:px-8 pt-8 max-[390px]:pt-5 pb-12 sm:pt-12">
+      {/* The design pass's first screen (docs/DESIGN.md), only when its build-time flag is
+          set; unset, the masthead below is today's, untouched. */}
+      {variant ? (
+        <DesignPassMasthead />
+      ) : (
       <section className="mb-8 max-[390px]:mb-5 sm:mb-12 grid grid-cols-1 sm:grid-cols-12 gap-x-8 gap-y-4 max-[390px]:gap-y-3">
         <div className="sm:col-span-7">
           {/* max-[390px] (width < 390) tracking: at 0.32em the kicker wrapped
@@ -75,6 +83,7 @@ export default function Home() {
           </p>
         </div>
       </section>
+      )}
 
       <Suspense fallback={<div className="h-[600px]" aria-busy="true" />}>
         <Viz cycles={cycles} dataSeries={dataSeries} annotations={annotations} />

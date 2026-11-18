@@ -122,6 +122,124 @@ body {
 .editorial-rule::before { left: 0; }
 .editorial-rule::after  { right: 0; }
 
+/*
+ * Design pass 2026-11-17 (docs/DESIGN.md): the chart-recorder strip.
+ *
+ * Every rule below is scoped to `.dp` (the home masthead variants) or `[data-dp]` (the
+ * cycle page, the 404 and the error screen). Both exist in the document only when the
+ * build-time flag NEXT_PUBLIC_DESIGN_PASS_VARIANT is set (src/lib/designPass.ts), so with
+ * the flag off none of this matches anything.
+ *
+ * Tokens: one accent (--highlight, on one action per view), one radius (2px), one depth cue
+ * (a 1px hairline under a sheet edge), one motion ("ruling first, ink second").
+ */
+.dp,
+[data-dp] {
+  --dp-display: var(--font-dp-display), "Arial Narrow", Arial, sans-serif;
+  --dp-text: var(--font-dp-text), Georgia, serif;
+  --dp-edge: 0 1px 0 rgba(26, 26, 26, 0.12);
+}
+.dp-display {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  font-feature-settings: "tnum" on, "kern" on;
+}
+.dp-text {
+  font-family: var(--dp-text);
+}
+/* The first screen's one accent-coloured action. Ink on amber in both colour schemes. */
+.dp-cta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 16px;
+  background: var(--highlight);
+  color: #1a1a1a;
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-size: 18px;
+  border-radius: 2px;
+  box-shadow: var(--dp-edge);
+}
+.dp-cta:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dp-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+  text-underline-offset: 3px;
+}
+.dp-link:hover {
+  text-decoration-color: var(--ink);
+}
+.dp-sheet {
+  border: 1px solid color-mix(in srgb, var(--rule) 35%, transparent);
+  border-radius: 2px;
+  background: var(--paper);
+  box-shadow: var(--dp-edge);
+}
+/* Ruling first, ink second. No trace travels: a moving tip reads as "now" (I-061). */
+@keyframes dp-ink {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dp-grid {
+  animation: dp-ink 150ms ease-out both;
+}
+.dp-trace {
+  animation: dp-ink 200ms ease-out 150ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp-grid,
+  .dp-trace {
+    animation: none;
+  }
+}
+
+/* The cycle page, the 404 and the error screen under the flag. The markup is today's; these
+   rules swap the faces and turn the verdict box into the sheet's inspector's mark. */
+[data-dp] h1 {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-variation-settings: normal;
+  font-feature-settings: "kern" on;
+  letter-spacing: -0.01em;
+}
+[data-dp] .font-mono,
+[data-dp] nav[aria-label="Breadcrumb"],
+[data-dp] header > p {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-feature-settings: "tnum" on;
+}
+[data-dp] #does-it-hold-up {
+  border: 0;
+  border-top: 3px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper-deep);
+  box-shadow: var(--dp-edge);
+}
+[data-dp] #does-it-hold-up p,
+[data-dp] #why-not-tested p {
+  font-family: var(--dp-text);
+}
+[data-dp] #does-it-hold-up h2 {
+  font-size: 13px;
+}
+
 /* Selection style matches the editorial palette. */
 ::selection {
   background: var(--highlight);

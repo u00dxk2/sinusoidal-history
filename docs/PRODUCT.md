@@ -67,8 +67,8 @@ The verdicts
 Empty and error states
 - The fathers-and-sons page shows "Not tested — this cycle has no paired data series on this site, so there is no record to test it against." and a link to its caveat (F73).
 - The caveat gives the reason: Turchin posts the underlying database on his site, but it carries no explicit reuse licence, so this site does not redistribute it (F13).
-- `src/app/error.tsx` shows "Something broke in this view." and says "Most likely a CSV failed to load." That cause is wrong: a failed CSV is handled inside the chart and does not reach this screen. No specific cause can be stated there (F83, F85 narrowed, Codex question 3).
-- The error screen's "overlay" link goes to `/`, whose default view is Facets (F83).
+- `src/app/error.tsx` shows "Something broke in this view." It used to say "Most likely a CSV failed to load." That cause was wrong: the chart catches its own data-file fetch failures. No specific cause can be stated there (F83, F85 narrowed, Codex question 3). Since 2026-11-17 (round 3, unflagged) it says "This view could not be displayed. Try it again, or go back to the chart." (Codex claims pass: HOLDS).
+- The error screen's "chart" link (it read "overlay" before round 3) goes to `/`, whose default view is Facets (F83).
 - The home page shows an empty 600px block with no text while the chart loads (F90).
 
 Who stands behind it
