@@ -2,6 +2,7 @@ import Link from "next/link";
 import HashLink from "@/components/HashLink";
 import { dataSeries } from "@/data/series";
 import { cycles } from "@/data/cycles";
+import { designVariant } from "@/lib/designPass";
 import { spectralHeadline } from "@/lib/spectral";
 import VerdictTable from "@/components/VerdictTable";
 import CrossGridList, { CROSS_GRID_LOWEST_P, CROSS_GRID_ROWS } from "@/components/CrossGridList";
@@ -43,7 +44,12 @@ export default function Methods() {
     // screen too (it was 40px below on 2026-09-26): a 16px gutter like the site
     // header's, the kicker on one line, a smaller H1, less space around the rule.
     // 360 and up are unchanged. Re-check with --width 320 --height 568.
-    <article className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]">
+    // data-dp: the design pass's faces (globals.css `[data-dp]`), only when its build-time flag
+    // is set (src/lib/designPass.ts). Faces only: the words and public/methods.md are unchanged.
+    <article
+      data-dp={designVariant() ? "" : undefined}
+      className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]"
+    >
       <header className="mb-5 max-[360px]:mb-4 sm:mb-8">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] max-[360px]:tracking-[0.16em] uppercase text-ink-soft font-medium">
           Methods · Provenance &amp; caveats

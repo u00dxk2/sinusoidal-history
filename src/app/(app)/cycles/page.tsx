@@ -9,6 +9,7 @@ import {
   seriesForCycle,
 } from "@/lib/cycleRoutes";
 import { cyclesIndexTitle } from "@/lib/countWords";
+import { designVariant } from "@/lib/designPass";
 import { CYCLES_INDEX_DESCRIPTION, CYCLES_INDEX_TITLE, holdsUpOverallAlt } from "@/lib/holdsUp";
 import { jsonLdHtml } from "@/lib/jsonLdHtml";
 import { SITE_NAME, SITE_URL } from "@/lib/siteConfig";
@@ -202,7 +203,12 @@ export default function CyclesIndex() {
     // H1 and lede type), each value with an sm: twin, so the first entry clears a
     // 360x560 phone screen: it was 71px below on 2026-09-25. Re-check with
     //   node scripts/check-entry-folds.mjs --width 360 --height 560
-    <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-6 sm:py-16">
+    // data-dp: the design pass's faces (globals.css `[data-dp]`), present only when its
+    // build-time flag is set (src/lib/designPass.ts). Unset, the attribute is absent.
+    <div
+      data-dp={designVariant() ? "" : undefined}
+      className="max-w-3xl mx-auto px-5 sm:px-8 pt-4 pb-6 sm:py-16"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdHtml(jsonLd) }}

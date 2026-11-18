@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { designVariant } from "@/lib/designPass";
 
 export const metadata = {
   // Bare segment — the root layout's template appends "· Sinusoidal History".
@@ -10,7 +11,12 @@ export const metadata = {
 
 export default function Colophon() {
   return (
-    <article className="max-w-2xl mx-auto px-5 sm:px-8 py-12 sm:py-16">
+    // data-dp: the design pass's faces (globals.css `[data-dp]`), only when its build-time flag
+    // is set (src/lib/designPass.ts). Faces only: the words and public/colophon.md are unchanged.
+    <article
+      data-dp={designVariant() ? "" : undefined}
+      className="max-w-2xl mx-auto px-5 sm:px-8 py-12 sm:py-16"
+    >
       <header className="mb-8">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] uppercase text-ink-soft font-medium">
           Colophon · A note from the maker
