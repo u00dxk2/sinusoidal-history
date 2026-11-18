@@ -388,7 +388,7 @@ export default async function CyclePage({ params }: Params) {
                 href={cycleChartPath(cycle)}
                 className="inline-flex items-center min-h-11 underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors"
               >
-                {DP_NO_SERIES_NEXT} →
+                {DP_NO_SERIES_NEXT}{" "}→
               </Link>
             </p>
           )}

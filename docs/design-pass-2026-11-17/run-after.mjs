@@ -1,3 +1,6 @@
+// RECORD OF ROUND 2. Since the rollout (round 3) only variant a exists and DESIGN_PASS_PREVIEW is
+// gone, so `b` and `c` build the pre-pass site; use run-rollout.mjs for checks now.
+//
 // Design pass 2026-11-17, admit 3: the SELECTED variant's after frames and checks, in ONE run.
 //
 //   node docs/design-pass-2026-11-17/run-after.mjs <a|b|c>

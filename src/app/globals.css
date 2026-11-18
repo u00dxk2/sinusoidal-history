@@ -187,10 +187,6 @@ body {
   background: var(--paper);
   box-shadow: var(--dp-edge);
 }
-/* The inspector's line under a sheet: a rule, then the verdict in words. */
-.dp-mark {
-  border-top: 1px solid color-mix(in srgb, var(--rule) 35%, transparent);
-}
 /* Ruling first, ink second. No trace travels: a moving tip reads as "now" (I-061). */
 @keyframes dp-ink {
   from {

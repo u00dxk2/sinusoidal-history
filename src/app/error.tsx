@@ -41,7 +41,7 @@ export default function GlobalError({
         </p>
         {error.digest && (
           <p className="dp-text mt-6 text-[16px] text-ink-soft">
-            Reference: {error.digest}
+            Reference:{" "}{error.digest}
           </p>
         )}
       </div>

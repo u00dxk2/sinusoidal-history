@@ -13,7 +13,7 @@ import {
   pairedCycleCount,
 } from "@/lib/designPassCopy";
 import { countWord } from "@/lib/countWords";
-import { GLANCE_HEIGHT_LABEL, glanceVerdictLine } from "@/lib/overviewReading";
+import { GLANCE_HEIGHT_LABEL, GLANCE_HEIGHT_READING } from "@/lib/overviewReading";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
 
 /**
@@ -72,19 +72,17 @@ function Actions() {
   );
 }
 
-/** The recorder sheet with its inspector's line: the verdict the phone glance figure shows. */
+/**
+ * The recorder sheet. It carries no verdict line: the round-3 claims pass (Codex, 2026-11-17)
+ * found the glance verdict sentence ("… cannot be tested on the record that exists") broader
+ * than the data, since re-paired records were eligible and tested. That sentence is the phone
+ * glance figure's, and its words change in I-077 / I-078's own order; it is not added to a new
+ * surface here.
+ */
 function Sheet() {
-  const verdict = glanceVerdictLine(cycles);
   return (
     <div className="dp-sheet">
       <RecorderStrip />
-      {verdict && (
-        // The rule runs the sheet's width; the sentence is held to a reading measure (the
-        // detector read ~136 characters a line here at 1280 on the first after run).
-        <div className="dp-mark px-6 py-3">
-          <p className="dp-text text-[16px] leading-[1.5] text-ink max-w-[68ch]">{verdict}</p>
-        </div>
-      )}
     </div>
   );
 }
@@ -116,7 +114,7 @@ function RecorderStrip() {
       role="img"
       // The rows are named in the label: the figure is one image to a screen reader, so the
       // names, periods and peak years drawn in it would otherwise be lost (review r2).
-      aria-label={`${countWord(cycles.length)} cycles on one ${start} to ${end} time axis, each drawn as at most one period around the peak year this site uses. No curve is drawn past today. The rows: ${cycles.map((c) => `${cycleTheorist(c)}, ${c.period_years} years, peak year used ${c.reference_peak_year}`).join("; ")}.`}
+      aria-label={`${countWord(cycles.length)} cycles on one ${start} to ${end} time axis, each drawn as at most one period around the peak year this site uses. No curve is drawn past today. The rows: ${cycles.map((c) => `${cycleTheorist(c)}, ${c.period_years} years, peak year used ${c.reference_peak_year}`).join("; ")}. ${GLANCE_HEIGHT_READING}`}
       className="block w-full h-auto text-ink"
     >
       <g className="dp-grid">
