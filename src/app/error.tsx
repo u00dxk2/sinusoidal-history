@@ -18,8 +18,8 @@ export default function GlobalError({
         Something broke in this view.
       </h1>
       <p className="mt-4 text-foreground/70 max-w-md mx-auto">
-        {/* It names no cause: a failed data file is handled inside the chart and never
-            reaches this screen, so no single cause can be stated from here (I-087). */}
+        {/* It names no cause: the chart catches its own data-file fetch failures
+            (useCsvSeries), and no single cause can be stated from this boundary (I-087). */}
         This view could not be displayed. Try it again, or go back to the{" "}
         <Link
           href="/"
