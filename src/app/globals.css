@@ -240,6 +240,44 @@ body {
   font-size: 13px;
 }
 
+/* The cycle page BELOW the verdict box (I-087, 2026-11-18; docs/SCREENS.md "Cycle page, below
+   the verdict box"). Every selector starts at `#does-it-hold-up ~`, so nothing above the box or
+   inside it moves and the phone first-screen folds are untouched (/cycles/perez sits at 0px
+   spare at 320x568). Faces only: no word changes, so the rendered text is identical.
+   - Prose siblings and sections take the text face. The curve figure (a `figure` sibling on claim
+     pages) is left out: on the other pages it sits above the box, and it should read the same
+     on all ten.
+   - Headings set in `.font-display` (Fraunces) take the display face. Headings set in
+     `.font-mono` already do, through `[data-dp] .font-mono` above.
+   - Only Plex Serif 400/600 and Plex Sans Condensed 600 are loaded (src/lib/designPassFonts.ts),
+     with no italic. So the caveat is set upright (its "Caveat" label and left rule still mark
+     it), an `em` is marked by weight instead of a synthesised slant, and a 500 weight goes to
+     600, because a 500 would otherwise resolve to 400 and lose its emphasis. */
+[data-dp] #does-it-hold-up ~ :is(p, section, footer) {
+  font-family: var(--dp-text);
+}
+[data-dp] #does-it-hold-up ~ * .font-display {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-variation-settings: normal;
+  font-feature-settings: "kern" on;
+  letter-spacing: -0.005em;
+}
+[data-dp] #does-it-hold-up ~ * .font-display-italic {
+  font-family: var(--dp-text);
+  font-style: normal;
+  font-variation-settings: normal;
+  font-feature-settings: "kern" on;
+  letter-spacing: normal;
+}
+[data-dp] #does-it-hold-up ~ * :is(strong, b, .font-medium) {
+  font-weight: 600;
+}
+[data-dp] #does-it-hold-up ~ * :is(em, i) {
+  font-style: normal;
+  font-weight: 600;
+}
+
 /* Selection style matches the editorial palette. */
 ::selection {
   background: var(--highlight);
