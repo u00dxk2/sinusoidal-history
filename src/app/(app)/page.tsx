@@ -25,7 +25,7 @@ export default function Home() {
       {/* The design pass's first screen (docs/DESIGN.md), only when its build-time flag is
           set; unset, the masthead below is today's, untouched. */}
       {variant ? (
-        <DesignPassMasthead variant={variant} />
+        <DesignPassMasthead />
       ) : (
       <section className="mb-8 max-[390px]:mb-5 sm:mb-12 grid grid-cols-1 sm:grid-cols-12 gap-x-8 gap-y-4 max-[390px]:gap-y-3">
         <div className="sm:col-span-7">

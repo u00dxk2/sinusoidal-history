@@ -79,19 +79,15 @@ The brief lists two generations of tells. Today's home page carries five of the 
 | Cream background with Fraunces | Yes (`globals.css:16`, `layout.tsx:21`) | Fraunces goes. Paper stays, with a reason: the ten cycle colours were chosen against it, and ruled paper is this world's ground |
 | One italic accent word in the headline | Yes: "one axis." (`page.tsx:47-49`) | Goes |
 | Badge or kicker above the H1 | Yes: "Vol. I · An editorial chart-room" (`page.tsx:27-44`) | Goes. It says nothing about the product |
-| Uppercase tracked micro-labels | Yes, on most labels | Kept in ONE place with a reason: the label half of a header block's label-and-value pair, as on a printed form. Never as an eyebrow over a headline |
+| Uppercase tracked micro-labels | Yes, on most labels | Go. The one place they were kept (variant b's header block) went with variant b at the rollout (2026-11-17, round 3). Never as an eyebrow over a headline |
 | Monospace furniture on a non-code product | Yes (Geist Mono on labels, breadcrumbs, the 404) | Goes |
 | Stat banner, gradients, gradient text, three icon cards, emoji icons | No | Stay out |
 
-## What P3 builds (plan, not built)
+## What shipped
 
-Three first-screen variants from different composition families, behind one flag:
+Round 2 built three first-screen variants from different composition families behind one flag. **A** (the instrument is the hero: the ten-channel strip fills the first screen under a slim header line) was picked: first blind (`docs/design-pass-2026-11-17/blind-pick.md`), then on the review page. **B** (one dominant object) and **C** (the editorial column) were removed at the rollout (2026-11-17, round 3), along with their CSS, copy and preview routes.
 
-- **A. The instrument is the hero.** The ten-channel strip fills the first screen; the headline is set as the sheet's header block.
-- **B. One dominant object.** One cycle's trace against its record, large, under one searched question, with the other nine as an index.
-- **C. The editorial column.** A reading column that states the argument, with the strip as its figure.
-
-**Flag:** build-time environment variable `NEXT_PUBLIC_DESIGN_PASS_VARIANT` (`a`, `b` or `c`; `src/lib/designPass.ts`). The `NEXT_PUBLIC_` prefix is there because the error screen is a client component and reads the same switch. Unset means today's site, and it stays unset on Render. **Rollback:** leave it unset; no data, route or stored state depends on it. A second build-time variable, `DESIGN_PASS_PREVIEW=1`, is for local framing only: it prerenders `/design-pass/a`, `/b` and `/c`; without it those addresses are 404s.
+**Flag:** build-time environment variable `NEXT_PUBLIC_DESIGN_PASS_VARIANT=a` (`src/lib/designPass.ts`; any other value, including `b` or `c`, reads as unset). The `NEXT_PUBLIC_` prefix is there because the error screen is a client component and reads the same switch. It is inlined at build time, so changing it needs a redeploy. **Rollback:** unset it on Render and redeploy. No data, route or stored state depends on it. The `DESIGN_PASS_PREVIEW` switch and the `/design-pass/*` routes no longer exist, so `docs/design-pass-2026-11-17/run-variants.mjs` is a record of round 2 and no longer runs.
 
 **What the flag does not touch:** the chart itself (`Viz` and everything inside it). The new faces apply only to the home masthead, the cycle page's header and verdict box, the 404 and the error screen, so the phone glance caption, height label and verdict line keep today's face, size and words.
 
@@ -101,5 +97,5 @@ Three first-screen variants from different composition families, behind one flag
 - The verdict words come from `src/lib/holdsUp.ts` and are not restyled into a stronger claim. No sentence says a test ran.
 - On a claim page the verdict box stays whole on the first phone screen and comes before the curve (I-053, I-047).
 - The phone home first screen keeps its caption, its height label and its verdict line as they are until I-077 and I-078 are read (due 2026-11-19: round 0, then a Codex claims pass on the fact list, then the words). The home page's second-screen line "set by the theorists or by this site" does not move or shrink without re-reading I-075's close note.
-- **This lane's variant stays OFF until those reads are done, even after David's pick.**
+- I-077 and I-078 change the phone home first screen's words AFTER the variant, in their own order. The variant goes live without them because it leaves those words exactly as they were (round 3 P1, manager review a2f23ea8).
 - Prose pages keep their markdown mirrors in step (`public/about.md`, `methods.md`, `colophon.md`); this pass's scope touches none of them.

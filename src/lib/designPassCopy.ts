@@ -38,17 +38,6 @@ export function dpHowChecked(pairedCount: number, cycleCount: number): string {
   return `${paired} of the ${countWord(cycleCount).toLowerCase()} have paired data, and each of those ${paired.toLowerCase()} pages says whether the record its verdict uses is long enough for this site to test the cycle.`;
 }
 
-/**
- * Variant c's second paragraph. Only while NO primary pairing reaches the floor; null
- * otherwise, since the sentence would then be false. "This site requires": the 3.0-period
- * floor is the site's own rule. It does not reuse the home page's "pre-registered spectral
- * test" sentence, which set this high on the page read as a test having a gate of its own.
- */
-export function dpNoneCovers(eligiblePrimary: number, totalPrimary: number): string | null {
-  if (eligiblePrimary !== 0 || totalPrimary === 0) return null;
-  return `None of the ${countWord(totalPrimary).toLowerCase()} primary records covers the 3.0 full periods this site requires before testing.`;
-}
-
 /** The one accent-coloured action on the first screen; goes to /cycles. */
 export const DP_CTA = "Check a cycle against its record";
 

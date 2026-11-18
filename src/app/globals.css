@@ -148,16 +148,6 @@ body {
 .dp-text {
   font-family: var(--dp-text);
 }
-/* The label half of a header block's label-and-value pair, as on a printed form. The one
-   place tracked capitals stay (DESIGN.md, "The tells"). */
-.dp-label {
-  font-family: var(--dp-display);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
 /* The first screen's one accent-coloured action. Ink on amber in both colour schemes. */
 .dp-cta {
   display: inline-flex;
