@@ -277,6 +277,16 @@ body {
   font-style: normal;
   font-weight: 600;
 }
+/* Source and licence prose that the markup sets in `.font-mono` (the series card's Source /
+   License values, the footer's cycle source). Some of it runs to a paragraph (Turchin's
+   pre-1913 provenance), which `[data-dp] .font-mono` would set in the condensed display face.
+   It reads as text, so it takes the text face; the "Source" / "License" terms stay display. */
+[data-dp] #does-it-hold-up ~ * dl.font-mono dd,
+[data-dp] #does-it-hold-up ~ footer p.font-mono {
+  font-family: var(--dp-text);
+  font-weight: 400;
+  font-feature-settings: normal;
+}
 
 /* Selection style matches the editorial palette. */
 ::selection {
