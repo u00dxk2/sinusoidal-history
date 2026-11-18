@@ -18,13 +18,14 @@ export default function GlobalError({
         Something broke in this view.
       </h1>
       <p className="mt-4 text-foreground/70 max-w-md mx-auto">
-        Most likely a CSV failed to load. The cycles themselves still draw
-        without data — try reloading, or head back to the{" "}
+        {/* It names no cause: a failed data file is handled inside the chart and never
+            reaches this screen, so no single cause can be stated from here (I-087). */}
+        This view could not be displayed. Try it again, or go back to the{" "}
         <Link
           href="/"
           className="underline underline-offset-2 hover:text-foreground"
         >
-          overlay
+          chart
         </Link>
         .
       </p>
