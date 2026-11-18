@@ -1,0 +1,10 @@
+# read-output sidecar for I-085 — written by check-due-gates-dispositioned --run
+# readCommand: npm --prefix C:/dev/skylark/sinusoidal-cycles ls next
+# ran: 2026-11-18T17:26:22.727Z · exit: 0
+# lines: 4 · sha256: 74ec798192c38306 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+sinusoidal-cycles@0.1.0 C:\dev\skylark\sinusoidal-cycles
+├── next@16.4.5
+└─┬ nuqs@2.8.9
+  └── next@16.4.5 deduped
