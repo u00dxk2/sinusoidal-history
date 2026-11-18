@@ -25,7 +25,8 @@ const step = args[0];
 // before-local  the SAME local build path as `after`, with the flag off: the like-for-like
 //               partner of `after` for a side-by-side review
 // after         the local build with the selected variant's flag on
-if (step !== "before" && step !== "before-local" && step !== "after") {
+// live          production after the rollout turned the flag on (round 3)
+if (step !== "before" && step !== "before-local" && step !== "after" && step !== "live") {
   console.error("usage: capture-frames.mjs <before|after> [--base <origin>] [--query <string>]");
   process.exit(2);
 }

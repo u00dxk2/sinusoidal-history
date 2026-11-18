@@ -2,6 +2,10 @@
 
 ## BLUF
 
+**Round 3 (overnight), P3: the redesign is live on sinusoidalhistory.com, and switching it off has been tested once.** A visitor now sees the recorder-sheet first screen: the headline "Ten long-wave theories of history on one time axis.", one amber button "Check a cycle against its record", and the ten cycles drawn on one ruled sheet on desktop. The new faces are on `/cycles`, the cycle pages, `/about`, `/colophon`, the 404 and the error screen. The error screen no longer names a false cause. Production folds read 13 of 13 at 320x568, 360x560 and 390x664. `docs/SCREENS.md` counts DONE 7, NEXT 6, HOLD 1, N/A 7. `/methods` kept its old faces, because the new ones pushed its first screen 7px below the 360x560 fold. Frames: `docs/design-pass-2026-11-17/live/`.
+
+**Round 3 (overnight), P1: the plan is to put variant a live tonight, fix the false error sentence first, and inventory every screen.** David chose the redesign on all 23 pairs (per the rollout brief). Nothing a visitor sees has changed yet. The branch still merges onto main with no conflict. The two dated reads that watch the phone first screen were taken early: I-077's fold read is 13 of 13 with `/` at 12px spare; I-078's search command is stale (0 lines, because the code moved). I-077 and I-078 come after the variant rather than being folded in. The packet is under Recommendation, and it waits for the manager review before P3.
+
 **Round 2, product work: three first screens are built behind a flag that is off, and variant a was picked blind.** On branch `design-pass-2026-11-17` (44f93f5), not merged. A blind Codex judge preferred the ten-channel recorder sheet over both other variants in both orders. Its after frames and like-for-like before frames (one local build path, flag on and off, one run) are in `docs/design-pass-2026-11-17/`. With the flag off a fresh build shows no design-pass element, requests no design-pass font, and answers 404 at the preview address. The phone caption, height label and verdict line read the same in every variant (9 of 9), so the 11-19 reads on I-077 and I-078 still judge those words alone. Nothing a visitor sees has changed. Waiting on David's pick.
 
 **Round 2 (afternoon), the design and copy pass: P1 is done and nothing a visitor sees has changed.** Eight before frames from production are committed (`docs/design-pass-2026-11-17/before/`), with `docs/PRODUCT.md` and `docs/DESIGN.md`. The direction is the ten-channel chart-recorder strip, set in IBM Plex Sans Condensed and IBM Plex Serif. Every product fact in the proposed copy comes from a 120-line fact list that Codex judged before any words were written (97 held, 22 were narrowed, 1 could not be proved). Two findings for the review: the strongest headline states the 0-of-9 result and needs its own claims pass, and the live error screen names a cause ("Most likely a CSV failed to load") that source shows is false. P3 builds three variants behind a flag that stays off, and this lane's variant stays off until I-077 and I-078 are read on 11-19 even after David's pick. The round-2 packet is under Recommendation.
@@ -13,6 +17,21 @@
 **The I-075 re-walk ran and came back AMBIGUOUS again.** A fresh walker at 390x664 on production (f5eb87d6) said "I can't tell for sure, but I lean towards 'this website'", citing "SITE'S PEAKS · NO CYCLE CONFIRMED". This is the same shape as 11-13. Per the row's own note, I-075 takes its recorded-decision path at the close, with both walks as the reason. Section 0 is clean: CI green on f5eb87d65a, deploy in sync.
 
 ## What changed
+
+### Round 3, the overnight rollout: product work
+
+Kind: deliver built value (I-087), plus one fix to a false live sentence. Manager review a2f23ea8: APPROVE, with four conditions (answered below).
+
+1. **Error sentence, unflagged (step 1.1).** 5678033, plus 202d75a narrowing a code comment after Codex's LOW finding. Live text: "This view could not be displayed. Try it again, or go back to the chart." It replaced "Most likely a CSV failed to load. The cycles themselves still draw without data". Codex claims pass: S1 to S3 HOLD; the removed claim REFUTED (`useCsvSeries.ts:29`). Production: the new sentence is in 1 of 12 chunks, the old one in 0.
+2. **Variant a only (step 4 before merge).** b and c, `dpNoneCovers`, `.dp-label`, the compact sheet, `/design-pass/[variant]` and `DESIGN_PASS_PREVIEW` removed. The switch reads `a` only. Codex r1 on 237aaba found the sheet's verdict line broader than the data (see findings), so it was cut from the sheet. JSX spaces and the image label fixed in 008dae9. Codex r2 on the delta: no defects. PR #1, CI green on 008dae9b33, merged as 9b80814 with the flag off. A live GET with the flag off showed today's page.
+3. **Detectors (step 1.2).** One heavy-gate run, local `next build` flag off and on, `/` and `/cycles/dalio` at 1280 and 390: 39 findings flag off, 30 flag on. Every flag-on finding has a flag-off twin (11px text, line length, axis-label contrast), so the variant adds none.
+4. **Manager conditions.** (1) CONFIRMED in part: with the flag off the HTML names no Plex file and carries 0 Plex preloads of 4, but the one stylesheet carries the Plex `@font-face` rules (module-scope import). (2) robots and sitemap have a row in SCREENS.md. (3) A plain signed-out GET shows `data-design-variant="a"`; `/design-pass/a|b|c` each 404; 0 removed-variant strings in 12 chunks. (4) The Render write was not refused.
+5. **Flip.** `render-put-secret.mjs --from-literal a` (verified: true), then `--deploy-latest`; ON at the third 30-second poll. **Rollback tested once:** literal `off` plus a redeploy brought back the old h1 and old 404 at the third poll; `a` again → ON.
+6. **Batch 2 (step 6).** `/cycles`, `/about` and `/colophon` get `data-dp` under the flag, faces only, no words, so the mirrors are unchanged. Codex review: flag-off markup byte-identical; fold risk named. The flag-on fold read put `/methods` 7px below the fold at 360x560, so `/methods` was dropped (af97804). PR #2, CI green on af97804621, merged as 571a31a, live 571a31ae.
+7. **Production proof (one heavy-gate admit, `run-live-proof.mjs`).** Frames 8 of 8 in `docs/design-pass-2026-11-17/live/` (home, `/cycles/dalio`, the empty state and the 404, at 1440x900 and 390x844). Production folds 13 of 13 at all three sizes. `/` spare: 49px at 320x568 (12 before). `/cycles`: 30px (7 before). `/cycles/perez` sits at exactly 0px at 320x568.
+8. **The low-memory reap (~23:10 MT)** stopped the waker rungs and the first re-queued check. Free memory was 22.1 GB; the rungs were relaunched under the standing go-ahead and the check re-queued once (status d5238798).
+
+USER-VISIBLE: the recorder-sheet first screen (variant a) and the design pass's faces on /cycles, the cycle pages, /about, /colophon, the 404 and the error screen — 9b80814 [proof: signed-out GET of https://sinusoidalhistory.com/ went from h1 "Ten cycles, one axis." with no data-design-variant to h1 "Ten long-wave theories of history on one time axis." with data-design-variant="a", after NEXT_PUBLIC_DESIGN_PASS_VARIANT=a was set on Render and redeployed; live 571a31ae per check-deployed-sha-drift; production folds 13 of 13 at 320x568, 360x560 and 390x664] [coverage: Search Console page-only impressions · last good read 2026-11-16 · founder+test excluded no] [exposure: blind — no client analytics by standing choice; Search Console cannot see a visitor meet a first screen · bug row I-087]
 
 ### Round 2, the design and copy pass: product work
 
@@ -210,6 +229,70 @@ Round 2, the design and copy pass (kickoff 988c345c). This P1 is the brief's ste
   - (b) owed child rows: none — read the kickoff's "rows owed to you in skylark-site's ledger: 0 of 850 considered".
   - (c) state reads marked CROSSED: 1. "board cards carrying David's word: 3" (21ece8d9, 2cf09a9d, 3784317b): all skylark-site cards, unchanged since first surfaced, none names this lane (`answered-cards`: 0 lane cards, 0 new). Disposition: read.
 
+### P1 selection packet (round 3, the overnight rollout)
+
+[P1 — Evidence and choice]
+
+Round 3 (overnight rollout, kickoff 7331fdc1), rail day 2026-11-17. Brief: `C:/dev/skylark/skylark-site/docs/specs/design-rollout-brief-2026-11-17.md`. This P1 covers steps 1 and 2, plus the plan for steps 3 to 6. Nothing is committed, and nothing a visitor sees has changed.
+
+- **Outcome:** variant a (the ten-channel recorder sheet) goes live on sinusoidalhistory.com, and every other screen is either moved into the same system or listed in `docs/SCREENS.md` as DONE, NEXT or HOLD. Item: I-087. Kind: deliver built value.
+- **David's pick (the lead's source, not re-read by me):** the brief records 23 of 23 pairs going to the redesign (read back 21:21 MT), and quotes his go at about 21:30 MT. This discharges the round's "no visitor change without David's pick" rule for variant a only.
+- **Merge-tree, read now (I-087's own command):** `git merge-tree --write-tree origin/main origin/design-pass-2026-11-17` returned one tree id, `b2f5b276…`, with no conflict. The branch is 44 files: +1271 −8.
+
+**Step 1: fix before anything turns on**
+1. **The error screen** (`src/app/error.tsx` on main, live and not behind the flag) says "Most likely a CSV failed to load. The cycles themselves still draw without data — try reloading, or head back to the overlay." That cause is false: a failed CSV is caught inside the chart. The fix is unflagged, word for word: "This view could not be displayed. Try it again, or go back to the chart." It ships on main ahead of the variant, after a Codex claims pass. Acceptance: the claims pass HOLDS, and the built HTML/JS carries the new sentence and not the old one.
+2. **The 30 detector findings on variant a:** run `check-design-detectors` on a flag-off build (heavy-gate). A finding that also appears flag-off is pre-existing and gets named. A finding that is new is fixed before the flag turns on.
+
+**Step 2: dated reads that watch a changed screen.** The variant moves the phone caption, the height label and the verdict line up the home first screen, without changing their words (9 of 9 SAME on 11-17).
+- **I-077, read early at 21:50 MT because the variant goes live tonight. Window: 2026-11-12 (626ce16, the label) to now.** Through heavy-gate (admitted after 1m55s): `check-entry-folds https://sinusoidalhistory.com --width 320 --height 568` gave "OK: 13 of 13 entry-page legs answer on the first screen", with `/` at 12px spare, unchanged from 11-12. The row's real closeWhen is a cold walker asked what a hump's height means. No walker has been asked that since 11-12, so that leg is **UNREADABLE-EARLY, n=0**. Re-baseline: from tonight, the row's next read is the variant's own (local flag-on build: `/` 49px spare at 320x568, 11-17).
+- **I-078, read early at 21:46 MT.** Its readCommand, `git grep -n "glanceCaption(verdictLine)" -- src/components/CycleOverview.tsx`, returned **0 lines**. That zero is a broken pattern, not a fix. The I-075 change replaced the call with `{glanceCaption(verdictLine, peaksMoved)}` at `CycleOverview.tsx:121`. The caption now says "Peaks chosen · no cycle confirmed" when a reader has moved a peak (pinned in `overviewReading.test.ts:37`). The verdict line at `:165-170` still states the stored verdicts. The row's question stays open. Re-point the readCommand to the new call, and re-baseline on the variant.
+- **I-077 and I-078 come after the variant; they are not folded into it tonight.** Both change the words on the phone first screen, and their order binds: round 0, then a Codex claims pass on the fact list, then the words (manager ack 9342c348). The screen David picked leaves those words exactly as live. Folding them in would ship words he did not see and that no claims pass has read. They keep 11-19 and judge the variant from then on.
+- Not affected: I-071 and I-085 (11-18), I-086 (11-24), W-007 (11-28).
+
+**Plan for steps 3 to 6 (P3).** Each batch goes through the step-3 gates: a Codex claims pass on visitor sentences, a cross-family diff review (read-only, banner workdir checked), CI green, then a live signed-out GET. Builds and captures go one at a time through heavy-gate.
+- **Batch 0, main, unflagged:** the error sentence (step 1.1), then the flag-off detector run (step 1.2).
+- **Batch 1, the variant (branch `design-pass-2026-11-17`):** narrow the switch to `a | off`. Delete b, c and their copy and CSS, the `/design-pass/[variant]` preview route and `DESIGN_PASS_PREVIEW`, plus any font that only b or c used (step 4, done before merge so nothing unrendered ships). Rebase onto main after batch 0, which resolves the `error.tsx` overlap. Then a claims pass on every variant-a sentence, Codex diff review, a pull request with CI green, and a merge with the flag OFF. A signed-out GET must show today's page. Then set `NEXT_PUBLIC_DESIGN_PASS_VARIANT=a` on Render (build-time, so it needs a redeploy). A signed-out GET must show the variant. Commit frames of the live first screen at 1440 and 390. Rollback is tested once: unset the flag, redeploy, see the old page back, set it again. **Risk:** the Render env write may be refused by the classifier. If so, I hand David the exact refused item and do not reroute it on my own, and the merged code stays flag-off.
+- **Batch 2, most-seen next:** `/cycles` (22 of 46 impressions, 10-31..11-14), then the cycle pages below the verdict box. That means tokens, type and spacing only, with no word changes beyond what passed the claims pass.
+- **Batch 3:** `/about`, `/methods`, `/colophon`, styling only. If a word changes, its `public/*.md` mirror changes in the same commit.
+- **Step 5:** a new `docs/SCREENS.md`, built from the router and then walked. Rows: home, `/cycles`, the 10 `/cycles/<slug>`, `/about`, `/methods`, `/colophon`, `/embed`, `/embed/docs`, `/poster`, the `/og` share image, the 404, the error screen, the markdown mirrors, `llms.txt` and the `/api/v1/*` responses (not screens, listed as not applicable). The site has no sign-in, payment, account or email screens.
+- **Expected tonight:** DONE for home, the cycle-page header and verdict, 404, error and the empty state, plus whatever batches 2 and 3 pass. NEXT, dated, for embed, poster and the `/og` card (changing a share image changes every existing link's preview). HOLD for nothing known yet. The flag itself is removed once the variant has been live for a few days (NEXT, dated in SCREENS.md).
+
+**Evidence**
+- OBSERVED · CI `check-ci-status --workflow ci.yml` → "GREEN — 1 completed non-scheduled success(es) for HEAD" on ee5759af6e. Drift `--service sinusoidal-history` → "in-sync live ee5759af → head ee5759af".
+- OBSERVED · production fold read, 21:50 MT, 13 entry pages at 320x568 (above).
+- OBSERVED · source on main ee5759a: `error.tsx:21-22`, `CycleOverview.tsx:121,165-170` (files read at that tree, not touched by it). [linter-report]
+- OBSERVED · branch 44f93f5: `src/lib/designPass.ts` (the switch is build-time `NEXT_PUBLIC_`, a | b | c, unset = today; file read at that tree). [linter-report]
+- HYPOTHESIS · reader and job (`docs/evangelism-bar.md`, metricReady: false; the bar reads UNMEASURED).
+- MISSING · any real reader's words. `docs/evangelism-evidence.md` and `docs/key-metrics.json` do not exist.
+
+**Status**
+- **Permission:** lane-owned pages. David's go covers variant a and carrying the system to the other screens. The site has no auth, payment or data screens. A word change on a prose page keeps its mirror in sync (AGENTS.md).
+- **Next action, the first P3 command (after review):**
+
+  ```
+  node C:/dev/skylark/skylark-site/scripts/codex-probe.mjs --if-stale
+  ```
+
+  Then the batch 0 edit of `src/app/error.tsx` and its claims-pass prompt.
+- **Acceptance:** a signed-out GET of `https://sinusoidalhistory.com/` serves variant a (a design-pass marker element present, the Plex fonts requested). The live error sentence is the new one. Frames at 1440 and 390 are committed. Rollback has been tested once. `docs/SCREENS.md` exists with DONE, NEXT and HOLD counts, and every route in `src/app` has a row.
+- **Delivery and encounter checks:** the delivery read is a live GET plus `check-entry-folds` at 320x568 on production after the flip. The encounter is blind (the site has no client analytics by choice). The first Search Console page read after the flip, `scripts/gsc-read.mjs`, can only show impressions and clicks, not a reaction.
+- **USER-FACING: yes.** Paths: `src/app/error.tsx`, `src/app/not-found.tsx`, `src/app/layout.tsx`, `src/app/globals.css`, `src/app/(app)/page.tsx`, `src/app/(app)/cycles/[id]/page.tsx`, `src/app/(app)/cycles/page.tsx`, `src/app/(app)/{about,methods,colophon}/page.tsx` (plus `public/{about,methods,colophon}.md` if words change), `src/components/DesignPassMasthead.tsx`, `src/lib/designPass*.ts`, `src/fonts/*`, the Render env `NEXT_PUBLIC_DESIGN_PASS_VARIANT`, `docs/SCREENS.md`.
+- **Section 0:** Listener 🟢: SSE hello 04:37:29Z, and the loop is armed by tool call with waker rungs 1 to 3 running. Codex: GREEN, from the kickoff probe at 04:40Z (execute and write). Harness: this pane's own build was not separated out; fleet SKEW (25 panes on 2.1.327, 2 on 2.1.326); installed 2.1.327. Dated gates: `--print` reads "0 gate(s) due on/before 2026-11-17". No new `--snapshot`: round 1's morning snapshot stands. Recs from round 2's close: David's pick (done, see the brief), the 11-19 reads (handled above), and a pull request with a merge-tree read (merge-tree taken; the PR is batch 1).
+- **Recurred prior-day finding:** none bears on the choice. The npm-install stall (11-16, still on discipline) may recur at any local `npm install`; the primer names the route around it.
+
+**HYGIENE INPUTS**
+- (a) Due rows not bearing on the choice: none. Read: `check-due-gates-dispositioned --print` (0 due) and the kickoff's "dated gates due today: 0".
+- (b) Owed child rows: none. Read: the kickoff's "rows owed to you in skylark-site's ledger: 0 of 850 considered".
+- (c) State reads marked CROSSED: 1. "board cards carrying David's word: 3" (21ece8d9, 2cf09a9d, 3784317b). All three are skylark-site cards, unchanged since they were first surfaced, and none names this lane (`answered-cards`: 0 lane cards, 0 new). Disposition: read.
+
+<!-- findings:begin -->
+**Round 3 P3 findings (Codex r1 on 237aaba, gpt-6.2-sol, read-only, banner workdir `C:\dev\skylark\sinusoidal-cycles-dp` matched).** These are pre-existing live sentences the claims pass refuted. The variant does not add them anywhere new.
+- **For I-078 (11-19):** the live glance verdict line "None is confirmed: nine cannot be tested on the record that exists, and Turchin (50y) has no data series on this site." is broader than the data. The nine PRIMARY records fall short of the floor, but re-paired records were eligible and tested (for example Dalio × V-Dem, 3.15 periods, `public/data/spectral/verdicts.json:627`). Codex's narrower sentence: "None is confirmed. All nine primary verdict records fall short of the testing threshold, and Turchin (50y) has no paired series." Tonight it is cut from the desktop sheet and left as it is on the phone figure, for the 11-19 words round (round 0 first).
+- **For I-078 (11-19):** the empty state's standalone "Not tested" (`NO_SERIES_HEADLINE`, live on `/cycles/turchin-fathers-sons`) is too broad. Five secondary tests ran at that period. Codex's narrower sentence: "No primary test was run for this cycle."
+- **Disposition DELIBERATE:** the empty-state licence sentence (UNVERIFIABLE-HERE upstream) is narrowed from the cycle's own stored caveat in `cycles.json`, which is the site's record.
+- **NEXT 2026-11-24:** dark-mode contrast. Eight of ten cycle colours draw below 3:1 against the dark sheet (Kondratiev 1.60:1). The ten colours are the site's existing data ink, also used by the live chart.
+- **Manager condition 1, measured:** CONFIRMED in part. The flag-off build's CSS carries the Plex `@font-face` rules, because `layout.tsx` imports the fonts module at module scope and gates only the class names. `preload: false`, and round 2 measured 0 Plex requests flag-off. `run-rollout.mjs` reads the HTML and CSS count.
+<!-- findings:end -->
 ## State Appendix
 
 **/cycles, production f5eb87d6, the two split entries** (`tmp/i083-cycles.txt`):
