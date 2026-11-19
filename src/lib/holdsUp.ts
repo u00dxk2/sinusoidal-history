@@ -7,6 +7,7 @@
 // No primary verdict is eligible today, so no sentence here may say a test ran (I-028's guard
 // reads the card text and its alt; src/lib/testedSeries.test.ts).
 
+import { cycles as storedCycles } from "@/data/cycles";
 import type { Cycle } from "@/data/types";
 import { ogMainStandfirst } from "@/lib/countWords";
 import { seriesForCycle } from "@/lib/cycleRoutes";
@@ -35,6 +36,38 @@ export const NOT_TESTABLE_HEADLINE = "Not testable on its paired record";
 export const NO_SERIES_HEADLINE = "No paired data series";
 export const NO_SERIES_REASON =
   "this site pairs no data series with this cycle, so it gives the cycle no verdict.";
+
+/**
+ * I-078 (2026-11-19). The stored period of the cycle a surface draws, or null for an id this site
+ * does not carry. The verdicts are frozen at these periods.
+ */
+export function storedPeriod(cycle: Cycle): number | null {
+  return storedCycles.find((c) => c.id === cycle.id)?.period_years ?? null;
+}
+
+/** True while a drawn cycle's period differs from its stored one (a reader's calibration). */
+export function periodChanged(cycle: Cycle): boolean {
+  const stored = storedPeriod(cycle);
+  return stored !== null && stored !== cycle.period_years;
+}
+
+/**
+ * The headline as a surface that DRAWS `cycle` shows it. Every verdict is frozen at the stored
+ * period, and eligibility turns on the period (span / period >= 3.0): Codex (r2 on 885435a)
+ * reproduced Perez at 52 years, where HATCH covers 3.04 periods, beside "Not testable on its
+ * paired record". So a drawn period that differs from the stored one names the period the verdict
+ * is for. A moved peak changes nothing: the test fits sine and cosine at 1/P with no peak year
+ * (scripts/spectral_verdict.py). The no-series headline holds at any period, so it is unchanged.
+ * One rule for every drawing surface (facets, summary rows, embeds, spoken overview rows), compared
+ * by id, instead of a calibration flag threaded through each (Codex found the sibling surfaces in
+ * round 2, which is the second appearance of this defect class).
+ */
+export function shownHeadline(cycle: Cycle): string | null {
+  const card = holdsUpCard(cycle);
+  if (!card) return null;
+  if (card.headline === NO_SERIES_HEADLINE || !periodChanged(cycle)) return card.headline;
+  return `${card.headline} at this site's ${storedPeriod(cycle)}-year period`;
+}
 
 /** "Tested — <state label>" for an eligible verdict. */
 export function testedHeadline(verdict: SpectralVerdictRow): string {

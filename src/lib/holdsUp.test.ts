@@ -53,9 +53,15 @@ describe("I-032: the share card carries the page's verdict", () => {
     // the sentence there; the others run on into a dash clause). The unpaired box joins its
     // headline with a full stop under the design-pass flag (page.tsx dpEmpty), so either joint
     // passes there; the nine paired boxes keep the dash in both variants (I-078, 2026-11-19).
+    // Whole sentences, not joints (Codex r2 on 885435a: a joint check passed any continuation).
     if (row?.eligible) expect(box).toContain(`${card.headline}.`);
-    else if (row) expect(box).toContain(`${card.headline} — `);
-    else expect([`${card.headline} — `, `${card.headline}. `].some((j) => box.includes(j)), box).toBe(true);
+    else if (row) expect(box).toContain(`${card.headline} — and that is the finding, not a dodge.`);
+    else {
+      const flagOff = "No paired data series — this site pairs no data series with this cycle, so it gives the cycle no verdict.";
+      const flagOn =
+        "No paired data series. Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
+      expect([flagOff, flagOn].filter((s) => box.includes(s)), box).toHaveLength(1);
+    }
 
     if (!row) {
       expect(seriesForCycle(cycle)).toBeUndefined();

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Cycle } from "@/data/types";
-import { holdsUpCard } from "@/lib/holdsUp";
+import { shownHeadline } from "@/lib/holdsUp";
 
 // The verdict panel. It was "State of the cycles" with this month's dateline
 // and an "annual permalink →" to /state/<year> until I-061 (David
@@ -35,7 +35,7 @@ function bylineName(name: string): string {
  * its published 700px frame (check-embed-snippets).
  */
 function RowBody({ cycle }: { cycle: Cycle }) {
-  const verdict = holdsUpCard(cycle)?.headline;
+  const verdict = shownHeadline(cycle);
   return (
     <span className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-baseline sm:gap-3">
       <span className="flex items-baseline gap-2 min-w-0 sm:flex-1">
@@ -99,7 +99,7 @@ export default function NowSummaryPanel({
 
       <ul className="px-2 sm:px-4 py-3 grid grid-cols-1 lg:grid-cols-2 gap-x-2 gap-y-0">
         {cycles.map((cycle, idx) => {
-          const verdict = holdsUpCard(cycle)?.headline;
+          const verdict = shownHeadline(cycle);
           if (!interactive) {
             return (
               <li key={cycle.id}>

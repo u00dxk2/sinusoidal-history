@@ -403,7 +403,7 @@ export default function CyclesIndex() {
             (cold walk 2026-10-02 r1, finding 2), so the sentence counts them. */}
         <p className="text-[16px] leading-[1.55] text-ink">
           {spectralHeadline.eligible_primary === 0
-            ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each of the ${spectralHeadline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
+            ? `None of the ${spectralHeadline.total_primary} pairings reaches this site's three-period rule yet. Each of the ${spectralHeadline.total_primary} records below is shorter than three full periods of its cycle; here is how far short.`
             : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories ${spectralHeadline.eligible_primary === 1 ? "has" : "have"} a record long enough to test.`}
           {unpairedCount === 1
             ? " One cycle has no paired series, so it has no verdict."

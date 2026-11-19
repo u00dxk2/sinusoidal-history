@@ -6,7 +6,7 @@ import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
-import { holdsUpCard } from "@/lib/holdsUp";
+import { holdsUpCard, shownHeadline } from "@/lib/holdsUp";
 import { periodSideOutside, pointsSideOutside } from "@/lib/cycleMath";
 import { facetOutsideWords, outsideWindowWords } from "@/lib/overviewReading";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
@@ -337,7 +337,7 @@ function HoldsUpLine({
           <>
             {label}
             <span className="underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors">
-              <span data-holds-up-headline>{card.headline}</span> →
+              <span data-holds-up-headline>{shownHeadline(cycle)}</span> →
             </span>
           </>
         )}
@@ -350,7 +350,7 @@ function HoldsUpLine({
       <p className="flex flex-wrap items-baseline gap-x-2">
         {label}
         <span data-holds-up-headline className="text-[15px] font-medium text-ink">
-          {card.headline}
+          {shownHeadline(cycle)}
         </span>
       </p>
       <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">
@@ -382,7 +382,7 @@ function ClosedVerdict({ cycle }: { cycle: Cycle }) {
       <span className="uppercase tracking-[0.18em] text-[11px] font-medium text-ink-soft/80">
         Does it hold up?
       </span>
-      <span>{card.headline}</span>
+      <span>{shownHeadline(cycle)}</span>
     </p>
   );
 }

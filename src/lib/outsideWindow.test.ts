@@ -263,7 +263,7 @@ describe("CycleOverview wires the word into the row (source check)", () => {
   const src = readFileSync(resolve(__dirname, "../components/CycleOverview.tsx"), "utf8");
   it("derives the side with periodSideOutside and speaks and shows it", () => {
     expect(src).toMatch(/periodSideOutside\(\s*cycle,\s*startYear,\s*endYear/);
-    expect(src).toContain("overviewRowReading(cycle, outside, periodChanged)");
+    expect(src).toContain("overviewRowReading(cycle, outside)");
     expect(src).toContain("outsideWindowWords(outside)");
     expect(src).toContain("data-outside-window");
   });

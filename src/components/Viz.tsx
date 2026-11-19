@@ -22,7 +22,7 @@ import {
   formatRange,
 } from "@/lib/urlState";
 import { DEFAULT_YEAR_RANGE } from "@/lib/siteConfig";
-import { glanceClusterLine, peaksMoved, periodsChanged } from "@/lib/overviewReading";
+import { glanceClusterLine, peaksMoved } from "@/lib/overviewReading";
 
 interface VizProps {
   cycles: Cycle[];
@@ -104,10 +104,6 @@ export default function Viz({
       }),
     [cycles, overrides]
   );
-  const changedPeriods = useMemo(
-    () => periodsChanged(cycles, effectiveCycles),
-    [cycles, effectiveCycles]
-  );
   const clusterLine = useMemo(
     () => glanceClusterLine(cycles, effectiveCycles, range),
     [cycles, effectiveCycles, range]
@@ -165,7 +161,6 @@ export default function Viz({
             detailBelow={tab === "facets"}
             onSelect={handleSelectCycleFromSummary}
             peaksMoved={peaksMoved(cycles, effectiveCycles)}
-            changedPeriods={changedPeriods}
           />
         </div>
         {/* I-066 (2026-10-25): the strip used to follow the ten facet rows, so on a

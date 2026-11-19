@@ -176,16 +176,19 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
     expect(text).not.toBeNull();
     const period = verdicts.cross_grid.filter((c) => c.period_source_cycle_id === "turchin_fathers_sons");
     expect(period).toHaveLength(5);
-    expect(text).toContain(`set its 50-year period against ${period.length} records paired with other theories:`);
     for (const c of period) {
       expect(c.p).toBeGreaterThanOrEqual(0.05);
       expect(c.p_ar2).toBeGreaterThanOrEqual(0.05);
+      expect(c.period_years).toBe(50);
     }
-    expect(text).toContain(`(lowest p ${Math.min(...period.map((c) => c.p!)).toFixed(3)})`);
-    expect(text).toContain(`None of these ${period.length} reached p < 0.05 under either noise model, and none is a test of this cycle.`);
-    // It never claims this cycle was tested, and it is not the paired pages' paragraph.
-    expect(text).not.toContain("This pairing");
-    expect(page).toMatch(/<a [^>]*href="\/methods#cross-grid"[^>]*>/);
+    // The whole paragraph, exactly (Codex r2 on 885435a: substring checks let a wrong or missing
+    // record name, or extra prose, pass). Names are the five series as listed on /methods.
+    expect(text).toBe(
+      "Separately, this site's cross-grid panel set its 50-year period against 5 records paired with other theories: US Liberal Democracy Index (V-Dem), Deaths in conventional wars (Project Mars, log), US Technology-Diffusion Intensity (HATCH), US Share of World GDP and Leading Economy's Share of World GDP (lowest p 0.137). None of these 5 reached p < 0.05 under either noise model, and none is a test of this cycle. All 19 re-pairings, cell by cell →",
+    );
+    expect(Math.min(...period.map((c) => c.p!)).toFixed(3)).toBe("0.137");
+    // Its own link, inside the paragraph.
+    expect(page).toMatch(/<p data-cross-grid[^>]*>[\s\S]*?<a [^>]*href="\/methods#cross-grid"[^>]*>[\s\S]*?<\/a>\s*<\/p>/);
   });
 
   it("/methods has the anchor the pages link to, on the cells", () => {

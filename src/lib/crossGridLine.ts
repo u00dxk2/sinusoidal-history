@@ -97,9 +97,12 @@ export function unpairedPeriodSentence(cycleId: string): string | null {
   const cycle = cycles.find((c) => c.id === cycleId);
   const period = spectralCrossGrid.filter((c) => c.period_source_cycle_id === cycleId);
   if (!cycle || period.length === 0) return null;
+  // The frozen cells carry their own period: print that, and refuse if cycles.json has moved
+  // away from it (Codex r2 on 885435a: a 51-year cycle would have relabelled 50-year results).
+  if (period.some((c) => c.period_years !== cycle.period_years)) return null;
   if (period.some((c) => c.p === null || c.p_ar2 === null || c.p < 0.05 || c.p_ar2 < 0.05)) return null;
   const n = period.length;
-  return `Separately, this site's cross-grid panel set its ${cycle.period_years}-year period against ${n} ${n === 1 ? "record" : "records"} paired with other theories: ${andList(period.map((c) => seriesName(c.series_id)))} (lowest p ${lowestP(period)}). ${n === 1 ? "It did not reach" : `None of these ${n} reached`} p < 0.05 under either noise model, and ${n === 1 ? "it is not" : "none is"} a test of this cycle.`;
+  return `Separately, this site's cross-grid panel set its ${period[0].period_years}-year period against ${n} ${n === 1 ? "record" : "records"} paired with other theories: ${andList(period.map((c) => seriesName(c.series_id)))} (lowest p ${lowestP(period)}). ${n === 1 ? "It did not reach" : `None of these ${n} reached`} p < 0.05 under either noise model, and ${n === 1 ? "it is not" : "none is"} a test of this cycle.`;
 }
 
 export const CROSS_GRID_ANCHOR = "cross-grid";

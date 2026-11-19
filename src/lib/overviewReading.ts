@@ -1,7 +1,13 @@
 import type { Cycle } from "@/data/types";
 import { countWord, countWordLower } from "./countWords";
 import { cycleTheorist } from "./cycleRoutes";
-import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsUp";
+import {
+  holdsUpCard,
+  NO_SERIES_HEADLINE,
+  NOT_TESTABLE_HEADLINE,
+  periodChanged,
+  shownHeadline,
+} from "./holdsUp";
 
 /**
  * The glance figure's VISIBLE verdict (I-048): the 10-15 walk read a dot on Dalio's crest at the
@@ -11,12 +17,13 @@ import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsU
  * cycle's headline is anything else (a verdict that was tested, or no card): "none is confirmed"
  * would then be a claim this rule cannot state.
  */
-export function glanceVerdictLine(cycles: Cycle[], periodChanged = false): string | null {
+export function glanceVerdictLine(cycles: Cycle[]): string | null {
   const line = glanceVerdictFromHeadlines(
     cycles.map((c) => holdsUpCard(c)?.headline),
     cycles.map(cycleTheorist),
   );
-  return line && periodChanged ? GLANCE_VERDICT_CALIBRATED : line;
+  // I-078: the figure draws the reader's calibration, so a changed period scopes the line.
+  return line && cycles.some(periodChanged) ? GLANCE_VERDICT_CALIBRATED : line;
 }
 
 /**
@@ -131,7 +138,9 @@ export function glanceCaption(verdictLine: string | null, moved: boolean): strin
   // "no cycle", not "none" (Codex r1): beside "Peaks chosen", "none confirmed" read as "none of
   // the peaks", and the verdict is about cycles. Both peak words are 12 characters, so each
   // caption is 33: 283.1px of the 288px box at 320 in this monospace face.
-  if (!verdictLine) return "Theory shapes, not findings";
+  // I-078 (Codex r2 on 885435a): with a changed period the caption, read first, would state a
+  // verdict before the line below scopes it, so it drops the verdict like an empty line does.
+  if (!verdictLine || verdictLine === GLANCE_VERDICT_CALIBRATED) return "Theory shapes, not findings";
   return moved ? "Peaks chosen · no cycle confirmed" : "Site's peaks · no cycle confirmed";
 }
 
@@ -166,22 +175,11 @@ export function glanceVerdictFromHeadlines(
 }
 
 /**
- * I-078 (2026-11-19). The spectral test asks whether a series has power AT A PERIOD; it uses no
- * peak year (sine and cosine at the target period, public/data/spectral/spectral.source.md). So a
- * moved peak leaves every stored verdict the right reading, while a changed period does not: the
- * count above would then speak for periods the reader is no longer looking at. Ids whose drawn
- * period differs from the stored one; a drawn list that does not line up counts every id.
+ * I-078 (2026-11-19). The verdict line once any drawn period differs from its stored one
+ * (holdsUp periodChanged): it scopes the stored verdicts, and counts nothing. The test asks whether
+ * a series has power AT A PERIOD and uses no peak year, so a moved peak leaves the counted line
+ * the right reading; a changed period does not.
  */
-export function periodsChanged(stored: Cycle[], drawn: Cycle[]): ReadonlySet<string> {
-  if (stored.length !== drawn.length || stored.some((c, i) => drawn[i].id !== c.id)) {
-    return new Set(drawn.map((c) => c.id));
-  }
-  return new Set(
-    stored.flatMap((c, i) => (drawn[i].period_years !== c.period_years ? [c.id] : [])),
-  );
-}
-
-/** The verdict line once any period is changed: it scopes the stored verdicts, and counts nothing. */
 export const GLANCE_VERDICT_CALIBRATED =
   "None is confirmed. These verdicts are for this site's own periods, not the periods you set.";
 
@@ -201,14 +199,11 @@ export const GLANCE_VERDICT_CALIBRATED =
 export function overviewRowReading(
   cycle: Cycle,
   outside: "before" | "after" | null = null,
-  periodChanged = false,
 ): string {
-  const card = holdsUpCard(cycle);
-  // I-078: a row drawn at a period the reader set says whose period its verdict is for, since
-  // the spoken period just before it is the reader's (Codex, round 0 claims pass Q7).
-  const verdict = card
-    ? ` ${card.headline}${periodChanged && card.headline !== NO_SERIES_HEADLINE ? ", for this site's own period, not this one" : ""}.`
-    : "";
+  // I-078: shownHeadline names the stored period when the row draws another one, since the
+  // spoken period just before it is then the reader's (Codex, round 0 claims pass Q7).
+  const headline = shownHeadline(cycle);
+  const verdict = headline ? ` ${headline}.` : "";
   const where = outside
     ? ` None of its wave is drawn in these years; it ${
         outside === "after" ? "starts at or after their end" : "ends at or before their start"

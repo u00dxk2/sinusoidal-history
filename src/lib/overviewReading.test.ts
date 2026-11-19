@@ -16,11 +16,19 @@ import {
   GLANCE_VERDICT_CALIBRATED,
   overviewRowReading,
   peaksMoved,
-  periodsChanged,
 } from "@/lib/overviewReading";
-import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "@/lib/holdsUp";
+import {
+  holdsUpCard,
+  NO_SERIES_HEADLINE,
+  NOT_TESTABLE_HEADLINE,
+  periodChanged,
+  shownHeadline,
+} from "@/lib/holdsUp";
 import { cycleTheorist } from "@/lib/cycleRoutes";
 import { readFileSync } from "node:fs";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import CycleOverview from "@/components/CycleOverview";
 
 // I-063 (2026-11-03): the caption is the figure's one first-screen line on every phone. It says
 // the peaks were chosen beside I-048's verdict, and it must stay one line at 320px: 33 characters,
@@ -164,20 +172,16 @@ describe("glanceVerdictLine", () => {
   // width; a font change voids it (re-measure, see overviewReading.ts).
   it("fits the measured two-line budget at 390x664, stored or calibrated", () => {
     expect(glanceVerdictLine(cycles)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
-    expect(glanceVerdictLine(cycles, true)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
+    expect(GLANCE_VERDICT_CALIBRATED.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
   });
 
   // Codex r1 on 91fa65e: the assertions above call the function, so a figure that rendered other
   // text would still pass. Pin that the figure computes this line and paints it in its verdict
-  // paragraph. Ceiling: a source pin, not a render; the production in-page read is the proof.
-  it("is what the figure renders, told by the chart whether a period was changed", () => {
+  // paragraph. Ceiling: a source pin; the rendered cases are in "the rendered figure" below.
+  it("is what the figure renders", () => {
     const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
-    expect(src).toMatch(/glanceVerdictLine\(cycles, changedPeriods\.size > 0\)/);
+    expect(src).toMatch(/const verdictLine = useMemo\(\(\) => glanceVerdictLine\(cycles\), \[cycles\]\);/);
     expect(src).toMatch(/data-glance-verdict[\s\S]{0,200}?>\s*\{verdictLine\}\s*<\/p>/);
-    expect(src).toMatch(/overviewRowReading\(cycle, outside, periodChanged\)/);
-    const viz = readFileSync(new URL("../components/Viz.tsx", import.meta.url), "utf8");
-    expect(viz).toMatch(/periodsChanged\(cycles, effectiveCycles\)/);
-    expect(viz).toMatch(/changedPeriods=\{changedPeriods\}/);
   });
 
   it("drops a clause whose count is zero", () => {
@@ -217,58 +221,85 @@ describe("glanceVerdictLine", () => {
       "None is confirmed: one pairing falls short of this site's three-period rule, and Y has no paired series.",
     );
   });
+});
 
-  // I-078 closeWhen: "On a calibrated chart the caption/verdict either says it speaks for the
-  // stored cycles (or drops the verdict), pinned by a test". The test uses no peak year, so only a
-  // changed period scopes the line; a moved peak leaves the stored count the right reading.
-  it("says the verdicts are for the stored periods once any period is changed, and counts nothing", () => {
-    expect(glanceVerdictLine(cycles, true)).toBe(
+// I-078 closeWhen: "On a calibrated chart the caption/verdict either says it speaks for the stored
+// cycles (or drops the verdict), pinned by a test". The test fits sine and cosine at 1/P and uses
+// no peak year, so only a changed PERIOD scopes; a moved peak leaves the stored reading right.
+describe("a calibrated chart (I-078)", () => {
+  const perez = cycles.find((c) => c.id === "perez")!;
+  const at = (id: string, patch: Partial<(typeof cycles)[number]>) =>
+    cycles.map((c) => (c.id === id ? { ...c, ...patch } : c));
+  const periodOnly = at("perez", { period_years: 52 });
+  const peakOnly = at("perez", { reference_peak_year: perez.reference_peak_year + 4 });
+  const both = at("perez", { period_years: 52, reference_peak_year: perez.reference_peak_year + 4 });
+  const reset = at("perez", { period_years: perez.period_years });
+
+  it("Codex's case is real: at 52 years Perez's paired record clears the 3.0-period gate", () => {
+    const row = JSON.parse(
+      readFileSync(new URL("../../public/data/spectral/verdicts.json", import.meta.url), "utf8"),
+    ).primary.find((r: { cycle_id: string }) => r.cycle_id === "perez");
+    expect(row.span_years / perez.period_years).toBeLessThan(3);
+    expect(row.span_years / 52).toBeGreaterThanOrEqual(3);
+  });
+
+  it("the line scopes the stored verdicts on a changed period, and only then", () => {
+    expect(glanceVerdictLine(periodOnly)).toBe(
       "None is confirmed. These verdicts are for this site's own periods, not the periods you set.",
     );
-    expect(glanceVerdictLine(cycles, true)).toBe(GLANCE_VERDICT_CALIBRATED);
-    // The caption still holds over the scoped line ("no cycle confirmed" is true at any period).
-    expect(glanceCaption(glanceVerdictLine(cycles, true), false)).toBe("Site's peaks · no cycle confirmed");
-  });
-});
-
-describe("periodsChanged (I-078)", () => {
-  it("is empty for the stored cycles, and for a moved peak alone", () => {
-    expect(periodsChanged(cycles, cycles).size).toBe(0);
-    const peakMoved = cycles.map((c) => ({ ...c, reference_peak_year: c.reference_peak_year + 3 }));
-    expect(periodsChanged(cycles, peakMoved).size).toBe(0);
+    expect(glanceVerdictLine(both)).toBe(GLANCE_VERDICT_CALIBRATED);
+    expect(glanceVerdictLine(peakOnly)).toBe(glanceVerdictLine(cycles));
+    expect(glanceVerdictLine(reset)).toBe(glanceVerdictLine(cycles));
   });
 
-  it("names exactly the ids whose period differs, and none once a period is set back", () => {
-    for (let i = 0; i < cycles.length; i++) {
-      const changed = cycles.map((c, j) => (j === i ? { ...c, period_years: c.period_years + 1 } : c));
-      expect([...periodsChanged(cycles, changed)], cycles[i].id).toEqual([cycles[i].id]);
-      const back = changed.map((c, j) => (j === i ? { ...c, period_years: cycles[i].period_years } : c));
-      expect(periodsChanged(cycles, back).size, cycles[i].id).toBe(0);
-    }
+  it("the caption drops its verdict on a changed period, and keeps it for a moved peak", () => {
+    expect(glanceCaption(glanceVerdictLine(periodOnly), peaksMoved(cycles, periodOnly))).toBe("Theory shapes, not findings");
+    expect(glanceCaption(glanceVerdictLine(both), peaksMoved(cycles, both))).toBe("Theory shapes, not findings");
+    expect(glanceCaption(glanceVerdictLine(peakOnly), peaksMoved(cycles, peakOnly))).toBe("Peaks chosen · no cycle confirmed");
+    expect(glanceCaption(glanceVerdictLine(reset), peaksMoved(cycles, reset))).toBe("Site's peaks · no cycle confirmed");
   });
 
-  it("counts every drawn id when the lists do not line up", () => {
-    expect(periodsChanged(cycles, cycles.slice(1)).size).toBe(cycles.length - 1);
-    const swapped = [...cycles];
-    [swapped[0], swapped[1]] = [swapped[1], swapped[0]];
-    expect(periodsChanged(cycles, swapped).size).toBe(cycles.length);
-  });
-});
-
-describe("overviewRowReading on a changed period (I-078)", () => {
-  it("says whose period a verdict row's verdict is for, and only then", () => {
-    const paired = cycles.find((c) => holdsUpCard(c)?.headline === NOT_TESTABLE_HEADLINE)!;
-    expect(overviewRowReading(paired)).toContain(` ${NOT_TESTABLE_HEADLINE}.`);
-    expect(overviewRowReading(paired)).not.toContain("own period");
-    expect(overviewRowReading({ ...paired, period_years: 20 }, null, true)).toContain(
-      ` ${NOT_TESTABLE_HEADLINE}, for this site's own period, not this one.`,
-    );
-  });
-
-  it("adds nothing to the cycle with no paired series, which has no verdict to scope", () => {
+  it("a drawn headline names the stored period on a changed period, and only on a paired cycle", () => {
+    const drawn = periodOnly.find((c) => c.id === "perez")!;
+    expect(periodChanged(drawn)).toBe(true);
+    expect(shownHeadline(drawn)).toBe("Not testable on its paired record at this site's 55-year period");
+    expect(shownHeadline(peakOnly.find((c) => c.id === "perez")!)).toBe(NOT_TESTABLE_HEADLINE);
     const unpaired = cycles.find((c) => holdsUpCard(c)?.headline === NO_SERIES_HEADLINE)!;
-    expect(overviewRowReading(unpaired, null, true)).toContain(` ${NO_SERIES_HEADLINE}.`);
-    expect(overviewRowReading(unpaired, null, true)).not.toContain("own period");
+    expect(shownHeadline({ ...unpaired, period_years: unpaired.period_years + 7 })).toBe(NO_SERIES_HEADLINE);
+  });
+
+  it("a spoken row says whose period its verdict is for", () => {
+    expect(overviewRowReading(periodOnly.find((c) => c.id === "perez")!)).toBe(
+      " (52-year cycle). Not testable on its paired record at this site's 55-year period.",
+    );
+    expect(overviewRowReading(perez)).toBe(` (55-year cycle). ${NOT_TESTABLE_HEADLINE}.`);
+  });
+
+  // The rendered figure, not the helpers: what a reader sees and hears from CycleOverview itself
+  // for each state (Codex r2: the helper assertions passed with the wiring broken).
+  it("the rendered figure", () => {
+    const render = (drawn: typeof cycles, moved: boolean) =>
+      renderToStaticMarkup(
+        createElement(CycleOverview, {
+          cycles: drawn,
+          startYear: 1600,
+          endYear: 2050,
+          detailBelow: false,
+          onSelect: () => {},
+          peaksMoved: moved,
+        }),
+      ).replace(/&#x27;/g, "'");
+    const stored = render(cycles, false);
+    expect(stored).toContain(">Site's peaks · no cycle confirmed<");
+    expect(stored).toContain(`>${glanceVerdictLine(cycles)}<`);
+    const changed = render(periodOnly, false);
+    expect(changed).toContain(">Theory shapes, not findings<");
+    expect(changed).toContain(`>${GLANCE_VERDICT_CALIBRATED}<`);
+    expect(changed).toContain("Not testable on its paired record at this site's 55-year period.");
+    const moved = render(peakOnly, true);
+    expect(moved).toContain(">Peaks chosen · no cycle confirmed<");
+    expect(moved).toContain(`>${glanceVerdictLine(cycles)}<`);
+    expect(moved).not.toContain("at this site's");
   });
 });
 
