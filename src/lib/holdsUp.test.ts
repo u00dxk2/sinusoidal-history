@@ -67,7 +67,9 @@ describe("I-032: the share card carries the page's verdict", () => {
       const html = renderToStaticMarkup(
         (await CyclePage({ params: Promise.resolve({ id: slug }) })) as Parameters<typeof renderToStaticMarkup>[0],
       ).replace(/<!-- -->/g, "").replace(/&#x27;/g, "'");
-      const first = html.match(/<section id="does-it-hold-up"[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/);
+      // Bounded to the box (Codex r4: an unbounded match crossed </section>).
+      const section = html.match(/<section id="does-it-hold-up"[\s\S]*?<\/section>/)?.[0] ?? "";
+      const first = section.match(/<p[^>]*>((?:(?!<\/p>)[\s\S])*)<\/p>/);
       expect(first?.[1]).toBe(expected);
     }
 

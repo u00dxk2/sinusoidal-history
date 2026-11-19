@@ -189,7 +189,8 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
     expect(Math.min(...period.map((c) => c.p!)).toFixed(3)).toBe("0.137");
     // Exactly one such paragraph, and its own link inside it (Codex r3: a regex that could
     // cross </p> passed a wrong link followed by an unrelated right one).
-    const marked = page.match(/<p data-cross-grid[^>]*>(?:(?!<\/p>)[\s\S])*<\/p>/g) ?? [];
+    // Any attribute order (Codex r4: `<p class="…" data-cross-grid>` escaped the count).
+    const marked = page.match(/<p\b[^>]*\bdata-cross-grid\b[^>]*>(?:(?!<\/p>)[\s\S])*<\/p>/g) ?? [];
     expect(marked).toHaveLength(1);
     expect(marked[0]).toMatch(/<a [^>]*href="\/methods#cross-grid"[^>]*>All 19 re-pairings, cell by cell →<\/a>\s*<\/p>$/);
   });
