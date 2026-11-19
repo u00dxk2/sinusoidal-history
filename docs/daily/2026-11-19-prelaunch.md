@@ -98,3 +98,43 @@ The order held: round 0, then a Codex claims pass on the fact list, then the wor
 
 - Kickoff body: verified (sha256 60feab65…, 43844 bytes).
 - Due-gates snapshot: `tmp/due-gates-snapshot.json`, 2 due (I-077, I-078).
+
+### Close
+
+ACTION: COMPLETED · item I-078 (with I-077's question) · P3 e08b4447. The acceptance in force (the P1 packet's, confirmed by the manager review 7b930dd3 as COMPLETED) is met: the verdict words say only what the record supports, live at 44cb739, and the pre-registered walk HELD both rows.
+
+- **Since the P3 post:** the manager re-ran `run-i078.mjs --live` itself; all four checkers exit 0. Live is now 368952a3, a docs-only descendant of 44cb739.
+- **THE ONE THING, the licence sentence (manager review):** Codex judged it UNVERIFIABLE-HERE twice (r2, r3). "Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it." was given no disposition in P3. At the close the source was read:
+  - `curl -sL https://peterturchin.com/age-of-discord/united-states-political-violence-database/` now redirects to `/research/structural-demographic-theory/age-of-discord-ii`, a server-rendered page titled "Age of Discord II".
+  - Its HTML carries no `.xlsx`, no `USPVD`, no "Political Violence Database" and no "download". The positive control: the page's title and content did match.
+  - Searched space: those two pages only.
+  - The 2026-08-24 fact-check saw USPVD2010.xlsx on the old page.
+  - So DELIBERATE no longer holds. **Disposition: NARROW, dated 2026-11-24**, on every surface carrying the claim (about seven: the flag-on box, the cycles.json caveat feeding the cycle page, `/api/v1/cycles` and about.md, /methods and methods.md, /cycles), through the same gates. Minted **I-088**. The live sentence is unchanged at a close.
+- **Layout bar, named:** after the pre-deploy result, a925cc5 moved the runner's verdict-line bar at 360x560 and 320x568 from "at most 2 lines" to "no more than production's pre-change three". The bar was set after the reading. It rests on the pre-change line read on production before the deploy (`prod-verdict-lines.mjs`, through heavy-gate): 2 lines at 390x664 (y 579-615), 3 at 360x560 and 3 at 320x568 (y 547-601). The new line reads the same at all three.
+- **Ledger delta:** I-077 closed, I-078 closed (walk HELD, notes carry the evidence). I-088 minted (nextEvaluation 2026-11-24).
+- **Hygiene draft:** 0 lines (0 accepted · 0 amended · 0 rejected). READ-MUTATED: none. `check-wait-justification`: PASS, 34 of 95 rows carry waitJustification, 0 warn. `check-engineering-zero --project sinusoidal-cycles`: PASS, waived by W-007 (Dependabot #62 until 2026-11-28).
+- **Due gates:** `check-due-gates-dispositioned` reads "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-19).
+- **SCREENS.md:** DONE 8 · NEXT 6 · HOLD 0 · N/A 7 · UNREACHED 0 (21 rows). Moved today: the home chart, HOLD → NEXT 2026-11-24. No row moved to DONE.
+- **Heavy-gate waits (`%LOCALAPPDATA%\heavy-gate\events.jsonl`):**
+
+  | Job | Waited | Held |
+  | --- | --- | --- |
+  | P1 fold read | 8m25s | 43s |
+  | P3 runner | 40m22s | 13m34s |
+  | Production line read | 23m41s | 10s |
+  | Live runner | 24m00s | 4m56s |
+  | Walk | 4m40s | 18s |
+  | **Total** | **≈101 min** | **≈19.5 min** |
+
+  **What cost the most time today:** the heavy-gate queue, ≈101 minutes of waiting. Second: four Codex rounds, each ~10-15 minutes. The calibrated-scope class took r2 and r3 to reach every surface.
+- **Pending reads, each dated:**
+  - I-088 narrow, 2026-11-24.
+  - I-087 NEXT batch including the home chart's faces, 2026-11-24.
+  - The I-078 encounter is blind (no visitor instrument; bug row I-087), and the outcome is open.
+  - Search Console page-only on `/` and `/cycles/*`: `gsc-read.mjs --start 2026-11-19`, readable around 2026-11-24.
+- **Carried LOWs, each dated 2026-11-24, with I-088's pass:**
+  - a significant or null p would drop the unpaired paragraph whole (`crossGridLine.ts` unpairedPeriodSentence);
+  - /cycles and VerdictTable infer "no pairing" from a missing verdict row;
+  - `check-open-card-position`'s oracle is a substring match;
+  - the walker's "failed or couldn't be tried?" and its unexplained terms.
+- **Receipt:** P3's still holds. No bracket changed.

@@ -2641,6 +2641,22 @@
       "created": "2026-11-17",
       "updated": "2026-11-18",
       "lastEvaluated": "2026-11-18"
+    },
+    {
+      "id": "I-088",
+      "title": "\"Turchin posts the underlying database\" is a present-tense claim the source page no longer shows",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-19",
+      "description": "Codex judged the fathers-and-sons licence sentence UNVERIFIABLE-HERE · SUPPLIED twice (r2 on 885435a, r3 on 811be28; docs/claims/). The sentence: DP_NO_SERIES_REASON 'Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.' The manager review (7b930dd3) asked for a disposition. The read at the 2026-11-19 close went further than unverifiable. curl -sL https://peterturchin.com/age-of-discord/united-states-political-violence-database/ now redirects to /research/structural-demographic-theory/age-of-discord-ii, an SSR page titled 'Age of Discord II'. Its HTML carries no '.xlsx', no 'USPVD', no 'Political Violence Database' and no 'download'. The 2026-08-24 fact-check (docs/fact-check-2026-08-24-round-5.md:14) verified USPVD2010.xlsx live on the old page. So the present tense is unverified and may now be false. Searched space: those two pages only. Other locations on his site were not searched. The same claim is served on about seven surfaces: src/lib/designPassCopy.ts:66 (flag-on box, live), src/data/cycles.json:128 caveat (cycle page, /api/v1/cycles, about.md:155), public/methods.md:205 and src/app/(app)/methods/page.tsx:450, src/app/(app)/cycles/page.tsx:84 and :179.",
+      "closeWhen": "Every surface that says Turchin posts the database either states a dated fact (Codex r2's narrower sentence: 'At the August 2026 check, Turchin posted the database and the project found no explicit reuse licence on the download page, so this site does not redistribute it.') or a re-verified current location, shipped through round 0, a Codex claims pass, CI, deploy and a signed-out GET; mirrors move together.",
+      "nextEvaluation": "2026-11-24",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -e \"Turchin posts the underlying\" -e \"is posted on his site\" -- src public — the surfaces still carrying the present-tense claim; 0 lines once narrowed",
+      "notes": "2026-11-19 (P5): minted at the close as the disposition of the licence sentence (manager review 7b930dd3: 'DELIBERATE with the reason, or narrowed to the dated sentence and shipped through the same gates'). DELIBERATE no longer holds after today's read, so the disposition is NARROW, dated 2026-11-24 with I-087's batch, because it is outward copy on six or more surfaces and goes through the same gates. Until then the live sentence stands as it has since 2026-08-24; not changed at a close.",
+      "created": "2026-11-19",
+      "updated": "2026-11-19"
     }
   ],
   "knownPatterns": [
