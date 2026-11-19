@@ -42,7 +42,13 @@ export const NO_SERIES_REASON =
  * does not carry. The verdicts are frozen at these periods.
  */
 export function storedPeriod(cycle: Cycle): number | null {
-  return storedCycles.find((c) => c.id === cycle.id)?.period_years ?? null;
+  // The frozen verdict row's own period first (Codex r3: if cycles.json ever moved away from it,
+  // the catalogue period would no longer be the one the verdict was judged at).
+  return (
+    spectralVerdictForCycle(cycle.id)?.period_years ??
+    storedCycles.find((c) => c.id === cycle.id)?.period_years ??
+    null
+  );
 }
 
 /** True while a drawn cycle's period differs from its stored one (a reader's calibration). */
@@ -67,6 +73,18 @@ export function shownHeadline(cycle: Cycle): string | null {
   if (!card) return null;
   if (card.headline === NO_SERIES_HEADLINE || !periodChanged(cycle)) return card.headline;
   return `${card.headline} at this site's ${storedPeriod(cycle)}-year period`;
+}
+
+/**
+ * The card's detail as a drawing surface shows it: its coverage number is at the stored period,
+ * so on a changed period it says so (Codex r3 reproduced "covers 2.9 of the 3.0" beside a
+ * 52-year Perez, where the record covers 3.04).
+ */
+export function shownDetail(cycle: Cycle): string | null {
+  const card = holdsUpCard(cycle);
+  if (!card) return null;
+  if (card.headline === NO_SERIES_HEADLINE || !periodChanged(cycle)) return card.detail;
+  return `${card.detail.replace(/\.$/, "")}, at this site's ${storedPeriod(cycle)}-year period.`;
 }
 
 /** "Tested — <state label>" for an eligible verdict. */

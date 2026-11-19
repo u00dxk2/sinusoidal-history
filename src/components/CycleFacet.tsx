@@ -6,7 +6,7 @@ import { line as d3Line, curveCatmullRom, curveMonotoneX } from "d3-shape";
 import { scaleLinear } from "d3-scale";
 import type { Cycle, DataSeries } from "@/data/types";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
-import { holdsUpCard, shownHeadline } from "@/lib/holdsUp";
+import { holdsUpCard, shownDetail, shownHeadline } from "@/lib/holdsUp";
 import { periodSideOutside, pointsSideOutside } from "@/lib/cycleMath";
 import { facetOutsideWords, outsideWindowWords } from "@/lib/overviewReading";
 import { normalizeSeries, pearsonCorrelation } from "@/lib/seriesMath";
@@ -130,7 +130,9 @@ export default function CycleFacet({
           below on purpose: the unpaired cycle says "No paired data series" too. */}
       {(mode === "expanded" || verdictLine) && (
         <HoldsUpLine
-          cycle={cycle}
+          // The DRAWN cycle (I-078, Codex r3): the verdict lines scope themselves to the
+          // stored period only if they can see the reader's one. Same id, so the link holds.
+          cycle={effective}
           newTab={readOnly}
           compact={mode !== "expanded"}
         />
@@ -140,7 +142,7 @@ export default function CycleFacet({
           read the closed card as confirmation with nothing beside it saying
           the cycle is untested. Plain text, not a link, so the card keeps one
           tap target; the single-cycle embed carries its own compact line. */}
-      {mode === "normal" && !verdictLine && <ClosedVerdict cycle={cycle} />}
+      {mode === "normal" && !verdictLine && <ClosedVerdict cycle={effective} />}
 
       {/* No phase word and no now-line anywhere on a card (I-061, David
           2026-10-21): the curve is at most one period around the stored peak, and no
@@ -354,7 +356,7 @@ function HoldsUpLine({
         </span>
       </p>
       <p className="mt-0.5 text-[13px] leading-snug text-ink-soft">
-        <span data-holds-up-why>{card.detail}</span>{" "}
+        <span data-holds-up-why>{shownDetail(cycle)}</span>{" "}
         {/* Inline padding, not min-h-11: an inline-flex 44px box opened a gap
             in the middle of the reason sentence. py-[13px] makes a ~45px tap box
             with no layout cost (the I-015 /cycles header link). */}

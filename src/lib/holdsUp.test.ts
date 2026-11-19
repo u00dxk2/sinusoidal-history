@@ -20,6 +20,7 @@ import {
   MAIN_CARD_EYEBROW,
 } from "@/lib/holdsUp";
 import { testedSeriesNote } from "@/lib/testedSeries";
+import { designVariant } from "@/lib/designPass";
 
 type Row = { cycle_id?: string; series_id: string; cycles_covered: number; eligible: boolean };
 const primary: Row[] = JSON.parse(
@@ -60,7 +61,14 @@ describe("I-032: the share card carries the page's verdict", () => {
       const flagOff = "No paired data series — this site pairs no data series with this cycle, so it gives the cycle no verdict.";
       const flagOn =
         "No paired data series. Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
-      expect([flagOff, flagOn].filter((s) => box.includes(s)), box).toHaveLength(1);
+      // Exactly the variant this run renders (page.tsx: dp = designVariant() !== null), and the
+      // answer paragraph is that sentence and nothing more (Codex r3).
+      const expected = designVariant() !== null ? flagOn : flagOff;
+      const html = renderToStaticMarkup(
+        (await CyclePage({ params: Promise.resolve({ id: slug }) })) as Parameters<typeof renderToStaticMarkup>[0],
+      ).replace(/<!-- -->/g, "").replace(/&#x27;/g, "'");
+      const first = html.match(/<section id="does-it-hold-up"[\s\S]*?<p[^>]*>([\s\S]*?)<\/p>/);
+      expect(first?.[1]).toBe(expected);
     }
 
     if (!row) {

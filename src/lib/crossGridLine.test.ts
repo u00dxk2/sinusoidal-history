@@ -187,8 +187,11 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
       "Separately, this site's cross-grid panel set its 50-year period against 5 records paired with other theories: US Liberal Democracy Index (V-Dem), Deaths in conventional wars (Project Mars, log), US Technology-Diffusion Intensity (HATCH), US Share of World GDP and Leading Economy's Share of World GDP (lowest p 0.137). None of these 5 reached p < 0.05 under either noise model, and none is a test of this cycle. All 19 re-pairings, cell by cell →",
     );
     expect(Math.min(...period.map((c) => c.p!)).toFixed(3)).toBe("0.137");
-    // Its own link, inside the paragraph.
-    expect(page).toMatch(/<p data-cross-grid[^>]*>[\s\S]*?<a [^>]*href="\/methods#cross-grid"[^>]*>[\s\S]*?<\/a>\s*<\/p>/);
+    // Exactly one such paragraph, and its own link inside it (Codex r3: a regex that could
+    // cross </p> passed a wrong link followed by an unrelated right one).
+    const marked = page.match(/<p data-cross-grid[^>]*>(?:(?!<\/p>)[\s\S])*<\/p>/g) ?? [];
+    expect(marked).toHaveLength(1);
+    expect(marked[0]).toMatch(/<a [^>]*href="\/methods#cross-grid"[^>]*>All 19 re-pairings, cell by cell →<\/a>\s*<\/p>$/);
   });
 
   it("/methods has the anchor the pages link to, on the cells", () => {
