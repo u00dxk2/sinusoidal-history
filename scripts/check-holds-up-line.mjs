@@ -8,8 +8,8 @@
 // exactly one [data-holds-up] line, this cycle's, whose every text node is painted, reading
 // EXACTLY "Does it hold up? <headline> →" and linking to /cycles/<slug>#does-it-hold-up.
 // <headline> is a stated rule read from the frozen verdicts.json, sharing no code with the card:
-// no primary row and no paired series → "Not tested"; an ineligible row → "Not testable on the
-// record that exists". Anything else (an eligible row, or a paired series with no row) is a case
+// no primary row and no paired series → "No paired data series"; an ineligible row → "Not
+// testable on its paired record" (both reworded 2026-11-19, I-078). Anything else (an eligible row, or a paired series with no row) is a case
 // this rule does not cover, and the leg REFUSES (UNREAD) rather than guessing. Plus one positive
 // control: /cycles/dalio's own box carries the needle, so a needle that cannot match reads UNREAD.
 // Shape history: Codex r1 showed a wrong headline, an opacity-0 line and a second line would each
@@ -81,8 +81,8 @@ const pairedIds = new Set(seriesList.map((s) => s.associated_cycle_id));
 // The headline a cycle's line must carry, or null where this rule does not decide (refuse).
 function expectedHeadline(id) {
   const row = primary.find((r) => r.cycle_id === id);
-  if (!row) return pairedIds.has(id) ? null : "Not tested";
-  return row.eligible ? null : "Not testable on the record that exists";
+  if (!row) return pairedIds.has(id) ? null : "No paired data series";
+  return row.eligible ? null : "Not testable on its paired record";
 }
 
 // The judged records whose verdict row is not the drawn series, named by hand (an oracle that
@@ -98,7 +98,7 @@ function expectedWhy(id) {
   if (!row) {
     return pairedIds.has(id)
       ? null
-      : "This cycle has no paired data series on this site, so there is no record to test it against.";
+      : "This site pairs no data series with this cycle, so it gives the cycle no verdict.";
   }
   if (row.eligible) return null;
   const covered = `${row.cycles_covered.toFixed(1)} of the 3.0 full periods this site requires before testing.`;
@@ -352,7 +352,7 @@ for (const c of cycles.filter((x) => x.question)) {
     const tag = `${w}x${h} claim ${c.id}`;
     const expected = expectedHeadline(c.id);
     const why = expectedWhy(c.id);
-    if (expected !== "Not testable on the record that exists" || why === null) {
+    if (expected !== "Not testable on its paired record" || why === null) {
       unread++;
       console.log(`UNREAD ${tag} — no stated claim-page rule for this cycle's verdict row; refusing`);
       continue;

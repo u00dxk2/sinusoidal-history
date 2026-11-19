@@ -53,7 +53,7 @@ export const VIEWPORTS = [
 export const PHASE_WORDS = ["rising", "peaking", "falling", "troughing", "crossing"];
 
 // The verdict headlines the panel must carry (src/lib/holdsUp.ts states them; written out here).
-export const VERDICTS = ["Not tested", "Not testable on the record that exists"];
+export const VERDICTS = ["No paired data series", "Not testable on its paired record"];
 
 export function phaseIn(text) {
   return new RegExp(`\\b(${PHASE_WORDS.join("|")})\\b`, "i").test(text);
@@ -119,7 +119,7 @@ function selftest() {
     ["a card with no curve is MISSING", judge(page(card({ drawn: false })), 10).state === "MISSING"],
     ["an empty panel is MISSING, never CLEAN", judge(page(card(), panel({ rows: 0 })), 10).state === "MISSING"],
     ["the phase matcher finds a label as a word, any case", phaseIn("Where the drawn curve sits in 2026: peaking") && phaseIn("PEAKING") && phaseIn("currently rising, select")],
-    ["the phase matcher ignores other words that contain a label", !phaseIn("uprising") && !phaseIn("crossings counted") && !phaseIn("Not testable on the record that exists")],
+    ["the phase matcher ignores other words that contain a label", !phaseIn("uprising") && !phaseIn("crossings counted") && !phaseIn("Not testable on its paired record")],
     ["the year matcher finds a year inside other text", yearIn("now · 2026", "2026") && yearIn("2026", "2026")],
     ["the year matcher ignores a longer number and other years", !yearIn("20260", "2026") && !yearIn("2000", "2026")],
     ["the verdict list holds both headlines no row may lack", VERDICTS.length === 2],

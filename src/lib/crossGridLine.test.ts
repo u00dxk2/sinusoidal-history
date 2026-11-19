@@ -167,8 +167,25 @@ describe("I-041: cycle pages say what the cross-grid did with their period and r
     },
   );
 
-  it("a page with no spectral verdict carries no paragraph", async () => {
-    expect(paragraph(await html("turchin-fathers-sons"))).toBeNull();
+  // Was "carries no paragraph" until I-078 (2026-11-19): Codex's round 0 claims pass found that
+  // this page alone never said the panel had set its period against other theories' records.
+  // The oracle is verdicts.json read off disk, not the helper under test.
+  it("the page with no spectral verdict says what the panel did with its period, and no more", async () => {
+    const page = await html("turchin-fathers-sons");
+    const text = paragraph(page);
+    expect(text).not.toBeNull();
+    const period = verdicts.cross_grid.filter((c) => c.period_source_cycle_id === "turchin_fathers_sons");
+    expect(period).toHaveLength(5);
+    expect(text).toContain(`set its 50-year period against ${period.length} records paired with other theories:`);
+    for (const c of period) {
+      expect(c.p).toBeGreaterThanOrEqual(0.05);
+      expect(c.p_ar2).toBeGreaterThanOrEqual(0.05);
+    }
+    expect(text).toContain(`(lowest p ${Math.min(...period.map((c) => c.p!)).toFixed(3)})`);
+    expect(text).toContain(`None of these ${period.length} reached p < 0.05 under either noise model, and none is a test of this cycle.`);
+    // It never claims this cycle was tested, and it is not the paired pages' paragraph.
+    expect(text).not.toContain("This pairing");
+    expect(page).toMatch(/<a [^>]*href="\/methods#cross-grid"[^>]*>/);
   });
 
   it("/methods has the anchor the pages link to, on the cells", () => {

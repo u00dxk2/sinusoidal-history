@@ -13,7 +13,7 @@
 // ([data-verdict-id]) shows the verdict in words (the state's reader label, not its code),
 // "<P>y period", "<S>y record", "<C> of 3.0 periods" and "needs <N> more years" (or "long
 // enough") — each equal to the JSON, each visible, each wholly inside the viewport and
-// unclipped by any ancestor; each unpaired cycle's entry says "Not tested — no paired series"
+// unclipped by any ancestor; each unpaired cycle's entry says "No verdict — no paired series"
 // with its period; each entry's link shows that cycle's own name, points at that cycle's page,
 // is visible and at least 44px tall; nothing on the page scrolls sideways. At 1440x900 the table
 // shows its 6 headers by name and every row in order, identified by its link's name and href,
@@ -92,7 +92,7 @@ for (const w of want) {
 const unpaired = allCycles
   .filter((c) => !primary.some((v) => v.cycle_id === c.id))
   .map((c) => ({ id: c.id, name: nameOf(c.id), href: pathOf(c.id), period: `${c.period_years}y period`, periodCell: `${c.period_years}y` }));
-const UNTESTED = "Not tested — no paired series";
+const UNTESTED = "No verdict — no paired series";
 const browser = await chromium.launch();
 
 const phones = [

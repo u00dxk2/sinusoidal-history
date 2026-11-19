@@ -153,7 +153,7 @@ const expectedSentence = (rows) => {
     (headline.eligible_primary === 0
       ? `None of the ${headline.total_primary} paired theories can be tested yet. Each of the ${headline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
       : `${headline.eligible_primary} of the ${headline.total_primary} paired theories ${headline.eligible_primary === 1 ? "has" : "have"} a record long enough to test.`) +
-    (unpaired === 1 ? " One cycle has no paired series, so there is nothing to test." : unpaired > 1 ? ` ${unpaired} cycles have no paired series, so there is nothing to test.` : "")
+    (unpaired === 1 ? " One cycle has no paired series, so it has no verdict." : unpaired > 1 ? ` ${unpaired} cycles have no paired series, so they have no verdict.` : "")
   );
 };
 

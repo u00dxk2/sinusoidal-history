@@ -11,11 +11,12 @@ import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "./holdsU
  * cycle's headline is anything else (a verdict that was tested, or no card): "none is confirmed"
  * would then be a claim this rule cannot state.
  */
-export function glanceVerdictLine(cycles: Cycle[]): string | null {
-  return glanceVerdictFromHeadlines(
+export function glanceVerdictLine(cycles: Cycle[], periodChanged = false): string | null {
+  const line = glanceVerdictFromHeadlines(
     cycles.map((c) => holdsUpCard(c)?.headline),
     cycles.map(cycleTheorist),
   );
+  return line && periodChanged ? GLANCE_VERDICT_CALIBRATED : line;
 }
 
 /**
@@ -152,13 +153,37 @@ export function glanceVerdictFromHeadlines(
   const noSeries = heads.flatMap((h, i) => (h === NO_SERIES_HEADLINE ? [names[i]] : []));
   if (heads.length === 0 || untestable + noSeries.length !== heads.length) return null;
   const named = noSeries.length === 1 && noSeries[0] ? noSeries[0] : null;
+  // I-078 (2026-11-19): was "<n> cannot be tested on the record that exists", which Codex refuted
+  // as broader than the data (five of these periods cleared the gate on other cycles' records).
+  // The count is of PAIRINGS, the unit the 3.0-period rule judges (round 0 F11, F26, F29).
   const parts = [
-    untestable && `${countWordLower(untestable)} cannot be tested on the record that exists`,
+    untestable &&
+      `${countWordLower(untestable)} ${untestable === 1 ? "pairing falls" : "pairings fall"} short of this site's three-period rule`,
     noSeries.length &&
-      `${named ?? countWordLower(noSeries.length)} ${noSeries.length === 1 ? "has" : "have"} no data series on this site`,
+      `${named ?? countWordLower(noSeries.length)} ${noSeries.length === 1 ? "has" : "have"} no paired series`,
   ].filter(Boolean);
   return `None is confirmed: ${parts.join(", and ")}.`;
 }
+
+/**
+ * I-078 (2026-11-19). The spectral test asks whether a series has power AT A PERIOD; it uses no
+ * peak year (sine and cosine at the target period, public/data/spectral/spectral.source.md). So a
+ * moved peak leaves every stored verdict the right reading, while a changed period does not: the
+ * count above would then speak for periods the reader is no longer looking at. Ids whose drawn
+ * period differs from the stored one; a drawn list that does not line up counts every id.
+ */
+export function periodsChanged(stored: Cycle[], drawn: Cycle[]): ReadonlySet<string> {
+  if (stored.length !== drawn.length || stored.some((c, i) => drawn[i].id !== c.id)) {
+    return new Set(drawn.map((c) => c.id));
+  }
+  return new Set(
+    stored.flatMap((c, i) => (drawn[i].period_years !== c.period_years ? [c.id] : [])),
+  );
+}
+
+/** The verdict line once any period is changed: it scopes the stored verdicts, and counts nothing. */
+export const GLANCE_VERDICT_CALIBRATED =
+  "None is confirmed. These verdicts are for this site's own periods, not the periods you set.";
 
 /**
  * The sr-only sentence that follows a row's visible name. Leads with a space:
@@ -176,9 +201,14 @@ export function glanceVerdictFromHeadlines(
 export function overviewRowReading(
   cycle: Cycle,
   outside: "before" | "after" | null = null,
+  periodChanged = false,
 ): string {
   const card = holdsUpCard(cycle);
-  const verdict = card ? ` ${card.headline}.` : "";
+  // I-078: a row drawn at a period the reader set says whose period its verdict is for, since
+  // the spoken period just before it is the reader's (Codex, round 0 claims pass Q7).
+  const verdict = card
+    ? ` ${card.headline}${periodChanged && card.headline !== NO_SERIES_HEADLINE ? ", for this site's own period, not this one" : ""}.`
+    : "";
   const where = outside
     ? ` None of its wave is drawn in these years; it ${
         outside === "after" ? "starts at or after their end" : "ends at or before their start"

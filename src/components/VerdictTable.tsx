@@ -75,7 +75,7 @@ export default function VerdictTable() {
               {cycleTheorist(cycle)}
             </Link>
             <p className="text-[14px] italic text-ink-soft">
-              <span data-field="untested">Not tested — no paired series</span>
+              <span data-field="untested">No verdict — no paired series</span>
               {" · "}
               <span data-field="period" className="whitespace-nowrap not-italic font-mono text-[12px] tabular-nums">
                 {`${cycle.period_years}y period`}
@@ -153,7 +153,7 @@ export default function VerdictTable() {
                   {`${cycle.period_years}y`}
                 </td>
                 <td colSpan={4} className="py-3 text-[13px] italic text-ink-soft">
-                  Not tested — no paired series
+                  No verdict — no paired series
                 </td>
               </tr>
             ))}

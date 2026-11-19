@@ -123,7 +123,7 @@ describe("/cycles: each entry states its own verdict", () => {
     const unpaired = cycleList.filter((c) => !verdicts.some((v) => v.cycle_id === c.id));
     expect(unpaired.map((c) => c.id)).toEqual(["turchin_fathers_sons"]);
     const text = entryText("turchin_fathers_sons");
-    expect(text).toContain("Not tested: there is no paired record to test it against.");
+    expect(text).toContain("No verdict: this site pairs no data series with this cycle.");
     expect(text).not.toMatch(/too short|Can't be tested/);
   });
 

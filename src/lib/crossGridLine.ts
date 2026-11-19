@@ -84,4 +84,22 @@ export function crossGridSentence(cycleId: string): string | null {
   return parts.join(" ");
 }
 
+/**
+ * I-078 (2026-11-19). A cycle with no paired series has no crossGridSentence (it needs a verdict
+ * row), so until now its page never said that the panel had set its period against other theories'
+ * records (five cells at 50 years for Turchin's fathers-and-sons cycle). Codex, round 0 claims pass
+ * Q3: the full page should acknowledge those checks. Their own words, scoped as the panel scopes
+ * them: a re-pairing, never this cycle's test. Null when the panel holds no cell at this period, or
+ * when any cell reached p < 0.05 under either null, because "none reached" would then be false.
+ */
+export function unpairedPeriodSentence(cycleId: string): string | null {
+  if (spectralVerdictForCycle(cycleId)) return null;
+  const cycle = cycles.find((c) => c.id === cycleId);
+  const period = spectralCrossGrid.filter((c) => c.period_source_cycle_id === cycleId);
+  if (!cycle || period.length === 0) return null;
+  if (period.some((c) => c.p === null || c.p_ar2 === null || c.p < 0.05 || c.p_ar2 < 0.05)) return null;
+  const n = period.length;
+  return `Separately, this site's cross-grid panel set its ${cycle.period_years}-year period against ${n} ${n === 1 ? "record" : "records"} paired with other theories: ${andList(period.map((c) => seriesName(c.series_id)))} (lowest p ${lowestP(period)}). ${n === 1 ? "It did not reach" : `None of these ${n} reached`} p < 0.05 under either noise model, and ${n === 1 ? "it is not" : "none is"} a test of this cycle.`;
+}
+
 export const CROSS_GRID_ANCHOR = "cross-grid";

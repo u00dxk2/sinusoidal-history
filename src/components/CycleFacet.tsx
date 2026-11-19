@@ -127,7 +127,7 @@ export default function CycleFacet({
       {/* Before the legend and the chart (I-047): the 10-14 and 10-15 cold walks
           read "PEAKING" and a curve laid over its data as confirmation before
           they reached the verdict under the chart. Outside the `series` gate
-          below on purpose: the unpaired cycle says "Not tested" too. */}
+          below on purpose: the unpaired cycle says "No paired data series" too. */}
       {(mode === "expanded" || verdictLine) && (
         <HoldsUpLine
           cycle={cycle}

@@ -50,12 +50,17 @@ describe("I-032: the share card carries the page's verdict", () => {
     const row = primary.find((r) => r.cycle_id === cycle.id);
 
     // The card's headline opens the page box's answer sentence (an eligible headline ends
-    // the sentence there; the others run on into a dash clause).
-    expect(box).toContain(row?.eligible ? `${card.headline}.` : `${card.headline} — `);
+    // the sentence there; the others run on into a dash clause). The unpaired box joins its
+    // headline with a full stop under the design-pass flag (page.tsx dpEmpty), so either joint
+    // passes there; the nine paired boxes keep the dash in both variants (I-078, 2026-11-19).
+    if (row?.eligible) expect(box).toContain(`${card.headline}.`);
+    else if (row) expect(box).toContain(`${card.headline} — `);
+    else expect([`${card.headline} — `, `${card.headline}. `].some((j) => box.includes(j)), box).toBe(true);
 
     if (!row) {
       expect(seriesForCycle(cycle)).toBeUndefined();
-      expect(card.detail).toContain("no paired data series");
+      expect(card.headline).toBe("No paired data series");
+      expect(card.detail).toBe("This site pairs no data series with this cycle, so it gives the cycle no verdict.");
       return;
     }
     // The page's one-decimal number, from the raw row, on both surfaces.
@@ -69,7 +74,7 @@ describe("I-032: the share card carries the page's verdict", () => {
     } else {
       expect(box).toContain(n);
     }
-    if (!row.eligible) expect(card.headline).toBe("Not testable on the record that exists");
+    if (!row.eligible) expect(card.headline).toBe("Not testable on its paired record");
 
     // Correction 4: where the judged cut is not the drawn series, the card names the judged
     // record and never credits the number to the drawn one.

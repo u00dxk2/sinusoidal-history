@@ -13,10 +13,12 @@ import {
   glanceClusterLine,
   glanceVerdictFromHeadlines,
   glanceVerdictLine,
+  GLANCE_VERDICT_CALIBRATED,
   overviewRowReading,
   peaksMoved,
+  periodsChanged,
 } from "@/lib/overviewReading";
-import { holdsUpCard, NO_SERIES_HEADLINE } from "@/lib/holdsUp";
+import { holdsUpCard, NO_SERIES_HEADLINE, NOT_TESTABLE_HEADLINE } from "@/lib/holdsUp";
 import { cycleTheorist } from "@/lib/cycleRoutes";
 import { readFileSync } from "node:fs";
 
@@ -136,21 +138,21 @@ describe("glance height label", () => {
 });
 
 // I-048: the glance figure's visible verdict, counted from the cards' headlines.
-// I-076 (2026-11-10): it names the one cycle with no data series, by the name its row shows. The
-// 11-03 walker asked "one has no record on this site: which one?". "Data series", not "record"
-// (round 0): the site does test this cycle's 50-year period against other cycles' records
-// (/methods), so what it lacks is a series of its own, which is NO_SERIES_REASON's own claim.
+// I-076 (2026-11-10): it names the one cycle with no data series, by the name its row shows.
+// I-078 (2026-11-19): it counts PAIRINGS against this site's three-period rule. The old clause,
+// "nine cannot be tested on the record that exists", was refuted by Codex as broader than the
+// data: five of these periods cleared the gate on other cycles' records (the cross-grid panel).
 describe("glanceVerdictLine", () => {
   it("states today's ten in words, counted from the card headlines, naming the one with no series", () => {
     expect(glanceVerdictLine(cycles)).toBe(
-      "None is confirmed: nine cannot be tested on the record that exists, and Turchin (50y) has no data series on this site.",
+      "None is confirmed: nine pairings fall short of this site's three-period rule, and Turchin (50y) has no paired series.",
     );
   });
 
-  it("names exactly the cycle whose card says Not tested, by its row name", () => {
+  it("names exactly the cycle whose card has no paired series, by its row name", () => {
     const noRecord = cycles.filter((c) => holdsUpCard(c)?.headline === NO_SERIES_HEADLINE);
     expect(noRecord).toHaveLength(1);
-    expect(glanceVerdictLine(cycles)).toContain(`, and ${cycleTheorist(noRecord[0])} has no data series on this site.`);
+    expect(glanceVerdictLine(cycles)).toContain(`, and ${cycleTheorist(noRecord[0])} has no paired series.`);
     // Two Turchin cycles share the surname ("Peter Turchin" is the other), so the name must be
     // the row's own, qualifier included.
     expect(cycleTheorist(noRecord[0])).toBe("Turchin (50y)");
@@ -160,23 +162,29 @@ describe("glanceVerdictLine", () => {
   // first-screen size the line sits on) 118 characters held two lines with 33px to spare and 125
   // broke to a third ending at y=674, past the fold. Ceiling: a character count, not a rendered
   // width; a font change voids it (re-measure, see overviewReading.ts).
-  it("fits the measured two-line budget at 390x664", () => {
+  it("fits the measured two-line budget at 390x664, stored or calibrated", () => {
     expect(glanceVerdictLine(cycles)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
+    expect(glanceVerdictLine(cycles, true)!.length).toBeLessThanOrEqual(GLANCE_VERDICT_MAX_CHARS);
   });
 
   // Codex r1 on 91fa65e: the assertions above call the function, so a figure that rendered other
   // text would still pass. Pin that the figure computes this line and paints it in its verdict
   // paragraph. Ceiling: a source pin, not a render; the production in-page read is the proof.
-  it("is what the figure renders", () => {
+  it("is what the figure renders, told by the chart whether a period was changed", () => {
     const src = readFileSync(new URL("../components/CycleOverview.tsx", import.meta.url), "utf8");
-    expect(src).toMatch(/const verdictLine = useMemo\(\(\) => glanceVerdictLine\(cycles\), \[cycles\]\);/);
+    expect(src).toMatch(/glanceVerdictLine\(cycles, changedPeriods\.size > 0\)/);
     expect(src).toMatch(/data-glance-verdict[\s\S]{0,200}?>\s*\{verdictLine\}\s*<\/p>/);
+    expect(src).toMatch(/overviewRowReading\(cycle, outside, periodChanged\)/);
+    const viz = readFileSync(new URL("../components/Viz.tsx", import.meta.url), "utf8");
+    expect(viz).toMatch(/periodsChanged\(cycles, effectiveCycles\)/);
+    expect(viz).toMatch(/changedPeriods=\{changedPeriods\}/);
   });
 
   it("drops a clause whose count is zero", () => {
-    const paired = cycles.filter((c) => holdsUpCard(c)?.headline === "Not testable on the record that exists");
+    const paired = cycles.filter((c) => holdsUpCard(c)?.headline === NOT_TESTABLE_HEADLINE);
+    expect(paired).toHaveLength(9);
     expect(glanceVerdictLine(paired)).toBe(
-      `None is confirmed: nine cannot be tested on the record that exists.`,
+      "None is confirmed: nine pairings fall short of this site's three-period rule.",
     );
   });
 
@@ -190,23 +198,77 @@ describe("glanceVerdictLine", () => {
     expect(glanceVerdictFromHeadlines([])).toBeNull();
   });
 
-  it("agrees in number with a plural no-record clause, and counts rather than names two or more", () => {
-    expect(glanceVerdictFromHeadlines(["Not tested", "Not tested"], ["A", "B"])).toBe(
-      "None is confirmed: two have no data series on this site.",
+  it("agrees in number in both clauses, and counts rather than names two or more", () => {
+    expect(glanceVerdictFromHeadlines([NO_SERIES_HEADLINE, NO_SERIES_HEADLINE], ["A", "B"])).toBe(
+      "None is confirmed: two have no paired series.",
+    );
+    expect(glanceVerdictFromHeadlines([NOT_TESTABLE_HEADLINE])).toBe(
+      "None is confirmed: one pairing falls short of this site's three-period rule.",
     );
   });
 
   it("names one no-series cycle only when its name is given, else counts it", () => {
-    expect(glanceVerdictFromHeadlines(["Not tested"], ["Somebody (9y)"])).toBe(
-      "None is confirmed: Somebody (9y) has no data series on this site.",
+    expect(glanceVerdictFromHeadlines([NO_SERIES_HEADLINE], ["Somebody (9y)"])).toBe(
+      "None is confirmed: Somebody (9y) has no paired series.",
     );
-    expect(glanceVerdictFromHeadlines(["Not tested"])).toBe(
-      "None is confirmed: one has no data series on this site.",
-    );
+    expect(glanceVerdictFromHeadlines([NO_SERIES_HEADLINE])).toBe("None is confirmed: one has no paired series.");
     // The name is the no-series cycle's own, never a neighbour's.
-    expect(glanceVerdictFromHeadlines(["Not testable on the record that exists", "Not tested"], ["X", "Y"])).toBe(
-      "None is confirmed: one cannot be tested on the record that exists, and Y has no data series on this site.",
+    expect(glanceVerdictFromHeadlines([NOT_TESTABLE_HEADLINE, NO_SERIES_HEADLINE], ["X", "Y"])).toBe(
+      "None is confirmed: one pairing falls short of this site's three-period rule, and Y has no paired series.",
     );
+  });
+
+  // I-078 closeWhen: "On a calibrated chart the caption/verdict either says it speaks for the
+  // stored cycles (or drops the verdict), pinned by a test". The test uses no peak year, so only a
+  // changed period scopes the line; a moved peak leaves the stored count the right reading.
+  it("says the verdicts are for the stored periods once any period is changed, and counts nothing", () => {
+    expect(glanceVerdictLine(cycles, true)).toBe(
+      "None is confirmed. These verdicts are for this site's own periods, not the periods you set.",
+    );
+    expect(glanceVerdictLine(cycles, true)).toBe(GLANCE_VERDICT_CALIBRATED);
+    // The caption still holds over the scoped line ("no cycle confirmed" is true at any period).
+    expect(glanceCaption(glanceVerdictLine(cycles, true), false)).toBe("Site's peaks · no cycle confirmed");
+  });
+});
+
+describe("periodsChanged (I-078)", () => {
+  it("is empty for the stored cycles, and for a moved peak alone", () => {
+    expect(periodsChanged(cycles, cycles).size).toBe(0);
+    const peakMoved = cycles.map((c) => ({ ...c, reference_peak_year: c.reference_peak_year + 3 }));
+    expect(periodsChanged(cycles, peakMoved).size).toBe(0);
+  });
+
+  it("names exactly the ids whose period differs, and none once a period is set back", () => {
+    for (let i = 0; i < cycles.length; i++) {
+      const changed = cycles.map((c, j) => (j === i ? { ...c, period_years: c.period_years + 1 } : c));
+      expect([...periodsChanged(cycles, changed)], cycles[i].id).toEqual([cycles[i].id]);
+      const back = changed.map((c, j) => (j === i ? { ...c, period_years: cycles[i].period_years } : c));
+      expect(periodsChanged(cycles, back).size, cycles[i].id).toBe(0);
+    }
+  });
+
+  it("counts every drawn id when the lists do not line up", () => {
+    expect(periodsChanged(cycles, cycles.slice(1)).size).toBe(cycles.length - 1);
+    const swapped = [...cycles];
+    [swapped[0], swapped[1]] = [swapped[1], swapped[0]];
+    expect(periodsChanged(cycles, swapped).size).toBe(cycles.length);
+  });
+});
+
+describe("overviewRowReading on a changed period (I-078)", () => {
+  it("says whose period a verdict row's verdict is for, and only then", () => {
+    const paired = cycles.find((c) => holdsUpCard(c)?.headline === NOT_TESTABLE_HEADLINE)!;
+    expect(overviewRowReading(paired)).toContain(` ${NOT_TESTABLE_HEADLINE}.`);
+    expect(overviewRowReading(paired)).not.toContain("own period");
+    expect(overviewRowReading({ ...paired, period_years: 20 }, null, true)).toContain(
+      ` ${NOT_TESTABLE_HEADLINE}, for this site's own period, not this one.`,
+    );
+  });
+
+  it("adds nothing to the cycle with no paired series, which has no verdict to scope", () => {
+    const unpaired = cycles.find((c) => holdsUpCard(c)?.headline === NO_SERIES_HEADLINE)!;
+    expect(overviewRowReading(unpaired, null, true)).toContain(` ${NO_SERIES_HEADLINE}.`);
+    expect(overviewRowReading(unpaired, null, true)).not.toContain("own period");
   });
 });
 

@@ -17,13 +17,24 @@ import {
 } from "@/lib/spectral";
 import { testedSeriesNote } from "@/lib/testedSeries";
 
-/** The page box's headline for an ineligible verdict, without its trailing clause. */
-export const NOT_TESTABLE_HEADLINE = "Not testable on the record that exists";
+/**
+ * The page box's headline for an ineligible verdict, without its trailing clause.
+ * I-078 (2026-11-19): was "Not testable on the record that exists". Codex (r1 on 237aaba, and the
+ * round 0 claims pass) refuted that as broader than the data: five of these nine cycles' periods
+ * cleared the gate on OTHER cycles' records (the 19 cross-grid re-pairings). So the headline names
+ * the record it speaks for: the one this site pairs with the cycle.
+ */
+export const NOT_TESTABLE_HEADLINE = "Not testable on its paired record";
 
-/** The headline and reason for a cycle with no paired series, so no verdict row. */
-export const NO_SERIES_HEADLINE = "Not tested";
+/**
+ * The headline and reason for a cycle with no paired series, so no verdict row.
+ * I-078 (2026-11-19): was "Not tested" and "… so there is no record to test it against". Its
+ * period WAS set against five other cycles' records (cross-grid), so neither held. What sets this
+ * cycle apart is that no series is paired with it, so it has no verdict of its own.
+ */
+export const NO_SERIES_HEADLINE = "No paired data series";
 export const NO_SERIES_REASON =
-  "this cycle has no paired data series on this site, so there is no record to test it against.";
+  "this site pairs no data series with this cycle, so it gives the cycle no verdict.";
 
 /** "Tested — <state label>" for an eligible verdict. */
 export function testedHeadline(verdict: SpectralVerdictRow): string {

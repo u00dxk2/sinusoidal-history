@@ -26,7 +26,7 @@ describe("methods.md verdict table mirror", () => {
     const unpaired = cycles.filter((c) => !spectralPrimary.some((v) => v.cycle_id === c.id));
     expect(unpaired.length).toBeGreaterThan(0);
     for (const c of unpaired) {
-      expect(md).toContain(`| [${cycleTheorist(c)}](https://sinusoidalhistory.com/cycles/${cycleSlug(c)}) | ${c.period_years}y | — | — | — | Not tested`);
+      expect(md).toContain(`| [${cycleTheorist(c)}](https://sinusoidalhistory.com/cycles/${cycleSlug(c)}) | ${c.period_years}y | — | — | — | No verdict — no paired series |`);
     }
   });
 });

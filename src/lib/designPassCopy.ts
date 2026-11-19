@@ -60,6 +60,8 @@ export const DP_NOT_FOUND_BODY = "It may have moved, or the address may be misty
 // "No data series of its own", not "no record": /methods sets this cycle's period against
 // other cycles' records. The reason is the cycle's own caveat in cycles.json, narrowed to what
 // it states.
+// I-078 (2026-11-19): the headline now says "No paired data series", so the reason no longer
+// repeats it and opens on why.
 export const DP_NO_SERIES_REASON =
-  "This cycle has no data series of its own on this site. Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
+  "Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
 export const DP_NO_SERIES_NEXT = "Open this curve in the chart";

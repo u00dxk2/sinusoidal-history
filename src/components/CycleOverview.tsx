@@ -64,6 +64,10 @@ interface CycleOverviewProps {
   /** True while any drawn peak year differs from its stored year (a reader's
       calibration): the caption then stops calling the peaks the site's (I-075). */
   peaksMoved: boolean;
+  /** Ids whose drawn period differs from the stored one (I-078): the verdict line then scopes
+      the stored verdicts instead of counting them, and those rows say whose period their
+      verdict is for. A moved peak changes no verdict (the test uses none). */
+  changedPeriods: ReadonlySet<string>;
 }
 
 export default function CycleOverview({
@@ -73,6 +77,7 @@ export default function CycleOverview({
   detailBelow,
   onSelect,
   peaksMoved,
+  changedPeriods,
 }: CycleOverviewProps) {
   const ref = useRef<HTMLDivElement>(null);
   const width = useContainerWidth(ref, 358);
@@ -101,7 +106,10 @@ export default function CycleOverview({
     }
     return out;
   }, [xScale, place]);
-  const verdictLine = useMemo(() => glanceVerdictLine(cycles), [cycles]);
+  const verdictLine = useMemo(
+    () => glanceVerdictLine(cycles, changedPeriods.size > 0),
+    [cycles, changedPeriods]
+  );
 
   return (
     <figure ref={ref} aria-labelledby="cycle-overview-title" className="m-0">
@@ -130,6 +138,7 @@ export default function CycleOverview({
             startYear={startYear}
             endYear={endYear}
             onSelect={onSelect}
+            periodChanged={changedPeriods.has(cycle.id)}
           />
         ))}
       </ul>
@@ -191,6 +200,7 @@ function OverviewRow({
   startYear,
   endYear,
   onSelect,
+  periodChanged,
 }: {
   cycle: Cycle;
   chartWidth: number;
@@ -198,6 +208,7 @@ function OverviewRow({
   startYear: number;
   endYear: number;
   onSelect: (id: string) => void;
+  periodChanged: boolean;
 }) {
   const yScale = useMemo(
     () => scaleLinear().domain([-1, 1]).range([ROW_H - 4, 4]),
@@ -248,7 +259,7 @@ function OverviewRow({
         <span className="font-display text-[12px] leading-none tracking-tight text-ink truncate">
           {theorist}
           {/* No position, because the row draws none (overviewReading.ts). */}
-          <span className="sr-only">{overviewRowReading(cycle, outside)} Opens its card.</span>
+          <span className="sr-only">{overviewRowReading(cycle, outside, periodChanged)} Opens its card.</span>
         </span>
       </span>
       <svg

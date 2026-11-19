@@ -64,7 +64,9 @@ const byPeriod = [...cycles].sort((a, b) => a.period_years - b.period_years);
 // says why the two differ right there (I-083): the reason used to sit ~4,000px lower.
 function entryVerdict(cycle: Cycle, series: DataSeries | undefined): string {
   const verdict = spectralVerdictForCycle(cycle.id);
-  if (!verdict) return "Not tested: there is no paired record to test it against.";
+  // I-078 (2026-11-19): was "Not tested: there is no paired record to test it against." Its
+  // period was set against five other theories' records (cross-grid), so "no record" was too broad.
+  if (!verdict) return "No verdict: this site pairs no data series with this cycle.";
   if (verdict.eligible) return `${SPECTRAL_STATE_LABELS[verdict.state]}.`;
   const tested = judgedCut(series?.id, verdict.series_id);
   const record = tested ? `the record it is judged on, ${tested.name},` : "its record";
@@ -404,9 +406,9 @@ export default function CyclesIndex() {
             ? `None of the ${spectralHeadline.total_primary} paired theories can be tested yet. Each of the ${spectralHeadline.total_primary} records below is shorter than the three full periods a test needs; here is how far short.`
             : `${spectralHeadline.eligible_primary} of the ${spectralHeadline.total_primary} paired theories ${spectralHeadline.eligible_primary === 1 ? "has" : "have"} a record long enough to test.`}
           {unpairedCount === 1
-            ? " One cycle has no paired series, so there is nothing to test."
+            ? " One cycle has no paired series, so it has no verdict."
             : unpairedCount > 1
-              ? ` ${unpairedCount} cycles have no paired series, so there is nothing to test.`
+              ? ` ${unpairedCount} cycles have no paired series, so they have no verdict.`
               : ""}
         </p>
         <VerdictTable />

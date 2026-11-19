@@ -37,7 +37,7 @@ import {
   yearsShortOfFloor,
 } from "@/lib/spectral";
 import { judgedCut } from "@/lib/testedSeries";
-import { CROSS_GRID_ANCHOR, crossGridSentence } from "@/lib/crossGridLine";
+import { CROSS_GRID_ANCHOR, crossGridSentence, unpairedPeriodSentence } from "@/lib/crossGridLine";
 import { aYear } from "@/lib/article";
 import { seriesCredit } from "@/lib/seriesCredit";
 import { CROSS_GRID_ROWS } from "@/components/CrossGridList";
@@ -128,6 +128,7 @@ export default async function CyclePage({ params }: Params) {
   const series = seriesForCycle(cycle);
   const verdict = spectralVerdictForCycle(cycle.id);
   const crossGrid = crossGridSentence(cycle.id);
+  const unpairedChecks = unpairedPeriodSentence(cycle.id);
   // Only when the judged cut differs from the drawn series: a note on a matching
   // pair would explain a difference that is not there (Codex r1, 2026-10-06).
   const tested = judgedCut(series?.id, verdict?.series_id);
@@ -382,6 +383,21 @@ export default async function CyclePage({ params }: Params) {
               ? `${NO_SERIES_HEADLINE}. ${DP_NO_SERIES_REASON}`
               : `${NO_SERIES_HEADLINE} — ${NO_SERIES_REASON}`}
           </p>
+          {/* I-078 (2026-11-19): this page had no crossGridSentence (that needs a verdict row),
+              so it never said the panel had set this cycle's period against other theories'
+              records. After the answer paragraph on purpose: check-entry-folds reads the first
+              paragraph in this box. */}
+          {unpairedChecks && (
+            <p data-cross-grid className="mt-2.5 text-[13px] leading-relaxed text-ink-soft">
+              {unpairedChecks}{" "}
+              <Link
+                href={`/methods#${CROSS_GRID_ANCHOR}`}
+                className="inline-block py-[13px] -my-[13px] underline decoration-rule underline-offset-2 hover:text-ink"
+              >
+                {`All ${CROSS_GRID_ROWS.length} re-pairings, cell by cell →`}
+              </Link>
+            </p>
+          )}
           {dpEmpty && (
             <p className="mt-3 text-[13px] leading-relaxed text-ink-soft">
               <Link
