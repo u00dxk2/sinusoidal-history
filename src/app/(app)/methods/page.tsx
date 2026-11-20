@@ -47,23 +47,29 @@ export default function Methods() {
     // data-dp: the design pass's faces (globals.css `[data-dp]`), only when its build-time flag
     // is set (src/lib/designPass.ts), as on /about, /colophon and /cycles: the H1 and kicker in
     // the display face, the lede in the text face (globals.css `header > p.font-display-italic`).
+    // I-087 re-budget (2026-11-20): with those faces the answer was 20px below the fold at
+    // 320x568 and 7px at 360x560 (flag-on local build, docs/claims/run-i088.mjs). Below sm the
+    // lede is 14px (was 15), the header's bottom margin 12px / 8px under 360 (was 20 / 16), and
+    // the rule's top margin 12px / 8px (was 16 / 12). Measured with
+    // docs/claims/probe-methods-fold.mjs: 18px spare at 320x568, 10px at 360x560. sm and up are
+    // unchanged.
     <article
       data-dp={designVariant() ? "" : undefined}
       className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]"
     >
-      <header className="mb-5 max-[360px]:mb-4 sm:mb-8">
+      <header className="mb-3 max-[360px]:mb-2 sm:mb-8">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] max-[360px]:tracking-[0.16em] uppercase text-ink-soft font-medium">
           Methods · Provenance &amp; caveats
         </p>
         <h1 className="font-display mt-2 sm:mt-3 text-ink leading-[0.98] tracking-[-0.015em] text-[34px] max-[360px]:text-[30px] sm:text-[clamp(40px,6vw,56px)]">
           How the numbers were chosen
         </h1>
-        <p className="mt-2 sm:mt-3 font-display-italic text-ink/75 text-[15px] sm:text-[17px] leading-snug">
+        <p className="mt-2 sm:mt-3 font-display-italic text-ink/75 text-[14px] sm:text-[17px] leading-snug">
           Where each data series comes from, what gets transformed, and why
           the correlation number on the calibration panel is a diagnostic and
           not a test statistic.
         </p>
-        <div className="editorial-rule mt-4 max-[360px]:mt-3 sm:mt-6" />
+        <div className="editorial-rule mt-3 max-[360px]:mt-2 sm:mt-6" />
       </header>
 
       <section aria-label="In brief" className="space-y-2.5 text-[15px] leading-[1.6] text-ink/85">

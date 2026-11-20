@@ -25,7 +25,7 @@
 // Blind to: a flag-off build; colour and visibility; whether a reader takes the new sentence as
 // meant; any surface not in SURFACES below (the claims pass and git grep cover the source).
 import { spawn } from "node:child_process";
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -42,17 +42,39 @@ const PORT = 3933;
 const base = LIVE ?? `http://127.0.0.1:${PORT}`;
 const next = join(root, "node_modules/next/dist/bin/next");
 const BEFORE = join(root, "tmp/i088-methods-before.txt");
-const OLD = /Turchin posts the underlying|is posted on his site|database he posts/;
-const NEW = /August 2026/;
+// One stated rule per surface (Codex r2 on 2849895: a month match passed for the wrong reason):
+// each surface must carry its EXACT held sentence(s) and none of its exact old ones, read from the
+// response with tags stripped, entities decoded and whitespace collapsed.
+const OLD_BOX = "Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
+const NEW_BOX = "In August 2026 the project found the underlying database on Turchin's site with no reuse licence stated on its page, so this site does not redistribute it.";
+const OLD_CAVEAT = "No paired data series: Turchin posts the underlying US Political Violence Database (USPVD2010.xlsx; 1,590 events, 1780–2010) on his site, but it carries no explicit reuse license, so this site does not redistribute it.";
+const NEW_CAVEAT = "No paired data series: in August 2026 the project found the underlying US Political Violence Database (USPVD2010.xlsx, 1780–2010) on Turchin's site with no reuse license stated on its page, so this site does not redistribute it.";
+const OLD_METHODS = "The natural series - Turchin's US Political Violence Database - is posted on his site (USPVD2010.xlsx) but carries no explicit reuse license, so we do not redistribute it.";
+const NEW_METHODS = "The natural series - Turchin's US Political Violence Database - was on his site in August 2026 (USPVD2010.xlsx) with no reuse license stated on its page, so we do not redistribute it.";
+const OLD_CYCLES = "no paired data series, because the violence database he posts carries no reuse license, so we don't redistribute it.";
+const NEW_CYCLES = "no paired data series, because we don't redistribute the violence database, which the August 2026 check found on Turchin's site with no license text on the download page.";
 const SURFACES = [
-  "/methods",
-  "/methods.md",
-  "/cycles",
-  "/cycles/turchin-fathers-sons",
-  "/about",
-  "/about.md",
-  "/api/v1/cycles",
+  ["/methods", [OLD_METHODS], [NEW_METHODS]],
+  ["/methods.md", [OLD_METHODS], [NEW_METHODS]],
+  ["/cycles", [OLD_CYCLES], [NEW_CYCLES]],
+  // flag on (production's variant): the box reason AND the caveat, each its own sentence
+  ["/cycles/turchin-fathers-sons", [OLD_BOX, OLD_CAVEAT], [NEW_BOX, NEW_CAVEAT]],
+  ["/about", [OLD_CAVEAT], [NEW_CAVEAT]],
+  ["/about.md", [OLD_CAVEAT], [NEW_CAVEAT]],
+  ["/api/v1/cycles", [OLD_CAVEAT], [NEW_CAVEAT]],
 ];
+const flat = (raw) =>
+  raw
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&#x27;|&#39;|&apos;|&rsquo;|’/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, "&")
+    .replace(/&ndash;/g, "–")
+    .replace(/\\u2013/g, "–")
+    .replace(/\s+/g, " ");
+// The /methods note as one rendered line, before and after (the strong lead-in + the sentence).
+const NOTE_LEAD = "No paired series for Turchin's fathers-and-sons cycle. ";
+const NOTE_TAIL = " The cycle ships unpaired rather than paired to a construct-mismatched proxy.";
 
 function run(label, file, args, env = {}) {
   return new Promise((done) => {
@@ -78,6 +100,16 @@ async function answers() {
     return false;
   }
 }
+// Codex r2 LOW: an HTTP probe cannot tell a stale listener from ours, so first prove the port is
+// FREE by binding it ourselves; a bind failure refuses the run.
+async function portFree(port) {
+  const { createServer } = await import("node:net");
+  return new Promise((done) => {
+    const s = createServer();
+    s.once("error", () => done(false));
+    s.listen(port, "127.0.0.1", () => s.close(() => done(true)));
+  });
+}
 async function body(origin, path) {
   const res = await fetch(`${origin}${path}`, { headers: { "user-agent": "sinusoidal-cycles-i088-check" } });
   return { status: res.status, text: await res.text() };
@@ -102,12 +134,15 @@ async function methodsLines(browser, origin) {
 let server = null;
 if (!LIVE) {
   console.log("\n--- RED-BEFORE on production (old tree)");
-  for (const p of SURFACES) {
+  for (const [p, olds] of SURFACES) {
     const r = await body(PRODUCTION, p);
-    note(r.status === 200 && OLD.test(r.text), `production ${p} (${r.status}) still carries an old present-tense phrase (must, before the deploy)`);
+    const t = flat(r.text);
+    const have = olds.filter((s) => t.includes(s)).length;
+    note(r.status === 200 && have === olds.length, `production ${p} (${r.status}) carries ${have} of ${olds.length} exact old sentence(s) (must be all, before the deploy)`);
   }
   const prodMethods = await body(PRODUCTION, "/methods");
-  note(!/<article[^>]*data-dp/.test(prodMethods.text), "production /methods has no article[data-dp] (must, before the deploy)");
+  note(prodMethods.status === 200 && /<article[\s>]/.test(prodMethods.text) && !/<article[^>]*data-dp/.test(prodMethods.text), `production /methods (${prodMethods.status}) has an article and no data-dp on it (must, before the deploy)`);
+  mkdirSync(dirname(BEFORE), { recursive: true });
   const b0 = await chromium.launch();
   try {
     const lines = await methodsLines(b0, PRODUCTION);
@@ -122,8 +157,8 @@ if (!LIVE) {
     console.log("RESULT: FAIL — the flag-on build failed");
     process.exit(1);
   }
-  if (await answers()) {
-    console.log(`RESULT: FAIL — something already answers on ${base}; refusing to read evidence from it`);
+  if (!(await portFree(PORT)) || (await answers())) {
+    console.log(`RESULT: FAIL — port ${PORT} is taken; refusing to read evidence from another listener`);
     process.exit(1);
   }
   server = spawn(process.execPath, [next, "start", "-p", String(PORT), "-H", "127.0.0.1"], {
@@ -140,9 +175,9 @@ if (!LIVE) {
     }
     await new Promise((r) => setTimeout(r, 500));
   }
-  if (!up) {
+  if (!up || server.exitCode !== null) {
     await stopTree(server.pid);
-    console.log("RESULT: FAIL — the flag-on server did not answer");
+    console.log("RESULT: FAIL — the flag-on server did not answer, or our child exited");
     process.exit(1);
   }
   console.log(`served on ${base} (pid ${server.pid})`);
@@ -150,10 +185,12 @@ if (!LIVE) {
 
 try {
   console.log(`\n--- GREEN claim leg (${base})`);
-  for (const p of SURFACES) {
+  for (const [p, olds, news] of SURFACES) {
     const r = await body(base, p);
-    const old = r.text.match(OLD);
-    note(r.status === 200 && !old && NEW.test(r.text), `${p} (${r.status}): old phrase ${old ? JSON.stringify(old[0]) : "absent"}, "August 2026" ${NEW.test(r.text) ? "present" : "ABSENT"}`);
+    const t = flat(r.text);
+    const oldHits = olds.filter((s) => t.includes(s)).length;
+    const newHits = news.filter((s) => t.includes(s)).length;
+    note(r.status === 200 && oldHits === 0 && newHits === news.length, `${p} (${r.status}): ${oldHits} of ${olds.length} old sentence(s), ${newHits} of ${news.length} held sentence(s) (must be 0 and all)`);
   }
 
   const browser = await chromium.launch();
@@ -206,14 +243,24 @@ try {
     if (!existsSync(BEFORE)) {
       note(false, `no before-file at ${BEFORE}: the text leg is UNREAD`);
     } else {
-      const before = readFileSync(BEFORE, "utf8").split("\n").filter(Boolean);
-      const after = await methodsLines(browser, base);
-      const gone = before.filter((l) => !after.includes(l));
-      const added = after.filter((l) => !before.includes(l));
-      for (const l of gone) console.log(`  - ${l}`);
-      for (const l of added) console.log(`  + ${l}`);
-      const stray = [...gone, ...added].filter((l) => !l.includes("USPVD2010.xlsx"));
-      note(before.length === after.length && gone.length === 1 && added.length === 1 && stray.length === 0, `/methods: ${before.length} → ${after.length} lines, ${gone.length} removed, ${added.length} added, ${stray.length} changed line(s) outside the Turchin note`);
+      // Codex r2 MEDIUM: compared IN ORDER, index by index. The ONE allowed difference is the
+      // note going from exactly its old line to exactly its new line; anything else is BAD.
+      const norm = (l) => l.replace(/\s+/g, " ").trim();
+      const before = readFileSync(BEFORE, "utf8").split("\n").filter(Boolean).map(norm);
+      const after = (await methodsLines(browser, base)).map(norm);
+      const oldNote = NOTE_LEAD + OLD_METHODS + NOTE_TAIL;
+      const newNote = NOTE_LEAD + NEW_METHODS + NOTE_TAIL;
+      const diffs = [];
+      for (let i = 0; i < Math.max(before.length, after.length); i += 1) {
+        if (before[i] !== after[i]) diffs.push(i);
+      }
+      for (const i of diffs) console.log(`  @${i}\n  - ${before[i] ?? "(none)"}\n  + ${after[i] ?? "(none)"}`);
+      const ok =
+        before.length === after.length &&
+        diffs.length === 1 &&
+        before[diffs[0]] === oldNote &&
+        after[diffs[0]] === newNote;
+      note(ok, `/methods: ${before.length} → ${after.length} lines, ${diffs.length} differing index(es); the only allowed one is the note, old line → held line exactly`);
     }
 
     console.log("\n--- the unpaired page's box and caveat (manager review: frame at 360 and 390)");
@@ -238,7 +285,8 @@ try {
       });
       console.log(`  ${w}x${h} box y ${info.top}-${info.bottom}, reason paragraph ${info.firstLines} line(s)`);
       console.log(info.text.split("\n").map((l) => `  | ${l}`).join("\n"));
-      note(/August 2026/.test(info.text) && !OLD.test(info.text), `${w}x${h} box carries the dated sentence and no old phrase`);
+      const bt = flat(info.text);
+      note(bt.includes(NEW_BOX) && !bt.includes(OLD_BOX), `${w}x${h} box carries the held sentence exactly and not the old one`);
       const tag = LIVE ? "live" : "local";
       await p.locator("#does-it-hold-up").screenshot({ path: join(root, `tmp/i088-tfs-box-${w}-${tag}.png`) });
       const cav = p.locator("#caveat");
