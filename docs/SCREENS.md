@@ -25,7 +25,7 @@ moves into the system, and when a NEXT date passes.
 | 404 | any unknown path | visitor | Say there is no page here, then give the next step | — | 2026-04-25 (`not-found.tsx`) | DONE (flag on): "There is no page at this address." and two links |
 | Error screen | any view that throws | visitor | Say the view failed and offer retry or the chart | — | 2026-11-17 (`error.tsx`) | DONE: the unflagged sentence fixed (202d75a); with the flag on, the pass's faces and words. Not walked live (nothing on the site throws on demand), so its proof is the served chunk: the new sentence is in 1 of 12 chunks, the old one in none |
 | About | `/about` | visitor | What the site is and the ten cycles | success | 2026-11-17 | DONE (batch 2, 571a31a): faces only; no word changed, so `public/about.md` is unchanged |
-| Methods | `/methods` | visitor | How curves and verdicts are made | success | 2026-11-08 | NEXT 2026-11-24: with the pass's faces its first screen ends 7px below the fold at 360x560 (flag-on local build, 2026-11-17), so it was taken out of batch 2. It needs its kicker and lede re-budgeted first; mirror `public/methods.md` if a word changes |
+| Methods | `/methods` | visitor | How curves and verdicts are made | success | 2026-11-20 | DONE (2849895 + a097260, live at 8245d1d, flag on): the H1 and kicker in the display face, the lede in Plex Serif upright (a new `[data-dp] header > p.font-display-italic` rule), and `.font-mono` (92 elements: tables, sources, code) in the display face as on /about. Re-budget below sm: lede 14px, header and rule margins 12px / 8px under 360. Live fold (`docs/claims/run-i088.mjs --live`): 18px spare at 320x568, 10px at 360x560, 106px at 390x664. The one word change is the Turchin note (I-088), mirrored in `public/methods.md` |
 | Colophon | `/colophon` | visitor | Credits, sources, licences | success | 2026-11-17 | DONE (batch 2, 571a31a): faces only; `public/colophon.md` unchanged |
 | Embed (iframe widget) | `/embed` (rewrite) | visitor on another site | One cycle or the overlay inside someone else's page | success | 2026-09-09 | NEXT 2026-11-24: it renders inside other sites, so a face change ships with its own check |
 | Embed docs | `/embed/docs` | visitor (site owners) | How to embed | success | 2026-10-21 | NEXT 2026-11-24 |
@@ -38,6 +38,8 @@ moves into the system, and when a NEXT date passes.
 | API | `/api/v1/cycles`, `/api/v1/series`; `/api/v1/state` answers 410 | agent | JSON | — | 2026-08-18, 2026-10-29 | N/A (JSON) |
 | robots, sitemap | `/robots.txt`, `/sitemap.xml` (`robots.ts`, `sitemap.ts`) | crawler | Crawl rules and the URL list | — | — | N/A (machine files) |
 | Favicon | `/favicon.ico` | visitor | Tab icon | — | — | N/A for tonight; no design-pass icon exists |
+
+**Counts (2026-11-20, after /methods went live at 8245d1d):** 21 rows. DONE 9 · NEXT 5 (embed, embed docs, poster, share image, the home chart) · HOLD 0 · N/A 7 · UNREACHED 0.
 
 **Counts (2026-11-19, after I-078 went live at 44cb739):** 21 rows. DONE 8 · NEXT 6 (`/methods`, embed, embed docs, poster, share image, the home chart) · HOLD 0 · N/A 7 · UNREACHED 0.
 

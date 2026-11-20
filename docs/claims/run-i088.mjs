@@ -81,8 +81,15 @@ const CHECKS = [
   {
     // /cycles' root is a <div data-dp>, not an <article> (red-arm 2026-11-20 read MISSING on
     // "article"), so the target is the layout's <main> (src/app/(app)/layout.tsx:68).
-    label: "/cycles main text",
-    read: (b, o) => pageText(b, `${o}/cycles`, () => document.querySelector("main")?.innerText ?? null),
+    // The sentence sits in a collapsed <details> ("The longer story", cycles/page.tsx:349), and
+    // innerText skips closed content: the live proof of 2026-11-20 read NEITHER on a page whose
+    // HTML carries the held sentence. A reader opens it, so this read opens every <details> first.
+    label: "/cycles main text, longer stories opened",
+    read: (b, o) =>
+      pageText(b, `${o}/cycles`, () => {
+        for (const d of document.querySelectorAll("main details")) d.open = true;
+        return document.querySelector("main")?.innerText ?? null;
+      }),
     old: (t) => t.includes(OLD_CYCLES),
     neu: (t) => t.includes(NEW_CYCLES),
   },
