@@ -5,6 +5,7 @@ import { cycles } from "@/data/cycles";
 import { spectralHeadline } from "@/lib/spectral";
 import VerdictTable from "@/components/VerdictTable";
 import CrossGridList, { CROSS_GRID_LOWEST_P, CROSS_GRID_ROWS } from "@/components/CrossGridList";
+import { designVariant } from "@/lib/designPass";
 
 // /methods is the site's highest-impression page in search, so for many readers it is
 // the FRONT door, not an exit from the chart. Section ids back the "On this page" list;
@@ -43,7 +44,13 @@ export default function Methods() {
     // screen too (it was 40px below on 2026-09-26): a 16px gutter like the site
     // header's, the kicker on one line, a smaller H1, less space around the rule.
     // 360 and up are unchanged. Re-check with --width 320 --height 568.
-    <article className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]">
+    // data-dp: the design pass's faces (globals.css `[data-dp]`), only when its build-time flag
+    // is set (src/lib/designPass.ts), as on /about, /colophon and /cycles: the H1 and kicker in
+    // the display face, the lede in the text face (globals.css `header > p.font-display-italic`).
+    <article
+      data-dp={designVariant() ? "" : undefined}
+      className="max-w-3xl mx-auto px-5 max-[360px]:px-4 sm:px-8 pt-5 max-[360px]:pt-3 pb-12 sm:py-16 [&_p]:max-w-[68ch]"
+    >
       <header className="mb-5 max-[360px]:mb-4 sm:mb-8">
         <p className="text-[11px] sm:text-[11px] tracking-[0.32em] max-[360px]:tracking-[0.16em] uppercase text-ink-soft font-medium">
           Methods · Provenance &amp; caveats
@@ -445,10 +452,9 @@ export default function Methods() {
         <p>
           <strong className="text-ink">No paired series for Turchin&apos;s
           fathers-and-sons cycle.</strong>{" "}
-          The natural series - Turchin&apos;s US Political Violence Database
-          - is posted on his site (USPVD2010.xlsx) but carries no explicit
-          reuse license, so we do not redistribute it. The cycle ships
-          unpaired rather than paired to a construct-mismatched proxy.
+          {/* I-088 (2026-11-20): dated; the page the August check read now redirects. One
+              line, so no edge whitespace is at risk (AGENTS.md). Mirror: public/methods.md. */}
+          {"The natural series - Turchin's US Political Violence Database - was on his site in August 2026 (USPVD2010.xlsx) with no reuse license stated on its page, so we do not redistribute it. The cycle ships unpaired rather than paired to a construct-mismatched proxy."}
         </p>
         <p>
           <strong className="text-ink">Stimson Policy Mood with Schlesinger

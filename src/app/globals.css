@@ -225,6 +225,18 @@ body {
   font-weight: 600;
   font-feature-settings: "tnum" on;
 }
+/* A header lede (today only /methods: a `font-display-italic` <p> beside the kicker) reads as
+   text, not as a label, so it takes the text face upright, as the caveat does below the
+   verdict box. No italic is loaded (src/lib/designPassFonts.ts). Without this rule
+   `header > p` above would set it in the condensed display face at 600. */
+[data-dp] header > p.font-display-italic {
+  font-family: var(--dp-text);
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: normal;
+  font-feature-settings: "kern" on;
+  letter-spacing: normal;
+}
 [data-dp] #does-it-hold-up {
   border: 0;
   border-top: 3px solid var(--ink);

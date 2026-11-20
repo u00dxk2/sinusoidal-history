@@ -62,6 +62,8 @@ export const DP_NOT_FOUND_BODY = "It may have moved, or the address may be misty
 // it states.
 // I-078 (2026-11-19): the headline now says "No paired data series", so the reason no longer
 // repeats it and opens on why.
+// I-088 (2026-11-20): dated, because the page the August 2026 fact-check read now redirects with
+// no file link, so the old present-tense claim could not be re-verified (Codex claims r1 HOLDS).
 export const DP_NO_SERIES_REASON =
-  "Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
+  "In August 2026 the project found the underlying database on Turchin's site with no reuse licence stated on its page, so this site does not redistribute it.";
 export const DP_NO_SERIES_NEXT = "Open this curve in the chart";
