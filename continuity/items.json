@@ -2659,6 +2659,22 @@
       "updated": "2026-11-20",
       "closedAt": "2026-11-20",
       "lastEvaluated": "2026-11-20"
+    },
+    {
+      "id": "I-089",
+      "title": "\"August 2026\" in the dated Turchin database sentence is SUPPLIED: its only source is the 08-24 fact-check, whose reports are not committed",
+      "status": "open",
+      "type": "issue",
+      "priority": "P3",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-20",
+      "description": "I-088 (closed 2026-11-20) replaced the present-tense 'Turchin posts the database' with a dated sentence on every surface. The date it states, 'August 2026', rests only on docs/fact-check-2026-08-24-round-5.md:14 ('verified live 2026-08-24; no license text on the page'). The primary reports are two external deep-research runs that David kept in Downloads and are not committed (that file, line 3). The one source anyone can re-check is the Wayback snapshot 20260626094344 of the old page: USPVD2010.xlsx twice, no 'licen' text (docs/claims/2026-11-20-i088-web-search.md). That corroborates JUNE 2026, not August. Surfaces carrying 'August 2026': src/lib/designPassCopy.ts:68-69 (box), src/data/cycles.json:128 (caveat: cycle page, /about, /api/v1/cycles) and its mirror public/about.md:155, src/app/(app)/methods/page.tsx (the Turchin note) and its mirror public/methods.md:205, src/app/(app)/cycles/page.tsx:179. Raised by the P5 ack c1eefe24.",
+      "closeWhen": "Either (a) every surface states what a KEPT source shows, e.g. narrowed to the June 2026 archived copy, through round 0, a Codex claims pass, CI, deploy and a signed-out GET, with the mirrors in the same commit; or (b) a committed record supports August 2026 (for example the 08-24 report excerpt for this item committed under docs/, or an archived capture dated August 2026), cited from docs/claims/.",
+      "nextEvaluation": "2026-11-24",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -e \"August 2026\" -- src/lib/designPassCopy.ts src/data/cycles.json public/about.md public/methods.md src/app/(app)/methods/page.tsx src/app/(app)/cycles/page.tsx — the surfaces whose date is SUPPLIED; 0 lines once narrowed under (a); under (b) the lines stay and the row closes on the committed record",
+      "notes": "2026-11-20 (P5): minted at the close as the disposition of the P5 ack's date defect (c1eefe24: 'record \"August 2026\" as SUPPLIED on a dated ledger row with an owner and a re-check date'). Chosen over narrowing tonight because narrowing is outward copy on six surfaces and owes the full gate set. It goes with I-087's 2026-11-24 batch.",
+      "created": "2026-11-20",
+      "updated": "2026-11-20"
     }
   ],
   "knownPatterns": [
