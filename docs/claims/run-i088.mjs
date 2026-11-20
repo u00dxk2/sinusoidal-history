@@ -10,9 +10,12 @@
 //      A leg that already passes on production proves nothing about the change, and is BAD here.
 //      It also writes production's /methods rendered lines to tmp/i088-methods-before.txt.
 //   2. next build with NEXT_PUBLIC_DESIGN_PASS_VARIANT=a (production's variant), served on
-//      127.0.0.1:3933; refuses if that port already answers.
+//      127.0.0.1:3933; refuses if that port is bound or answers. CEILING (Codex r3 LOW, not
+//      closed): a listener that binds between that check and our child's bind can still answer
+//      for it. --live mode starts no server and is the proof of record.
 // Both modes (GREEN):
-//   - claim leg: every surface carries NO old phrase and DOES carry "August 2026".
+//   - claim leg: eight named targets (CHECKS below) each read NEW. Run --live against a site
+//     still serving the old tree and every target reads OLD: that is this leg's red arm.
 //   - faces leg on /methods: the H1 and kicker compute to dpDisplay 600, the lede to dpText 400,
 //     all upright and each matching a LOADED face (family + weight + style). It prints what the
 //     page's .font-mono elements resolve to (they move with [data-dp], as on /about).
@@ -42,9 +45,7 @@ const PORT = 3933;
 const base = LIVE ?? `http://127.0.0.1:${PORT}`;
 const next = join(root, "node_modules/next/dist/bin/next");
 const BEFORE = join(root, "tmp/i088-methods-before.txt");
-// One stated rule per surface (Codex r2 on 2849895: a month match passed for the wrong reason):
-// each surface must carry its EXACT held sentence(s) and none of its exact old ones, read from the
-// response with tags stripped, entities decoded and whitespace collapsed.
+// The exact old and held sentences, byte-identical to source (Codex r3 checked each).
 const OLD_BOX = "Turchin posts the underlying database, but it carries no explicit reuse licence, so this site does not redistribute it.";
 const NEW_BOX = "In August 2026 the project found the underlying database on Turchin's site with no reuse licence stated on its page, so this site does not redistribute it.";
 const OLD_CAVEAT = "No paired data series: Turchin posts the underlying US Political Violence Database (USPVD2010.xlsx; 1,590 events, 1780–2010) on his site, but it carries no explicit reuse license, so this site does not redistribute it.";
@@ -53,28 +54,97 @@ const OLD_METHODS = "The natural series - Turchin's US Political Violence Databa
 const NEW_METHODS = "The natural series - Turchin's US Political Violence Database - was on his site in August 2026 (USPVD2010.xlsx) with no reuse license stated on its page, so we do not redistribute it.";
 const OLD_CYCLES = "no paired data series, because the violence database he posts carries no reuse license, so we don't redistribute it.";
 const NEW_CYCLES = "no paired data series, because we don't redistribute the violence database, which the August 2026 check found on Turchin's site with no license text on the download page.";
-const SURFACES = [
-  ["/methods", [OLD_METHODS], [NEW_METHODS]],
-  ["/methods.md", [OLD_METHODS], [NEW_METHODS]],
-  ["/cycles", [OLD_CYCLES], [NEW_CYCLES]],
-  // flag on (production's variant): the box reason AND the caveat, each its own sentence
-  ["/cycles/turchin-fathers-sons", [OLD_BOX, OLD_CAVEAT], [NEW_BOX, NEW_CAVEAT]],
-  ["/about", [OLD_CAVEAT], [NEW_CAVEAT]],
-  ["/about.md", [OLD_CAVEAT], [NEW_CAVEAT]],
-  ["/api/v1/cycles", [OLD_CAVEAT], [NEW_CAVEAT]],
-];
-const flat = (raw) =>
-  raw
-    .replace(/<[^>]*>/g, " ")
-    .replace(/&#x27;|&#39;|&apos;|&rsquo;|’/g, "'")
-    .replace(/&quot;/g, '"')
-    .replace(/&amp;/g, "&")
-    .replace(/&ndash;/g, "–")
-    .replace(/\\u2013/g, "–")
-    .replace(/\s+/g, " ");
 // The /methods note as one rendered line, before and after (the strong lead-in + the sentence).
 const NOTE_LEAD = "No paired series for Turchin's fathers-and-sons cycle. ";
 const NOTE_TAIL = " The cycle ships unpaired rather than paired to a construct-mismatched proxy.";
+// SHAPE CHANGE (Codex r3 on a097260: the second round to find the claim leg's text matcher
+// beatable, after r2 on 2849895). No raw-response matcher and no entity normaliser any more. Each
+// check reads ONE NAMED TARGET the way its reader gets it, and compares exact strings:
+//   pages  -> the browser's innerText of a named element (no markup, no entities, no <script>);
+//   .md    -> the raw file, the reader of a .md file (both sentences carry no Markdown marker);
+//   API    -> JSON.parse, then the turchin_fathers_sons caveat field.
+// Each target reads OLD (old sentence, not the held one), NEW (the reverse), BOTH or NEITHER.
+// A missing target (no #caveat, no note paragraph, no cycle in the JSON) reads NEITHER.
+const ws = (s) => s.replace(/\s+/g, " ").trim();
+const CHECKS = [
+  {
+    label: "/methods note paragraph (whole, exact)",
+    read: async (b, o) =>
+      pageText(b, `${o}/methods`, () => {
+        const p = [...document.querySelectorAll("article p")].find((x) => x.querySelector("strong")?.textContent?.startsWith("No paired series for Turchin"));
+        return p ? p.innerText : null;
+      }),
+    old: (t) => t === NOTE_LEAD + OLD_METHODS + NOTE_TAIL,
+    neu: (t) => t === NOTE_LEAD + NEW_METHODS + NOTE_TAIL,
+  },
+  { label: "/methods.md (raw)", read: (b, o) => raw(`${o}/methods.md`), old: (t) => t.includes(OLD_METHODS), neu: (t) => t.includes(NEW_METHODS) },
+  {
+    label: "/cycles article text",
+    read: (b, o) => pageText(b, `${o}/cycles`, () => document.querySelector("article")?.innerText ?? null),
+    old: (t) => t.includes(OLD_CYCLES),
+    neu: (t) => t.includes(NEW_CYCLES),
+  },
+  {
+    label: "/cycles/turchin-fathers-sons verdict-box answer paragraph (exact)",
+    read: (b, o) => pageText(b, `${o}/cycles/turchin-fathers-sons`, () => document.querySelector("#does-it-hold-up p")?.innerText ?? null),
+    old: (t) => t === `No paired data series. ${OLD_BOX}`,
+    neu: (t) => t === `No paired data series. ${NEW_BOX}`,
+  },
+  {
+    label: "/cycles/turchin-fathers-sons #caveat",
+    read: (b, o) => pageText(b, `${o}/cycles/turchin-fathers-sons`, () => document.querySelector("#caveat")?.innerText ?? null),
+    old: (t) => t.includes(OLD_CAVEAT),
+    neu: (t) => t.includes(NEW_CAVEAT),
+  },
+  {
+    label: "/about article text",
+    read: (b, o) => pageText(b, `${o}/about`, () => document.querySelector("article")?.innerText ?? null),
+    old: (t) => t.includes(OLD_CAVEAT),
+    neu: (t) => t.includes(NEW_CAVEAT),
+  },
+  { label: "/about.md (raw)", read: (b, o) => raw(`${o}/about.md`), old: (t) => t.includes(OLD_CAVEAT), neu: (t) => t.includes(NEW_CAVEAT) },
+  {
+    label: "/api/v1/cycles turchin_fathers_sons.caveat (JSON.parse)",
+    read: async (b, o) => {
+      const r = await raw(`${o}/api/v1/cycles`);
+      if (r.status !== 200) return r;
+      try {
+        const list = JSON.parse(r.text);
+        const c = (Array.isArray(list) ? list : list.cycles ?? []).find((x) => x.id === "turchin_fathers_sons");
+        return { status: r.status, text: c?.caveat ?? null };
+      } catch {
+        return { status: r.status, text: null };
+      }
+    },
+    old: (t) => t.endsWith(OLD_CAVEAT),
+    neu: (t) => t.endsWith(NEW_CAVEAT),
+  },
+];
+async function raw(url) {
+  const res = await fetch(url, { headers: { "user-agent": "sinusoidal-cycles-i088-check" } });
+  return { status: res.status, text: await res.text() };
+}
+async function pageText(browser, url, fn) {
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  try {
+    const res = await page.goto(url, { waitUntil: "load" });
+    const t = await page.evaluate(fn);
+    return { status: res?.status() ?? 0, text: t == null ? null : ws(t) };
+  } finally {
+    await page.close();
+  }
+}
+async function readClaims(browser, origin) {
+  const out = [];
+  for (const c of CHECKS) {
+    const r = await c.read(browser, origin);
+    const t = r.text;
+    const o = t != null && c.old(t);
+    const n = t != null && c.neu(t);
+    out.push({ label: c.label, status: r.status, state: t == null ? "MISSING" : o && n ? "BOTH" : o ? "OLD" : n ? "NEW" : "NEITHER" });
+  }
+  return out;
+}
 
 function run(label, file, args, env = {}) {
   return new Promise((done) => {
@@ -134,11 +204,15 @@ async function methodsLines(browser, origin) {
 let server = null;
 if (!LIVE) {
   console.log("\n--- RED-BEFORE on production (old tree)");
-  for (const [p, olds] of SURFACES) {
-    const r = await body(PRODUCTION, p);
-    const t = flat(r.text);
-    const have = olds.filter((s) => t.includes(s)).length;
-    note(r.status === 200 && have === olds.length, `production ${p} (${r.status}) carries ${have} of ${olds.length} exact old sentence(s) (must be all, before the deploy)`);
+  {
+    const b1 = await chromium.launch();
+    try {
+      for (const r of await readClaims(b1, PRODUCTION)) {
+        note(r.status === 200 && r.state === "OLD", `production ${r.label} (${r.status}) reads ${r.state} (must be OLD, before the deploy)`);
+      }
+    } finally {
+      await b1.close();
+    }
   }
   const prodMethods = await body(PRODUCTION, "/methods");
   note(prodMethods.status === 200 && /<article[\s>]/.test(prodMethods.text) && !/<article[^>]*data-dp/.test(prodMethods.text), `production /methods (${prodMethods.status}) has an article and no data-dp on it (must, before the deploy)`);
@@ -184,17 +258,13 @@ if (!LIVE) {
 }
 
 try {
-  console.log(`\n--- GREEN claim leg (${base})`);
-  for (const [p, olds, news] of SURFACES) {
-    const r = await body(base, p);
-    const t = flat(r.text);
-    const oldHits = olds.filter((s) => t.includes(s)).length;
-    const newHits = news.filter((s) => t.includes(s)).length;
-    note(r.status === 200 && oldHits === 0 && newHits === news.length, `${p} (${r.status}): ${oldHits} of ${olds.length} old sentence(s), ${newHits} of ${news.length} held sentence(s) (must be 0 and all)`);
-  }
-
   const browser = await chromium.launch();
   try {
+    console.log(`\n--- GREEN claim leg (${base})`);
+    for (const r of await readClaims(browser, base)) {
+      note(r.status === 200 && r.state === "NEW", `${r.label} (${r.status}) reads ${r.state} (must be NEW)`);
+    }
+
     console.log("\n--- faces leg: /methods header");
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await page.goto(`${base}/methods`, { waitUntil: "load" });
@@ -285,12 +355,14 @@ try {
       });
       console.log(`  ${w}x${h} box y ${info.top}-${info.bottom}, reason paragraph ${info.firstLines} line(s)`);
       console.log(info.text.split("\n").map((l) => `  | ${l}`).join("\n"));
-      const bt = flat(info.text);
+      const bt = ws(info.text);
       note(bt.includes(NEW_BOX) && !bt.includes(OLD_BOX), `${w}x${h} box carries the held sentence exactly and not the old one`);
       const tag = LIVE ? "live" : "local";
       await p.locator("#does-it-hold-up").screenshot({ path: join(root, `tmp/i088-tfs-box-${w}-${tag}.png`) });
       const cav = p.locator("#caveat");
-      if (await cav.count()) await cav.screenshot({ path: join(root, `tmp/i088-tfs-caveat-${w}-${tag}.png`) });
+      const hasCaveat = (await cav.count()) === 1;
+      note(hasCaveat, `${w}x${h} exactly one #caveat (the box's "Why there is none" link target)`);
+      if (hasCaveat) await cav.screenshot({ path: join(root, `tmp/i088-tfs-caveat-${w}-${tag}.png`) });
       await p.close();
     }
   } finally {
