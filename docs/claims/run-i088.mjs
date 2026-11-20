@@ -25,6 +25,16 @@
 //   - the unpaired page (/cycles/turchin-fathers-sons) at 360x560 and 390x664: the box text is
 //     printed whole with its reason paragraph's line count; the box and the caveat are
 //     screenshotted to tmp/ (manager review 0107fd42: the dated sentence is longer).
+// WHAT THIS CLAIMS, AND ITS CEILING (Codex r4 on 57bef58, the THIRD round to find matcher-shaped
+// gaps, so the claim shrinks rather than growing a matcher, per the stop-patching rule): this is a
+// ONE-SHOT proof that the 2026-11-20 deploy serves the held sentences on today's markup. It is NOT
+// a regression guard. A later layout can fool it: the held text moved to another row or
+// paragraph (the /cycles, /about and /methods legs use containment); old text hidden at one
+// viewport and shown at another; both sentences in one API field (endsWith); a redirect to
+// another page; a non-breaking space folded by ws(); a non-string caveat aborting the run.
+// Today's state is corroborated independently: `git grep` of the four present-tense patterns
+// reads 0 at HEAD (I-088's readCommand), and signed-out GETs show the held sentences. Do not
+// reuse this as a standing check; write one that reads each target's OWN element.
 // Blind to: a flag-off build; colour and visibility; whether a reader takes the new sentence as
 // meant; any surface not in SURFACES below (the claims pass and git grep cover the source).
 import { spawn } from "node:child_process";
