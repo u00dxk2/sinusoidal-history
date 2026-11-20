@@ -111,3 +111,44 @@ SCREENS.md: DONE 9 · NEXT 5 · HOLD 0 · N/A 7. I-088's closeWhen is met. The r
 
 - Morning snapshot: `tmp/due-gates-snapshot.json`, 0 due.
 - HEAD at P1: c25ff5239792a9b2ba68f0c4ed9fc34095c356b2.
+
+### Close
+
+ACTION: COMPLETED · item I-088 (with I-087's /methods row) · P3 4d59967e. Manager review c49dc702: COMPLETED, with one acceptance item left for this close (the widened readCommand), now done.
+
+**Corrections to the P3 record (manager review c49dc702):**
+- The red-arm before the push was **11 designed reds plus 1 runner defect**, not "12 BAD as designed". The /cycles target read MISSING because that page's root is a div. It was fixed in 8245d1d. **The /cycles target has never read OLD.** Its first green read came after a second fix (61622ea): the sentence sits in a closed `<details>`, which innerText skips.
+- **The layout check before the deploy was a simulation.** The shipped re-budget (a097260) was not rendered from a build before the deploy. The pre-deploy fold numbers came from `probe-methods-fold.mjs`, which injects CSS on production. The first real render at 320/360/390 was after the deploy: **18, 10 and 106px spare**, exactly the probe's numbers at 320 and 360.
+- **The runner commits after Codex r3 had no Codex read:** 456f968, 8245d1d and 61622ea. LOW, because the runner is a check, not served code. Carried.
+- **The plan said ONE heavy-gate admit; six ran, one at a time.**
+
+  | Admit | Declared | Peak | Queue wait |
+  |---|---|---|---|
+  | build + runner | 2,560 MB | 2,071 MB | 12m52s |
+  | probe run 1 | 1,024 MB | 764 MB | 21m17s |
+  | probe run 2 | 1,024 MB | 729 MB | 42m08s |
+  | red-arm | 1,024 MB | 704 MB | 40m47s |
+  | live proof 1 | 1,024 MB | 885 MB | 25m52s |
+  | live proof 2 | 1,024 MB | 649 MB | 6m37s |
+
+  That is about 150 minutes queued for about 15 held. **What cost the most time:** queueing for runs that a better first version would not have needed. Probe run 1 (21m) was discarded because it left out the tree's lede rule. The red-arm (41m) was owed after the runner's reshape. Live proof 1 (26m) exposed the `<details>` blind spot and needed live proof 2.
+
+**Ledger delta (continuity-edit.mjs):**
+- I-088: readCommand widened to the four present-tense patterns over `src public docs/PRODUCT.md`, then run at HEAD 61622ea: **0 lines**. Positive control at 2849895^: **9 hits in 8 files**. Then CLOSED 2026-11-20, with the command and both outputs in its note.
+- I-087: note appended for /methods NEXT → DONE, with the simulation-then-live fold record. It stays monitoring for the rest of the NEXT batch (2026-11-24).
+
+**Sourcing:** the Wayback snapshot `20260626094344` of the old USPVD page carries `USPVD2010.xlsx` twice and no "licen" text. It is recorded in `docs/claims/2026-11-20-i088-web-search.md`. It corroborates June, not August.
+
+**SCREENS.md:** DONE 9 · NEXT 5 · HOLD 0 · N/A 7 · UNREACHED 0. The /methods row moved NEXT → DONE, and the reviewer fetched it live with data-dp present. The home chart's faces stay NEXT 2026-11-24.
+
+**Hygiene draft:** 1 line — 1 accepted · 0 amended · 0 rejected (the CROSSED board-card read, command `none`). READ-MUTATED: none. Its check verdicts: check-wait-justification "RESULT: PASS — 34 of 96 row(s) carry `waitJustification`; 0 warn / 0 info (exit 0)"; check-engineering-zero "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver (exit 0)" (Dependabot #62, W-007, until 2026-11-28).
+
+**Due gates:** `check-due-gates-dispositioned.mjs` gave "verdict: CLEAR — every gate due at Phase 0 was dispositioned", with the snapshot CURRENT (taken 2026-11-20).
+
+**Receipt:** P3's receipt (4d59967e) still holds. Nothing is new.
+
+**Pending reads:**
+- I-087 NEXT batch and I-086: 2026-11-24.
+- I-071: 2026-11-25.
+- W-007 (the Dependabot #62 waiver): re-look before 2026-11-28.
+- The encounter on /methods stays blind (I-087).
