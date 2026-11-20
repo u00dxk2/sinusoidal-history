@@ -79,8 +79,10 @@ const CHECKS = [
   },
   { label: "/methods.md (raw)", read: (b, o) => raw(`${o}/methods.md`), old: (t) => t.includes(OLD_METHODS), neu: (t) => t.includes(NEW_METHODS) },
   {
-    label: "/cycles article text",
-    read: (b, o) => pageText(b, `${o}/cycles`, () => document.querySelector("article")?.innerText ?? null),
+    // /cycles' root is a <div data-dp>, not an <article> (red-arm 2026-11-20 read MISSING on
+    // "article"), so the target is the layout's <main> (src/app/(app)/layout.tsx:68).
+    label: "/cycles main text",
+    read: (b, o) => pageText(b, `${o}/cycles`, () => document.querySelector("main")?.innerText ?? null),
     old: (t) => t.includes(OLD_CYCLES),
     neu: (t) => t.includes(NEW_CYCLES),
   },
