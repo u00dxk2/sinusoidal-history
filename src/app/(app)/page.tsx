@@ -7,13 +7,21 @@ import { dataSeries } from "@/data/series";
 import { annotations } from "@/data/annotations";
 import { countWord, homeDek, homeGateLine } from "@/lib/countWords";
 import { spectralHeadline } from "@/lib/spectral";
+import { homeIndex, homeJsonLd, homeTitle } from "@/lib/homeIndex";
+import { jsonLdHtml } from "@/lib/jsonLdHtml";
 
 // The overlay is the canonical home. `?focus=<id>` variants are the same page
 // with one curve highlighted, so they resolve here rather than competing with
 // the per-cycle routes — GPTBot crawled all eight of them on 2026-08-15.
 export const metadata = {
+  // Says what the page shows (2026-11-21, search day; the title was the bare site name).
+  // Logged in W-005's notes. The share card keeps the root layout's block, url "/".
+  title: homeTitle(cycles.length),
   alternates: { canonical: "/" },
 };
+
+const textLink =
+  "text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors";
 
 export default function Home() {
   const variant = designVariant();
@@ -121,6 +129,30 @@ export default function Home() {
           .
         </p>
       </section>
+
+      {/* One link per cycle page (2026-11-21, search day): the served home named all ten in
+          the chart but linked none. Below everything, so no phone first screen moves. The
+          ItemList in the JSON-LD is built from the same homeIndex(), so it lists exactly these. */}
+      <section className="mt-10 max-w-2xl" aria-labelledby="cycle-pages">
+        <h2 id="cycle-pages" className="font-display text-[20px] tracking-tight text-ink mb-3">
+          One page per cycle
+        </h2>
+        <ul className="space-y-1.5 text-[14px] leading-relaxed text-ink-soft">
+          {homeIndex(cycles).map((e) => (
+            <li key={e.path}>
+              <a href={e.path} className={textLink}>
+                {e.name}
+              </a>
+              {` · ${e.period_years}-year period, reference peak ${e.reference_peak_year}`}
+            </li>
+          ))}
+        </ul>
+      </section>
+      <script
+        type="application/ld+json"
+        // JSON-LD is generated from cycles.json, never user input.
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(homeJsonLd(cycles)) }}
+      />
     </div>
   );
 }

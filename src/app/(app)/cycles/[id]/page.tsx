@@ -26,6 +26,7 @@ import {
   troughYearsInRange,
 } from "@/lib/cycleRoutes";
 import { CopyAttribution, FigureDownloads } from "@/components/ReusePacket";
+import WorkedExample from "@/components/WorkedExample";
 import FigureScroller from "@/components/FigureScroller";
 import CurveFigure from "@/components/CycleCurveFigure";
 import { DEFAULT_YEAR_RANGE, SITE_NAME, SITE_URL } from "@/lib/siteConfig";
@@ -44,6 +45,7 @@ import { CROSS_GRID_ROWS } from "@/components/CrossGridList";
 import {
   chartLinePoints,
   judgedRecord,
+  REQUIRED_PERIODS,
 } from "@/lib/seriesOverlay";
 import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
@@ -564,6 +566,17 @@ export default async function CyclePage({ params }: Params) {
           </div>
         </dl>
       </section>
+
+      {/* The page's arithmetic with this cycle's own numbers (2026-11-21, search day). Below
+          the extrema on purpose: nothing new above the verdict (check-entry-folds). */}
+      <WorkedExample
+        cycle={cycle}
+        year={year}
+        overlay={overlay}
+        recordName={judged ? judged.fullName : null}
+        transform={judged?.transform}
+        periodsRequired={REQUIRED_PERIODS}
+      />
 
       {series && (
         <section className="mt-10">

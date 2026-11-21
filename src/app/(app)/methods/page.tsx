@@ -7,7 +7,6 @@ import VerdictTable from "@/components/VerdictTable";
 import CrossGridList, { CROSS_GRID_LOWEST_P, CROSS_GRID_ROWS } from "@/components/CrossGridList";
 import { designVariant } from "@/lib/designPass";
 import { pageSocial } from "@/lib/pageMetadata";
-import { SITE_DESCRIPTION } from "@/lib/siteConfig";
 
 // /methods is the site's highest-impression page in search, so for many readers it is
 // the FRONT door, not an exit from the chart. Section ids back the "On this page" list;
@@ -24,23 +23,25 @@ const SECTIONS = [
 const link =
   "text-ink underline decoration-ink/30 underline-offset-[3px] hover:decoration-ink transition-colors";
 
-// Bare segment — the root layout's template appends "· Sinusoidal History".
-const METHODS_TITLE = "Methods";
+// Bare segment — the root layout's template appends "· Sinusoidal History". It says what the
+// page explains (2026-11-21, the search day; was the bare "Methods"). Logged in W-005's notes.
+// Codex claims r1 refuted "how every curve and series is built" (the per-cycle calibrations
+// live on /about and the cycle pages); this names what the page covers.
+const METHODS_TITLE = "Methods: curve model, data sources, normalization";
 // Highest-impression page in the first GSC window (13 of 59 impressions,
 // 0 clicks — orchestrator read of David's screenshots, card ef5842ec).
-// The old description was a bare noun list; this one names the thing a
-// methods-shaped searcher is actually looking for — where it breaks.
+// It names the thing a methods-shaped searcher is actually looking for — where it breaks.
+// 2026-11-21: the opening was "How every curve and series is built: sources, transforms,
+// normalization", the phrase the claims pass refuted in the title (same-family review,
+// finding 1); narrowed the same way. NEW WORDS: owed a cross-family claims pass.
 const METHODS_DESCRIPTION =
-  "How every curve and series is built: sources, transforms, normalization — and where the method breaks down, including why the correlation readout isn't a test.";
+  "The curve model, the data sources and their transforms, normalization — and where the method breaks down, including why the correlation readout isn't a test.";
 
 export const metadata = {
   title: METHODS_TITLE,
   description: METHODS_DESCRIPTION,
   alternates: { canonical: "/methods" },
-  // The share description stays the site's, as it was inherited before 2026-11-21: the meta
-  // description's opening ("How every curve and series is built") is the phrase Codex claims r1
-  // refuted in a title, so it is not spread to og:/twitter: here.
-  ...pageSocial("/methods", METHODS_TITLE, SITE_DESCRIPTION),
+  ...pageSocial("/methods", METHODS_TITLE, METHODS_DESCRIPTION),
 };
 
 export default function Methods() {
