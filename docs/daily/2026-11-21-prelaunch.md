@@ -217,4 +217,19 @@ ACTION: DEFERRED — the worked example, home links and new titles (P1's accepta
 | AI-referred visits | UNREAD (no instrument sees a Referer; no client analytics by standing choice) |
 | Waits on David | A Bing Webmaster Tools property. The Render address switch-off (readers: two DNS CNAMEs). A Render deploy hook for automatic IndexNow. Decision: a dated yearly testability verdict under I-061. Decision: calendar years in the worked example (A7 + Codex findings 1-2). The GitHub repo description and homepage are stale and held as an outward change. |
 
+**Held commits at session close (11:59 MT):**
+- `37cc794`, on the LOCAL branch `held/search-day-build`, not pushed. It adds the worked example on all ten cycle pages, the home links and JSON-LD, and the `/` and `/methods` titles and description. It waits on David's calendar-years answer (I-090; no card yet, the orchestrator is batching it) and then the home-test fix (Codex LOW 3). New public words: yes. Saved Codex prompt: `docs/claims/2026-11-21-codex-review-prompt-2d6efd1-e675c56.md` (it reviewed this tree as e675c56).
+- `030d293`, on the same branch: docs whose content is already on main. Drop it on release.
+- The release post for the floor is "P3 follow-up: held work released", 152be47c.
+
+**Codex runs today:**
+
+| Run | Reviewed | Verdict line | Tokens used |
+|---|---|---|---|
+| 1 | Claims r1 | "**Overall — REFUTED-AS-WRITTEN.** Fourteen claims hold. A7, A10, A12 and C1 need revision." | 119,768 |
+| 2 | Diff review of 9756514 | refused by the usage limit | none printed |
+| 3 | Diff review of 2d6efd1 + e675c56 | "**Verdict:** Hold `e675c56` for the Worked example's date rules. `2d6efd1` has no blocking finding." | 142,098 |
+
+All three ran as gpt-6.2-sol at xhigh effort.
+
 **Pending reads:** I-090 on 2026-11-24 (David's date answer). URL Inspection "Last crawl" on the 5 changed pages after the next crawl. The 60-day baseline about 2027-01-20.
