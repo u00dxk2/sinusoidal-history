@@ -266,4 +266,13 @@ describe("sitemap", () => {
     }
     expect(new Set(urls).size).toBe(urls.length);
   });
+
+  // 2026-11-21 (search day): HTML pages only, and no build-time lastmod.
+  it("lists only HTML pages, with no lastModified on any entry", () => {
+    const entries = sitemap();
+    for (const entry of entries) {
+      expect(entry.url, entry.url).not.toMatch(/\.(md|txt|csv|json|xml)$/);
+      expect(entry.lastModified, entry.url).toBeUndefined();
+    }
+  });
 });

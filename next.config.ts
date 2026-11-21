@@ -17,7 +17,13 @@ const nextConfig: NextConfig = {
           {
             type: "host",
             value:
-              "(sinusoidal-history\\.skylarkcreations\\.com|www\\.sinusoidalhistory\\.com|sinusoidalhistory\\.org|www\\.sinusoidalhistory\\.org)",
+              "(sinusoidal-history\\.skylarkcreations\\.com|www\\.sinusoidalhistory\\.com|sinusoidalhistory\\.org|www\\.sinusoidalhistory\\.org|sinusoidal-history\\.onrender\\.com)",
+            // sinusoidal-history.onrender.com joined 2026-11-21 (search day): it answered 200 with
+            // the apex canonical, a second copy of the whole site. Safe for Render's health check:
+            // that check sends one of the service's verified custom domains as its Host, and counts
+            // a 3xx as healthy (render.com/docs/health-checks, read 2026-11-21). This only redirects
+            // requests that ask for the onrender host by name; the subdomain itself is a Render
+            // setting and stays on.
           },
         ],
         destination: "https://sinusoidalhistory.com/:path*",
@@ -82,6 +88,12 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, max-age=3600" },
         ],
       },
+      // Each mirror names its HTML page as the canonical (2026-11-21, search day), so a search
+      // engine that fetches the .md reads it as a copy of that page, not a second page.
+      ...(["about", "methods", "colophon"] as const).map((slug) => ({
+        source: `/${slug}.md`,
+        headers: [{ key: "Link", value: `<https://sinusoidalhistory.com/${slug}>; rel="canonical"` }],
+      })),
     ];
   },
 };

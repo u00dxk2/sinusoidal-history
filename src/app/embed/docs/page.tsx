@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { cycles } from "@/data/cycles";
-import { SITE_URL } from "@/lib/siteConfig";
+import { SITE_DESCRIPTION, SITE_URL } from "@/lib/siteConfig";
+import { pageSocial } from "@/lib/pageMetadata";
 
 export const metadata = {
   // Bare segment — the root layout's template appends "· Sinusoidal History".
   title: "Embed",
   alternates: { canonical: "/embed/docs" },
+  // Description stays the site's (it was inherited before; no new sentence today). Only the
+  // share block's url moves from "/" to this page.
+  ...pageSocial("/embed/docs", "Embed", SITE_DESCRIPTION),
 };
 
 const SNIPPETS: ReadonlyArray<{

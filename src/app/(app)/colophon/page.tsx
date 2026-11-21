@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { designVariant } from "@/lib/designPass";
+import { pageSocial } from "@/lib/pageMetadata";
+
+const COLOPHON_DESCRIPTION =
+  "A note from the maker on how this site was built, what was AI, and what was me.";
 
 export const metadata = {
   // Bare segment — the root layout's template appends "· Sinusoidal History".
   title: "Colophon",
-  description:
-    "A note from the maker on how this site was built, what was AI, and what was me.",
+  description: COLOPHON_DESCRIPTION,
   alternates: { canonical: "/colophon" },
+  ...pageSocial("/colophon", "Colophon", COLOPHON_DESCRIPTION),
 };
 
 export default function Colophon() {

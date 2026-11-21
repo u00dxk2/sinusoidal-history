@@ -2,6 +2,10 @@ import Link from "next/link";
 import { cycles } from "@/data/cycles";
 import { cycleRoutePath } from "@/lib/cycleRoutes";
 import { designVariant } from "@/lib/designPass";
+import { pageSocial } from "@/lib/pageMetadata";
+
+const ABOUT_DESCRIPTION =
+  "What this site is, why it exists, what it doesn't claim, and the ten cycles in this version.";
 
 export const metadata = {
   // Bare segment on purpose: the root layout's title template appends
@@ -9,9 +13,9 @@ export const metadata = {
   // "About · Sinusoidal History · Sinusoidal History" to the SERP
   // (live-verified 2026-09-09, 4 impressions / 0 clicks).
   title: "About",
-  description:
-    "What this site is, why it exists, what it doesn't claim, and the ten cycles in this version.",
+  description: ABOUT_DESCRIPTION,
   alternates: { canonical: "/about" },
+  ...pageSocial("/about", "About", ABOUT_DESCRIPTION),
 };
 
 export default function About() {
