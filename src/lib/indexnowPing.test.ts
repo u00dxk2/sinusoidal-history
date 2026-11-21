@@ -29,6 +29,15 @@ describe("indexnow-ping (dry run)", () => {
     expect(r.stdout).toBe("");
   });
 
+  it("sends each URL as parsed, not as typed", () => {
+    const r = run("https://sinusoidalhistory.com/about me", "https://SinusoidalHistory.com/cycles");
+    expect(r.status).toBe(0);
+    expect(JSON.parse(r.stdout).urlList).toEqual([
+      "https://sinusoidalhistory.com/about%20me",
+      "https://sinusoidalhistory.com/cycles",
+    ]);
+  });
+
   it("refuses an empty list", () => {
     expect(run().status).toBe(1);
   });

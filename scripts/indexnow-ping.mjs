@@ -19,6 +19,9 @@ const KEY = "9e40c71bb9567c0a86ff0537979c1ac7";
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 
 export function buildBody(urls) {
+  // Sends the URL as parsed (`href`), never the raw argument: the check and the payload must be
+  // the same string, and a raw space would ride into the batch (Codex review 2026-11-21, LOW).
+  const urlList = [];
   for (const u of urls) {
     let parsed;
     try {
@@ -29,9 +32,10 @@ export function buildBody(urls) {
     if (parsed.protocol !== "https:" || parsed.host !== HOST) {
       throw new Error(`refused: ${u} is not on https://${HOST}`);
     }
+    urlList.push(parsed.href);
   }
-  if (urls.length === 0) throw new Error("no URLs given");
-  return { host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList: urls };
+  if (urlList.length === 0) throw new Error("no URLs given");
+  return { host: HOST, key: KEY, keyLocation: `https://${HOST}/${KEY}.txt`, urlList };
 }
 
 async function main(argv) {
