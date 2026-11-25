@@ -1,0 +1,15 @@
+# Codex confirm round — release of the search-day build (2026-11-25)
+
+Run: foreground `codex exec -C C:\dev\skylark\sinusoidal-cycles --sandbox read-only -c model_reasoning_effort=high -`, prompt `tmp/codex-confirm-1fc9ca0.md` (lane-local; it quotes I-061, the I-090 question, David's "10 yes" and the orchestrator's scope note verbatim). Banner checked before reading: `workdir: C:\dev\skylark\sinusoidal-cycles`, `model: gpt-6.2-sol`, `sandbox: read-only`, `reasoning effort: high`. Tokens used: 79,313.
+
+Subject: `757d9a2` (cherry-pick of held `37cc794`; Codex confirmed the `src/` patch IDs of 757d9a2, 37cc794 and e675c56 are identical) + `1fc9ca0` (curve table without years, home test LOW 3).
+
+## Findings, verbatim summary, and the lead's dispositions
+
+1. **REPRODUCED · MEDIUM · "Finding 2 partially resolved."** All ten tables have two columns (offset, height); 47 rows; Khaldun's 1759 is gone; the shortened Perez and Turchin tables "give no present-day position beyond what the curves already show." But "the paragraph still names a construction year … `1970 is the reference peak`", and the formula prints it too; "Use 'reference peak' symbolically in both places."
+   → **DELIBERATE (the lane's reading, not David's word).** The reference peak year is the cycle's stored parameter, not a year the worked example introduces. It is live on every cycle page today: a GET of https://sinusoidalhistory.com/cycles/schlesinger-jr at 4b22f15 (2026-11-25, 200) carries "Computed from period 30 and reference peak 1970, over the one period this site draws (1955–1985). These are positions of this construction, not dates claimed by the theorist. Peaks 1970", with "reference peak" 8 times and "1970" 26 times. I-061's own scope line names it ("one period around the peak year this site uses for it"). I-090 widened what the example may print; it did not withdraw years already live. If the orchestrator or David reads it otherwise, the fix is the shape Codex names (symbolic "reference peak"), applied across the extrema list and home list too, not only here.
+2. **HOLDS · REPRODUCED** — the one new sentence, "The rows step through the stretch this page draws a quarter of a period at a time, counted from the reference peak."
+3. **REPRODUCED · "Finding 1 resolved by I-090."** "Every calendar year printed in the nine record blocks comes from the corresponding judged historical record. I found no exceptions." → **CONFIRMED**, no change.
+4. **REPRODUCED · LOW · "Finding 3 resolved, with one test gap."** Deleting `<Viz>` outright still passed the fallback assertion. → **CONFIRMED, fixed:** `homeIndex.test.ts` also asserts `aria-label="Chart view"`. Red-armed: replacing `<Viz …/>` with `<div />` fails "renders the chart, not the Suspense fallback"; restored, 4 of 4 pass.
+
+Verdict line, verbatim: "**Verdict:** Hold `1fc9ca0` + `757d9a2` until the worked example's curve prose and formula stop printing site-constructed reference-peak years." The lead ships over it on disposition 1 above, and says so in the release post.

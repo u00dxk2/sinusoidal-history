@@ -16,6 +16,8 @@ describe("home: one link per cycle page, and JSON-LD that lists the same pages",
 
   it("renders the chart, not the Suspense fallback", () => {
     expect(html).not.toContain('aria-busy="true"');
+    // Positive too: deleting <Viz> outright would also pass the line above (Codex confirm of 1fc9ca0).
+    expect(html).toContain('aria-label="Chart view"');
   });
 
   it("links every /cycles/<slug> page", () => {
