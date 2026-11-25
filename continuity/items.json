@@ -2730,6 +2730,21 @@
       },
       "closedAt": "2026-11-25",
       "lastEvaluated": "2026-11-25"
+    },
+    {
+      "id": "I-091",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-21",
+      "title": "Idea, not built: a dated, yearly testability verdict that names no present position — inside or outside David's I-061 ruling? Card David only if a build is proposed",
+      "closeWhen": "Either the lane drops the idea (note why), or a build is proposed and David answers the I-061 question on a board card (card id recorded here) before anything ships.",
+      "nextEvaluation": "2026-12-16",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -i -e \"testability verdict\" -- docs/answers src — a David answer in docs/answers names this row, or src grows a dated verdict surface (it must not before his answer)",
+      "notes": "2026-11-25 (P5 ack ea7a9377): minted so the question has an owner and a date. Origin: docs/daily/2026-11-21-prelaunch.md:159 (needs-from-David item 4, 'Not built either way today'); NOT put to David in the 11-21 batch (orchestrator relay 739aa2e2 says so). Why no card now: nothing is built, proposed or blocked on it, so a card would ask David to rule on a hypothetical. It IS his call the moment a build is proposed, because it is a reading of his I-061 words ('one wave per cycle, stop at today'); then: needs-decision with --card-title, before any code. Re-check 2026-12-16: propose or drop.",
+      "created": "2026-11-25",
+      "updated": "2026-11-25"
     }
   ],
   "knownPatterns": [

@@ -78,4 +78,4 @@ ACTION: COMPLETED · item I-089 · P3 8cb16542 (manager review eb872fa1: COMPLET
 - **Ledger delta:** closed I-090 (on delivery) and I-089 (closeWhen (a)); I-089's readCommand expected result corrected to the 2 spectral lines; re-dated I-086, I-087, I-071 → 12-02; W-007 note added.
 - **Verify:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned." with "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-11-25)".
 - **Pending reads:** W-007 on 2026-11-28; I-086, I-087, I-071 on 2026-12-02; W-005 (page-only click-through on `/`, `/methods` and the cycle pages, now dated from the 451a07a7 deploy) near 100 post-change impressions; the 60-day baseline about 2027-01-20.
-- **Open with no row:** the dated yearly testability verdict question was never put to David.
+- **The dated yearly testability verdict question** (never put to David) now has a row: I-091, owner this lane, re-check 2026-12-16. It goes to David as a card only if a build is proposed, because nothing is built or blocked on it today (P5 ack ea7a9377).
