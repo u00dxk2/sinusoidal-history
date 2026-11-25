@@ -1,0 +1,89 @@
+# read-output sidecar for I-086 — written by check-due-gates-dispositioned --run
+# readCommand: node C:/dev/skylark/sinusoidal-cycles/scripts/check-focused-calibrate.mjs https://sinusoidalhistory.com
+# ran: 2026-11-25T19:56:13.720Z · exit: 0
+# lines: 83 · sha256: 32384b0686abb0b2 (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+origin https://sinusoidalhistory.com
+PASS  390x664 khaldun: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 khaldun: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 khaldun: mid-drag, the curve is on screen and has moved  — chart top 0.03, slider bottom 323 of 664, curve moved
+PASS  390x664 kondratiev: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 kondratiev: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 kondratiev: mid-drag, the curve is on screen and has moved  — chart top -0.09, slider bottom 323 of 664, curve moved
+PASS  390x664 huntington: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 huntington: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 huntington: mid-drag, the curve is on screen and has moved  — chart top 0.03, slider bottom 323 of 664, curve moved
+PASS  390x664 schlesinger_jr: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 schlesinger_jr: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 schlesinger_jr: mid-drag, the curve is on screen and has moved  — chart top 0.03, slider bottom 323 of 664, curve moved
+PASS  390x664 perez: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 perez: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 perez: mid-drag, the curve is on screen and has moved  — chart top -0.47, slider bottom 323 of 664, curve moved
+PASS  390x664 turchin: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 turchin: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 turchin: mid-drag, the curve is on screen and has moved  — chart top -0.09, slider bottom 323 of 664, curve moved
+PASS  390x664 dalio: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 dalio: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 dalio: mid-drag, the curve is on screen and has moved  — chart top 0.03, slider bottom 323 of 664, curve moved
+PASS  390x664 strauss_howe: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 strauss_howe: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 strauss_howe: mid-drag, the curve is on screen and has moved  — chart top 0.03, slider bottom 323 of 664, curve moved
+PASS  390x664 modelski: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  390x664 modelski: chart top + peak slider fit one screen  — span=323px of 664
+PASS  390x664 modelski: mid-drag, the curve is on screen and has moved  — chart top -0.47, slider bottom 323 of 664, curve moved
+PASS  320x568 khaldun: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 khaldun: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 khaldun: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 kondratiev: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 kondratiev: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 kondratiev: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 huntington: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 huntington: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 huntington: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 schlesinger_jr: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 schlesinger_jr: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 schlesinger_jr: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 341 of 568, curve moved
+PASS  320x568 perez: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 perez: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 perez: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 341 of 568, curve moved
+PASS  320x568 turchin: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 turchin: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 turchin: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 dalio: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 dalio: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 dalio: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 strauss_howe: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 strauss_howe: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 strauss_howe: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  320x568 modelski: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  320x568 modelski: chart top + peak slider fit one screen  — span=323px of 568
+PASS  320x568 modelski: mid-drag, the curve is on screen and has moved  — chart top 0.28, slider bottom 342 of 568, curve moved
+PASS  1280x800 khaldun: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 khaldun: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 khaldun: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 kondratiev: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 kondratiev: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 kondratiev: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 huntington: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 huntington: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 huntington: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 schlesinger_jr: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 schlesinger_jr: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 schlesinger_jr: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 perez: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 perez: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 perez: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 turchin: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 turchin: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 turchin: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 dalio: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 dalio: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 dalio: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 strauss_howe: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 strauss_howe: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 strauss_howe: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+PASS  1280x800 modelski: both sliders precede the description and peak-calibration text in the DOM  — sliders-first
+PASS  1280x800 modelski: chart top + peak slider fit one screen  — span=323px of 800
+PASS  1280x800 modelski: mid-drag, the curve is on screen and has moved  — chart top -0.22, slider bottom 323 of 800, curve moved
+81/81 PASS (9 paired cycles)

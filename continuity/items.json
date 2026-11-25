@@ -2215,9 +2215,9 @@
       "notes": "2026-10-25 (day round 1, P5): minted at the close on the manager review's instruction (f845a41f). Folds two minor walk residuals (off-by-one year, no left axis label). The hint pill not returning after 'All' was NOT minted: it is dismissed once per browser by design (sh.brushHintSeen).\n\n2026-10-27 (light day, P5): readCommand run and stamped (continuity/read-outputs/). Not closed: this row's proof is a walk, a decision or a build, and none ran on David's light day (\"today is another light day please. save tokens.\"). Re-dated to 2026-10-28.\n\n2026-10-27 (close-session): moved 10-28 → 10-29 to break the due-date wall (continuity-check DUE_DATE_CONCENTRATION, 10 of 18 on 10-28). The five zoom-strip residuals (I-067..I-071) are one batch on one surface; they follow the 10-28 copy batch (I-065) rather than landing beside it.\n\n | 2026-10-29 (full day, P5): re-dated to 2026-11-04 on the hygiene draft (ACCEPTED). readCommand stamped: TimeRangeBrush.tsx:121-122 still rounds with Math.round(xScale.invert(...)). The row closes on two recorded decisions (snap drag ends; label the left edge), neither made yet.\n\n | 2026-11-04 (full day, P5): re-dated 11-04 → 11-18 on the hygiene draft (ACCEPTED). Read: --run I-071 exit 0, TimeRangeBrush.tsx:121-122 still rounds with Math.round(xScale.invert(...)). Neither decision (snap drag ends; label the left edge) is made; today's product change was W-005 and I-079.\n\n | 2026-11-18 (P5): re-dated 11-18 → 11-25 on the hygiene draft (ACCEPTED). Read: --run I-071 exit 0, TimeRangeBrush.tsx:131-132 still rounds with Math.round(xScale.invert(...)). Neither decision is made (snap drag ends to round years; label the zoomed axis's left edge). Reason for the date: the strip sits on the home chart, which is HOLD until I-077/I-078's words land on 11-19 (SCREENS.md), and today's product change was I-087 batch 3. Owner sinusoidal-cycles; proof is a recorded decision.",
       "created": "2026-10-25",
       "updated": "2026-11-18",
-      "readCommandLastRun": "2026-11-18T16:48:21.994Z",
+      "readCommandLastRun": "2026-11-25T19:57:19.552Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 5733,
+      "readCommandLastDurationMs": 2051,
       "readCommandLastOutputRef": {
         "lines": 2,
         "sha256": "2b4c4237325dd883"
@@ -2618,7 +2618,14 @@
       "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-focused-calibrate.mjs https://sinusoidalhistory.com — the drag leg at 320x568; read the frames for the label wrap",
       "notes": "2026-11-17 (P5): minted at close. Fold into the next edit of SliderRow; no change today.",
       "created": "2026-11-17",
-      "updated": "2026-11-17"
+      "updated": "2026-11-17",
+      "readCommandLastRun": "2026-11-25T19:56:13.720Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 88969,
+      "readCommandLastOutputRef": {
+        "lines": 83,
+        "sha256": "32384b0686abb0b2"
+      }
     },
     {
       "id": "I-087",
@@ -2640,7 +2647,14 @@
       "notes": "2026-11-17 (round 2, P5): minted at the close. P1 f1c9d19d, P3 fa0e2c41, registry row d453461e. Frames: docs/design-pass-2026-11-17/before-local and /after (one local build path, flag off and on). Checks on variant a (run-after.mjs, one heavy-gate run, re-run once): flag off 0 design-pass elements, 0 design-pass font requests, /design-pass/a 404; folds 13 of 13 at 320x568, 360x560, 390x664 (home 49px spare at 320x568); reduced motion 0 of 11 animate; separability 9 of 9 SAME. Codex r1 (fact list), r2 (working tree), r3 (44f93f5: all five strings HOLD).\n\n | 2026-11-17 (round 2, after the P5 ack 334c08c7): OPEN FOR DAVID'S DECISION, routed through the orchestrator: whether the live error screen's sentence is corrected on its own, outside the flag. Live today, unflagged, src/app/error.tsx: \"Most likely a CSV failed to load. The cycles themselves still draw without data — try reloading, or head back to the overlay.\" The cause it names is false: a failed CSV is handled inside the chart and never reaches that screen. The replacement, word for word (src/lib/designPassCopy.ts DP_ERROR_BODY, on the branch, behind the flag): \"This view could not be displayed. Try it again, or go back to the chart.\" The live screen stays as it is until a ruling comes.\n\n2026-11-17 (round 3, overnight rollout, P5): closeWhen's delivery half MET; row moves to monitoring because the encounter and outcome reads are still owed (none instrumentable: no client analytics by standing choice). Chain as run: (1) the pick, per the rollout brief (variant a on the review page); (2) the I-077 / I-078 reads were moved AFTER the variant by the P1 review a2f23ea8, because the variant leaves the phone glance words exactly as live; both were read early at 21:46-21:50 MT 11-17 (I-077 folds 13/13, / 12px; I-078's grep 0 lines = a stale pattern); (3) PR #1 CI green on 008dae9b33, merge-tree clean (b2f5b276 tree), merged as 9b80814 with the flag off; flag set on Render through render-put-secret.mjs --from-literal a (verified: true) + --deploy-latest. Live since about 06:39Z 11-18 (signed-out GET: data-design-variant=\"a\", h1 \"Ten long-wave theories of history on one time axis.\"). Batch 2 (571a31a): /cycles, /about and /colophon faces. Production folds 13/13 at 320x568, 360x560 and 390x664 (run-live-proof.mjs). Rollback tested once: literal off + --deploy-latest restored the old page in about a minute; a again -> on. TRUE IN A ROLLBACK: the flag-off stylesheet still declares the Plex @font-face rules (module-scope import in layout.tsx; not preloaded, not fetched). The error-sentence ruling: replaced unflagged in 5678033 / 202d75a (\"This view could not be displayed. Try it again, or go back to the chart.\"), Codex claims pass HOLDS. Codex r1 findings that live surfaces carry are folded into I-078. P3 b7e063ff; manager review 3b81afda COMPLETED. Next: the SCREENS.md NEXT batch (2026-11-24).\n\n | 2026-11-18 (P3): SCREENS.md row \"Cycle page, below the verdict box\" → DONE, live at b66d8a5 (aff41df, f3be340, b66d8a5). CSS only, under [data-dp] after #does-it-hold-up: headings Plex Sans Condensed 600; prose, provenance dd and footer source Plex Serif 400; strong/em Plex Serif 600 upright; the caveat Plex Serif 400 upright (no italic is loaded). Codex r1 (aff41df) and r2 (f3be340), read-only, workdir matched: the CSS reach had no defects; the provenance face (r1 MEDIUM) was fixed in f3be340; the runner defects (r1 x2, r2 x2) were fixed, and the runner was reshaped to one stated rule in b66d8a5. Red-armed: run-below-box.mjs --live on production BEFORE deploy → BAD on every page (e.g. khaldun 29 of 56 elements in Geist/Fraunces). After deploy → PASS: 552 elements on 10 pages, 0 off the expected loaded face; rendered text identical on /cycles/dalio and /cycles/turchin-fathers-sons; check-entry-folds 13 of 13 at 320x568, 360x560 and 390x664. CI ci.yml green on b66d8a5ed4; deploy in sync. Open on the row, NEXT 2026-11-24: body sizes under 16px and the tracked uppercase labels (DESIGN.md:61, :82).\n\n | 2026-11-20 (P3/P5): SCREENS.md /methods NEXT → DONE, live at 8245d1d (2849895 data-dp + header lede rule; a097260 re-budget below sm: lede 14px, header/rule margins 12px / 8px under 360). Flag-on local build before the re-budget: /methods CUT 20px at 320x568, 7px at 360x560 (run-i088.mjs). The re-budget was chosen by docs/claims/probe-methods-fold.mjs, a CSS INJECTION on production (a simulation, not a build render): its baseline reproduced CUT 20 / CUT 7 and the chosen candidate read 18 / 10. The first real render of a097260 was AFTER the deploy: run-i088.mjs --live read 18px spare at 320x568, 10px at 360x560 and 106px at 390x664, folds 13/13 at all three sizes. 92 .font-mono elements on /methods now take the display face, via the same rule /about gets. SCREENS.md: DONE 9 · NEXT 5 · HOLD 0 · N/A 7 · UNREACHED 0. The rest of the NEXT batch (embed, embed docs, poster, share card, home chart faces, sizes under 16px) stays on 2026-11-24.",
       "created": "2026-11-17",
       "updated": "2026-11-20",
-      "lastEvaluated": "2026-11-18"
+      "lastEvaluated": "2026-11-18",
+      "readCommandLastRun": "2026-11-25T19:56:51.652Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 20495,
+      "readCommandLastOutputRef": {
+        "lines": 15,
+        "sha256": "e13cda1f3253edaa"
+      }
     },
     {
       "id": "I-088",
@@ -2663,7 +2677,7 @@
     {
       "id": "I-089",
       "title": "\"August 2026\" in the dated Turchin database sentence is SUPPLIED: its only source is the 08-24 fact-check, whose reports are not committed",
-      "status": "open",
+      "status": "closed",
       "type": "issue",
       "priority": "P3",
       "owner": "sinusoidal-cycles",
@@ -2671,17 +2685,19 @@
       "description": "I-088 (closed 2026-11-20) replaced the present-tense 'Turchin posts the database' with a dated sentence on every surface. The date it states, 'August 2026', rests only on docs/fact-check-2026-08-24-round-5.md:14 ('verified live 2026-08-24; no license text on the page'). The primary reports are two external deep-research runs that David kept in Downloads and are not committed (that file, line 3). The one source anyone can re-check is the Wayback snapshot 20260626094344 of the old page: USPVD2010.xlsx twice, no 'licen' text (docs/claims/2026-11-20-i088-web-search.md). That corroborates JUNE 2026, not August. Surfaces carrying 'August 2026': src/lib/designPassCopy.ts:68-69 (box), src/data/cycles.json:128 (caveat: cycle page, /about, /api/v1/cycles) and its mirror public/about.md:155, src/app/(app)/methods/page.tsx (the Turchin note) and its mirror public/methods.md:205, src/app/(app)/cycles/page.tsx:179. Raised by the P5 ack c1eefe24.",
       "closeWhen": "Either (a) every surface states what a KEPT source shows, e.g. narrowed to the June 2026 archived copy, through round 0, a Codex claims pass, CI, deploy and a signed-out GET, with the mirrors in the same commit; or (b) a committed record supports August 2026 (for example the 08-24 report excerpt for this item committed under docs/, or an archived capture dated August 2026), cited from docs/claims/.",
       "nextEvaluation": "2026-11-24",
-      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -e \"August 2026\" -- src/lib/designPassCopy.ts src/data/cycles.json public/about.md public/methods.md src/app/(app)/methods/page.tsx src/app/(app)/cycles/page.tsx — the surfaces whose date is SUPPLIED; 0 lines once narrowed under (a); under (b) the lines stay and the row closes on the committed record",
-      "notes": "2026-11-20 (P5): minted at the close as the disposition of the P5 ack's date defect (c1eefe24: 'record \"August 2026\" as SUPPLIED on a dated ledger row with an owner and a re-check date'). Chosen over narrowing tonight because narrowing is outward copy on six surfaces and owes the full gate set. It goes with I-087's 2026-11-24 batch.",
+      "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -e \"August 2026\" -- src/lib/designPassCopy.ts src/data/cycles.json public/about.md public/methods.md src/app/(app)/methods/page.tsx src/app/(app)/cycles/page.tsx — expect exactly 2 lines once narrowed: public/methods.md and methods/page.tsx \"Since August 2026 every cycle–series pairing carries a … spectral verdict\", which stay because cfda495 / 84b2097 landed 2026-08-19 (corrected 2026-11-25 per manager review: the old text said 0 lines)",
+      "notes": "2026-11-20 (P5): minted at the close as the disposition of the P5 ack's date defect (c1eefe24: 'record \"August 2026\" as SUPPLIED on a dated ledger row with an owner and a re-check date'). Chosen over narrowing tonight because narrowing is outward copy on six surfaces and owes the full gate set. It goes with I-087's 2026-11-24 batch. | 2026-11-25 (P3): CLOSED under closeWhen (a). Wording correction (manager review 534c978d, item 3): the 2026-08-24 fact-check SUMMARY is committed (docs/fact-check-2026-08-24-round-5.md:14); only its primary reports are not, which is why the month could not be shown. The database sentence now cites what a kept, openable source shows: the Wayback capture 20260626094344 of Turchin's database page, re-fetched today (HTTP 200; \"Data for download: USPVD2010.xlsx\" x2, \"between 1780 and 2010\", 0 matches for \"licen\"). Commit b9ccb23a: cycles.json caveat + about.md mirror, /cycles fathers-and-sons text, /methods + methods.md (both linked to the capture), designPassCopy DP_NO_SERIES_REASON + its holdsUp.test pin (flag-on run green; red-armed: the old wording fails it). Round 0 was the re-fetched capture itself. Codex claims pass, effort high, banner checked: 8 of 8 HOLD (docs/claims/2026-11-25-i089-codex-claims.md). CI ci.yml GREEN on b9ccb23a (run 45691218237); check-deployed-sha-drift in-sync live b9ccb23a. Signed-out GETs (curl, 200 each): /cycles/turchin-fathers-sons, /cycles, /methods, /methods.md, /about.md, /api/v1/cycles each carry \"June 2026 archived copy\" and 0 matches for the old August database wording; /methods and /methods.md link the capture. readCommand re-run today returns exactly the 2 spectral lines that stay (cfda495 / 84b2097, 2026-08-19); its expected-result text was corrected from \"0 lines\" (manager review item 1).",
       "created": "2026-11-20",
-      "updated": "2026-11-20",
-      "readCommandLastRun": "2026-11-25T19:44:42.921Z",
+      "updated": "2026-11-25",
+      "readCommandLastRun": "2026-11-25T20:06:28.809Z",
       "readCommandLastExit": 0,
-      "readCommandLastDurationMs": 1364,
+      "readCommandLastDurationMs": 1176,
       "readCommandLastOutputRef": {
-        "lines": 9,
-        "sha256": "45ad17f80756a0dc"
-      }
+        "lines": 2,
+        "sha256": "00d93044071e397d"
+      },
+      "closedAt": "2026-11-25",
+      "lastEvaluated": "2026-11-25"
     },
     {
       "id": "I-090",

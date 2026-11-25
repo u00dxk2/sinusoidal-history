@@ -1,6 +1,6 @@
 # read-output sidecar for I-071 — written by check-due-gates-dispositioned --run
 # readCommand: git -C C:/dev/skylark/sinusoidal-cycles grep -n "Math.round(xScale.invert" -- src/components/TimeRangeBrush.tsx
-# ran: 2026-11-18T16:48:21.994Z · exit: 0
+# ran: 2026-11-25T19:57:19.552Z · exit: 0
 # lines: 2 · sha256: 2b4c4237325dd883 (first 16 hex of the output below)
 # truncated: false
 --8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--

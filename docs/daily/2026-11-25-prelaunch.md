@@ -8,6 +8,12 @@
 
 ## What changed
 
+**P3, I-089 closed: the Turchin database sentence now cites a source a reader can open (b9ccb23a, live).** It said the project found the database "in August 2026". The only record of that month is the committed 2026-08-24 fact-check summary, whose primary reports are not committed. It now cites the Wayback copy of Turchin's database page dated 2026-06-26, re-fetched today ("Data for download: USPVD2010.xlsx", "between 1780 and 2010", no license text). /methods and methods.md link the capture.
+- Surfaces: the cycles.json caveat (it also feeds /api/v1/cycles) + about.md, /cycles, /methods + methods.md, and the design-pass empty state (`DP_NO_SERIES_REASON`) with its test pin. The two "Since August 2026 … spectral verdict" lines stay: cfda495 / 84b2097 landed 2026-08-19.
+- Codex claims pass, effort high, banner checked: 8 of 8 HOLD (`docs/claims/2026-11-25-i089-codex-claims.md`). Flag-on test run green. Red-armed: the old wording fails `holdsUp.test`.
+- CI ci.yml GREEN on b9ccb23a (run 45691218237); drift in-sync, live b9ccb23a. Signed-out GETs (200 each) of /cycles/turchin-fathers-sons, /cycles, /methods, /methods.md, /about.md and /api/v1/cycles: each carries "June 2026 archived copy" and 0 matches for the old August wording.
+- Hygiene helper: draft `tmp/hygiene-draft-sinusoidal-cycles-2026-11-25.md`. It re-dates I-086, I-087 and I-071 to 12-02. Engineering zero is WAIVED by W-007 until 11-28. Its two READ-MUTATED entries were this lane's own I-089 edits.
+
 **Released (dispatch 739aa2e2; I-090 closed).** David's answer, banked verbatim in `docs/answers/2026-11-21.md`: "10 yes" to "allow years that come from the historical record itself, and still show no present-day position on the curve". The orchestrator's scope note: "His yes is to that sentence and nothing wider."
 
 | Commit | What it is |
