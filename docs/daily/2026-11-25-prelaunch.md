@@ -67,3 +67,15 @@
 - **Cards:** `answered-cards --project sinusoidal-cycles`: 0 lane cards, 1 portfolio rider (312499ee, heavy jobs; nothing for this lane to act on).
 - **Prior-day retro (Q0):** no prior-day retro on record for this lane.
 - **Product-love rotation:** `check-cycle-rotation --lane sinusoidal-cycles` exit 0: no cycle picks this lane today.
+
+### Close
+
+ACTION: COMPLETED · item I-089 · P3 8cb16542 (manager review eb872fa1: COMPLETED, no defects). The held worked example was also released today on David's answer (I-090 closed, 451a07a7, post 701d1659).
+
+- **Since the P3 post:** nothing user-facing changed. Docs commit 99674d0 pushed.
+- **Hygiene draft:** 3 lines, 3 accepted · 0 amended · 0 rejected. I-086, I-087 and I-071 re-dated to 2026-12-02, each with a note (none was worked today; I-087's SCREENS.md batch did not move). READ-MUTATED, quoted: "READ-MUTATED I-087 src/lib/designPassCopy.ts — NOT named in the readCommand: may be the lane's own concurrent P3 edit". It and the I-086 entry (7 paths) are this lane's own I-089 edits; HEAD did not move during the reads. check-wait-justification: "RESULT: PASS — 35 of 98 row(s) carry `waitJustification`; 0 warn / 0 info". check-engineering-zero: "RESULT: PASS — lane sinusoidal-cycles: 0 findings, 0 unreadable, WAIVED by a live waiver (Dependabot #62 until 2026-11-28, W-007)".
+- **W-007 (the Dependabot #62 waiver), dated for 2026-11-28:** its onTrigger is met early. Read today: alert #62 open (minimatch >= 7.0.0, < 11.0.1). `@typescript-eslint/typescript-estree@8.74.0`, published 2026-11-23, depends on `minimatch ^11.0.1`. eslint-config-next 16.4.5 accepts `typescript-eslint ^8.56.0` (installed 8.59.0). So on 11-28: a lockfile-only `npm update typescript-eslint`, then lint, typecheck and test, CI, deploy, and alert #62 reading fixed → close W-007. A red lint re-dates the waiver with the rule named; never an override. Held to 11-28 so the release is not two days old when it is taken.
+- **Ledger delta:** closed I-090 (on delivery) and I-089 (closeWhen (a)); I-089's readCommand expected result corrected to the 2 spectral lines; re-dated I-086, I-087, I-071 → 12-02; W-007 note added.
+- **Verify:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned." with "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-11-25)".
+- **Pending reads:** W-007 on 2026-11-28; I-086, I-087, I-071 on 2026-12-02; W-005 (page-only click-through on `/`, `/methods` and the cycle pages, now dated from the 451a07a7 deploy) near 100 post-change impressions; the 60-day baseline about 2027-01-20.
+- **Open with no row:** the dated yearly testability verdict question was never put to David.
