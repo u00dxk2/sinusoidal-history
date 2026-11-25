@@ -152,7 +152,7 @@ Big Cycle of imperial rise and fall: rising → top → declining → reset, tra
 
 *Source:* Peter Turchin, 'Dynamics of political instability in the United States, 1780–2010,' *Journal of Peace Research* 49(4) (2012): 577–591.
 
-*Caveat:* Same author as the 150-year secular cycle - a distinct construct from a distinct paper, not independent corroboration. Turchin describes the observed ~50-year pattern as sharply peaked, not sinusoidal; the cosine here keeps only his recurrence interval and reference peaks, not his waveform. No paired data series: in August 2026 the project found the underlying US Political Violence Database (USPVD2010.xlsx, 1780–2010) on Turchin's site with no reuse license stated on its page, so this site does not redistribute it.
+*Caveat:* Same author as the 150-year secular cycle - a distinct construct from a distinct paper, not independent corroboration. Turchin describes the observed ~50-year pattern as sharply peaked, not sinusoidal; the cosine here keeps only his recurrence interval and reference peaks, not his waveform. No paired data series: a June 2026 archived copy of Turchin's database page offers the underlying US Political Violence Database (USPVD2010.xlsx, 1780–2010) for download, with no reuse license stated on that page, so this site does not redistribute it.
 
 ## Intellectual-honesty disclaimer
 

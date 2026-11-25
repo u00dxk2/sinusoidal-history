@@ -62,8 +62,10 @@ export const DP_NOT_FOUND_BODY = "It may have moved, or the address may be misty
 // it states.
 // I-078 (2026-11-19): the headline now says "No paired data series", so the reason no longer
 // repeats it and opens on why.
-// I-088 (2026-11-20): dated, because the page the August 2026 fact-check read now redirects with
+// I-088 (2026-11-20): dated, because the page the 2026-08-24 fact-check read now redirects with
 // no file link, so the old present-tense claim could not be re-verified (Codex claims r1 HOLDS).
+// I-089 (2026-11-25): dated to the June 2026 Wayback copy a reader can open, not the August
+// read whose primary reports are not committed.
 export const DP_NO_SERIES_REASON =
-  "In August 2026 the project found the underlying database on Turchin's site with no reuse licence stated on its page, so this site does not redistribute it.";
+  "A June 2026 archived copy of Turchin's database page offers the underlying database for download, with no reuse licence stated on that page, so this site does not redistribute it.";
 export const DP_NO_SERIES_NEXT = "Open this curve in the chart";

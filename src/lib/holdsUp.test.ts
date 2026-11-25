@@ -60,7 +60,7 @@ describe("I-032: the share card carries the page's verdict", () => {
     else {
       const flagOff = "No paired data series — this site pairs no data series with this cycle, so it gives the cycle no verdict.";
       const flagOn =
-        "No paired data series. In August 2026 the project found the underlying database on Turchin's site with no reuse licence stated on its page, so this site does not redistribute it.";
+        "No paired data series. A June 2026 archived copy of Turchin's database page offers the underlying database for download, with no reuse licence stated on that page, so this site does not redistribute it.";
       // Exactly the variant this run renders (page.tsx: dp = designVariant() !== null), and the
       // answer paragraph is that sentence and nothing more (Codex r3).
       const expected = designVariant() !== null ? flagOn : flagOff;

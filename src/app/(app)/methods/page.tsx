@@ -468,9 +468,20 @@ export default function Methods() {
         <p>
           <strong className="text-ink">No paired series for Turchin&apos;s
           fathers-and-sons cycle.</strong>{" "}
-          {/* I-088 (2026-11-20): dated; the page the August check read now redirects. One
-              line, so no edge whitespace is at risk (AGENTS.md). Mirror: public/methods.md. */}
-          {"The natural series - Turchin's US Political Violence Database - was on his site in August 2026 (USPVD2010.xlsx) with no reuse license stated on its page, so we do not redistribute it. The cycle ships unpaired rather than paired to a construct-mismatched proxy."}
+          {/* I-088 (2026-11-20): dated; the page the August check read now redirects.
+              I-089 (2026-11-25): dated to the archived copy a reader can open (Wayback
+              20260626094344: USPVD2010.xlsx twice, no "licen"), not to the uncommitted August
+              read. Explicit {" "} at every junction (AGENTS.md). Mirror: public/methods.md. */}
+          {"The natural series - Turchin's US Political Violence Database - is offered for download (USPVD2010.xlsx) on a"}{" "}
+          <a
+            href="https://web.archive.org/web/20260626094344/http://peterturchin.com/age-of-discord/united-states-political-violence-database/"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="underline underline-offset-[3px] decoration-ink-soft/50 hover:decoration-ink hover:text-ink transition-colors"
+          >
+            June 2026 archived copy of his database page
+          </a>
+          {", with no reuse license stated there, so we do not redistribute it. The cycle ships unpaired rather than paired to a construct-mismatched proxy."}
         </p>
         <p>
           <strong className="text-ink">Stimson Policy Mood with Schlesinger
