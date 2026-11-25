@@ -2488,7 +2488,7 @@
       "id": "W-007",
       "type": "watch",
       "priority": "P3",
-      "status": "open",
+      "status": "closed",
       "owner": "sinusoidal-cycles",
       "identified": "2026-11-14",
       "title": "Dependabot #62: minimatch 10.2.5 (lint-only, transitive) has a DoS advisory whose only fix is a major version its parent will not take",
@@ -2504,17 +2504,11 @@
         "unWait": "a parent release or backport that a patch/minor bump can take",
         "owner": "sinusoidal-cycles"
       },
-      "engineeringZeroWaivers": [
-        {
-          "alert": 62,
-          "until": "2026-11-28",
-          "reason": "Minted 2026-11-14 at the refactor close. Re-read gh api alerts/62 today: minimatch GHSA-g3hv-75wg-m249, vulnerable >= 7.0.0, < 11.0.1, first_patched 11.0.1 only (no 9.x/10.x backport); affected copy 10.2.5 under @typescript-eslint/typescript-estree (^10.2.2), dev scope, lint-time only. Same advisory and date as frolic R-286 (#212). Un-waive and fix when a parent release accepts 11.x."
-        }
-      ],
-      "notes": "2026-11-14 (refactor close): minted to carry the engineering-zero waiver for #62; check-engineering-zero read RED on it at this close.\n\n\n\n | 2026-11-25 (P5): ONTRIGGER MET EARLY. Read today: alert #62 state=open (minimatch >= 7.0.0, < 11.0.1); @typescript-eslint/typescript-estree@8.74.0 (published 2026-11-23) depends on minimatch ^11.0.1; eslint-config-next@16.4.5 accepts typescript-eslint ^8.56.0, installed 8.59.0. So the fix is a lockfile-only minor bump, no override. DATED ACTION FOR 2026-11-28 (the waiver's own date, giving the 2-day-old release time to bake): npm update typescript-eslint (lockfile only), npm run lint + typecheck + test, push, CI green, deploy in-sync, then gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/62 --jq .state reads fixed -> close W-007. If the bump reds lint, re-date the waiver with the failing rule named; never an override.",
+      "notes": "2026-11-14 (refactor close): minted to carry the engineering-zero waiver for #62; check-engineering-zero read RED on it at this close.\n\n\n\n | 2026-11-25 (P5): ONTRIGGER MET EARLY. Read today: alert #62 state=open (minimatch >= 7.0.0, < 11.0.1); @typescript-eslint/typescript-estree@8.74.0 (published 2026-11-23) depends on minimatch ^11.0.1; eslint-config-next@16.4.5 accepts typescript-eslint ^8.56.0, installed 8.59.0. So the fix is a lockfile-only minor bump, no override. DATED ACTION FOR 2026-11-28 (the waiver's own date, giving the 2-day-old release time to bake): npm update typescript-eslint (lockfile only), npm run lint + typecheck + test, push, CI green, deploy in-sync, then gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/62 --jq .state reads fixed -> close W-007. If the bump reds lint, re-date the waiver with the failing rule named; never an override. | 2026-11-25 (close-session): CLOSED, taken to zero rather than renewed. The waiver's own condition (\"Un-waive and fix when a parent release accepts 11.x\") was met: @typescript-eslint/typescript-estree 8.74.0 depends on minimatch ^11.0.1, inside eslint-config-next 16.4.5's typescript-eslint ^8.56.0. Commit 05ba5297: `npm update typescript-eslint`, package-lock.json only (typescript-eslint 8.59.0 -> 8.74.0, minimatch 10.2.5 -> 11.0.9), no override. eslint . 0 errors; typecheck clean. CI ci.yml GREEN on 05ba5297 (run 45697217625); check-deployed-sha-drift in-sync live 05ba5297. gh api repos/u00dxk2/sinusoidal-history/dependabot/alerts/62 --jq .state -> \"fixed\" (it read \"open\" earlier today); open Dependabot alerts: 0. engineeringZeroWaivers removed. This supersedes the \"dated for 2026-11-28\" plan in today's P5 (c5dce413).",
       "created": "2026-11-14",
       "updated": "2026-11-25",
-      "lastEvaluated": "2026-11-14"
+      "lastEvaluated": "2026-11-25",
+      "closedAt": "2026-11-25"
     },
     {
       "id": "I-082",

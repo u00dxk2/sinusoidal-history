@@ -79,3 +79,18 @@ ACTION: COMPLETED · item I-089 · P3 8cb16542 (manager review eb872fa1: COMPLET
 - **Verify:** `check-due-gates-dispositioned` (no flag): "verdict: CLEAR — every gate due at Phase 0 was dispositioned." with "snapshot: tmp\due-gates-snapshot.json — CURRENT (taken 2026-11-25)".
 - **Pending reads:** W-007 on 2026-11-28; I-086, I-087, I-071 on 2026-12-02; W-005 (page-only click-through on `/`, `/methods` and the cycle pages, now dated from the 451a07a7 deploy) near 100 post-change impressions; the 60-day baseline about 2027-01-20.
 - **The dated yearly testability verdict question** (never put to David) now has a row: I-091, owner this lane, re-check 2026-12-16. It goes to David as a card only if a build is proposed, because nothing is built or blocked on it today (P5 ack ea7a9377).
+
+**Session closed 13:43 MT (close-session 4dbbe2d5).**
+- **Shipped live today:**
+  - 451a07a7: every cycle page shows its worked example, and the home page links all ten cycle pages (proved by JS-off GETs and drift in-sync).
+  - b9ccb23a: the Turchin database note cites a June 2026 archived copy anyone can open (six signed-out GETs).
+  - 05ba5297: Dependabot #62 fixed with a lockfile-only typescript-eslint 8.59.0 → 8.74.0 (minimatch 11.0.9). CI green run 45697217625, drift in-sync live 05ba5297, and `gh api …/dependabot/alerts/62 --jq .state` → "fixed" (open alerts 0). W-007 closed and its waiver removed. This supersedes the 11-28 plan above: the waiver's own un-waive condition was met, so the close prompt's "renew or take to zero" took it to zero.
+- **Held: none.**
+- **Codex runs:**
+  1. The confirm of 757d9a2 + 1fc9ca0. Verdict "Hold `1fc9ca0` + `757d9a2` until the worked example's curve prose and formula stop printing site-constructed reference-peak years." (79,313 tokens; DELIBERATE, see above.)
+  2. The claims pass on b9ccb23a. Verdict "`b9ccb23` passes the claims review and may proceed through the release gates." (49,847 tokens.)
+- **Engineering zero:** `check-engineering-zero --project sinusoidal-cycles` → "lane sinusoidal-cycles: 0 finding(s), 0 unreadable, nothing to waive".
+- **David's cards:** none answered today. His 11-21 chat answer (relay 739aa2e2) was carried out as the release above.
+- **Orchestrator notes:** b0c01c3a (was the 10 yes acted on?) is answered in 8cb16542. P5 ack ea7a9377's open line became I-091.
+- **Permission-classifier refusals today:** none.
+- **Customer impact today:** a reader can now see each cycle page's own arithmetic, reach every cycle page from the home page, and open the archived source behind the Turchin data note.
