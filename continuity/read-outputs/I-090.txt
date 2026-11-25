@@ -1,0 +1,7 @@
+# read-output sidecar for I-090 — written by check-due-gates-dispositioned --run
+# readCommand: git -C C:/dev/skylark/sinusoidal-cycles rev-list --count origin/main..held/search-day-build
+# ran: 2026-11-25T19:42:32.465Z · exit: 0
+# lines: 1 · sha256: d4735e3a265e16ee (first 16 hex of the output below)
+# truncated: false
+--8<-- READ OUTPUT BELOW (check-due-gates-dispositioned --run) --8<--
+2

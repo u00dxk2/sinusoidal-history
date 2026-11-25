@@ -2674,13 +2674,20 @@
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -e \"August 2026\" -- src/lib/designPassCopy.ts src/data/cycles.json public/about.md public/methods.md src/app/(app)/methods/page.tsx src/app/(app)/cycles/page.tsx — the surfaces whose date is SUPPLIED; 0 lines once narrowed under (a); under (b) the lines stay and the row closes on the committed record",
       "notes": "2026-11-20 (P5): minted at the close as the disposition of the P5 ack's date defect (c1eefe24: 'record \"August 2026\" as SUPPLIED on a dated ledger row with an owner and a re-check date'). Chosen over narrowing tonight because narrowing is outward copy on six surfaces and owes the full gate set. It goes with I-087's 2026-11-24 batch.",
       "created": "2026-11-20",
-      "updated": "2026-11-20"
+      "updated": "2026-11-20",
+      "readCommandLastRun": "2026-11-25T19:44:42.921Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 1364,
+      "readCommandLastOutputRef": {
+        "lines": 9,
+        "sha256": "45ad17f80756a0dc"
+      }
     },
     {
       "id": "I-090",
       "type": "issue",
       "priority": "P2",
-      "status": "open",
+      "status": "closed",
       "owner": "sinusoidal-cycles",
       "identified": "2026-11-21",
       "title": "Search-day build: the floor is LIVE (2d6efd1 + 4b22f15); the worked example, home links and new titles are HELD on branch held/search-day-build (37cc794) for David's ruling on calendar years in the worked example",
@@ -2695,8 +2702,17 @@
         "owner": "sinusoidal-cycles"
       },
       "created": "2026-11-21",
-      "updated": "2026-11-21",
-      "notes": "2026-11-21 (P3 follow-up 152be47c): Codex diff review (142,098 tokens) verdict 'Hold e675c56 for the Worked example's date rules. 2d6efd1 has no blocking finding.' Floor released as 2d6efd1 + 4b22f15 (IndexNow sends parsed URLs, Codex LOW 4): CI ci.yml green on 4b22f156, drift in-sync live 4b22f156, onrender host 308 to the apex, og:url own page on 5 pages, sitemap 17 URLs / 0 lastmod, IndexNow HTTP 202 for 5 URLs. Build rebased to 37cc794 on held/search-day-build. Owed before it ships: David's date ruling, the home-test fix (render Home inside NuqsTestingAdapter; compare emitted JSON-LD to the links)."
+      "updated": "2026-11-25",
+      "notes": "2026-11-21 (P3 follow-up 152be47c): Codex diff review (142,098 tokens) verdict 'Hold e675c56 for the Worked example's date rules. 2d6efd1 has no blocking finding.' Floor released as 2d6efd1 + 4b22f15 (IndexNow sends parsed URLs, Codex LOW 4): CI ci.yml green on 4b22f156, drift in-sync live 4b22f156, onrender host 308 to the apex, og:url own page on 5 pages, sitemap 17 URLs / 0 lastmod, IndexNow HTTP 202 for 5 URLs. Build rebased to 37cc794 on held/search-day-build. Owed before it ships: David's date ruling, the home-test fix (render Home inside NuqsTestingAdapter; compare emitted JSON-LD to the links). | 2026-11-25 (P1, released): CLOSED on delivery. David's answer, relayed by orchestrator dispatch 739aa2e2 (banked verbatim in docs/answers/2026-11-21.md): \"10 yes\" to \"allow years that come from the historical record itself, and still show no present-day position on the curve\"; orchestrator scope note \"His yes is to that sentence and nothing wider.\" Applied as: record years kept (Codex finding 1); curve-table construction years removed, the table prints offset and height only (finding 2; 1fc9ca0); home test renders inside NuqsTestingAdapter and compares the emitted JSON-LD (LOW 3; 1fc9ca0 + 451a07a). Shipped as 757d9a2 (cherry-pick of 37cc794; src patch-id 868ea4f2 identical to 37cc794) + 1fc9ca0 + 451a07a; 030d293 dropped (its docs are a subset of main). Codex confirm at effort high (79,313 tokens, banner checked): new sentence HOLDS, record years HOLD, test gap fixed; its hold on the reference-peak year is DELIBERATE (that year is live on every cycle page at 4b22f15), docs/claims/2026-11-25-codex-confirm-1fc9ca0.md. Red-armed: year cell back fails 10 worked-example tests; reversed emitted list, removed adapter and deleted Viz each fail the home test. Local 641/641. CI ci.yml GREEN on 451a07a7 (run 45687057210); check-deployed-sha-drift in-sync live 451a07a7. JS-off GETs as a browser and as OAI-SearchBot (curl): /cycles/khaldun curve cells [−0.50 −1.00 −0.25 0.00 0.00 +1.00 +0.25 0.00 +0.50 −1.00], no 1759, record 1944 and 2011 present; /cycles/perez 4 rows; / title \"Ten long-wave theories of history, one time axis · Sinusoidal History\", 10 cycle links, ItemList; /methods title \"Methods: curve model, data sources, normalization · Sinusoidal History\". IndexNow HTTP 200 for 12 URLs. The readCommand's 2 (run today) counts the two superseded held SHAs; the branch is retired after this close. Still open and NOT covered: the dated yearly testability verdict question (never put to David).",
+      "readCommandLastRun": "2026-11-25T19:42:32.465Z",
+      "readCommandLastExit": 0,
+      "readCommandLastDurationMs": 613,
+      "readCommandLastOutputRef": {
+        "lines": 1,
+        "sha256": "d4735e3a265e16ee"
+      },
+      "closedAt": "2026-11-25",
+      "lastEvaluated": "2026-11-25"
     }
   ],
   "knownPatterns": [
