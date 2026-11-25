@@ -114,9 +114,20 @@ describe("the rendered section", () => {
     const html = await render(cycleRoutePath(cycle).split("/").pop()!);
     const s = section(html);
     expect(s).toContain(`cos(2π × (year − ${cycle.reference_peak_year}) ÷ ${cycle.period_years})`);
-    for (const r of curveRows(cycle, YEAR)) {
-      expect(s).toContain(`>${r.year}<`);
+    // The curve block names no construction year (I-090, 2026-11-25: David's yes covers record
+    // years only). Scoped to the curve block: the record table may share a year (Modelski 1945).
+    const recordAt = s.indexOf("The record line");
+    const curve = recordAt === -1 ? s : s.slice(0, recordAt);
+    // The formula line above the table names the reference peak on purpose; the table may not.
+    const table = curve.slice(curve.indexOf("<table"), curve.indexOf("</table>"));
+    expect(table.length).toBeGreaterThan(0);
+    const curveCells = [...table.matchAll(/<td[^>]*>([^<]*)<\/td>/g)].map((m) => m[1]);
+    const rows = curveRows(cycle, YEAR);
+    expect(curveCells).toEqual(rows.flatMap((r) => [signed(r.fraction, 2), signed(r.height, 2)]));
+    for (const r of rows) {
+      expect(table, `${cycle.id}: curve table names the year ${r.year}`).not.toContain(String(r.year));
     }
+    expect(table).not.toMatch(/>Year</);
     expect(s).toContain(`>${signed(1, 2)}<`);
     const judged = judgedRecord(cycle);
     if (judged) {

@@ -11,6 +11,9 @@ import type { NormalizedPoint } from "@/lib/seriesMath";
  *  - Only years INSIDE the drawn period are worked (I-061: one period, cut at today; no
  *    present position). On a cut cycle the closing quarter point or trough can lie past
  *    today, so they are dropped, never worked. `curveRows` filters on `drawnPeriod().to`.
+ *  - The curve table prints no calendar year, only the offset and the height (2026-11-25,
+ *    I-090): David allowed years from the historical record, not construction years. `year`
+ *    stays on CurveRow for the filter and the tests; the component never renders it.
  *  - The curve formula is the code's: `amplitude_normalized * cos(...)` (cycleMath.ts:5).
  *    The page shows the amplitude only when it is not 1.
  */
@@ -120,9 +123,4 @@ export function scaleFormula(term: string, low: number, high: number, approx: bo
   const num = low === 0 ? term : `(${term}${minusLow})`;
   const den = low === 0 ? plain(high) : `(${plain(high)}${minusLow})`;
   return `plotted height ${approx ? "≈" : "="} 2 × ${num} ÷ ${den} − 1`;
-}
-
-/** A year that may be fractional (1912.5, 1986.25), printed exactly. */
-export function exactYear(y: number): string {
-  return String(y);
 }

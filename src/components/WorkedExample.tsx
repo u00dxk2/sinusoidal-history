@@ -3,7 +3,6 @@ import { cycles } from "@/data/cycles";
 import type { NormalizedPoint } from "@/lib/seriesMath";
 import {
   curveRows,
-  exactYear,
   plain,
   recordWorking,
   scaleFormula,
@@ -61,20 +60,21 @@ export default function WorkedExample({
         {amp === 1 && allUnit
           ? " The code also multiplies by an amplitude, which is 1 for every cycle on this site, so it changes nothing."
           : ""}
-        {" "}A quarter of a period separates each peak or low from the midline. The rows are the quarter-period years inside the stretch this page draws, given exactly; the peak and low years listed above are these, rounded to whole years. Like that list, they are positions of this construction, not dates claimed by the theorist.
+        {" "}A quarter of a period separates each peak or low from the midline. The rows step through the stretch this page draws a quarter of a period at a time, counted from the reference peak.
       </p>
+      {/* No year column (2026-11-25): David's I-090 yes covers years from the historical record,
+          not the construction's own quarter-period years, so this table names none (Codex diff
+          review finding 2; the primer's prepared shape). The record block below keeps its years. */}
       <table className="mb-6 border-t border-rule/30">
         <thead>
           <tr>
-            <th scope="col" className={th}>Year</th>
             <th scope="col" className={th}>(year − peak) ÷ period</th>
             <th scope="col" className={th}>Curve height</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.year} className="border-t border-rule/20">
-              <td className={td}>{exactYear(r.year)}</td>
+            <tr key={r.fraction} className="border-t border-rule/20">
               <td className={td}>{signed(r.fraction, 2)}</td>
               <td className={td}>{signed(r.height, 2)}</td>
             </tr>
