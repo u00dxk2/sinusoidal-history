@@ -119,14 +119,18 @@ if (process.argv.includes("--compare")) {
         note(false, `${key}: ${name} present in ${a}, MISSING or hidden in ${b}`);
         continue;
       }
-      const ok = lb.lines <= la.lines && !lb.overflow && lb.bottom <= la.bottom + 1;
+      // Bottom y compares only like with like: a flag-off page carries the old masthead, which is
+      // taller, so every line below it sits lower by design (measured 2026-11-26: +37px at 320).
+      const sameVariant = pa.variant === pb.variant;
+      const ok = lb.lines <= la.lines && !lb.overflow && (!sameVariant || lb.bottom <= la.bottom + 1);
       note(ok, `${key}: ${name} ${la.lines} -> ${lb.lines} line(s), bottom ${la.bottom} -> ${lb.bottom}, width ${la.scroll}/${la.client} -> ${lb.scroll}/${lb.client}`);
     }
-    // Tabular digits, asserted: a visible tick must exist, read tabular-nums, and set "1111" and
-    // "0000" at the same width in its own computed font (Codex r1 LOW).
+    // Tabular digits, asserted: a visible tick must exist and set "1111" and "0000" at the same
+    // width in its own computed font (Codex r1 LOW). font-variant-numeric is printed, not asserted:
+    // the desktop axis gets "tnum" through font-feature-settings, which it does not report.
     if (wantWrapper) {
       const t = pb.tnum;
-      const ok = !!t && /tabular-nums/.test(t.variant) && t.ones === t.zeros;
+      const ok = !!t && t.ones === t.zeros;
       note(ok, `${key}: ticks ${t ? `"${t.variant}", "1111" ${t.ones}px vs "0000" ${t.zeros}px (${t.family})` : "NO visible tick to probe"}`);
     }
   }
