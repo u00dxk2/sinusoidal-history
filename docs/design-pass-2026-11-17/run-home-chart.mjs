@@ -73,6 +73,16 @@ if (process.argv.includes("--compare")) {
       note(false, `${key}: ${pa.error ?? ""} ${pb.error ?? ""}`);
       continue;
     }
+    // The served page's own flag reading (the masthead's data-design-variant), not the CLI's.
+    const wantWrapper = pb.variant === "a";
+    note(pb.wrapper === wantWrapper, `${key}: served variant ${JSON.stringify(pb.variant)}, chart wrapper ${pb.wrapper ? "present" : "absent"}`);
+    if (!wantWrapper) {
+      const sameFaces = JSON.stringify(pa.faces) === JSON.stringify(pb.faces);
+      note(sameFaces, `${key}: flag off — every text element's face identical to ${a} (${pb.faces.length} element(s))`);
+    }
+    // The whole root's textContent, whitespace collapsed: catches a deleted space between two
+    // inline nodes, which the per-node multiset drops (Codex r1 LOW).
+    note(pa.whole === pb.whole, `${key}: whole textContent ${pa.whole === pb.whole ? "identical" : "DIFFERENT"} (${pb.whole.length} chars)`);
     const same = JSON.stringify(pa.text) === JSON.stringify(pb.text);
     note(same, `${key}: text multiset ${pa.text.length} -> ${pb.text.length} line(s), ${same ? "identical" : "DIFFERENT"}`);
     if (!same) {
@@ -88,7 +98,7 @@ if (process.argv.includes("--compare")) {
         }
       }
     }
-    if (B.flagOn) {
+    if (wantWrapper) {
       const off = pb.faces.filter((f) => !/dpDisplay|dpText/.test(f.family) || f.style !== "normal" || f.transform === "uppercase" || f.loaded !== true);
       note(off.length === 0, `${key}: ${pb.faces.length} text element(s), ${off.length} off the pass faces (or italic / uppercase / no loaded face matching family+weight+style)`);
       for (const f of off.slice(0, 5)) console.log(`     ${f.tag}: ${f.family} ${f.weight} ${f.style} ${f.transform} loaded=${f.loaded} — "${f.text}"`);
@@ -101,13 +111,24 @@ if (process.argv.includes("--compare")) {
     const newly = pb.clipped.filter((c) => !wasClipped.has(c.text));
     note(newly.length === 0, `${key}: ${pb.clipped.length} clipped (${pa.clipped.length} before), ${newly.length} newly clipped`);
     for (const c of newly.slice(0, 5)) console.log(`     ${c.scroll}px in ${c.client}px — "${c.text}"`);
+    // A budget line present before must be present after, keep its line count, not overflow,
+    // and not move down (Codex r1: a missing line or one that slid below the fold passed).
     for (const [name, la] of Object.entries(pa.budget)) {
       const lb = pb.budget[name];
-      if (!la || !lb) continue;
-      const ok = lb.lines <= la.lines && !lb.overflow;
+      if (!lb) {
+        note(false, `${key}: ${name} present in ${a}, MISSING or hidden in ${b}`);
+        continue;
+      }
+      const ok = lb.lines <= la.lines && !lb.overflow && lb.bottom <= la.bottom + 1;
       note(ok, `${key}: ${name} ${la.lines} -> ${lb.lines} line(s), bottom ${la.bottom} -> ${lb.bottom}, width ${la.scroll}/${la.client} -> ${lb.scroll}/${lb.client}`);
     }
-    if (pb.tnum) console.log(`     ticks: font-variant-numeric "${pb.tnum.variant}", "1111" ${pb.tnum.ones}px vs "0000" ${pb.tnum.zeros}px (${pb.tnum.family})`);
+    // Tabular digits, asserted: a visible tick must exist, read tabular-nums, and set "1111" and
+    // "0000" at the same width in its own computed font (Codex r1 LOW).
+    if (wantWrapper) {
+      const t = pb.tnum;
+      const ok = !!t && /tabular-nums/.test(t.variant) && t.ones === t.zeros;
+      note(ok, `${key}: ticks ${t ? `"${t.variant}", "1111" ${t.ones}px vs "0000" ${t.zeros}px (${t.family})` : "NO visible tick to probe"}`);
+    }
   }
   console.log(`\n--- what the text elements resolve to in ${b} (all keys)`);
   for (const [k, n] of Object.entries(faceKinds)) console.log(`  ${k} ×${n}`);
@@ -117,6 +138,44 @@ if (process.argv.includes("--compare")) {
   for (const [k, v] of Object.entries(B.gates)) note(v === 0, `${b} ${k} exit ${v}`);
   console.log(`\nRESULT: ${problems === 0 ? "PASS" : "FAIL"} — ${problems} problem(s)`);
   process.exit(problems === 0 ? 0 : 1);
+}
+
+// ---------------------------------------------------------------- batch (one heavy-gate admit)
+// --batch --base <sha>: measure the base tree's two changed files (restored from <sha> for the
+// run, then restored from HEAD in a finally), then HEAD flag on, then HEAD flag off, then both
+// compares. Refuses to start unless those two files are clean against HEAD.
+if (process.argv.includes("--batch")) {
+  const { spawnSync } = await import("node:child_process");
+  const baseSha = arg("--base");
+  const files = ["src/app/(app)/page.tsx", "src/app/globals.css"];
+  const git = (args) => spawnSync("git", ["-C", root, ...args], { encoding: "utf8" });
+  const dirty = () => git(["status", "--porcelain", "--", ...files]).stdout.trim();
+  if (!baseSha || dirty()) {
+    console.log(`RESULT: FAIL — --batch needs --base <sha> and clean ${files.join(", ")} (dirty: ${JSON.stringify(dirty())})`);
+    process.exit(2);
+  }
+  const self = fileURLToPath(import.meta.url);
+  const codes = {};
+  try {
+    const co = git(["checkout", baseSha, "--", ...files]);
+    if (co.status !== 0) throw new Error(`checkout ${baseSha} failed: ${co.stderr}`);
+    codes.before = await run(`measure the base tree (${baseSha.slice(0, 8)})`, self, ["--tag", "before"]);
+  } finally {
+    git(["checkout", "HEAD", "--", ...files]);
+    console.log(`restored ${files.join(", ")} from HEAD; dirty after restore: ${JSON.stringify(dirty())}`);
+  }
+  if (dirty()) {
+    console.log("RESULT: FAIL — the restore left the files dirty; stop and look");
+    process.exit(1);
+  }
+  codes.after = await run("measure HEAD, flag on", self, ["--tag", "after"]);
+  codes.off = await run("measure HEAD, flag off", self, ["--tag", "off", "--flag-off"]);
+  codes.compareOn = await run("compare before -> after", self, ["--compare", "before", "after"]);
+  codes.compareOff = await run("compare before -> off", self, ["--compare", "before", "off"]);
+  console.log(`\nbatch exits: ${JSON.stringify(codes)}`);
+  const ok = Object.values(codes).every((c) => c === 0);
+  console.log(`RESULT: ${ok ? "PASS" : "FAIL"}`);
+  process.exit(ok ? 0 : 1);
 }
 
 // ---------------------------------------------------------------- measure
@@ -217,6 +276,9 @@ try {
             if (t) text.push(t);
           }
           text.sort();
+          const whole = chart.textContent.replace(/\s+/g, " ").trim();
+          const variant = document.querySelector("[data-design-variant]")?.getAttribute("data-design-variant") ?? null;
+          const wrapper = !!chart.closest("[data-dp-chart]");
           const visible = (el) => {
             const r = el.getBoundingClientRect();
             return r.width > 0 && r.height > 0;
@@ -268,7 +330,9 @@ try {
             };
           }
           let tnum = null;
-          const tick = chart.querySelector("[data-glance-height-label] + div span") ?? chart.querySelector("svg text");
+          const tick = [...chart.querySelectorAll("[data-glance-height-label] + div span, svg text")].find(
+            (el) => visible(el) && /\d/.test(el.textContent),
+          );
           if (tick) {
             const cs = getComputedStyle(tick);
             const probe = (s) => {
@@ -287,7 +351,7 @@ try {
               zeros: probe("0000"),
             };
           }
-          return { text, faces, clipped, budget, tnum };
+          return { text, whole, variant, wrapper, faces, clipped, budget, tnum };
         });
         const p = result.pages[key];
         console.log(`  ${key}: ${p.error ?? `${p.text.length} text line(s), ${p.faces.length} text element(s), ${p.clipped.length} clipped`}`);

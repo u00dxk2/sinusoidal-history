@@ -322,7 +322,10 @@ body {
   font-variation-settings: normal;
   font-feature-settings: "tnum" on, "kern" on;
 }
-[data-dp-chart] :is(.font-display-italic, .italic, em, i) {
+/* The calibrate panel's per-row verdict sits inside the row's button (NowSummaryPanel), so it
+   would inherit the display face at 600 from the button; it is prose, so it takes the text face
+   (Codex r1 on d76467e, MEDIUM). */
+[data-dp-chart] :is(.font-display-italic, .italic, em, i, [data-panel-verdict]) {
   font-family: var(--dp-text);
   font-style: normal;
   font-weight: 400;
