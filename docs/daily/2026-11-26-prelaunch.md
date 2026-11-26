@@ -57,3 +57,18 @@
 
 - Prior-day retro findings (569b6955): 4 tagged "still on discipline". The one that bears on today is "a check that passes for the wrong reason". The fold read and the rendered-text gate are both blind to parts of `Viz`. So acceptance 1 and 2 are browser reads on the built copy, and each new check is shown failing once before it is trusted.
 - Kickoff correction noted: W-007 is closed (05ba5297, 2026-11-25). It was not re-run.
+
+### Close
+
+ACTION: COMPLETED · item I-087 · P3 d5f79864. Manager review d6f73114 read it COMPLETED against the P1 acceptance as approved.
+
+- **Changed since the P3 post:** nothing on the product. 9df2168 (this report) is docs only. The receipt in d5f79864 still holds, so no new receipt line.
+- **The tabular-figures read I stand on:** the measured width. A visible axis tick sets "1111" and "0000" at 23.77px each in dpDisplay, on every key, built and live. The computed `font-variant-numeric` reads `tabular-nums` on the phone ticks, which carry the `tabular-nums` class. It reads `normal` on the desktop axis, which gets `tnum` through `font-feature-settings`, a setting that property does not report. Codex's static read of the subset (equal default advances for all ten digits) agrees.
+- **Ledger delta** (`continuity/items.json`, via continuity-edit):
+  - I-087: note appended (batch 4 live at 4c19f12; NEXT is embed, embed docs, poster and share image). `waitJustification.unWaitOn` was re-pointed from the stale "NEXT batch due 2026-11-24" to those four screens. Status stays `monitoring`, because the encounter and outcome reads are still owed. nextEvaluation is still 2026-12-02.
+  - I-092 minted: the Plex latin subsets have no U+2190/U+2192, so flag-on arrows fall back to a system face. That was already true on the cycle pages, and since today it is on the home chart's first screen too. The fix is a subset that carries them, or arrows drawn as SVG, proven by a glyph-source read on a build. nextEvaluation 2026-12-03.
+  - I-087's `--run` stamp from P1 (`continuity/read-outputs/I-087.txt`).
+- **Hygiene draft:** 0 drafted lines (all inputs none). Checks: wait-justification PASS (35 of 100 rows; re-run after the I-087 edit, still PASS), engineering-zero PASS (0 findings, 0 unreadable), READ-MUTATED none.
+- **Due gates:** `check-due-gates-dispositioned` reads CLEAR, snapshot CURRENT (taken 2026-11-26), 0 due at Phase 0.
+- **Pending reads:** 2026-12-02 I-086, I-087, I-071 · 2026-12-03 I-092 · 2026-12-16 I-091 · about 2027-01-20 the 60-day baseline.
+- **Codex:** 2 calls (r1 on d76467e, r2 on 8d7c3c7), both gpt-6.2-sol at effort high, read-only, banner checked.
