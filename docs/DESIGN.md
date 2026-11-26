@@ -89,7 +89,7 @@ Round 2 built three first-screen variants from different composition families be
 
 **Flag:** build-time environment variable `NEXT_PUBLIC_DESIGN_PASS_VARIANT=a` (`src/lib/designPass.ts`; any other value, including `b` or `c`, reads as unset). The `NEXT_PUBLIC_` prefix is there because the error screen is a client component and reads the same switch. It is inlined at build time, so changing it needs a redeploy. **Rollback:** unset it on Render and redeploy. No data, route or stored state depends on it. The `DESIGN_PASS_PREVIEW` switch and the `/design-pass/*` routes no longer exist, so `docs/design-pass-2026-11-17/run-variants.mjs` is a record of round 2 and no longer runs.
 
-**What the flag does not touch:** the chart itself (`Viz` and everything inside it). The new faces apply only to the home masthead, the cycle page's header and verdict box, the 404 and the error screen, so the phone glance caption, height label and verdict line keep today's face, size and words.
+**What the flag does not touch:** the chart itself (`Viz` and everything inside it). The new faces apply only to the home masthead, the cycle page's header and verdict box, the 404 and the error screen, so the phone glance caption, height label and verdict line keep today's face, size and words. **Superseded 2026-11-26 (I-087 batch 4):** the home chart now takes the faces through `[data-dp-chart]` (`src/app/globals.css`), which wraps `Viz` on the home page only. Its words did not change, and the caption, height label and verdict line were re-measured on a flag-on build: no line gained a line, and the height label went to 10px to fit its column. The embed and the poster are separate screens and keep the old faces (docs/SCREENS.md, NEXT).
 
 ## Constraints every variant keeps
 

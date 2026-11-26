@@ -134,7 +134,8 @@ body {
  * (a 1px hairline under a sheet edge), one motion ("ruling first, ink second").
  */
 .dp,
-[data-dp] {
+[data-dp],
+[data-dp-chart] {
   --dp-display: var(--font-dp-display), "Arial Narrow", Arial, sans-serif;
   --dp-text: var(--font-dp-text), Georgia, serif;
   --dp-edge: 0 1px 0 rgba(26, 26, 26, 0.12);
@@ -298,6 +299,53 @@ body {
   font-family: var(--dp-text);
   font-weight: 400;
   font-feature-settings: normal;
+}
+
+/* The home chart (I-087, 2026-11-26; docs/SCREENS.md "Home, the chart"). `[data-dp-chart]` wraps
+   `Viz` on the home page, and only when the flag is set (src/app/(app)/page.tsx), so /embed,
+   /poster and the flag-off build are untouched. Faces only: no word changes, so the chart's
+   textContent is identical. The labels that were set in tracked uppercase now show the words as
+   the source writes them.
+   - Prose (captions, verdict lines, notes) takes the text face, upright.
+   - Names, labels, controls, the figure's caption and the axis years take the display face with
+     tabular figures. No monospace and no tracked uppercase remain inside it (DESIGN.md:82-83).
+   - Only Plex Serif 400/600 and Plex Sans Condensed 600 are loaded, with no italic, so italics
+     go upright and a 500 goes to 600 (as below the cycle page's verdict box).
+   - The height label is a label, so it takes the display face. It must fit the overview's name
+     column, which is 104px less 8px padding (src/lib/overviewReading.ts). */
+[data-dp-chart] {
+  font-family: var(--dp-text);
+}
+[data-dp-chart] :is(.font-mono, .font-display, button, [role="tab"], label, figcaption, svg text, .uppercase, .tabular-nums) {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-variation-settings: normal;
+  font-feature-settings: "tnum" on, "kern" on;
+}
+[data-dp-chart] :is(.font-display-italic, .italic, em, i) {
+  font-family: var(--dp-text);
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings: normal;
+  font-feature-settings: "kern" on;
+  letter-spacing: normal;
+}
+[data-dp-chart] [data-glance-height-label] {
+  font-family: var(--dp-display);
+  font-weight: 600;
+  font-feature-settings: "kern" on;
+  /* Measured 2026-11-26 on a flag-on build: at 11px this face sets the 23 characters at about
+     103px, past the 96px the column leaves, and the label was cut off. At 10px it is about 94px. */
+  font-size: 10px;
+}
+[data-dp-chart] :is(strong, b, .font-medium) {
+  font-weight: 600;
+}
+[data-dp-chart] .uppercase {
+  text-transform: none;
+}
+[data-dp-chart] :is(.uppercase, .tracking-wide, .tracking-widest, [class*="tracking-["]) {
+  letter-spacing: normal;
 }
 
 /* Selection style matches the editorial palette. */

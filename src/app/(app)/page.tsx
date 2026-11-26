@@ -25,6 +25,11 @@ const textLink =
 
 export default function Home() {
   const variant = designVariant();
+  const chart = (
+    <Suspense fallback={<div className="h-[600px]" aria-busy="true" />}>
+      <Viz cycles={cycles} dataSeries={dataSeries} annotations={annotations} />
+    </Suspense>
+  );
   return (
     // max-[390px] (width < 390) spacing: the top padding, the masthead's
     // bottom margin and its row gap tighten, so all ten overview rows clear
@@ -93,9 +98,10 @@ export default function Home() {
       </section>
       )}
 
-      <Suspense fallback={<div className="h-[600px]" aria-busy="true" />}>
-        <Viz cycles={cycles} dataSeries={dataSeries} annotations={annotations} />
-      </Suspense>
+      {/* I-087 (2026-11-26): with the flag set, the chart takes the pass's faces through
+          `[data-dp-chart]` (src/app/globals.css). Unset, the chart is rendered with no wrapper,
+          exactly as before. */}
+      {variant ? <div data-dp-chart="">{chart}</div> : chart}
 
       <section className="mt-10 sm:mt-14 max-w-2xl">
         <div className="editorial-rule mb-5" />
