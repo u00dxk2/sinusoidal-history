@@ -26,6 +26,17 @@
 // faces after (with the flag on, every text element must be on dpDisplay or dpText, upright: BAD
 // if not), newly clipped elements (BAD), budget lines that gained a line (BAD), tabular digits.
 // The check-entry-folds and check-strip-near-chart reads run inside every measure run.
+//
+// What this does NOT see (say so before trusting a PASS; Codex r1 and r2):
+// - colour, borders and any style other than font family, weight, style and text-transform;
+// - anything outside the chart root (the masthead, the sections below it), except through the
+//   two fold gates, which measure geometry only;
+// - states it does not sample: the desktop Overlay tab, a calibration or a brushed range, dark
+//   mode, keyboard focus, touch, and clipping inside SVG or by an ancestor;
+// - whether a face is the RIGHT one for an element (prose vs label): that is a reading of
+//   DESIGN.md, done by hand and by review, not by this script;
+// - glyphs missing from a face (the Plex latin subsets have no U+2190/U+2192): the computed
+//   family still reads Plex.
 import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -160,13 +171,21 @@ if (process.argv.includes("--batch")) {
   }
   const self = fileURLToPath(import.meta.url);
   const codes = {};
+  // An interrupt during the base build would skip the finally below (Codex r2): restore first.
+  const restoreAndExit = () => {
+    git(["checkout", "HEAD", "--", ...files]);
+    console.log(`interrupted: restored ${files.join(", ")} from HEAD; dirty: ${JSON.stringify(dirty())}`);
+    process.exit(130);
+  };
+  process.on("SIGINT", restoreAndExit);
+  process.on("SIGTERM", restoreAndExit);
   try {
     const co = git(["checkout", baseSha, "--", ...files]);
     if (co.status !== 0) throw new Error(`checkout ${baseSha} failed: ${co.stderr}`);
     codes.before = await run(`measure the base tree (${baseSha.slice(0, 8)})`, self, ["--tag", "before"]);
   } finally {
-    git(["checkout", "HEAD", "--", ...files]);
-    console.log(`restored ${files.join(", ")} from HEAD; dirty after restore: ${JSON.stringify(dirty())}`);
+    const back = git(["checkout", "HEAD", "--", ...files]);
+    console.log(`restore exit ${back.status}: ${files.join(", ")} from HEAD; dirty after restore: ${JSON.stringify(dirty())}`);
   }
   if (dirty()) {
     console.log("RESULT: FAIL — the restore left the files dirty; stop and look");
