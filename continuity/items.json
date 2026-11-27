@@ -2744,16 +2744,33 @@
       "id": "I-092",
       "type": "issue",
       "priority": "P3",
-      "status": "open",
+      "status": "closed",
       "owner": "sinusoidal-cycles",
       "identified": "2026-11-26",
       "title": "The design pass's Plex latin subsets have no arrow glyphs (U+2190, U+2192), so every flag-on arrow falls back to a system face, now on the home chart's first screen too",
       "closeWhen": "Every arrow on a flag-on surface renders in a pass face: either the self-hosted subsets in src/fonts carry U+2190 and U+2192 (re-subset, one face at a time, with the woff2 cmap read), or the arrows are drawn as inline SVG. Proven by a browser read on a flag-on build that the arrow's glyph comes from a pass face (not only its computed family, which already reads Plex), and the folds held at 320x568, 360x560 and 390x664.",
       "nextEvaluation": "2026-12-03",
       "readCommand": "git -C C:/dev/skylark/sinusoidal-cycles grep -n -c -e \"←\" -e \"→\" -- src/components src/app — the arrows a flag-on surface can render; the proof of the fix is a build read, not this count",
-      "notes": "2026-11-26 (P5, manager review d6f73114): minted so the fallback has a date. Found by Codex r1 on d76467e (STATIC: the three pinned Plex files in src/fonts lack U+2190 and U+2192 in their cmaps); recorded in docs/claims/2026-11-26-codex-home-chart.md. It predates the home chart batch: the cycle pages, flag on since 2026-11-18, carry the same arrows (src/app/(app)/cycles/[id]/page.tsx, e.g. 'calibrate this cycle →'). Today's batch (4c19f12) put it on the home chart's first screen as well: '← drag to zoom →' (TimeRangeBrush.tsx:341) and 'Details →' (CycleFacet.tsx:365). What it looks like: the arrow is drawn in a system face (Arial Narrow or Arial on Windows, per the fallback list in src/lib/designPassFonts.ts) beside Plex letters. The run-home-chart.mjs face leg cannot see it, because the computed family still reads Plex; its header says so.",
+      "notes": "2026-11-26 (P5, manager review d6f73114): minted so the fallback has a date. Found by Codex r1 on d76467e (STATIC: the three pinned Plex files in src/fonts lack U+2190 and U+2192 in their cmaps); recorded in docs/claims/2026-11-26-codex-home-chart.md. It predates the home chart batch: the cycle pages, flag on since 2026-11-18, carry the same arrows (src/app/(app)/cycles/[id]/page.tsx, e.g. 'calibrate this cycle →'). Today's batch (4c19f12) put it on the home chart's first screen as well: '← drag to zoom →' (TimeRangeBrush.tsx:341) and 'Details →' (CycleFacet.tsx:365). What it looks like: the arrow is drawn in a system face (Arial Narrow or Arial on Windows, per the fallback list in src/lib/designPassFonts.ts) beside Plex letters. The run-home-chart.mjs face leg cannot see it, because the computed family still reads Plex; its header says so. | 2026-11-27 (P5, manager review 44bbe418 COMPLETED): closed. Live at c10a5e6b (check-deployed-sha-drift --service sinusoidal-history: in-sync; CI ci.yml green on c10a5e6bd6). The three src/fonts subsets carry U+2190 U+2192 plus U+2248 U+2265 U+2197 U+2713 U+03C0 (U+2264 with U+2265), rebuilt by scripts/build_plex_subsets.py from the Google Fonts TTFs at the same versions; `--check` PASS against the originals at 943805111c. The glyph-source read is node scripts/check-glyph-source.mjs https://sinusoidalhistory.com --paths \"/,/?focus=dalio,/cycles/dalio,/cycles/turchin\" (run from PowerShell; Git Bash rewrites a leading \"/\"). Before the deploy, every probed character was in Arial, Arial Narrow or Times New Roman (\"Details →\" included). After it, 66 of 66 were drawn by IBM Plex at 1280x900 and 390x664, exit 0. Folds live 13 of 13 at 320/360/390, with / at 49 / 41 / 113px, unchanged. Built copy: textContent identical in 12 of 12 keys (run-arrow-glyphs.mjs, one heavy-gate admission). Codex 2 rounds: docs/claims/2026-11-27-codex-i092.md. closeWhen as written (\"every arrow on a flag-on surface\") is met for every element set in Plex. The arrows on /cycles and /methods sit in Geist elements, a face gap minted as I-093. No encounter read is owed on this row: the change has no instrument that could see a reader (no client analytics, standing choice, card 1e069bb4), and I-087 carries the design pass's encounter wait.",
       "created": "2026-11-26",
-      "updated": "2026-11-26"
+      "updated": "2026-11-27",
+      "closedAt": "2026-11-27",
+      "lastEvaluated": "2026-11-27"
+    },
+    {
+      "id": "I-093",
+      "type": "issue",
+      "priority": "P3",
+      "status": "open",
+      "owner": "sinusoidal-cycles",
+      "identified": "2026-11-27",
+      "title": "On /cycles and /methods the body prose and inline links are still set in Geist under the flag, so their arrows fall back to Arial and the pages mix two type systems",
+      "closeWhen": "With the flag on, the cycle descriptions, the 'How the test works →' and 'See the chart →' links and the /methods body paragraphs are set in the pass faces (DESIGN.md: Plex Serif for prose, Plex Sans Condensed for labels and links), no word changed. Proven on a flag-on build, then live: scripts/check-glyph-source.mjs on /cycles and /methods reads every probed character drawn by IBM Plex; textContent unchanged (scripts/check-rendered-text.mjs snap/diff, these two pages are server-rendered); check-entry-folds 13 of 13 at 320x568, 360x560 and 390x664.",
+      "nextEvaluation": "2026-12-04",
+      "readCommand": "node C:/dev/skylark/sinusoidal-cycles/scripts/check-glyph-source.mjs https://sinusoidalhistory.com --paths /,/cycles,/methods — reads which font draws each arrow; run from PowerShell (Git Bash rewrites a leading slash). Today: /cycles and /methods BAD under 'element face Geist'",
+      "notes": "2026-11-27 (P5, manager review 44bbe418): minted from the I-092 P3 correction (report docs/daily/2026-11-27-prelaunch.md, findings block). docs/SCREENS.md marks /cycles (batch 2, 571a31a) and /methods (8245d1d) DONE, but the flag-scoped rules in src/app/globals.css move headings, .font-mono and header text, not body prose or inline links. Measured on the flag-on build 2026-11-27 (run-arrow-glyphs.mjs): 60 of 60 probed characters on /cycles and /methods drawn by Arial under an element whose own face is Geist; computed font-family on production: Geist, \"Geist Fallback\", system-ui (p.mt-1.5 cycle descriptions, a.underline links, /methods p). Geist's subset lacks U+2192 too, so re-subsetting Plex cannot reach these. Fix is a face move, not a font file: extend the [data-dp] text rules to the prose and links on these two pages, and correct SCREENS.md's DONE rows to say what moved.",
+      "created": "2026-11-27",
+      "updated": "2026-11-27"
     }
   ],
   "knownPatterns": [

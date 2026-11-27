@@ -63,3 +63,20 @@
 ## State Appendix
 
 - Prior-day retro findings (5ca8c0ad): 2 tagged "still on discipline". The one that bears on today is Q0's carried lesson from 11-26: measure a chart change in ONE heavy-gate admission (`run-home-chart.mjs --batch`), not four. Acceptance 2 is written that way. The batch runner cannot see a missing glyph (its header says so), so acceptance 1 is its own frame.
+
+### Close
+
+ACTION: COMPLETED · item I-092 · P3 d75b43b7. Manager review 44bbe418 read it COMPLETED against the P1 acceptance as approved.
+
+- **Two acceptance items were met by a different command than the packet named:**
+  - Acceptance 2 named `run-home-chart.mjs --batch --base <sha>`. That command restores `page.tsx` and `globals.css`, so it cannot model a font-file change. The text was proven instead by `run-arrow-glyphs.mjs` (production as the before tree) in ONE heavy-gate admission, with `run-home-chart.mjs --compare live-before arrows` PASS, 12 of 12 keys.
+  - Acceptance 3 named folds "built then live". The built folds ran inside that batch: the measure of the local build ran `check-entry-folds` at all three sizes, 13 of 13, the same spare as live. The live folds ran after the deploy, 13 of 13.
+- **Changed since the P3 post:** the receipt's exposure bracket. P3 cited "bug row I-087", but I-087 is the design-pass rollout row, not a row about the missing visitor instrument. No row tracks that, because it is not a defect: the site has no client analytics by standing choice (card 1e069bb4). The corrected receipt is in the close post.
+- **Ledger delta** (`continuity/items.json`, via continuity-edit):
+  - I-092 closed: live c10a5e6b, 66 of 66 drawn by IBM Plex, `--check` PASS. The note records that the /cycles and /methods arrows sit in Geist elements.
+  - I-093 minted (P3, owner sinusoidal-cycles, nextEvaluation 2026-12-04): the body prose and inline links on /cycles and /methods are still in Geist under the flag, so their arrows fall back. The fix is a face move in `globals.css` plus a correction to SCREENS.md's two DONE rows.
+- **Hygiene draft:** 0 drafted lines (all inputs none). Checks: wait-justification PASS (35 of 100 rows), engineering-zero PASS (0 findings, 0 unreadable), READ-MUTATED none.
+- **Due gates:** `check-due-gates-dispositioned` reads CLEAR, snapshot CURRENT (taken 2026-11-27), 0 due at Phase 0.
+- **Pending reads:** 2026-12-02 I-086, I-087, I-071 · 2026-12-04 I-093 · 2026-12-16 I-091 · about 2027-01-20 the 60-day baseline.
+- **Codex:** 2 calls (r1 on 2180e42, r2 on 0152d3f), both gpt-6.2-sol at effort high, read-only, banner checked. Dispositions: `docs/claims/2026-11-27-codex-i092.md`.
+- **Machine changes outside the repo:** `pip install --user brotli uharfbuzz` (for the font reads). The Google Fonts TTFs live in the session scratchpad only.
