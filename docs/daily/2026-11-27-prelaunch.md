@@ -79,4 +79,11 @@ ACTION: COMPLETED · item I-092 · P3 d75b43b7. Manager review 44bbe418 read it 
 - **Due gates:** `check-due-gates-dispositioned` reads CLEAR, snapshot CURRENT (taken 2026-11-27), 0 due at Phase 0.
 - **Pending reads:** 2026-12-02 I-086, I-087, I-071 · 2026-12-04 I-093 · 2026-12-16 I-091 · about 2027-01-20 the 60-day baseline.
 - **Codex:** 2 calls (r1 on 2180e42, r2 on 0152d3f), both gpt-6.2-sol at effort high, read-only, banner checked. Dispositions: `docs/claims/2026-11-27-codex-i092.md`.
+- **Day's record (close-session):**
+  - Shipped live: c10a5e6. The arrows on the home chart and the cycle pages read in the site's Plex type. Proved live by `check-glyph-source.mjs`, 66 of 66 drawn by IBM Plex, deploy in sync. Held commits: none.
+  - Codex r1 reviewed 2180e42. Verdict line: "Confirmed HEAD `2180e42…`. The checked-in font diff preserves the existing glyphs. The findings concern what the verification commands can certify." Tokens used: 94,450.
+  - Codex r2 reviewed 0152d3f. Verdict line: "Confirmed HEAD `0152d3f` … REPRODUCED — `--check` exited 0." Tokens used: 103,230.
+  - Both ran gpt-6.2-sol at reasoning effort high.
+  - David cards answered today for this lane: none.
+  - Engineering zero: 0 findings, 0 unreadable (`check-engineering-zero --project sinusoidal-cycles`, after the last push).
 - **Machine changes outside the repo:** `pip install --user brotli uharfbuzz` (for the font reads). The Google Fonts TTFs live in the session scratchpad only.
