@@ -27,9 +27,14 @@ Verify (every mode that builds):
     are compared: by what they do, not by how the tables encode it;
   - the name table, keyed by (nameID, platformID, platEncID, langID);
   - size: each file grows by at most MAX_GROWTH bytes.
-  Blind to: shaping of sequences longer than two characters that appear nowhere in src/ (a three-
-  character contextual rule fired only by user input), rendering at a particular size (hinting is
-  compared as bytes, not run), and any browser behaviour (see scripts/check-glyph-source.mjs).
+  - each ADDED code point draws the source font's own glyph for it (outline and advance), and the
+    GSUB/GPOS feature tags are the baseline's (so no feature the shaping below never turns on).
+  Blind to: shaping of sequences longer than two characters that the literal regex does not
+  collect (JSX text spanning lines, template literals with ${...} unevaluated, JSON escapes left
+  undecoded: a three-character contextual rule fired only there would pass), rendering at a
+  particular size (hinting is compared as bytes, not run), any browser behaviour (see
+  scripts/check-glyph-source.mjs), and a --baseline-ref the operator supplies that shares a
+  regression (the guard refuses only a baseline that already maps an added code point).
 
 Modes:
   --control  build with the baseline code points only (no extras); verify must pass. It is NOT
@@ -38,7 +43,8 @@ Modes:
              text out, and those fields do not.
   (default)  build with EXTRA into --out-dir, then verify. Copy the files into src/fonts yourself;
              the script refuses src/fonts as --out-dir.
-  --check    no build: verify the files that are in src/fonts now against the baseline. This is
+  --check    no build: verify the files committed in src/fonts (refused if the working tree
+             differs from HEAD) against the baseline, with --source-dir for the added glyphs. This is
              the gate for what ships (a fresh build's WOFF2 size varies by a few dozen bytes from
              run to run, so verifying a build is not verifying the committed file).
   --sweep    no build: list every non-ASCII character in src/app, src/components, src/lib and
@@ -48,7 +54,7 @@ Modes:
              inventory, it exits 0 whatever it lists.
 
 Usage: python -P scripts/build_plex_subsets.py --source-dir <dir with the 3 TTFs> --out-dir <dir> [--control] [--baseline-ref <git ref>]
-       python -P scripts/build_plex_subsets.py --check [--baseline-ref <git ref>]
+       python -P scripts/build_plex_subsets.py --check --source-dir <dir with the 3 TTFs> [--baseline-ref <git ref>]
        python -P scripts/build_plex_subsets.py --sweep
 """
 import argparse
@@ -179,7 +185,7 @@ def shaper(font: TTFont):
     return shape
 
 
-def verify(base: TTFont, new: TTFont, extra) -> list[str]:
+def verify(base: TTFont, new: TTFont, extra, source: TTFont) -> list[str]:
     problems = []
     cb, cn = base.getBestCmap(), new.getBestCmap()
     want = set(cb) | set(extra)
@@ -188,6 +194,24 @@ def verify(base: TTFont, new: TTFont, extra) -> list[str]:
     for c in cb:
         if c in cn and cb[c] != cn[c]:
             problems.append(f"{hex(c)} maps to {cn[c]} (was {cb[c]})")
+    # Each ADDED code point must draw the upstream font's own glyph for it: same outline, same
+    # advance. Presence alone would pass a right arrow mapped to the left arrow's glyph (Codex r2).
+    cs = source.getBestCmap()
+    for c in extra:
+        if c not in cn:
+            continue
+        if c not in cs:
+            problems.append(f"{hex(c)} is not in the source font")
+            continue
+        if outline(source, cs[c]) != outline(new, cn[c]) or source["hmtx"][cs[c]][0] != new["hmtx"][cn[c]][0]:
+            problems.append(f"{hex(c)} does not draw the source font's glyph for it ({cn[c]} vs source {cs[c]})")
+    # The layout feature tags must be the baseline's: a feature the baseline lacks (tnum, say) is
+    # never shaped below, so it must not appear at all.
+    for t in ("GSUB", "GPOS"):
+        fb = sorted({r.FeatureTag for r in base[t].table.FeatureList.FeatureRecord})
+        fn = sorted({r.FeatureTag for r in new[t].table.FeatureList.FeatureRecord})
+        if fb != fn:
+            problems.append(f"{t} features {fb} -> {fn}")
     new_glyphs = set(new.getGlyphOrder())
     for g in base.getGlyphOrder():
         if g not in new_glyphs:
@@ -267,12 +291,23 @@ def main() -> int:
     ap.add_argument("--control", action="store_true")
     ap.add_argument("--baseline-ref", default=BASELINE_REF)
     a = ap.parse_args()
-    if not a.check and not (a.source_dir and a.out_dir):
-        ap.error("a build needs --source-dir and --out-dir (or pass --check)")
+    if not a.source_dir:
+        ap.error("--source-dir is required: the added glyphs are checked against the source font's own")
+    if not a.check and not a.out_dir:
+        ap.error("a build needs --out-dir (or pass --check)")
     if a.check and a.control:
         ap.error("--check verifies src/fonts with the extras; --control is a build mode")
-    if not a.check:
-        src_dir, out_dir = Path(a.source_dir), Path(a.out_dir)
+    src_dir = Path(a.source_dir)
+    if a.check:
+        # --check certifies the COMMITTED files: refuse a working tree that differs from HEAD.
+        git = lambda *args: subprocess.run(["git", "-C", str(REPO), *args], capture_output=True, text=True)  # noqa: E731
+        dirty = git("status", "--porcelain", "--", "src/fonts").stdout.strip()
+        if dirty:
+            print(f"RESULT: FAIL — src/fonts differs from HEAD ({dirty!r}); --check certifies committed files only")
+            return 2
+        print(f"checking src/fonts as committed at HEAD {git('rev-parse', 'HEAD').stdout.strip()}")
+    else:
+        out_dir = Path(a.out_dir)
         if out_dir.resolve() == FONTS.resolve():
             print("RESULT: FAIL — --out-dir is src/fonts. Build elsewhere, then copy.")
             return 2
@@ -296,7 +331,7 @@ def main() -> int:
             build(src_dir / src_name, sorted(unicodes)).save(out)
         new = TTFont(out)
         print(f"{name}:")
-        problems = verify(base, new, [] if a.control else EXTRA)
+        problems = verify(base, new, [] if a.control else EXTRA, TTFont(src_dir / src_name))
         growth = out.stat().st_size - len(raw)
         if growth > MAX_GROWTH:
             problems.append(f"file grew {growth} bytes (budget {MAX_GROWTH})")

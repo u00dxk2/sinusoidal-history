@@ -12,6 +12,11 @@
 // The change is three font files, so the "before" tree is production, which still serves the old
 // files (check-deployed-sha-drift in-sync at the start of the day). run-home-chart's own --batch
 // restores page.tsx and globals.css from a base sha; it cannot model a font-file change.
+//
+// Blind to (Codex r2, accepted rather than patched): which process answered on port 3931 (it
+// refuses to start if something answers BEFORE the build, not one that binds during it), and a
+// second invocation writing the same tmp/home-chart-*.json files mid-run. Run it once at a time,
+// through heavy-run.mjs, which admits one job per label.
 import { spawn } from "node:child_process";
 import { rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -88,7 +93,7 @@ try {
     // inline links in Geist (not Plex), so their arrows fall back whatever the Plex files hold:
     // a separate row, run the checker on them by hand to read it.
     codes.arrowGlyphs = await run("which font draws each probed character (build)", [
-      arrows, LOCAL, "--paths", "/,/cycles/dalio,/cycles/turchin", "--json", join(root, "tmp/arrow-glyphs-build.json"),
+      arrows, LOCAL, "--paths", "/,/?focus=dalio,/cycles/dalio,/cycles/turchin", "--json", join(root, "tmp/arrow-glyphs-build.json"),
     ]);
   }
 } finally {

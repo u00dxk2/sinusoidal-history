@@ -12,15 +12,16 @@
 // also true for another web font, and for a system face exposed through a CSS local() rule (Codex
 // r1 on 2180e42), and next/font's generated fallback faces are local() faces.
 //
-// Exits: 0 PASS · 1 FAIL (a character drawn by anything else, a page that failed to load, or "/"
-// whose chart did not mount or that showed no probed character) · 2 CANNOT JUDGE (nothing probed,
-// or "/" is not in --paths or not serving the design pass: data-design-variant is on the home
-// masthead only, so the flag is judged there).
+// Exits: 0 PASS · 1 FAIL (a character drawn by anything else; a page that failed to load, landed
+// on another path, or showed no probed character; a home page whose chart did not mount) ·
+// 2 CANNOT JUDGE ("/" is not in --paths or not serving the design pass: data-design-variant is on
+// the home masthead only, so the flag is judged there).
 //
 // Blind to: characters in states it does not open (tabs, a brushed range, hover, "Copied ✓"),
 // characters outside its fixed list, SVG <text> (judged whole, so a system-font neighbour can fail
 // a Plex arrow), browsers other than Chromium, and whether a face is the RIGHT one for the element
-// (DESIGN.md, by hand). Wrapping a character in a span can change its shaping context (a new flex
+// (DESIGN.md, by hand), and whether a character's glyph is the RIGHT glyph (an → mapped to the ←
+// outline still reads Plex: scripts/build_plex_subsets.py --check owns that). Wrapping a character in a span can change its shaping context (a new flex
 // item inside a flex link; no kerning across the span edge); the Plex files have no kerning or
 // substitution on the probed characters, so today that does not change which font draws them.
 import { writeFileSync } from "node:fs";
@@ -37,7 +38,8 @@ if (!origin) {
   process.exit(2);
 }
 // /cycles/turchin carries ≈ in its rationale; /methods carries ≥ and the font-mono Δφ (not probed).
-const PATHS = (opt("--paths") ?? "/,/cycles/dalio,/cycles/turchin,/cycles,/methods").split(",");
+// "/?focus=dalio" opens the expanded facet, the only home state that shows "Details →".
+const PATHS = (opt("--paths") ?? "/,/?focus=dalio,/cycles/dalio,/cycles/turchin,/cycles,/methods").split(",");
 const EXPECT = opt("--expect-family") ?? "IBM Plex";
 // Git Bash rewrites an argument that starts with "/" into a Windows path ("/" became
 // "C:/Program Files/Git/" on 2026-11-27). Refuse rather than probe a host that does not exist.
@@ -105,19 +107,24 @@ try {
       try {
         const res = await page.goto(`${origin}${path}`, { waitUntil: "networkidle" });
         if (!res || !res.ok()) throw new Error(`HTTP ${res ? res.status() : "no response"}`);
+        // A redirect would measure another page under this one's label (Codex r2).
+        const wanted = new URL(path, origin).pathname;
+        const landed = new URL(page.url()).pathname;
+        if (landed !== wanted) throw new Error(`landed on ${landed}, not ${wanted}`);
+        const isHome = wanted === "/";
         // The home chart (and its "← drag to zoom →") renders client-side; on "/" a chart that
         // never mounts is a failure, not a quiet page with fewer characters.
         // One selector per viewport, as run-home-chart.mjs does: a comma list waits on the FIRST
         // match in document order, which at desktop width is the hidden phone overview.
         const chart = w < 640 ? "[data-overview-id] svg" : "[data-facet-id] svg";
         const mounted = await page
-          .waitForSelector(chart, { timeout: path === "/" ? 20000 : 8000 })
+          .waitForSelector(chart, { timeout: isHome ? 20000 : 8000 })
           .then(() => true, () => false);
-        if (path === "/" && !mounted) throw new Error("the home chart did not mount");
+        if (isHome && !mounted) throw new Error("the home chart did not mount");
         await page.evaluate(() => document.fonts.ready);
         const variant = await page.evaluate(() => document.querySelector("[data-design-variant]")?.getAttribute("data-design-variant") ?? null);
         // The flag's served marker is on the home masthead only, so "/" is where it is judged.
-        if (path === "/" && variant !== "a") notPass += 1;
+        if (isHome && variant !== "a") notPass += 1;
         const wrapped = await page.evaluate(wrapArrows);
         const cdp = await ctx.newCDPSession(page);
         await cdp.send("DOM.enable");
@@ -134,9 +141,11 @@ try {
           probed += 1;
           arrows.push({ ...wrapped[idx], ok, fonts: fonts.map((f) => `${f.familyName}${f.isCustomFont ? " (web)" : " (SYSTEM)"} x${f.glyphCount}`) });
         }
-        if (path === "/" && arrows.length === 0) {
+        // Every requested page must show at least one probed character: a path is asked for
+        // because it carries some, so an empty page is a page that did not render (Codex r2).
+        if (arrows.length === 0) {
           failed += 1;
-          console.log(`${key}: BAD no probed character on "/" (the chart carries "← drag to zoom →")`);
+          console.log(`${key}: BAD no probed character on this page`);
         }
         report.pages.push({ key, variant, arrows });
         console.log(`${key}: variant ${JSON.stringify(variant)}, ${arrows.length} arrow(s)`);
