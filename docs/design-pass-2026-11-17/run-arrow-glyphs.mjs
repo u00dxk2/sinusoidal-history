@@ -13,6 +13,7 @@
 // files (check-deployed-sha-drift in-sync at the start of the day). run-home-chart's own --batch
 // restores page.tsx and globals.css from a base sha; it cannot model a font-file change.
 import { spawn } from "node:child_process";
+import { rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -48,6 +49,8 @@ async function answers() {
 }
 
 const codes = {};
+// A compare must never read a previous run's file (Codex r1 on 2180e42): remove both first.
+for (const tag of ["live-before", "arrows"]) rmSync(join(root, `tmp/home-chart-${tag}.json`), { force: true });
 codes.liveBefore = await run("measure production (baseline)", [homeChart, "--tag", "live-before", "--live", PROD]);
 if (await answers()) {
   console.log(`RESULT: FAIL — something already answers on ${LOCAL}; refusing to read evidence from it`);
@@ -76,19 +79,29 @@ try {
     if ((up = await answers())) break;
     await new Promise((r) => setTimeout(r, 500));
   }
+  codes.serve = up ? 0 : 1;
   if (!up) {
-    console.log("RESULT: FAIL — the server did not answer");
-    process.exitCode = 1;
+    console.log("the server did not answer; the build was not measured");
   } else {
     codes.arrowsMeasure = await run("measure the build", [homeChart, "--tag", "arrows", "--live", LOCAL]);
-    codes.arrowGlyphs = await run("which font draws each arrow (build)", [arrows, LOCAL, "--json", join(root, "tmp/arrow-glyphs-build.json")]);
+    // The pages whose arrows sit in Plex elements. /cycles and /methods set their body prose and
+    // inline links in Geist (not Plex), so their arrows fall back whatever the Plex files hold:
+    // a separate row, run the checker on them by hand to read it.
+    codes.arrowGlyphs = await run("which font draws each probed character (build)", [
+      arrows, LOCAL, "--paths", "/,/cycles/dalio,/cycles/turchin", "--json", join(root, "tmp/arrow-glyphs-build.json"),
+    ]);
   }
 } finally {
   await stop();
   console.log(`stopped server tree ${server.pid}`);
 }
-codes.compare = await run("compare live-before -> arrows", [homeChart, "--compare", "live-before", "arrows"]);
+if (codes.liveBefore === 0 && codes.arrowsMeasure === 0) {
+  codes.compare = await run("compare live-before -> arrows", [homeChart, "--compare", "live-before", "arrows"]);
+}
 console.log(`\nexits: ${JSON.stringify(codes)}`);
-const ok = Object.values(codes).every((c) => c === 0);
+const required = ["liveBefore", "build", "serve", "arrowsMeasure", "arrowGlyphs", "compare"];
+const missing = required.filter((k) => !(k in codes));
+if (missing.length) console.log(`not run: ${missing.join(", ")}`);
+const ok = missing.length === 0 && Object.values(codes).every((c) => c === 0);
 console.log(`RESULT: ${ok ? "PASS" : "FAIL"}`);
 process.exit(ok ? 0 : 1);

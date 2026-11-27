@@ -7,18 +7,22 @@
 // because CSS resolves a family list per element, and the browser falls back per GLYPH. So this
 // asks Chromium (CDP CSS.getPlatformFontsForNode) for the fonts it used for each character: every
 // visible probed character is wrapped in its own span, then each span's platform fonts are read.
-// A character passes when every font that drew it is a web font (isCustomFont), i.e. one of the
-// site's self-hosted faces, not Arial, Arial Narrow, Georgia or Times New Roman. A character in
-// an element whose own face is not Plex (a font-mono code span) is drawn by that face: it can
-// pass on a web font that is not Plex. The fonts are printed, so read them, not only the verdict.
+// A character passes only when every font that drew it is a web font (isCustomFont) whose family
+// name starts with --expect-family (default "IBM Plex"). The family test matters: isCustomFont is
+// also true for another web font, and for a system face exposed through a CSS local() rule (Codex
+// r1 on 2180e42), and next/font's generated fallback faces are local() faces.
 //
-// Exits: 0 PASS (at least one arrow probed, all drawn by a web font) · 1 FAIL (an arrow drawn by
-// a system font, or a page failed to load) · 2 CANNOT JUDGE (no arrow found, or "/" is not
-// serving the design pass: its data-design-variant is not "a"; other pages carry no marker).
+// Exits: 0 PASS · 1 FAIL (a character drawn by anything else, a page that failed to load, or "/"
+// whose chart did not mount or that showed no probed character) · 2 CANNOT JUDGE (nothing probed,
+// or "/" is not in --paths or not serving the design pass: data-design-variant is on the home
+// masthead only, so the flag is judged there).
 //
-// Blind to: arrows in states it does not open (tabs, a brushed range, hover), SVG <text> it cannot
-// wrap without moving it (it is probed whole, so its other characters count too), browsers other
-// than Chromium, and whether the face is the RIGHT one for the element (DESIGN.md, by hand).
+// Blind to: characters in states it does not open (tabs, a brushed range, hover, "Copied ✓"),
+// characters outside its fixed list, SVG <text> (judged whole, so a system-font neighbour can fail
+// a Plex arrow), browsers other than Chromium, and whether a face is the RIGHT one for the element
+// (DESIGN.md, by hand). Wrapping a character in a span can change its shaping context (a new flex
+// item inside a flex link; no kerning across the span edge); the Plex files have no kerning or
+// substitution on the probed characters, so today that does not change which font draws them.
 import { writeFileSync } from "node:fs";
 import { chromium } from "playwright";
 
@@ -34,6 +38,7 @@ if (!origin) {
 }
 // /cycles/turchin carries ≈ in its rationale; /methods carries ≥ and the font-mono Δφ (not probed).
 const PATHS = (opt("--paths") ?? "/,/cycles/dalio,/cycles/turchin,/cycles,/methods").split(",");
+const EXPECT = opt("--expect-family") ?? "IBM Plex";
 // Git Bash rewrites an argument that starts with "/" into a Windows path ("/" became
 // "C:/Program Files/Git/" on 2026-11-27). Refuse rather than probe a host that does not exist.
 const badPath = PATHS.find((p) => !p.startsWith("/") || /^[A-Za-z]:/.test(p));
@@ -100,7 +105,15 @@ try {
       try {
         const res = await page.goto(`${origin}${path}`, { waitUntil: "networkidle" });
         if (!res || !res.ok()) throw new Error(`HTTP ${res ? res.status() : "no response"}`);
-        await page.waitForSelector("[data-facet-id] svg, [data-overview-id] svg", { timeout: 8000 }).catch(() => {});
+        // The home chart (and its "← drag to zoom →") renders client-side; on "/" a chart that
+        // never mounts is a failure, not a quiet page with fewer characters.
+        // One selector per viewport, as run-home-chart.mjs does: a comma list waits on the FIRST
+        // match in document order, which at desktop width is the hidden phone overview.
+        const chart = w < 640 ? "[data-overview-id] svg" : "[data-facet-id] svg";
+        const mounted = await page
+          .waitForSelector(chart, { timeout: path === "/" ? 20000 : 8000 })
+          .then(() => true, () => false);
+        if (path === "/" && !mounted) throw new Error("the home chart did not mount");
         await page.evaluate(() => document.fonts.ready);
         const variant = await page.evaluate(() => document.querySelector("[data-design-variant]")?.getAttribute("data-design-variant") ?? null);
         // The flag's served marker is on the home masthead only, so "/" is where it is judged.
@@ -116,10 +129,14 @@ try {
           const attrs = (await cdp.send("DOM.getAttributes", { nodeId })).attributes;
           const idx = Number(attrs[attrs.indexOf("data-arrow-probe") + 1]);
           const { fonts } = await cdp.send("CSS.getPlatformFontsForNode", { nodeId });
-          const ok = fonts.length > 0 && fonts.every((f) => f.isCustomFont);
+          const ok = fonts.length > 0 && fonts.every((f) => f.isCustomFont && f.familyName.startsWith(EXPECT));
           if (!ok) failed += 1;
           probed += 1;
           arrows.push({ ...wrapped[idx], ok, fonts: fonts.map((f) => `${f.familyName}${f.isCustomFont ? " (web)" : " (SYSTEM)"} x${f.glyphCount}`) });
+        }
+        if (path === "/" && arrows.length === 0) {
+          failed += 1;
+          console.log(`${key}: BAD no probed character on "/" (the chart carries "← drag to zoom →")`);
         }
         report.pages.push({ key, variant, arrows });
         console.log(`${key}: variant ${JSON.stringify(variant)}, ${arrows.length} arrow(s)`);
@@ -141,11 +158,11 @@ const jsonOut = opt("--json");
 if (jsonOut) writeFileSync(jsonOut, JSON.stringify(report, null, 2));
 console.log(`population: ${PATHS.length} path(s) x ${VIEWPORTS.length} viewport(s) on ${origin}; ${probed} visible arrow(s) probed`);
 if (failed) {
-  console.log(`RESULT: FAIL — ${failed} arrow(s) or page(s) not drawn by a web font (exit 1)`);
+  console.log(`RESULT: FAIL — ${failed} character(s) or page(s) not drawn by a "${EXPECT}" web font (exit 1)`);
   process.exit(1);
 }
-if (!probed || notPass) {
-  console.log(`RESULT: CANNOT JUDGE — ${probed} arrow(s) probed; ${notPass} page(s) not serving variant "a" (exit 2)`);
+if (!probed || notPass || !PATHS.includes("/")) {
+  console.log(`RESULT: CANNOT JUDGE — ${probed} character(s) probed; "/" ${PATHS.includes("/") ? `not serving variant "a" on ${notPass} viewport(s)` : "not in --paths, so the flag was not judged"} (exit 2)`);
   process.exit(2);
 }
-console.log(`RESULT: PASS — ${probed} arrow(s), every one drawn by a web font (exit 0)`);
+console.log(`RESULT: PASS — ${probed} character(s), every one drawn by a "${EXPECT}" web font (exit 0)`);

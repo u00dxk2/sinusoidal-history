@@ -1,57 +1,83 @@
 """Rebuild the three self-hosted Plex subsets in src/fonts with the characters they lacked added.
 
 Why (I-092): the fontsource latin subsets carry U+2191/U+2193 but not U+2190/U+2192, so every
-flag-on arrow ("Details ->", "<- drag to zoom ->") was drawn in a fallback system face. The same
-held for five more characters the site renders; EXTRA lists them all.
+arrow in an element set in Plex ("Details ->", "<- drag to zoom ->") was drawn in a fallback system
+face. The same held for five more characters the site renders; EXTRA lists them all.
 
 Source: the Google Fonts TTFs that fontsource builds from (google/fonts, ofl/ibmplexsanscondensed
 and ofl/ibmplexserif). Version 1.3 (Sans Condensed SemiBold) and 2.6 (Serif Regular, SemiBold),
 the same versions as the pinned files. Licence: SIL OFL 1.1, which permits subsetting.
 
-Recipe: keep exactly the code points the pinned file maps (read from that file, so this script
-never re-derives fontsource's range), add EXTRA, and mirror the pinned file's options: the same
-seven layout features, name IDs 0-6 and 14, hinting kept, WOFF2.
+Baseline: the fontsource files as committed at BASELINE_REF (read with `git show`, never from
+src/fonts, which holds the rebuilt files once they are committed; Codex r1 on 2180e42).
+
+Recipe: keep exactly the code points the baseline file maps, add EXTRA, and mirror the baseline's
+options: the same seven layout features, name IDs 0-6 and 14, hinting kept, glyph names kept, WOFF2.
+
+Verify (every mode that builds):
+  - cmap: exactly the baseline's code points plus EXTRA (minus EXTRA under --control);
+  - every baseline GLYPH, by name (so `fi`, fraction and mark glyphs too, not only mapped ones):
+    the same outline, the same hmtx record, the same TrueType hinting program;
+  - fpgm, prep, cvt and gasp byte-identical; line and design metrics (LINE_METRICS) identical;
+  - shaping, through HarfBuzz, identical on a corpus: every ordered pair of baseline code points and
+    every non-empty string literal under src/ (the text the site renders, comments included), each
+    shaped with the browser's default features and again with each of frac, numr and dnom on. Glyph names, advances and
+    offsets must match. Strings that hold an added character are counted and skipped: they are
+    meant to change. This is how kerning, ligatures, contextual substitution and mark positioning
+    are compared: by what they do, not by how the tables encode it;
+  - the name table, keyed by (nameID, platformID, platEncID, langID);
+  - size: each file grows by at most MAX_GROWTH bytes.
+  Blind to: shaping of sequences longer than two characters that appear nowhere in src/ (a three-
+  character contextual rule fired only by user input), rendering at a particular size (hinting is
+  compared as bytes, not run), and any browser behaviour (see scripts/check-glyph-source.mjs).
 
 Modes:
-  --control  subset with the pinned code points only (no extras) and run the same verify. It
-             should pass with no extra code points, which shows the recipe reproduces what the
-             pinned file renders. It is NOT byte-identical (measured 2026-11-27): fontsource's
-             build keeps the full font's hhea/maxp extents and its code-page bits, while this one
-             recomputes them from the subset. Neither affects layout: line metrics, outlines,
-             advances, kerning and names are what verify compares.
-  (default)  write the new files to --out-dir, then verify: the cmap is the pinned one plus EXTRA;
-             every pinned code point keeps its advance width and outline; every kerning pair
-             between pinned code points keeps its value; line metrics, layout feature tags and the
-             name table are unchanged.
-
+  --control  build with the baseline code points only (no extras); verify must pass. It is NOT
+             byte-identical (measured 2026-11-27): fontsource's build keeps the full font's hhea/
+             maxp extents and its code-page bits; this one recomputes them. Verify covers what lays
+             text out, and those fields do not.
+  (default)  build with EXTRA into --out-dir, then verify. Copy the files into src/fonts yourself;
+             the script refuses src/fonts as --out-dir.
+  --check    no build: verify the files that are in src/fonts now against the baseline. This is
+             the gate for what ships (a fresh build's WOFF2 size varies by a few dozen bytes from
+             run to run, so verifying a build is not verifying the committed file).
   --sweep    no build: list every non-ASCII character in src/app, src/components, src/lib and
              src/data (.ts/.tsx/.json, tests excluded) that the files in src/fonts do not map.
-             Comments count too, so read each hit's file before adding it to EXTRA.
+             Comments count, so read each hit's file before adding it to EXTRA. Blind to characters
+             written as JSX entities (&#x2605;) or escapes (\\u2605) and to generated text: an
+             inventory, it exits 0 whatever it lists.
 
-Usage: python -P scripts/build_plex_subsets.py --source-dir <dir with the 3 TTFs> --out-dir <dir> [--control]
+Usage: python -P scripts/build_plex_subsets.py --source-dir <dir with the 3 TTFs> --out-dir <dir> [--control] [--baseline-ref <git ref>]
+       python -P scripts/build_plex_subsets.py --check [--baseline-ref <git ref>]
        python -P scripts/build_plex_subsets.py --sweep
 """
-import collections
-import unicodedata
 import argparse
+import collections
+import io
+import re
+import subprocess
 import sys
+import unicodedata
 from pathlib import Path
 
+import uharfbuzz as hb
 from fontTools import subset
 from fontTools.pens.recordingPen import DecomposingRecordingPen
 from fontTools.ttLib import TTFont
 
 REPO = Path(__file__).resolve().parent.parent
 FONTS = REPO / "src" / "fonts"
+# The last commit whose src/fonts are the untouched fontsource subsets (main before I-092).
+BASELINE_REF = "943805111c1d30e32af3abe609e637fc9b5bdab6"
 PAIRS = [
     ("ibm-plex-sans-condensed-latin-600.woff2", "IBMPlexSansCondensed-SemiBold.ttf"),
     ("ibm-plex-serif-latin-400.woff2", "IBMPlexSerif-Regular.ttf"),
     ("ibm-plex-serif-latin-600.woff2", "IBMPlexSerif-SemiBold.ttf"),
 ]
 # The arrows (I-092), then the siblings the same sweep found on rendered surfaces (2026-11-27,
-# a static read of src/app, src/components, src/lib and src/data against the pinned cmaps) that
+# a static read of src/app, src/components, src/lib and src/data against the baseline cmaps) that
 # upstream carries in all three faces. Not added because upstream lacks them: U+0394 and U+03C6
-# (inside a font-mono code span on /methods) and U+25BE (the /cycles disclosure triangle).
+# (/methods, in a code span and in prose) and U+25BE (the /cycles disclosure triangle).
 EXTRA = [
     0x2190,  # LEFTWARDS ARROW
     0x2192,  # RIGHTWARDS ARROW
@@ -64,13 +90,19 @@ EXTRA = [
              # (glyph closure, measured 2026-11-27), so it is listed to keep the cmap check exact
 ]
 FEATURES = ["ccmp", "dnom", "frac", "liga", "numr", "kern", "mark"]
-NAME_IDS = [0, 1, 2, 3, 4, 5, 6, 14]
+NAME_IDS = [0, 1, 2, 3, 4, 5, 6, 14]  # what the baseline files carry (no ID 13 in any of them)
 LINE_METRICS = [
     ("hhea", "ascent"), ("hhea", "descent"), ("hhea", "lineGap"),
     ("OS/2", "sTypoAscender"), ("OS/2", "sTypoDescender"), ("OS/2", "sTypoLineGap"),
     ("OS/2", "usWinAscent"), ("OS/2", "usWinDescent"), ("OS/2", "fsSelection"),
+    ("OS/2", "sxHeight"), ("OS/2", "sCapHeight"), ("OS/2", "usWeightClass"),
+    ("OS/2", "yStrikeoutPosition"), ("OS/2", "yStrikeoutSize"),
+    ("post", "underlinePosition"), ("post", "underlineThickness"), ("post", "italicAngle"),
     ("head", "unitsPerEm"),
 ]
+BYTE_TABLES = ["fpgm", "prep", "cvt ", "gasp"]
+FEATURE_SETS = [{}, {"frac": True}, {"numr": True}, {"dnom": True}]
+MAX_GROWTH = 1024  # bytes per file
 
 
 def build(src: Path, unicodes) -> TTFont:
@@ -80,7 +112,7 @@ def build(src: Path, unicodes) -> TTFont:
     opts.name_languages = ["*"]
     opts.hinting = True
     opts.notdef_outline = True
-    opts.glyph_names = True  # post format 2, as the pinned files have
+    opts.glyph_names = True  # post format 2, as the baseline files have
     opts.drop_tables += ["DSIG", "meta"]
     opts.flavor = "woff2"
     font = TTFont(src)
@@ -91,6 +123,23 @@ def build(src: Path, unicodes) -> TTFont:
     return font
 
 
+def baseline_bytes(ref: str, name: str) -> bytes:
+    out = subprocess.run(["git", "-C", str(REPO), "show", f"{ref}:src/fonts/{name}"], capture_output=True)
+    if out.returncode != 0 or not out.stdout:
+        raise SystemExit(f"RESULT: FAIL — cannot read src/fonts/{name} at {ref}: {out.stderr.decode(errors='replace').strip()}")
+    return out.stdout
+
+
+def sfnt(font: TTFont) -> bytes:
+    """The font as plain sfnt bytes (HarfBuzz does not read WOFF2)."""
+    buf = io.BytesIO()
+    flavor = font.flavor
+    font.flavor = None
+    font.save(buf)
+    font.flavor = flavor
+    return buf.getvalue()
+
+
 def outline(font: TTFont, gname: str):
     gs = font.getGlyphSet()
     pen = DecomposingRecordingPen(gs)
@@ -98,68 +147,92 @@ def outline(font: TTFont, gname: str):
     return pen.value
 
 
-def kern_pairs(f: TTFont) -> dict:
-    """Horizontal pair adjustments between mapped code points, keyed by (cp1, cp2)."""
-    rev = {}
-    for c, g in f.getBestCmap().items():
-        rev.setdefault(g, c)
-    out = {}
-    for lk in f["GPOS"].table.LookupList.Lookup:
-        for st in lk.SubTable:
-            if lk.LookupType == 9:
-                st = st.ExtSubTable
-            if type(st).__name__ != "PairPos":
-                continue
-            if st.Format == 1:
-                for i, g1 in enumerate(st.Coverage.glyphs):
-                    for pvr in st.PairSet[i].PairValueRecord:
-                        v = getattr(pvr.Value1, "XAdvance", 0) if pvr.Value1 else 0
-                        if g1 in rev and pvr.SecondGlyph in rev:
-                            out.setdefault((rev[g1], rev[pvr.SecondGlyph]), v)
-            elif st.Format == 2:
-                c1, c2 = st.ClassDef1.classDefs, st.ClassDef2.classDefs
-                for g1 in st.Coverage.glyphs:
-                    if g1 not in rev:
-                        continue
-                    for g2, cp2 in rev.items():
-                        rec = st.Class1Record[c1.get(g1, 0)].Class2Record[c2.get(g2, 0)]
-                        v = getattr(rec.Value1, "XAdvance", 0) if rec.Value1 else 0
-                        if v:
-                            out.setdefault((rev[g1], cp2), v)
-    return out
+def corpus(codepoints) -> list[str]:
+    """Every ordered pair of the baseline's code points, plus every string literal under src/."""
+    chars = [chr(c) for c in sorted(codepoints) if c >= 0x20]
+    texts = [a + b for a in chars for b in chars]
+    lit = re.compile(r"\"((?:[^\"\\\n]|\\.){2,})\"|'((?:[^'\\\n]|\\.){2,})'|`([^`]{2,})`|>([^<>{}\n]{2,})<")
+    for p in sorted((REPO / "src").rglob("*")):
+        if p.suffix in {".ts", ".tsx", ".json"} and ".test." not in p.name:
+            for m in lit.finditer(p.read_text(encoding="utf-8")):
+                s = next(g for g in m.groups() if g)
+                if s.strip():
+                    texts.append(s)
+    return texts
 
 
-def verify(pinned: TTFont, new: TTFont, extra) -> list[str]:
+def shaper(font: TTFont):
+    face = hb.Face(sfnt(font))
+    hbfont = hb.Font(face)
+    order = font.getGlyphOrder()
+
+    def shape(text: str, feats: dict):
+        buf = hb.Buffer()
+        buf.add_str(text)
+        buf.guess_segment_properties()
+        hb.shape(hbfont, buf, feats)
+        return tuple(
+            (order[i.codepoint], p.x_advance, p.x_offset, p.y_offset)
+            for i, p in zip(buf.glyph_infos, buf.glyph_positions)
+        )
+
+    return shape
+
+
+def verify(base: TTFont, new: TTFont, extra) -> list[str]:
     problems = []
-    cp, cn = pinned.getBestCmap(), new.getBestCmap()
-    want = set(cp) | set(extra)
+    cb, cn = base.getBestCmap(), new.getBestCmap()
+    want = set(cb) | set(extra)
     if set(cn) != want:
         problems.append(f"cmap: extra {sorted(hex(c) for c in set(cn) - want)}, missing {sorted(hex(c) for c in want - set(cn))}")
-    for c, g in cp.items():
-        if c not in cn:
+    for c in cb:
+        if c in cn and cb[c] != cn[c]:
+            problems.append(f"{hex(c)} maps to {cn[c]} (was {cb[c]})")
+    new_glyphs = set(new.getGlyphOrder())
+    for g in base.getGlyphOrder():
+        if g not in new_glyphs:
+            problems.append(f"glyph {g} is gone")
             continue
-        if pinned["hmtx"][g][0] != new["hmtx"][cn[c]][0]:
-            problems.append(f"advance differs at {hex(c)}")
-        if outline(pinned, g) != outline(new, cn[c]):
-            problems.append(f"outline differs at {hex(c)}")
-    for t in ("GSUB", "GPOS"):
-        fp = sorted({r.FeatureTag for r in pinned[t].table.FeatureList.FeatureRecord})
-        fn = sorted({r.FeatureTag for r in new[t].table.FeatureList.FeatureRecord})
-        if fp != fn:
-            problems.append(f"{t} features {fp} -> {fn}")
-    np_ = {(n.nameID, n.platformID, n.langID): n.toUnicode() for n in pinned["name"].names}
-    nn = {(n.nameID, n.platformID, n.langID): n.toUnicode() for n in new["name"].names}
-    if np_ != nn:
-        problems.append("name table differs")
+        if base["hmtx"][g] != new["hmtx"][g]:
+            problems.append(f"hmtx differs for {g}: {base['hmtx'][g]} -> {new['hmtx'][g]}")
+        if outline(base, g) != outline(new, g):
+            problems.append(f"outline differs for {g}")
+        pb = getattr(base["glyf"][g], "program", None)
+        pn = getattr(new["glyf"][g], "program", None)
+        if (pb.getBytecode() if pb else b"") != (pn.getBytecode() if pn else b""):
+            problems.append(f"hinting program differs for {g}")
+    for tag in BYTE_TABLES:
+        if (tag in base) != (tag in new) or (tag in base and base.getTableData(tag) != new.getTableData(tag)):
+            problems.append(f"table {tag!r} differs")
     for tag, field in LINE_METRICS:
-        if getattr(pinned[tag], field) != getattr(new[tag], field):
-            problems.append(f"{tag}.{field} {getattr(pinned[tag], field)} -> {getattr(new[tag], field)}")
-    kp, kn = kern_pairs(pinned), kern_pairs(new)
-    shared = {k: v for k, v in kn.items() if k[0] in cp and k[1] in cp}
-    if kp != shared:
-        problems.append(f"kerning between pinned code points differs ({len(kp)} pairs pinned, {len(shared)} rebuilt)")
-    if not kp:
-        problems.append("kerning read returned 0 pairs; the comparison proves nothing")
+        if getattr(base[tag], field) != getattr(new[tag], field):
+            problems.append(f"{tag}.{field} {getattr(base[tag], field)} -> {getattr(new[tag], field)}")
+    key = lambda n: (n.nameID, n.platformID, n.platEncID, n.langID)  # noqa: E731
+    nb = {key(n): n.toUnicode() for n in base["name"].names}
+    nn = {key(n): n.toUnicode() for n in new["name"].names}
+    if nb != nn:
+        problems.append(f"name table differs: {sorted(set(nb) ^ set(nn))} or values")
+    sb, sn = shaper(base), shaper(new)
+    # A string holding an added character is SUPPOSED to shape differently (.notdef before, a glyph
+    # after), and its neighbours may kern against the new glyph: those strings are counted, not
+    # compared. Every other string must shape identically.
+    added = {chr(c) for c in extra}
+    all_texts = corpus(cb)
+    texts = [t for t in all_texts if not (set(t) & added)]
+    print(f"  corpus {len(all_texts)} strings; {len(all_texts) - len(texts)} hold an added character and are not compared")
+    diffs = 0
+    # Default features (ccmp, liga, kern, mark), then each optional GSUB feature the files keep on
+    # its own: a lookup only an optional feature reaches is invisible to the default shaping
+    # (red-armed 2026-11-27: a changed numr mapping passed when only default and frac were shaped).
+    for feats in FEATURE_SETS:
+        for t in texts:
+            if sb(t, feats) != sn(t, feats):
+                diffs += 1
+                if diffs <= 5:
+                    problems.append(f"shaping differs {feats or 'default'} for {t[:40]!r}: {sb(t, feats)[:4]} -> {sn(t, feats)[:4]}")
+    if diffs > 5:
+        problems.append(f"... shaping differs on {diffs} strings in all")
+    print(f"  shaped {len(texts)} strings x {len(FEATURE_SETS)} feature sets; {diffs} differ")
     return problems
 
 
@@ -188,30 +261,47 @@ def main() -> int:
     if "--sweep" in sys.argv:
         return sweep()
     ap = argparse.ArgumentParser()
-    ap.add_argument("--source-dir", required=True)
-    ap.add_argument("--out-dir", required=True)
+    ap.add_argument("--check", action="store_true")
+    ap.add_argument("--source-dir")
+    ap.add_argument("--out-dir")
     ap.add_argument("--control", action="store_true")
+    ap.add_argument("--baseline-ref", default=BASELINE_REF)
     a = ap.parse_args()
-    src_dir, out_dir = Path(a.source_dir), Path(a.out_dir)
-    if out_dir.resolve() == FONTS.resolve():
-        print("RESULT: FAIL — --out-dir is src/fonts: the verify would compare against the file it overwrites. Build elsewhere, then copy.")
-        return 2
-    out_dir.mkdir(parents=True, exist_ok=True)
+    if not a.check and not (a.source_dir and a.out_dir):
+        ap.error("a build needs --source-dir and --out-dir (or pass --check)")
+    if a.check and a.control:
+        ap.error("--check verifies src/fonts with the extras; --control is a build mode")
+    if not a.check:
+        src_dir, out_dir = Path(a.source_dir), Path(a.out_dir)
+        if out_dir.resolve() == FONTS.resolve():
+            print("RESULT: FAIL — --out-dir is src/fonts. Build elsewhere, then copy.")
+            return 2
+        out_dir.mkdir(parents=True, exist_ok=True)
+    print(f"baseline: src/fonts at {a.baseline_ref}; {'checking src/fonts as it is' if a.check else 'building into ' + str(out_dir)}")
     failed = False
-    for pinned_name, src_name in PAIRS:
-        pinned_path = FONTS / pinned_name
-        pinned = TTFont(pinned_path)
-        unicodes = sorted(pinned.getBestCmap())
+    for name, src_name in PAIRS:
+        raw = baseline_bytes(a.baseline_ref, name)
+        base = TTFont(io.BytesIO(raw))
+        unicodes = set(base.getBestCmap())
+        if unicodes & set(EXTRA):
+            print(f"RESULT: FAIL — {name} at {a.baseline_ref} already maps {sorted(hex(c) for c in unicodes & set(EXTRA))}: "
+                  "that is a rebuilt file, not the fontsource baseline, and comparing against it proves nothing")
+            return 2
         if not a.control:
-            unicodes = sorted(set(unicodes) | set(EXTRA))
-        new = build(src_dir / src_name, unicodes)
-        out = out_dir / pinned_name
-        new.save(out)
+            unicodes |= set(EXTRA)
+        if a.check:
+            out = FONTS / name
+        else:
+            out = out_dir / name
+            build(src_dir / src_name, sorted(unicodes)).save(out)
         new = TTFont(out)
-        problems = verify(pinned, new, [] if a.control else EXTRA)
-        label = ("control " if a.control else "") + f"cmap {len(pinned.getBestCmap())} -> {len(new.getBestCmap())}"
-        size = f"{pinned_path.stat().st_size} -> {out.stat().st_size} bytes"
-        print(f"{pinned_name}: {label}; {size}; {'OK' if not problems else 'PROBLEMS'}")
+        print(f"{name}:")
+        problems = verify(base, new, [] if a.control else EXTRA)
+        growth = out.stat().st_size - len(raw)
+        if growth > MAX_GROWTH:
+            problems.append(f"file grew {growth} bytes (budget {MAX_GROWTH})")
+        label = ("control " if a.control else "") + f"cmap {len(base.getBestCmap())} -> {len(new.getBestCmap())}"
+        print(f"  {label}; {len(raw)} -> {out.stat().st_size} bytes; {'OK' if not problems else 'PROBLEMS'}")
         for p in problems[:12]:
             print(f"  - {p}")
         if len(problems) > 12:
